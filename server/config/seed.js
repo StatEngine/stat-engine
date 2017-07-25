@@ -48,15 +48,10 @@ User.sync()
   .then(() => {
     User.bulkCreate([{
       provider: 'local',
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'test'
-    }, {
-      provider: 'local',
       role: 'admin',
-      name: 'Admin',
-      email: 'admin@example.com',
-      password: 'admin'
+      name: 'Nunya',
+      email: 'info@prominentedge.com',
+      password: ')OGM3Yz7)VhNmQ37'
     }])
     .then(() => {
       console.log('finished populating users');
