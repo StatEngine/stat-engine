@@ -24,3 +24,16 @@ Run `gulp build` for building and `gulp serve` for preview.
 ## Testing
 
 Running `npm test` will run the unit tests with karma.
+
+
+## Local Kibana on MacOSX
+```
+brew install elasticsearch
+brew install kibana
+brew services start elasticsearch
+echo 'server.basePath: "/_plugin/kibana"' >> /usr/local/etc/kibana/kibana.yml
+brew services start kibana
+```
+
+## Use AWS Kibana
+TODO

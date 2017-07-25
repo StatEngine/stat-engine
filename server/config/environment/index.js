@@ -26,7 +26,8 @@ var all = {
 
   // Local vs AWS Kibana
   kibana: {
-    appPath: process.env.KIBANA_URI ? url.parse(process.env.KIBANA_URI).pathname : '/app/kibana',
+    // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
+    appPath: process.env.KIBANA_URI ? url.parse(process.env.KIBANA_URI).pathname : '/_plugin/kibana',
     uri: process.env.KIBANA_URI || 'http://localhost:5601'
   },
 
