@@ -3,6 +3,7 @@
 
 import path from 'path';
 import _ from 'lodash';
+var url = require('url')
 
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
@@ -15,6 +16,19 @@ import _ from 'lodash';
 // ============================================
 var all = {
   env: process.env.NODE_ENV,
+
+  // AWS Credentials for signing requests to Kibana
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    region: process.env.AWS_DEFAULT_REGION || 'us-east-1',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  },
+
+  // Local vs AWS Kibana
+  kibana: {
+    appPath: process.env.KIBANA_URI ? url.parse(process.env.KIBANA_URI).pathname : '/app/kibana',
+    uri: process.env.KIBANA_URI || 'http://localhost:5601'
+  },
 
   // Root path of server
   root: path.normalize(`${__dirname}/../../..`),
