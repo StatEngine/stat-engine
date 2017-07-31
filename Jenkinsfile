@@ -9,6 +9,8 @@ node {
 
   stage('Archive') {
     sh """
+      test -f /etc/runtime && source /etc/runtime
+
       npm install
       mkdir -p artifacts
       tar --exclude artifacts/* -cjf artifacts/statengine.bz2
