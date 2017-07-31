@@ -9,8 +9,6 @@ node {
 
   stage('Archive') {
     sh """
-      git clean -xffd
-
       test -f /etc/runtime && source /etc/runtime
 
       npm install --production
