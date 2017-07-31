@@ -6,7 +6,7 @@ type aws >/dev/null 2>&1 || { echo "$0: aws not available" >&2; exit 1; }
 test -n "$ARTIFACT_BUCKET" || { echo "$0: ARTIFACT_BUCKET not defined" >&2; exit 1; }
 
 : ${APP:=statengine}
-: ${PACKAGING:=bz2}
+: ${PACKAGING:=tar.bz2}
 : ${DEPLOY_LATEST:=true}
 
 test -n "$PACKAGING" && extension=".$PACKAGING" || extension=
@@ -59,6 +59,6 @@ aws s3 cp $ARTIFACT s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRA
 aws s3 cp $(metadata ) s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/${GIT_COMMIT}/$APP.metadata.json
 
 if [ "$DEPLOY_LATEST" = "true" ]; then
-  aws s3 cp $ARTIFACT s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/latest/$APP${extension}
+  aws s3 cp $ARTIFACT s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/latest/latest${extension}
   aws s3 cp $(metadata) s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/latest/$APP.metadata.json
 fi
