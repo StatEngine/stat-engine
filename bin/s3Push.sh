@@ -3,6 +3,8 @@
 type git >/dev/null 2>&1 || { echo "$0: git not available" >&2; exit 1; }
 type aws >/dev/null 2>&1 || { echo "$0: aws not available" >&2; exit 1; }
 
+test -n "$ARTIFACT_BUCKET" || { echo "$0: ARTIFACT_BUCKET not defined" >&2; exit 1; }
+
 : ${APP:=statengine}
 : ${DEPLOY_LATEST:=true}
 
