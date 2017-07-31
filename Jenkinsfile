@@ -9,9 +9,11 @@ node {
 
   stage('Archive') {
     sh """
+      git clean -xffd
+
       test -f /etc/runtime && source /etc/runtime
 
-      npm install
+      npm install --production
       mkdir -p artifacts
       rm -rf artifacts/*
       tar --exclude artifacts/* -cjf artifacts/statengine.bz2 .
