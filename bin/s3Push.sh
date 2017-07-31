@@ -45,7 +45,7 @@ function metadata {
     "branch": "$GIT_BRANCH",
     "build_os": "$OPERATING_SYSTEM"
   }
-  EOF
+EOF
 
   echo $handle
 }
