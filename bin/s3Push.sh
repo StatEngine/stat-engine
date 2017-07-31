@@ -56,9 +56,9 @@ test -n "$GIT_COMMIT" || GIT_COMMIT=$(git log -n1 --pretty=format:%H)
 
 aws s3 cp $ARTIFACT s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/${GIT_COMMIT}/$APP${extension}
 
-aws s3 cp $(handle) s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/${GIT_COMMIT}/$APP.metadata.json
+aws s3 cp $(metadata ) s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/${GIT_COMMIT}/$APP.metadata.json
 
 if [ "$DEPLOY_LATEST" = "true" ]; then
   aws s3 cp $ARTIFACT s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/latest/$APP${extension}
-  aws s3 cp $(handle) s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/ltest/$APP.metadata.json
+  aws s3 cp $(metadata) s3://${ARTIFACT_BUCKET}/${APP}/${OPERATING_SYSTEM}/${GIT_BRANCH}/latest/$APP.metadata.json
 fi
