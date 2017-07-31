@@ -9,10 +9,13 @@ node {
 
   stage('Archive') {
     sh """
-      env
-      echo "npm install"
-      echo "tar it up"
-      echo "./bin/s3Push.sh"
+      npm install
+      mkdir -p artifacts
+      tar --exclude artifacts/* -cjf artifacts/statengine.bz2
+
+      export ARTIFACT=artifacts/statengine.bz2
+
+      ./bin/s3Push.sh
     """
   }
 }

@@ -6,11 +6,14 @@ type aws >/dev/null 2>&1 || { echo "$0: aws not available" >&2; exit 1; }
 test -n "$ARTIFACT_BUCKET" || { echo "$0: ARTIFACT_BUCKET not defined" >&2; exit 1; }
 
 : ${APP:=statengine}
+: ${PACKAGING:=bz2}
 : ${DEPLOY_LATEST:=true}
 
 test -n "$PACKAGING" && extension=".$PACKAGING" || extension=
 test -n "$VERSION" || export VERSION=$(git describe --long --tags --always) || true
-test -n "$ARTIFACT"|| export ARTIFACT=${APP}-${VERSION}${extension} || true
+test -n "$ARTIFACT"|| export ARTIFACT=${APP}${extension} || true
+
+test -f "$ARTIFACT" || { echo "$0: $ARTIFACT not found" >&2; exit 1; }
 
 function git_branch {
   local sym=$(git symbolic-ref HEAD 2>/dev/null)
