@@ -4,7 +4,7 @@ node {
   def root = pwd()
 
   stage('Setup') {
-    git url: 'https://github.com/StatEngine/stat-engine', branch: 'origin/master'
+    git url: 'https://github.com/StatEngine/stat-engine', branch: 'master'
   }
 
   stage('Archive') {
