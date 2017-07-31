@@ -13,6 +13,7 @@ node {
 
       npm install
       mkdir -p artifacts
+      rm -rf artifacts/*
       tar --exclude artifacts/* -cjf artifacts/statengine.bz2 .
 
       export ARTIFACT=artifacts/statengine.bz2
