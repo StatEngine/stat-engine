@@ -5,6 +5,7 @@ import config from '../config/environment';
 var crypto      = require('crypto');
 var querystring = require('querystring');
 var url         = require('url');
+var AWS         = require('aws-sdk');
 
 // Hmac for signing requests
 var hmac = function (key, data, encoding) {
@@ -45,14 +46,21 @@ var sortedQuery = function (qs) {
 
 // Builds the signed authentication headers.
 var authHeaders = function (req) {
+  var creds;
+  var chain = new AWS.CredentialProviderChain();
+  chain.resolve(function (err, resolved) {
+    if (err) console.log(err);
+    else creds = resolved;
+  });
   var parsed = url.parse(req.url)
   var pathname = parsed.pathname.indexOf(config.kibana.appPath) === -1 ? config.kibana.appPath + parsed.pathname : parsed.pathname
   var date = new Date();
   var kibana = url.parse(config.kibana.uri)
+  var region = kibana.host.match(/\.([^.]+)\.es\.amazonaws\.com\.?$/)[1] || config.aws.region;
   var iso8601 = date.toISOString().replace(/[:\-]|\.\d{3}/g, '');
   var calDate = iso8601.substring(0,8);
-  var scope = calDate + '/' + config.aws.region + '/es/aws4_request';
-  var credential = config.aws.accessKeyId + '/' + scope;
+  var scope = calDate + '/' + region + '/es/aws4_request';
+  var credential = creds.accessKeyId + '/' + scope;
   var bodyHash = req.method === 'GET' ? hash('', 'hex') : hash(JSON.stringify(req.body), 'hex');
   var canonicalRequest = [ req.method,
                            encodeURI(pathname).replace(/\*/g, '%2A'),
@@ -68,16 +76,22 @@ var authHeaders = function (req) {
                      ].join('\n');
 
   // Signature
-  var keyDate    = hmac('AWS4' + config.aws.secretAccessKey, calDate);
-  var keyRegion  = hmac(keyDate, config.aws.region);
+  var keyDate    = hmac('AWS4' + creds.secretAccessKey, calDate);
+  var keyRegion  = hmac(keyDate, region);
   var keyService = hmac(keyRegion, 'es');
   var signingKey = hmac(keyService, 'aws4_request');
   var signature  = hmac(signingKey, stringToSign, 'hex');
 
-  return {
+  var headers = {
     "Authorization": 'AWS4-HMAC-SHA256 Credential=' + credential + ', SignedHeaders=host, Signature=' + signature,
     "X-Amz-Date": iso8601
   }
+
+  if (creds.sessionToken) {
+    headers['x-amz-security-token'] = creds.sessionToken
+  }
+
+  return headers
 }
 
 // Proxy Settings

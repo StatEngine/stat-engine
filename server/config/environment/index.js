@@ -19,9 +19,7 @@ var all = {
 
   // AWS Credentials for signing requests to Kibana
   aws: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    region: process.env.AWS_DEFAULT_REGION || 'us-east-1',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
   },
 
   // Local vs AWS Kibana
