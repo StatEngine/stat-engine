@@ -4,6 +4,7 @@
   "main": "server/index.js",
   "dependencies": {
     
+    "aws-sdk": "^2.94.0",
     "angular": "~1.5.5",
     "bootstrap-sass": "~3.3.7",
     "bootstrap": "~3.3.7",
