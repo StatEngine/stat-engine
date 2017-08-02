@@ -46,16 +46,14 @@ var sortedQuery = function (qs) {
 
 // Builds the signed authentication headers.
 var authHeaders = function (req) {
-  var creds;
-  var chain = new AWS.CredentialProviderChain();
-  chain.resolve(function (err, resolved) {
+  var chain = AWS.config.getCredentials(function (err) {
     if (err) console.log(err);
-    else creds = resolved;
   });
-  var parsed = url.parse(req.url)
-  var pathname = parsed.pathname.indexOf(config.kibana.appPath) === -1 ? config.kibana.appPath + parsed.pathname : parsed.pathname
+  var creds = AWS.config.credentials;
+  var parsed = url.parse(req.url);
+  var pathname = parsed.pathname.indexOf(config.kibana.appPath) === -1 ? config.kibana.appPath + parsed.pathname : parsed.pathname;
   var date = new Date();
-  var kibana = url.parse(config.kibana.uri)
+  var kibana = url.parse(config.kibana.uri);
   var region = kibana.host.match(/\.([^.]+)\.es\.amazonaws\.com\.?$/)[1] || config.aws.region;
   var iso8601 = date.toISOString().replace(/[:\-]|\.\d{3}/g, '');
   var calDate = iso8601.substring(0,8);
@@ -88,7 +86,7 @@ var authHeaders = function (req) {
   }
 
   if (creds.sessionToken) {
-    headers['x-amz-security-token'] = creds.sessionToken
+    headers['x-amz-security-token'] = creds.sessionToken;
   }
 
   return headers
