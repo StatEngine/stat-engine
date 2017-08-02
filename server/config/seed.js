@@ -51,7 +51,7 @@ User.sync()
       role: 'admin',
       name: 'Nunya',
       email: 'info@prominentedge.com',
-      password: ')OGM3Yz7)VhNmQ37'
+      password: '(ZjViZGNmOTM4(x4'
     }])
     .then(() => {
       console.log('finished populating users');
