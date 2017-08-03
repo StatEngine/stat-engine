@@ -86,7 +86,7 @@ var authHeaders = function (req) {
   }
 
   if (creds.sessionToken) {
-    headers['x-amz-security-token'] = creds.sessionToken;
+    headers['X-Amz-Security-Token'] = creds.sessionToken;
   }
 
   return headers
@@ -110,8 +110,11 @@ var settings = {
 if (config.kibana.uri.indexOf('amazonaws') !== -1) {
   settings['proxyReqOptDecorator'] = function(proxyReqOpts, srcReq) {
     var headers = authHeaders(srcReq);
-    proxyReqOpts.headers['Authorization'] = headers['Authorization'];
-    proxyReqOpts.headers['X-Amz-Date'] = headers['X-Amz-Date'];
+    proxyReqOpts.headers['Authorization']        = headers['Authorization'];
+    proxyReqOpts.headers['X-Amz-Date']           = headers['X-Amz-Date'];
+    if (headers['X-Amz-Security-Token']) {
+      proxyReqOpts.headers['X-Amz-Security-Token'] = headers['X-Amz-Security-Token'];
+    }
     return proxyReqOpts;
   }
 }
