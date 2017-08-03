@@ -44,9 +44,13 @@ var sortedQuery = function (qs) {
   return query.join('&');
 }
 
+var init = AWS.config.getCredentials(function (err) {
+  if (err) console.log(err);
+});
+
 // Builds the signed authentication headers.
 var authHeaders = function (req) {
-  var chain = AWS.config.getCredentials(function (err) {
+  var refresh = AWS.config.getCredentials(function (err) {
     if (err) console.log(err);
   });
   var creds = AWS.config.credentials;
