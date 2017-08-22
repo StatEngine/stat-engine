@@ -12,7 +12,7 @@ node {
       test -f /etc/runtime && source /etc/runtime
 
       npm install
-      gulp build
+      ./node_modules/gulp/bin/gulp.js build
       mkdir -p artifacts
       rm -rf artifacts/*
       tar --exclude artifacts/* -cjf artifacts/statengine.tar.bz2 .
