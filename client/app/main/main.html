@@ -1,28 +1,126 @@
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>
+<div>
+  <header>
+    <navbar></navbar>
+      <section>
+        <h1>Improving safety through real-time data analytics and visualization</h1>
+        <p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
+        <div>
+          <button class="demo">Request a Demo</button>
+          <button class="learn">Learn More</button>
+        </div>
+      </section>
+    </header>
+  <section id="intro">
+      <section id="intro-header">
+        <div id="intro-text">
+          <h2>
+            Say goodbye to complex and restricitve data analytics software
+          </h2>
+          <p>
+            {"StatEngine is built on the most powerful, best-of-breed, open source analytics and visualization tools available today. "}
+            {"This means Public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data sets."}
+          </p>
+        </div>
+        <div id="intro-image">
+          <img src="/assets/images/open-source.png"/>
+        </div>
+      </section>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in $ctrl.awesomeThings">
-        <li><a href="#" uib-tooltip="{{thing.info}}">{{thing.name}}<button type="button" class="close" ng-click="$ctrl.deleteThing(thing)">&times;</button></a></li>
-      </ul>
+      <div class="bottom-line"></div>
+
+      <section id="benefits">
+       <div ng-repeat="props in $ctrl.intros" class="intro-item">
+          <img src="{{props.img}}" />
+          <h3>{{props.title}}</h3>
+          <p>
+            {{props.content}}
+          </p>
+      </div>
+      </section>
+      <div class="bottom-line"></div>
+     </section>
+  <section id="features">
+      <h2>Built for public safety organizations</h2>
+      <p>We are always working hard to make StatEngine the best platform for your needs. </p>
+
+      <div class="in-a-row-when-large">
+        <div id="features-left-column">
+          <article>
+            <h5>Data Enrichment</h5>
+            <p>Use our ever-growing enrichment libraries to enhance your raw data.</p>
+          </article>
+          <article>
+            <h5>Highly Available Cloud Instance</h5>
+            <p>Reduce infrastructure and installation complexity by leveraging our secure cloud instance.</p>
+          </article>
+          <article>
+            <h5>Secure Integrations</h5>
+            <p>Easily and securely authorize third-party applications to access your data and enable powerful workflows.</p>
+          </article>
+        </div>
+
+        <div id="features-right-column">
+          <article>
+            <h5>Built in the Open</h5>
+            <p>Core components of StatEngine have open source licenses to maximize the return on investment for public safety organizations.</p>
+          </article>
+          <article>
+            <h5>Instant Insight Into Your Operations</h5>
+            <p>StatEngine's analytics provide instant insight into your operational data, allowing you to easily identify trends and patterns in your service delivery.</p>
+          </article>
+          <article>
+            <h5>Continuous Improvement</h5>
+            <p>StatEngine is always being improved to offer public safety organizations more value.</p>
+          </article>
+        </div>
+      </div>
+
+      <a href="#">View the complete list of features</a>
+    </section>
+  <div class="with-padding-when-large">
+    <div class="in-a-row-when-large">
+      <section id="our-partners">
+      <h2>Our Partners</h2>
+      <p>
+        We are working with a broad group of partners who contribute to StatEngine, making it stronger and richer.
+        These partners create a vibrant ecosystem of intelligent growth and knowledge validation.
+      </p>
+      <div class="partners-logos">
+        <img src="assets/images/rss.svg" />
+        <img src="assets/images/rss.svg" />
+        <img src="assets/images/rss.svg" />
+        <img src="assets/images/rss.svg" />
+        <img src="assets/images/rss.svg" />
+      </div>
+    </section>
+      <section id="news-events">
+      <h2>Latest News & Events</h2>
+        <article>
+          <h5>Some New Feature Just Launched</h5>
+          <p>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismo pharetr ultricies in, diaras consequat.</p>
+        </article>
+        <article>
+          <h5>5 Reasons StatEngine is Awesome</h5>
+          <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue,.</p>
+        </article>
+        <article>
+          <h5>How to Create a Better Dashboard</h5>
+          <p>Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vevelit. </p>
+        </article>
+      </section>
     </div>
+    <div class="bottom-line"></div>
   </div>
 
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new thing here." ng-model="$ctrl.newThing">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="$ctrl.addThing()">Add New</button>
-      </span>
-    </p>
-  </form>
+  <section id="contact">
+      <div>
+        <p class="title">Ready to get started?</p>
+        <p class="subtitle">Get in touch, or create an account.</p>
+      </div>
+      <div>
+        <button class="sign-up">Sign Up</button>
+        <button class="contact-us">Contact Us</button>
+      </div>
+    </section>
+
 </div>

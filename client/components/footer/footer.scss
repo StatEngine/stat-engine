@@ -1,6 +1,112 @@
-footer.footer {
-  text-align: center;
-  padding: 30px 0;
-  margin-top: 70px;
-  border-top: 1px solid #E5E5E5;
+footer {
+  color: white;
+  font-family: OpenSans-regular;
+  font-size: 14px;
+}
+
+footer #links {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #1b4d6d;
+  padding: 20px 12% 90px 12%;
+}
+
+footer #links article,
+footer #links > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+footer #links h5 {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.49);
+  margin: 10px 0;
+  letter-spacing: 0.3px;
+  font-family: OpenSans-bold;
+}
+
+footer #links article a {
+  line-height: 2.43;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  font-family: OpenSans-regular;
+}
+
+footer #links div a.image-link {
+  width: 44px;
+  height: 44px;
+  margin-right: 18px;
+}
+
+footer #links div p {
+  margin: 10px 0;
+  font-family: OpenSans-regular;
+}
+
+footer #links div.newsletter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30px 0;
+}
+
+footer div.newsletter input {
+  background-color: rgba(0, 0, 0, 0.19);
+  border-radius: 100px;
+  border: none;
+  outline: none;
+  padding: 10px 125px 10px 21px;
+  width: 300px;
+  color: white;
+}
+
+footer div.newsletter button {
+  width: 103px;
+  height: 38px;
+  margin-left: -103px;
+  border-radius: 100px;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #00a9da;
+}
+
+#bottom-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 37px 12% 30px 12%;
+  background-color: #0a233d;
+  font-size: 13px;
+}
+
+@media (max-width: 750px) {
+  footer #links {
+
+  }
+
+  footer #links article {
+    width: 50%;
+  }
+
+  footer #links div.newsletter {
+    margin-bottom: 0;
+  }
+
+  #bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    padding: 0;
+  }
+
+  #bottom-bar div {
+    margin: 20px 0;
+    font-family: OpenSans-regular;
+  }
 }

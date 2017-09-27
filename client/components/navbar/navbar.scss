@@ -1,0 +1,69 @@
+navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12%;
+  color: white;
+  font-family: Montserrat-medium;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 50px;
+  overflow: hidden;
+}
+
+navbar div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+navbar p {
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+navbar img {
+  height: 48px;
+}
+
+navbar button {
+  width: 100px;
+  height: 30px;
+  color: white;
+  font-family: Montserrat-medium;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 100px;
+  outline: none;
+  background-color: transparent;
+}
+
+navbar button.log-in {
+  border: none;
+  outline: none;
+}
+
+navbar button.sign-up {
+  border: solid 2px #ffffff;
+}
+
+navbar div#navbar-burger {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  navbar div#navbar-links,
+  navbar div#navbar-button {
+    display: none;
+  }
+
+  navbar div#navbar-burger {
+    display: block;
+  }
+
+  navbar div#navbar-burger img {
+    width: 20px;
+    height: 20px;
+  }
+}

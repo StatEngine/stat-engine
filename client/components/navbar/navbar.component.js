@@ -21,7 +21,7 @@ export class NavbarComponent {
 
 }
 
-export default angular.module('directives.navbar', [])
+export default angular.module('directives.nav', [])
   .component('navbar', {
     template: require('./navbar.html'),
     controller: NavbarComponent
