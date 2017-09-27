@@ -4,10 +4,6 @@
 // Test specific configuration
 // ===========================
 module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/ass-test'
-  },
   sequelize: {
     uri: 'sqlite://',
     options: {

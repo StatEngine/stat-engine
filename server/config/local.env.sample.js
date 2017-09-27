@@ -7,7 +7,7 @@
 
 module.exports = {
   DOMAIN: 'http://localhost:9000',
-  SESSION_SECRET: 'ass-secret',
+  SESSION_SECRET: 'session-secret',
 
   GOOGLE_ID: 'app-id',
   GOOGLE_SECRET: 'secret',
