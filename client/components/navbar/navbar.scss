@@ -1,20 +1,17 @@
 navbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 12%;
   color: white;
-  font-family: Montserrat-medium;
-  font-size: 13px;
+  font-family: Montserrat-light;
+  font-size: 14px;
   font-weight: 500;
-  margin-bottom: 50px;
+  letter-spacing: 0.05rem;
   overflow: hidden;
 }
 
+navbar .container {
+  padding-top: 2rem;
+}
+
 navbar div {
-  display: flex;
-  flex-direction: row;
   align-items: center;
 }
 
@@ -25,10 +22,11 @@ navbar p {
 
 navbar img {
   height: 48px;
+  max-width: 158px;
 }
 
 navbar button {
-  width: 100px;
+  padding: 5px 15px;
   height: 30px;
   color: white;
   font-family: Montserrat-medium;
@@ -66,4 +64,15 @@ navbar div#navbar-burger {
     width: 20px;
     height: 20px;
   }
+}
+
+#navbar-links {
+  display: flex;
+  flex-direction: row;
+}
+
+#navbar-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

@@ -1,10 +1,10 @@
 $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap-social/bootstrap-social.scss';
+@import '~bootstrap-4-grid/css/grid.min.css';
+
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
-
-// @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,900|Roboto:300,500,700,900);
 
 /**
  * App-wide Styles
@@ -16,6 +16,30 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   color: #000;
   padding: 0.2em 0;
 }
+
+// Bootstrap 4 Grid Overrides
+@media (min-width: 1230px){
+  // Get us to the 1200px by compensating for the 30px of container padding
+  .container {
+    max-width: 1230px;
+    width: 1230px;
+  }
+}
+
+// ** DEV ONLY **  Grid Helpers
+// .container {
+//   background: rgba(212, 234, 220, .5);
+// }
+// .row {
+//   background: rgba(234, 213, 229, .5);
+//
+// }
+// .col {
+//   background: rgba(216, 251, 178, .5);
+//   border: 1px solid rgba(0,0,0,0.2);
+// }
+
+
 
 // Component styles are injected through gulp
 /* inject:scss */

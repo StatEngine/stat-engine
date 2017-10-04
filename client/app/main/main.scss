@@ -8,7 +8,6 @@
 @font-face { font-family: OpenSans-regular; src: url(../assets/fonts/OpenSans-Regular.ttf); }
 @font-face { font-family: OpenSans-semibold; src: url(../assets/fonts/OpenSans-Semibold.ttf); }
 
-
 *, *:after, *:before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -38,14 +37,12 @@ button {
     margin-top: 50px;
 }
 
-
 .bottom-line {
   height: 1px;
   margin-top: 50px;
   background-color: #818b93;
   opacity: 0.27;
 }
-
 
 @media (max-width: 750px) {
   .with-padding-when-large {
@@ -60,12 +57,8 @@ button {
 }
 
 #contact {
-  display: flex;
-  flex-direction: row;
-  padding: 50px 12%;
-  justify-content: space-around;
-  align-items: center;
   font-family: Montserrat-regular;
+  padding: 50px 15px;
 }
 
 #contact > div p {
@@ -122,9 +115,6 @@ button {
 }
 
 #news-events {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
 }
 
 #news-events h2 {
@@ -162,13 +152,6 @@ button {
   }
 }
 
-#our-partners {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  /*background-image: linear-gradient(to top, #ffffff, #ecf3f8);*/
-}
-
 #our-partners h2 {
   font-family: Montserrat-semibold;
   font-size: 24px;
@@ -198,7 +181,7 @@ button {
   #our-partners {
     width: 100%;
     align-items: center;
-    background-image: linear-gradient(to top, #ffffff, #ecf3f8);
+    // background-image: linear-gradient(to top, #ffffff, #ecf3f8);
   }
 
   #our-partners p {
@@ -285,21 +268,7 @@ button {
 }
 
 #intro {
-  padding: 0 12%;
-  display: flex;
-  flex-direction: column;
   padding-top: 50px;
-}
-
-#intro #intro-header {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#intro #intro-text {
-  flex: 1;
-  min-width: 300px;
 }
 
 #intro #intro-text h2 {
@@ -311,21 +280,12 @@ button {
   font-family: Montserrat-light;
 }
 
-#intro #intro-image {
-  max-width: 490px;
-  max-height: 253px;
-  display: flex;
-  justify-content: center;
-  flex: 1 1 100%;
-  padding-left: 25px;
+#intro-image   {
+  text-align: right;
 }
 
 #intro #benefits {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 50px;
+  margin: 50px 0;
 }
 
 @media (max-width: 750px) {
@@ -343,11 +303,6 @@ button {
   }
 }
 
-.intro-item {
-  width: 300px;
-  flex: 0 0 300px;
-  margin: 20px 0;
-}
 
 .intro-item h3 {
   font-family: OpenSans-semibold;
@@ -359,54 +314,48 @@ button {
 
 header {
   height: 900px;
-  background-image: linear-gradient(148deg, #113862, #1d5371 26%, #009886);
+  background-image: linear-gradient(155deg, #0b345d, #18496a 40%, #138b89);
 }
 
 header section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-top: 10rem;
+  text-align: center;
 }
 
 header section h1 {
   text-align: center;
-  width: 725px;
-  font-family: Montserrat-bold;
+  font-family: Montserrat-semibold;
   font-size: 36px;
   font-weight: bold;
   line-height: 1.28;
-  letter-spacing: 1px;
+  letter-spacing: 0.1rem;
   color: white;
+  margin: auto;
   margin-bottom: 14px;
+  max-width: 687px;
 }
 
 header section p {
-  width: 617px;
-  font-family: OpenSans-regular;
+  font-family: OpenSans-light;
   font-size: 18px;
   line-height: 1.56;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.05rem;
   text-align: center;
   color: #ffffff;
-}
-
-header section div {
-  width: 400px;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  max-width: 630px;
+  margin: auto;
+  padding: 0.5rem 0 1.5rem;
 }
 
 header section button {
-  width: 187px;
-  height: 48px;
   border-radius: 100px;
   outline: none;
   font-family: Montserrat-medium;
   font-size: 15px;
   font-weight: 500;
   color: white;
+  padding: 1.5rem 2rem;
+  min-width: 166px;
 }
 
 header section button.demo {
@@ -417,22 +366,4 @@ header section button.demo {
 header section button.learn {
   border: solid 2px #ffffff;
   background: none;
-}
-
-@media (max-width: 750px) {
-  header section h1 {
-    width: 80%;
-  }
-
-  header section p {
-    width: 80%;
-  }
-
-  header section div {
-    height: 122px;
-    width: auto;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
 }

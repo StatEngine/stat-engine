@@ -1,50 +1,56 @@
 <div>
   <header>
     <navbar></navbar>
-      <section>
-        <h1>Improving safety through real-time data analytics and visualization</h1>
-        <p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
-        <div>
+    <section class="container">
+      <div class="row justify-content-center align-items-center flex-column">
+        <div class="col-12">
+          <h1>Improving safety through real-time data analytics and visualization</h1>
+          <p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
+        </div>
+        <div class="col-12 py-4">
           <button class="demo">Request a Demo</button>
           <button class="learn">Learn More</button>
         </div>
-      </section>
-    </header>
-  <section id="intro">
-      <section id="intro-header">
-        <div id="intro-text">
-          <h2>
-            Say goodbye to complex and restricitve data analytics software
-          </h2>
-          <p>
-            StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools.
-            This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data sets.
-          </p>
-        </div>
-        <div id="intro-image">
-          <img src="/assets/images/open-source.png"/>
-        </div>
-      </section>
-
-      <div class="bottom-line"></div>
-
-      <section id="benefits">
-       <div ng-repeat="props in $ctrl.intros" class="intro-item">
-          <img src="{{props.img}}" />
-          <h3>{{props.title}}</h3>
-          <p>
-            {{props.content}}
-          </p>
       </div>
-      </section>
-      <div class="bottom-line"></div>
-     </section>
-  <section id="features">
-      <h2>Built for public safety organizations</h2>
-      <p>We are always working hard to make StatEngine the best platform for your needs. </p>
+    </section>
+  </header>
+  <section id="intro" class="container">
+    <section id="intro-header" class="row no-gutters">
+      <div id="intro-text" class="col-md-6">
+        <h2>
+          Say goodbye to complex and restricitve data analytics software
+        </h2>
+        <p>
+          StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools.
+          This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data sets.
+        </p>
+      </div>
+      <div id="intro-image" class="col-md-5 ml-auto">
+        <img src="/assets/images/open-source.png"/>
+      </div>
+    </section>
 
-      <div class="in-a-row-when-large">
-        <div id="features-left-column">
+    <div class="bottom-line row no-gutters"></div>
+
+    <section id="benefits" class="row">
+     <div ng-repeat="props in $ctrl.intros" class="intro-item col-lg-3">
+        <img src="{{props.img}}" />
+        <h3>{{props.title}}</h3>
+        <p>
+          {{props.content}}
+        </p>
+    </div>
+    </section>
+    <div class="bottom-line row no-gutters"></div>
+  </section>
+  <section id="features">
+    <div class="container">
+      <div class="row">
+        <h2 class="col-12">Built for public safety organizations</h2>
+        <p class="col-12">We are always working hard to make StatEngine the best platform for your needs. </p>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-md-4">
           <article>
             <h5>Data Enrichment</h5>
             <p>Use our ever-growing enrichment libraries to enhance your raw data.</p>
@@ -58,8 +64,8 @@
             <p>Easily and securely authorize third-party applications to access your data and enable powerful workflows.</p>
           </article>
         </div>
-
-        <div id="features-right-column">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
           <article>
             <h5>Built in the Open</h5>
             <p>Core components of StatEngine have open source licenses to maximize the return on investment for public safety organizations.</p>
@@ -74,12 +80,14 @@
           </article>
         </div>
       </div>
-
-      <a href="#">View the complete list of features</a>
-    </section>
-  <div class="with-padding-when-large">
-    <div class="in-a-row-when-large">
-      <section id="our-partners">
+      <div class="row justify-content-center">
+        <a href="#">View the complete list of features</a>
+      </div>
+    </div>
+  </section>
+  <div class="container pt-5">
+    <div class="row">
+      <section id="our-partners" class="col-md-6">
       <h2>Our Partners</h2>
       <p>
         We are working with a broad group of partners who contribute to StatEngine, making it stronger and richer.
@@ -93,8 +101,8 @@
         <img src="assets/images/rss.svg" />
       </div>
     </section>
-      <section id="news-events">
-      <h2>Latest News & Events</h2>
+    <section id="news-events" class="col-md-6">
+      <h2>Latest News &amp; Events</h2>
         <article>
           <h5>Some New Feature Just Launched</h5>
           <p>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismo pharetr ultricies in, diaras consequat.</p>
@@ -111,16 +119,16 @@
     </div>
     <div class="bottom-line"></div>
   </div>
-
-  <section id="contact">
-      <div>
+  <section id="contact" class="container">
+    <div class="row justify-content-center align-items-center ">
+      <div class="col-md-5">
         <p class="title">Ready to get started?</p>
         <p class="subtitle">Get in touch, or create an account.</p>
       </div>
-      <div>
+      <div class="col-md-5">
         <button class="sign-up">Sign Up</button>
         <button class="contact-us">Contact Us</button>
       </div>
-    </section>
-
+    </div>
+  </section>
 </div>

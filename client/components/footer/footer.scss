@@ -1,23 +1,8 @@
 footer {
+  background-color: #112f4d;
   color: white;
   font-family: OpenSans-regular;
   font-size: 14px;
-}
-
-footer #links {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background-color: #1b4d6d;
-  padding: 20px 12% 90px 12%;
-}
-
-footer #links article,
-footer #links > div {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 25px;
 }
 
 footer #links h5 {
@@ -77,36 +62,14 @@ footer div.newsletter button {
 }
 
 #bottom-bar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 37px 12% 30px 12%;
+  padding: 37px 0 30px;
   background-color: #0a233d;
   font-size: 13px;
 }
 
 @media (max-width: 750px) {
-  footer #links {
-
-  }
-
-  footer #links article {
-    width: 50%;
-  }
 
   footer #links div.newsletter {
     margin-bottom: 0;
-  }
-
-  #bottom-bar {
-    flex-direction: column;
-    text-align: center;
-    padding: 0;
-  }
-
-  #bottom-bar div {
-    margin: 20px 0;
-    font-family: OpenSans-regular;
   }
 }
