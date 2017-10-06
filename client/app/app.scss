@@ -60,6 +60,17 @@ body {
   opacity: 0.27;
 }
 
+// Utilities
+.pt-3, .py-3 {
+  padding-top: 3rem !important;
+}
+
+.pt-5, .py-5 {
+  padding-top: 5rem !important;
+}
+
+
+
 // Bootstrap 4 Grid Overrides
 @media (min-width: 1230px){
   .container {  // Compensates for the 30px of container padding for 1200px overall grid size
@@ -76,10 +87,12 @@ button {
 .btn {
   border-radius: 999px;
   font-family: Montserrat-light;
-  font-size: 15px;
-  letter-spacing: .015em;
   outline: none;
   transition: all .15s ease;
+}
+
+.btn:hover, .btn:focus, .btn.focus {
+  color: white;
 }
 
 .btn-primary {

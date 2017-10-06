@@ -15,35 +15,27 @@ navbar div {
   align-items: center;
 }
 
-navbar p {
+navbar a {
   margin: 0 20px;
   cursor: pointer;
+  color: white;
+  &:hover, &:active, &:focus, &:visited {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+navbar .btn-outline {
+  padding: 6px 22px;
+}
+
+navbar .btn-link {
+  color: white;
 }
 
 navbar img {
   height: 48px;
   max-width: 158px;
-}
-
-navbar button {
-  padding: 5px 15px;
-  height: 30px;
-  color: white;
-  font-family: Montserrat-medium;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 100px;
-  outline: none;
-  background-color: transparent;
-}
-
-navbar button.log-in {
-  border: none;
-  outline: none;
-}
-
-navbar button.sign-up {
-  border: solid 2px #ffffff;
 }
 
 navbar div#navbar-burger {
@@ -64,15 +56,4 @@ navbar div#navbar-burger {
     width: 20px;
     height: 20px;
   }
-}
-
-#navbar-links {
-  display: flex;
-  flex-direction: row;
-}
-
-#navbar-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
