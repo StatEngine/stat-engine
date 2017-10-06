@@ -1,5 +1,16 @@
 <div>
   <header>
+    <div id="silos">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <navbar></navbar>
     <section class="container">
       <div class="row justify-content-center align-items-center flex-column">
@@ -7,15 +18,18 @@
           <h1>Improving safety through real-time data analytics and visualization</h1>
           <p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
         </div>
-        <div class="col-12 py-4">
-          <button class="demo">Request a Demo</button>
-          <button class="learn">Learn More</button>
+        <div class="col-12 py-4 button-group">
+          <button class="btn btn-primary btn-xl">Request a Demo</button>
+          <button class="btn btn-outline btn-xl">Learn More</button>
         </div>
       </div>
     </section>
+    <section id="app-screenshot">
+      <img alt="StatEngine" src="/assets/images/screenshot.png">
+    </section>
   </header>
   <section id="intro" class="container">
-    <section id="intro-header" class="row no-gutters">
+    <section id="intro-header" class="row">
       <div id="intro-text" class="col-md-6">
         <h2>
           Say goodbye to complex and restricitve data analytics software
@@ -30,7 +44,7 @@
       </div>
     </section>
 
-    <div class="bottom-line row no-gutters"></div>
+    <div class="bottom-line"></div>
 
     <section id="benefits" class="row">
      <div ng-repeat="props in $ctrl.intros" class="intro-item col-lg-3">
@@ -40,8 +54,7 @@
           {{props.content}}
         </p>
     </div>
-    </section>
-    <div class="bottom-line row no-gutters"></div>
+  </section>
   </section>
   <section id="features">
     <div class="container">
@@ -125,9 +138,9 @@
         <p class="title">Ready to get started?</p>
         <p class="subtitle">Get in touch, or create an account.</p>
       </div>
-      <div class="col-md-5">
-        <button class="sign-up">Sign Up</button>
-        <button class="contact-us">Contact Us</button>
+      <div class="col-md-5 button-group">
+        <button class="btn btn-primary btn-xl">Sign Up</button>
+        <button class="btn btn-outline-inverse btn-xl">Contact Us</button>
       </div>
     </div>
   </section>

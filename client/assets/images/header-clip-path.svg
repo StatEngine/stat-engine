@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1440" height="766" viewBox="0 0 1440 766">
+  <defs>
+    <path id="header-clip-path-a" d="M0,0 L1440,0 L1440,704 C1126.74219,706.804688 882.25651,722.760417 706.542969,751.867188 C530.829427,780.973958 295.315104,765.018229 0,704 L0,0 Z"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <use fill="#E7E7E7" xlink:href="#header-clip-path-a"/>
+  </g>
+</svg>

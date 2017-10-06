@@ -2,14 +2,24 @@ $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap-social/bootstrap-social.scss';
 @import '~bootstrap-4-grid/css/grid.min.css';
-
+@import '~hover.css/css/hover.css';
+@import '~animate.css/animate.css';
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
 
-/**
- * App-wide Styles
- */
+@font-face { font-family: Montserrat-bold; src: url(../assets/fonts/Montserrat-Bold.otf); }
+@font-face { font-family: Montserrat-extra-light; src: url(../assets/fonts/Montserrat-ExtraLight.otf); }
+@font-face { font-family: Montserrat-light; src: url(../assets/fonts/Montserrat-Light.otf); }
+@font-face { font-family: Montserrat-medium; src: url(../assets/fonts/Montserrat-Medium.otf); }
+@font-face { font-family: Montserrat-regular; src: url(../assets/fonts/Montserrat-Regular.otf); }
+@font-face { font-family: Montserrat-semibold; src: url(../assets/fonts/Montserrat-SemiBold.otf); }
+@font-face { font-family: OpenSans-bold; src: url(../assets/fonts/OpenSans-Bold.ttf); }
+@font-face { font-family: OpenSans-regular; src: url(../assets/fonts/OpenSans-Regular.ttf); }
+@font-face { font-family: OpenSans-semibold; src: url(../assets/fonts/OpenSans-Semibold.ttf); }
 
+/////////////////////////////////
+// BROWSER //
+////////////////////////////////
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -17,36 +27,109 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   padding: 0.2em 0;
 }
 
+/////////////////////////////////
+// VARIABLES //
+////////////////////////////////
+$primary-button-bg: linear-gradient(235deg, #00a1cf, #1fc8a7);
+$button-outline-inverse: #00A9DA;
+$teal: #009BAC;
+
+/////////////////////////////////
+// GLOBAL //
+////////////////////////////////
+*, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+  color: #334A56;
+  font-family: OpenSans-regular;
+  margin: 0;
+  padding: 0;
+}
+
+.bottom-line {
+  height: 1px;
+  margin-top: 50px;
+  background-color: #818b93;
+  opacity: 0.27;
+}
+
 // Bootstrap 4 Grid Overrides
 @media (min-width: 1230px){
-  // Get us to the 1200px by compensating for the 30px of container padding
-  .container {
+  .container {  // Compensates for the 30px of container padding for 1200px overall grid size
     max-width: 1230px;
     width: 1230px;
   }
 }
 
-// ** DEV ONLY **  Grid Helpers
-// .container {
-//   background: rgba(212, 234, 220, .5);
-// }
-// .row {
-//   background: rgba(234, 213, 229, .5);
-//
-// }
-// .col {
-//   background: rgba(216, 251, 178, .5);
-//   border: 1px solid rgba(0,0,0,0.2);
-// }
+// Buttons
+button {
+  cursor: pointer;
+}
+
+.btn {
+  border-radius: 999px;
+  font-family: Montserrat-light;
+  font-size: 15px;
+  letter-spacing: .015em;
+  outline: none;
+  transition: all .15s ease;
+}
+
+.btn-primary {
+  background-image: $primary-button-bg;
+  border: none;
+}
+
+.btn-outline {
+  box-shadow: inset 0 0 0 2px white;
+  background: none;
+  color: white;
+}
+
+.btn-outline:hover {
+  color: white;
+}
+
+.btn-outline-inverse {
+  box-shadow: inset 0 0 0 2px $button-outline-inverse;
+  background: none;
+  color: $button-outline-inverse;
+}
+
+.btn-outline-inverse:hover {
+  color: $button-outline-inverse;
+}
+
+.btn-xl {
+  padding: 14px 26px;
+  min-width: 180px;
+}
+
+.button-group {
+  padding: 0;
+}
+
+.button-group button {
+  margin: 10px;
+}
 
 
+/////////////////////////////////
+// COMPONENTS //
+////////////////////////////////
 
-// Component styles are injected through gulp
-/* inject:scss */
+// == Styles are injected through gulp ==//
+// inject:scss //
 @import 'admin/admin';
 @import 'main/main';
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
 @import '../components/oauth-buttons/oauth-buttons';
-/* endinject */
+// endinject //

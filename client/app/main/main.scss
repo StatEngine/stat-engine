@@ -1,61 +1,6 @@
-@font-face { font-family: Montserrat-bold; src: url(../assets/fonts/Montserrat-Bold.otf); }
-@font-face { font-family: Montserrat-extra-light; src: url(../assets/fonts/Montserrat-ExtraLight.otf); }
-@font-face { font-family: Montserrat-light; src: url(../assets/fonts/Montserrat-Light.otf); }
-@font-face { font-family: Montserrat-medium; src: url(../assets/fonts/Montserrat-Medium.otf); }
-@font-face { font-family: Montserrat-regular; src: url(../assets/fonts/Montserrat-Regular.otf); }
-@font-face { font-family: Montserrat-semibold; src: url(../assets/fonts/Montserrat-SemiBold.otf); }
-@font-face { font-family: OpenSans-bold; src: url(../assets/fonts/OpenSans-Bold.ttf); }
-@font-face { font-family: OpenSans-regular; src: url(../assets/fonts/OpenSans-Regular.ttf); }
-@font-face { font-family: OpenSans-semibold; src: url(../assets/fonts/OpenSans-Semibold.ttf); }
-
-*, *:after, *:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: OpenSans-regular;
-}
-
-button {
-  cursor: pointer;
-}
-
-.with-padding-when-large {
-  padding: 0 12%;
-}
-
-.in-a-row-when-large {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 50px;
-}
-
-.bottom-line {
-  height: 1px;
-  margin-top: 50px;
-  background-color: #818b93;
-  opacity: 0.27;
-}
-
-@media (max-width: 750px) {
-  .with-padding-when-large {
-      padding: 0;
-  }
-
-  .in-a-row-when-large {
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-  }
-}
-
+/////////////////////////////////
+// CONTACT US CALLOUT //
+////////////////////////////////
 #contact {
   font-family: Montserrat-regular;
   padding: 50px 15px;
@@ -78,42 +23,9 @@ button {
   font-family: OpenSans-regular;
 }
 
-#contact button {
-  width: 187px;
-  height: 48px;
-  border-radius: 100px;
-  font-size: 15px;
-  font-weight: 500;
-  outline: none;
-  font-family: Montserrat-medium;
-}
-
-#contact button.sign-up {
-  background: linear-gradient(132deg, #00a9da, #1cc1a1);
-  color: #ffffff;
-  border: none;
-  margin-right: 21px;
-}
-
-#contact button.contact-us {
-  border: solid 2px #00a9da;
-  color: #00a9da;
-  background: none;
-  outline: none;
-}
-
-@media (max-width: 750px) {
-  #contact {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  #contact button.sign-up {
-    margin: 20px 0;
-  }
-
-}
-
+/////////////////////////////////
+// NEWS & EVENTS //
+////////////////////////////////
 #news-events {
 }
 
@@ -152,6 +64,9 @@ button {
   }
 }
 
+/////////////////////////////////
+// OUR PARTNERS //
+////////////////////////////////
 #our-partners h2 {
   font-family: Montserrat-semibold;
   font-size: 24px;
@@ -193,6 +108,9 @@ button {
   }
 }
 
+/////////////////////////////////
+// FEATURES //
+////////////////////////////////
 #features {
    font-family: Montserrat-regular;
    text-align: center;
@@ -267,6 +185,9 @@ button {
   }
 }
 
+/////////////////////////////////
+// INTRO //
+////////////////////////////////
 #intro {
   padding-top: 50px;
 }
@@ -282,6 +203,9 @@ button {
 
 #intro-image   {
   text-align: right;
+  img {
+    width: 100%;
+  }
 }
 
 #intro #benefits {
@@ -303,7 +227,6 @@ button {
   }
 }
 
-
 .intro-item h3 {
   font-family: OpenSans-semibold;
 }
@@ -312,13 +235,24 @@ button {
   font-family: OpenSans-regular;
 }
 
+/////////////////////////////////
+// HEADER //
+////////////////////////////////
 header {
-  height: 900px;
-  background-image: linear-gradient(155deg, #0b345d, #18496a 40%, #138b89);
+  height: 745px;
+  background: #0b345d;
+  background-image: linear-gradient(155deg, #002f62 0%, #18496a 50%, #138b89 100%);
+  clip-path: ellipse(111% 60% at 50% 39%);
+  -webkit-clip-path: ellipse(111% 60% at 50% 39%);
+  -ms-clip-path: ellipse(111% 60% at 50% 39%);
+  -o-clip-path: ellipse(111% 60% at 50% 39%);
+  -moz-clip-path: ellipse(111% 60% at 50% 39%);
+  position: relative;
+  // clip-path: url("/assets/images/header-clip-path.svg");
 }
 
 header section {
-  padding-top: 10rem;
+  padding-top: 7rem;
   text-align: center;
 }
 
@@ -358,12 +292,94 @@ header section button {
   min-width: 166px;
 }
 
-header section button.demo {
-  border: none;
-  background-image: linear-gradient(235deg, #00a1cf, #1fc8a7);
+// Product screenshot
+#app-screenshot {
+  position: relative;
+  padding-top: 6rem;
 }
 
-header section button.learn {
-  border: solid 2px #ffffff;
-  background: none;
+// Silo shapes for header BG
+#silos,
+#silos span {
+    position: absolute;
+}
+
+#silos {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+}
+
+#silos span {
+  transform: rotate(132deg);
+  height: 40px;
+  border-radius: 9999px;
+}
+
+@media (min-width: 880px) {
+    #silos span {
+      height: 190px;
+    }
+    #silos :nth-child(1) {
+      background: linear-gradient(90deg, rgba(27,109,132,0.06) 46%, rgba(0,200,245,0.04) 61%);
+      height: 367px;
+      width: 2140px;
+      left: 28%;
+    }
+    #silos :nth-child(2) {
+      background: linear-gradient(180deg, rgba(18, 63, 99, 0.88) 35%, rgba(18, 77, 109, 0.42) 83%);
+      bottom: -83px;
+      right: 1080px;
+      height: 228px;
+      width: 350px;
+    }
+    #silos :nth-child(3) {
+      background: linear-gradient(55deg, rgba(16,91,129,0.58) 6%, rgba(2, 55, 97, 0) 38%);
+      bottom: 0;
+      right: 907px;
+      height: 228px;
+      width: 850px;
+    }
+    #silos :nth-child(4) {
+      background: linear-gradient(55deg, rgba(0,39,85,0.25) 6%, rgba(125,185,232,0) 84%);
+      bottom: 0;
+      right: 1266px;
+      height: 228px;
+      width: 850px;
+    }
+    #silos :nth-child(5) {
+      background: linear-gradient(73deg, rgba(25,98,149,0.27) 25%, rgba(10, 119, 163, 0.62) 59%);
+      bottom: -39px;
+      right: 1335px;
+      height: 200px;
+      width: 500px;
+    }
+    #silos :nth-child(6) {
+      background: linear-gradient(30deg, rgba(0,171,198,0.32) 6%, rgba(32,115,119,0.22) 55%);
+      bottom: -39px;
+      left: 58%;
+      height: 155px;
+      width: 500px;
+    }
+    #silos :nth-child(7) {
+      background: linear-gradient(90deg, rgba(27,109,132,0.06) 46%, rgba(0, 200, 245, 0.02) 61%);
+      bottom: 0;
+      height: 467px;
+      width: 2140px;
+      right: 49px;
+    }
+    #silos :nth-child(8) {
+      background: linear-gradient(55deg, rgba(0,39,85,0.25) 6%, rgba(125,185,232,0) 84%);
+      bottom: 80px;
+      right: 736px;
+      height: 360px;
+      width: 1200px;
+    }
+    #silos :nth-child(9) {
+      background: linear-gradient(90deg, rgba(27,109,132,0.06) 46%, rgba(0,200,245,0.04) 61%);
+      height: 667px;
+      width: 2140px;
+      left: 50%;
+    }
 }
