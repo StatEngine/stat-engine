@@ -1,3 +1,6 @@
+/////////////////////////////////
+// IMPORTS //
+////////////////////////////////
 $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap-social/bootstrap-social.scss';
@@ -7,16 +10,58 @@ $icon-font-path: '/assets/fonts/bootstrap/';
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
 
-@font-face { font-family: Montserrat-bold; src: url(../assets/fonts/Montserrat-Bold.otf); }
-@font-face { font-family: Montserrat-extra-light; src: url(../assets/fonts/Montserrat-ExtraLight.otf); }
-@font-face { font-family: Montserrat-light; src: url(../assets/fonts/Montserrat-Light.otf); }
-@font-face { font-family: Montserrat-medium; src: url(../assets/fonts/Montserrat-Medium.otf); }
-@font-face { font-family: Montserrat-regular; src: url(../assets/fonts/Montserrat-Regular.otf); }
-@font-face { font-family: Montserrat-semibold; src: url(../assets/fonts/Montserrat-SemiBold.otf); }
-@font-face { font-family: OpenSans-bold; src: url(../assets/fonts/OpenSans-Bold.ttf); }
-@font-face { font-family: OpenSans-regular; src: url(../assets/fonts/OpenSans-Regular.ttf); }
-@font-face { font-family: OpenSans-semibold; src: url(../assets/fonts/OpenSans-Semibold.ttf); }
-@font-face { font-family: OpenSans-light; src: url(../assets/fonts/OpenSans-Light.ttf); }
+/////////////////////////////////
+// FONT DECLARATIONS //
+////////////////////////////////
+@font-face {
+  font-family: Montserrat-bold;
+  src: url("../assets/fonts/Montserrat-Bold.otf");
+}
+@font-face {
+  font-family: Montserrat-extra-light;
+  src: url("../assets/fonts/Montserrat-ExtraLight.otf");
+}
+@font-face {
+  font-family: Montserrat-light;
+  src: url("../assets/fonts/Montserrat-Light.otf");
+}
+@font-face {
+  font-family: Montserrat-medium;
+  src: url("../assets/fonts/Montserrat-Medium.otf");
+}
+@font-face {
+  font-family: Montserrat-regular;
+  src: url("../assets/fonts/Montserrat-Regular.otf");
+}
+@font-face {
+  font-family: Montserrat-semibold;
+  src: url("../assets/fonts/Montserrat-SemiBold.otf");
+}
+@font-face {
+  font-family: OpenSans-bold;
+  src: url("../assets/fonts/OpenSans-Bold.ttf");
+}
+@font-face {
+  font-family: OpenSans-regular;
+  src: url("../assets/fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+  font-family: OpenSans-semibold;
+  src: url("../assets/fonts/OpenSans-Semibold.ttf");
+}
+@font-face {
+  font-family: OpenSans-light;
+  src: url("../assets/fonts/OpenSans-Light.ttf");
+}
+
+/////////////////////////////////
+// VARIABLES //
+////////////////////////////////
+$color-cerulean: #00A9DA;
+$color-bondi-blue: #16a2b3;
+$color-java: #1fc8a7;
+$color-pickled-bluewood: #334A56;
+$color-pale-sky: #697983;
 
 /////////////////////////////////
 // BROWSER //
@@ -29,29 +74,34 @@ $fa-font-path: '/assets/fonts/font-awesome/';
 }
 
 /////////////////////////////////
-// VARIABLES //
-////////////////////////////////
-$primary-button-bg: linear-gradient(235deg, #00a1cf, #1fc8a7);
-$button-outline-inverse: #00A9DA;
-$teal: #009BAC;
-
-/////////////////////////////////
 // GLOBAL //
 ////////////////////////////////
-*, *:after, *:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-  color: #334A56;
-  font-family: OpenSans-regular;
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
+// This way, 1rem = 10px, making it easier to define text-sizes through
+// the document and we use BS definition of 10px as fallback
+html {
+  font-size: 62.5%;
+}
+
+body {
+  color: $color-pickled-bluewood;
+  font-family: OpenSans-regular;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
 
 .bottom-line {
   height: 1px;
@@ -61,22 +111,50 @@ body {
 }
 
 // Utilities
-.pt-3, .py-3 {
+.pt-3,
+.py-3 {
   padding-top: 3rem !important;
 }
 
-.pt-5, .py-5 {
+.pt-5,
+.py-5 {
   padding-top: 5rem !important;
 }
 
+.py-6 {
+  padding-top: 6rem !important;
+  padding-bottom: 6rem !important;
+}
 
+.mt-3 {
+  margin-top: 3rem !important;
+}
+.mb-5 {
+  margin-bottom: 5rem !important;
+}
+
+// Helpers
+.common-body-text {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: $color-pale-sky;
+}
 
 // Bootstrap 4 Grid Overrides
-@media (min-width: 1230px){
-  .container {  // Compensates for the 30px of container padding for 1200px overall grid size
+@media (min-width: 1230px) {
+  .container {
+    // Compensates for the 30px of container padding for 1200px overall grid size
     max-width: 1230px;
     width: 1230px;
   }
+}
+
+// Hover.css Overrides
+.hvr-float-shadow:active,
+.hvr-float-shadow:focus,
+.hvr-float-shadow:hover {
+  transform: translateY(-2px);
 }
 
 // Buttons
@@ -86,17 +164,23 @@ button {
 
 .btn {
   border-radius: 999px;
-  font-family: Montserrat-light;
+  font-family: Montserrat-Medium;
+  font-size: 15px;
+  letter-spacing: 0.015em;
   outline: none;
-  transition: all .15s ease;
+  transition: all 0.15s ease;
 }
 
-.btn:hover, .btn:focus, .btn.focus {
+.btn.focus,
+.btn:focus,
+.btn:hover {
   color: white;
 }
 
+// Button Types
 .btn-primary {
-  background-image: $primary-button-bg;
+  @include gradient-horizontal($start-color: $color-java, $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);
+  text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
   border: none;
 }
 
@@ -111,20 +195,26 @@ button {
 }
 
 .btn-outline-inverse {
-  box-shadow: inset 0 0 0 2px $button-outline-inverse;
+  box-shadow: inset 0 0 0 2px $color-cerulean;
   background: none;
-  color: $button-outline-inverse;
+  color: $color-cerulean;
 }
 
 .btn-outline-inverse:hover {
-  color: $button-outline-inverse;
+  color: $color-cerulean;
 }
 
+// Button Sizes
 .btn-xl {
   padding: 14px 26px;
   min-width: 180px;
 }
 
+.btn-sm {
+  font-size: 13px;
+}
+
+// Button Groups
 .button-group {
   padding: 0;
 }
@@ -133,11 +223,9 @@ button {
   margin: 10px;
 }
 
-
 /////////////////////////////////
-// COMPONENTS //
+// IMPORT COMPONENTS //
 ////////////////////////////////
-
 // == Styles are injected through gulp ==//
 // inject:scss //
 @import 'admin/admin';
@@ -145,5 +233,4 @@ button {
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
-@import '../components/oauth-buttons/oauth-buttons';
-// endinject //
+@import '../components/oauth-buttons/oauth-buttons'; // endinject //

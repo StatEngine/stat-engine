@@ -1,31 +1,24 @@
 <div>
+  <navbar class="animated fadeInDown"></navbar>
   <header>
-    <div id="silos">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <navbar></navbar>
-    <section class="container">
+    <div id="silos"></div>
+    <section id="app-screenshot">
+      <img alt="StatEngine" src="/assets/images/screenshot.png" class="animated fadeInUp">
+    </section>
+    <svg id="wave" xmlns="http://www.w3.org/2000/svg" viewBox="-300 0 950 270">
+      <path d="M-344,225 C245,404 250,0 2000,509" fill="none" stroke="white" stroke-width="120" stroke-linecap="round"></path>
+    </svg>
+    <section class="container message animated fadeIn">
       <div class="row justify-content-center align-items-center flex-column">
         <div class="col-12">
           <h1>Improving safety through real-time data analytics and visualization</h1>
           <p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
         </div>
-        <div class="col-12 py-4 button-group">
-          <button class="btn btn-primary btn-xl">Request a Demo</button>
+        <div class="col-12 py-2 button-group">
+          <button class="btn btn-primary btn-xl hvr-float-shadow">Request a Demo</button>
           <button class="btn btn-outline btn-xl">Learn More</button>
         </div>
       </div>
-    </section>
-    <section id="app-screenshot">
-      <img alt="StatEngine" src="/assets/images/screenshot.png">
     </section>
   </header>
   <section id="intro" class="container">
@@ -35,8 +28,8 @@
           Say goodbye to complex and restricitve data analytics software
         </h2>
         <p>
-          StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools.
-          This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data sets.
+          StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools. This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data
+          sets.
         </p>
       </div>
       <div id="intro-image" class="col-md-5 ml-auto">
@@ -47,20 +40,21 @@
     <div class="bottom-line"></div>
 
     <section id="benefits" class="row">
-     <div ng-repeat="props in $ctrl.intros" class="intro-item col-lg-3">
-        <img src="{{props.img}}" />
-        <h3>{{props.title}}</h3>
-        <p>
+      <div ng-repeat="props in $ctrl.intros" class="intro-item col-lg-3">
+        <img src="{{props.img}}"/>
+        <h5>{{props.title}}</h5>
+        <p class="common-body-text">
           {{props.content}}
         </p>
-    </div>
-  </section>
+      </div>
+    </section>
   </section>
   <section id="features">
     <div class="container">
-      <div class="row">
+      <div class="row mb-5">
         <h2 class="col-12">Built for public safety organizations</h2>
-        <p class="col-12">We are always working hard to make StatEngine the best platform for your needs. </p>
+        <p class="col-12">We are always working hard to make StatEngine the best platform for your needs.
+        </p>
       </div>
       <div class="row justify-content-between">
         <div class="col-md-4">
@@ -93,7 +87,7 @@
           </article>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-center mt-3">
         <a href="#">View the complete list of features</a>
       </div>
     </div>
@@ -101,21 +95,20 @@
   <div class="container pt-5">
     <div class="row">
       <section id="our-partners" class="col-md-6">
-      <h2>Our Partners</h2>
-      <p>
-        We are working with a broad group of partners who contribute to StatEngine, making it stronger and richer.
-        These partners create a vibrant ecosystem of intelligent growth and knowledge validation.
-      </p>
-      <div class="partners-logos">
-        <img src="assets/images/rss.svg" />
-        <img src="assets/images/rss.svg" />
-        <img src="assets/images/rss.svg" />
-        <img src="assets/images/rss.svg" />
-        <img src="assets/images/rss.svg" />
-      </div>
-    </section>
-    <section id="news-events" class="col-md-6">
-      <h2>Latest News &amp; Events</h2>
+        <h2>Our Partners</h2>
+        <p>
+          We are working with a broad group of partners who contribute to StatEngine, making it stronger and richer. These partners create a vibrant ecosystem of intelligent growth and knowledge validation.
+        </p>
+        <div class="partners-logos">
+          <img src="assets/images/rss.svg"/>
+          <img src="assets/images/rss.svg"/>
+          <img src="assets/images/rss.svg"/>
+          <img src="assets/images/rss.svg"/>
+          <img src="assets/images/rss.svg"/>
+        </div>
+      </section>
+      <section id="news-events" class="col-md-6">
+        <h2>Latest News &amp; Events</h2>
         <article>
           <h5>Some New Feature Just Launched</h5>
           <p>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismo pharetr ultricies in, diaras consequat.</p>
@@ -126,7 +119,8 @@
         </article>
         <article>
           <h5>How to Create a Better Dashboard</h5>
-          <p>Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vevelit. </p>
+          <p>Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vevelit.
+          </p>
         </article>
       </section>
     </div>

@@ -1,14 +1,18 @@
+/////////////////////////////////
+// NAVBAR //
+////////////////////////////////
 navbar {
+  animation-duration: 0.5s;
   color: white;
-  font-family: Montserrat-light;
+  font-family: Montserrat-medium;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.05rem;
   overflow: hidden;
-}
-
-navbar .container {
-  padding-top: 2rem;
+  position: absolute;
+  top: 2rem;
+  width: 100%;
+  z-index: 1;
 }
 
 navbar div {
@@ -19,10 +23,18 @@ navbar a {
   margin: 0 20px;
   cursor: pointer;
   color: white;
-  &:hover, &:active, &:focus, &:visited {
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
     color: white;
     text-decoration: none;
   }
+}
+
+navbar .btn {
+  font-size: 14px;
 }
 
 navbar .btn-outline {
@@ -41,10 +53,9 @@ navbar img {
 navbar div#navbar-burger {
   display: none;
 }
-
 @media (max-width: 750px) {
-  navbar div#navbar-links,
-  navbar div#navbar-button {
+  navbar div#navbar-button,
+  navbar div#navbar-links {
     display: none;
   }
 
