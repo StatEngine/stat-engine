@@ -1,0 +1,16 @@
+{
+  "name": "statengine",
+  "version": "0.0.0",
+  "dependencies": {
+    "socket.io": {
+      "version": "1.7.4",
+      "from": "socket.io@1.7.4",
+      "dependencies": {
+        "debug": {
+          "version": "2.6.9",
+          "from": "debug@~2.2.0"
+        }
+      }
+    }
+  }
+}
