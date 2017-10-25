@@ -16,7 +16,7 @@ export default function(app) {
 
   app.use(config.kibana.appPath, require('./kibana'));
 
-  app.route('/kibana').all(function (req, res, next) {
+  app.route('/kibana').all(function(req, res) {
     res.redirect(config.kibana.appPath);
   });
 

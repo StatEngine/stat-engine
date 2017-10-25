@@ -3,7 +3,7 @@
 
 import path from 'path';
 import _ from 'lodash';
-var url = require('url')
+var url = require('url');
 
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
