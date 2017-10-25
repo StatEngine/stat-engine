@@ -110,16 +110,15 @@ export default function(sequelize, DataTypes) {
           return this.password === this.encryptPassword(password);
         }
 
-        var _this = this;
-        this.encryptPassword(password, function(err, pwdGen) {
+        this.encryptPassword(password, (err, pwdGen) => {
           if(err) {
-            callback(err);
+            return callback(err);
           }
 
-          if(_this.password === pwdGen) {
-            callback(null, true);
+          if(this.password === pwdGen) {
+            return callback(null, true);
           } else {
-            callback(null, false);
+            return callback(null, false);
           }
         });
       },
@@ -132,14 +131,16 @@ export default function(sequelize, DataTypes) {
        * @return {String}
        * @api public
        */
-      makeSalt(byteSize, callback) {
+      makeSalt(...args) {
         var defaultByteSize = 16;
+        var callback;
+        var byteSize;
 
-        if(typeof arguments[0] === 'function') {
-          callback = arguments[0];
+        if(typeof args[0] === 'function') {
+          callback = args[0];
           byteSize = defaultByteSize;
-        } else if(typeof arguments[1] === 'function') {
-          callback = arguments[1];
+        } else if(typeof args[1] === 'function') {
+          callback = args[1];
         } else {
           throw new Error('Missing Callback');
         }
@@ -150,7 +151,7 @@ export default function(sequelize, DataTypes) {
 
         return crypto.randomBytes(byteSize, function(err, salt) {
           if(err) {
-            callback(err);
+            return callback(err);
           }
           return callback(null, salt.toString('base64'));
         });
@@ -174,6 +175,7 @@ export default function(sequelize, DataTypes) {
         var salt = new Buffer(this.salt, 'base64');
 
         if(!callback) {
+          // eslint-disable-next-line no-sync
           return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
                        .toString('base64');
         }
@@ -181,7 +183,7 @@ export default function(sequelize, DataTypes) {
         return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength,
           function(err, key) {
             if(err) {
-              callback(err);
+              return callback(err);
             }
             return callback(null, key.toString('base64'));
           });
