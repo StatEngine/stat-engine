@@ -2,6 +2,6 @@
 
 import angular from 'angular';
 
-export default angular.module('assApp.constants', [])
+export default angular.module('statEngineApp.constants', [])
   .constant('appConfig', require('../../server/config/environment/shared'))
   .name;

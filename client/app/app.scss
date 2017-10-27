@@ -224,6 +224,22 @@ button {
 }
 
 /////////////////////////////////
+// List Helpers //
+////////////////////////////////
+ol.nested {
+  counter-reset: item
+}
+
+li.nested {
+  display: block
+}
+
+li.nested:before {
+  content: counters(item, ".") ". ";
+  counter-increment: item
+}
+
+/////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
 // == Styles are injected through gulp ==//

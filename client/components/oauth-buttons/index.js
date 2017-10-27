@@ -10,7 +10,7 @@ export function OauthButtonsController($window) {
   };
 }
 
-export default angular.module('assApp.oauthButtons', [])
+export default angular.module('statEngineApp.oauthButtons', [])
   .directive('oauthButtons', function() {
     return {
       template: require('./oauth-buttons.html'),

@@ -20,6 +20,7 @@ import {
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
+import legal from './legal';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
@@ -29,8 +30,8 @@ import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('assApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter,
-  uiBootstrap, _Auth, account, admin, navbar, footer, main, constants, socket, util
+angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter,
+  uiBootstrap, _Auth, account, admin, legal, navbar, footer, main, constants, socket, util
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {
@@ -48,7 +49,7 @@ angular.module('assApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io',
 
 angular.element(document)
   .ready(() => {
-    angular.bootstrap(document, ['assApp'], {
+    angular.bootstrap(document, ['statEngineApp'], {
       strictDi: true
     });
   });

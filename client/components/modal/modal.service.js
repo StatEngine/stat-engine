@@ -72,6 +72,6 @@ export function Modal($rootScope, $uibModal) {
   };
 }
 
-export default angular.module('assApp')
+export default angular.module('statEngineApp')
   .factory('Modal', Modal)
   .name;

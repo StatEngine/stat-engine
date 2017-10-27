@@ -16,7 +16,7 @@ export class MainController {
   }
 }
 
-export default angular.module('assApp.main', [uiRouter])
+export default angular.module('statEngineApp.main', [uiRouter])
   .config(routing)
   .component('main', {
     template: require('./main.html'),
