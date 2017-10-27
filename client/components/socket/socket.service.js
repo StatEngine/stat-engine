@@ -80,6 +80,6 @@ function Socket(socketFactory) {
   };
 }
 
-export default angular.module('assApp.socket', [])
+export default angular.module('statEngineApp.socket', [])
   .factory('socket', Socket)
   .name;
