@@ -1,0 +1,7 @@
+.git
+bin
+coverage
+dist
+e2e
+node_modules
+*.sqlite

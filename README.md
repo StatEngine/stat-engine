@@ -23,6 +23,15 @@ Run `gulp build` for building and `gulp serve` for preview.
 
 Running `npm test` will run the unit tests with karma.
 
+## Docke
+
+### Building
+`docker build -t stat-engine .`
+
+### Running
+`docker run -p 80:8080 stat-engine`
+
+App is available at http://localhost:80
 
 ## Local Kibana on MacOSX
 ```
