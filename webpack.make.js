@@ -8,7 +8,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var fs = require('fs');
 var path = require('path');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -108,36 +107,15 @@ module.exports = function makeWebpackConfig(options) {
         config.devtool = 'eval';
     }
 
-    /**
-     * Loaders
-     * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
-     * List: http://webpack.github.io/docs/list-of-loaders.html
-     * This handles most of the magic responsible for converting modules
-     */
-
-    config.sassLoader = {
-        outputStyle: 'compressed',
-        precision: 10,
-        sourceComments: false
-    };
-
-    config.babel = {
-        shouldPrintComment(commentContents) {
-            // keep `/*@ngInject*/`
-            return /@ngInject/.test(commentContents);
-        }
-    }
-
     // Initialize module
     config.module = {
-        preLoaders: [],
         loaders: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
             // Transpile .js files using babel-loader
             // Compiles ES6 and ES7 into ES5 code
             test: /\.js$/,
-            loader: 'babel',
+            loader: 'babel-loader',
             include: [
                 path.resolve(__dirname, 'client/'),
                 path.resolve(__dirname, 'node_modules/lodash-es/')
@@ -162,14 +140,14 @@ module.exports = function makeWebpackConfig(options) {
             // Pass along the updated reference to your code
             // You can add here any file extension you want to get copied to your output
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
-            loader: 'file'
+            loader: 'file-loader'
         }, {
 
             // HTML LOADER
             // Reference: https://github.com/webpack/raw-loader
             // Allow loading html through js
             test: /\.html$/,
-            loader: 'raw'
+            loader: 'raw-loader'
         }, {
             // CSS LOADER
             // Reference: https://github.com/webpack/css-loader
@@ -184,7 +162,7 @@ module.exports = function makeWebpackConfig(options) {
                 //
                 // Reference: https://github.com/webpack/style-loader
                 // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+                ? ExtractTextPlugin.extract('style-loader', 'css?sourceMap!postcss')
                 // Reference: https://github.com/webpack/null-loader
                 // Skip loading css in test mode
                 : 'null'
@@ -192,7 +170,7 @@ module.exports = function makeWebpackConfig(options) {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.(scss|sass)$/,
-            loaders: ['style', 'css', 'sass'],
+            loaders: ['style-loader', 'css-loader', 'sass-loader'],
             include: [
                 path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
                 path.resolve(__dirname, 'client/app/app.scss')
@@ -201,11 +179,6 @@ module.exports = function makeWebpackConfig(options) {
 
         }]
     };
-
-    config.module.postLoaders = [{
-        test: /\.js$/,
-        loader: 'ng-annotate?single_quotes'
-    }];
 
     // ISPARTA INSTRUMENTER LOADER
     // Reference: https://github.com/ColCh/isparta-instrumenter-loader
@@ -225,32 +198,12 @@ module.exports = function makeWebpackConfig(options) {
         });
     }
 
-
-    /**
-     * PostCSS
-     * Reference: https://github.com/postcss/autoprefixer-core
-     * Add vendor prefixes to your css
-     */
-    config.postcss = [
-        autoprefixer({
-            browsers: ['last 2 version']
-        })
-    ];
-
     /**
      * Plugins
      * Reference: http://webpack.github.io/docs/configuration.html#plugins
      * List: http://webpack.github.io/docs/list-of-plugins.html
      */
     config.plugins = [
-        /*
-         * Plugin: ForkCheckerPlugin
-         * Description: Do type checking in a separate process, so webpack don't need to wait.
-         *
-         * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
-         */
-        new ForkCheckerPlugin(),
-
         // Reference: https://github.com/webpack/extract-text-webpack-plugin
         // Extract css files
         // Disabled when in test mode or not in build mode
@@ -290,11 +243,7 @@ module.exports = function makeWebpackConfig(options) {
         config.plugins.push(
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
             // Only emit files when there are no errors
-            new webpack.NoErrorsPlugin(),
-
-            // Reference: http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
-            // Dedupe modules in the output
-            new webpack.optimize.DedupePlugin(),
+            new webpack.NoEmitOnErrorsPlugin(),
 
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
             // Minify all javascript, switch loaders to minimizing mode
@@ -355,13 +304,6 @@ module.exports = function makeWebpackConfig(options) {
         }
     };
 
-    config.node = {
-        global: 'window',
-        process: true,
-        crypto: 'empty',
-        clearImmediate: false,
-        setImmediate: false
-    };
 
     return config;
 };

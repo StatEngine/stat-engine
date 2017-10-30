@@ -10,15 +10,15 @@ var AWS = require('aws-sdk');
 // Hmac for signing requests
 var hmac = function(key, data, encoding) {
   return crypto.createHmac('sha256', key)
-               .update(data, 'utf8')
-               .digest(encoding);
+    .update(data, 'utf8')
+    .digest(encoding);
 };
 
 // Hash for creating the canonical request to sign
 var hash = function(data, encoding) {
   return crypto.createHash('sha256')
-               .update(data, 'utf8')
-               .digest(encoding);
+    .update(data, 'utf8')
+    .digest(encoding);
 };
 
 // AWS requires are query params to be sorted in the canonical request.
@@ -55,23 +55,24 @@ var authHeaders = function(req) {
   var date = new Date();
   var kibana = url.parse(config.kibana.uri);
   var region = kibana.host.match(/\.([^.]+)\.es\.amazonaws\.com\.?$/)[1] || config.aws.region;
-  var iso8601 = date.toISOString().replace(/[:\-]|\.\d{3}/g, '');
+  var iso8601 = date.toISOString().replace(/[:-]|\.\d{3}/g, '');
   var calDate = iso8601.substring(0, 8);
   var scope = `${calDate}/${region}/es/aws4_request`;
   var credential = `${creds.accessKeyId}/${scope}`;
   var bodyHash = req.method === 'GET' ? hash('', 'hex') : hash(JSON.stringify(req.body), 'hex');
   var canonicalRequest = [req.method,
-                          encodeURI(pathname).replace(/\*/g, '%2A'),
-                          parsed.query ? sortedQuery(parsed.query) : '',
-                          `host:${kibana.host}\n`,
-                          'host',
-                          bodyHash
-                         ].join('\n');
+    encodeURI(pathname).replace(/\*/g, '%2A'),
+    parsed.query ? sortedQuery(parsed.query) : '',
+    `host:${kibana.host}\n`,
+    'host',
+    bodyHash
+  ].join('\n');
+
   var stringToSign = ['AWS4-HMAC-SHA256',
-                      iso8601,
-                      scope,
-                      hash(canonicalRequest, 'hex')
-                     ].join('\n');
+    iso8601,
+    scope,
+    hash(canonicalRequest, 'hex')
+  ].join('\n');
 
   // Signature
   var keyDate = hmac(`AWS4${creds.secretAccessKey}`, calDate);

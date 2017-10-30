@@ -17,7 +17,7 @@ User.sync()
       email: 'info@prominentedge.com',
       password: '(ZjViZGNmOTM4(x4'
     }])
-    .then(() => {
-      console.log('finished populating users');
-    });
+      .then(() => {
+        console.log('finished populating users');
+      });
   });
