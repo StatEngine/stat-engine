@@ -10,3 +10,4 @@ dist
 npm-debug.log
 coverage
 *.sqlite
+Makefile
