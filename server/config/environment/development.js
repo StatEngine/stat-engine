@@ -7,10 +7,9 @@ module.exports = {
 
   // Sequelize connection opions
   sequelize: {
-    uri: 'sqlite://',
+    uri: process.env.SEQUELIZE_URI || 'postgres://statengine:statengine@127.0.0.1:5432/statengine',
     options: {
       logging: false,
-      storage: 'dev.sqlite',
       define: {
         timestamps: false
       }

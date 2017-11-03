@@ -7,10 +7,9 @@ module.exports = {
 
   // Sequelize connection opions
   sequelize: {
-    uri: 'sqlite://',
+    uri: process.env.SEQUELIZE_URI,
     options: {
       logging: false,
-      storage: 'dev.sqlite',
       define: {
         timestamps: false
       }
