@@ -5,10 +5,9 @@
 // ===========================
 module.exports = {
   sequelize: {
-    uri: 'sqlite://',
+    uri: process.env.SEQUELIZE_URI,
     options: {
       logging: false,
-      storage: 'test.sqlite',
       define: {
         timestamps: false
       }
