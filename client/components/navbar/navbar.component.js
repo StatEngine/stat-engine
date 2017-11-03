@@ -11,12 +11,16 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth) {
+  constructor(Auth, $scope) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
+
+    $scope.scrollTo = function(location) {
+      $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+    };
   }
 }
 

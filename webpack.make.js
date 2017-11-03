@@ -50,7 +50,7 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-socket-io',
                 'angular-ui-bootstrap',
                 'angular-ui-router',
-                'lodash'
+                'lodash',
             ]
         };
     }
@@ -209,6 +209,10 @@ module.exports = function makeWebpackConfig(options) {
         // Disabled when in test mode or not in build mode
         new ExtractTextPlugin('[name].[hash].css', {
             disable: !BUILD || TEST
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         })
     ];
 
