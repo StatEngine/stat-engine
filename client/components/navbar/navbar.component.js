@@ -18,11 +18,9 @@ export class NavbarComponent {
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
 
-    $scope.scrollToFooter = function() {
-      $("html, body").animate({
-        scrollTop: $('#footer').offset().top
-    }, 1000);
-    }
+    $scope.scrollTo = function(location) {
+      $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+    };
   }
 }
 
