@@ -11,12 +11,18 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth) {
+  constructor(Auth, $scope) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
+
+    $scope.scrollToFooter = function() {
+      $("html, body").animate({
+        scrollTop: $('#footer').offset().top
+    }, 1000);
+    }
   }
 }
 

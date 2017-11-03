@@ -3,7 +3,7 @@
     <div class="col-sm-12">
       <h1>Login</h1>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-6">
       <form class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
@@ -30,22 +30,15 @@
         </div>
 
         <div>
-          <button class="btn btn-inverse btn-lg btn-login" type="submit">
+          <button class="btn btn btn-primary btn-lg" type="submit">
             Login
           </button>
           <a class="btn btn-default btn-lg btn-register" ui-sref="signup">
             Register
           </a>
         </div>
-
-        <hr/>
-        <div class="row">
-          <div class="col-sm-4 col-md-3">
-            <oauth-buttons classes="btn-block"></oauth-buttons>
-          </div>
-        </div>
       </form>
+      <hr>
     </div>
   </div>
-  <hr>
 </div>
