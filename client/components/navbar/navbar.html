@@ -9,8 +9,15 @@
       <a ng-click="scrollTo('#footer')" href="#">Company</a>
     </div>
     <div id="navbar-button" class="col-auto ml-auto">
-      <button class="btn btn-link" ui-sref="login">Log in</button>
-      <button class="btn btn-outline" ui-sref="signup">Sign Up</button>
+      <div ng-if="isLoggedIn && currentUser">
+        Welcome, {{currentUser.name}}
+        <button class="btn btn-primary" ng-click="dashboard()">Dashboard</button>
+        <button class="btn btn-outline" ui-sref="logout">Sign Out</button>
+      </div>
+      <div ng-if="!isLoggedIn">
+        <button class="btn btn-link" ui-sref="login">Sign In</button>
+        <button class="btn btn-outline" ui-sref="signup">Sign Up</button>
+      </div>
     </div>
     <div id="navbar-burger" class="col-auto ml-auto">
       <img src="/assets/images/burger.svg"/>

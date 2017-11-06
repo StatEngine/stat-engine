@@ -27,6 +27,13 @@ export function isAuthenticated() {
       }
       validateJwt(req, res, next);
     })
+    // eslint-disable-next-line no-unused-vars
+    .use(function(err, req, res, next) {
+      // Redirect to login page
+      if(err.name === 'UnauthorizedError') {
+        res.redirect('/login');
+      }
+    })
     // Attach user to request
     .use(function(req, res, next) {
       User.find({
