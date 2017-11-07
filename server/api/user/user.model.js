@@ -26,6 +26,7 @@ export default function(sequelize, DataTypes) {
         isEmail: true
       }
     },
+    department: DataTypes.STRING,
     role: {
       type: DataTypes.STRING,
       defaultValue: 'user'

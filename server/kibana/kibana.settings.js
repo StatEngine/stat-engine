@@ -10,5 +10,6 @@ export default {
   // add custom header to request
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader('X-Forwarded-User', req.user.name);
+    proxyReq.setHeader('X-statengine-department', req.user.department);
   },
 };
