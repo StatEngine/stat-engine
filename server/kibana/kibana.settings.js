@@ -9,7 +9,7 @@ export default {
   pathRewrite: path => path.replace(`${config.kibana.appPath}`, '/'),
   // add custom header to request
   onProxyReq: (proxyReq, req) => {
-    proxyReq.setHeader('X-Forwarded-User', req.user._id);
+    proxyReq.setHeader('X-Forwarded-User', req.user.email);
     proxyReq.setHeader('x-statengine-department', req.user.department);
   },
 };

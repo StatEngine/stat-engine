@@ -26,6 +26,10 @@ export default function(sequelize, DataTypes) {
         isEmail: true
       }
     },
+    theme: {
+      type: DataTypes.STRING,
+      defaultValue: 'statengine'
+    },
     department: DataTypes.STRING,
     role: {
       type: DataTypes.STRING,
@@ -72,6 +76,7 @@ export default function(sequelize, DataTypes) {
       beforeBulkCreate(users, fields, fn) {
         var totalUpdated = 0;
         users.forEach(user => {
+          user.email = user.email.toLowerCase();
           user.updatePassword(err => {
             if(err) {
               return fn(err);
@@ -84,6 +89,7 @@ export default function(sequelize, DataTypes) {
         });
       },
       beforeCreate(user, fields, fn) {
+        user.email = user.email.toLowerCase();
         user.updatePassword(fn);
       },
       beforeUpdate(user, fields, fn) {

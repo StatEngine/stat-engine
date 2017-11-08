@@ -19,14 +19,16 @@ User.sync()
     }, {
       provider: 'local',
       role: 'user',
-      name: 'richmondUser',
+      name: 'richmond',
+      theme: 'statengine',
       email: 'richmond@prominentedge.com',
       password: 'w!Dh5m#Fg321',
       department: 'richmond',
     }, {
       provider: 'local',
       role: 'user',
-      name: 'konaUser',
+      name: 'kona',
+      theme: 'nfors',
       email: 'kona@prominentedge.com',
       password: 'S30@Y!$VQOh%',
       department: 'kona',
