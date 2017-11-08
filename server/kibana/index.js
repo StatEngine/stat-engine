@@ -2,11 +2,12 @@
 
 import {Router} from 'express';
 import * as auth from '../auth/auth.service';
+import settings from './kibana.settings';
 
-var proxy = require('express-http-proxy');
-var router = new Router();
-var settings = require('./kibana.settings').default;
+const proxy = require('http-proxy-middleware');
 
-router.all('*', auth.isAuthenticated(), proxy(settings.uri, settings));
+const router = new Router();
+
+router.use('*', auth.isAuthenticated(), proxy(settings));
 
 module.exports = router;

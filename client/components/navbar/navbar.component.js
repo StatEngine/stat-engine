@@ -11,15 +11,24 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth, $scope) {
+  constructor(Auth, $scope, $window) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
+    this.logout = Auth.logout;
+
+    $scope.isLoggedIn = this.isLoggedIn();
+    $scope.currentUser = this.getCurrentUser();
+    $scope.logout = this.logout;
 
     $scope.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+    };
+
+    $scope.dashboard = function() {
+      $window.location.href = '/dashboard';
     };
   }
 }
