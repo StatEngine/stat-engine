@@ -14,14 +14,18 @@ export class NavbarComponent {
   constructor(Auth, $scope, $window) {
     'ngInject';
 
-    this.isLoggedIn = Auth.isLoggedInSync;
-    this.isAdmin = Auth.isAdminSync;
-    this.getCurrentUser = Auth.getCurrentUserSync;
-    this.logout = Auth.logout;
+    $scope.currentUser = {};
+    $scope.isLoggedIn = false;
 
-    $scope.isLoggedIn = this.isLoggedIn();
-    $scope.currentUser = this.getCurrentUser();
-    $scope.logout = this.logout;
+    Auth.getCurrentUser()
+      .then(user => {
+        $scope.currentUser = user;
+        $scope.isLoggedIn = Auth.isLoggedInSync();
+      }, err => {
+        console.error('Error fetching current user');
+        console.error(err);
+      });
+    $scope.logout = Auth.logout;
 
     $scope.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);

@@ -9,7 +9,7 @@
       <a ng-click="scrollTo('#footer')" href="#">Company</a>
     </div>
     <div id="navbar-button" class="col-auto ml-auto">
-      <div ng-if="isLoggedIn && currentUser">
+      <div ng-if="isLoggedIn">
         Welcome, {{currentUser.name}}
         <button class="btn btn-primary" ng-click="dashboard()">Dashboard</button>
         <button class="btn btn-outline" ui-sref="logout">Sign Out</button>
