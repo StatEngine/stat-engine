@@ -3,7 +3,6 @@
 
 import path from 'path';
 import _ from 'lodash';
-var url = require('url');
 
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
@@ -25,8 +24,8 @@ var all = {
   // Local vs AWS Kibana
   kibana: {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
-    appPath: process.env.KIBANA_URI ? url.parse(process.env.KIBANA_URI).pathname : '/_plugin/kibana',
-    uri: process.env.KIBANA_URI || 'http://localhost:5601'
+    appPath: process.env.KIBANA_BASEPATH ? process.env.KIBANA_BASEPATH : '/_plugin/kibana',
+    uri: process.env.KIBANA_URI ? process.env.KIBANA_URI : 'http://localhost:5601'
   },
 
   // Root path of server

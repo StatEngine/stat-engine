@@ -8,7 +8,7 @@ export default {
   // Strip out the appPath, so kibana sees requested path
   pathRewrite: path => {
     let newPath = path.replace(`${config.kibana.appPath}`, '');
-    console.info('Proxied to path: ' + newPath);
+    console.log(`Proxied to path: ${newPath}`);
     return newPath;
   },
   // add custom header to request
