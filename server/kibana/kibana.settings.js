@@ -6,7 +6,11 @@ export default {
   target: config.kibana.uri,
   changeOrigin: true,
   // Strip out the appPath, so kibana sees requested path
-  pathRewrite: path => path.replace(`${config.kibana.appPath}`, '/'),
+  pathRewrite: path => {
+    let newPath = path.replace(`${config.kibana.appPath}`, '');
+    console.info('Proxied to path: ' + newPath);
+    return newPath;
+  },
   // add custom header to request
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader('X-Forwarded-User', req.user.email);
