@@ -10,8 +10,7 @@ import 'angular-socket-io';
 import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
 // import ngMessages from 'angular-messages';
-// import ngValidationMatch from 'angular-validation-match';
-
+import ngValidationMatch from 'angular-validation-match';
 
 import {
   routeConfig
@@ -30,7 +29,7 @@ import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter,
+angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, 'btford.socket-io', uiRouter,
   uiBootstrap, _Auth, account, admin, legal, navbar, footer, main, constants, socket, util
 ])
   .config(routeConfig)
@@ -44,6 +43,14 @@ angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, 'btford.sock
           $location.path('/login');
         }
       });
+    });
+
+    // keep track of state
+    $rootScope.previousState;
+    $rootScope.currentState;
+    $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from) {
+      $rootScope.previousState = from.name;
+      $rootScope.currentState = to.name;
     });
   });
 

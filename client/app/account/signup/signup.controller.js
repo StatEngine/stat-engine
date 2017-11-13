@@ -4,13 +4,13 @@ import angular from 'angular';
 
 export default class SignupController {
   user = {
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: ''
   };
   errors = {};
   submitted = false;
-
 
   /*@ngInject*/
   constructor(Auth, $state) {
@@ -23,13 +23,14 @@ export default class SignupController {
 
     if(form.$valid) {
       return this.Auth.createUser({
-        name: this.user.name,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
         email: this.user.email,
         password: this.user.password
       })
         .then(() => {
           // Account created, redirect to home
-          this.$state.go('main');
+          this.$state.go('signupSuccess');
         })
         .catch(err => {
           err = err.data;
@@ -37,9 +38,9 @@ export default class SignupController {
 
           // Update validity of form fields that match the sequelize errors
           if(err.name) {
-            angular.forEach(err.fields, field => {
-              form[field].$setValidity('mongoose', false);
-              this.errors[field] = err.message;
+            angular.forEach(err.errors, field => {
+              form[field.path].$setValidity('mongoose', false);
+              this.errors[field.path] = err.message;
             });
           }
         });

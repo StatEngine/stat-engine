@@ -9,6 +9,12 @@ export default function routes($stateProvider) {
     controller: 'LoginController',
     controllerAs: 'vm'
   })
+    .state('signupSuccess', {
+      url: '/login',
+      template: require('./login/login.html'),
+      controller: 'LoginController',
+      controllerAs: 'vm'
+    })
     .state('logout', {
       url: '/logout?referrer',
       referrer: 'main',

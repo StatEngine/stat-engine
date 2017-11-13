@@ -16,7 +16,18 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
+    firstName: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
     email: {
       type: DataTypes.STRING,
       unique: {
@@ -55,7 +66,7 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       profile() {
         return {
-          name: this.name,
+          name: this.firstName + this.lastName,
           role: this.role
         };
       },

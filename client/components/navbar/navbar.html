@@ -10,7 +10,7 @@
     </div>
     <div id="navbar-button" class="col-auto ml-auto">
       <div ng-if="isLoggedIn">
-        Welcome, {{currentUser.name}}
+        Welcome, {{currentUser.firstName}}
         <button class="btn btn-primary" ng-click="dashboard()">Dashboard</button>
         <button class="btn btn-outline" ui-sref="logout">Sign Out</button>
       </div>
