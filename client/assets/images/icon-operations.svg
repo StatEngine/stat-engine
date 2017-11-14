@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="49" viewBox="0 0 48 49">
+  <defs>
+    <linearGradient id="icon-operations-a" x1="27.97%" x2="72.524%" y1="100%" y2="13.535%">
+      <stop offset="0%" stop-color="#FF005D"/>
+      <stop offset="100%" stop-color="#FF9F4B"/>
+    </linearGradient>
+    <linearGradient id="icon-operations-b" x1="-52.822%" x2="53.505%" y1="140.083%" y2="45.364%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="icon-operations-c" x1="25.046%" x2="53.505%" y1="74.074%" y2="45.364%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="icon-operations-f" x1="50%" x2="50%" y1="100%" y2="58.279%">
+      <stop offset="0%" stop-color="#CBCBCB"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <path id="icon-operations-e" d="M38,24.0415323 L37.8340625,23.6034295 C33.4184375,11.9114017 14.9375,12.2127556 11,24.0415323 L11.1659375,24.472038 C15.5815625,36.1716629 34.0625,35.8677766 38,24.0415323 Z M24.5,18.135389 L24.5,22.354139 C24.5,23.2861195 25.2555195,24.041639 26.1875,24.041639 L30.40625,24.041639 C30.40625,27.3035708 27.7619318,29.947889 24.5,29.947889 C21.2380682,29.947889 18.59375,27.3035708 18.59375,24.041639 C18.59375,20.7797072 21.2380682,18.135389 24.5,18.135389 L24.5,18.135389 Z"/>
+    <filter id="icon-operations-d" width="114.8%" height="122.1%" x="-7.4%" y="-5.5%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.117697011 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="url(#icon-operations-a)" d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 Z"/>
+    <path fill="url(#icon-operations-b)" d="M19.340332,48.2138672 C13.1519231,45.7581625 9.30735929,43.6152588 7.80664062,41.7851562 C6.30592196,39.9550537 4.06731518,37.2049191 1.09082031,33.5347526 L13.0205078,19.8671875 C21.3784624,18.5184548 25.9884884,18.5184548 26.8505859,19.8671875 C27.7126834,21.2159202 31.5561079,23.0931988 38.3808594,25.4990234 L19.340332,48.2138672 Z" opacity=".203" style="mix-blend-mode:multiply"/>
+    <path fill="url(#icon-operations-c)" d="M26.7500854,28.9208984 C22.2291672,29.5083928 19.6923549,29.5083928 19.1396484,28.9208984 C18.586942,28.333404 18.8737258,26.64155 20,23.8453363 L22.5650681,17.3920898 L27.9891739,19 L30.4223028,21.4241371 L33.5001709,22.8511632 L26.7500854,28.9208984 Z" opacity=".142" style="mix-blend-mode:multiply"/>
+    <g fill-rule="nonzero">
+      <use fill="#000" filter="url(#icon-operations-d)" xlink:href="#icon-operations-e"/>
+      <use fill="url(#icon-operations-f)" fill-rule="evenodd" xlink:href="#icon-operations-e"/>
+    </g>
+  </g>
+</svg>

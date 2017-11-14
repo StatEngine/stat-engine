@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="icon-cloud-instance-a" x1="85.669%" x2="25.146%" y1="19.629%" y2="100%">
+      <stop offset="2.182%" stop-color="#00E98D"/>
+      <stop offset="97.236%" stop-color="#02C0E3"/>
+    </linearGradient>
+    <linearGradient id="icon-cloud-instance-b" x1="25.046%" x2="53.505%" y1="74.074%" y2="45.364%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="icon-cloud-instance-c" x1="21.997%" x2="66.24%" y1="83.555%" y2="50%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="icon-cloud-instance-f" x1="50%" x2="50%" y1="120.82%" y2="65.728%">
+      <stop offset="0%" stop-color="#CBCBCB"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <path id="icon-cloud-instance-d" d="M28.0327148,34 L35.2857765,34 C38.9934663,34 41.9997013,31.0652174 41.9997013,27.4456522 C42.0331039,23.9891304 39.2606872,21.1521739 35.7534131,20.923913 C34.9183478,16.3586957 30.8432293,13 25.9998507,13 C21.1564721,13 17.0813535,16.3586957 16.2462883,20.923913 C12.7724167,21.1521739 10,23.9891304 10,27.4456522 C10,31.0652174 13.006235,34 16.7139248,34 L24.0961914,34 L24.0961914,28.0462036 L20,28 L26,21 L32,28 L28.0327148,28 C28.0327148,31.9956627 28.0327148,34.3030445 28.0327148,34.9221452 Z"/>
+    <filter id="icon-cloud-instance-e" width="112.5%" height="119%" x="-6.2%" y="-4.8%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.117697011 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(-2)">
+    <g transform="translate(2)">
+      <path fill="url(#icon-cloud-instance-a)" d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 Z"/>
+    </g>
+    <path fill="url(#icon-cloud-instance-b)" d="M29.7500854,28.9208984 C27.5127803,28.0051293 26.1177745,27.2534975 25.5650681,26.6660031 C25.0123616,26.0785087 24.1573389,25.1382864 23,23.8453363 L26.151583,19.5249077 L30.9891739,19 L33.4223028,21.4241371 L36.5001709,22.8511632 L29.7500854,28.9208984 Z" opacity=".214" style="mix-blend-mode:multiply"/>
+    <path fill="url(#icon-cloud-instance-c)" d="M19.0414306,45.6804199 C12.8188349,43.2545577 8.94969428,41.2360844 7.43400874,39.625 C5.91832321,38.0139156 3.67404425,35.2163895 0.701171875,31.2324219 L12.9052734,22.9003906 L27.7060547,13.3203125 L39.3056641,32.5776367 L19.0414306,45.6804199 Z" opacity=".214" style="mix-blend-mode:multiply"/>
+    <g fill-rule="nonzero">
+      <use fill="#000" filter="url(#icon-cloud-instance-e)" xlink:href="#icon-cloud-instance-d"/>
+      <use fill="url(#icon-cloud-instance-f)" fill-rule="evenodd" xlink:href="#icon-cloud-instance-d"/>
+    </g>
+  </g>
+</svg>

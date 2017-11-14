@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="icon-open-source-a" x1="37.069%" x2="73.036%" y1="80.876%" y2="12.423%">
+      <stop offset="0%" stop-color="#E090FE"/>
+      <stop offset="100%" stop-color="#70ABEF"/>
+    </linearGradient>
+    <linearGradient id="icon-open-source-b" x1="25.046%" x2="53.505%" y1="74.074%" y2="45.364%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="icon-open-source-c" x1="50%" x2="50%" y1="0%" y2="82.743%">
+      <stop offset="0%" stop-color="#D9D9D9"/>
+      <stop offset="100%" stop-color="#AAA"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="url(#icon-open-source-a)" d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 Z"/>
+    <path fill="url(#icon-open-source-b)" d="M10.1074219,45.4980469 C9.24680532,44.5244959 8.05865428,43.2321782 6.54296875,41.6210938 C5.02728322,40.0100093 3.6675827,38.5526526 2.46386719,37.2490234 L15.109375,28.7380371 L23.9086914,23 L30.5810547,29.6477051 L33.2783203,31.3364258 L10.1074219,45.4980469 Z" opacity=".214" style="mix-blend-mode:multiply"/>
+    <g transform="translate(10 12)">
+      <polygon fill="#C4C4C4" fill-rule="nonzero" points="15 13.392 9.838 15.792 5 13 5 18.867 15 24.062"/>
+      <polygon fill="#FFF" fill-rule="nonzero" points="24 13 19.162 15.793 15 13.392 15 23.938 24 18.743"/>
+      <path fill="#F3F3F3" fill-rule="nonzero" d="M19.281,0 L14.62,2.69 L9.957,0 L0,5.748 L4.662,8.44 L0,11.134 L9.957,16.882 L14.618,14.193 L19.281,16.882 L29.238,11.134 L24.576,8.44 L29.238,5.748 L19.281,0 Z M14.659,13.035 L14.638,13.023 L14.619,13.035 L6.659,8.44 L14.619,3.845 L14.638,3.857 L14.659,3.845 L22.619,8.44 L14.659,13.035 Z"/>
+      <polygon fill="url(#icon-open-source-c)" points="15.121 3.615 14.832 13.077 5.44 8.51"/>
+      <polygon fill="#C9C9C9" points="22.972 3.827 22.972 13.326 15 8.25" transform="matrix(-1 0 0 1 37.972 0)"/>
+    </g>
+  </g>
+</svg>

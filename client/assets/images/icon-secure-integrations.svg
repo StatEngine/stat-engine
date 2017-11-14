@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="49" viewBox="0 0 48 49">
+  <defs>
+    <linearGradient id="icon-secure-integrations-a" x1="32.601%" x2="82.617%" y1="76.318%" y2="22.184%">
+      <stop offset="0%" stop-color="#DA3EDC"/>
+      <stop offset="100%" stop-color="#FF6581"/>
+    </linearGradient>
+    <linearGradient id="icon-secure-integrations-b" x1="20.292%" x2="55.599%" y1="100%" y2="31.603%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="icon-secure-integrations-e" x1="50%" x2="50%" y1="92.775%" y2="58.279%">
+      <stop offset="0%" stop-color="#CBCBCB"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <path id="icon-secure-integrations-d" d="M22.9978476,29.5648907 L23.0557979,31.5727383 C23.078736,32.3674913 23.7296226,32.9998631 24.5247066,32.9998631 C24.538048,32.9998631 24.5513886,32.9996707 24.5647245,32.9992858 C25.3304836,32.9771845 25.9333374,32.3384974 25.9112362,31.5727383 L25.858784,29.7553894 C26.5636038,29.4220257 27,28.7480255 27,27.7340204 C27,26.2240626 25.8807119,25 24.5,25 C23.1192881,25 22,26.2240626 22,27.7340204 C22,28.5824876 22.4012838,29.192901 22.9978476,29.5648907 Z M31.9044118,20.98802 L34,21.18 L34,35.7490476 L24.5,38 L15,35.7490476 L15,21.18 L17.0955882,20.98802 L17.0955882,16.685 C17.0955882,12.44752 20.4172353,9 24.5,9 C28.5827647,9 31.9044118,12.44752 31.9044118,16.685 L31.9044118,20.98802 Z M19,22 L24.5,21.4995863 L30,22 L30,17.669108 C30,14.5431312 27.5327297,12 24.5,12 C21.4672703,12 19,14.5431312 19,17.669108 L19,22 Z"/>
+    <filter id="icon-secure-integrations-c" width="121.1%" height="113.8%" x="-10.5%" y="-3.4%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.117697011 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="url(#icon-secure-integrations-a)" d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 Z"/>
+    <path fill="url(#icon-secure-integrations-b)" d="M21.7526785,48.0533724 C17.2580941,48.4462246 14.04371,48.2058503 12.109526,47.3322495 C10.1753421,46.4586486 8.08132176,45.2969754 5.82746493,43.8472299 L15.3766142,31.8508631 L20.8153854,31.1097346 L32.7670956,31.6758303 L21.7526785,48.0533724 Z" opacity=".214" style="mix-blend-mode:multiply" transform="rotate(15 19.297 39.673)"/>
+    <path fill="url(#icon-secure-integrations-b)" d="M28.8589424,27.3884506 C32.0838314,31.0667908 33.181129,32.5918184 32.150835,31.9635335 C31.120541,31.3352486 27.8264258,32.2179041 22.2684893,34.6115 L23.2679485,23.4847633 L23.9975146,23.2892766 L30.8207126,23.8222888 L28.8589424,27.3884506 Z" opacity=".214" style="mix-blend-mode:multiply" transform="rotate(15 27.397 28.95)"/>
+    <g fill-rule="nonzero">
+      <use fill="#000" filter="url(#icon-secure-integrations-c)" xlink:href="#icon-secure-integrations-d"/>
+      <use fill="url(#icon-secure-integrations-e)" fill-rule="evenodd" xlink:href="#icon-secure-integrations-d"/>
+    </g>
+  </g>
+</svg>
