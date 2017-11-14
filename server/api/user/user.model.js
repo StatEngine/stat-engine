@@ -16,13 +16,13 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    firstName: {
+    first_name: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true
       }
     },
-    lastName: {
+    last_name: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true
@@ -66,7 +66,7 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       profile() {
         return {
-          name: this.firstName + this.lastName,
+          name: this.first_name + this.last_name,
           role: this.role
         };
       },

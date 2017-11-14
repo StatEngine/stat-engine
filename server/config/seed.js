@@ -13,15 +13,15 @@ User.sync()
     User.bulkCreate([{
       provider: 'local',
       role: 'admin',
-      firstName: 'Info',
-      lastName: 'Info',
+      first_name: 'Info',
+      last_name: 'Info',
       email: 'info@prominentedge.com',
       password: '(ZjViZGNmOTM4(x4'
     }, {
       provider: 'local',
       role: 'user',
-      firstName: 'Richmond',
-      lastName: 'User',
+      first_name: 'Richmond',
+      last_name: 'User',
       email: 'richmond@prominentedge.com',
       password: 'w!Dh5m#Fg321',
       department: 'richmond',
