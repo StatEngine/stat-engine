@@ -65,8 +65,16 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * Delete access token and user info
      */
     logout() {
-      $cookies.remove('token');
-      currentUser = new _User();
+      // log out of kibana
+      return $http.get('/_plugin/kibana/logout')
+        .then(() => {
+          $cookies.remove('token');
+          currentUser = new _User();
+        })
+        .catch(() => {
+          $cookies.remove('token');
+          currentUser = new _User();
+        });
     },
 
     /**

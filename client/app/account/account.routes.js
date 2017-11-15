@@ -23,8 +23,13 @@ export default function routes($stateProvider) {
         'ngInject';
 
         var referrer = $state.params.referrer || $state.current.referrer || 'main';
-        Auth.logout();
-        $state.go(referrer);
+        Auth.logout()
+          .then(() => {
+            $state.go(referrer);
+          })
+          .catch(() => {
+            $state.go(referrer);
+          });
       }
     })
     .state('signup', {
