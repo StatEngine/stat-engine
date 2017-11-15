@@ -3,7 +3,7 @@ import config from '../config/environment';
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
-import {User} from '../sqldb';
+import {FireDepartment, User} from '../sqldb';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -32,6 +32,8 @@ export function isAuthenticated() {
       // Redirect to login page
       if(err.name === 'UnauthorizedError') {
         res.redirect('/login');
+      } else {
+        return next();
       }
     })
     // Attach user to request
@@ -39,16 +41,31 @@ export function isAuthenticated() {
       User.find({
         where: {
           _id: req.user._id
+        },
+      }).nodeify((err, user) => {
+        if(err || !user) {
+          return res.status(401).end();
         }
-      })
-        .then(user => {
-          if(!user) {
-            return res.status(401).end();
-          }
-          req.user = user;
-          next();
-        })
-        .catch(err => next(err));
+        req.user = user;
+        next();
+      });
+    })
+    // Attach fire department to request
+    .use(function(req, res, next) {
+      if(!req.user) {
+        return next();
+      }
+      FireDepartment.find({
+        where: {
+          _id: req.user.fire_department__id
+        },
+      }).nodeify((err, fireDepartment) => {
+        if(err) {
+          return res.status(500).end();
+        }
+        req.fire_department = fireDepartment;
+        next();
+      });
     });
 }
 

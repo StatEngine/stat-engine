@@ -17,6 +17,7 @@ import {
 } from './app.config';
 
 import _Auth from '../components/auth/auth.module';
+import api from '../components/api/api.module';
 import account from './account';
 import admin from './admin';
 import legal from './legal';
@@ -30,7 +31,7 @@ import socket from '../components/socket/socket.service';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, 'btford.socket-io', uiRouter,
-  uiBootstrap, _Auth, account, admin, legal, navbar, footer, main, constants, socket, util
+  uiBootstrap, _Auth, account, admin, api, legal, navbar, footer, main, constants, socket, util
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

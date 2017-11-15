@@ -13,9 +13,11 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Auth, $state) {
+  constructor(Auth, FireDepartment, $state) {
     this.Auth = Auth;
     this.$state = $state;
+
+    this.fireDepartments = FireDepartment.query();
   }
 
   register(form) {

@@ -11,9 +11,14 @@ export default {
     console.log(`Proxied to path: ${newPath}`);
     return newPath;
   },
-  // add custom header to request
+  // add custom headers to request
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader('X-Forwarded-User', req.user.email);
-    proxyReq.setHeader('x-statengine-department', req.user.department);
+
+    if(req.fire_department) {
+      const es_indicies = req.fire_department.get().es_indices;
+      proxyReq.setHeader('x-se-fire-department-incident', es_indicies.incident);
+      proxyReq.setHeader('x-se-fire-department-avl', es_indicies.avl);
+    }
   },
 };

@@ -31,7 +31,7 @@ export function index(req, res) {
       'department',
       'email',
       'role',
-      'provider'
+      'provider',
     ]
   })
     .then(users => {
