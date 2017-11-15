@@ -11,11 +11,12 @@ export default class LoginController {
   };
   submitted = false;
 
-
   /*@ngInject*/
-  constructor(Auth, $state) {
+  constructor(Auth, $state, $scope, $rootScope) {
     this.Auth = Auth;
     this.$state = $state;
+
+    $scope.accountCreated = $rootScope.previousState === 'signupSuccess';
   }
 
   login(form) {

@@ -4,6 +4,7 @@
       <h1 class="text-center">Login</h1>
     </div>
     <div class="col-sm-6 col-sm-offset-3">
+      <div class="text-center text-success" ng-if="accountCreated"> Account Created. Please login below.</div>
       <form class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">

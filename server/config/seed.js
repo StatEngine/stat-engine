@@ -5,35 +5,45 @@
 
 'use strict';
 import sqldb from '../sqldb';
-var User = sqldb.User;
+const User = sqldb.User;
+const FireDepartment = sqldb.FireDepartment;
 
-User.sync()
+
+User
+  .sync()
   .then(() => User.destroy({ where: {} }))
-  .then(() => {
-    User.bulkCreate([{
+  .then(() => FireDepartment.sync())
+  .then(() => FireDepartment.destroy({ where: {} }))
+  .then(() => FireDepartment.create({
+    fd_id: '76000',
+    name: 'Richmond Fire and Emergency Services',
+    state: 'VA',
+    timezone: 'US/Eastern',
+    Users: [{
       provider: 'local',
-      role: 'admin',
-      name: 'Nunya',
-      email: 'info@prominentedge.com',
-      password: '(ZjViZGNmOTM4(x4'
-    }, {
-      provider: 'local',
-      role: 'user',
-      name: 'richmond',
-      theme: 'statengine',
+      role: 'kibana_ro',
+      first_name: 'Richmond',
+      last_name: 'User',
       email: 'richmond@prominentedge.com',
-      password: 'w!Dh5m#Fg321',
-      department: 'richmond',
-    }, {
+      password: 'password',
+    }]
+  }, {
+    include: FireDepartment.Users
+  }))
+  .then(() => FireDepartment.create({
+    fd_id: '08500',
+    name: 'Hanover Fire-EMS',
+    state: 'VA',
+    timezone: 'US/Eastern',
+    Users: [{
       provider: 'local',
       role: 'user',
-      name: 'kona',
-      theme: 'nfors',
-      email: 'kona@prominentedge.com',
-      password: 'S30@Y!$VQOh%',
-      department: 'kona',
-    }])
-      .then(() => {
-        console.log('finished populating users');
-      });
-  });
+      first_name: 'Hanover',
+      last_name: 'User',
+      email: 'hanover@prominentedge.com',
+      password: 'password',
+    }]
+  }, {
+    include: FireDepartment.Users
+  }))
+  .then(() => console.log('finished populating fire departments + users'));

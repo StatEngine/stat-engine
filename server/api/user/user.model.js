@@ -16,7 +16,18 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
+    first_name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
     email: {
       type: DataTypes.STRING,
       unique: {
@@ -55,7 +66,7 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       profile() {
         return {
-          name: this.name,
+          name: this.first_name + this.last_name,
           role: this.role
         };
       },
@@ -227,7 +238,8 @@ export default function(sequelize, DataTypes) {
           });
         });
       }
-    }
+    },
+    underscored: true,
   });
 
   return User;

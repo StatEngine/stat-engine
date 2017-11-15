@@ -26,10 +26,12 @@ export function index(req, res) {
   return User.findAll({
     attributes: [
       '_id',
-      'name',
+      'first_name',
+      'last_name',
+      'department',
       'email',
       'role',
-      'provider'
+      'provider',
     ]
   })
     .then(users => {
@@ -43,8 +45,12 @@ export function index(req, res) {
  */
 export function create(req, res) {
   var newUser = User.build(req.body);
+
+  // force this all so user cannot overwrite in request
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');
+  newUser.setDataValue('department', '');
+
   return newUser.save()
     .then(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
@@ -126,7 +132,9 @@ export function me(req, res, next) {
     },
     attributes: [
       '_id',
-      'name',
+      'first_name',
+      'last_name',
+      'department',
       'email',
       'role',
       'provider'
@@ -136,6 +144,7 @@ export function me(req, res, next) {
       if(!user) {
         return res.status(401).end();
       }
+
       res.json(user);
     })
     .catch(err => next(err));

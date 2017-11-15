@@ -5,7 +5,7 @@ import angular from 'angular';
 /**
  * Removes server error when user updates input
  */
-angular.module('statEngineApp')
+export default angular.module('statEngineApp.mongooseError', [])
   .directive('mongooseError', function() {
     return {
       restrict: 'A',
@@ -14,4 +14,5 @@ angular.module('statEngineApp')
         element.on('keydown', () => ngModel.$setValidity('mongoose', true));
       }
     };
-  });
+  })
+  .name;
