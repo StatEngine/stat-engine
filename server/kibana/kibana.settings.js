@@ -13,12 +13,16 @@ export default {
   },
   // add custom headers to request
   onProxyReq: (proxyReq, req) => {
-    proxyReq.setHeader('X-Forwarded-User', req.user.email);
+    proxyReq.setHeader('X-Forwarded-User', req.user.username);
 
     if(req.fire_department) {
       const es_indicies = req.fire_department.get().es_indices;
       proxyReq.setHeader('x-se-fire-department-incident', es_indicies.incident);
-      proxyReq.setHeader('x-se-fire-department-avl', es_indicies.avl);
+      proxyReq.setHeader('x-se-fire-department-telemetry', es_indicies.telemetry);
+    }
+
+    if(req.user.nfors) {
+      proxyReq.setHeader('x-se-nfors', 'true');
     }
   },
 };

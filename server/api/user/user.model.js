@@ -16,6 +16,17 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        msg: 'The specified username is already in use.'
+      },
+      validate: {
+        isAlphanumeric: true,
+        len: [2, 12],
+      }
+    },
     first_name: {
       type: DataTypes.STRING,
       validate: {
@@ -37,11 +48,10 @@ export default function(sequelize, DataTypes) {
         isEmail: true
       }
     },
-    theme: {
-      type: DataTypes.STRING,
-      defaultValue: 'statengine'
+    nfors: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
-    department: DataTypes.STRING,
     role: {
       type: DataTypes.STRING,
       defaultValue: 'user'
@@ -87,7 +97,7 @@ export default function(sequelize, DataTypes) {
       beforeBulkCreate(users, fields, fn) {
         var totalUpdated = 0;
         users.forEach(user => {
-          user.email = user.email.toLowerCase();
+          user.username = user.username.toLowerCase();
           user.updatePassword(err => {
             if(err) {
               return fn(err);
@@ -100,7 +110,7 @@ export default function(sequelize, DataTypes) {
         });
       },
       beforeCreate(user, fields, fn) {
-        user.email = user.email.toLowerCase();
+        user.username = user.username.toLowerCase();
         user.updatePassword(fn);
       },
       beforeUpdate(user, fields, fn) {
