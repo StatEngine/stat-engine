@@ -11,7 +11,7 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth, $scope, $window) {
+  constructor(Auth, $scope, $state, $window) {
     'ngInject';
 
     $scope.currentUser = {};
@@ -25,6 +25,16 @@ export class NavbarComponent {
         console.error('Error fetching current user');
         console.error(err);
       });
+
+    $scope.logout = function() {
+      Auth.logout()
+        .then(() => {
+          $state.go('main', {}, { reload: true });
+        })
+        .catch(() => {
+          $state.go('main', {}, { reload: true });
+        });
+    };
 
     $scope.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);

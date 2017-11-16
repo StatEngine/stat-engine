@@ -12,7 +12,7 @@
       <div ng-if="isLoggedIn">
         Welcome, {{currentUser.username}}
         <button class="btn btn-primary" ng-click="dashboard()">Dashboard</button>
-        <button class="btn btn-outline" ui-sref="logout">Sign Out</button>
+        <button class="btn btn-outline" ng-click="logout()">Sign Out</button>
       </div>
       <div ng-if="!isLoggedIn">
         <button class="btn btn-link" ui-sref="login">Sign In</button>

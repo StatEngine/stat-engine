@@ -15,23 +15,6 @@ export default function routes($stateProvider) {
       controller: 'LoginController',
       controllerAs: 'vm'
     })
-    .state('logout', {
-      url: '/logout?referrer',
-      referrer: 'main',
-      template: '',
-      controller($state, Auth) {
-        'ngInject';
-
-        var referrer = $state.params.referrer || $state.current.referrer || 'main';
-        Auth.logout()
-          .then(() => {
-            $state.go(referrer);
-          })
-          .catch(() => {
-            $state.go(referrer);
-          });
-      }
-    })
     .state('signup', {
       url: '/signup',
       template: require('./signup/signup.html'),
