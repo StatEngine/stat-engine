@@ -250,4 +250,6 @@ li.nested:before {
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
+@import '../app/account/login/login';
+@import '../app/account/signup/signup';
 @import '../components/oauth-buttons/oauth-buttons'; // endinject //
