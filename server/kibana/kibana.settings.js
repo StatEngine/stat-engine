@@ -20,9 +20,11 @@ export default {
       proxyReq.setHeader('x-se-fire-department-incident', es_indicies.incident);
       proxyReq.setHeader('x-se-fire-department-telemetry', es_indicies.telemetry);
     }
-
-    if(req.user.nfors) {
-      proxyReq.setHeader('x-se-nfors', 'true');
-    }
   },
+  // Router function to direct nfors
+  router: req => {
+    if(req.user.nfors) {
+      return config.nfors.uri;
+    }
+  }
 };
