@@ -4,12 +4,16 @@ import routing from './main.routes';
 
 export class MainController {
   /*@ngInject*/
-  constructor($http, $scope, socket) {
+  constructor($http, $scope, socket, $window) {
     this.$http = $http;
     this.socket = socket;
 
     $scope.$on('$destroy', function() {
     });
+
+    $scope.requestDemo = function() {
+      $window.open('mailto:contact@statengine.io?subject=StateEngine Demo Request', '_self');
+    };
   }
 
   $onInit() {

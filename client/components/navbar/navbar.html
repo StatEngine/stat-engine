@@ -1,26 +1,27 @@
 <div class="container">
   <div class="row">
-    <div class="col-2">
+    <div class="col-3">
       <img src="/assets/images/branding.svg"/>
     </div>
-    <div id="navbar-links" class="col-6">
+    <div id="navbar-links" class="col-4">
       <a ng-click="scrollTo('#footer')" href="#">Products</a>
       <a ng-click="scrollTo('#footer')" href="#">Developers</a>
       <a ng-click="scrollTo('#footer')" href="#">Company</a>
     </div>
     <div id="navbar-button" class="col-auto ml-auto">
       <div ng-if="isLoggedIn">
-        Welcome, {{currentUser.username}}
         <button class="btn btn-primary" ng-click="dashboard()">Dashboard</button>
-        <button class="btn btn-outline" ng-click="logout()">Sign Out</button>
+        <button class="btn btn-outline" ng-click="logout()"><i class="fa fa-sign-out"></i> {{currentUser.username}}</button>
       </div>
       <div ng-if="!isLoggedIn">
         <button class="btn btn-link" ui-sref="login">Sign In</button>
         <button class="btn btn-outline" ui-sref="signup">Sign Up</button>
       </div>
     </div>
+
     <div id="navbar-burger" class="col-auto ml-auto">
       <img src="/assets/images/burger.svg"/>
     </div>
+
   </div>
 </div>
