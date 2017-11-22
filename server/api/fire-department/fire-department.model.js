@@ -45,8 +45,8 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       es_indices() {
         return {
-          incident: `${this.fd_id}-${this.state}-${this.name}-incident*`.toLowerCase().replace(/ /g, '_'),
-          telemetry: `${this.fd_id}-${this.state}-${this.name}-telemetry*`.toLowerCase().replace(/ /g, '_')
+          'fire-incident': `${this.firecares_id}-${this.state}-${this.name}-fire-incident*`.toLowerCase().replace(/ /g, '_'),
+          'vehicle-telemetry': `${this.firecares_id}-${this.state}-${this.name}-vehicle-telemetry*`.toLowerCase().replace(/ /g, '_')
         };
       },
     },

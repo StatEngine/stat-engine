@@ -89,18 +89,18 @@ export function hasRole(roleRequired) {
 }
 
 /**
- * Checks if the fire departmment in request matches fd_id param
+ * Checks if the fire departmment in request matches firecares_id param
  */
 export function hasFireDepartment(req, res, next) {
-  if(!req.query.fd_id) {
-    return res.status(403).send('Forbidden. Must set fd_id queryParam');
+  if(!req.query.firecares_id) {
+    return res.status(403).send('Forbidden. Must set firecares_id queryParam');
   }
 
   if(!req.fire_department) {
     return res.status(403).send('Forbidden. Must user is not assigned a fire department');
   }
 
-  if(req.query.fd_id !== req.fire_department.fd_id) {
+  if(req.query.firecares_id !== req.fire_department.firecares_id) {
     return res.status(403).send('Forbidden');
   }
   next();

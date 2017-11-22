@@ -16,6 +16,7 @@ User
   .then(() => FireDepartment.destroy({ where: {} }))
   .then(() => FireDepartment.create({
     fd_id: '76000',
+    firecares_id: '93345',
     name: 'Richmond Fire and Emergency Services',
     state: 'VA',
     timezone: 'US/Eastern',
@@ -34,6 +35,7 @@ User
   }))
   .then(() => FireDepartment.create({
     fd_id: '08500',
+    firecares_id: '83555',
     name: 'Hanover Fire-EMS',
     state: 'VA',
     timezone: 'US/Eastern',
@@ -51,6 +53,7 @@ User
   }))
   .then(() => FireDepartment.create({
     fd_id: '11001',
+    firecares_id: '98606',
     name: 'Washington DC Fire & EMS Department',
     state: 'DC',
     timezone: 'US/Eastern',
