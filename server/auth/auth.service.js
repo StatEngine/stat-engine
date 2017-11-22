@@ -44,7 +44,7 @@ export function isAuthenticated() {
         },
       }).nodeify((err, user) => {
         if(err || !user) {
-          return res.status(401).end();
+          return res.status(401).end('Unauthorized');
         }
         req.user = user;
         next();
@@ -86,6 +86,24 @@ export function hasRole(roleRequired) {
         return res.status(403).send('Forbidden');
       }
     });
+}
+
+/**
+ * Checks if the fire departmment in request matches fd_id param
+ */
+export function hasFireDepartment(req, res, next) {
+  if(!req.query.fd_id) {
+    return res.status(403).send('Forbidden. Must set fd_id queryParam');
+  }
+
+  if(!req.fire_department) {
+    return res.status(403).send('Forbidden. Must user is not assigned a fire department');
+  }
+
+  if(req.query.fd_id !== req.fire_department.fd_id) {
+    return res.status(403).send('Forbidden');
+  }
+  next();
 }
 
 /**

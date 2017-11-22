@@ -16,6 +16,8 @@ import _ from 'lodash';
 var all = {
   env: process.env.NODE_ENV,
 
+  on_premise: process.env.ON_PREMISE && process.env.ON_PREMISE.toLowerCase() === 'true',
+
   // AWS Credentials for signing requests to Kibana
   aws: {
     region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
@@ -32,6 +34,11 @@ var all = {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
     appPath: process.env.NFORS_BASEPATH ? process.env.NFORS__BASEPATH : '/_plugin/kibana',
     uri: process.env.NFORS_URI ? process.env.NFORS_URI : 'http://localhost:5601',
+  },
+
+
+  amqp: {
+    uri: process.env.AMQP_URI || 'amqp://127.0.0.1:5672',
   },
 
   // Root path of server
