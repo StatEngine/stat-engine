@@ -4,6 +4,7 @@ import config from '../config/environment';
 import {User} from '../sqldb';
 
 // Passport Configuration
+require('./basic/passport').setup(User, config);
 require('./local/passport').setup(User, config);
 require('./google/passport').setup(User, config);
 

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import {FireDepartment, User} from '../sqldb';
+import passport from 'passport';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -25,20 +26,20 @@ export function isAuthenticated() {
       if(req.query && typeof req.headers.authorization === 'undefined') {
         req.headers.authorization = `Bearer ${req.cookies.token}`;
       }
-      validateJwt(req, res, next);
+      return validateJwt(req, res, next);
     })
     // eslint-disable-next-line no-unused-vars
     .use(function(err, req, res, next) {
       // Redirect to login page
-      if(err.name === 'UnauthorizedError') {
-        res.redirect('/login');
+      if(err) {
+        return passport.authenticate('basic', {session: false})(req, res, next);
       } else {
         return next();
       }
     })
     // Attach user to request
     .use(function(req, res, next) {
-      User.find({
+      return User.find({
         where: {
           _id: req.user._id
         },
@@ -55,7 +56,7 @@ export function isAuthenticated() {
       if(!req.user) {
         return next();
       }
-      FireDepartment.find({
+      return FireDepartment.find({
         where: {
           _id: req.user.fire_department__id
         },
