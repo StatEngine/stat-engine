@@ -1,5 +1,10 @@
 'use strict';
 
+import amqp from 'amqplib/callback_api';
+import async from 'async';
+import _ from 'lodash';
+
+import config from '../../config/environment';
 import {FireDepartment} from '../../sqldb';
 
 function validationError(res, statusCode) {
@@ -54,7 +59,7 @@ export function create(req, res) {
  * Get a single fire department
  */
 export function show(req, res, next) {
-  var FireDepartmentId = req.params.id;
+  var FireDepartmentId = req.params.firecaresId;
 
   return FireDepartment.find({
     where: {
@@ -75,9 +80,53 @@ export function show(req, res, next) {
  * restriction: 'admin'
  */
 export function destroy(req, res) {
-  return FireDepartment.destroy({ where: { _id: req.params.id } })
+  return FireDepartment.destroy({ where: { _id: req.params.firecaresId } })
     .then(function() {
       res.status(204).end();
     })
     .catch(handleError(res));
+}
+
+/*
+ * Ingest a message into queue
+ */
+export function queueIngest(req, res) {
+  if(_.isEmpty(req.body)) {
+    return res.status(400).send('Request body cannot be empty');
+  }
+
+  const queueName = req.params.firecaresId;
+
+  let connection;
+  let channel;
+
+  async.series([
+    // Open connection
+    cb => amqp.connect(config.amqp, (err, openConnection) => {
+      connection = openConnection;
+      cb(err);
+    }),
+    // Open channel
+    cb => connection.createConfirmChannel((err, openChannel) => {
+      channel = openChannel;
+      cb(err);
+    }),
+    // Ensure queue exists
+    cb => channel.assertQueue(queueName, null, cb),
+    // Write data
+    cb => {
+      channel.sendToQueue(queueName, req.body, {}, cb);
+    }
+  ], err => {
+    // cleanup channel + connection
+    if(channel) channel.close();
+    if(connection) connection.close();
+
+    // HTTP return
+    if(err) {
+      console.error(err);
+      return res.send(500);
+    }
+    return res.send(204);
+  });
 }

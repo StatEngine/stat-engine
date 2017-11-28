@@ -1,7 +1,6 @@
 'use strict';
 
 import crypto from 'crypto';
-import uuidv4 from 'uuid/v4';
 
 var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -87,13 +86,6 @@ export default function(sequelize, DataTypes) {
         };
       },
 
-      // Non-sensitive info we'll be putting in the token
-      token() {
-        return {
-          _id: this._id,
-          role: this.role
-        };
-      }
     },
 
     /**
@@ -117,7 +109,6 @@ export default function(sequelize, DataTypes) {
       },
       beforeCreate(user, fields, fn) {
         user.username = user.username.toLowerCase();
-        user.api_key = uuidv4();
         user.updatePassword(fn);
       },
       beforeUpdate(user, fields, fn) {

@@ -130,6 +130,7 @@
     "postcss-loader": "^2.0.8",
     "proxyquire": "^1.0.1",
     "raw-loader": "^0.5.1",
+    "request": "^2.83.0",
     "run-sequence": "^2.2.0",
     "sass-loader": "^6.0.6",
     "sinon": "^4.1.1",

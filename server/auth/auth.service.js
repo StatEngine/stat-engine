@@ -4,7 +4,7 @@ import compose from 'composable-middleware';
 import passport from 'passport';
 
 import config from '../config/environment';
-import {User} from '../sqldb';
+import {FireDepartment, User} from '../sqldb';
 
 /*
  * Serialize user into session
@@ -58,16 +58,20 @@ export function hasRole(roleRequired) {
  * Checks if the fire departmment in request matches firecares_id param
  */
 export function hasFireDepartment(req, res, next) {
-  if(!req.query.firecares_id) {
-    return res.status(403).send('Forbidden. Must set firecares_id queryParam');
-  }
+  return FireDepartment.find({
+    where: {
+      _id: req.user.fire_department__id
+    },
+  }).nodeify((err, fireDepartment) => {
+    if(err) {
+      return res.status(500);
+    } else if(!fireDepartment) {
+      return res.status(403).send('Forbidden. User is not assigned to a Fire Department');
+    } else if(req.params.firecaresId !== fireDepartment.firecares_id) {
+      return res.status(403).send(`User is not assigned to Fire Department: ${req.params.firecaresId}`);
+    }
+    req.fire_department = fireDepartment;
 
-  if(!req.fire_department) {
-    return res.status(403).send('Forbidden. Must user is not assigned a fire department');
-  }
-
-  if(req.query.firecares_id !== req.fire_department.firecares_id) {
-    return res.status(403).send('Forbidden');
-  }
-  next();
+    next();
+  });
 }

@@ -32,8 +32,7 @@ User
       email: 'richmond@prominentedge.com',
       password: 'password',
       nfors: true,
-      api_key: uuidv4(),
-
+      api_key: '1234',
     }]
   }, {
     include: FireDepartment.Users
