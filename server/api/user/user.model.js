@@ -1,6 +1,8 @@
 'use strict';
 
 import crypto from 'crypto';
+import uuidv4 from 'uuid/v4';
+
 var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var validatePresenceOf = function(value) {
@@ -62,6 +64,10 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       }
     },
+    api_key: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
     google: DataTypes.JSON,
@@ -111,6 +117,7 @@ export default function(sequelize, DataTypes) {
       },
       beforeCreate(user, fields, fn) {
         user.username = user.username.toLowerCase();
+        user.api_key = uuidv4();
         user.updatePassword(fn);
       },
       beforeUpdate(user, fields, fn) {

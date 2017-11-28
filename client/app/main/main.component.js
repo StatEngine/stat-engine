@@ -4,9 +4,9 @@ import routing from './main.routes';
 
 export class MainController {
   /*@ngInject*/
-  constructor($http, $scope, socket, $window) {
+  constructor($http, $scope, $window) {
     this.$http = $http;
-    this.socket = socket;
+    //this.socket = socket;
 
     $scope.$on('$destroy', function() {
     });

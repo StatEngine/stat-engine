@@ -2,24 +2,29 @@
 
 import express from 'express';
 import passport from 'passport';
-import {signToken} from '../auth.service';
 import bodyParser from 'body-parser';
 
 var router = express.Router();
 
-router.post('/', bodyParser.json(), function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-    var error = err || info;
-    if(error) {
-      return res.status(401).json(error);
-    }
-    if(!user) {
-      return res.status(404).json({message: 'Something went wrong, please try again.'});
-    }
+// Login route
+router.post('/', bodyParser.json(), passport.authenticate('local'), (req, res) => {
+  res.send(req.user);
+});
 
-    var token = signToken(user._id, user.role);
-    res.json({ token });
-  })(req, res, next);
+// Logout route
+router.get('/logout', (req, res) => {
+  // invalidate session/logout of passport
+  req.logout();
+  res.redirect('/');
+});
+
+// Route to determine if user is logged in
+router.get('/', (req, res) => {
+  if(req.isAuthenticated()) {
+    res.send(req.user);
+  } else {
+    res.send(false);
+  }
 });
 
 export default router;

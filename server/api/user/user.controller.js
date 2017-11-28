@@ -3,6 +3,7 @@
 import {User} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import uuidv4 from 'uuid/v4';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -50,6 +51,7 @@ export function create(req, res) {
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');
   newUser.setDataValue('department', '');
+  newUser.setDataValue('api_key', uuidv4());
 
   return newUser.save()
     .then(function(user) {
@@ -145,7 +147,7 @@ export function me(req, res, next) {
         return res.status(401).end();
       }
 
-      res.json(user);
+      return res.json(user);
     })
     .catch(err => next(err));
 }

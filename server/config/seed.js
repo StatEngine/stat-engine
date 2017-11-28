@@ -4,7 +4,10 @@
  */
 
 'use strict';
+import uuidv4 from 'uuid/v4';
+
 import sqldb from '../sqldb';
+
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
 
@@ -29,6 +32,8 @@ User
       email: 'richmond@prominentedge.com',
       password: 'password',
       nfors: true,
+      api_key: uuidv4(),
+
     }]
   }, {
     include: FireDepartment.Users
@@ -47,6 +52,7 @@ User
       last_name: 'User',
       email: 'hanover@prominentedge.com',
       password: 'password',
+      api_key: uuidv4(),
     }]
   }, {
     include: FireDepartment.Users
@@ -65,6 +71,7 @@ User
       last_name: 'User',
       email: 'dc@prominentedge.com',
       password: 'password',
+      api_key: uuidv4(),
     }]
   }, {
     include: FireDepartment.Users
