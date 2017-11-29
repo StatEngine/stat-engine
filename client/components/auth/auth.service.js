@@ -54,13 +54,14 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     },
 
     /**
-     * Delete user info and log out kibana
+     * Log out
      */
     logout() {
-      return $http.get('/_plugin/kibana/logout')
+      return $http.get('/auth/local/logout')
         .finally(() => {
           currentUser = new _User();
-          $http.get('/auth/local/logout');
+          // invalidate session in case kibana doesn't callback
+          $http.get('/auth/local/logout/_callback');
         });
     },
 
