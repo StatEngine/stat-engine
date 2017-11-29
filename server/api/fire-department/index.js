@@ -1,16 +1,27 @@
 'use strict';
 
 import {Router} from 'express';
-import * as controller from './fire-department.controller';
-import * as auth from '../../auth/auth.service';
 import bodyParser from 'body-parser';
 
-var router = new Router();
+import * as auth from '../../auth/auth.service';
+import * as controller from './fire-department.controller';
+
+const router = new Router();
+const rawParser = bodyParser.raw({
+  inflate: true,
+  limit: '5mb',
+  type: 'application/octet-stream',
+
+});
 
 router.get('/', controller.index);
-router.get('/:id', controller.show);
+router.get('/:firecaresId', controller.show);
 
-router.delete('/:id', auth.hasRole('admin'), controller.destroy);
-router.post('/', auth.hasRole('admin'), bodyParser.json(), controller.create);
+router.put('/:firecaresId/:type/:id',
+  auth.isAuthenticated,
+  auth.hasFireDepartment,
+  auth.hasRole('ingest'),
+  rawParser,
+  controller.queueIngest);
 
 module.exports = router;

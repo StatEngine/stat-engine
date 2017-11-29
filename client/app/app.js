@@ -26,25 +26,16 @@ import footer from '../components/footer/footer.component';
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
-import socket from '../components/socket/socket.service';
+//import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, 'btford.socket-io', uiRouter,
-  uiBootstrap, _Auth, account, admin, api, legal, navbar, footer, main, constants, socket, util
+angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, /*'btford.socket-io',*/ uiRouter,
+  uiBootstrap, _Auth, account, admin, api, legal, navbar, footer, main, constants, /*socket,*/ util
 ])
   .config(routeConfig)
-  .run(function($rootScope, $location, Auth) {
+  .run(function($rootScope) {
     'ngInject';
-    // Redirect to login if route requires auth and you're not logged in
-
-    $rootScope.$on('$stateChangeStart', function(event, next) {
-      Auth.isLoggedIn(function(loggedIn) {
-        if(next.authenticate && !loggedIn) {
-          $location.path('/login');
-        }
-      });
-    });
 
     // keep track of state
     $rootScope.previousState;

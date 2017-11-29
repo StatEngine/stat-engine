@@ -1,7 +1,6 @@
 'use strict';
 
 import crypto from 'crypto';
-var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var validatePresenceOf = function(value) {
   return value && value.length;
@@ -62,11 +61,12 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       }
     },
+    api_key: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
-    google: DataTypes.JSON,
-    github: DataTypes.JSON
-
   }, {
 
     /**
@@ -81,13 +81,6 @@ export default function(sequelize, DataTypes) {
         };
       },
 
-      // Non-sensitive info we'll be putting in the token
-      token() {
-        return {
-          _id: this._id,
-          role: this.role
-        };
-      }
     },
 
     /**
@@ -229,7 +222,7 @@ export default function(sequelize, DataTypes) {
         // Handle new/update passwords
         if(!this.password) return fn(null);
 
-        if(!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1) {
+        if(!validatePresenceOf(this.password)) {
           fn(new Error('Invalid password'));
         }
 

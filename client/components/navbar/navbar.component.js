@@ -14,16 +14,13 @@ export class NavbarComponent {
   constructor(Auth, $scope, $state, $window) {
     'ngInject';
 
-    $scope.currentUser = {};
-    $scope.isLoggedIn = false;
+    $scope.currentUser = undefined;
 
-    Auth.getCurrentUser()
+    Auth.isLoggedIn()
       .then(user => {
-        $scope.currentUser = user;
-        $scope.isLoggedIn = Auth.isLoggedInSync();
-      }, err => {
-        console.error('Error fetching current user');
-        console.error(err);
+        if(user) {
+          $scope.currentUser = user;
+        }
       });
 
     $scope.logout = function() {

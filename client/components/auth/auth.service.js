@@ -15,6 +15,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
 
   var safeCb = Util.safeCb;
   var currentUser = new _User();
+
   var userRoles = appConfig.userRoles || [];
   /**
    * Check if userRole is >= role
@@ -25,13 +26,9 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     return userRoles.indexOf(userRole) >= userRoles.indexOf(role);
   };
 
-  if($cookies.get('token') && $location.path() !== '/logout') {
-    currentUser = User.get();
-  }
-
   var Auth = {
     /**
-     * Authenticate user and save token
+     * Authenticate user
      *
      * @param  {Object}   user     - login info
      * @param  {Function} callback - function(error, user)
@@ -46,13 +43,8 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
         password
       })
         .then(res => {
-          $cookies.put('token', res.data.token);
-          currentUser = User.get();
-          return currentUser.$promise;
-        })
-        .then(user => {
-          safeCb(callback)(null, user);
-          return user;
+          currentUser = res.data;
+          safeCb(callback)(null, currentUser);
         })
         .catch(err => {
           Auth.logout();
@@ -62,18 +54,13 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     },
 
     /**
-     * Delete access token and user info
+     * Delete user info and log out kibana
      */
     logout() {
-      // log out of kibana
       return $http.get('/_plugin/kibana/logout')
-        .then(() => {
-          $cookies.remove('token');
+        .finally(() => {
           currentUser = new _User();
-        })
-        .catch(() => {
-          $cookies.remove('token');
-          currentUser = new _User();
+          $http.get('/auth/local/logout');
         });
     },
 
@@ -85,9 +72,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Promise}
      */
     createUser(user, callback) {
-      return User.save(user, function(data) {
-        $cookies.put('token', data.token);
-        currentUser = User.get();
+      return User.save(user, function() {
         return safeCb(callback)(null, user);
       }, function(err) {
         Auth.logout();
@@ -125,9 +110,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Promise}
      */
     getCurrentUser(callback) {
-      var value = _.get(currentUser, '$promise') ? currentUser.$promise : currentUser;
-
-      return $q.when(value)
+      return User.get()
         .then(user => {
           safeCb(callback)(user);
           return user;
@@ -153,12 +136,13 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Promise}
      */
     isLoggedIn(callback) {
-      return Auth.getCurrentUser(undefined)
-        .then(user => {
-          let is = _.get(user, 'role');
-
-          safeCb(callback)(is);
-          return is;
+      return $http.get('/auth/local')
+        .then(response => {
+          safeCb(callback)(response.data);
+          return response.data;
+        }, () => {
+          safeCb(callback)({});
+          return false;
         });
     },
 
@@ -218,15 +202,6 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
       // eslint-disable-next-line no-sync
       return Auth.hasRoleSync('admin');
     },
-
-    /**
-     * Get auth token
-     *
-     * @return {String} - a token string used for authenticating
-     */
-    getToken() {
-      return $cookies.get('token');
-    }
   };
 
   return Auth;

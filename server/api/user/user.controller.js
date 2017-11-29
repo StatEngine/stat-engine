@@ -1,8 +1,8 @@
 'use strict';
 
-import {User} from '../../sqldb';
-import config from '../../config/environment';
-import jwt from 'jsonwebtoken';
+import uuidv4 from 'uuid/v4';
+
+import {FireDepartment, User} from '../../sqldb';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -50,13 +50,11 @@ export function create(req, res) {
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');
   newUser.setDataValue('department', '');
+  newUser.setDataValue('api_key', uuidv4());
 
   return newUser.save()
     .then(function(user) {
-      var token = jwt.sign({ _id: user._id }, config.secrets.session, {
-        expiresIn: 60 * 60 * 5
-      });
-      res.json({ token });
+      res.json(user);
     })
     .catch(validationError(res));
 }
@@ -131,21 +129,35 @@ export function me(req, res, next) {
       _id: userId
     },
     attributes: [
-      '_id',
       'username',
       'first_name',
       'last_name',
       'email',
       'role',
-      'provider'
+      'provider',
+      'api_key',
+      'fire_department__id',
     ]
   })
-    .then(user => { // don't ever give out the password or salt
+    .then(user => {
       if(!user) {
         return res.status(401).end();
       }
 
-      res.json(user);
+      return FireDepartment.find({
+        where: {
+          _id: user.fire_department__id
+        },
+        attributes: [
+          'fd_id',
+          'name',
+          'state',
+          'firecares_id',
+          'timezone',
+        ]
+      })
+        .then(fire_department => res.json({ user, fire_department}))
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 }
