@@ -135,7 +135,6 @@ export function me(req, res, next) {
       'email',
       'role',
       'provider',
-      'api_key',
       'fire_department__id',
     ]
   })

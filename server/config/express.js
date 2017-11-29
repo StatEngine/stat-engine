@@ -55,7 +55,8 @@ export default function(app) {
     store: myStore,
     // since we do SSL outside of node
     proxy: true,
-    cookie: { maxAge: 60000, secure: false }
+    // 5 hours in ms
+    cookie: { maxAge: 1000 * 60 * 60 * 5, secure: false }
   };
   if(process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1); // trust first proxy
