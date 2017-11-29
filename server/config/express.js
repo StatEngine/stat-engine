@@ -47,7 +47,8 @@ export default function(app) {
   const myStore = new SequelizeStore({
     db: sqldb.sequelize
   });
-  app.use(session({
+  // https://www.npmjs.com/package/express-session
+  let sess = {
     secret: config.secrets.session,
     saveUninitialized: true,
     resave: false,
@@ -55,13 +56,15 @@ export default function(app) {
     // since we do SSL outside of node
     proxy: true,
     cookie: { maxAge: 60000, secure: false }
-  }));
+  };
+  if(process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    sess.cookie.secure = true; // serve secure cookies
+  }
+  app.use(session(sess));
   myStore.sync();
 
-  if(process.env.NODE_ENV === 'production') {
-    session.cookie.secure = true; // serve secure cookies
-  }
-
+  // Setup passport
   app.use(passport.initialize());
   app.use(passport.session());
 
