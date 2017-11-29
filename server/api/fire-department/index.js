@@ -7,7 +7,12 @@ import * as auth from '../../auth/auth.service';
 import * as controller from './fire-department.controller';
 
 const router = new Router();
-const rawParser = bodyParser.raw();
+const rawParser = bodyParser.raw({
+  inflate: true,
+  limit: '5mb',
+  type: 'application/octet-stream',
+
+});
 
 router.get('/', controller.index);
 router.get('/:firecaresId', controller.show);

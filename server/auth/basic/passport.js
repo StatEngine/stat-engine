@@ -6,29 +6,29 @@ function httpAuthenticate(User, username, password, done) {
     where: {
       username: username.toLowerCase()
     }
-  })
-    .then(user => {
-      if(!user) {
-        return done(null, false, {
-          message: 'This username is not registered.'
-        });
-      }
-      user.authenticate(password, function(authError, authenticated) {
-        if(authError) {
-          return done(authError);
-        }
-        if(!authenticated) {
-          return done(null, false, { message: 'This password is not correct.' });
-        } else {
-          return done(null, user);
-        }
+  }).nodeify((err, user) => {
+    if(err) {
+      return done(err);
+    } else if(!user) {
+      return done(null, false, {
+        message: 'This username is not registered.'
       });
-    })
-    .catch(err => done(err));
+    }
+
+    user.authenticate(password, (authError, authenticated) => {
+      if(authError) {
+        return done(authError);
+      } else if(!authenticated) {
+        return done(null, false, { message: 'This password is not correct.' });
+      }
+
+      return done(null, user);
+    });
+  });
 }
 
-export function setup(User/*, config*/) {
-  passport.use(new BasicStrategy(function(username, password, done) {
-    return httpAuthenticate(User, username, password, done);
-  }));
+export function setup(User) {
+  passport.use(new BasicStrategy((username, password, done) =>
+    httpAuthenticate(User, username, password, done)
+  ));
 }

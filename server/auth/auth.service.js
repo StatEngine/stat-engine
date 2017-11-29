@@ -66,9 +66,11 @@ export function hasFireDepartment(req, res, next) {
     if(err) {
       return res.status(500);
     } else if(!fireDepartment) {
-      return res.status(403).send('Forbidden. User is not assigned to a Fire Department');
+      return res.status(403).send(
+        'Forbidden. User is not assigned to a Fire Department');
     } else if(req.params.firecaresId !== fireDepartment.firecares_id) {
-      return res.status(403).send(`User is not assigned to Fire Department: ${req.params.firecaresId}`);
+      return res.status(403).send(
+        `User is not assigned to requested Fire Department: ${req.params.firecaresId}`);
     }
     req.fire_department = fireDepartment;
 
