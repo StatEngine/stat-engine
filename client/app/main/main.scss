@@ -156,7 +156,7 @@ header section button {
   text-align: center;
   background-image: linear-gradient(130deg, #4b2c7b, #913a7c 63%, #c93277);
   color: white;
-  padding: 50px 5%;
+  padding: 50px 0;
 }
 
 #features h2 {
@@ -178,6 +178,22 @@ header section button {
   min-height: 8rem;
 }
 
+#features .feature-column-left article {
+  margin-right: 5rem;
+  img {
+    position: absolute;
+    padding-left: 2rem;
+  }
+}
+
+#features .feature-column-right article {
+  margin-left: 5rem;
+  img {
+    position: absolute;
+    left: 0;
+  }
+}
+
 #features article h5 {
   font-size: 15px;
   font-weight: bold;
@@ -189,42 +205,83 @@ header section button {
   font-family: OpenSans-regular;
 }
 
-#features-left-column {
-  display: flex;
-  flex-direction: column;
-  width: 350px;
-}
-
-#features-left-column article {
-  text-align: right;
-
-}
-
-#features-right-column {
-  display: flex;
-  flex-direction: column;
-  width: 350px;
-}
-
-#features-right-column article {
-  text-align: left;
-}
-
 #features a {
   text-decoration: none;
   color: white;
   font-family: Montserrat-medium;
 }
+
+#features .circle {
+  background: #e3eaee;
+  background-image: repeating-linear-gradient(6deg, #9cafbb -33.7%, white 100%);
+  max-height: 23rem;
+  max-width: 23rem;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  margin: 0 auto;
+  top: 4.5rem;
+  position: relative;
+  box-shadow:0 0px 0px 12px rgba(0,0,0,0.25), 0 0px 0px 25px rgba(0,0,0,0.1), 0 0px 0px 42px rgba(0,0,0,0.05);
+  transition: all 0.15s ease;
+}
+
+#features .circle img {
+  position: relative;
+  top: 4rem;
+  transition: all 0.15s ease;
+}
+
+
 @media (max-width: 750px) {
   #features div article {
     text-align: left;
   }
-
   #features > a,
-  #features > p {
+  #features > p,
+   {
     display: none;
   }
 }
+
+// Media Queries
+@media (max-width: 1199px) {
+  #features .circle  {
+    max-height: 20rem;
+    max-width: 20rem;
+    top: 7.5rem;
+    img {
+      top: 2.5rem;
+      transform: scale(0.9);
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  #features .circle {
+    display: none;
+  }
+  #features .feature-column-left article,
+  #features .feature-column-right article {
+    text-align: left;
+    margin: 0 0 4rem;
+  }
+  #features .feature-column-left article img,
+  #features .feature-column-right article img  {
+    position: relative;
+    padding: 0;
+  }
+}
+
+@media (max-width: 575px) {
+  #features .feature-column-left article,
+  #features .feature-column-right article {
+    text-align: left;
+    margin: 0 1.5rem 4rem;
+  }
+}
+
+
 
 /////////////////////////////////
 // OUR PARTNERS //
