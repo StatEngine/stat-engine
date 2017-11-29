@@ -136,6 +136,7 @@ export function me(req, res, next) {
       'role',
       'provider',
       'fire_department__id',
+      'api_key',
     ]
   })
     .then(user => {
