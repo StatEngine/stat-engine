@@ -10,8 +10,21 @@ import config from '../../config/environment';
 var router = express.Router();
 
 // Login route
-router.post('/', bodyParser.json(), passport.authenticate('local'), (req, res) => {
-  res.send(req.user);
+router.post('/', bodyParser.json(), (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if(err) {
+      return next(err);
+    }
+    if(!user) {
+      return res.status(401).send(info);
+    }
+    req.logIn(user, err => {
+      if(err) {
+        return next(err);
+      }
+      return res.send(user);
+    });
+  })(req, res, next);
 });
 
 // Callback logout route

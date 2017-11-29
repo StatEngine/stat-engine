@@ -47,7 +47,6 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
           safeCb(callback)(null, currentUser);
         })
         .catch(err => {
-          Auth.logout();
           safeCb(callback)(err.data);
           return $q.reject(err.data);
         });
