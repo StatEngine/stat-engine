@@ -19,8 +19,9 @@ router.get('/:firecaresId', controller.show);
 
 router.put('/:firecaresId/:type/:id',
   auth.isAuthenticated,
-  auth.hasFireDepartment,
   auth.hasRole('ingest'),
+  auth.hasFireDepartment,
+  auth.belongsToFireDepartment,
   rawParser,
   controller.queueIngest);
 

@@ -49,13 +49,13 @@ export function hasRole(roleRequired) {
       if(config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
         return next();
       } else {
-        return res.status(403).send('Forbidden');
+        return res.status(403).send('Forbidden. User does not have necessary priviliges to access');
       }
     });
 }
 
 /**
- * Checks if the fire departmment in request matches firecares_id param
+ * Checks if user has fire deparment and sets in request
  */
 export function hasFireDepartment(req, res, next) {
   return FireDepartment.find({
@@ -68,12 +68,30 @@ export function hasFireDepartment(req, res, next) {
     } else if(!fireDepartment) {
       return res.status(403).send(
         'Forbidden. User is not assigned to a Fire Department');
-    } else if(req.params.firecaresId !== fireDepartment.firecares_id) {
-      return res.status(403).send(
-        `User is not assigned to requested Fire Department: ${req.params.firecaresId}`);
     }
     req.fire_department = fireDepartment;
 
     next();
   });
+}
+
+/*
+ * Ensures user is assigned to fire department of request path
+ */
+export function belongsToFireDepartment(req, res, next) {
+  if(!req.params.firecaresId) {
+    return next('firecares id not in path');
+  }
+  if(!req.user) {
+    return next('user not set');
+  }
+  if(!req.fire_department) {
+    return next('fire_department not set');
+  }
+
+  if(req.params.firecaresId !== req.fire_department.firecares_id) {
+    return res.status(403).send(
+      `User is not assigned to Fire Department with id: ${req.params.firecaresId}`);
+  }
+  return next();
 }
