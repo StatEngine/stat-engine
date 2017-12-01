@@ -81,7 +81,6 @@ export default function(app) {
     app.use(lusca({
       // globally at false (so we can have external api users)
       // but enable later on route bootstrapping for individual routes
-      xframe: 'SAMEORIGIN',
       csrf: false,
       xframe: 'SAMEORIGIN',
       hsts: {

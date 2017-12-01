@@ -4,6 +4,13 @@
 import path from 'path';
 import _ from 'lodash';
 
+// AMQP Defaults
+process.env.AMQP_PROTOCOL = process.env.AMQP_PROTOCOL || 'amqp';
+process.env.AMQP_HOST = process.env.AMQP_HOST || 'localhost';
+process.env.AMQP_PORT = process.env.AMQP_PORT || 5672;
+process.env.AMQP_USER = process.env.AMQP_USER || 'guest';
+process.env.AMQP_PASSWORD = process.env.AMQP_PASSWORD || 'guest';
+
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
@@ -36,9 +43,8 @@ var all = {
     uri: process.env.NFORS_URI ? process.env.NFORS_URI : 'http://localhost:5601',
   },
 
-
   amqp: {
-    uri: process.env.AMQP_URI || 'amqp://127.0.0.1:5672',
+    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`
   },
 
   // Root path of server
