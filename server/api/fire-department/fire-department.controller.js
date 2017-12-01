@@ -102,7 +102,7 @@ export function queueIngest(req, res) {
 
   async.series([
     // Open connection
-    cb => amqp.connect(config.amqp, (err, openConnection) => {
+    cb => amqp.connect(config.amqp.uri, (err, openConnection) => {
       connection = openConnection;
       cb(err);
     }),
