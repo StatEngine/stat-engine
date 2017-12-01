@@ -56,7 +56,11 @@ export default function(app) {
     // since we do SSL outside of node
     proxy: true,
     // 5 hours in ms
-    cookie: { maxAge: 1000 * 60 * 60 * 5, secure: false }
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 5,
+      secure: false,
+    },
   };
   if(process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1); // trust first proxy
@@ -75,9 +79,10 @@ export default function(app) {
    */
   if(env !== 'test' && !config.on_premise) {
     app.use(lusca({
-      csrf: {
-        angular: true
-      },
+      // globally at false (so we can have external api users)
+      // but enable later on route bootstrapping for individual routes
+      xframe: 'SAMEORIGIN',
+      csrf: false,
       xframe: 'SAMEORIGIN',
       hsts: {
         maxAge: 31536000, //1 year, in seconds

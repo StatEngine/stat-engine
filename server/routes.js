@@ -7,15 +7,22 @@
 import errors from './components/errors';
 import path from 'path';
 import config from './config/environment';
+import lusca from 'lusca';
 
 export default function(app) {
-  // Insert routes below
+  // Insert API routes below
   app.use('/api/users', require('./api/user'));
   app.use('/api/fire-departments', require('./api/fire-department'));
 
+  // All routes after this point are csrf protected
+  app.use(lusca.csrf({
+    angular: true
+  }));
+
+  // Authentication
   app.use('/auth', require('./auth').default);
 
-  // kibana
+  // Kibana
   app.route('/dashboard')
     .get((req, res) => res.redirect(path.join(config.kibana.appPath, 'app/kibana#/dashboards?_g=()')));
   app.use(config.kibana.appPath, require('./kibana'));
