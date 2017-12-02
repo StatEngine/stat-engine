@@ -107,7 +107,7 @@ export function queueIngest(req, res) {
       cb(err);
     }),
     // Open channel
-    cb => connection.createConfirmChannel((err, openChannel) => {
+    cb => connection.createChannel((err, openChannel) => {
       channel = openChannel;
       cb(err);
     }),
@@ -115,15 +115,18 @@ export function queueIngest(req, res) {
     cb => channel.assertQueue(queueName, null, cb),
     // Write data
     cb => {
-      channel.sendToQueue(queueName, req.body, {}, cb);
-    }
+      channel.sendToQueue(queueName, req.body, {});
+      cb();
+    },
+    cb => channel.close(cb),
+    cb => connection.close(cb),
   ], err => {
-    // cleanup channel + connection
-    if(channel) channel.close();
-    if(connection) connection.close();
-
     // HTTP return
     if(err) {
+      // force cleanup channel + connection
+      if(channel) channel.close();
+      if(connection) connection.close();
+
       console.error(err);
       return res.send(500);
     }
