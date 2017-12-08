@@ -9,7 +9,7 @@ import * as controller from './fire-department.controller';
 const router = new Router();
 const rawParser = bodyParser.raw({
   inflate: true,
-  limit: '5mb',
+  limit: '15mb',
   type: 'application/octet-stream',
 
 });
