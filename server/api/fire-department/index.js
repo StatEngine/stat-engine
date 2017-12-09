@@ -18,7 +18,7 @@ router.get('/', controller.index);
 router.get('/:firecaresId', controller.show);
 
 router.put('/:firecaresId/:type/:id',
-  auth.isAuthenticated,
+  auth.isApiAuthenticated,
   auth.hasRole('ingest'),
   auth.hasFireDepartment,
   auth.belongsToFireDepartment,

@@ -28,11 +28,20 @@ passport.deserializeUser(function(userId, done) {
 /**
  * Determines if user is authenticated either by session or localapikey/basic auth
  */
-export function isAuthenticated(req, res, next) {
+export function isApiAuthenticated(req, res, next) {
   if(!req.isAuthenticated()) {
     return passport.authenticate(['localapikey', 'basic'], { session: false })(req, res, next);
   } else {
     return next();
+  }
+}
+
+/**
+ * Determines if user is authenticated by session
+ */
+export function isAuthenticated(req, res) {
+  if(!req.isAuthenticated()) {
+    return res.redirect('/login');
   }
 }
 
