@@ -39,10 +39,11 @@ export function isApiAuthenticated(req, res, next) {
 /**
  * Determines if user is authenticated by session
  */
-export function isAuthenticated(req, res) {
+export function isAuthenticated(req, res, next) {
   if(!req.isAuthenticated()) {
     return res.redirect('/login');
   }
+  next();
 }
 
 /**
