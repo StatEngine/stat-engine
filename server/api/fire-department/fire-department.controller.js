@@ -111,8 +111,6 @@ export function queueIngest(req, res) {
       channel = openChannel;
       cb(err);
     }),
-    // Ensure queue exists
-    cb => channel.assertQueue(queueName, null, cb),
     // Write data
     cb => {
       channel.sendToQueue(queueName, req.body, {});
