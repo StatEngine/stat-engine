@@ -42,7 +42,10 @@ router.get('/logout', (req, res) => {
 // Route to determine if user is logged in
 router.get('/', (req, res) => {
   if(req.isAuthenticated()) {
-    res.send(req.user);
+    let user = req.user.get();
+    delete user.salt;
+    delete user.password;
+    res.send(user);
   } else {
     res.send(false);
   }
