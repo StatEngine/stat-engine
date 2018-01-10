@@ -101,8 +101,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
 .bottom-line {
   height: 1px;
   margin-top: 50px;
@@ -244,6 +242,7 @@ li.nested:before {
 ////////////////////////////////
 // == Styles are injected through gulp ==//
 // inject:scss //
+@import 'sub/kitchen-sink/kitchen-sink';
 @import 'admin/admin';
 @import 'main/main';
 

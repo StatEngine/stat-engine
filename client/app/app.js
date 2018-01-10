@@ -21,6 +21,7 @@ import api from '../components/api/api.module';
 import account from './account';
 import admin from './admin';
 import legal from './legal';
+import sub from './sub';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
