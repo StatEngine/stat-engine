@@ -15,6 +15,12 @@ navbar {
   z-index: 1;
 }
 
+navbar .branding {
+  background: url("../assets/images/branding.svg") no-repeat;
+  height: 42px;
+  min-width: 155px;
+}
+
 navbar div {
   align-items: center;
 }
@@ -37,12 +43,11 @@ navbar .btn {
   font-size: 14px;
 }
 
-navbar .btn-outline {
-  padding: 6px 22px;
-}
-
 navbar .btn-link {
   color: white;
+  &:hover {
+    color: white;
+  }
 }
 
 navbar img {
@@ -66,5 +71,20 @@ navbar div#navbar-burger {
   navbar div#navbar-burger img {
     width: 20px;
     height: 20px;
+  }
+}
+
+// Naked Variant
+navbar.naked {
+  .branding {
+    background-image: url("../assets/images/branding-alt.svg");
+  }
+
+  a, .btn, .btn-outline {
+    color: $color-oxford-blue;
+  }
+
+  .btn-outline {
+    @extend .btn-outline-inverse-alt;
   }
 }

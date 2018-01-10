@@ -62,6 +62,8 @@ $color-bondi-blue: #16a2b3;
 $color-java: #1fc8a7;
 $color-pickled-bluewood: #334A56;
 $color-pale-sky: #697983;
+$color-oxford-blue: #384553;
+$color-geyser: #D7DEE3;
 
 /////////////////////////////////
 // BROWSER //
@@ -101,12 +103,97 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,h2,h3,h4,h5,h6 {
+  font-family: Montserrat-light;
+}
+
+.subheader {
+  color: $color-bondi-blue;
+  font-family: Montserrat-light;
+}
+
+.heavyheader {
+  font-family: Montserrat-semibold;
+}
+
 .bottom-line {
   height: 1px;
   margin-top: 50px;
   background-color: #818b93;
   opacity: 0.27;
 }
+
+// Tables
+table{
+    border-collapse:collapse;
+    border-spacing:0;
+    empty-cells:show;
+    border:1px solid darken($color-geyser,5%);
+}
+
+table td,table th{
+    border-left:1px solid $color-geyser;
+    border-width:0 0 0 1px;
+    font-size:inherit;
+    margin:0;
+    overflow:visible;
+    padding:0.5em 1em
+}
+table th{
+    font-family: 'Montserrat-semibold';
+    font-weight:normal;
+    border:1px solid darken($color-geyser,8%);
+}
+table td:first-child,table th:first-child{
+    border-left-width:0
+}
+table thead{
+    background: $color-geyser;
+    text-align:left;
+    vertical-align:bottom;
+}
+table tr:nth-child(2n-1) td{
+    background-color: lighten($color-geyser,10%);
+}
+table td{
+    border-bottom:1px solid $color-geyser;
+}
+
+// Lists
+ol,ul{
+  list-style:none;
+  margin: 0 0 2em 0;
+  padding: 0;
+}
+ul.statengine li{
+  padding: 1rem 0 0 2rem;
+  position:relative;
+}
+ul.statengine li::before{
+  content:'▶';
+  font-size:11px;
+  top: 1.3rem;
+  color: $color-bondi-blue;
+  position:absolute;
+  left:0;
+}
+ol.statengine {
+  counter-reset:item;
+}
+ol.statengine li{
+  padding: 1rem 0 0 2rem;
+  position:relative;
+}
+ol.statengine li::before{
+  content:counters(item,".") ".";
+  counter-increment:item;
+  font-weight: bold;
+  top: 1rem;
+  color: $color-bondi-blue;
+  position:absolute;
+  left:0;
+}
+
 
 // Utilities
 .pt-3,
@@ -151,7 +238,10 @@ body {
 // Hover.css Overrides
 .hvr-float-shadow:active,
 .hvr-float-shadow:focus,
-.hvr-float-shadow:hover {
+.hvr-float-shadow:hover,
+.hvr-float:active,
+.hvr-float:focus,
+.hvr-float:hover {
   transform: translateY(-2px);
 }
 
@@ -177,12 +267,15 @@ button {
 
 // Button Types
 .btn-primary {
-  @include gradient-horizontal($start-color: $color-java, $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);
+  @extend .hvr-float;
+  @include gradient-horizontal($start-color: $color-java,
+   $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
   border: none;
 }
 
 .btn-outline {
+  @extend .hvr-float;
   box-shadow: inset 0 0 0 2px white;
   background: none;
   color: white;
@@ -193,23 +286,47 @@ button {
 }
 
 .btn-outline-inverse {
+  @extend .hvr-float;
   box-shadow: inset 0 0 0 2px $color-cerulean;
   background: none;
   color: $color-cerulean;
 }
 
 .btn-outline-inverse:hover {
+  box-shadow: inset 0 0 0 2px darken($color-cerulean,10%);
+  color: darken($color-cerulean,10%);
+}
+
+.btn-outline-inverse-alt {
+  @extend .hvr-float;
+  box-shadow: inset 0 0 0 2px $color-oxford-blue;
+  background: none;
+  color: $color-oxford-blue;
+}
+
+.btn-outline-inverse-alt:hover {
+  box-shadow: inset 0 0 0 2px lighten($color-oxford-blue,10%);
+  color: lighten($color-oxford-blue,10%);
+}
+
+.btn-link {
   color: $color-cerulean;
 }
 
+.btn-link:hover {
+  color: darken($color-cerulean,15%);
+}
+
 // Button Sizes
-.btn-xl {
+.btn {
   padding: 14px 26px;
   min-width: 180px;
 }
 
 .btn-sm {
+  padding: 6px 12px;
   font-size: 13px;
+  min-width: 100px;
 }
 
 // Button Groups

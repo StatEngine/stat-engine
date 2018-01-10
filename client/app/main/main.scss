@@ -62,6 +62,13 @@ header section button {
   min-width: 166px;
 }
 
+// Naked Header Variant
+header.naked {
+  background: linear-gradient(#eaeff4 0%, #ffffff 60%);
+  height: 85px;
+  margin-bottom: 6rem;
+}
+
 // Product screenshot
 #app-screenshot {
   position: absolute;

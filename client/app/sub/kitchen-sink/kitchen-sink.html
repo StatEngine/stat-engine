@@ -1,106 +1,97 @@
-<div class="kitchen-sink container mb-5">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1 class="demo">Kitchen Sink</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias quam facilis nam sit recusandae expedita, ullam molestias assumenda delectus suscipit! Dolorum minima, laboriosam nisi. Aperiam adipisci assumenda hic rem soluta.</p>
-      <!-- ====== GRID ======  -->
-      <h1 class="demo">Grid</h1>
-      <p>This site utilizes the Bootstrap 4 Flexbox Grid system. More info available <a href="https://getbootstrap.com/docs/4.0/layout/grid/" target="_blank">here</a>.</p>
-        <div class="grid-example">
-          <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-          <div class="row">
-          <div class="col col-md-8">.col .col-md-8</div>
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-          </div>
+<div>
+  <navbar class="animated fadeInDown naked"></navbar>
+  <header class="naked"></header>
+  <div class="kitchen-sink container p-0 mb-5">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="demo">Kitchen Sink</h1>
+        <p>This page attempts to include html elements so that we can make sure things work together smoothly.</p>
 
-          <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-          <div class="row">
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-          </div>
-
-          <!-- Columns are always 50% wide, on mobile and desktop -->
-          <div class="row">
-            <div class="col-6">.col-6</div>
-            <div class="col-6">.col-6</div>
-          </div>
-        </div>
         <!-- ====== GRID ======  -->
-        <h1 class="demo">Typography</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias quam facilis nam sit recusandae expedita, ullam molestias assumenda delectus suscipit! Dolorum minima, laboriosam nisi. Aperiam adipisci assumenda hic rem soluta.</p>
+        <div class="ks-container">
+          <h1 class="demo">Grid</h1>
+          <p>This site utilizes the Bootstrap 4 Flexbox Grid system. More info and examples available <a href="https://getbootstrap.com/docs/4.0/layout/grid/" target="_blank">here</a>.</p>
+            <div class="grid-example">
+              <div class="row">
+                <div class="col-sm-8">col-sm-8</div>
+                <div class="col-sm-4">col-sm-4</div>
+              </div>
+              <div class="row">
+                <div class="col-sm">col-sm</div>
+                <div class="col-sm">col-sm</div>
+                <div class="col-sm">col-sm</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">col-sm-12</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">col-sm-2</div>
+                <div class="col-sm-2">col-sm-2</div>
+                <div class="col-sm-2">col-sm-2</div>
+                <div class="col-sm-2">col-sm-2</div>
+                <div class="col-sm-2">col-sm-2</div>
+                <div class="col-sm-2">col-sm-2</div>
+              </div>
+            </div>
+          </div>
 
+          <!-- ====== BUTTONS ======  -->
+          <div class="ks-container">
+            <h1 class="demo">Buttons</h1>
+            <div class="button-demo">
+              <button class="btn btn-primary">Primary Button</button>
+              <button class="btn btn-primary btn-sm">Small Button</button>
+              <button class="btn btn-outline-inverse">Outline Button</button>
+              <button class="btn btn-outline-inverse-alt">Outline Button Alt</button>
+              <button class="btn btn-link">Hyperlink Button</button>
+            </div>
+          </div>
 
+          <!-- ====== TYPOGRAPHY ======  -->
+          <div class="ks-container">
+            <h1 class="demo">Typography</h1>
+            <div class="demo demo-typography">
+              <h1>h1. This is a very large header.</h1>
+              <h2>h2. This is a large header.</h2>
+              <h3>h3. This is a medium header.</h3>
+              <h4>h4. This is a moderate header.</h4>
+              <h5>h5. This is a small header.</h5>
+              <h6>h6. This is a tiny header.</h6>
+              <br>
+              <h1 class="heavyheader">h1. heavyheader</h1>
+              <h2 class="heavyheader">h2. heavyheader</h2>
+              <h3 class="heavyheader">h3. heavyheader</h3>
+              <h4 class="heavyheader">h4. heavyheader</h4>
+              <h5 class="heavyheader">h5. heavyheader</h5>
+              <h6 class="heavyheader">h6. heavyheader</h6>
+              <br>
+              <h1 class="subheader">h1. subheader</h1>
+              <h2 class="subheader">h2. subheader</h2>
+              <h3 class="subheader">h3. subheader</h3>
+              <h4 class="subheader">h4. subheader</h4>
+              <h5 class="subheader">h5. subheader</h5>
+              <h6 class="subheader">h6. subheader</h6>
+            </div>
+          </div>
 
-
-
-
-
-
-
-
-
-
-      <div class="type-demo">
-        <h1>h1. This is a very large header.</h1>
-        <h2>h2. This is a large header.</h2>
-        <h3>h3. This is a medium header.</h3>
-        <h4>h4. This is a moderate header.</h4>
-        <h5>h5. This is a small header.</h5>
-        <h6>h6. This is a tiny header.</h6>
-        <br>
-        <h1 class="subheader">h1. subheader</h1>
-        <h2 class="subheader">h2. subheader</h2>
-        <h3 class="subheader">h3. subheader</h3>
-        <h4 class="subheader">h4. subheader</h4>
-        <h5 class="subheader">h5. subheader</h5>
-        <h6 class="subheader">h6. subheader</h6>
-        <hr>
-        <h3>Definition List</h3>
-        <h5>Definition lists are great for small block of copy that describe the header</h5>
-        <dl>
-        <dt>Lower cost</dt>
-        <dd>The new version of this product costs significantly less than the previous one!</dd>
-        <dt>Easier to use</dt>
-        <dd>We've changed the product so that it's much easier to use!</dd>
-        <dt>Safe for kids</dt>
-        <dd>You can leave your kids alone in a room with this product and they won't get hurt (not a guarantee).</dd>
-        </dl>
-        <hr>
-        <h5>Un-ordered lists are great for making quick outlines bulleted.</h5>
-        <ul class="disc">
-        <li>List item with a much longer description or more content.</li>
-        <li>List item</li>
-        <li>List item
-        <ul>
-        <li>Nested List Item</li>
-        <li>Nested List Item</li>
-        <li>Nested List Item</li>
-        </ul>
-        </li>
-        <li>List item</li>
-        <li>List item</li>
-        <li>List item</li>
-        </ul>
-        <h5>Ordered lists are great for lists that need order, duh.</h5>
-        <ol>
-        <li>List Item 1</li>
-        <li>List Item 2</li>
-        <li>List Item 3</li>
-        </ol>
-        <br>
-        <h5>Blockquote</h5>
-        <blockquote>I do not fear computers. I fear the lack of them. Maecenas faucibus mollis interdum. Aenean lacinia bibendum nulla sed consectetur.<cite>Isaac Asimov</cite></blockquote>
-        <br>
-        <h5>Vcard</h5>
-        <ul class="vcard">
-        <li class="fn">Gaius Baltar</li>
-        <li class="street-address">123 Colonial Ave.</li>
-        <li class="locality">Caprica City</li>
-        <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
-        <li class="email"><a href="#">g.baltar@example.com</a></li>
-        </ul>
+          <!-- ====== LISTS ======  -->
+          <div class="ks-container">
+            <h1 class="demo">Lists</h1>
+            <ul class="statengine">
+              <li>Item 1</li>
+              <li>Item 2</li>
+              <li>Item 3</li>
+            </ul>
+            <br>
+            <ol class="statengine">
+              <li>Item 1</li>
+              <li>Item 2</li>
+              <li>Item 3</li>
+            </ol>
+          </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </div>

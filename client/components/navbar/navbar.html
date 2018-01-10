@@ -1,8 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-3">
-      <img src="/assets/images/branding.svg"/>
-    </div>
+    <div class="col-3 branding"></div>
     <div id="navbar-links" class="col-4">
       <a ng-click="scrollTo('#footer')" href="#">Products</a>
       <a ng-click="scrollTo('#footer')" href="#">Developers</a>
@@ -16,8 +14,8 @@
         <button class="btn btn-outline" ng-click="logout()"><i class="fa fa-sign-out"></i> {{currentUser.username}}</button>
       </div>
       <div ng-if="!currentUser">
-        <button class="btn btn-link" ui-sref="login">Sign In</button>
-        <button class="btn btn-outline" ui-sref="signup">Sign Up</button>
+        <button class="btn btn-link btn-sm" ui-sref="login">Sign In</button>
+        <button class="btn btn-outline btn-sm" ui-sref="signup">Sign Up</button>
       </div>
     </div>
 

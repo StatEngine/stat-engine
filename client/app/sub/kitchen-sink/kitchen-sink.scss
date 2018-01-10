@@ -2,5 +2,34 @@
 // KITCHEN SINK STYLES //
 ////////////////////////////////
 .kitchen-sink {
+  h1.demo {
+    border-bottom: 1px solid #bac0c4;
+    font-family: Montserrat-bold;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
 
+    + p {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.ks-container {
+  margin: 6rem 0;
+}
+
+.grid-example {
+  .row {
+    margin: 0;
+    div {
+      background: #c9efe6;
+      border: 1px solid #7ba59b;
+      padding: 1rem;
+    }
+  }
+}
+
+.button-demo > button {
+  margin-right: 2rem;
 }
