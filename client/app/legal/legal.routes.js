@@ -6,8 +6,7 @@ export default function routes($stateProvider) {
   $stateProvider.state('termsOfUse', {
     url: '/termsOfUse',
     template: require('./terms-of-use/terms-of-use.html'),
-  })
-  .state('maintenance', {
+  }).state('maintenance', {
     url: '/maintenance',
     template: require('./maintenance/maintenance.html'),
   });

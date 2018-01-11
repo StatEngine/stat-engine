@@ -33,6 +33,8 @@ User
       password: 'password',
       nfors: true,
       api_key: '1234',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
     }]
   }, {
     include: FireDepartment.Users

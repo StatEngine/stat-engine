@@ -65,6 +65,12 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    aws_access_key_id: {
+      type: DataTypes.STRING,
+    },
+    aws_secret_access_key: {
+      type: DataTypes.STRING,
+    },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
   }, {
