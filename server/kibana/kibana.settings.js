@@ -5,6 +5,7 @@ import config from '../config/environment';
 export default {
   target: config.kibana.uri,
   changeOrigin: true,
+  logLevel: 'debug',
   // Strip out the appPath, so kibana sees requested path
   pathRewrite: path => path.replace(`${config.kibana.appPath}`, ''),
   // add custom headers to request
