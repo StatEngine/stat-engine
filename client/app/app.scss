@@ -194,6 +194,29 @@ ol.statengine li::before{
   left:0;
 }
 
+// Forms
+.form-control:focus {
+  border-color: $color-java;
+}
+.form-wrapper {
+	background: white;
+  color: $color-pickled-bluewood;
+  border-radius: 4px;
+	padding: 3rem;
+  margin: 4rem 0;
+	box-shadow: 0px 20px 25px -10px rgba(0,0,0,0.2);
+	transition: opacity 300ms ease-in-out;
+  min-width: 450px;
+
+  @media (max-width: 575.99px) {
+    min-width: auto;
+  }
+
+}
+.form-group {
+	margin-bottom: 2rem;
+}
+
 
 // Utilities
 .pt-3,
