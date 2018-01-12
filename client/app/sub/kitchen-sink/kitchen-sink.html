@@ -89,6 +89,95 @@
               <li>Item 3</li>
             </ol>
           </div>
+
+          <!-- ====== FORMS ======  -->
+          <div class="ks-container">
+            <h1 class="demo">Form Elements</h1>
+            <div class="form-elements">
+                <form class="form form-wrapper" name="form" ng-submit="vm.login(form)" novalidate>
+
+                  <h4>Text Input</h4>
+
+                  <div class="form-group">
+                    <div class="mb-4">
+                      <label class="">I'm a Cool Label with standard input</label>
+                      <input type="text" name="demo" class="form-control" ng-model="vm.user.test" required>
+                    </div>
+                    <div>
+                      <label class="">I'm a Cool Label with standard input</label>
+                      <textarea name="comment" form="someform" class="form-control" placeholder="Enter your message here..."></textarea>
+                    </div>
+                  </div>
+
+                  <h4>Checkbox</h4>
+
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <input id="checkbox" type="checkbox">
+                      <label for="checkbox">Default</label>
+                    </div>
+                    <div class="checkbox">
+                      <input type="checkbox" id="singleCheckbox1" value="option1" aria-label="Single checkbox One">
+                      <label></label>
+                    </div>
+                    <div class="checkbox">
+                      <input type="checkbox" id="singleCheckbox1" value="option1" aria-label="Single checkbox One" disabled>
+                      <label></label>
+                    </div>
+                  </div>
+
+                  <h4>Radio Buttons</h4>
+
+                  <input type="radio" name="radio" id="radio1" value="option1">
+                  <label for="radio1">Radio 1</label>
+                  <br>
+                  <input type="radio" name="radio" id="radio2" value="option1">
+                  <label for="radio2">Radio 2</label>
+                  <br>
+                  <input type="radio" name="radio" id="radio3" value="option1">
+                  <label for="radio3">Radio 3</label>
+                  <br>
+                  <input type="radio" name="radio" id="radio4" value="option1">
+                  <label for="radio4">Radio 4</label>
+                </form>
+            </div>
+          </div>
+          <div class="ks-container">
+            <h1 class="demo">Form Example</h1>
+            <div class="form-demo">
+              <form class="form form-wrapper" name="form-demo" ng-submit="" novalidate>
+
+                <div class="form-group">
+                  <label>Username</label>
+
+                  <input type="text" name="username" class="form-control" ng-model="vm.user.username" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Password</label>
+
+                  <input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
+                </div>
+
+                <div class="form-group has-error">
+                  <p class="help-block" ng-show="form.username.$error.required && form.password.$error.required && vm.submitted">
+                     Please enter your username and password.
+                  </p>
+
+                  <p class="help-block">{{ vm.errors.login }}</p>
+                </div>
+
+                <div>
+                  <button class="btn btn-lg btn-primary login" type="submit">
+                    Sign In
+                  </button>
+                </div>
+                <div class="col-12 form-extras">
+                  <span class="d-flex w-100" >Not registered yet? <a class="ml-3" ui-sref="">   Sign Up <i class="fa fa-chevron-right"></i></a></span>
+                </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

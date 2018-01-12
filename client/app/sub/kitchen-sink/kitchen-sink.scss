@@ -1,6 +1,8 @@
 /////////////////////////////////
 // KITCHEN SINK STYLES //
 ////////////////////////////////
+
+// GENERIC
 .kitchen-sink {
   h1.demo {
     border-bottom: 1px solid #bac0c4;
@@ -15,10 +17,16 @@
   }
 }
 
+em {
+  font-size: 80%;
+  opacity: .6;
+}
+
 .ks-container {
   margin: 6rem 0;
 }
 
+// GRID
 .grid-example {
   .row {
     margin: 0;
@@ -30,6 +38,32 @@
   }
 }
 
+// BUTTONS
 .button-demo > button {
   margin-right: 2rem;
+}
+
+// FORMS
+.form-elements {
+  display: flex;
+  width: 100%;
+  .form-wrapper {
+    background: rgba(0,0,0,0.05);
+    margin: 0;
+  }
+}
+
+
+.demo-contact-form {
+  h3, span{
+    color: white;
+  }
+}
+
+.form-demo {
+  background: rgba(8, 53, 99, 1.000);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  padding: 8rem;
 }
