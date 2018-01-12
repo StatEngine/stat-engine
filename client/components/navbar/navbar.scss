@@ -16,6 +16,7 @@ navbar {
 }
 
 navbar .branding {
+  display: inline-block;
   background: url("../assets/images/branding.svg") no-repeat;
   height: 42px;
   min-width: 155px;
@@ -25,7 +26,7 @@ navbar div {
   align-items: center;
 }
 
-navbar a {
+#navbar-links a {
   margin: 0 20px;
   cursor: pointer;
   color: white;
@@ -80,7 +81,7 @@ navbar.naked {
     background-image: url("../assets/images/branding-alt.svg");
   }
 
-  a, .btn, .btn-outline {
+  #navbar-links a, .btn, .btn-outline {
     color: $color-oxford-blue;
   }
 
