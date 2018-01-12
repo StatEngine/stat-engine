@@ -1,31 +1,26 @@
 .signup-container {
-    background: linear-gradient(135deg, #124265, #0b223c);
-    height: 100%;
-    position: fixed;
-    color: white;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-
-    h1 {
-      margin-top: 0;
-    }
-
-    button.signup {
-      min-width: 138px;
-    }
-
-    .account-extras {
-      border-top: 1px solid $color-geyser;
-      margin-top: 2rem;
-      padding-top: 2rem;
-      i::before {
-        font-size: 10px;
-      }
+  background: linear-gradient(135deg, #124265, #0b223c);
+  position: fixed;
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  h1 {
+    margin-top: 0;
+  }
+  button.signup {
+    min-width: 138px;
+  }
+  .account-extras {
+    border-top: 1px solid $color-geyser;
+    margin-top: 2rem;
+    padding: 2rem 0 0 0;
+    i::before {
+      font-size: 10px;
     }
   }
-
-  .btn-register {
-    min-width: inherit;
-    margin-left: 1rem;
-  }
+}
+.btn-register {
+  min-width: inherit;
+  margin-left: 1rem;
+}

@@ -1,6 +1,25 @@
 .login-container {
-    background: linear-gradient(135deg, #124265, #0b223c);
-    height: 100%;
-    position: absolute;
-    color: white;
+  background: linear-gradient(135deg, #124265, #0b223c);
+  position: fixed;
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  > div:nth-child(2){
+    height: 85%;
   }
+  button.login {
+    min-width: 138px;
+  }
+  .account-extras {
+    border-top: 1px solid $color-geyser;
+    margin-top: 2rem;
+    padding: 2rem 0 0 0;
+    i::before {
+      font-size: 10px;
+    }
+  }
+  .alert-success {
+    margin: 4rem 0 0;
+  }
+}

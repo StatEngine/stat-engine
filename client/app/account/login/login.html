@@ -1,14 +1,18 @@
 <div class="container-fluid login-container">
-  <div class="row">
-    <div class="col-auto ml-auto mt-3">
+  <div class="row animated fadeInLeft">
+    <div class="col-auto mr-auto mt-3">
       <button class="btn btn-outline btn-sm" ui-sref="main"><i class="fa fa-arrow-left"></i> Back</button>
     </div>
   </div>
-  <div class="row h-75">
-    <div class="col-sm-4 col-sm-offset-4 my-auto">
+  <div class="row justify-content-center animated fadeInUp">
+    <div class="col-md-auto align-self-center">
       <h1 class="text-center">Sign In</h1>
-      <div class="text-center text-success" ng-if="accountCreated"> Account Created. Please sign in below.</div>
-      <form class="form" name="form" ng-submit="vm.login(form)" novalidate>
+
+      <div class="alert alert-success text-center" role="alert" ng-if="accountCreated">
+        Congratulations, your account has been created! Please sign in below.
+      </div>
+
+      <form class="form form-wrapper" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
           <label>Username</label>
@@ -31,14 +35,13 @@
         </div>
 
         <div>
-          <button class="btn btn btn-primary " type="submit">
+          <button class="btn btn-lg btn-primary login" type="submit">
             Sign In
           </button>
-          <span class="pull-right"> Not registered yet?
-            <a class="btn btn-link btn-register px-0" ui-sref="signup">
-              Sign Up
-            </a>
-          </span>
+        </div>
+        <div class="col-12 account-extras">
+          <span class="d-flex w-100" >Not registered yet? <a class="ml-3" ui-sref="signup">   Sign Up <i class="fa fa-chevron-right"></i></a></span>
+        </div>
         </div>
       </form>
     </div>

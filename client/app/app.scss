@@ -195,9 +195,6 @@ ol.statengine li::before{
 }
 
 // Forms
-.form-control:focus {
-  border-color: $color-java;
-}
 .form-wrapper {
 	background: white;
   color: $color-pickled-bluewood;
@@ -211,7 +208,9 @@ ol.statengine li::before{
   @media (max-width: 575.99px) {
     min-width: auto;
   }
-
+}
+.form-control:focus {
+  border-color: $color-java;
 }
 .form-group {
 	margin-bottom: 2rem;
@@ -249,7 +248,7 @@ ol.statengine li::before{
   color: $color-pale-sky;
 }
 
-// Bootstrap 4 Grid Overrides
+// Bootstrap Overrides
 @media (min-width: 1230px) {
   .container {
     // Compensates for the 30px of container padding for 1200px overall grid size
