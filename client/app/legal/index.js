@@ -8,7 +8,7 @@ import routing from './legal.routes';
 import termsOfUse from './terms-of-use';
 import maintenance from './maintenance';
 
-export default angular.module('statEngineApp.legal', [uiRouter, termsOfUse])
+export default angular.module('statEngineApp.legal', [uiRouter, termsOfUse, maintenance])
   .config(routing)
   .run(function() {
     'ngInject';

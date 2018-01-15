@@ -67,7 +67,7 @@ export function show(req, res, next) {
     }
   })
     .then(fireDepartment => {
-      if(!FireDepartment) {
+      if(!fireDepartment) {
         return res.status(404).end();
       }
       res.json(fireDepartment);
