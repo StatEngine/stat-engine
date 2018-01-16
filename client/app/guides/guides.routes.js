@@ -6,6 +6,8 @@ export default function routes($stateProvider) {
   $stateProvider.state('kitchenSink', {
     url: '/kitchenSink',
     template: require('./kitchen-sink/kitchen-sink.html'),
+    controller: 'KitchenSinkController',
+    controllerAs: 'vm'
   });
 
   $stateProvider.state('layoutA', {

@@ -24,6 +24,8 @@ import guides from './guides';
 import legal from './legal';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
+import modal from '../components/modal/modal.service';
+
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
@@ -32,7 +34,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, /*'btford.socket-io',*/ uiRouter,
-  uiBootstrap, _Auth, account, admin, api, guides, legal, navbar, footer, main, constants, /*socket,*/ util
+  uiBootstrap, _Auth, account, admin, api, guides, legal, navbar, modal, footer, main, constants, /*socket,*/ util
 ])
   .config(routeConfig)
   .run(function($rootScope) {

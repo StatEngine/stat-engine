@@ -9,8 +9,9 @@ import kitchenSink from './kitchen-sink';
 import layoutA from './layout-a';
 import layoutB from './layout-b';
 import layoutC from './layout-c';
+import modal from '../../components/modal/modal.service';
 
-export default angular.module('statEngineApp.guides', [uiRouter, kitchenSink, layoutA, layoutB, layoutC])
+export default angular.module('statEngineApp.guides', [uiRouter, kitchenSink, layoutA, layoutB, layoutC, modal])
   .config(routing)
   .run(function() {
     'ngInject';

@@ -11,7 +11,6 @@ export function Modal($rootScope, $uibModal) {
    */
   function openModal(scope = {}, modalClass = 'modal-default') {
     var modalScope = $rootScope.$new();
-
     angular.extend(modalScope, scope);
 
     return $uibModal.open({
@@ -41,7 +40,6 @@ export function Modal($rootScope, $uibModal) {
         return function(...args) {
           var name = args.shift();
           var deleteModal;
-
           deleteModal = openModal({
             modal: {
               dismissable: true,
@@ -72,6 +70,6 @@ export function Modal($rootScope, $uibModal) {
   };
 }
 
-export default angular.module('statEngineApp')
+export default angular.module('directives.modal', [])
   .factory('Modal', Modal)
   .name;
