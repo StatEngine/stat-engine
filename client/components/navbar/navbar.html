@@ -1,14 +1,18 @@
 <div class="container">
   <div class="row">
-    <div class="col-3">
+    <div class="col-auto">
       <a ui-sref="main" href="#" class="branding"></a>
     </div>
-    <div id="navbar-links" class="col-4">
-      <a ng-click="scrollTo('#footer')" href="#">Products</a>
-      <a ng-click="scrollTo('#footer')" href="#">Developers</a>
-      <a ng-click="scrollTo('#footer')" href="#">Company</a>
+    <div id="navbar-links" class="col-auto pr-0">
+      <div class="row">
+        <div class="col-12 pr-0">
+          <a ng-click="scrollTo('#footer')" href="#" class="col-3">Products</a>
+          <a ng-click="scrollTo('#footer')" href="#" class="col-3">Developers</a>
+          <a ng-click="scrollTo('#footer')" href="#" class="col-3 pr-0">Company</a>
+        </div>
+      </div>
     </div>
-    <div id="navbar-button" class="col-auto ml-auto">
+    <div id="navbar-button" class="col-auto ml-auto pl-0">
       <div ng-if="currentUser">
         <button class="btn btn-primary btn-sm" ng-click="dashboard()">Dashboard</button>
 
@@ -23,6 +27,5 @@
     <div id="navbar-burger" class="col-auto ml-auto">
       <img src="/assets/images/burger.svg"/>
     </div>
-
   </div>
 </div>

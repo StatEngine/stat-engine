@@ -8,6 +8,10 @@ header {
   background-image: linear-gradient(155deg, #002f62 0%, #18496a 50%, #138b89 100%);
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 576px) {
+    height: 620px;
+  }
 }
 
 svg {
@@ -34,6 +38,11 @@ header section h1 {
   color: white;
   margin: auto auto 14px;
   max-width: 700px;
+
+  @media (max-width: 576px) {
+    font-size: 26px;
+    text-align: left;
+  }
 }
 
 header section p {
@@ -46,6 +55,11 @@ header section p {
   max-width: 670px;
   margin: auto;
   padding: 0.5rem 0 1.5rem;
+
+  @media (max-width: 576px) {
+    font-size: 16px;
+    text-align: left;
+  }
 }
 
 header section button {
@@ -69,13 +83,14 @@ header.naked {
 // Product screenshot
 #app-screenshot {
   position: absolute;
-  bottom: -3rem;
+  bottom: -1rem;
   margin: 0 auto;
   width: 100%;
 
   img {
     animation-delay: 0.1s;
     animation-duration: 0.5s;
+    max-width: 95%;
   }
 }
 
@@ -98,6 +113,22 @@ header.naked {
 
 .message {
   margin-top: 6.5rem;
+
+  @media (max-width: 576px) {
+    margin-top: 2.5rem;
+
+    .button-group {
+      text-align: left;
+
+      button:last-child {
+        display: none;
+      }
+    }
+
+
+  }
+
+
 }
 
 /////////////////////////////////
@@ -309,11 +340,11 @@ header.naked {
   justify-content: space-between;
   margin: 25px 0;
 }
+
 @media (max-width: 750px) {
   #our-partners {
     width: 100%;
     align-items: center;
-    // background-image: linear-gradient(to top, #ffffff, #ecf3f8);
   }
 
   #our-partners p {
@@ -322,6 +353,12 @@ header.naked {
 
   #our-partners .partners-logos {
     width: 100%;
+
+    @media (max-width: 576px) {
+      img {
+        transform: scale(.85);
+      }
+    }
   }
 }
 
@@ -344,13 +381,13 @@ header.naked {
   font-size: 16px;
   line-height: 1.81;
   letter-spacing: 0.2px;
+  margin-bottom: 0;
   color: #1aa9b6;
   font-family: OpenSans-regular;
 }
 
 #news-events article p {
   font-size: 14px;
-  line-height: 1.93;
   letter-spacing: 0.2px;
   font-family: OpenSans-regular;
 }
@@ -384,4 +421,14 @@ header.naked {
 #contact > div p.subtitle {
   color: #4f585d;
   font-family: OpenSans-regular;
+
+  @media (max-width: 576px) {
+    font-size: 20px;
+  }
+}
+
+#contact .button-group button {
+  @media (max-width: 576px) {
+    min-width: 150px;
+  }
 }

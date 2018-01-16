@@ -27,7 +27,6 @@ navbar div {
 }
 
 #navbar-links a {
-  margin: 0 20px;
   cursor: pointer;
   color: white;
 
@@ -59,7 +58,14 @@ navbar img {
 navbar div#navbar-burger {
   display: none;
 }
-@media (max-width: 750px) {
+
+@media (min-width: 992px) {
+  navbar div#navbar-links {
+    padding-left: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
   navbar div#navbar-button,
   navbar div#navbar-links {
     display: none;

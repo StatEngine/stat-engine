@@ -47,8 +47,9 @@ footer #links article a {
   text-decoration: none;
   color: white;
   font-family: OpenSans-regular;
+  opacity: .8;
   &:hover {
-    color: $color-java;
+    opacity: 1;
   }
 }
 
@@ -56,6 +57,10 @@ footer #links div a.image-link {
   width: 44px;
   height: 44px;
   margin-right: 18px;
+  opacity: .8;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 footer #links div p {
@@ -105,8 +110,13 @@ footer div.newsletter button {
   color: white;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 576px) {
+  .legal {
+    margin-top: 1.5rem;
+  }
+}
 
+@media (max-width: 750px) {
   footer #links div.newsletter {
     margin-bottom: 0;
   }
