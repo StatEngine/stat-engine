@@ -2,6 +2,7 @@
 // HEADER //
 ////////////////////////////////
 header {
+  display: flex;
   height: 850px;
   background: #0b345d;
   background-image: linear-gradient(155deg, #002f62 0%, #18496a 50%, #138b89 100%);
@@ -28,10 +29,6 @@ header section {
 }
 
 header section h1 {
-  text-align: center;
-  font-family: Montserrat-bold;
-  font-size: 36px;
-  font-weight: bold;
   line-height: 1.28;
   letter-spacing: 0.1rem;
   color: white;
@@ -107,11 +104,7 @@ header.naked {
 // INTRO //
 ////////////////////////////////
 #intro #intro-text h2 {
-  color: #009BAC;
-  font-family: Montserrat-light;
-  line-height: 1.5;
   margin: 0 20px 20px 0;
-  // font-size: 32px;
 }
 
 #intro #intro-text p {
@@ -210,6 +203,7 @@ header.naked {
 #features article p {
   font-size: 14px;
   font-family: OpenSans-regular;
+  line-height: 1.5;
 }
 
 #features a {
@@ -305,10 +299,8 @@ header.naked {
 #our-partners p {
   font-family: OpenSans-regular;
   font-size: 14px;
-  line-height: 1.93;
   letter-spacing: 0.2px;
   text-align: left;
-  color: rgba(51, 74, 86, 0.74);
 }
 
 #our-partners .partners-logos {
@@ -360,7 +352,6 @@ header.naked {
   font-size: 14px;
   line-height: 1.93;
   letter-spacing: 0.2px;
-  color: rgba(51, 74, 86, 0.74);
   font-family: OpenSans-regular;
 }
 @media (max-width: 750px) {

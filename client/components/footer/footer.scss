@@ -47,6 +47,9 @@ footer #links article a {
   text-decoration: none;
   color: white;
   font-family: OpenSans-regular;
+  &:hover {
+    color: $color-java;
+  }
 }
 
 footer #links div a.image-link {
@@ -96,6 +99,10 @@ footer div.newsletter button {
   padding: 24px 0 20px;
   background-color: rgba(10, 35, 61, 0.85);
   font-size: 13px;
+}
+
+#bottom-bar a {
+  color: white;
 }
 
 @media (max-width: 750px) {

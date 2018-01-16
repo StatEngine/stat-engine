@@ -1,7 +1,7 @@
 <div>
   <navbar class="animated fadeInDown naked"></navbar>
   <header class="naked"></header>
-  <div class="kitchen-sink container p-0 mb-5">
+  <div class="kitchen-sink container mb-5">
     <div class="row">
       <div class="col-sm-12">
         <h1 class="demo">Kitchen Sink</h1>
@@ -43,7 +43,13 @@
               <button class="btn btn-primary btn-sm">Small Button</button>
               <button class="btn btn-outline-inverse">Outline Button</button>
               <button class="btn btn-outline-inverse-alt">Outline Button Alt</button>
-              <button class="btn btn-link">Hyperlink Button</button>
+              <button class="btn-link">Hyperlink Button</button>
+              <br><br>
+              <button class="btn btn-primary" disabled>Disabled Primary Button</button>
+              <button class="btn btn-outline-inverse" disabled>Disabled Outline Button</button>
+              <button class="btn btn-outline-inverse-alt" disabled>Disabled Outline Button Alt</button>
+
+
             </div>
           </div>
 
@@ -58,6 +64,13 @@
               <h5>h5. This is a small header.</h5>
               <h6>h6. This is a tiny header.</h6>
               <br>
+              <h1 class="extraheavyheader">h1. extraheavyheader</h1>
+              <h2 class="extraheavyheader">h2. extraheavyheader</h2>
+              <h3 class="extraheavyheader">h3. extraheavyheader</h3>
+              <h4 class="extraheavyheader">h4. extraheavyheader</h4>
+              <h5 class="extraheavyheader">h5. extraheavyheader</h5>
+              <h6 class="extraheavyheader">h6. extraheavyheader</h6>
+              <br>
               <h1 class="heavyheader">h1. heavyheader</h1>
               <h2 class="heavyheader">h2. heavyheader</h2>
               <h3 class="heavyheader">h3. heavyheader</h3>
@@ -71,6 +84,16 @@
               <h4 class="subheader">h4. subheader</h4>
               <h5 class="subheader">h5. subheader</h5>
               <h6 class="subheader">h6. subheader</h6>
+              <br><br>
+              <div class="row">
+                <div class="col-md-6">
+                  <h4 class="heavyheader">Regular Papragraph</h4>
+                  <p>This is a regular papragraph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio blanditiis consequatur illum unde dolor quod cupiditate consequuntur voluptas incidunt animi distinctio saepe excepturi esse doloresmus facere explicabo.</p>
+                </div>
+                <div class="col-md-6">
+                  <h4 class="subheader">Regular Papragraph</h4>
+                  <p>This is a regular papragraph. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio blanditiis consequatur illum unde dolor quod cupiditate consequuntur voluptas incidunt animi distinctio saepe excepturi esse dolores sicabo.</p>
+                </div>
             </div>
           </div>
 
@@ -121,7 +144,7 @@
                       <label></label>
                     </div>
                     <div class="checkbox">
-                      <input type="checkbox" id="singleCheckbox1" value="option1" aria-label="Single checkbox One" disabled>
+                      <input type="checkbox" id="singleCheckbox2" value="option1" aria-label="Single checkbox Two" disabled>
                       <label></label>
                     </div>
                   </div>
@@ -137,8 +160,8 @@
                   <input type="radio" name="radio" id="radio3" value="option1">
                   <label for="radio3">Radio 3</label>
                   <br>
-                  <input type="radio" name="radio" id="radio4" value="option1">
-                  <label for="radio4">Radio 4</label>
+                  <input type="radio" name="radio" id="radio4" value="option1" disabled>
+                  <label for="radio4" class="disabled">Radio 4</label>
                 </form>
             </div>
           </div>
@@ -173,10 +196,18 @@
                   </button>
                 </div>
                 <div class="col-12 form-extras">
-                  <span class="d-flex w-100" >Not registered yet? <a class="ml-3" ui-sref="">   Sign Up <i class="fa fa-chevron-right"></i></a></span>
+                  <span class="d-flex w-100" >Not registered yet? <a class="ml-3">   Sign Up <i class="fa fa-chevron-right"></i></a></span>
                 </div>
                 </div>
               </form>
+            </div>
+            <div class="ks-container">
+              <h1 class="demo">Page Layout Examples</h1>
+              <ul>
+                <li><a href="/layoutA">Layout A - Header Full</a></li>
+                <li><a href="/layoutB">Layout B - Header Half</a></li>
+                <li><a href="/layoutC">Layout C - Header Naked</a></li>
+              </ul>
             </div>
           </div>
         </div>

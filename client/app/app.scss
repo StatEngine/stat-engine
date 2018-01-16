@@ -103,6 +103,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+p {
+  line-height: 1.75;
+}
+
 h1,h2,h3,h4,h5,h6 {
   font-family: Montserrat-light;
 }
@@ -112,9 +116,18 @@ h1,h2,h3,h4,h5,h6 {
   font-family: Montserrat-light;
 }
 
+h2 {
+  line-height: 1.5;
+}
+
 .heavyheader {
   font-family: Montserrat-semibold;
 }
+
+.extraheavyheader {
+  font-family: Montserrat-bold;
+}
+
 
 .bottom-line {
   height: 1px;
@@ -222,6 +235,11 @@ ol.statengine li::before{
   i::before {
     font-size: 10px;
   }
+}
+
+label.disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
 
 // Checkboxes
@@ -405,9 +423,16 @@ button {
   color: darken($color-cerulean,10%);
 }
 
+.btn-outline-inverse:disabled {
+  box-shadow: inset 0 0 0 2px $color-cerulean;
+  &:hover {
+    color: $color-cerulean;
+  }
+}
+
 .btn-outline-inverse-alt {
   @extend .hvr-float;
-  box-shadow: inset 0 0 0 2px $color-oxford-blue;
+  box-shadow: inset 0 0 0 2px lighten($color-oxford-blue,10%);
   background: none;
   color: $color-oxford-blue;
 }
@@ -417,12 +442,21 @@ button {
   color: lighten($color-oxford-blue,10%);
 }
 
+.btn-outline-inverse-alt:disabled {
+  box-shadow: inset 0 0 0 2px $color-oxford-blue;
+  &:hover {
+    color: $color-oxford-blue;
+  }
+}
+
 .btn-link {
   color: $color-cerulean;
+  font-family: Montserrat-Regular;
 }
 
 .btn-link:hover {
   color: darken($color-cerulean,15%);
+  text-decoration: none;
 }
 
 // Button Sizes
@@ -467,7 +501,7 @@ li.nested:before {
 ////////////////////////////////
 // == Styles are injected through gulp ==//
 // inject:scss //
-@import 'sub/kitchen-sink/kitchen-sink';
+@import 'guides/guides';
 @import 'admin/admin';
 @import 'main/main';
 
