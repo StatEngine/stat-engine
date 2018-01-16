@@ -2,7 +2,7 @@
 FROM node:6
 
 # Global dependencies
-RUN npm install -g node-gyp pm2 gulp
+RUN npm install -g node-gyp gulp
 
 # Make src directory
 RUN mkdir -p /usr/src/stat-engine
@@ -22,6 +22,6 @@ RUN /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build
 
 # Run pm2
 ENV NODE_ENV=production
-CMD [ "pm2-docker", "start", "pm2.json" ]
+CMD [ "node", "/usr/src/stat-engine/dist/server/index.js" ]
 
 EXPOSE 8080
