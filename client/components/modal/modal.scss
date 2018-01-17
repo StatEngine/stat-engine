@@ -4,22 +4,52 @@
 .modal-warning,
 .modal-danger {
   .modal-header {
-    color: #fff;
     border-radius: 5px 5px 0 0;
   }
 }
-.modal-primary .modal-header {
-  background: $brand-primary;
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  padding: 15px 25px;
 }
-.modal-info .modal-header {
-  background: $brand-info;
+
+.modal-header {
+  border-bottom: 0;
+  padding-top: 20px;
 }
-.modal-success .modal-header {
-  background: $brand-success;
+
+.modal-body{
+  padding: 10px 25px 20px;
 }
-.modal-warning .modal-header {
-  background: $brand-warning;
+
+.modal-footer {
+  border-color: $color-geyser;
+  background-color: lighten($color-geyser,10%);
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
-.modal-danger .modal-header {
-  background: $brand-danger;
+
+h4.modal-title {
+  font-family: Montserrat-regular;
+}
+
+.close {
+  color: $color-pickled-bluewood;
+  opacity: .5;
+  font-size: 2.5rem;
+  &:hover {
+    color: $color-pickled-bluewood;
+    opacity: 1;
+  }
+}
+
+.modal-footer button, .modal-footer .btn {
+  padding: 9px 15px;
+  font-size: 14px;
+  min-width: 103px;
+
+  + button, + .btn {
+    margin-left: 1.2rem;
+  }
 }

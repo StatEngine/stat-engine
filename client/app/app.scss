@@ -2,7 +2,7 @@
 // IMPORTS //
 ////////////////////////////////
 $icon-font-path: '/assets/fonts/bootstrap/';
-@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import '~bootstrap-sass/assets/stylesheets/_bootstrap';
 @import '~bootstrap-social/bootstrap-social.scss';
 @import '~bootstrap-4-grid/css/grid.min.css';
 @import '~hover.css/css/hover.css';
@@ -64,6 +64,8 @@ $color-pickled-bluewood: #334A56;
 $color-pale-sky: #697983;
 $color-oxford-blue: #384553;
 $color-geyser: #D7DEE3;
+$brand-danger: #e0284f;
+
 
 /////////////////////////////////
 // BROWSER //
@@ -392,6 +394,17 @@ button {
 }
 
 // Button Types
+.btn-default {
+  background-color: lighten($color-geyser,10%);
+  color: lighten($color-pickled-bluewood,8%);
+  border-color: lighten($color-pickled-bluewood,8%);
+  &:hover {
+    background-color: lighten($color-geyser,10%);
+    color: $color-pickled-bluewood;
+    border-color:$color-pickled-bluewood;
+  }
+}
+
 .btn-primary {
   @extend .hvr-float;
   @include gradient-horizontal($start-color: $color-java,
@@ -457,6 +470,13 @@ button {
 .btn-link:hover {
   color: darken($color-cerulean,15%);
   text-decoration: none;
+}
+
+.btn-danger  {
+  background-color: $brand-danger;
+  &:hover {
+    background-color: darken($brand-danger,5%);
+  }
 }
 
 // Button Sizes
