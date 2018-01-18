@@ -130,7 +130,6 @@ h2 {
   font-family: Montserrat-bold;
 }
 
-
 .bottom-line {
   height: 1px;
   margin-top: 50px;
@@ -342,8 +341,21 @@ input[type="radio"]:focus {
 .mt-3 {
   margin-top: 3rem !important;
 }
+
 .mb-5 {
   margin-bottom: 5rem !important;
+}
+
+.w180 {
+  width: 180px;
+}
+
+.w80 {
+  width: 80px;
+}
+
+.w100 {
+  width: 100px;
 }
 
 // Helpers
@@ -371,6 +383,16 @@ input[type="radio"]:focus {
 .hvr-float:focus,
 .hvr-float:hover {
   transform: translateY(-2px);
+}
+
+.hvr-float-shadow:before {
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, transparent 80%);
+}
+
+.hvr-float-shadow:hover:before,
+.hvr-float-shadow:focus:before,
+.hvr-float-shadow:active:before {
+  transform: translateY(-1px);
 }
 
 // Buttons
@@ -406,7 +428,6 @@ button {
 }
 
 .btn-primary {
-  @extend .hvr-float;
   @include gradient-horizontal($start-color: $color-java,
    $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
@@ -414,7 +435,6 @@ button {
 }
 
 .btn-outline {
-  @extend .hvr-float;
   box-shadow: inset 0 0 0 2px white;
   background: none;
   color: white;
@@ -425,7 +445,6 @@ button {
 }
 
 .btn-outline-inverse {
-  @extend .hvr-float;
   box-shadow: inset 0 0 0 2px $color-cerulean;
   background: none;
   color: $color-cerulean;
@@ -444,7 +463,6 @@ button {
 }
 
 .btn-outline-inverse-alt {
-  @extend .hvr-float;
   box-shadow: inset 0 0 0 2px lighten($color-oxford-blue,10%);
   background: none;
   color: $color-oxford-blue;
@@ -482,13 +500,11 @@ button {
 // Button Sizes
 .btn {
   padding: 14px 26px;
-  min-width: 180px;
 }
 
 .btn-sm {
   padding: 6px 12px;
   font-size: 13px;
-  min-width: 100px;
 }
 
 // Button Groups
