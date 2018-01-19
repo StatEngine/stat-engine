@@ -115,7 +115,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .subheader {
   color: $color-bondi-blue;
-  font-family: Montserrat-light;
+  font-family: Montserrat-extralight;
 }
 
 h2 {
@@ -546,4 +546,5 @@ li.nested:before {
 @import '../components/navbar/navbar';
 @import '../app/account/login/login';
 @import '../app/account/signup/signup';
+@import '../app/account/user-landing/user-landing';
 @import '../components/oauth-buttons/oauth-buttons'; // endinject //

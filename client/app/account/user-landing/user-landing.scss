@@ -1,0 +1,42 @@
+.user-landing {
+  header {
+    background-image: linear-gradient(#002955 0%, #18466a 90%), url('../assets/images/city-of-richmond.png');
+    background-blend-mode: hard-light;
+    background-position: center;
+    background-size: cover;
+  }
+
+  header section p {
+    font-size: 15px;
+    a {
+      color: lighten($color-cerulean,5%);
+    }
+  }
+
+  .welcome-text {
+    color: white;
+    h1.subheader {
+      color: lighten($color-bondi-blue,12%);
+    }
+  }
+
+  .avatar {
+    background: lighten($color-geyser,8%);
+    padding: 2.5rem;
+    border-radius: 999rem;
+    border: 1px solid $color-geyser;
+    font-size: 3.5rem;
+  }
+
+  .overview {
+    .summary-profile, .summary-department {
+      text-align: center;
+    }
+
+  }
+
+
+
+
+
+}

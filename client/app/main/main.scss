@@ -62,6 +62,8 @@ header section p {
   }
 }
 
+// BINGLES TO DO: Move Header into its own component
+// ====
 header section button {
   border-radius: 100px;
   outline: none;
@@ -71,6 +73,12 @@ header section button {
   color: white;
   padding: 1.5rem 2rem;
   min-width: 166px;
+}
+
+// Slim Header Variant
+header.slim{
+  background: linear-gradient(#113862 0%, #185e74 90%);
+  height: 470px;
 }
 
 // Naked Header Variant

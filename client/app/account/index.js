@@ -6,11 +6,12 @@ import uiRouter from 'angular-ui-router';
 
 import routing from './account.routes';
 import login from './login';
+import userLanding from './user-landing';
 import settings from './settings';
 import signup from './signup';
 import mongooseError from '../../components/mongoose-error/mongoose-error.directive';
 
-export default angular.module('statEngineApp.account', [uiRouter, login, settings, signup, mongooseError])
+export default angular.module('statEngineApp.account', [uiRouter, login, userLanding, settings, signup, mongooseError])
   .config(routing)
   .run(function($rootScope) {
     'ngInject';

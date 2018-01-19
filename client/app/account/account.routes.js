@@ -21,6 +21,12 @@ export default function routes($stateProvider) {
       controller: 'SignupController',
       controllerAs: 'vm'
     })
+    .state('userLanding', {
+      url: '/userLanding',
+      template: require('./user-landing/user-landing.html'),
+      controller: 'UserLandingController',
+      controllerAs: 'vm'
+    })
     .state('settings', {
       url: '/settings',
       template: require('./settings/settings.html'),
