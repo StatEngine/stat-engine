@@ -72,7 +72,7 @@ User
       last_name: 'User',
       email: 'dc@prominentedge.com',
       password: 'password',
-      api_key: uuidv4(),
+      api_key: 'washingtondc',
     }]
   }, {
     include: FireDepartment.Users
