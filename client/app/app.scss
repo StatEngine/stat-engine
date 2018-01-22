@@ -64,7 +64,7 @@ $color-pickled-bluewood: #334A56;
 $color-pale-sky: #697983;
 $color-oxford-blue: #384553;
 $color-geyser: #D7DEE3;
-$brand-danger: #e0284f;
+$color-brand-danger: #d61745;
 
 
 /////////////////////////////////
@@ -171,6 +171,77 @@ table tr:nth-child(2n-1) td{
 }
 table td{
     border-bottom:1px solid $color-geyser;
+}
+
+// Table Imposter Styles
+.table {
+  display: table;
+  margin: 0;
+  width: 100%;
+
+  @media screen and (max-width: 580px) {
+    display: block;
+  }
+
+  .table-row {
+    display: table-row;
+
+    &:nth-of-type(even) {
+      background: lighten($color-geyser,10%);
+    }
+
+    &.header {
+      font-family: OpenSans-Bold;
+      color: #adb2b7;
+      background-color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    @media screen and (max-width: 580px) {
+      padding: 14px 0 7px;
+      display: block;
+      border-bottom: 1px solid $color-geyser;
+
+      &.header {
+        padding: 0;
+        height: 6px;
+        .cell {
+          display: none;
+        }
+      }
+
+      .cell {
+        &:before {
+          margin-bottom: 3px;
+          content: attr(data-title);
+          min-width: 98px;
+          font-size: 11px;
+          line-height: 13px;
+          font-weight: bold;
+          text-transform: uppercase;
+          color: darken($color-geyser,15%);
+          display: block;
+        }
+      }
+    }
+
+    &.header .cell {
+      font-size: 12px;
+    }
+
+    .cell {
+      padding: 1.2rem;
+      display: table-cell;
+      border-bottom: 1px solid $color-geyser;
+
+      @media screen and (max-width: 580px) {
+        padding: 2px 16px;
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: none;
+      }
+    }
+  }
 }
 
 // Lists
@@ -311,6 +382,54 @@ label.disabled {
   cursor: not-allowed;
 }
 
+// Toggle Swtiches
+.switch label {
+  display: block;
+  width: 40px;
+  height: 20px;
+  border-radius: 100px;
+  background-color: rgba(28, 58, 89, 0.1);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+.switch label:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #20c8a8;
+  opacity: 0;
+  border-radius: 100px;
+  transition: all 0.2s ease-in-out;
+}
+.switch label:after {
+  content: "";
+  height: 20px;
+  width: 20px;
+  background: linear-gradient(#ffffff 0%, #f0f0f0 90%);
+  position: absolute;
+  display: inline-block;
+  border-radius: 100px;
+  right: 0;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #ced2d6;
+}
+
+.switch input {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.switch input:checked ~ label:after {
+  margin-right: calc(40px - 20px);
+}
+
+.switch input:checked ~ label:before {
+  opacity: 1;
+}
+
 // Radio Buttons
 input[type="radio"] + label {
   margin-left: 5px;
@@ -320,6 +439,14 @@ input[type="radio"]:focus {
   outline: thin dotted;
   outline: 5px auto #1fc8a7;
   outline-offset: -2px;
+}
+
+// Badges
+.badge {
+  font-family: OpenSans-bold;
+  border-radius: 3px;
+  padding: 5px 7px;
+  line-height: 1.1;
 }
 
 // Utilities
@@ -342,6 +469,14 @@ input[type="radio"]:focus {
   margin-top: 3rem !important;
 }
 
+.mb-2 {
+    margin-bottom: 2rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 3rem !important;
+}
+
 .mb-5 {
   margin-bottom: 5rem !important;
 }
@@ -356,6 +491,10 @@ input[type="radio"]:focus {
 
 .w100 {
   width: 100px;
+}
+
+.bg-light-gray {
+  background-color: #f3f6f9;
 }
 
 // Helpers
@@ -491,9 +630,9 @@ button {
 }
 
 .btn-danger  {
-  background-color: $brand-danger;
+  background-color: $color-brand-danger;
   &:hover {
-    background-color: darken($brand-danger,5%);
+    background-color: darken($color-brand-danger,5%);
   }
 }
 

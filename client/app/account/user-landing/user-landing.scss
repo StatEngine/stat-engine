@@ -28,15 +28,63 @@
     font-size: 3.5rem;
   }
 
-  .overview {
-    .summary-profile, .summary-department {
-      text-align: center;
+  .summary-profile, .summary-department {
+    text-align: center;
+    h4 {
+      border-bottom: 1px solid $color-geyser;
+      padding: 2rem 0;
+      margin-bottom: 2.5rem;
+    }
+    dl {
+      text-align: left;
+      dt {
+        margin-bottom: .5rem;
+      }
+      dd {
+        margin-bottom: 3rem;
+      }
+    }
+  }
+
+  .integrations-container {
+    .card {
+      margin: 0 2rem 2rem 0;
+      max-width: 280px;
+      min-width: 280px;
+      @media (max-width: 575.99px) {
+        max-width: none;
+      }
+      .switch {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+      }
+      span, h5, p {
+        text-align: center;
+      }
+
+      &.disabled {
+        background-color: #E7ECF2;
+        color: #737e89;
+      }
     }
 
+    .cta h4 {
+      line-height: 1.5;
+    }
+  }
+  .card {
+    background-color: #fbfcfd;
+    border: 1px solid #ced2d6;
+    border-radius: 5px;
+    padding: 2rem;
   }
 
 
-
-
-
+  .data-quality-analysis {
+    h3 .badge {
+      background-color: $color-brand-danger;
+      margin-left: 1rem;
+    }
+  }
 }
