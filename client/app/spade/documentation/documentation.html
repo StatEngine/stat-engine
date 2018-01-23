@@ -1,0 +1,204 @@
+<div class="spade-docs">
+	<span class="top-line"></span>
+	<div class="fixed-sidebar">
+    <a href="#" class="spade-branding"><img src="assets/images/spade-docs-logo.png" alt=""></a>
+	  <div class="list-group">
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showWelcome=!showWelcome"><h5 class="heavyheader">Welcome</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showWelcome">
+          <li><a href="#welcome">Intro</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showOverview=!showOverview"><h5 class="heavyheader">Overview</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showOverview">
+          <li><a href="#">What is Spade?</a></li>
+          <li><a href="#">What is StatEngine?</a></li>
+          <li><a href="#">Using This Guide</a></li>
+          <li><a href="#">How to get help</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showGetStarted=!showGetStarted"><h5 class="heavyheader">Getting Started</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showGetStarted">
+          <li><a ng-click="scrollTo('#system-reqs')" href="#">System requirements</a></li>
+          <li><a href="#">Downloading the Installer</a></li>
+          <li><a href="#">Quick Start</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showFeatures=!showFeatures"><h5 class="heavyheader">Features</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showFeatures">
+          <li><a href="#">Tasks/Sources</a></li>
+          <li><a href="#">Destinations</a></li>
+          <li><a href="#">Miscellaneous</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showCreateTasks=!showCreateTasks"><h5 class="heavyheader">Creating Tasks</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showCreateTasks">
+          <li><a href="#">How to create tasks</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showConfigDest=!showConfigDest"><h5 class="heavyheader">Configuring Destinations</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showConfigDest">
+          <li><a href="#">Web Service</a></li>
+          <li><a href="#">S3</a></li>
+          <li><a href="#">FileSystem</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showConfigSource=!showConfigSource"><h5 class="heavyheader">Configuring your Source</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showConfigSource">
+          <li><a href="#">Configuring the File Watch Source</a></li>
+          <li><a href="#">Using the Task Bar Icon</a></li>
+          <li><a href="#">Launch the UI</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showFaq=!showFaq"><h5 class="heavyheader">Frequently Asked Questions</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showFaq">
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="showTrouble=!showTrouble"><h5 class="heavyheader">Troubleshooting</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="showTrouble">
+          <li><a href="#">Troubleshooting</a></li>
+        </ul>
+      </ul>
+    </div>
+	</div>
+	<section class="fixed-sidebar-content mb-5">
+		<div class="row">
+      <div class="col-xs-12 px-5">
+				<section id="welcome" class="mt-5">
+					<h2>Welcome</h2>
+					<h4 class="heavyheader mt-5">Thank You!</h4>
+					<p>Our goal is to build tools that enable public safety organizations to more efficiently and effectively achieve their mission.  We are thankful to have the opportunity to support your organization and hope that we have a positive impact on its operations through the technology we have built.  Please reach out to us at contact@statengine.io if there is anything we can help you with.</p>
+					<em>– The StatEngine Team</em>
+				</section>
+
+				<hr>
+
+				<section id="overview" class="mt-5">
+					<h2>Overview</h2>
+
+					<h4 class="heavyheader mt-5">What is Spade?</h4>
+					<p>Spade is the core data ingestion component of StatEngine. Spade aggregates data from local data repositories including CADs, Records Management Systems, and other databases and optimally prepares and sends that data for consumption by StatEngine.</p>
+
+					<h4 class="heavyheader mt-5">What is StatEngine?</h4>
+					<p>StatEngine is a real-time open source data analytics and visualization platform built from the ground up for public safety organizations. StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools. This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data sets.  StatEngine is currently funded by the National Institute of Standards and Technology's Public Safety Innovation Accelerator Program (PSIAP).</p>
+
+					<h4 class="heavyheader mt-5">Using This Guide</h4>
+					<p>This manual is intended for system administrators responsible for installing and managing the Spade data tool in order to push department data to StatEngine. We’ve included a quickstart that will cover the majority of implementations, but also provided more detailed documentation that explains all the features and will help for more customized implementations.</p>
+
+					<h4 class="heavyheader mt-5">How to get help</h4>
+					<p>If you run into problems contact statengine support at: support@statengine.io.</p>
+				</section>
+
+				<hr>
+
+				<section id="getting-started" class="mt-5">
+					<h2>Getting Started</h2>
+
+					<h4 class="heavyheader mt-5">System Requirements</h4>
+					<ul>
+						<li>Operating System</li>
+						<ul>
+							<li>Windows Server 2012 R2</li>
+							<li>Windows Server 2012</li>
+							<li>Windows Server 2008 R2</li>
+							<li>Windows Server 2008</li>
+							<li>Windows Server 2016</li>
+							<li>Windows 8.1</li>
+							<li>Windows 7</li>
+							<li>Windows 10</li>
+						</ul>
+						<li>Internet Connection</li>
+						<li>Administrative Access to Operating System</li>
+						<li>Disk space for install: 700MB[b]</li>
+						<li>Access to the datasource from the computer you’re installing Spade on.</li>
+					</ul>
+
+					<h4 class="heavyheader mt-5 pt-2">Quick Start</h4>
+					<ol>
+						<li>Locate the Spade installer.</li>
+						<li>If you downloaded the installer from the internet:</li>
+						<li>Right click installer icon</li>
+						<li>Choose properties</li>
+						<li>Click Unblock</li>
+						<li>Click OK</li>
+						<li>Double click the installer icon.</li>
+						<li>When asked if you want to allow this app, select yes.</li>
+						<li>Wait for the installer to finish</li>
+						<li>An icon should appear on the desktop.</li>
+						<li>Right click the icon</li>
+						<li>Choose run as administrator</li>
+						<li>Spade login page should show.</li>
+						<li>Log in with your spade account credentials, these are different from your personal StatEngine credentials.</li>
+						<li>Tasks page should show.</li>
+						<li>Click ADD</li>
+						<li>Name: Enter a name for the source task.</li>
+						<li>Interval (minutes): Choose how often it will run</li>
+						<li>Enabled starts the task. Wait to switch this on until you’ve finished configuring the task.</li>
+						<li>Source lets you choose the location where you will be pulling data from. Choose File Watch to monitor a folder.</li>
+						<li>Folder: Click browse and find the folder where new files will be added.</li>
+						<li>Processed Folder: Click browse and choose a folder to store the files after they have been processed.</li>
+						<li>Destination: Allows you to choose where to send the data to.</li>
+						<li>Choose “New Web Service”</li>
+						<li>Url: enter https://statengine.io</li>
+						<li>Toggle the Enabled switch</li>
+						<li>Click “Restart Service” at the top of the screen.</li>
+						<li>Spade is now running, you can close the window.</li>
+					</ol>
+				</section>
+
+				<hr>
+
+				<section id="doc-features" class="mt-5">
+					<h2>Features</h2>
+
+					<p><strong>There are three parts to Spade:</strong></p>
+						<ol>
+							<li>The Spade user interface (UI) which enables you to configure Sources and Destinations that together enable consumption of your data by StatEngine.</li>
+							<li>The Spade Service, which reads the configuration file created by the Spade UI and continuously runs in the background securely sending your data to StatEngine.</li>
+							<li>Tray icon ties the two together. Click the little guy to open the UI and control the service.</li>
+						</ol>
+
+						<h4 class="heavyheader mt-5">Tasks/Sources</h4>
+						<p>A task is a scheduled job that copies data from your local source to a destination.  Each task includes a source and references a destination. A source is a local repository of data that you want to push to StatEngine.  The source is generally a folder on the computer’s local filesystem where CAD files are delivered. But Spade also supports databases and custom sources.</p>
+
+						<h4 class="heavyheader mt-5">Destinations</h4>
+						<p>StatEngine enables multiple endpoints for you to push your data to. Most instances will use the default https endpoint.</p>
+
+						<h4 class="heavyheader mt-5">Miscellaneous</h4>
+						<p>StatEngine URL: Advanced customers may choose to use a private instance of StatEngine. To support this, we enable changing Spade’s global concept of the StatEngine URL to a local instance.</p>
+					</section>
+
+					<hr>
+
+					<section id="creating-tasks" class="mt-5">
+						<h2>Creating Tasks</h2>
+						<img alt="creating tasks" src="/assets/images/spade-docs/image1.png">
+
+
+
+
+
+
+
+
+      </div>
+		</div>
+	</div>
+</div>

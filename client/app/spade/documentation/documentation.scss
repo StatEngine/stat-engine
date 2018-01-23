@@ -1,0 +1,145 @@
+.spade-docs {
+  color: #495668;
+  overflow-x: hidden;
+
+  .top-line {
+    border-top: 4px solid;
+    border-image: linear-gradient(to right, #0a85ff 1%,#e5f1ff 100%);
+    border-image-slice: 1;
+    position: fixed;
+    top: 0;
+    display: block;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .fixed-sidebar {
+	  position: fixed;
+  	width: 250px; /* Sidebar Width */
+    height: 100%;
+    border-right: 1px solid $color-geyser;
+    overflow: auto;
+
+    .spade-branding {
+      background: white;
+      border-bottom: 1px solid #D7DEE3;
+      border-right: 1px solid #D7DEE3;
+      display: block;
+      height: 75px;
+      position: fixed;
+      text-align: center;
+      width: 250px;
+      margin: 2rem 0;
+      z-index: 2;
+    }
+
+  	@media (max-width: 768px) { /* When to break the sidebar for mobile devices */
+  		position: static;
+  	  width: auto;
+      border-bottom: 1px solid #D7DEE3;
+
+      .spade-branding {
+        width: 100%;
+      }
+  	}
+
+    .list-group {
+      margin-top: 92px;
+      padding-top: 10px;
+
+      .list-group-item {
+        padding: 10px 15px 5px;
+      }
+
+      h5 {
+        color: #495668;
+        margin: 5px 0;
+      }
+
+      ul {
+        margin-bottom: 0;
+
+        li a:hover h5 {
+          color: #0a85ff;
+        }
+
+        ul{
+          margin-left: 1.5rem;
+          font-size: 14px;
+
+          a {
+            color: #2b405e;
+            display: block;
+            padding: 5px 15px;
+            &:hover {
+              color: #0a85ff;
+            }
+          }
+
+        }
+      }
+      a {
+        border: none;
+        border-radius: 0;
+        &:hover {
+          background: none; //lighten($color-geyser,10%);
+          border-right: 3px solid #0a85ff;
+          color: #0a85ff;
+        }
+        &.active, &:focus {
+          background: none;
+          color: #0a85ff;
+        }
+      }
+    }
+  }
+
+  .fixed-sidebar-content {
+    height: 100%;
+    min-height: 500px;
+  	margin-left: 270px; /* Sidebar Width + 20px */
+
+  	@media (max-width: 768px) { /* Sidebar breakpoint */
+  		margin-left: 0;
+  	}
+
+    hr {
+      margin: 5rem 0;
+    }
+
+    a {
+      color: #0a85ff;
+    }
+
+    ul, ul ul {
+      li::before {
+        content: "•";
+        color: #0a85ff;
+        margin-right: 1rem;
+      }
+
+      li {
+        margin: .5rem;
+      }
+    }
+
+    ul ul {
+      margin-left: 2rem;
+    }
+
+    ol {
+      list-style-type: decimal;
+      list-style-position: inside;
+      li {
+        margin: .5rem;
+      }
+    }
+
+    img {
+      max-width: 650px;
+    }
+
+
+
+  }
+}

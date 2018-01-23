@@ -1,3 +1,6 @@
+// Import sub stylesheets
+@import '/documentation/documentation';
+
 // Variables
 $color-spade-hyperlink: #0a85ff;
 
@@ -21,6 +24,10 @@ $color-spade-hyperlink: #0a85ff;
   header section {
     a {
       color: lighten($color-cerulean,5%);
+    }
+
+    a.btn {
+      color: white;
     }
 
     h4 {

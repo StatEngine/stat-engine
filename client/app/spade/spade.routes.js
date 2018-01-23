@@ -5,8 +5,13 @@ export default function routes($stateProvider) {
 
   $stateProvider.state('spadeLanding', {
     url: '/spade',
-    template: require('./spade-landing/spade-landing.html'),
-    controller: 'SpadeLandingController',
-    controllerAs: 'vm'
+    template: require('./landing/landing.html'),
+    controller: 'SpadeLandingController'
+  });
+
+  $stateProvider.state('spadeDocumentation', {
+    url: '/spade/documentation',
+    template: require('./documentation/documentation.html'),
+    controller: 'SpadeDocumentationController'
   });
 }
