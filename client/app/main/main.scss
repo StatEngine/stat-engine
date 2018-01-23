@@ -338,7 +338,6 @@ header.naked {
 
 #our-partners p {
   font-family: OpenSans-regular;
-  font-size: 14px;
   letter-spacing: 0.2px;
   text-align: left;
 }
@@ -383,7 +382,7 @@ header.naked {
 }
 
 #news-events article {
-  margin: 12px 0;
+  margin: 2rem 0;
 }
 
 #news-events article h5 {
@@ -392,13 +391,11 @@ header.naked {
   letter-spacing: 0.2px;
   margin-bottom: 0;
   color: #1aa9b6;
-  font-family: OpenSans-regular;
+  font-family: OpenSans-Semibold;
 }
 
 #news-events article p {
-  font-size: 14px;
   letter-spacing: 0.2px;
-  font-family: OpenSans-regular;
 }
 @media (max-width: 750px) {
   #news-events {
