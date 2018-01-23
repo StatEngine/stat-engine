@@ -1,6 +1,15 @@
+// Variables
+$color-spade-hyperlink: #0a85ff;
+
+// Landing Page Styles
 .spade-landing {
 
-  $color-spade-hyperlink: #0a85ff;
+  a {
+    color: $color-spade-hyperlink;
+    &:hover {
+      color: darken($color-spade-hyperlink,15%);
+    }
+  }
 
   header {
     background-image: url('../assets/images/spade-bg.png');
@@ -13,27 +22,38 @@
     a {
       color: lighten($color-cerulean,5%);
     }
+
     h4 {
       color: #C8E2FF;
       line-height: 1.4;
     }
 
-    // Your better than that...Bingles to fix later.
     span {
-      max-width: 1rem;
-      display: inline-table;
+      > * {
+        display: block;
+        margin: 0 auto;
+      }
+
+      button, em {
+        margin-bottom: 1rem;
+      }
+
+      // Your better than that...Bingles to fix later.
+      @media (min-width: 575.99px) {
+        max-width: 1rem;
+        display: inline-table;
+      }
     }
 
     em {
       font-size: 90%;
       color: #C8E2FF;
     }
-  }
 
-  a {
-    color: $color-spade-hyperlink;
-    &:hover {
-      color: darken($color-spade-hyperlink,15%);
+    @media (max-width: 575.99px) {
+      .spade-logo {
+        max-width: 12rem;
+      }
     }
   }
 
