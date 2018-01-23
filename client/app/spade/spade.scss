@@ -1,0 +1,87 @@
+.spade-landing {
+
+  $color-spade-hyperlink: #0a85ff;
+
+  header {
+    background-image: url('../assets/images/spade-bg.png');
+    background-position: center;
+    background-size: cover;
+    height: 570px;
+  }
+
+  header section {
+    a {
+      color: lighten($color-cerulean,5%);
+    }
+    h4 {
+      color: #C8E2FF;
+      line-height: 1.4;
+    }
+
+    // Your better than that...Bingles to fix later.
+    span {
+      max-width: 1rem;
+      display: inline-table;
+    }
+
+    em {
+      font-size: 90%;
+      color: #C8E2FF;
+    }
+  }
+
+  a {
+    color: $color-spade-hyperlink;
+    &:hover {
+      color: darken($color-spade-hyperlink,15%);
+    }
+  }
+
+  .welcome-text {
+    color: white;
+    h1.subheader {
+      color: lighten($color-bondi-blue,12%);
+    }
+  }
+
+  .info-cards {
+    a.card {
+      box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+      color: inherit;
+      display: block;
+      padding: 4rem;
+      border-radius: 4px;
+      &:hover, &:active, &:focus {
+        text-decoration: none;
+        h4 {
+          color: $color-spade-hyperlink;
+        }
+      }
+      h4 i {
+        font-size: 15px;
+        top: -1px;
+        position: relative;
+      }
+    }
+
+    .documentation, .download {
+      background-image: url('../assets/images/doc-icon.svg');
+      background-repeat: no-repeat;
+      background-position: 40px 48px;
+    }
+
+    .download {
+      background-image: url('../assets/images/download-icon.svg');
+    }
+
+    h4, p {
+      padding-left: 10rem;
+    }
+  }
+
+  .faqs {
+    .toggle {
+      margin-bottom: 3rem;
+    }
+  }
+}
