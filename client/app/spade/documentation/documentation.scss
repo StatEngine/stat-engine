@@ -75,7 +75,6 @@
               color: #0a85ff;
             }
           }
-
         }
       }
       a {
@@ -89,6 +88,10 @@
         &.active, &:focus {
           background: none;
           color: #0a85ff;
+          border-right: 3px solid #0a85ff;
+          &:hover {
+            text-decoration: none;
+          }
         }
       }
     }
@@ -102,6 +105,15 @@
   	@media (max-width: 768px) { /* Sidebar breakpoint */
   		margin-left: 0;
   	}
+
+    .badge.light {
+      background-color: lighten($color-geyser,7%);
+      color: $color-brand-danger;
+      font-weight: 100;
+      font-family: monospace;
+      padding: 6px 12px;
+      font-size: 14px;
+    }
 
     hr {
       margin: 5rem 0;
@@ -123,7 +135,10 @@
       }
     }
 
-    ul ul {
+    ul ul,
+    ul ul ul,
+    ol ol,
+    ol ol ol {
       margin-left: 2rem;
     }
 
@@ -136,10 +151,8 @@
     }
 
     img {
-      max-width: 650px;
+      width: 100%;
+      max-width: 750px;
     }
-
-
-
   }
 }
