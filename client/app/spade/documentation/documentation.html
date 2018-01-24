@@ -1,29 +1,20 @@
 <div class="spade-docs">
 	<span class="top-line"></span>
-	<!-- FIXED SIDEBAR -->
+
+	<!-- Fixed Siebar -->
 	<div class="fixed-sidebar">
     <a href="#" class="spade-branding"><img src="assets/images/spade-docs-logo.png" alt=""></a>
 	  <div class="list-group">
       <ul>
-<<<<<<< HEAD
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Welcome</h5></a></li>
-        <ul class="sub-list-group-item">
-=======
         <li><a href="#" class="list-group-item" ng-click="scrollTo('#welcome')"><h5 class="heavyheader">Welcome</h5></a></li>
         <ul class="sub-list-group-item" ng-show="sectionOpen=='#welcome'">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
           <li><a href="#welcome">Intro</a></li>
         </ul>
       </ul>
 
       <ul>
-<<<<<<< HEAD
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Overview</h5></a></li>
-        <ul class="sub-list-group-item">
-=======
         <li><a href="#" class="list-group-item" ng-click="scrollTo('#overview')"><h5 class="heavyheader">Overview</h5></a></li>
         <ul class="sub-list-group-item" ng-show="sectionOpen=='#overview'">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
           <li><a href="#">What is Spade?</a></li>
           <li><a href="#">What is StatEngine?</a></li>
           <li><a href="#">Using This Guide</a></li>
@@ -32,13 +23,8 @@
       </ul>
 
       <ul>
-<<<<<<< HEAD
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Getting Started</h5></a></li>
-        <ul class="sub-list-group-item">
-=======
         <li><a href="#" class="list-group-item" ng-click="scrollTo('#gettingStarted')"><h5 class="heavyheader">Getting Started</h5></a></li>
         <ul class="sub-list-group-item" ng-show="sectionOpen=='#gettingStarted'">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
           <li><a ng-click="scrollTo('#system-reqs')" href="#">System requirements</a></li>
           <li><a href="#">Downloading the Installer</a></li>
           <li><a href="#">Quick Start</a></li>
@@ -46,13 +32,8 @@
       </ul>
 
       <ul>
-<<<<<<< HEAD
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Features</h5></a></li>
-        <ul class="sub-list-group-item">
-=======
         <li><a href="#" class="list-group-item" ng-click="scrollTo('#docFeatures')"><h5 class="heavyheader">Features</h5></a></li>
         <ul class="sub-list-group-item" ng-show="sectionOpen=='#docFeatures'">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
           <li><a href="#">Tasks/Sources</a></li>
           <li><a href="#">Destinations</a></li>
           <li><a href="#">Miscellaneous</a></li>
@@ -60,20 +41,15 @@
       </ul>
 
       <ul>
-<<<<<<< HEAD
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Creating Tasks</h5></a></li>
-        <ul class="sub-list-group-item">
-=======
         <li><a href="#" class="list-group-item" ng-click="scrollTo('#creatingTasks')"><h5 class="heavyheader">Creating Tasks</h5></a></li>
         <ul class="sub-list-group-item" ng-show="sectionOpen=='#creatingTasks'">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
           <li><a href="#">How to create tasks</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Configuring Destinations</h5></a></li>
-        <ul class="sub-list-group-item">
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#configDestinations')"><h5 class="heavyheader">Configuring Destinations</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen=='#configDestinations'">
           <li><a href="#" class="active">Web Service</a></li>
           <li><a href="#">S3</a></li>
           <li><a href="#">FileSystem</a></li>
@@ -81,8 +57,8 @@
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Configuring your Source</h5></a></li>
-        <ul class="sub-list-group-item">
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#configSources')"><h5 class="heavyheader">Configuring your Source</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen=='#configSources'">
           <li><a href="#">Configuring the File Watch Source</a></li>
           <li><a href="#">Using the Task Bar Icon</a></li>
           <li><a href="#">Launch the UI</a></li>
@@ -90,22 +66,22 @@
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Frequently Asked Questions</h5></a></li>
-        <ul class="sub-list-group-item">
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#faqs')"><h5 class="heavyheader">Frequently Asked Questions</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen=='#faqs'">
           <li><a href="#">FAQs</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item"><h5 class="heavyheader">Troubleshooting</h5></a></li>
-        <ul class="sub-list-group-item">
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#troubleshooting')"><h5 class="heavyheader">Troubleshooting</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen=='#troubleshooting'">
           <li><a href="#">Troubleshooting</a></li>
         </ul>
       </ul>
     </div>
 	</div>
 
-	<!-- MAIN CONTENT -->
+	<!-- Main Content -->
 	<section class="fixed-sidebar-content mb-5">
 		<div class="row">
       <div class="col-xs-12 px-5">
@@ -139,12 +115,8 @@
 
 				<hr>
 
-<<<<<<< HEAD
 				<!-- Getting Started -->
-				<section id="getting-started" class="mt-5">
-=======
 				<section id="gettingStarted" class="mt-5">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
 					<h2>Getting Started</h2>
 
 					<h4 class="heavyheader mt-5">System Requirements</h4>
@@ -201,12 +173,8 @@
 
 				<hr>
 
-<<<<<<< HEAD
 				<!-- Features -->
-				<section id="doc-features" class="mt-5">
-=======
 				<section id="docFeatures" class="mt-5">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
 					<h2>Features</h2>
 
 					<p><strong>There are three parts to Spade:</strong></p>
@@ -224,187 +192,183 @@
 
 						<h4 class="heavyheader mt-5">Miscellaneous</h4>
 						<p>StatEngine URL: Advanced customers may choose to use a private instance of StatEngine. To support this, we enable changing Spade’s global concept of the StatEngine URL to a local instance.</p>
-					</section>
+				</section>
 
-					<hr>
+				<hr>
 
-<<<<<<< HEAD
-					<!-- Creating Tasks -->
-					<section id="creating-tasks" class="mt-5">
-=======
-					<section id="creatingTasks" class="mt-5">
->>>>>>> adade8c2ee1dba4f02bad0969698259003a1c19c
-						<h2>Creating Tasks</h2>
-						<img alt="creating tasks screenshot 1" src="/assets/images/spade-docs/image1.png" class="my-4">
-						<img alt="creating tasks screenshot 2" src="/assets/images/spade-docs/image9.png" class="my-4">
-						<img alt="creating tasks screenshot 3" src="/assets/images/spade-docs/image6.png" class="my-4">
-						<img alt="creating tasks screenshot 4" src="/assets/images/spade-docs/image5.png" class="my-4">
+				<!-- Creating Tasks -->
+				<section id="creatingTasks" class="mt-5">
+					<h2>Creating Tasks</h2>
+					<img alt="creating tasks screenshot 1" src="/assets/images/spade-docs/image1.png" class="my-4">
+					<img alt="creating tasks screenshot 2" src="/assets/images/spade-docs/image9.png" class="my-4">
+					<img alt="creating tasks screenshot 3" src="/assets/images/spade-docs/image6.png" class="my-4">
+					<img alt="creating tasks screenshot 4" src="/assets/images/spade-docs/image5.png" class="my-4">
 
-						<h4 class="my-4">Tasks manage the scheduled work of moving data from your local system to StatEngine.</h4>
+					<h4 class="my-4">Tasks manage the scheduled work of moving data from your local system to StatEngine.</h4>
 
+					<ol>
+						<li>Click <span class="badge light">+Add</span> at the top right of the Tasks header</li>
+						<li>A new task will show in the list</li>
+						<li>Click the <span class="badge light">v</span> at the right of the new task to expand the task</li>
 						<ol>
-							<li>Click <span class="badge light">+Add</span> at the top right of the Tasks header</li>
-							<li>A new task will show in the list</li>
-							<li>Click the <span class="badge light">v</span> at the right of the new task to expand the task</li>
-							<ol>
-								<li>Enter the Task info</li>
-								<li><strong>Name</strong> - The name of the task</li>
-								<li><strong>Interval</strong> - The interval is how often Spade will check for updated data.</li>
-								<li><strong>Enabled</strong> - The enabled flag</li>
-								<li><strong>Source Type</strong> - What type of system contains the source data</li>
-									<ol>
-										<li>By default Spade only ships with the File Watch source type.</li>
-										<li>Additional custom sources can be created for your installation.</li>
-									</ol>
-								<li><strong>Destination</strong> - The destination is where the data will be sent.</li>
-									<ol>
-										<li>Most installs will use the preconfigured statengine destination</li>
-										<li>Advanced installs may use a custom install</li>
-									</ol>
-							</ol>
+							<li>Enter the Task info</li>
+							<li><strong>Name</strong> - The name of the task</li>
+							<li><strong>Interval</strong> - The interval is how often Spade will check for updated data.</li>
+							<li><strong>Enabled</strong> - The enabled flag</li>
+							<li><strong>Source Type</strong> - What type of system contains the source data</li>
+								<ol>
+									<li>By default Spade only ships with the File Watch source type.</li>
+									<li>Additional custom sources can be created for your installation.</li>
+								</ol>
+							<li><strong>Destination</strong> - The destination is where the data will be sent.</li>
+								<ol>
+									<li>Most installs will use the preconfigured statengine destination</li>
+									<li>Advanced installs may use a custom install</li>
+								</ol>
 						</ol>
-					</section>
+					</ol>
+				</section>
 
-					<hr>
+				<hr>
 
-					<!-- Configuring Destinations -->
-					<section id="config-destinations" class="mt-5">
-						<h2>Configuring Destinations</h2>
-						<p>For the majority of our clients, we recommend using the Web Service destination. The information in this section is intended for our customers who are unable to use the default configuration.</p>
+				<!-- Configuring Destinations -->
+				<section id="configDestinations" class="mt-5">
+					<h2>Configuring Destinations</h2>
+					<p>For the majority of our clients, we recommend using the Web Service destination. The information in this section is intended for our customers who are unable to use the default configuration.</p>
 
-						<h4 class="heavyheader mt-5">Web Service</h4>
-						<img alt="configuring destinations screenshot" src="/assets/images/spade-docs/image7.png" class="mb-4">
-						<p>The webservice destination allows for pushing data directly to a statengine server. The most common URL will be <span class="badge light">https://statengine.io</span>.</p>
-						<ol>
-							<li>Enter a name</li>
-							<li>Select Web Service for the Type</li>
-							<li>Enter the URL for your Statengine instance in Web Service URL.</li>
-						</ol>
+					<h4 class="heavyheader mt-5">Web Service</h4>
+					<img alt="configuring destinations screenshot" src="/assets/images/spade-docs/image7.png" class="mb-4">
+					<p>The webservice destination allows for pushing data directly to a statengine server. The most common URL will be <span class="badge light">https://statengine.io</span>.</p>
+					<ol>
+						<li>Enter a name</li>
+						<li>Select Web Service for the Type</li>
+						<li>Enter the URL for your Statengine instance in Web Service URL.</li>
+					</ol>
 
-						<h4 class="heavyheader mt-5 pt-4">S3</h4>
-						<img alt="configuring destinations s3 screenshot" src="/assets/images/spade-docs/image2.png" class="mb-4">
-						<p>The s3 destination allows for pushing data to an Amazon AWS S3 bucket. This may be used in conjunction with custom data sources that will need additional processing prior to being used by statengine.</p>
-						<ol>
-							<li>Enter a Name for the Destination</li>
-							<li>Choose S3 for the type</li>
-							<li>Enter the URL of your S3 bucket</li>
-							<li>Enter your AWS Access Key ID</li>
-							<li>Enter you AWS Secret Key</li>
-						</ol>
+					<h4 class="heavyheader mt-5 pt-4">S3</h4>
+					<img alt="configuring destinations s3 screenshot" src="/assets/images/spade-docs/image2.png" class="mb-4">
+					<p>The s3 destination allows for pushing data to an Amazon AWS S3 bucket. This may be used in conjunction with custom data sources that will need additional processing prior to being used by statengine.</p>
+					<ol>
+						<li>Enter a Name for the Destination</li>
+						<li>Choose S3 for the type</li>
+						<li>Enter the URL of your S3 bucket</li>
+						<li>Enter your AWS Access Key ID</li>
+						<li>Enter you AWS Secret Key</li>
+					</ol>
 
-						<h4 class="heavyheader mt-5 pt-4">File System</h4>
-						<img alt="configuring destinations file system screenshot" src="/assets/images/spade-docs/image4.png" class="mb-4">
-						<p>The filesystem destination will push the data to a local file system folder. This destination is often helpful for testing as you can see the output from the source.</p>
-						<ol>
-							<li>Enter a Name for the Destination</li>
-							<li>Choose S3 for the type</li>
-							<li>Enter the URL of your S3 bucket</li>
-							<li>Enter your AWS Access Key ID</li>
-							<li>Enter you AWS Secret Key</li>
-						</ol>
-					</section>
+					<h4 class="heavyheader mt-5 pt-4">File System</h4>
+					<img alt="configuring destinations file system screenshot" src="/assets/images/spade-docs/image4.png" class="mb-4">
+					<p>The filesystem destination will push the data to a local file system folder. This destination is often helpful for testing as you can see the output from the source.</p>
+					<ol>
+						<li>Enter a Name for the Destination</li>
+						<li>Choose S3 for the type</li>
+						<li>Enter the URL of your S3 bucket</li>
+						<li>Enter your AWS Access Key ID</li>
+						<li>Enter you AWS Secret Key</li>
+					</ol>
+				</section>
 
-					<hr>
+				<hr>
 
-					<!-- Configuring your Source -->
-					<section id="config-your-source" class="mt-5">
-						<h2>Configuring your Source</h2>
+				<!-- Configuring your Source -->
+				<section id="configSources" class="mt-5">
+					<h2>Configuring your Source</h2>
 
-						<h4 class="heavyheader mt-5">Configuring the File Watch Source</h4>
-						<img alt="configuring your source screenshot" src="/assets/images/spade-docs/image5.png" class="mb-4">
-						<p>The file watch requires two folders.</p>
-						<ol>
-							<li>Source - This is the folder where your CAD or RMS delivers updated files.  Spade will watch this folder and copy the data from files as they are added.</li>
-							<li>Processed - After Spade has uploaded the data to StatEngine it will move the files from the source folder to the processed folder.</li>
-						</ol>
+					<h4 class="heavyheader mt-5">Configuring the File Watch Source</h4>
+					<img alt="configuring your source screenshot" src="/assets/images/spade-docs/image5.png" class="mb-4">
+					<p>The file watch requires two folders.</p>
+					<ol>
+						<li>Source - This is the folder where your CAD or RMS delivers updated files.  Spade will watch this folder and copy the data from files as they are added.</li>
+						<li>Processed - After Spade has uploaded the data to StatEngine it will move the files from the source folder to the processed folder.</li>
+					</ol>
 
-						<h4 class="heavyheader mt-5">Using the Task Bar Icon</h4>
-						<img alt="taskbar screenshot" src="/assets/images/spade-docs/image8.png" class="mb-4">
-						<p>The task bar gives you quick access to many functions in Spade.</p>
+					<h4 class="heavyheader mt-5">Using the Task Bar Icon</h4>
+					<img alt="taskbar screenshot" src="/assets/images/spade-docs/image8.png" class="mb-4">
+					<p>The task bar gives you quick access to many functions in Spade.</p>
 
-						<h4 class="heavyheader mt-5">Launch the UI</h4>
-						<p>By simply clicking the icon it will bring up the Spade UI. Alternatively, you can right click the icon and then click show.</p>
+					<h4 class="heavyheader mt-5">Launch the UI</h4>
+					<p>By simply clicking the icon it will bring up the Spade UI. Alternatively, you can right click the icon and then click show.</p>
 
-						<h4 class="mt-5">Quit</h4>
-						<p>Shuts down the UI. Service may still be running</p>
+					<h4 class="mt-5">Quit</h4>
+					<p>Shuts down the UI. Service may still be running</p>
 
-						<h4 class="mt-5">AppMode</h4>
-						<p>Should Read Installed</p>
+					<h4 class="mt-5">AppMode</h4>
+					<p>Should Read Installed</p>
 
-						<h4 class="mt-5">About</h4>
-						<p>Gives details about the version spade</p>
+					<h4 class="mt-5">About</h4>
+					<p>Gives details about the version spade</p>
 
-						<h4 class="mt-5">Service Status</h4>
-						<p>Tells the current status of the service.</p>
+					<h4 class="mt-5">Service Status</h4>
+					<p>Tells the current status of the service.</p>
 
-						<h4 class="mt-5">Service Status Old</h4>
-						<p>Tells the previous status of the service</p>
+					<h4 class="mt-5">Service Status Old</h4>
+					<p>Tells the previous status of the service</p>
 
-						<h4 class="mt-5">Service Add</h4>
-						<p>Create an instance of the Spade Service</p>
+					<h4 class="mt-5">Service Add</h4>
+					<p>Create an instance of the Spade Service</p>
 
-						<h4 class="mt-5">Service Remove</h4>
-						<p>Remove the current instance of the Spade Service</p>
+					<h4 class="mt-5">Service Remove</h4>
+					<p>Remove the current instance of the Spade Service</p>
 
-						<h4 class="mt-5">Service Start</h4>
-						<p>Starts the spade service</p>
+					<h4 class="mt-5">Service Start</h4>
+					<p>Starts the spade service</p>
 
-						<h4 class="mt-5">Service Stop</h4>
-						<p>Stops the Spade service</p>
+					<h4 class="mt-5">Service Stop</h4>
+					<p>Stops the Spade service</p>
 
-						<h4 class="mt-5">Service Add Full</h4>
-						<p>Removes the existing instance of the service if it exists and creates a new instance.</p>
+					<h4 class="mt-5">Service Add Full</h4>
+					<p>Removes the existing instance of the service if it exists and creates a new instance.</p>
 
-						<h4 class="mt-5">Service Add Full Bat</h4>
-						<p>Calls a batch file that removes the existing instance of the service if it exists and creates a new instance.</p>
+					<h4 class="mt-5">Service Add Full Bat</h4>
+					<p>Calls a batch file that removes the existing instance of the service if it exists and creates a new instance.</p>
 
-						<h4 class="mt-5">Service Remove Full</h4>
-						<p>Stops service then uninstalls service</p>
+					<h4 class="mt-5">Service Remove Full</h4>
+					<p>Stops service then uninstalls service</p>
 
-						<h4 class="mt-5">Service Remove Full Bat</h4>
-						<p>Calls a batch file that stops the service then uninstalls service</p>
-					</section>
+					<h4 class="mt-5">Service Remove Full Bat</h4>
+					<p>Calls a batch file that stops the service then uninstalls service</p>
+				</section>
 
-					<hr>
+				<hr>
 
-					<!-- FAQs -->
-					<section id="config-your-source" class="mt-5">
-						<h2>Frequently Asked Questions</h2>
+				<!-- FAQs -->
+				<section id="faqs" class="mt-5">
+					<h2>Frequently Asked Questions</h2>
 
-						<h4 class="heavyheader mt-5">What is StatEngine?</h4>
-						<p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations. Check out <a href="/main">statengine.io</a> to find out more.</p>
+					<h4 class="heavyheader mt-5">What is StatEngine?</h4>
+					<p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations. Check out <a href="/main">statengine.io</a> to find out more.</p>
 
-	          <h4 class="heavyheader mt-5">What is Spade?</h4>
-	          <p>Spade is the core data ingestion component of StatEngine. It’s used to copy data from your local sources such as CAD systems, Record Management Systems, or other applications and send it to StatEngine to be processed and visualized.</p>
+          <h4 class="heavyheader mt-5">What is Spade?</h4>
+          <p>Spade is the core data ingestion component of StatEngine. It’s used to copy data from your local sources such as CAD systems, Record Management Systems, or other applications and send it to StatEngine to be processed and visualized.</p>
 
-	          <h4 class="heavyheader mt-5">Who created spade?</h4>
-	          <p>Spade was created and is maintained by Prominent Edge. Check out <a href="https://www.prominentedge.com" ng-click="viewProminentEdge()" target="_blank">prominentedge.com </a>to find out more.</p>
+          <h4 class="heavyheader mt-5">Who created spade?</h4>
+          <p>Spade was created and is maintained by Prominent Edge. Check out <a href="https://www.prominentedge.com" ng-click="viewProminentEdge()" target="_blank">prominentedge.com </a>to find out more.</p>
 
-	          <h4 class="heavyheader mt-5">Is my data secure?</h4>
-	          <p>Yes, all data transferred is through an encrypted HTTPS session. This is the same security that is used by your bank when you access your account online. Once, your data is on the StatEngine servers it is stored using industry best practices.</p>
+          <h4 class="heavyheader mt-5">Is my data secure?</h4>
+          <p>Yes, all data transferred is through an encrypted HTTPS session. This is the same security that is used by your bank when you access your account online. Once, your data is on the StatEngine servers it is stored using industry best practices.</p>
 
-	          <h4 class="heavyheader mt-5">Who manages the spade installation?</h4>
-	          <p>Departments are responsible for installing and managing Spade. However, if you have any issues you can contact <a href="mailto: support@statengine.io">support@statengine.io</a> and we’ll be happy to help you.</p>
+          <h4 class="heavyheader mt-5">Who manages the spade installation?</h4>
+          <p>Departments are responsible for installing and managing Spade. However, if you have any issues you can contact <a href="mailto: support@statengine.io">support@statengine.io</a> and we’ll be happy to help you.</p>
 
-	          <h4 class="heavyheader mt-5">Is there any prerequisite software that would need to be installed for Spade to work?</h4>
-	          <p>No, Spade includes all of its own dependencies. You just need to have a computer running Windows with internet access and access to the data source.</p>
+          <h4 class="heavyheader mt-5">Is there any prerequisite software that would need to be installed for Spade to work?</h4>
+          <p>No, Spade includes all of its own dependencies. You just need to have a computer running Windows with internet access and access to the data source.</p>
 
-	          <h4 class="heavyheader mt-5">How do I get updates when they are released?</h4>
-	          <p>Update notifications will be sent to the administrative email associated with your statengine account. They will direct you to a download link for the newest version.</p>
+          <h4 class="heavyheader mt-5">How do I get updates when they are released?</h4>
+          <p>Update notifications will be sent to the administrative email associated with your statengine account. They will direct you to a download link for the newest version.</p>
 
-	          <h4 class="heavyheader mt-5">Who do I contact for support if there is an issue with the application?</h4>
-	          <p>You can contact <a href="mailto: support@statengine.io">support@statengine.io</a>.</p>
+          <h4 class="heavyheader mt-5">Who do I contact for support if there is an issue with the application?</h4>
+          <p>You can contact <a href="mailto: support@statengine.io">support@statengine.io</a>.</p>
 
-	          <h4 class="heavyheader mt-5">What IP addresses and ports would need to be open to make the connection with StatEngine?</h4>
-	          <p>Spade communicates with StatEngine over the standard HTTPS port (443) which is most likely already configured correctly on your firewall. Depending on your environment and your specific configuration of destinations in Spade, you may need to whitelist domains/IPs accordingly. </p>
-					</section>
+          <h4 class="heavyheader mt-5">What IP addresses and ports would need to be open to make the connection with StatEngine?</h4>
+          <p>Spade communicates with StatEngine over the standard HTTPS port (443) which is most likely already configured correctly on your firewall. Depending on your environment and your specific configuration of destinations in Spade, you may need to whitelist domains/IPs accordingly. </p>
+				</section>
 
-					<hr>
+				<hr>
 
-					<!-- Troubleshooting -->
-					<section id="troubleshooting" class="mt-5">
-						<h2>Troubleshooting</h2>
-					</section>
+				<!-- Troubleshooting -->
+				<section id="troubleshooting" class="mt-5">
+					<h2>Troubleshooting</h2>
+				</section>
 
       </div>
 		</div>
