@@ -12,6 +12,8 @@ export default function routes($stateProvider) {
   $stateProvider.state('spadeDocumentation', {
     url: '/spade/documentation',
     template: require('./documentation/documentation.html'),
-    controller: 'SpadeDocumentationController'
+    controller: 'SpadeDocumentationController',
+    controllerAs: 'vm'
+
   });
 }
