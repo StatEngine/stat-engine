@@ -77,4 +77,23 @@ User
   }, {
     include: FireDepartment.Users
   }))
+  .then(() => FireDepartment.create({
+    fd_id: '11223',
+    firecares_id: '97477',
+    name: 'Tucson Fire Department',
+    state: 'AZ',
+    timezone: 'US/Eastern',
+    Users: [{
+      provider: 'local',
+      role: 'user',
+      username: 'tucson',
+      first_name: 'tucson',
+      last_name: 'User',
+      email: 'tucons@prominentedge.com',
+      password: 'password',
+      api_key: 'tucson',
+    }]
+  }, {
+    include: FireDepartment.Users
+  }))
   .then(() => console.log('finished populating fire departments + users'));

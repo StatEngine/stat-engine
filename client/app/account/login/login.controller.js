@@ -11,27 +11,27 @@ export default class LoginController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Auth, $state, $scope, $rootScope) {
-    this.Auth = Auth;
+  constructor(Principal, $state, $rootScope) {
+    this.Principal = Principal;
     this.$state = $state;
 
-    $scope.accountCreated = $rootScope.previousState === 'signupSuccess';
+    this.newAccountJustCreated = ($rootScope.fromState.name == "site.account.signup");
   }
 
   login(form) {
     this.submitted = true;
 
     if(form.$valid) {
-      this.Auth.login({
+      this.Principal.login({
         username: this.user.username,
         password: this.user.password
       })
         .then(() => {
           // Logged in, redirect to home
-          this.$state.go('main');
+          this.$state.go('site.main.main');
         })
         .catch(err => {
-          this.errors.login = err.message;
+          this.errors.login = err.data.message;
         });
     }
   }

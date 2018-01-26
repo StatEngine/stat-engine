@@ -50,7 +50,7 @@ router.get('/', (req, res) => {
     delete user.aws_secret_access_key;
     res.send(user);
   } else {
-    res.send(false);
+    res.send(null);
   }
 });
 

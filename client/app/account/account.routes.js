@@ -3,35 +3,21 @@
 export default function routes($stateProvider) {
   'ngInject';
 
-  $stateProvider.state('login', {
-    url: '/login',
-    template: require('./login/login.html'),
-    controller: 'LoginController',
-    controllerAs: 'vm'
-  })
-    .state('signupSuccess', {
+  $stateProvider
+    .state('site.account', {
+      'abstract': true,
+      template: '<div ui-view />'
+    })
+    .state('site.account.login', {
       url: '/login',
       template: require('./login/login.html'),
       controller: 'LoginController',
       controllerAs: 'vm'
     })
-    .state('signup', {
+    .state('site.account.signup', {
       url: '/signup',
       template: require('./signup/signup.html'),
       controller: 'SignupController',
       controllerAs: 'vm'
-    })
-    .state('userLanding', {
-      url: '/userLanding',
-      template: require('./user-landing/user-landing.html'),
-      controller: 'UserLandingController',
-      controllerAs: 'vm'
-    })
-    .state('settings', {
-      url: '/settings',
-      template: require('./settings/settings.html'),
-      controller: 'SettingsController',
-      controllerAs: 'vm',
-      authenticate: true
     });
 }

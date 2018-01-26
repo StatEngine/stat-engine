@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 
-import uiRouter from 'angular-ui-router';
+import uiRouter from '@uirouter/angularjs';
 
 import routing from './legal.routes';
 import termsOfUse from './terms-of-use';

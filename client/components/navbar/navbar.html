@@ -13,14 +13,14 @@
       </div>
     </div>
     <div id="navbar-button" class="col-auto ml-auto pl-0">
-      <div ng-if="currentUser">
-        <button class="btn btn-primary btn-sm" ng-click="dashboard()">Dashboard</button>
+      <div ng-if="vm.Principal.isLoggedIn()">
+        <i class="fa fa-user">&nbsp;{{ currentUser.username }}</i>
 
-        <button class="btn btn-outline btn-sm" ng-click="logout()"><i class="fa fa-sign-out"></i> {{currentUser.username}}</button>
+        <button class="btn btn-outline btn-sm" ng-click="logout()"><i class="fa fa-sign-out"></i> Sign out</button>
       </div>
-      <div ng-if="!currentUser">
-        <button class="btn btn-link btn-sm" ui-sref="login">Sign In</button>
-        <button class="btn btn-outline btn-sm hvr-float w100" ui-sref="signup">Sign Up</button>
+      <div ng-if="!vm.Principal.isLoggedIn()">
+        <button class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
+        <button class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
       </div>
     </div>
 
