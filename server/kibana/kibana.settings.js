@@ -7,7 +7,7 @@ export default {
   changeOrigin: true,
   logLevel: 'debug',
   // Strip out the appPath, so kibana sees requested path
-  pathRewrite: path => path.replace(`${config.kibana.appPath}`, ''),
+  pathRewrite: path => path.replace(`${config.kibana.appPath}`, '/'),
   // add custom headers to request
   onProxyReq: (proxyReq, req) => {
     console.info('Proxying request to ');

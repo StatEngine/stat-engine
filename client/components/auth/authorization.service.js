@@ -12,11 +12,11 @@ export function AuthorizationService($rootScope, $state, Principal) {
           if ($rootScope.toState.data.roles &&
               $rootScope.toState.data.roles.length > 0 &&
               !Principal.isInAnyRole($rootScope.toState.data.roles)) {
-
+                
               if (isAuthenticated) {
                   // user is signed in but not
                   // authorized for desired state
-                  $state.go('accessdenied');
+                  $state.go('site.main.main');
               } else {
                 // user is not authenticated. Stow
                 // the state they wanted before you
@@ -26,7 +26,7 @@ export function AuthorizationService($rootScope, $state, Principal) {
 
                 // now, send them to the signin state
                 // so they can log in
-                $state.go('signin');
+                $state.go('site.account.login');
               }
           }
         });

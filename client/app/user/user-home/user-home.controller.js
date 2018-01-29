@@ -2,8 +2,8 @@
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor() {
-    console.dir('in here');
-    console.dir()
+  constructor(currentPrincipal) {
+    this.principal = currentPrincipal;
+    console.dir(this.principal)
   }
 }

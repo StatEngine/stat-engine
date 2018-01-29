@@ -25,7 +25,7 @@ User
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'kibana_ro',
+      role: 'user,kibana_ro',
       username: 'richmond',
       first_name: 'Richmond',
       last_name: 'User',

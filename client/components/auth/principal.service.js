@@ -1,16 +1,16 @@
 'use strict';
 
-import angular from 'angular';
+import _ from 'lodash';
 
 export function PrincipalService($http, $q, User) {
   'ngInject';
 
-  var _identity;
+  var _identity = {};
   var _authenticated = false;
 
   return {
     isIdentityResolved: function() {
-      return angular.isDefined(_identity);
+      return !_.isEmpty(_identity);
     },
 
     isAuthenticated: function() {
@@ -35,7 +35,7 @@ export function PrincipalService($http, $q, User) {
 
     authenticate: function(identity) {
       _identity = identity;
-      _authenticated = identity != null;
+      _authenticated = !_.isEmpty(identity);
     },
 
     login: function({ username, password} ) {
@@ -43,8 +43,19 @@ export function PrincipalService($http, $q, User) {
       return $http.post('/auth/local', {
         username,
         password,
-      }).then((user) => {
-        self.authenticate(user);
+      }).then((response) => {
+        console.dir(response)
+        self.authenticate(response.data);
+      });
+    },
+
+    logout: function() {
+      var self = this;
+      return $http.get('/auth/local/logout')
+      .finally(() => {
+        self.authenticate({});
+        // invalidate server session in case kibana doesn't callback
+        return $http.get('/auth/local/logout/_callback')
       });
     },
 
@@ -55,12 +66,12 @@ export function PrincipalService($http, $q, User) {
     identity(force) {
       var deferred = $q.defer();
 
-      if (force === true) _identity = undefined;
+      if (force === true) _identity = {};
 
       // check and see if we have retrieved the
       // currentUser data from the server. if we have,
       // reuse it by immediately resolving
-      if (angular.isDefined(_identity)) {
+      if (!_.isEmpty(_identity)) {
         deferred.resolve(_identity);
 
         return deferred.promise;
@@ -71,9 +82,9 @@ export function PrincipalService($http, $q, User) {
       // resolve.
       var self = this;
       $http.get('/auth/local')
-        .then((identity) => {
-          self.authenticate(identity);
-          deferred.resolve(identity);
+        .then((response) => {
+          self.authenticate(response.data);
+          deferred.resolve(response.data);
         })
         .catch((err) => {
           deferred.reject(err);

@@ -4,17 +4,26 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($window, Principal) {
+  constructor($state, Principal) {
     'ngInject';
 
+    this.state = $state;
     this.Principal = Principal;
+    this.currentPrincipal = undefined;
+
+    Principal.identity().then((currentPrincipal) => {
+      this.currentPrincipal = currentPrincipal;
+    });
+
+    this.logout = function() {
+      this.Principal.logout()
+        .finally(() => {
+          $state.go('site.main.main');
+        });
+    }
 
     this.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
-    };
-
-    this.dashboard = function() {
-      $window.location.href = '/dashboard';
     };
   }
 }

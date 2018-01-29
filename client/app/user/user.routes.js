@@ -6,9 +6,6 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.user', {
       'abstract': true,
-      data: {
-        roles: ['User']
-      },
       template: '<div ui-view />'
     })
     .state('site.user.home', {
@@ -16,7 +13,12 @@ export default function routes($stateProvider) {
       template: require('./user-home/user-home.html'),
       controller: 'UserHomeController',
       data: {
-        roles: ['User']
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal: function(Principal) {
+          return Principal.identity();
+        }
       },
       controllerAs: 'vm'
     })
