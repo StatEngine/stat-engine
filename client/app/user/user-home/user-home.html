@@ -1,15 +1,16 @@
-<div class="user-landing">
+<div class="user-home">
   <navbar class="animated fadeInDown"></navbar>
   <header class="slim">
     <section class="container m-auto pt-5">
       <div class="row">
         <div class="welcome-text col-12">
-          <span>Good Morning,</span>
-          <h1 class="subheader">Cameron Poe</h1>
-          <p>Its been <strong>2 days</strong> since your last sign in and there is nothing new to report. <br> Your data quality score is <strong>poor</strong> - <a href="#">learn why</a>.</p>
+          <span> {{vm.greeting }}, </span>
+          <h1 class="subheader"> {{ vm.principal.first_name }} {{ vm.principal.last_name }}</h1>
+          <!--<p>Its been <strong>2 days</strong> since your last sign in and there is nothing new to report. --->
+          <p> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a ng-click="vm.scrollTo('#data-quality-analysis')" href="#data-quality-analysis">learn why</a>.</p>
         </div>
         <div class="col-12 py-2 button-group">
-          <button class="btn btn-primary">Some Action</button>
+          <button class="btn btn-primary" ng-click="vm.dashboard()"">Dashboard</button>
         </div>
       </div>
     </section>
@@ -21,21 +22,29 @@
         <h4 class="heavyheader">My Profile Summary</h4>
         <dl class="row">
           <div class="col">
-            <dt>UserRule Check</dt>
-            <dd>Cameron Poe</dd>
+            <dt>Getting started</dt>
+            <dd>
+              Assigned Fire Department
+              <i ng-if="vm.principal.fire_department__id" class="fa fa-check-circle text-success"></i>
+              <i ng-if="!vm.principal.fire_department__id" class="fa fa-times-circle text-danger"></i>
 
-            <dt>First Rule Check</dt>
-            <dd>Cameron Poe</dd>
+              <br>
 
-            <dt>Last Rule Check</dt>
-            <dd>Cameron Poe</dd>
+              Dashboard Access
+              <i ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" class="fa fa fa-check-circle text-success"></i>
+              <i ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" class="fa fa fa-times-circle text-danger"></i>
+            </dd>
+            <!--
+              <i ng-if="vm.principal.roles.indexOf('kibana_ro') > -1" class="fa fa fa-check-circle text-success"></i>
+              <i ng-if="!vm.principal.roles.indexOf('kibana_ro') < 0" class="fa fa fa-times-circle text-danger"></i>
+            -->
           </div>
           <div class="col">
             <dt>Email</dt>
-            <dd>Cameron Poe</dd>
+            <dd> {{ vm.principal.email }}</dd>
 
-            <dt>Role</dt>
-            <dd>Fire Fighter &amp; EMT</dd>
+            <dt>Roles</dt>
+            <dd> {{ vm.principal.roles.join(", ") }}</dd>
           </div>
         </dl>
       </div>
@@ -45,25 +54,26 @@
         <dl class="row">
           <div class="col">
             <dt>FDID</dt>
-            <dd>76000</dd>
+            <dd>{{ vm.fireDepartment.fd_id }}</dd>
 
-            <dt>Department Rule Check</dt>
-            <dd>Richmond Fire &amp; Emergency Services</dd>
+            <dt>Name</dt>
+            <dd>{{ vm.fireDepartment.name }}</dd>
 
             <dt>Timezone</dt>
-            <dd>Eastern Standard Time (EST)</dd>
+            <dd>{{ vm.fireDepartment.timezone }}</dd>
           </div>
           <div class="col">
             <dt>Firecares ID</dt>
-            <dd>93345</dd>
+            <dd>{{ vm.fireDepartment.firecares_id }}</dd>
 
             <dt>State</dt>
-            <dd>Virginia</dd>
+            <dd>{{ vm.fireDepartment.state }}</dd>
           </div>
         </dl>
       </div>
     </div>
   </section>
+  <!--
   <section class="fluid-container py-5 bg-light-gray integrations-container">
     <div class="container">
       <h3 class="mb-5">Installed Integrations</h3>
@@ -149,12 +159,14 @@
       </div>
     </div>
   </section>
-  <section class="fluid-container py-5 data-quality-analysis">
+
+  -->
+  <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
     <div class="container">
-      <h3 class="mb-2">Data Quality Analysis <span class="badge badge-danger">POOR</span></h3>
+      <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION'}" class="badge">{{vm.dataQuality.grade}}</span></h3>
       <div class="row">
         <div class="col-md-8">
-          <p>Your data plays and important role in how StatEngine is able to accurately provide meaningful sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augbi purus libero faucibus adip.</p>
+          <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>
         </div>
         <div class="col-12 py-4">
           <div class="table mb-5">
@@ -166,58 +178,26 @@
                 Violations
               </div>
               <div class="cell">
+                Percentage
+              </div>
+              <div class="cell">
                 Required Action
               </div>
             </div>
 
-            <div class="table-row">
+            <div class="table-row" ng-repeat="result in vm.dataQuality.results">
               <div class="cell" data-title="Rule Check">
-                Rule libero eu augbi tus metus libero eu augb
+                {{result.rule}}
               </div>
               <div class="cell" data-title="Violations">
-                55
+                {{result.violations|number:0}}
               </div>
-              <div class="cell" data-title="Required Action">
-                Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu <a href="#">Issue Fix Hyperlink</a>.
-              </div>
+              <div class="cell" data-title="Percentage">
+                {{result.percentViolation|number}}%
+               </div>
+               <div class="cell" data-title="Required Action">
+                {{result.requiredAction}}
             </div>
-
-            <div class="table-row">
-              <div class="cell" data-title="Rule Check">
-                Sete quam eveniet incidunt, laboriosam maxime, delectus voluptas mollitia voluptatibus.
-              </div>
-              <div class="cell" data-title="Violations">
-                27
-              </div>
-              <div class="cell" data-title="Required Action">
-                 Voluptatem officia molestiae magni, laudantium deleniti expedita, cumque. Pariatur voluptatem ipsam sequi!
-              </div>
-            </div>
-
-            <div class="table-row">
-              <div class="cell" data-title="Rule Check">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </div>
-              <div class="cell" data-title="Violations">
-                26
-              </div>
-              <div class="cell" data-title="Required Action">
-                Poluptas cumque quis, obcaecati fugiat libero, consequuntur magni nihil iure explicabo fugitunt. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur minus quis cupiditate eveniet amet labore quod, voluptatum consectetur aut, adipisci molestiae autem cum quas debitis beatae minima deleniti ex in.
-              </div>
-            </div>
-
-            <div class="table-row">
-              <div class="cell" data-title="Rule Check">
-                Cols debittecto nemo inetual
-              </div>
-              <div class="cell" data-title="Violations">
-                25
-              </div>
-              <div class="cell" data-title="Required Action">
-                Atqurferendis mollitia laboriosam neque eos, dolore minus.
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

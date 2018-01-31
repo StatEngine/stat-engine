@@ -1,25 +1,14 @@
 'use strict';
 
 import angular from 'angular';
+import uiRouter from '@uirouter/angularjs';
 
-import uiRouter from 'angular-ui-router';
+import mongooseError from '../../components/mongoose-error/mongoose-error.directive';
 
 import routing from './account.routes';
 import login from './login';
-import userLanding from './user-landing';
-import settings from './settings';
 import signup from './signup';
-import mongooseError from '../../components/mongoose-error/mongoose-error.directive';
 
-export default angular.module('statEngineApp.account', [uiRouter, login, userLanding, settings, signup, mongooseError])
+export default angular.module('statEngineApp.account', [uiRouter, login, signup, mongooseError])
   .config(routing)
-  .run(function($rootScope) {
-    'ngInject';
-
-    $rootScope.$on('$stateChangeStart', function(event, next, nextParams, current) {
-      if(next.name === 'logout' && current && current.name && !current.authenticate) {
-        next.referrer = current.name;
-      }
-    });
-  })
   .name;

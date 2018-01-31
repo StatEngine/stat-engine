@@ -3,8 +3,13 @@
 export default function routes($stateProvider) {
   'ngInject';
 
-  $stateProvider.state('main', {
-    url: '/',
-    template: '<main></main>'
-  });
+  $stateProvider
+    .state('site.main', {
+      abstract: true,
+      template: '<div ui-view />'
+    })
+    .state('site.main.main', {
+      url: '/main',
+      component: 'main',
+    });
 }

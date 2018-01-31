@@ -3,9 +3,16 @@
 import amqp from 'amqplib/callback_api';
 import async from 'async';
 import _ from 'lodash';
+import Promise from 'bluebird';
 
 import config from '../../config/environment';
 import {FireDepartment} from '../../sqldb';
+
+import {
+  runQA,
+  noApparatus,
+  unTypedApparatus,
+  gradeQAResults } from './fire-department-data-quality.controller';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -22,24 +29,20 @@ function handleError(res, statusCode) {
 }
 
 /**
- * Get list of fire departments
+ * Search for fire departments
  * restriction: 'admin'
  */
-export function index(req, res) {
-  return FireDepartment.findAll({
-    attributes: [
-      '_id',
-      'fd_id',
-      'name',
-      'state',
-      'firecares_id',
-      'timezone',
-    ]
+export function search(req, res) {
+  return FireDepartment.find({
+    where: req.query
   })
     .then(fireDepartments => {
-      res.status(200).json(fireDepartments);
+      if(!fireDepartments) {
+        return res.status(404).end();
+      }
+      return res.json(fireDepartments);
     })
-    .catch(handleError(res));
+    .catch(validationError(res));
 }
 
 /**
@@ -59,11 +62,9 @@ export function create(req, res) {
  * Get a single fire department
  */
 export function show(req, res, next) {
-  var FireDepartmentId = req.params.firecaresId;
-
   return FireDepartment.find({
     where: {
-      _id: FireDepartmentId
+      firecares_id: req.params.firecaresId
     }
   })
     .then(fireDepartment => {
@@ -85,6 +86,27 @@ export function destroy(req, res) {
       res.status(204).end();
     })
     .catch(handleError(res));
+}
+
+/**
+ * Gets data quality stats
+ */
+export function dataQuality(req, res) {
+  const fireIndex = req.fire_department.es_indices[req.params.type];
+
+  const qaChecks = {
+    noApparatus,
+    unTypedApparatus
+  };
+
+  console.dir(qaChecks);
+
+  return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+    const [name, qaConfig] = qa;
+    return runQA(_.merge(qaConfig, { index: fireIndex }))
+      .then(out => _.set(results, name, out));
+  }, {})
+    .then(r => res.json(gradeQAResults(r)));
 }
 
 /*

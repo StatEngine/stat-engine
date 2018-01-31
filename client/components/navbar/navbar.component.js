@@ -4,41 +4,25 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  menu = [{
-    title: 'Home',
-    state: 'main'
-  }];
-
-  isCollapsed = true;
-
-  constructor(Auth, $scope, $state, $window) {
+  constructor($state, Principal) {
     'ngInject';
 
-    $scope.currentUser = undefined;
+    this.state = $state;
+    this.Principal = Principal;
+    this.currentPrincipal = undefined;
 
-    Auth.isLoggedIn()
-      .then(user => {
-        if(user) {
-          $scope.currentUser = user;
-        }
+    Principal.identity()
+      .then(currentPrincipal => {
+        this.currentPrincipal = currentPrincipal;
       });
 
-    $scope.logout = function() {
-      Auth.logout()
-        .then(() => {
-          $state.go('main', {}, { reload: true });
-        })
-        .catch(() => {
-          $state.go('main', {}, { reload: true });
-        });
+    this.logout = function() {
+      this.Principal.logout()
+        .finally(() => $state.go('site.main.main'));
     };
 
-    $scope.scrollTo = function(location) {
+    this.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
-    };
-
-    $scope.dashboard = function() {
-      $window.location.href = '/dashboard';
     };
   }
 }
@@ -46,6 +30,7 @@ export class NavbarComponent {
 export default angular.module('directives.nav', [])
   .component('navbar', {
     template: require('./navbar.html'),
-    controller: NavbarComponent
+    controller: NavbarComponent,
+    controllerAs: 'vm',
   })
   .name;

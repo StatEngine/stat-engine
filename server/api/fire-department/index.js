@@ -11,11 +11,24 @@ const rawParser = bodyParser.raw({
   inflate: true,
   limit: '15mb',
   type: 'application/octet-stream',
-
 });
 
-router.get('/', controller.index);
-router.get('/:firecaresId', controller.show);
+router.get('/',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.search);
+
+router.get('/:firecaresId',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.show);
+
+router.get('/:firecaresId/:type/data-quality',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  auth.belongsToFireDepartment,
+  controller.dataQuality);
 
 router.put('/:firecaresId/:type/:id',
   auth.isApiAuthenticated,

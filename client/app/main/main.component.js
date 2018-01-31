@@ -1,29 +1,21 @@
 import angular from 'angular';
-import uiRouter from 'angular-ui-router';
+import uiRouter from '@uirouter/angularjs';
+
 import routing from './main.routes';
 
 export class MainController {
   /*@ngInject*/
-  constructor($http, $scope, $window) {
-    this.$http = $http;
-    //this.socket = socket;
-
-    $scope.$on('$destroy', function() {
-    });
-
+  constructor($scope, $window) {
     $scope.requestDemo = function() {
       $window.open('mailto:contact@statengine.io?subject=StateEngine Demo Request', '_self');
     };
   }
-
-  $onInit() {
-  }
 }
 
 export default angular.module('statEngineApp.main', [uiRouter])
-  .config(routing)
   .component('main', {
     template: require('./main.html'),
-    controller: MainController
+    controller: MainController,
   })
+  .config(routing)
   .name;
