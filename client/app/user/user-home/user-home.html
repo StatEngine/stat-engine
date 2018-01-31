@@ -31,8 +31,8 @@
               <br>
 
               Dashboard Access
-              <i ng-if="vm.principal.roles.indexOf('kibana_ro') > -1" class="fa fa fa-check-circle text-success"></i>
-              <i ng-if="vm.principal.roles.indexOf('kibana_ro') < 0" class="fa fa fa-times-circle text-danger"></i>
+              <i ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" class="fa fa fa-check-circle text-success"></i>
+              <i ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" class="fa fa fa-times-circle text-danger"></i>
             </dd>
             <!--
               <i ng-if="vm.principal.roles.indexOf('kibana_ro') > -1" class="fa fa fa-check-circle text-success"></i>
