@@ -5,7 +5,7 @@ export default function routes($stateProvider) {
 
   $stateProvider
     .state('site.user', {
-      'abstract': true,
+      abstract: true,
       template: '<div ui-view />'
     })
     .state('site.user.home', {
@@ -16,10 +16,24 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        currentPrincipal: function(Principal) {
+        currentPrincipal(Principal) {
           return Principal.identity();
+        },
+        currentFireDepartment($q, FireDepartment, currentPrincipal) {
+          if(currentPrincipal.fire_department__id) {
+            return FireDepartment.get({ _id: currentPrincipal.fire_department__id }).$promise;
+          } else {
+            return undefined;
+          }
+        },
+        dataQuality(FireDepartment, currentFireDepartment) {
+          if(currentFireDepartment) {
+            return FireDepartment.dataQuality({ id: currentFireDepartment.firecares_id, type: 'fire-incident'});
+          } else {
+            return undefined;
+          }
         }
       },
       controllerAs: 'vm'
-    })
+    });
 }

@@ -7,7 +7,7 @@ export function routerDecorator($transitions, $rootScope, Authorization, Princip
     $rootScope.toState = trans.to();
     $rootScope.fromState = trans.from();
 
-    if (Principal.isIdentityResolved()) {
+    if(Principal.isIdentityResolved()) {
       Authorization.authorize();
     }
 

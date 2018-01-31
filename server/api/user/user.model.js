@@ -83,14 +83,12 @@ export default function(sequelize, DataTypes) {
       roles() {
         return this.role.split(',');
       },
-      
       profile() {
         return {
           name: this.first_name + this.last_name,
           role: this.role
         };
       },
-
     },
 
     /**

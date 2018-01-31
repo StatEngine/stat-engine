@@ -41,7 +41,7 @@ angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidation
   uiBootstrap, _Auth, account, admin, api, guides, legal, navbar, spade, user, modal, footer, main, constants, /*socket,*/ util
 ])
   .config(routeConfig)
-  .run(function($rootScope) {
+  .run(function() {
     'ngInject';
   });
 

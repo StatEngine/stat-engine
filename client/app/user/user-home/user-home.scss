@@ -80,11 +80,21 @@
     padding: 2rem;
   }
 
-
   .data-quality-analysis {
     h3 .badge {
-      background-color: $color-brand-danger;
       margin-left: 1rem;
     }
+  }
+
+  .badge-danger {
+    background-color: $color-brand-danger;
+  }
+
+  .badge-success {
+    background-color: #28a745;
+  }
+
+  .badge-warning {
+    background-color: #ffc107;
   }
 }

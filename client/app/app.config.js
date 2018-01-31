@@ -3,14 +3,14 @@
 export function routeConfig($urlRouterProvider, $locationProvider, $stateProvider) {
   'ngInject';
 
-  $urlRouterProvider.otherwise('/main');
+  $urlRouterProvider.otherwise('/home');
 
   $locationProvider.html5Mode(true);
 
   $stateProvider.state('site', {
-    'abstract': true,
+    abstract: true,
     data: {
-       roles: []
+      roles: []
     },
     resolve: {
       authorize: ['Authorization',
@@ -20,5 +20,5 @@ export function routeConfig($urlRouterProvider, $locationProvider, $stateProvide
       ]
     },
     template: '<div ui-view />'
-  })
+  });
 }

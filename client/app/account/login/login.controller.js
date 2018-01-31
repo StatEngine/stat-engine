@@ -15,7 +15,7 @@ export default class LoginController {
     this.Principal = Principal;
     this.$state = $state;
 
-    this.newAccountJustCreated = ($rootScope.fromState.name == "site.account.signup");
+    this.newAccountJustCreated = $rootScope.fromState.name == 'site.account.signup';
   }
 
   login(form) {

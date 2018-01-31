@@ -3,7 +3,6 @@
 import compose from 'composable-middleware';
 import passport from 'passport';
 
-import config from '../config/environment';
 import {FireDepartment, User} from '../sqldb';
 
 /*
@@ -56,7 +55,7 @@ export function hasRole(roleRequired) {
 
   return compose()
     .use(function meetsRequirements(req, res, next) {
-      if(config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
+      if(req.user.roles.indexOf(roleRequired) >= 0) {
         return next();
       } else {
         return res.status(403).send('Forbidden. User does not have necessary priviliges to access');

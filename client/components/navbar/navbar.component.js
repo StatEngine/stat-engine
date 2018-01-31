@@ -11,16 +11,15 @@ export class NavbarComponent {
     this.Principal = Principal;
     this.currentPrincipal = undefined;
 
-    Principal.identity().then((currentPrincipal) => {
-      this.currentPrincipal = currentPrincipal;
-    });
+    Principal.identity()
+      .then(currentPrincipal => {
+        this.currentPrincipal = currentPrincipal;
+      });
 
     this.logout = function() {
       this.Principal.logout()
-        .finally(() => {
-          $state.go('site.main.main');
-        });
-    }
+        .finally(() => $state.go('site.main.main'));
+    };
 
     this.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);

@@ -9,54 +9,49 @@ export function PrincipalService($http, $q, User) {
   var _authenticated = false;
 
   return {
-    isIdentityResolved: function() {
+    isIdentityResolved() {
       return !_.isEmpty(_identity);
     },
 
-    isAuthenticated: function() {
+    isAuthenticated() {
       return _authenticated;
     },
 
-    isInRole: function(role) {
-      if (!_authenticated || !_identity.roles) return false;
+    isInRole(role) {
+      if(!_authenticated || !_identity.roles) return false;
 
-      return _identity.roles.indexOf(role) != -1;
+      return _identity.roles.indexOf(role) >= 0;
     },
 
-    isInAnyRole: function(roles) {
-      if (!_authenticated || !_identity.roles) return false;
+    isInAnyRole(roles) {
+      if(!_authenticated || !_identity.roles) return false;
 
-      for (var i = 0; i < roles.length; i++) {
-        if (this.isInRole(roles[i])) return true;
+      for(var i = 0; i < roles.length; i++) {
+        if(this.isInRole(roles[i])) return true;
       }
 
       return false;
     },
 
-    authenticate: function(identity) {
+    authenticate(identity) {
       _identity = identity;
       _authenticated = !_.isEmpty(identity);
     },
 
-    login: function({ username, password} ) {
-      var self = this;
+    login({ username, password }) {
       return $http.post('/auth/local', {
         username,
         password,
-      }).then((response) => {
-        console.dir(response)
-        self.authenticate(response.data);
-      });
+      }).then(response => this.authenticate(response.data));
     },
 
-    logout: function() {
-      var self = this;
+    logout() {
       return $http.get('/auth/local/logout')
-      .finally(() => {
-        self.authenticate({});
-        // invalidate server session in case kibana doesn't callback
-        return $http.get('/auth/local/logout/_callback')
-      });
+        .finally(() => {
+          this.authenticate({});
+          // invalidate server session in case kibana doesn't callback
+          return $http.get('/auth/local/logout/_callback');
+        });
     },
 
     signup(user) {
@@ -66,12 +61,12 @@ export function PrincipalService($http, $q, User) {
     identity(force) {
       var deferred = $q.defer();
 
-      if (force === true) _identity = {};
+      if(force === true) _identity = {};
 
       // check and see if we have retrieved the
       // currentUser data from the server. if we have,
       // reuse it by immediately resolving
-      if (!_.isEmpty(_identity)) {
+      if(!_.isEmpty(_identity)) {
         deferred.resolve(_identity);
 
         return deferred.promise;
@@ -80,17 +75,14 @@ export function PrincipalService($http, $q, User) {
       // otherwise, retrieve the user data from the
       // server, update the currentUser object, and then
       // resolve.
-      var self = this;
       $http.get('/auth/local')
-        .then((response) => {
-          self.authenticate(response.data);
+        .then(response => {
+          this.authenticate(response.data);
           deferred.resolve(response.data);
         })
-        .catch((err) => {
-          deferred.reject(err);
-        });
+        .catch(err => deferred.reject(err));
 
       return deferred.promise;
     },
-  }
+  };
 }

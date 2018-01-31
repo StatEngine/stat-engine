@@ -5,7 +5,7 @@ export default function routes($stateProvider) {
 
   $stateProvider
     .state('site.account', {
-      'abstract': true,
+      abstract: true,
       template: '<div ui-view />'
     })
     .state('site.account.login', {

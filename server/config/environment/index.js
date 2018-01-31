@@ -30,6 +30,12 @@ var all = {
     region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
   },
 
+  elasticsearch: {
+    host: process.env.ELASTICSEARCH_URI || 'localhost:9200',
+    httpAuth: process.env.ELASTICSEARCH_USER && process.env.ELASTICSEARCH_PASSWORD ? `${process.env.ELASTICSEARCH_USER}:${process.env.ELASTICSEARCH_PASSWORD}` : undefined,
+    apiVersion: process.env.ELASTICSEARCH_API_VERSION || '5.5',
+  },
+
   // Local vs AWS Kibana
   kibana: {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
