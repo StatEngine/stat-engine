@@ -10,8 +10,6 @@ export default {
   pathRewrite: path => path.replace(`${config.kibana.appPath}`, ''),
   // add custom headers to request
   onProxyReq: (proxyReq, req) => {
-    console.info('Proxying request to ');
-    console.dir(proxyReq.path);
     if(req.user) {
       proxyReq.setHeader('X-Forwarded-User', req.user.username);
     }

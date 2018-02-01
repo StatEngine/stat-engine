@@ -10,7 +10,7 @@ const router = new Router();
 
 router.use('*',
   auth.isAuthenticated,
-  auth.hasRole('kibana_admin'), 
+  auth.hasRole('kibana_admin'),
   auth.hasFireDepartment,
   proxy(settings));
 

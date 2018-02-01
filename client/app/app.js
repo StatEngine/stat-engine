@@ -19,18 +19,19 @@ import {
 import _Auth from '../components/auth/auth.module';
 import api from '../components/api/api.module';
 
+// modules
 import account from './account';
 import admin from './admin';
 import guides from './guides';
-import legal from './legal';
+import main from './main';
 import spade from './spade';
 import user from './user';
 
+// global components
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 
-import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
@@ -38,11 +39,13 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, /*'btford.socket-io',*/ uiRouter,
-  uiBootstrap, _Auth, account, admin, api, guides, legal, navbar, spade, user, modal, footer, main, constants, /*socket,*/ util
+  uiBootstrap, _Auth, account, admin, api, guides, navbar, spade, user, modal, footer, main, constants, /*socket,*/ util
 ])
   .config(routeConfig)
-  .run(function() {
+  .run(function($transitions) {
     'ngInject';
+
+    $transitions.onSuccess({}, () => $('html, body').animate({ scrollTop: 0 }, 200));
   });
 
 angular.element(document)

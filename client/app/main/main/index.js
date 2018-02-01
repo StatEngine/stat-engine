@@ -1,7 +1,4 @@
 import angular from 'angular';
-import uiRouter from '@uirouter/angularjs';
-
-import routing from './main.routes';
 
 export class MainController {
   /*@ngInject*/
@@ -12,10 +9,9 @@ export class MainController {
   }
 }
 
-export default angular.module('statEngineApp.main', [uiRouter])
+export default angular.module('statEngineApp.main.main', [])
   .component('main', {
     template: require('./main.html'),
     controller: MainController,
   })
-  .config(routing)
   .name;
