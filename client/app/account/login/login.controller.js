@@ -11,11 +11,9 @@ export default class LoginController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Principal, $state, $rootScope) {
+  constructor(Principal, $state) {
     this.Principal = Principal;
     this.$state = $state;
-
-    this.newAccountJustCreated = $rootScope.fromState.name == 'site.account.signup';
   }
 
   login(form) {

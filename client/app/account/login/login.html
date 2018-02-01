@@ -8,10 +8,6 @@
     <div class="col-md-auto align-self-center">
       <h1 class="text-center">Sign In</h1>
 
-      <div class="alert alert-success text-center animated fadeInUp" role="alert" ng-show="vm.newAccountJustCreated">
-        Congratulations, your account has been created! Please sign in below.
-      </div>
-
       <form class="form form-wrapper" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
@@ -39,7 +35,7 @@
             Sign In
           </button>
         </div>
-        <div class="col-12 form-extras" ng-show="!vm.newAccountJustCreated">
+        <div class="col-12 form-extras">
           <span class="d-flex w-100" >Not registered yet? <a class="ml-3" ui-sref="site.account.signup">   Sign Up <i class="fa fa-chevron-right"></i></a></span>
         </div>
         </div>
