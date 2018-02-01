@@ -20,6 +20,10 @@ export default function routes($stateProvider) {
       url: '/funding',
       template: require('./funding/funding.html'),
     })
+    .state('site.main.partners', {
+      url: '/partners',
+      template: require('./partners/partners.html'),
+    })
     .state('site.main.maintenance', {
       url: '/maintenance',
       template: require('./maintenance/maintenance.html'),
