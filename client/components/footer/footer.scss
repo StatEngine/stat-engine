@@ -79,20 +79,23 @@ footer .newsletter-wrap {
   margin-top: 6rem;
 }
 
-footer div.newsletter input {
+/////////////////////////////////
+// Signup //
+////////////////////////////////
+#mc_embed_signup input.email {
   background-color: rgba(0, 0, 0, 0.19);
   border-radius: 100px;
   border: none;
   outline: none;
-  padding: 10px 125px 10px 21px;
+  padding: 10px 21px 10px 21px;
   width: 327px;
   color: white;
 }
 
-footer div.newsletter button {
+#mc_embed_signup .button {
   width: 103px;
   height: 38px;
-  margin-left: -103px;
+  margin-top: 10px;
   border-radius: 100px;
   border: none;
   outline: none;
