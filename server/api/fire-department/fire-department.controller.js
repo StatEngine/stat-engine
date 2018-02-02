@@ -6,7 +6,7 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 
 import config from '../../config/environment';
-import {FireDepartment} from '../../sqldb';
+import { FireDepartment } from '../../sqldb';
 
 import {
   runQA,

@@ -10,11 +10,12 @@ import sqldb from '../sqldb';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
-
+const Tweet = sqldb.Tweet;
 
 User
   .sync()
   .then(() => User.destroy({ where: {} }))
+  .then(() => Tweet.destroy({ where: {} }))
   .then(() => FireDepartment.sync())
   .then(() => FireDepartment.destroy({ where: {} }))
   .then(() => FireDepartment.create({
@@ -35,9 +36,15 @@ User
       api_key: '1234',
       aws_access_key_id: 'awsKey',
       aws_secret_access_key: 'awsSecret',
+    }],
+    Tweets: [{
+      tweet_json: {
+        status: 'Richmond tweeet',
+      }
     }]
   }, {
-    include: FireDepartment.Users
+    include: [ FireDepartment.Users, FireDepartment.Tweets]
+
   }))
   .then(() => FireDepartment.create({
     fd_id: '08500',
@@ -54,6 +61,11 @@ User
       email: 'hanover@prominentedge.com',
       password: 'password',
       api_key: uuidv4(),
+    }],
+    Tweets: [{
+      tweet_json: {
+        status: 'Hanover tweeet',
+      }
     }]
   }, {
     include: FireDepartment.Users
@@ -75,7 +87,7 @@ User
       api_key: 'washingtondc',
     }]
   }, {
-    include: FireDepartment.Users
+    include: [ FireDepartment.Users, FireDepartment.Tweets]
   }))
   .then(() => FireDepartment.create({
     fd_id: '11223',
@@ -94,6 +106,6 @@ User
       api_key: 'tucson',
     }]
   }, {
-    include: FireDepartment.Users
+    include: [ FireDepartment.Users, FireDepartment.Tweets]
   }))
-  .then(() => console.log('finished populating fire departments + users'));
+  .then(() => console.log('finished populating data'));

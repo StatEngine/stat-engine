@@ -88,7 +88,7 @@ export function hasFireDepartment(req, res, next) {
  * Ensures user is assigned to fire department of request path
  */
 export function belongsToFireDepartment(req, res, next) {
-  if(!req.params.firecaresId) {
+  if(!req.params.firecaresId && !req.query.firecaresId) {
     return next('firecares id not in path');
   }
   if(!req.user) {
@@ -98,7 +98,8 @@ export function belongsToFireDepartment(req, res, next) {
     return next('fire_department not set');
   }
 
-  if(req.params.firecaresId !== req.fire_department.firecares_id) {
+  const firecaresId = req.params.firecaresId || req.query.firecaresId;
+  if(firecaresId !== req.fire_department.firecares_id) {
     return res.status(403).send(
       `User is not assigned to Fire Department with id: ${req.params.firecaresId}`);
   }

@@ -32,6 +32,13 @@ export default function routes($stateProvider) {
           } else {
             return undefined;
           }
+        },
+        tweets(Tweet, currentFireDepartment) {
+          if(currentFireDepartment) {
+            return Tweet.query({ firecaresId: currentFireDepartment.firecares_id });
+          } else {
+            return undefined;
+          }
         }
       },
       controllerAs: 'vm'
