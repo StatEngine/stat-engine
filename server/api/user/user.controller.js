@@ -1,8 +1,10 @@
 'use strict';
 
 import uuidv4 from 'uuid/v4';
+import Mailchimp from 'mailchimp-api-v3';
 
-import {FireDepartment, User} from '../../sqldb';
+import config from '../../config/environment';
+import { FireDepartment, User } from '../../sqldb';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -54,7 +56,27 @@ export function create(req, res) {
 
   return newUser.save()
     .then(function(user) {
-      res.json(user);
+
+      console.dir('in here')
+      console.dir(config)
+      if (config.mailchimp.apiKey && config.mailchimp.listId) {
+        const mailchimp = new Mailchimp(config.mailchimp.apiKey);
+        mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {
+          email_address: user.email,
+          status: 'subscribed',
+          merge_fields: {
+            FNAME: user.first_name,
+            LNAME: user.last_name
+          }
+        }, (err, result) => {
+          if (err) {
+            console.error(err);
+          }
+          res.json(user)
+        })
+      } else {
+        res.json(user);
+      }
     })
     .catch(validationError(res));
 }

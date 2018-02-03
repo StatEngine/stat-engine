@@ -76,7 +76,11 @@ var all = {
     clientID: process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
-  }
+  },
+  mailchimp: {
+    apiKey: '1d36dc8a062801b35baa54d699087728-us17' || process.env.MAILCHIMP_API_KEY,
+    listId: '481db06139' || process.env.MAILCHIMP_LIST_ID
+  },
 };
 
 // Export the config object based on the NODE_ENV
