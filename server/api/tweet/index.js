@@ -15,6 +15,15 @@ router.get('/',
   auth.belongsToFireDepartment,
   controller.search);
 
+
+router.put('/:id',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  auth.belongsToFireDepartment,
+  bodyParser.json(),
+  controller.update);
+
 router.delete('/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),

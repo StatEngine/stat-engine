@@ -90,11 +90,19 @@
     background-color: $color-brand-danger;
   }
 
+  .badge-primary {
+    background-color: #5bc0de;
+  }
+
   .badge-success {
     background-color: #28a745;
   }
 
   .badge-warning {
     background-color: #ffc107;
+  }
+
+  .tweet-cell {
+    max-width: 350px;
   }
 }

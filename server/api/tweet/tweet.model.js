@@ -9,11 +9,40 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
+    status: {
+      type: DataTypes.ENUM('PENDING', 'TWEETED', 'FAILED'),
+      validate: {
+        notEmpty: true
+      },
+      defaultValue: 'PENDING'
+    },
+    date_created: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: true
+      },
+      defaultValue: new Date()
+    },
+    date_tweeted: {
+      type: DataTypes.DATE,
+    },
+    tweeted_by: {
+      type: DataTypes.STRING,
+    },
+    date_updated: {
+      type: DataTypes.DATE,
+    },
+    updated_by: {
+      type: DataTypes.STRING,
+    },
     tweet_json: {
       type: DataTypes.JSON,
       validate: {
         notEmpty: true
       }
+    },
+    response_json: {
+      type: DataTypes.JSON
     },
   }, {
 
@@ -34,7 +63,7 @@ export default function(sequelize, DataTypes) {
      */
     instanceMethods: {
     },
-    
+
     underscored: true,
   });
 

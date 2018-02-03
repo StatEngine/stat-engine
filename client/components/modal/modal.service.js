@@ -22,6 +22,30 @@ export function Modal($rootScope, $uibModal) {
 
   // Public API here
   return {
+    /* Confirmation modals */
+    ok() {
+      return function(...args) {
+        var title = args.shift();
+        var msg = args.shift();
+        var error = args.shift() || false;
+
+        var okModal;
+        okModal = openModal({
+          modal: {
+            dismissable: true,
+            title: `${title}`,
+            html: `<p>${msg}</p>`,
+            buttons: [{
+              classes: error ? 'btn-danger' : 'btn-success',
+              text: 'Ok',
+              click(e) {
+                okModal.close(e);
+              }
+            }]
+          }
+        }, 'modal-success');
+      };
+    },
 
     /* Confirmation modals */
     confirm: {

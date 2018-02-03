@@ -237,6 +237,11 @@
       "integrity": "sha1-yTAY54OMbcXOrxprz5vhPIMOpRU=",
       "dev": true
     },
+    "angular-modal-service": {
+      "version": "0.13.0",
+      "resolved": "https://registry.npmjs.org/angular-modal-service/-/angular-modal-service-0.13.0.tgz",
+      "integrity": "sha512-B1IMGyosJ3Dz1J+r+mj0XHXL9AKk8kk/xpIeGo+kMQOkUTsrQpmjw0SUii0cAkRHWr3GwIG7Tty1fXpNUI5ZkA=="
+    },
     "angular-resource": {
       "version": "1.6.6",
       "resolved": "https://registry.npmjs.org/angular-resource/-/angular-resource-1.6.6.tgz",
@@ -19587,6 +19592,22 @@
       "resolved": "https://registry.npmjs.org/tweetnacl/-/tweetnacl-0.14.5.tgz",
       "integrity": "sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=",
       "optional": true
+    },
+    "twitter": {
+      "version": "1.7.1",
+      "resolved": "https://registry.npmjs.org/twitter/-/twitter-1.7.1.tgz",
+      "integrity": "sha1-B2I3jx3BwFDkj2ZqypBOJLGpYvQ=",
+      "requires": {
+        "deep-extend": "0.5.0",
+        "request": "2.83.0"
+      },
+      "dependencies": {
+        "deep-extend": {
+          "version": "0.5.0",
+          "resolved": "https://registry.npmjs.org/deep-extend/-/deep-extend-0.5.0.tgz",
+          "integrity": "sha1-bvSgmwX5iw41jW2T1Mo8rsZnKAM="
+        }
+      }
     },
     "type-check": {
       "version": "0.3.2",

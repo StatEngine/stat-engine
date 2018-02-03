@@ -167,36 +167,60 @@
   -->
   <section id="avialable-reports" class="fluid-container py-5">
     <div class="container">
-      <h3 class="mb-2" >Pending Tweets </h3>
+      <h3 class="mb-2" >Tweet Suggestions </h3>
       <div class="row">
         <div class="col-md-8">
-          <p>Stuff here.....</p>
+          <p>Preview, edit, or delete our recommened tweets</p>
         </div>
         <div class="col-12 py-4">
           <div class="table mb-5">
             <div class="table-row header">
-              <div class="cell">
-                Status
+              <div class="cell tweet-cell">
+                Text
               </div>
+              <!--
               <div class="cell">
                 Media
+              </div>
+              -->
+              <div class="cell">
+                Date Created
+              </div>
+              <div class="cell">
+                Date Tweeted
+              </div>
+              <div class="cell">
+                Status
               </div>
               <div class="cell">
                 Actions
               </div>
             </div>
             <div class="table-row" ng-repeat="tweet in vm.tweets">
-              <div class="cell" data-title="Status">
+              <div class="cell tweet-cell" data-title="Text">
                 {{tweet.tweet_json.status}}
               </div>
+              <!--
               <div class="cell" data-title="Media">
-                {{tweet.tweet_json.media}}
+                {{tweet.tweet_json.media || '-'}}
+              </div>
+            -->
+              <div class="cell" data-title="Media">
+                {{tweet.date_created | date: 'medium'}}
+              </div>
+              <div class="cell" data-title="Media">
+                {{tweet.date_tweeted | date: 'medium'}}
+              </div>
+              <div class="cell" data-title="Status">
+                <span ng-class="{'badge-danger': tweet.status === 'FAILED', 'badge-success': tweet.status === 'PENDING', 'badge-primary': tweet.status === 'TWEETED'}" class="badge">
+                  {{tweet.status}}
+                </span>
               </div>
               <div class="cell" data-title="Actions">
-                <button class="btn-link" ng-click="vm.postTweet(tweet)"><i class="fa fa-2x fa-eye text-success"></i></button>
-                <button class="btn-link" ng-click="vm.postTweet(tweet)"><i class="fa fa-2x fa-retweet text-primary"></i></button>
-                <button class="btn-link" ng-click="vm.editTweet(tweet)"><i class="fa fa-2x fa-pencil text-warning"></i></button>
-                <button class="btn-link" ng-click="vm.deleteTweet(tweet)"><i class="fa fa-2x fa-trash text-danger"></i></button>
+                <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-eye text-success"></i></button>
+                <button class="btn-link" ng-click="vm.postTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-twitter text-primary"></i></button>
+                <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-pencil text-warning"></i></button>
+                <button class="btn-link" ng-click="vm.deleteTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Delete" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-trash text-danger"></i></button>
               </div>
             </div>
           </div>

@@ -54,6 +54,11 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   src: url("../assets/fonts/OpenSans-Light.ttf");
 }
 
+.fa-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /////////////////////////////////
 // VARIABLES //
 ////////////////////////////////

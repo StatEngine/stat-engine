@@ -39,7 +39,7 @@ User
     }],
     Tweets: [{
       tweet_json: {
-        status: 'Richmond tweeet',
+        status: '#richmond responded to 475 calls on Saturday, January 13th. There were 177 critical and 187 non-critical EMS dispatches, and 111 Fire related incidents and other types of emergencies',
       }
     }]
   }, {

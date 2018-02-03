@@ -6,5 +6,6 @@ export function TweetResource($resource) {
   return $resource('/api/tweets/:id', {
     id: '@id'
   }, {
+    'update': { method:'PUT' }
   })
 };

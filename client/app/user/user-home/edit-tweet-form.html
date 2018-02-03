@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
+  <h4 ng-if="vm.title" ng-bind="vm.title" class="modal-title"></h4>
+</div>
+<form class="form" name="form.editTweet" ng-submit="vm.submitForm()" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="mb-4">
+        <textarea name="status" rows="8" cols="50" class="form-control" ng-model="vm.tweet.tweet_json.status" maxlength="230" required></textarea>
+      </div>
+    </div>
+    <p class="text-warning"> #PoweredByStatEngine will be appended to all tweets</p>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" ng-disabled="form.editTweet.$invalid">Update</button>
+    <button type="submit" class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
+  </div>
+</form>
