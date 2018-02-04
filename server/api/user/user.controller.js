@@ -57,8 +57,6 @@ export function create(req, res) {
   return newUser.save()
     .then(function(user) {
 
-      console.dir('in here')
-      console.dir(config)
       if (config.mailchimp.apiKey && config.mailchimp.listId) {
         const mailchimp = new Mailchimp(config.mailchimp.apiKey);
         mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {

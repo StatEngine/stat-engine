@@ -78,8 +78,8 @@ var all = {
     callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
   },
   mailchimp: {
-    apiKey: '1d36dc8a062801b35baa54d699087728-us17' || process.env.MAILCHIMP_API_KEY,
-    listId: '481db06139' || process.env.MAILCHIMP_LIST_ID
+    apiKey: process.env.MAILCHIMP_API_KEY,
+    listId: process.env.MAILCHIMP_LIST_ID
   },
 };
 
