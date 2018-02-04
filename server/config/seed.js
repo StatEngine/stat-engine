@@ -11,11 +11,13 @@ import sqldb from '../sqldb';
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
 const Tweet = sqldb.Tweet;
+const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 
 User
   .sync()
   .then(() => User.destroy({ where: {} }))
   .then(() => Tweet.destroy({ where: {} }))
+  .then(() => ExtensionConfiguration.destroy({ where: {} }))
   .then(() => FireDepartment.sync())
   .then(() => FireDepartment.destroy({ where: {} }))
   .then(() => FireDepartment.create({
@@ -41,9 +43,22 @@ User
       tweet_json: {
         status: '#richmond responded to 475 calls on Saturday, January 13th. There were 177 critical and 187 non-critical EMS dispatches, and 111 Fire related incidents and other types of emergencies',
       }
+    }],
+    ExtensionConfigurations: [{
+      extension_name: 'twitter',
+      extension_type: 'PERIODIC',
+      enabled: true,
+      config_json: {
+        auth: {
+          consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
+          consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
+          access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
+          access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c',
+        }
+      },
     }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets]
+    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
 
   }))
   .then(() => FireDepartment.create({
@@ -68,7 +83,7 @@ User
       }
     }]
   }, {
-    include: FireDepartment.Users
+    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
   }))
   .then(() => FireDepartment.create({
     fd_id: '11001',
@@ -87,7 +102,7 @@ User
       api_key: 'washingtondc',
     }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets]
+    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
   }))
   .then(() => FireDepartment.create({
     fd_id: '11223',
@@ -106,6 +121,6 @@ User
       api_key: 'tucson',
     }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets]
+    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
   }))
   .then(() => console.log('finished populating data'));

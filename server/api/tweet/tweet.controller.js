@@ -85,13 +85,11 @@ function edit(req, res) {
 }
 
 function tweet(req, res) {
-  // Post to twitter
-  // get twitter api info
   const client = new Twitter({
-    consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
-    consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
-    access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
-    access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c'
+    consumer_key: req.extensionConfiguration.config_json.auth.consumer_key,
+    consumer_secret: req.extensionConfiguration.config_json.auth.consumer_secret,
+    access_token_key: req.extensionConfiguration.config_json.auth.access_token_key,
+    access_token_secret: req.extensionConfiguration.config_json.auth.access_token_secret,
   });
 
   req.body.tweet_json.status += ' #PoweredByStatEngine';
