@@ -11,6 +11,8 @@ import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
 // import ngMessages from 'angular-messages';
 import ngValidationMatch from 'angular-validation-match';
+import angulartics from 'angulartics';
+import gtm from 'angulartics-google-tag-manager';
 
 import angularLoadingBar from 'angular-loading-bar';
 import {
@@ -41,6 +43,7 @@ import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter,
   uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, user, modal, footer, main, constants, /*socket,*/ util,
+  angulartics, gtm
 ])
   .config(routeConfig)
   .run(function($transitions) {

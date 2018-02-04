@@ -270,6 +270,16 @@
         "angular": "1.6.6"
       }
     },
+    "angulartics": {
+      "version": "1.5.0",
+      "resolved": "https://registry.npmjs.org/angulartics/-/angulartics-1.5.0.tgz",
+      "integrity": "sha512-cO8hoSxlrWN2nxoys0vRxIEu/IT7eTFw4ODfUAeE8qq5cuIiP00lcvF/hOvUQAh8Gy/Nj9lvCzoc+f9+bBAeFg=="
+    },
+    "angulartics-google-tag-manager": {
+      "version": "0.0.1",
+      "resolved": "https://registry.npmjs.org/angulartics-google-tag-manager/-/angulartics-google-tag-manager-0.0.1.tgz",
+      "integrity": "sha1-WejkqdtdhWk7fN7IGiFRNrBBGOk="
+    },
     "animate.css": {
       "version": "3.5.2",
       "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.2.tgz",
@@ -4204,7 +4214,7 @@
     "debug": {
       "version": "2.6.9",
       "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
-      "integrity": "sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8=",
+      "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
       "requires": {
         "ms": "2.0.0"
       }
@@ -7821,6 +7831,14 @@
             }
           }
         },
+        "string_decoder": {
+          "version": "1.0.1",
+          "bundled": true,
+          "dev": true,
+          "requires": {
+            "safe-buffer": "5.0.1"
+          }
+        },
         "string-width": {
           "version": "1.0.2",
           "bundled": true,
@@ -7829,14 +7847,6 @@
             "code-point-at": "1.1.0",
             "is-fullwidth-code-point": "1.0.0",
             "strip-ansi": "3.0.1"
-          }
-        },
-        "string_decoder": {
-          "version": "1.0.1",
-          "bundled": true,
-          "dev": true,
-          "requires": {
-            "safe-buffer": "5.0.1"
           }
         },
         "stringstream": {
@@ -18681,6 +18691,11 @@
       "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=",
       "dev": true
     },
+    "string_decoder": {
+      "version": "0.10.31",
+      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz",
+      "integrity": "sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ="
+    },
     "string-width": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/string-width/-/string-width-1.0.2.tgz",
@@ -18700,11 +18715,6 @@
           }
         }
       }
-    },
-    "string_decoder": {
-      "version": "0.10.31",
-      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz",
-      "integrity": "sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ="
     },
     "stringstream": {
       "version": "0.0.5",

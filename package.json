@@ -15,6 +15,8 @@
     "angular-socket-io": "~0.7.0",
     "angular-ui-bootstrap": "^2.0.1",
     "angular-validation-match": "^1.9.0",
+    "angulartics": "^1.5.0",
+    "angulartics-google-tag-manager": "0.0.1",
     "animate.css": "^3.5.2",
     "async": "^2.6.0",
     "aws-sdk": "^2.144.0",

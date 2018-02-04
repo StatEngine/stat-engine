@@ -6,20 +6,20 @@
     <div id="navbar-links" class="col-auto pr-0">
       <div class="row">
         <div class="col-12 pr-0">
-          <a ng-click="vm.scrollTo('#footer')" href="#" class="col-3">Products</a>
-          <a ng-click="vm.scrollTo('#footer')" href="#" class="col-3">Developers</a>
-          <a ng-click="vm.scrollTo('#footer')" href="#" class="col-3 pr-0">Company</a>
+          <a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#" class="col-3">Products</a>
+          <a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#" class="col-3">Developers</a>
+          <a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#" class="col-3 pr-0">Company</a>
         </div>
       </div>
     </div>
     <div id="navbar-button" class="col-auto ml-auto pl-0">
       <div ng-if="vm.Principal.isAuthenticated()">
-        <a ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a>
-        <button class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
+        <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a>
+        <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
       </div>
       <div ng-if="!vm.Principal.isAuthenticated()">
-        <button class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
-        <button class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
+        <button id='navbar-links-sign-in' class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
+        <button id='navbar-links-sign-up' class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
       </div>
     </div>
 
