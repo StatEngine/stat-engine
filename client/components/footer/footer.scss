@@ -4,7 +4,8 @@
 footer {
   background-color: #112f4d;
   color: white;
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   font-size: 14px;
 }
 
@@ -34,7 +35,8 @@ footer #links ul {
 
 
 footer #links h5 {
-  font-family: OpenSans-bold;
+  font-family: 'Open Sans';
+  font-weight: 700;
   font-size: 14px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.49);
@@ -46,7 +48,8 @@ footer #links article a {
   cursor: pointer;
   text-decoration: none;
   color: white;
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   opacity: .8;
   &:hover {
     opacity: 1;
@@ -65,7 +68,8 @@ footer #links div a.image-link {
 
 footer #links div p {
   margin: 0;
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
 }
 
 footer #links div.newsletter {
