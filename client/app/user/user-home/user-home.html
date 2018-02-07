@@ -7,7 +7,8 @@
           <span> {{vm.greeting }}, </span>
           <h1 class="subheader"> {{ vm.principal.first_name }} {{ vm.principal.last_name }}</h1>
           <!--<p>Its been <strong>2 days</strong> since your last sign in and there is nothing new to report. --->
-          <p> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#data-quality-analysis">learn why</a>.</p>
+
+          <p ng-if="vm.dataQuality.grade" class="animated fadeIn"> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#">learn why</a>.</p>
         </div>
         <div class="col-12 py-2 button-group">
           <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()"">Dashboard</button>
