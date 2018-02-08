@@ -36,6 +36,10 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       }
     },
+    integration_complete: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     integration_verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false

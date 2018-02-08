@@ -26,7 +26,7 @@ export default class UserHomeController {
         action: 'Sign up!'
       },
       { step: 'Data Integration',
-        status: !_.isEmpty(this.principal.fire_department__id),
+        status: _.get(this.fireDepartment, 'integration_complete', false),
         action: 'Contact our integration team at contact@statengine.io to learn how to integrate your data into StatEngine.'
       },
       { step: 'Dashboard Access',
