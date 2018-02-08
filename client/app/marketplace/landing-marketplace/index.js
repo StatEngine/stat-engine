@@ -4,6 +4,6 @@ import angular from 'angular';
 
 import MarketplaceLandingController from './landing-marketplace.controller';
 
-export default angular.module('stateEngineApp.marketplaceLanding', [])
+export default angular.module('stateEngineApp.marketplace.Landing', [])
   .controller('MarketplaceLandingController', MarketplaceLandingController)
   .name;

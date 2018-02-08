@@ -8,7 +8,7 @@ import routing from './marketplace.routes';
 import marketplaceLanding from './landing-marketplace';
 import integrationExample from './integration-example';
 
-export default angular.module('statEngineApp.spade', [uiRouter, marketplaceLanding, integrationExample])
+export default angular.module('statEngineApp.marketplace', [uiRouter, marketplaceLanding, integrationExample])
   .config(routing)
   .run(function() {
     'ngInject';
