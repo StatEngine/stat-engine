@@ -477,6 +477,12 @@ input[type="radio"]:focus {
   color: $color-pale-sky;
 }
 
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // Bootstrap Overrides
 @media (min-width: 1230px) {
   .container {
