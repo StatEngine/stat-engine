@@ -413,6 +413,14 @@ input[type="radio"]:focus {
   line-height: 1.1;
 }
 
+// Cards
+.card {
+  background-color: white;
+  border: 1px solid #ced2d6;
+  border-radius: 5px;
+  padding: 2rem;
+}
+
 // Utilities
 .pt-3,
 .py-3 {
@@ -646,6 +654,7 @@ li.nested:before {
 @import 'admin/admin';
 @import 'main/main';
 @import 'spade/spade';
+@import 'marketplace/marketplace';
 
 @import '../components/footer/footer';
 @import '../components/modal/modal';

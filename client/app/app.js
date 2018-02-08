@@ -29,6 +29,7 @@ import guides from './guides';
 import main from './main';
 import spade from './spade';
 import user from './user';
+import marketplace from './marketplace';
 
 // global components
 import navbar from '../components/navbar/navbar.component';
@@ -42,7 +43,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter,
-  uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, user, modal, footer, main, constants, /*socket,*/ util,
+  uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, user, marketplace, modal, footer, main, constants, /*socket,*/ util,
   angulartics, gtm
 ])
   .config(routeConfig)
