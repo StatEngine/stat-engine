@@ -22,7 +22,10 @@ router.post('/', bodyParser.json(), (req, res, next) => {
       if(err) {
         return next(err);
       }
-      return res.send(user);
+      const u = user.get();
+      delete u.salt;
+      delete u.password;
+      return res.send(u);
     });
   })(req, res, next);
 });
