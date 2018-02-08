@@ -11,7 +11,8 @@
           <p ng-if="vm.dataQuality.grade" class="animated fadeIn"> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#">learn why</a>.</p>
         </div>
         <div class="col-12 py-2 button-group">
-          <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()"">Dashboard</button>
+          <button ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()">Dashboard</button>
+          <button ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" id='user-home-getting-started' class="btn btn-primary" ng-click="vm.scrollTo('#getting-started')">Get Started</button>
         </div>
       </div>
     </section>
@@ -37,21 +38,6 @@
             <dd> {{ vm.principal.roles.join(", ") }}</dd>
           </div>
         </dl>
-        <h4 class="heavyheader">Getting Started</h4>
-        <div class="row">
-          <ul class="statengine text-left">
-            <li>
-              Assigned Fire Department
-              <i ng-if="vm.principal.fire_department__id" class="fa fa-check-circle text-success"></i>
-              <i ng-if="!vm.principal.fire_department__id" class="fa fa-times-circle text-danger"></i>
-            </li>
-            <li>
-              Dashboard Access
-              <i ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" class="fa fa fa-check-circle text-success"></i>
-              <i ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" class="fa fa fa-times-circle text-danger"></i>
-            </li>
-          </ul>
-        </div>
       </div>
       <div class="col-sm-5 col-sm-offset-2 summary-department">
         <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span>
@@ -166,6 +152,50 @@
   </section>
 
   -->
+  <section ng-if="!vm.setupComplete" id="getting-started" class="fluid-container py-5 data-quality-analysis">
+    <div class="container">
+      <h3 class="mb-2">Getting Started</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <p>
+            In order for your organization to maximize the value of StatEngine, we need to take care of a few things.  Complete these steps and you'll be analyzing data in no time!
+          </p>
+        </div>
+        <div class="col-12 py-4">
+          <div class="row">
+            <div class="col-12 py-4">
+              <div class="table mb-5">
+                <div class="table-row header">
+                  <div class="cell">
+                    Step
+                  </div>
+                  <div class="cell">
+                    Status
+                  </div>
+                  <div class="cell">
+                    Required Action
+                  </div>
+                </div>
+
+                <div class="table-row" ng-repeat="step in vm.gettingStarted">
+                  <div class="cell" data-title="Step">
+                    {{step.step}}
+                  </div>
+                  <div class="cell" data-title="Status">
+                    <span ng-class="{'badge-success': step.status, 'badge-danger': !step.status}" class="badge">{{step.status ? 'COMPLETE' : 'PENDING'}}</span>
+                  </div>
+                   <div class="cell" data-title="Required Action">
+                    {{step.status ? 'No action required.' : step.action}}
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
     <div class="container">
       <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION'}" class="badge">{{vm.dataQuality.grade}}</span></h3>

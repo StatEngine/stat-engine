@@ -44,7 +44,8 @@ CREATE TABLE "FireDepartments" (
     name character varying(255),
     state character varying(255),
     firecares_id character varying(255),
-    timezone character varying(255)
+    timezone character varying(255),
+    integration_verified boolean DEFAULT false,
 );
 
 
