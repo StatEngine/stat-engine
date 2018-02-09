@@ -8,18 +8,6 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    extension_name: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true
-      },
-    },
-    extension_type: {
-      type: DataTypes.ENUM('ENRICHMENT', 'INTEGRATION', 'PERIODIC'),
-      validate: {
-        notEmpty: true
-      },
-    },
     enabled: {
       type: DataTypes.BOOLEAN,
       validate: {

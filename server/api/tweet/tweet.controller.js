@@ -67,7 +67,8 @@ export function update(req, res) {
 function edit(req, res) {
   return Tweet.find({
     where: {
-      _id: req.params.id
+      _id: req.params.id,
+      fire_department__id: req.fire_department._id,
     }
   }).then(dbTweet => {
     if (!dbTweet) return res.status(500).end({ msg: 'Could not find tweet'});
@@ -102,7 +103,8 @@ function tweet(req, res) {
 
     return Tweet.find({
       where: {
-        _id: req.params.id
+        _id: req.params.id,
+        fire_department__id: req.fire_department._id,
       }
     }).then(dbTweet => {
       if (!dbTweet) return res.status(500).end({ msg: 'Could not find tweet'});

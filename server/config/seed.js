@@ -11,10 +11,23 @@ import sqldb from '../sqldb';
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
 const Tweet = sqldb.Tweet;
+const Extension = sqldb.Extension;
 const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 
-User
+let twitterEnrichment;
+
+Extension
   .sync()
+  .then(() => Extension.destroy({ where: {} }))
+  .then(() => Extension.create({
+    name: 'Twitter',
+    description: 'Auto-generate recommended tweets capturing important metrics of your department',
+    type: 'PERIODIC',
+    categories: 'Social Media,Reporting',
+    featured: true,
+  }))
+  .then((extension) => twitterEnrichment = extension)
+  .then(User.sync())
   .then(() => User.destroy({ where: {} }))
   .then(() => Tweet.destroy({ where: {} }))
   .then(() => ExtensionConfiguration.destroy({ where: {} }))
@@ -44,22 +57,21 @@ User
         status: '#richmond responded to 475 calls on Saturday, January 13th. There were 177 critical and 187 non-critical EMS dispatches, and 111 Fire related incidents and other types of emergencies',
       }
     }],
-    ExtensionConfigurations: [{
-      extension_name: 'twitter',
-      extension_type: 'PERIODIC',
-      enabled: true,
-      config_json: {
-        auth: {
-          consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
-          consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
-          access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
-          access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c',
-        }
-      },
-    }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
-
+    include: [ FireDepartment.Users, FireDepartment.Tweets ]
+  }))
+  .then(richmond => ExtensionConfiguration.create({
+    enabled: true,
+    fire_department__id: richmond._id,
+    extension__id: twitterEnrichment._id,
+    config_json: {
+      auth: {
+        consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
+        consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
+        access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
+        access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c',
+      }
+    },
   }))
   .then(() => FireDepartment.create({
     fd_id: '08500',
@@ -83,7 +95,7 @@ User
       }
     }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
+    include: [ FireDepartment.Users, FireDepartment.Tweets  ]
   }))
   .then(() => FireDepartment.create({
     fd_id: '11001',
@@ -93,7 +105,7 @@ User
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user',
+      role: 'user,ingest',
       username: 'dc',
       first_name: 'DC',
       last_name: 'User',
@@ -102,7 +114,7 @@ User
       api_key: 'washingtondc',
     }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
+    include: [ FireDepartment.Users, FireDepartment.Tweets ]
   }))
   .then(() => FireDepartment.create({
     fd_id: '11223',
@@ -121,6 +133,36 @@ User
       api_key: 'tucson',
     }]
   }, {
-    include: [ FireDepartment.Users, FireDepartment.Tweets, FireDepartment.ExtensionConfigurations ]
+    include: [ FireDepartment.Users, FireDepartment.Tweets ]
+  }))
+  .then(() => FireDepartment.create({
+    fd_id: '25035',
+    firecares_id: '75500',
+    name: 'Boston Fire Department',
+    state: 'MA',
+    timezone: 'US/Eastern',
+    Users: [{
+      provider: 'local',
+      role: 'user,ingest',
+      username: 'boston',
+      first_name: 'boston',
+      last_name: 'User',
+      email: 'boston@prominentedge.com',
+      password: 'password',
+      api_key: 'boston',
+    }]
+  }, {
+    include: [ FireDepartment.Users, FireDepartment.Tweets ]
+  }))
+  .then(() => User.create({
+    provider: 'local',
+    role: 'admin',
+    username: 'admin',
+    email: 'admin@prominentedge.com',
+    password: 'password',
+    nfors: true,
+    api_key: 'admin',
+    aws_access_key_id: 'awsKey',
+    aws_secret_access_key: 'awsSecret',
   }))
   .then(() => console.log('finished populating data'));

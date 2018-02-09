@@ -36,6 +36,10 @@ var all = {
     apiVersion: process.env.ELASTICSEARCH_API_VERSION || '5.5',
   },
 
+  amqp: {
+    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`,
+  },
+
   // Local vs AWS Kibana
   kibana: {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.

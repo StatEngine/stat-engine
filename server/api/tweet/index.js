@@ -4,9 +4,9 @@ import { Router } from 'express';
 import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
-import * as extensionConfiguration from '../extension-configuration/extension-configuration.service';
-
 import * as controller from './tweet.controller';
+
+import * as extensionConfiguration from '../extension-configuration/extension-configuration.service';
 
 const router = new Router();
 
@@ -14,16 +14,12 @@ router.get('/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('twitter'),
+  extensionConfiguration.hasExtensionConfiguration('Twitter'),
   controller.search);
 
 router.put('/:id',
   auth.isApiAuthenticated,
-  auth.hasRole('user'),
-  auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('twitter'),
+  auth.hasRole('admin'),
   bodyParser.json(),
   controller.update);
 
@@ -31,8 +27,7 @@ router.delete('/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('twitter'),
+  extensionConfiguration.hasExtensionConfiguration('Twitter'),
   controller.destroy);
 
 module.exports = router;

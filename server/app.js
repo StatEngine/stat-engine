@@ -38,5 +38,7 @@ sqldb.sequelize.sync()
     console.log('Server failed to start due to error: %s', err);
   });
 
+require('./consumers');
+
 // Expose app
 exports = module.exports = app;

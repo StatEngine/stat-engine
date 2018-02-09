@@ -1,0 +1,71 @@
+'use strict';
+
+export default function(sequelize, DataTypes) {
+  const Extension = sequelize.define('Extensions', {
+    _id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    type: {
+      type: DataTypes.ENUM('ENRICHMENT', 'INTEGRATION', 'PERIODIC'),
+      validate: {
+        notEmpty: true
+      },
+    },
+    name: {
+      type: DataTypes.STRING(20),
+      validate: {
+        notEmpty: true
+      },
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      },
+    },
+    categories: {
+      type: DataTypes.STRING,
+    },
+    featured: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    },
+    date_created: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: true
+      },
+      defaultValue: new Date()
+    },
+    date_updated: {
+      type: DataTypes.DATE,
+    },
+  }, {
+
+    /**
+     * Virtual Getters
+     */
+    getterMethods: {
+    },
+
+    /**
+     * Pre-save hooks
+     */
+    hooks: {
+    },
+
+    /**
+     * Instance Methods
+     */
+    instanceMethods: {
+    },
+
+    underscored: true,
+  });
+
+
+  return Extension;
+}

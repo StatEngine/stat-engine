@@ -2,15 +2,15 @@
 
 import angular from 'angular';
 
-import {
-  FireDepartmentResource
-} from './fire-department.service';
+import { ExtensionConfigurationResource } from './extension-configuration.service';
+import { ExtensionResource } from './extension.service';
+import { FireDepartmentResource } from './fire-department.service';
+import { TweetResource } from './tweet.service';
 
-import {
-  TweetResource
-} from './tweet.service';
-
+console.dir(ExtensionConfigurationResource)
 export default angular.module('statEngineApp.api', [])
+  .factory('Extension', ExtensionResource)
+  .factory('ExtensionConfiguration', ExtensionConfigurationResource)
   .factory('FireDepartment', FireDepartmentResource)
   .factory('Tweet', TweetResource)
   .name;
