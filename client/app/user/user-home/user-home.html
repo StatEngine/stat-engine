@@ -184,8 +184,7 @@
                   <div class="cell" data-title="Status">
                     <span ng-class="{'badge-success': step.status, 'badge-danger': !step.status}" class="badge">{{step.status ? 'COMPLETE' : 'PENDING'}}</span>
                   </div>
-                   <div class="cell" data-title="Required Action">
-                    {{step.status ? 'No action required.' : step.action}}
+                   <div class="cell" data-title="Required Action" ng-bind-html="step.status ? 'No action required.' : step.action">
                 </div>
               </div>
             </div>
