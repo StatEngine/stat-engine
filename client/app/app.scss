@@ -11,55 +11,6 @@ $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
 
 /////////////////////////////////
-// FONT DECLARATIONS //
-////////////////////////////////
-@font-face {
-  font-family: Montserrat-bold;
-  src: url("../assets/fonts/Montserrat-Bold.otf");
-}
-@font-face {
-  font-family: Montserrat-extra-light;
-  src: url("../assets/fonts/Montserrat-ExtraLight.otf");
-}
-@font-face {
-  font-family: Montserrat-light;
-  src: url("../assets/fonts/Montserrat-Light.otf");
-}
-@font-face {
-  font-family: Montserrat-medium;
-  src: url("../assets/fonts/Montserrat-Medium.otf");
-}
-@font-face {
-  font-family: Montserrat-regular;
-  src: url("../assets/fonts/Montserrat-Regular.otf");
-}
-@font-face {
-  font-family: Montserrat-semibold;
-  src: url("../assets/fonts/Montserrat-SemiBold.otf");
-}
-@font-face {
-  font-family: OpenSans-bold;
-  src: url("../assets/fonts/OpenSans-Bold.ttf");
-}
-@font-face {
-  font-family: OpenSans-regular;
-  src: url("../assets/fonts/OpenSans-Regular.ttf");
-}
-@font-face {
-  font-family: OpenSans-semibold;
-  src: url("../assets/fonts/OpenSans-Semibold.ttf");
-}
-@font-face {
-  font-family: OpenSans-light;
-  src: url("../assets/fonts/OpenSans-Light.ttf");
-}
-
-.fa-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/////////////////////////////////
 // VARIABLES //
 ////////////////////////////////
 $color-cerulean: #00A9DA;
@@ -103,7 +54,8 @@ html {
 
 body {
   color: $color-pickled-bluewood;
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   font-size: 1.5rem;
   margin: 0;
   padding: 0;
@@ -115,13 +67,19 @@ p {
   line-height: 1.75;
 }
 
+hr {
+  border-top-color: #ced2d6;
+}
+
 h1,h2,h3,h4,h5,h6 {
-  font-family: Montserrat-light;
+  font-family: 'Montserrat';
+  font-weight: 300;
 }
 
 .subheader {
   color: $color-bondi-blue;
-  font-family: Montserrat-extralight;
+  font-family: 'Montserrat';
+  font-weight: 400;
 }
 
 h2 {
@@ -129,11 +87,13 @@ h2 {
 }
 
 .heavyheader {
-  font-family: Montserrat-semibold;
+  font-family: 'Montserrat';
+  font-weight: 600;
 }
 
 .extraheavyheader {
-  font-family: Montserrat-bold;
+  font-family: 'Montserrat';
+  font-weight: 700;
 }
 
 .bottom-line {
@@ -160,8 +120,8 @@ table td,table th{
     padding:0.5em 1em
 }
 table th{
-    font-family: 'Montserrat-semibold';
-    font-weight:normal;
+    font-family: 'Montserrat';
+    font-weight: 600;
     border:1px solid darken($color-geyser,8%);
 }
 table td:first-child,table th:first-child{
@@ -197,7 +157,8 @@ table td{
     }
 
     &.header {
-      font-family: OpenSans-Bold;
+      font-family: 'Open Sans';
+      font-weight: 700;
       color: #adb2b7;
       background-color: #ffffff;
       text-transform: uppercase;
@@ -449,10 +410,19 @@ input[type="radio"]:focus {
 
 // Badges
 .badge {
-  font-family: OpenSans-bold;
+  font-family: 'Open Sans';
+  font-weight: 700;
   border-radius: 3px;
   padding: 5px 7px;
   line-height: 1.1;
+}
+
+// Cards
+.card {
+  background-color: white;
+  border: 1px solid #ced2d6;
+  border-radius: 5px;
+  padding: 2rem;
 }
 
 // Utilities
@@ -511,6 +481,12 @@ input[type="radio"]:focus {
   color: $color-pale-sky;
 }
 
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 // Bootstrap Overrides
 @media (min-width: 1230px) {
   .container {
@@ -547,7 +523,8 @@ button {
 
 .btn {
   border-radius: 999px;
-  font-family: Montserrat-Medium;
+  font-family: 'Montserrat';
+  font-weight: 500;
   font-size: 15px;
   letter-spacing: 0.015em;
   outline: none;
@@ -627,7 +604,8 @@ button {
 
 .btn-link {
   color: $color-cerulean;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat';
+  font-weight: 500;
 }
 
 .btn-link:hover {
@@ -686,6 +664,7 @@ li.nested:before {
 @import 'admin/admin';
 @import 'main/main';
 @import 'spade/spade';
+@import 'marketplace/marketplace';
 
 @import '../components/footer/footer';
 @import '../components/modal/modal';

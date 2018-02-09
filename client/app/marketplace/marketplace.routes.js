@@ -17,7 +17,7 @@ export default function routes($stateProvider) {
       },
       resolve: {
         extensions(Extension) {
-          return Extension.query();
+          return Extension.query().$promise;
         }
       },
       controllerAs: 'vm'
@@ -31,7 +31,7 @@ export default function routes($stateProvider) {
       },
       resolve: {
         extensionConfiguration($stateParams, ExtensionConfiguration) {
-          return ExtensionConfiguration.get({ name : $stateParams.name, limit: 1 });
+          return ExtensionConfiguration.get({ name : $stateParams.name, limit: 1 }).$promise;
         }
       },
       controllerAs: 'vm'

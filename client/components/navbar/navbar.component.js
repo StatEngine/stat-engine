@@ -17,8 +17,8 @@ export class NavbarComponent {
       });
 
     this.logout = function() {
-      this.Principal.logout()
-        .finally(() => $state.go('site.main.main'));
+      $state.go('site.main.main')
+      this.Principal.logout();
     };
 
     this.scrollTo = function(location) {

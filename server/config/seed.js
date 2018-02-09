@@ -26,6 +26,20 @@ Extension
     categories: 'Social Media,Reporting',
     featured: true,
   }))
+  .then(() => Extension.create({
+    name: 'Census Data',
+    description: 'Enrich data with population density from 2010 Census Data',
+    type: 'ENRICHMENT',
+    categories: 'Enrichment',
+    featured: true,
+  }))
+  .then(() => Extension.create({
+    name: 'Weather',
+    description: 'Enrich data with weather data from DarkSky',
+    type: 'ENRICHMENT',
+    categories: 'Enrichment',
+    featured: false,
+  }))
   .then((extension) => twitterEnrichment = extension)
   .then(User.sync())
   .then(() => User.destroy({ where: {} }))

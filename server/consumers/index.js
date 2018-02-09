@@ -4,6 +4,7 @@ import async from 'async';
 import config from '../config/environment';
 
 import { consumeTweet } from './consume-tweet';
+import { consumeRefreshEnrichmentConfiguration } from './consume-refresh-enrichment-configuration';
 
 let connection;
 let channel;
@@ -20,22 +21,25 @@ async.series([
     done(err);
   }),
   // exchange + queue to catch uncaught errors
-  done => channel.assertExchange('dlx.direct', 'direct', null, done),
-  done => channel.assertQueue('tweet-recommendations', {}, done),
-  done => channel.consume('tweet-recommendations', msg => {
+  done => channel.assertQueue('tweet-recommendation', {}, done),
+  done => channel.assertQueue('refresh-enrichment-configuration', {}, done),
+], (err) => {
+  if (err) {
+    console.error(err);
+  }
+
+  // Setup complete, now bind
+  channel.consume('tweet-recommendation', msg => {
     consumeTweet(msg, (err) => {
-      console.dir('acking')
+      if (err) console.error(err);
       channel.ack(msg);
     })
-  }),
+  });
 
-], (err) => {
-  // cleanup channel + connection
-  if (channel) channel.close();
-  if (connection) connection.close();
-
-  if (err) {
-    logger.error(err);
-    process.exit(1);
-  }
+  channel.consume('refresh-enrichment-configuration', msg => {
+    consumeRefreshEnrichmentConfiguration(msg, (err) => {
+      if (err) console.error(err);
+      channel.ack(msg);
+    })
+  })
 });

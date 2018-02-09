@@ -37,7 +37,7 @@ header section h1 {
   letter-spacing: 0.1rem;
   color: white;
   margin: auto auto 14px;
-  max-width: 700px;
+  max-width: 750px;
 
   @media (max-width: 576px) {
     font-size: 26px;
@@ -46,7 +46,8 @@ header section h1 {
 }
 
 header section p {
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   font-size: 18px;
   line-height: 1.56;
   letter-spacing: 0.05rem;
@@ -67,9 +68,9 @@ header section p {
 header section button {
   border-radius: 100px;
   outline: none;
-  font-family: Montserrat-medium;
+  font-family: 'Montserrat';
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: white;
   padding: 1.5rem 2rem;
   min-width: 166px;
@@ -144,12 +145,14 @@ header.naked {
 ////////////////////////////////
 #intro #intro-text h2 {
   margin: 0 20px 20px 0;
-  font-family: Montserrat-Light;
+  font-family: 'Montserrat';
+  font-weight: 300;
 }
 
 #intro #intro-text p {
   color: $color-pale-sky;
-  font-family: Montserrat-light;
+  font-family: 'Montserrat';
+  font-weight: 300;
   font-size: 16px;
   line-height: 2;
 }
@@ -181,18 +184,21 @@ header.naked {
 }
 
 .intro-item h5 {
-  font-family: OpenSans-semibold;
+  font-family: 'Open Sans';
+  font-weight: 600;
 }
 
 .intro-item p {
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
 }
 
 /////////////////////////////////
 // FEATURES //
 ////////////////////////////////
 #features {
-  font-family: Montserrat-regular;
+  font-family: 'Montserrat';
+  font-weight: 400;
   text-align: center;
   background-image: linear-gradient(130deg, #4b2c7b, #913a7c 63%, #c93277);
   color: white;
@@ -200,20 +206,22 @@ header.naked {
 }
 
 #features h2 {
-  font-family: Montserrat-semibold;
-  font-size: 28px;
+  font-family: 'Montserrat';
   font-weight: 600;
+  font-size: 28px;
   line-height: 1.29;
 }
 
 #features > p {
-  font-family: Montserrat-regular;
+  font-family: 'Montserrat';
+  font-weight: 400;
   font-size: 18px;
   line-height: 2;
 }
 
 #features article {
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   margin: 15px 0 30px;
   min-height: 8rem;
 }
@@ -237,19 +245,22 @@ header.naked {
 #features article h5 {
   font-size: 15px;
   font-weight: bold;
-  font-family: OpenSans-bold;
+  font-family: 'Open Sans';
+  font-weight: 700;
 }
 
 #features article p {
   font-size: 14px;
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   line-height: 1.5;
 }
 
 #features a {
   text-decoration: none;
   color: white;
-  font-family: Montserrat-medium;
+  font-family: 'Montserrat';
+  font-weight: 500;
 }
 
 #features .circle {
@@ -328,16 +339,17 @@ header.naked {
 // OUR PARTNERS //
 ////////////////////////////////
 #our-partners h2 {
-  font-family: Montserrat-semibold;
-  font-size: 24px;
+  font-family: 'Montserrat';
   font-weight: 600;
+  font-size: 24px;
   line-height: 1.5;
   text-align: left;
   color: rgba(16, 29, 35, 0.74);
 }
 
 #our-partners p {
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
   letter-spacing: 0.2px;
   text-align: left;
 }
@@ -374,9 +386,9 @@ header.naked {
 // NEWS & EVENTS //
 ////////////////////////////////
 #news-events h2 {
-  font-family: Montserrat-semibold;
-  font-size: 24px;
+  font-family: 'Montserrat';
   font-weight: 600;
+  font-size: 24px;
   line-height: 1.5;
   color: rgba(16, 29, 35, 0.74);
 }
@@ -391,7 +403,8 @@ header.naked {
   letter-spacing: 0.2px;
   margin-bottom: 0;
   color: #1aa9b6;
-  font-family: OpenSans-Semibold;
+  font-family: 'Open Sans';
+  font-weight: 600;
 }
 
 #news-events article p {
@@ -407,33 +420,36 @@ header.naked {
 /////////////////////////////////
 // CONTACT US CALLOUT //
 ////////////////////////////////
-#contact {
-  font-family: Montserrat-regular;
-  padding: 50px 15px;
+#contact, #marketplace-contact {
+  font-family: 'Montserrat';
+  font-weight: 400;
 }
 
-#contact > div p {
-  font-family: Montserrat-regular;
+#contact > div p, #marketplace-contact > div p {
+  font-family: 'Montserrat';
+  font-weight: 400;
   font-size: 28px;
   line-height: 1.5;
 }
 
-#contact > div p.title {
+#contact > div p.title, #marketplace-contact > div p.title {
   font-weight: 300;
   color: #1ab4c2;
-  font-family: OpenSans-bold;
+  font-family: 'Open Sans';
+  font-weight: 700;
 }
 
-#contact > div p.subtitle {
+#contact > div p.subtitle, #marketplace-contact > div p.subtitle {
   color: #4f585d;
-  font-family: OpenSans-regular;
+  font-family: 'Open Sans';
+  font-weight: 400;
 
   @media (max-width: 576px) {
     font-size: 20px;
   }
 }
 
-#contact .button-group button {
+#contact .button-group button, #marketplace-contact .button-group button {
   @media (max-width: 576px) {
     min-width: 150px;
   }

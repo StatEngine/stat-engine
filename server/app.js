@@ -39,6 +39,7 @@ sqldb.sequelize.sync()
   });
 
 require('./consumers');
+require('./publishers');
 
 // Expose app
 exports = module.exports = app;
