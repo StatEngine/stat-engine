@@ -622,6 +622,23 @@ button {
 }
 
 /////////////////////////////////
+// Sticky Footer //
+/////////////////////////////////
+
+// Apply to entire content wrapper
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+// Apply to main/"middle" content wrapper
+.site-content {
+  flex: 1
+}
+
+
+/////////////////////////////////
 // List Helpers //
 ////////////////////////////////
 ol.nested {
