@@ -28,6 +28,7 @@ import admin from './admin';
 import guides from './guides';
 import main from './main';
 import spade from './spade';
+import statEngine from './statEngine';
 import user from './user';
 import marketplace from './marketplace';
 
@@ -43,7 +44,11 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter,
+<<<<<<< HEAD
   uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, user, marketplace, modal, footer, main, constants, /*socket,*/ util,
+=======
+  uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, statEngine, user, modal, footer, main, constants, /*socket,*/ util,
+>>>>>>> d33a01b51c163554b0dec81753c33e39b7463d0a
   angulartics, gtm
 ])
   .config(routeConfig)
