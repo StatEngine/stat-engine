@@ -1,0 +1,219 @@
+<div class="statEngine-docs">
+	<span class="top-line"></span>
+
+	<!-- Fixed Siebar -->
+	<div class="fixed-sidebar">
+    <a href="#" class="statEngine-branding"><img src="assets/images/statEngine-docs-logo.png" alt=""></a>
+	  <div class="list-group">
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#welcome')"><h5 class="heavyheader">Welcome</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen=='#welcome'">
+          <li><a href="#welcome" ng-click="scrollTo('#welcome')">Intro</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#overview')"><h5 class="heavyheader">Overview</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#overview')>-1">
+          <li><a href="#" ng-click="scrollTo('#overviewWhatIsStatEngine')">What is StatEngine?</a></li>
+          <li><a href="#" ng-click="scrollTo('#overviewUsingGuide')">Using This Guide</a></li>
+          <li><a href="#" ng-click="scrollTo('#overviewGetHelp')">How to get help</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#gettingStarted')"><h5 class="heavyheader">Getting Started</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#gettingStarted')>-1">
+          <li><a href="#" ng-click="scrollTo('#gettingStartedConnectYourData')">Connect Your Data</a></li>
+          <li><a href="#" ng-click="scrollTo('#gettingStartedVerifyYourData')">Verify Your Data</a></li>
+          <li><a href="#" ng-click="scrollTo('#gettingStartedAccessYourData')">Access Your Data</a></li>
+          <li><a href="#" ng-click="scrollTo('#gettingStartedExloreYourData')">Explore Your Data</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#dashboardFeatures')"><h5 class="heavyheader">Dashboard Features</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#dashboardFeatures')>-1">
+          <li><a href="#" ng-click="scrollTo('#dashboardFeaturesBasic')">Basic Stats</a></li>
+          <li><a href="#" ng-click="scrollTo('#dashboardFeaturesGraphs')">Complex Graphs</a></li>
+          <li><a href="#" ng-click="scrollTo('#dashboardFeaturesTimeSeries')">Advanced Time Series</a></li>
+          <li><a href="#" ng-click="scrollTo('#dashboardFeaturesGeo')">Geo Data</a></li>
+        </ul>
+      </ul>
+
+      <ul>
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#faqs')"><h5 class="heavyheader">Frequently Asked Questions</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#faqs')>-1">
+          <li><a href="#" ng-click="scrollTo('#faqs')">FAQs</a></li>
+        </ul>
+      </ul>
+    </div>
+	</div>
+
+	<!-- Main Content -->
+	<section class="fixed-sidebar-content mb-5">
+		<div class="row">
+      <div class="col-xs-12 px-5">
+
+				<!-- Welcome -->
+				<section id="welcome" class="mt-5">
+					<h2>Welcome</h2>
+					<h4 class="heavyheader mt-5">Thank You!</h4>
+					<p>
+            Our goal is to build tools that enable public safety organizations to more efficiently and effectively achieve their mission.
+            We are thankful to have the opportunity to support your organization and hope that we have a positive impact on its operations
+            through the technology we have built.  Please reach out to us at <a href="mailto:contact@statengine.io">contact@statengine.io</a>
+            if there is anything we can help you with.
+          </p>
+					<em>– The StatEngine Team</em>
+				</section>
+
+				<hr>
+
+				<!-- Overview -->
+				<section id="overview" class="mt-5">
+					<h2>Overview</h2>
+
+					<h4 id="overviewWhatIsStatengine" class="heavyheader mt-5">What is StatEngine?</h4>
+					<p>
+            StatEngine is a real-time open source data analytics and visualization platform built from the ground up for public safety
+            organizations. StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools. This means
+            public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant,
+             and impactful data sets.  StatEngine is currently funded by the
+             <a href="https://www.nist.gov/ctl/pscr/real-time-open-source-data-analytics-and-visualization-platform" target="_blank">
+               Public Safety Innovation Accelerator Program (PSIAP)</a>.
+          </p>
+
+					<h4 id="overviewUsingGuide" class="heavyheader mt-5">Using This Guide</h4>
+					<p>This manual is intended for system administrators responsible for installing and managing StatEngine data. We’ve included a quickstart that will cover the majority of implementations, but also provided more detailed documentation that explains all the features and will help for more customized implementations.</p>
+
+					<h4 id="overviewGetHelp" class="heavyheader mt-5">How to get help</h4>
+					<p>If you run into problems contact statengine support at: <a href="mailto:support@statengine.io">support@statengine.io</a>.</p>
+				</section>
+
+				<hr>
+
+				<!-- Getting Started -->
+				<section id="gettingStarted" class="mt-5">
+					<h2>Getting Started</h2>
+
+					<h4 id="gettingStartedConnectYourData" class="heavyheader mt-5">1. Connect Your Data</h4>
+          <p>
+            StatEngine integrates with common fire department data sources including data warehouses, Computer Aided Dispatch (CAD) systems
+            and Records Management Systems (RMS). Multiple approaches, listed below, can be used to securely send data to StatEngine.
+            The department should review the various approaches and once the desired integration approach is identified, fill our our questionaire <a href="#">here</a>.
+          </p>
+
+          <strong> Linked Database </strong>
+          <p>
+            If you are able to push data to a database in our cloud environment, we can provide you with connection information to push data
+            to a dedicated database we stand up for you. You can find more informations on linking MSSQL databases
+            <a href="https://docs.microsoft.com/en-us/sql/relational-databases/linked-servers/linked-servers-database-engine" target="_blank">here</a>.
+            This approach minimizes the amount of software that needs to run on a department’s infrastructure, however it requires the local
+            jurisdiction to setup and configure the linked database and synchronization logic.
+          </p>
+
+          <strong> PulsePoint </strong>
+          <p>
+            If your department has an existing <a href="http://pulsepoint.org" target="_blank">PulsePoint</a> integration, you can leverage
+            the same integration to send CAD data to StatEngine.
+          </p>
+
+          <strong>Spade</strong>
+          <p>
+            <a href="https://statengine.io/spade" target="_blank">Spade</a> can be run on your local network to pull data from your local
+            database(s) and push data to StatEngine. Spade can also be configured to run on your local network and watch a directory for
+            CAD files and then push them to NFORS. The disadvantage of this approach is that fewer analytics will be available,
+            however the integration is typically faster to implement.
+          </p>
+
+          <h4 id="gettingStartedVerifyYourData" class="heavyheader mt-5">2. Verify Your Data</h4>
+          <p>
+            Once StatEngine starts receiving data, we will work with you to identify missing or erroneous data.
+            Often times we'll need details on missing apparatus types, battalion and district mappings to enrich your data to the fullest extent.
+          </p>
+
+          <h4 id="gettingStartedAccessYourData" class="heavyheader mt-5">3. Access Your Data</h4>
+          <p>
+            After data verfication, we will set you up with a customized dashboard so you can start exploring your data.
+            Check out what's possible <a ng-click="scrollTo('#dashboardFeatures')">here</a>.
+          </p>
+
+          <h4 id="gettingStartedExloreYourData" class="heavyheader mt-5">4. Explore Your Data Even More</h4>
+          <p>
+            StatEngine has even more ways to add and enrich your data.  Explore plugins like adding weather, traffic, or directly tweeting stats to Twitter.
+            Start exploring the <a href="#">Marketplace</a>
+          </p>
+        </section>
+				<hr>
+
+        <!-- Dashboard Features -->
+        <section id="dashboardFeatures" class="mt-5">
+          <h2>Dashboard Features</h2>
+
+          <strong>
+            These are just a few visualizations that come built-in to your dashboard, but
+            you have the ability to create new and custom ones. The possibilities are endless!
+          </strong>
+
+          <h4 id="dashboardFeaturesBasic" class="heavyheader mt-5">Basic Stats</h4>
+          <p>
+            Get quick incident stats, response times, and more for yesterday, last week, last year, or even a custom time period.
+          </p>
+
+          <img alt="basic stats" src="/assets/images/statengine-docs/stats1.png" class="my-4">
+
+          <h4 id="dashboardFeaturesGraphs" class="heavyheader mt-5">Complex Graphs</h4>
+          <p>
+            Plot which units respond to the most calls, how each unit is utilized across call types, or both!
+            Bar graphs, pie charts, and more!
+          </p>
+
+          <img alt="graphs 1" src="/assets/images/statengine-docs/graphs1.png" class="my-4">
+          <img alt="graphs 2" src="/assets/images/statengine-docs/graphs2.png" class="my-4">
+
+
+          <h4 id="dashboardFeaturesTimeSeries" class="heavyheader mt-5">Advanced Time Series</h4>
+          <p>
+            Perform advanced time series analysis such as averaging unit response time or
+            visualizing which hour of the day is most active.
+          </p>
+
+          <img alt="timeseries 1" src="/assets/images/statengine-docs/time-series1.png" class="my-4">
+          <img alt="heatmap 1" src="/assets/images/statengine-docs/heatmap1.png" class="my-4">
+
+          <h4 id="dashboardFeaturesGeo" class="heavyheader mt-5">Geo Data</h4>
+          <p>
+            StatEngine plots all incidents on a map.  See where your most active areas are!
+          </p>
+
+          <img alt="heatmap 1" src="/assets/images/statengine-docs/geo1.png" class="my-4">
+
+        </section>
+
+				<!-- FAQs -->
+				<section id="faqs" class="mt-5">
+					<h2 id="faqs">Frequently Asked Questions</h2>
+
+          <h4 class="heavyheader mt-5">Who created statEngine?</h4>
+          <p>StatEngine was created and is maintained by Prominent Edge. Check out <a href="https://www.prominentedge.com/?utm_source=statengine&utm_medium=statEngine%20documentation&utm_term=AKIAIO6PHIYQ44CCKEOQ&utm_content=RBfkdbxG9xJ3HwWkxIFRkhkrOV%2FARHE9bZjS0hju" target="_blank">prominentedge.com </a>to find out more.</p>
+
+          <h4 class="heavyheader mt-5">Is my data secure?</h4>
+          <p>Yes, all data transferred is through an encrypted HTTPS session. This is the same security that is used by your bank when you access your account online. Once, your data is on the StatEngine servers it is stored using industry best practices.</p>
+
+          <h4 class="heavyheader mt-5">Who manages the StatEngine installation?</h4>
+          <p>Departments are responsible for installing and managing StatEngine. However, if you have any issues you can contact <a href="mailto:support@statengine.io">support@statengine.io</a> and we’ll be happy to help you.</p>
+
+          <h4 class="heavyheader mt-5">Is there any prerequisite software that would need to be installed for StatEngine to work?</h4>
+          <p>No, StatEngine doesn't have any dependencies. For optimal experience, we suggest using <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>, but all modern browsers are supported.</p>
+
+          <h4 class="heavyheader mt-5">Who do I contact for support if there is an issue with the application?</h4>
+          <p>You can contactR <a href="mailto:support@statengine.io">support@statengine.io</a>.</p>
+
+				</section>
+
+				<hr>
+      </div>
+		</div>
+	</div>
+</div>

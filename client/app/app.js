@@ -28,6 +28,7 @@ import admin from './admin';
 import guides from './guides';
 import main from './main';
 import spade from './spade';
+import statEngine from './statEngine';
 import user from './user';
 
 // global components
@@ -42,7 +43,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter,
-  uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, user, modal, footer, main, constants, /*socket,*/ util,
+  uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, statEngine, user, modal, footer, main, constants, /*socket,*/ util,
   angulartics, gtm
 ])
   .config(routeConfig)
