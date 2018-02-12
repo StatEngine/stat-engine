@@ -272,6 +272,10 @@ ol.statengine li::before{
   }
 }
 
+label {
+  font-weight: 600;
+}
+
 label.disabled {
   opacity: .5;
   cursor: not-allowed;
