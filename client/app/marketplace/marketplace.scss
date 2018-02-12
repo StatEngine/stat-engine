@@ -2,19 +2,19 @@
 // MARKETPLACE //
 ////////////////////////////////
 
-.marketplace {
+// TO DO: This should probably live in a separate integrations directory
+@import '/integration-example/integration-example';
 
+.marketplace {
   header.naked {
     margin-bottom: 0;
   }
-
   .masthead {
     background-image:url('../assets/images/marketplace-bg-left.png'), url('../assets/images/marketplace-bg-right.png');
     background-position: calc(50% - 550px) 3px,calc(50% + 550px) 3px;
     background-repeat: no-repeat,no-repeat;
     min-height: 335px;
   }
-
   .masthead-content {
     padding-top: 5rem;
     text-align: center;
@@ -28,7 +28,6 @@
       margin: 1.5rem 0 2rem;
     }
   }
-
   .marketplace-search {
   	margin: 0 auto;
   	position: relative;
@@ -47,7 +46,6 @@
       top: 5px;
     }
   }
-
   .categories-sidenav {
     ul.nav {
       margin-left: -8px;
@@ -77,11 +75,9 @@
       }
     }
   }
-
   .integration-request p {
     font-size: 14px;
   }
-
   .integrations-content {
     a.card {
       color: inherit;
@@ -114,7 +110,6 @@
   			overflow: hidden;
       }
     }
-
     .featured-integrations {
       .col {
         width: 430px;
@@ -141,8 +136,6 @@
         }
       }
     }
-
-
     .integrations {
       .col {
         width: 278px;
@@ -167,5 +160,4 @@
       }
     }
   }
-
 }
