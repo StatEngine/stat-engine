@@ -120,4 +120,17 @@ export default class UserHomeController {
     this.TweetService.delete({ id: tweet._id, firecaresId: this.fireDepartment.firecares_id })
       .$promise.finally(() => this.refreshTweets());
   }
+
+  addTweetMedia(tweet) {
+    var f = document.getElementById('file').files[0],
+        r = new FileReader();
+
+    r.onloadend = function(e) {
+      var data = e.target.result;
+      //send your binary data via $http or $resource or do anything else with it
+    }
+
+    r.readAsBinaryString(f);
+  }
+
 }

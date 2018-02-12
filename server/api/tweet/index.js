@@ -19,7 +19,9 @@ router.get('/',
 
 router.put('/:id',
   auth.isApiAuthenticated,
-  auth.hasRole('admin'),
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  extensionConfiguration.hasExtensionConfiguration('Twitter'),
   bodyParser.json(),
   controller.update);
 

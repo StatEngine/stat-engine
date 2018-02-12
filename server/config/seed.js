@@ -26,6 +26,7 @@ Extension
     categories: 'Social Media,Reporting',
     featured: true,
   }))
+  .then((extension) => twitterEnrichment = extension)
   .then(() => Extension.create({
     name: 'Census Data',
     description: 'Enrich data with population density from 2010 Census Data',
@@ -40,7 +41,6 @@ Extension
     categories: 'Enrichment',
     featured: false,
   }))
-  .then((extension) => twitterEnrichment = extension)
   .then(User.sync())
   .then(() => User.destroy({ where: {} }))
   .then(() => Tweet.destroy({ where: {} }))
@@ -84,8 +84,125 @@ Extension
         consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
         access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
         access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c',
-      }
-    },
+      },
+      tasks: [{
+        "name": "richmondTwitter",
+        "schedule": {
+          "later": "every 5 seconds"
+        },
+        "preprocessors": [{
+          "type": "daily",
+          "options": {
+            "timezone": "US/Eastern"
+          }
+        }],
+      	"queryTemplates": [{
+          "type": "count",
+          "request": {
+            "index": "93345-va-richmond_fire_and_emergency_services-fire-incident*",
+            "body": {
+              "query": {
+                "bool": {
+                  "must": [{
+                    "term": {
+                      "description.suppressed": false
+                    }
+                  }],
+                  "filter" : {
+                    "range": {
+                      "description.event_opened": {
+                        "gte" : "{{daily.timeFrame.start}}",
+                        "lt" : "{{daily.timeFrame.end}}"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          "type": "count",
+          "request": {
+            "index": "93345-va-richmond_fire_and_emergency_services-fire-incident*",
+            "body": {
+              "query": {
+                "bool": {
+                  "must": [{
+                    "term": {
+                      "description.type":  "EMS-1STRESP"
+                    }
+                  }, {
+                    "term": {
+                      "description.suppressed": false
+                    }
+                  }],
+                  "filter" : {
+                    "range": {
+                      "description.event_opened": {
+                        "gte" : "{{daily.timeFrame.start}}",
+                        "lt" : "{{daily.timeFrame.end}}"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          "type": "count",
+          "request": {
+            "index": "93345-va-richmond_fire_and_emergency_services-fire-incident*",
+            "body": {
+              "query": {
+                "bool": {
+                  "must_not": {
+                    "term": {
+                      "description.type":  "EMS-1STRESP"
+                    }
+                  },
+                  "must": {
+                    "term": {
+                      "description.suppressed": false
+                    }
+                  },
+                  "filter" : {
+                    "range": {
+                      "description.event_opened": {
+                        "gte" : "{{daily.timeFrame.start}}",
+                        "lt" : "{{daily.timeFrame.end}}"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      	}],
+      	"transforms": [{
+          "type": "set",
+          "path": "totalIncidentCount",
+          "value": "queryResults[0].count"
+        }, {
+          "type": "set",
+          "path": "emsIncidentCount",
+          "value": "queryResults[1].count"
+        }, {
+          "type": "set",
+          "path": "fireIncidentCount",
+          "value": "queryResults[2].count"
+        }],
+        "actions": [{
+          "type": "console",
+          "options": {}
+        }, {
+          "type": "twitter",
+          "options": {
+            "template": "Richmond responded to <%= totalIncidentCount %> incidents this week",
+            "callback": "https://statengine/her"
+          }
+        }]
+      }],
+    }
   }))
   .then(() => FireDepartment.create({
     fd_id: '08500',

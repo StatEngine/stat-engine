@@ -22,10 +22,11 @@ db.ExtensionConfiguration = db.sequelize.import('../api/extension-configuration/
 db.FireDepartment.Users = db.FireDepartment.hasMany(db.User);
 db.FireDepartment.Tweets = db.FireDepartment.hasMany(db.Tweet);
 
-db.FireDepartment.hasMany(db.ExtensionConfiguration);
 db.Tweet.belongsTo(db.FireDepartment);
 
 db.Extension.hasMany(db.ExtensionConfiguration);
+db.FireDepartment.hasMany(db.ExtensionConfiguration);
 db.ExtensionConfiguration.belongsTo(db.Extension)
+db.ExtensionConfiguration.belongsTo(db.FireDepartment)
 
 module.exports = db;

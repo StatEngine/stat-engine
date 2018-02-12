@@ -93,7 +93,7 @@ function tweet(req, res) {
     access_token_secret: req.extensionConfiguration.config_json.auth.access_token_secret,
   });
 
-  req.body.tweet_json.status += ' #PoweredByStatEngine';
+  req.body.tweet_json.status;
   client.post('statuses/update', req.body.tweet_json, (error, tweet, response) => {
     let status = 'TWEETED'
 
