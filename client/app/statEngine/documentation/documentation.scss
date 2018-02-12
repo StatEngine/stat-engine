@@ -4,7 +4,7 @@
 
   .top-line {
     border-top: 4px solid;
-    border-image: linear-gradient(to right, #0a85ff 1%,#e5f1ff 100%);
+    border-image: linear-gradient(to right, #00acaf 1%, #edf4f5 100%);
     border-image-slice: 1;
     position: fixed;
     top: 0;
@@ -61,7 +61,7 @@
         margin-bottom: 0;
 
         li a:hover h5 {
-          color: #0a85ff;
+          color: #00acaf;
         }
 
         ul{
@@ -73,7 +73,7 @@
             display: block;
             padding: 5px 15px;
             &:hover {
-              color: #0a85ff;
+              color: #00acaf;
               text-decoration: none;
             }
           }
@@ -84,13 +84,13 @@
         border-radius: 0;
         &:hover {
           background: none; //lighten($color-geyser,10%);
-          border-right: 3px solid #0a85ff;
-          color: #0a85ff;
+          border-right: 3px solid #00acaf;
+          color: #00acaf;
         }
         &.active, &:focus {
           background: none;
-          color: #0a85ff;
-          border-right: 3px solid #0a85ff;
+          color: #00acaf;
+          border-right: 3px solid #00acaf;
           &:hover {
             text-decoration: none;
           }
@@ -122,13 +122,13 @@
     }
 
     a {
-      color: #0a85ff;
+      color: #00acaf;
     }
 
     ul, ul ul {
       li::before {
         content: "•";
-        color: #0a85ff;
+        color: #00acaf;
         margin-right: 1rem;
       }
 
