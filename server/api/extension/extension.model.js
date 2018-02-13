@@ -26,6 +26,9 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       },
     },
+    features: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
+    },
     categories: {
       type: DataTypes.STRING,
     },
@@ -42,6 +45,9 @@ export default function(sequelize, DataTypes) {
     },
     date_updated: {
       type: DataTypes.DATE,
+    },
+    config_options: {
+      type: DataTypes.ARRAY(DataTypes.JSON)
     },
   }, {
 

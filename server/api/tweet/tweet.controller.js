@@ -43,7 +43,11 @@ export function search(req, res) {
   return Tweet.findAll({
     where: {
       fire_department__id: req.fire_department._id
-    }
+    },
+    order: [
+      ['date_created', 'DESC'],
+    ],
+    limit: 5
   })
     .then(tweets => {
       if(!tweets) {
@@ -86,11 +90,12 @@ function edit(req, res) {
 }
 
 function tweet(req, res) {
+
   const client = new Twitter({
-    consumer_key: req.extensionConfiguration.config_json.auth.consumer_key,
-    consumer_secret: req.extensionConfiguration.config_json.auth.consumer_secret,
-    access_token_key: req.extensionConfiguration.config_json.auth.access_token_key,
-    access_token_secret: req.extensionConfiguration.config_json.auth.access_token_secret,
+    consumer_key: req.extensionConfiguration.config_json.options.consumer_key,
+    consumer_secret: req.extensionConfiguration.config_json.options.consumer_secret,
+    access_token_key: req.extensionConfiguration.config_json.options.access_token_key,
+    access_token_secret: req.extensionConfiguration.config_json.options.access_token_secret,
   });
 
   req.body.tweet_json.status;

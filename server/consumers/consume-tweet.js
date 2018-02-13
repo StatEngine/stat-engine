@@ -4,6 +4,7 @@ module.exports.consumeTweet = (msg, done) =>{
 
   const newTweet = Tweet.build(JSON.parse(msg.content.toString()));
 
+  console.dir(msg.content.toString())
   return newTweet.save()
     .then(() => {
       console.log('Tweet added');

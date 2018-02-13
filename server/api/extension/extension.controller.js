@@ -18,8 +18,11 @@ function handleError(res, statusCode) {
 }
 
 export function search(req, res) {
-  return Extension.findAll({})
-    .then(extensions => {
+  const where = {};
+  if (req.query.name) where.name = req.query.name;
+  return Extension.findAll({
+      where: where
+    }).then(extensions => {
       if (req.query.limit == 1 && extensions.length > 0) {
         extensions = extensions[0];
       }

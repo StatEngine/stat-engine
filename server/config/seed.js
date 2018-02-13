@@ -22,9 +22,35 @@ Extension
   .then(() => Extension.create({
     name: 'Twitter',
     description: 'Auto-generate recommended tweets capturing important metrics of your department',
+    features: [
+      'Directly post to your departments Twitter',
+      'Ability to edit and preview before posting',
+      'Include rich media',
+    ],
     type: 'PERIODIC',
     categories: 'Social Media,Reporting',
     featured: true,
+    config_options: [{
+      name: 'consumer_key',
+      description: 'Consumer Key',
+      type: 'password',
+      required: true,
+    }, {
+      name: 'consumer_secret',
+      description: 'Consumer Secret',
+      type: 'password',
+      required: true,
+    }, {
+      name: 'access_token_key',
+      description: 'Access Token Key',
+      type: 'password',
+      required: true,
+    }, {
+      name: 'access_token_secret',
+      description: 'Access Token Secret',
+      type: 'password',
+      required: true,
+    }]
   }))
   .then((extension) => twitterEnrichment = extension)
   .then(() => Extension.create({
@@ -79,7 +105,7 @@ Extension
     fire_department__id: richmond._id,
     extension__id: twitterEnrichment._id,
     config_json: {
-      auth: {
+      options: {
         consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
         consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
         access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
@@ -197,8 +223,7 @@ Extension
         }, {
           "type": "twitter",
           "options": {
-            "template": "Richmond responded to <%= totalIncidentCount %> incidents this week",
-            "callback": "https://statengine/her"
+            "template": "Richmond responded to <%= totalIncidentCount %> incidents yesterday",
           }
         }]
       }],

@@ -1,4 +1,4 @@
-<div class="marketplace">
+<div class="marketplace-home">
   <navbar class="animated fadeInDown naked"></navbar>
   <header class="naked"></header>
   <section class="masthead container-fluid animated fadeIn">
@@ -6,7 +6,7 @@
       <div class="row justify-content-center">
         <div class="col-md-6 offset-md-3 masthead-content">
           <h1 class="subheader">StatEngine Marketplace</h1>
-          <p>We have a plethora of powerful extensions that enable data enrichments, integration with Social Media platforms, and much more!</p>
+          <p>We have a plethora of powerful extensions that enable data enrichments, extension with Social Media platforms, and much more!</p>
           <div class="marketplace-search">
             <input ng-model="query" class="search-input form-control" type="text" placeholder="Search the Marketplace">
             <button class="btn btn-primary btn-search">Search</button>
@@ -27,21 +27,21 @@
           </ul>
         </div>
         <hr class="my-5 mr-5">
-        <div class="integration-request mr-5 pt-2">
-          <h6 class="text-uppercase heavyheader">INTERGRATION REQUEST</h6>
-          <p>Don't see a plugin or enrichment you're looking for? Request an integration and include the data that is most valuable to you and we'll make it a priority!</p>
+        <div class="extension-request mr-5 pt-2">
+          <h6 class="text-uppercase heavyheader">EXTENSION REQUEST</h6>
+          <p>Don't see a plugin or enrichment you're looking for? Request an extension and include the data that is most valuable to you and we'll make it a priority!</p>
           <a id='' href="mailto: contact@statengine.io" target="_blank">
-            <button class="btn btn-outline-inverse-alt btn-sm hvr-float">Request Integration</button>
+            <button class="btn btn-outline-inverse-alt btn-sm hvr-float">Request extension</button>
           </a>
         </div>
       </div>
-      <div class="integrations-content col-md-9">
-        <section class="featured-integrations">
+      <div class="extensions-content col-md-9">
+        <section class="featured-extensions">
           <h3 class="mt-0 pb-4">Featured Extensions</h3>
           <div class="row align-items-center">
             <div ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured" class="col">
-              <a href="#" class="card hvr-float">
-                <img src="../assets/images/integration-logo-generic.svg" alt="">
+              <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
+                <img src="../assets/images/extension-logo-generic.svg" alt="">
                 <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
                 <p>{{extension.description}}</p>
               </a>
@@ -51,12 +51,12 @@
             </div>
           </div>
         </section>
-        <section class="integrations code-quality mt-5 pt-5">
+        <section class="extensions code-quality mt-5 pt-5">
           <h3 class="mt-0 pb-4">{{vm.selectedCategory}}</h3>
           <div class="row align-items-center">
             <div ng-repeat="extension in vm.filteredExtensions | filter:query as filtered" class="col">
-              <a href="#" class="card hvr-float">
-                <img src="../assets/images/integration-logo-generic.svg" alt="">
+              <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
+                <img src="../assets/images/extension-logo-generic.svg" alt="">
                 <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
                 <p>{{extension.description}}</p>
               </a>

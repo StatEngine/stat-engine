@@ -22,7 +22,7 @@ export default function routes($stateProvider) {
       },
       controllerAs: 'vm'
     })
-    .state('site.extension', {
+    .state('site.marketplace.extension', {
       url: '/marketplace/extension?name',
       template: require('./extension/extension.html'),
       controller: 'ExtensionController',
@@ -30,7 +30,10 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        extensionConfiguration($stateParams, ExtensionConfiguration) {
+        currentExtension($stateParams, Extension) {
+          return Extension.get({ name : $stateParams.name, limit: 1 }).$promise;
+        },
+        currentExtensionConfiguration($stateParams, ExtensionConfiguration) {
           return ExtensionConfiguration.get({ name : $stateParams.name, limit: 1 }).$promise;
         }
       },

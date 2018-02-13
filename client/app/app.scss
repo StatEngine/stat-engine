@@ -584,6 +584,17 @@ button {
   }
 }
 
+.btn-alt-3 {
+  background: $brand-danger;
+  color: white;
+  &:disabled:hover {
+    background: $brand-danger;
+  }
+  &:hover {
+    background: darken($brand-danger,5%);
+  }
+}
+
 .btn-outline {
   box-shadow: inset 0 0 0 2px white;
   background: none;
@@ -700,6 +711,11 @@ li.nested:before {
   counter-increment: item
 }
 
+.fa-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -717,5 +733,4 @@ li.nested:before {
 @import '../app/account/login/login';
 @import '../app/account/signup/signup';
 @import '../app/user/user-home/user-home';
-@import '../app/marketplace/marketplace-home/marketplace-home';
 @import '../components/oauth-buttons/oauth-buttons'; // endinject //

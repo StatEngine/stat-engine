@@ -6,5 +6,8 @@ export function ExtensionConfigurationResource($resource) {
   return $resource('/api/extension-configurations/:id', {
     id: '@id'
   }, {
-  })
+    'enable': { method:'PUT' },
+    'disable': { method:'PUT' },
+    'update': { method:'PUT' },
+  });
 };

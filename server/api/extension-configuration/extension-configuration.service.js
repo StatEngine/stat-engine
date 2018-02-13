@@ -25,7 +25,6 @@ export function hasExtensionConfiguration(extension_name) {
         } else if(!extensionConfiguration) {
           return res.status(500).send('No Extension Configuration Found');
         }
-        console.dir(extensionConfiguration)
 
         req.extensionConfiguration = extensionConfiguration;
 

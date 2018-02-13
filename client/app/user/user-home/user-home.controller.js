@@ -13,7 +13,6 @@ export class EditTweetFormController {
   }
 
   submitForm = function () {
-    console.info(this.tweet)
     this.$uibModalInstance.close(this.tweet);
   }
 };
@@ -66,16 +65,17 @@ export default class UserHomeController {
     };
   }
 
+  // Twitter
   previewTweet(tweet) {
     if (tweet.date_tweeted) {
       this.$window.open(this.createTweetUrl(tweet), "_blank")
     }
     else {
-      let preview = tweet.tweet_json.status + ' #PoweredByStatEngine';
+      let preview = tweet.tweet_json.status;
 
       // replace hashtags with links for preview
       const re = /#\w+/g
-      const matches = preview.match(re);
+      const matches = preview.match(re) || [];
 
       for (var i = 0; i < matches.length; i++) {
         preview = preview.replace(matches[i],
@@ -86,7 +86,7 @@ export default class UserHomeController {
   }
 
   refreshTweets() {
-    this.TweetService.query({ firecaresId: this.fireDepartment.firecares_id },
+    this.TweetService.query({},
       (tweets) => this.tweets = tweets);
   }
 
@@ -108,7 +108,7 @@ export default class UserHomeController {
 
      modalInstance.result.then((updatedTweet) => {
        this.TweetService.update(
-         { id: tweet._id, firecaresId: this.fireDepartment.firecares_id, action: 'edit'}, updatedTweet)
+         { id: tweet._id, action: 'edit'}, updatedTweet)
          .$promise.finally(() => this.refreshTweets());
 
      }, function () {
@@ -118,7 +118,7 @@ export default class UserHomeController {
 
   postTweet(tweet) {
     this.TweetService.update(
-      { id: tweet._id, firecaresId: this.fireDepartment.firecares_id, action: 'tweet'}, tweet)
+      { id: tweet._id, action: 'tweet'}, tweet)
       .$promise.then((res) => {
         const html =
           '<p>\
@@ -138,20 +138,7 @@ export default class UserHomeController {
   }
 
   deleteTweet(tweet) {
-    this.TweetService.delete({ id: tweet._id, firecaresId: this.fireDepartment.firecares_id })
+    this.TweetService.delete({ id: tweet._id })
       .$promise.finally(() => this.refreshTweets());
   }
-
-  addTweetMedia(tweet) {
-    var f = document.getElementById('file').files[0],
-        r = new FileReader();
-
-    r.onloadend = function(e) {
-      var data = e.target.result;
-      //send your binary data via $http or $resource or do anything else with it
-    }
-
-    r.readAsBinaryString(f);
-  }
-
 }
