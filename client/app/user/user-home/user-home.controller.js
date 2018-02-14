@@ -1,11 +1,18 @@
 'use strict';
 
 export class EditTweetFormController {
-  constructor($uibModalInstance, tweet) {
+  constructor($uibModalInstance, tweet, media) {
     this.$uibModalInstance = $uibModalInstance;
 
     this.title = 'Edit Tweet';
     this.tweet = tweet;
+    this.media = media;
+
+    this.selectedMediaId = this.tweet.media_path;
+  }
+
+  selectMedia = function(id) {
+    this.selectedMediaId = id;
   }
 
   cancel = function () {
@@ -13,6 +20,7 @@ export class EditTweetFormController {
   }
 
   submitForm = function () {
+    this.tweet.media_path = this.selectedMediaId;
     this.$uibModalInstance.close(this.tweet);
   }
 };
@@ -67,22 +75,26 @@ export default class UserHomeController {
 
   // Twitter
   previewTweet(tweet) {
-    if (tweet.date_tweeted) {
-      this.$window.open(this.createTweetUrl(tweet), "_blank")
-    }
-    else {
-      let preview = tweet.tweet_json.status;
+    this.TweetService.get({ id: tweet._id },
+      (updatedTweet) => {
+        if (updatedTweet.date_tweeted) {
+          this.$window.open(this.createTweetUrl(updatedTweet), "_blank")
+        }
+        else {
+          let preview = updatedTweet.tweet_json.status;
 
-      // replace hashtags with links for preview
-      const re = /#\w+/g
-      const matches = preview.match(re) || [];
+          // replace hashtags with links for preview
+          const re = /#\w+/g
+          const matches = preview.match(re) || [];
 
-      for (var i = 0; i < matches.length; i++) {
-        preview = preview.replace(matches[i],
-          '<a href="https://twitter.com/search?q=%23' + matches[i].substring(1) + '" target="_blank">' + matches[i] + '</a>')
-      }
-      this.modalService.ok()('Tweet Preview', preview);
-    }
+          for (var i = 0; i < matches.length; i++) {
+            preview = preview.replace(matches[i],
+              '<a href="https://twitter.com/search?q=%23' + matches[i].substring(1) + '" target="_blank">' + matches[i] + '</a>')
+          }
+          preview += '<div class="row"><div class="col"><img class="img-responsive" src=' + updatedTweet.media_url + '></img></div></div>';
+          this.modalService.ok()('Tweet Preview', preview);
+        }
+      });
   }
 
   refreshTweets() {
@@ -95,14 +107,18 @@ export default class UserHomeController {
   }
 
   editTweet(tweet) {
+    const svc = this.TweetService;
     const modalInstance = this.$uibModal.open({
        template: require('./edit-tweet-form.html'),
-       controller: ['$uibModalInstance', 'tweet', EditTweetFormController],
+       controller: ['$uibModalInstance', 'tweet', 'media', EditTweetFormController],
        controllerAs: 'vm',
        resolve: {
-         tweet: function () {
+         tweet() {
            return angular.copy(tweet);
-          }
+         },
+         media() {
+           return svc.query({ media: true}).$promise;
+         }
        }
     });
 
@@ -127,14 +143,14 @@ export default class UserHomeController {
             You currently have ' + res.response_json.user.followers_count + ' followers. Keep it up!\
           <p>'
 
-        this.modalService.ok()('Thanks for Tweeting ', html, false);
+
+        this.modalService.ok(this.refreshTweets.bind(this))('Thanks for Tweeting ', html, false);
       }, (err) => {
         const html = '\
           <p class="text-danger">Please try again later. If this error persists, please contact an administrator. <p>\
           <label>Details:</label><br>' + this.$filter('json')(err.data.response_json);
-        this.modalService.ok()('Tweet Failed', html, true);
-      })
-      .finally(() => this.refreshTweets());
+        this.modalService.ok(this.refreshTweets.bind(this))('Tweet Failed', html, true);
+      });
   }
 
   deleteTweet(tweet) {

@@ -168,11 +168,9 @@
               <div class="cell tweet-cell">
                 Text
               </div>
-              <!--
               <div class="cell">
                 Media
               </div>
-              -->
               <div class="cell">
                 Date Recommended
               </div>
@@ -190,11 +188,9 @@
               <div class="cell tweet-cell" data-title="Text">
                 {{tweet.tweet_json.status}}
               </div>
-              <!--
               <div class="cell" data-title="Media">
-                {{tweet.tweet_json.media || '-'}}
+                {{tweet.media_path || '-'}}
               </div>
-            -->
               <div class="cell" data-title="Media">
                 {{tweet.date_created | date: 'medium'}}
               </div>
@@ -207,9 +203,9 @@
                 </span>
               </div>
               <div class="cell" data-title="Actions">
+                <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-pencil text-warning"></i></button>
                 <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-eye text-success"></i></button>
                 <button class="btn-link" ng-click="vm.postTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-twitter text-primary"></i></button>
-                <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-pencil text-warning"></i></button>
                 <button class="btn-link" ng-click="vm.deleteTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Delete" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-trash text-danger"></i></button>
               </div>
             </div>

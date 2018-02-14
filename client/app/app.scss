@@ -9,6 +9,7 @@ $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~animate.css/animate.css';
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
+@import '~angular-loading-bar/build/loading-bar.css';
 
 /////////////////////////////////
 // VARIABLES //
@@ -431,6 +432,11 @@ input[type="radio"]:focus {
   padding: 2rem;
 }
 
+.card-selected {
+  border: 4px solid $color-bondi-blue;
+  border-radius: 5px;
+}
+
 // Utilities
 .pt-3,
 .py-3 {
@@ -714,6 +720,31 @@ li.nested:before {
 .fa-disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+#loading-bar-spinner {
+  left: 50%;
+  top: 50%;
+}
+
+#loading-bar-spinner .spinner-icon {
+  width: 50px;
+  height: 50px;
+}
+
+#loading-bar {
+  pointer-events: all;
+  z-index: 99999;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  cursor: wait;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 /////////////////////////////////

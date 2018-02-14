@@ -13,6 +13,7 @@ import uiBootstrap from 'angular-ui-bootstrap';
 import ngValidationMatch from 'angular-validation-match';
 import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
+import angularDeckgrid from 'angular-deckgrid'
 
 import angularLoadingBar from 'angular-loading-bar';
 import {
@@ -43,7 +44,8 @@ import util from '../components/util/util.module';
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, modal, footer, main, constants, /*socket,*/ util, angulartics, gtm
+angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar', 'akoenig.deckgrid',
+, _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, modal, footer, main, constants, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .run(function($transitions) {

@@ -23,7 +23,7 @@ export function Modal($rootScope, $uibModal) {
   // Public API here
   return {
     /* Confirmation modals */
-    ok() {
+    ok(op = angular.noop) {
       return function(...args) {
         var title = args.shift();
         var msg = args.shift();
@@ -44,6 +44,10 @@ export function Modal($rootScope, $uibModal) {
             }]
           }
         }, 'modal-success');
+
+        okModal.result.then(function(event) {
+          op.apply(event, args);
+        });
       };
     },
 

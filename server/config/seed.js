@@ -50,6 +50,11 @@ Extension
       description: 'Access Token Secret',
       type: 'password',
       required: true,
+    }, {
+      name: 'media_text',
+      description: 'Media Text',
+      type: 'text',
+      required: true,
     }]
   }))
   .then((extension) => twitterEnrichment = extension)
@@ -105,12 +110,11 @@ Extension
     fire_department__id: richmond._id,
     extension__id: twitterEnrichment._id,
     config_json: {
-      options: {
-        consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
-        consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
-        access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
-        access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c',
-      },
+      consumer_key: 'cvdJKaUTfGrcspoIlX8dxakRw',
+      consumer_secret: 'ICoyiZHguN4nRpKaY1H3FsZ800LCpxYFVKO6mI1FuXx2FXeQG1',
+      access_token_key: '941371673726484480-mKsT1fBibKS8j4E3GDGm2FTNzWhw9rH',
+      access_token_secret: 'y5Kq54mYETzd8qj8Oo9mu2DtfNEPpC9mhvplD4KqK7g9c',
+      media_text: '@RVFD at work',
       tasks: [{
         "name": "richmondTwitter",
         "schedule": {

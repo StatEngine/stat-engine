@@ -6,7 +6,16 @@
   <div class="modal-body">
     <div class="form-group">
       <div class="mb-4">
-        <textarea name="status" rows="8" cols="50" class="form-control" ng-model="vm.tweet.tweet_json.status" maxlength="230" required></textarea>
+        <label>Text</label>
+        <textarea name="status" rows="5" cols="30" class="form-control" ng-model="vm.tweet.tweet_json.status" maxlength="230" required></textarea>
+        <label>Media</label>
+        <div class="row mt-1 align-items-center">
+          <div class="col" ng-repeat="media in vm.media">
+            <a href="#" class="card hvr-float" ng-class="{'card-selected': media.id === vm.selectedMediaId }" ng-click="vm.selectMedia(media.id)">
+              <img src="{{media.path}}" alt="" style="width:100px;height:100px;">
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

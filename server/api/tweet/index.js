@@ -17,6 +17,13 @@ router.get('/',
   extensionConfiguration.hasExtensionConfiguration('Twitter'),
   controller.search);
 
+router.get('/:id',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  extensionConfiguration.hasExtensionConfiguration('Twitter'),
+  controller.get);
+
 router.put('/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
