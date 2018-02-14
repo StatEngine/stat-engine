@@ -1,6 +1,6 @@
 'use strict';
 
-export function authInterceptor($rootScope, $q, $cookies, $injector, Util) {
+export default function authInterceptor($rootScope, $q, $cookies, $injector, Util) {
   'ngInject';
 
   return {

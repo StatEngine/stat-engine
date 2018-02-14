@@ -29,6 +29,7 @@ function httpAuthenticate(User, username, password, done) {
 
 export function setup(User) {
   passport.use(new BasicStrategy((username, password, done) =>
-    httpAuthenticate(User, username, password, done)
-  ));
+    httpAuthenticate(User, username, password, done)));
 }
+
+export default setup;

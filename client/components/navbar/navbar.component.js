@@ -1,4 +1,5 @@
 'use strict';
+
 /* eslint no-sync: 0 */
 
 import angular from 'angular';
@@ -17,7 +18,7 @@ export class NavbarComponent {
       });
 
     this.logout = function() {
-      $state.go('site.main.main')
+      $state.go('site.main.main');
       this.Principal.logout();
     };
 

@@ -21,6 +21,7 @@ function apiAuthenticate(User, apiKey, done) {
 
 export function setup(User) {
   passport.use(new LocalAPIKeyStrategy((apiKey, done) =>
-    apiAuthenticate(User, apiKey, done)
-  ));
+    apiAuthenticate(User, apiKey, done)));
 }
+
+export default setup;

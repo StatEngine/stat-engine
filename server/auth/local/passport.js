@@ -32,6 +32,7 @@ export function setup(User) {
     usernameField: 'username',
     passwordField: 'password' // this is the virtual field on the model
   }, (username, password, done) =>
-    localAuthenticate(User, username, password, done)
-  ));
+    localAuthenticate(User, username, password, done)));
 }
+
+export default setup;

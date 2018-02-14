@@ -22,3 +22,5 @@ export function routeConfig($urlRouterProvider, $locationProvider, $stateProvide
     template: '<div ui-view />'
   });
 }
+
+export default routeConfig;

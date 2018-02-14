@@ -7,11 +7,11 @@ import uiRouter from '@uirouter/angularjs';
 import constants from '../../app/app.constants';
 import util from '../util/util.module';
 
-import { authInterceptor } from './interceptor.service';
-import { routerDecorator } from './router.decorator';
-import { PrincipalService } from './principal.service';
-import { AuthorizationService } from './authorization.service';
-import { UserResource } from './user.service';
+import authInterceptor from './interceptor.service';
+import routerDecorator from './router.decorator';
+import PrincipalService from './principal.service';
+import AuthorizationService from './authorization.service';
+import UserResource from './user.service';
 
 function addInterceptor($httpProvider) {
   'ngInject';

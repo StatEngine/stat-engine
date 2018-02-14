@@ -201,7 +201,7 @@ export default function(sequelize, DataTypes) {
 
         var defaultIterations = 10000;
         var defaultKeyLength = 64;
-        var salt = new Buffer(this.salt, 'base64');
+        var salt = Buffer.from(this.salt, 'base64');
         var digest = 'sha512';
 
         if(!callback) {
@@ -210,13 +210,12 @@ export default function(sequelize, DataTypes) {
             .toString('base64');
         }
 
-        return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, digest,
-          function(err, key) {
-            if(err) {
-              return callback(err);
-            }
-            return callback(null, key.toString('base64'));
-          });
+        return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, digest, function(err, key) {
+          if(err) {
+            return callback(err);
+          }
+          return callback(null, key.toString('base64'));
+        });
       },
 
       /**

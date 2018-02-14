@@ -1,6 +1,6 @@
 'use strict';
 
-export function routerDecorator($transitions, $rootScope, Authorization, Principal) {
+export default function routerDecorator($transitions, $rootScope, Authorization, Principal) {
   'ngInject';
 
   $transitions.onStart({ }, function(trans) {

@@ -10,7 +10,7 @@ require('./basic/passport').setup(User, config);
 require('./api-key/passport').setup(User, config);
 require('./local/passport').setup(User, config);
 
-var router = express.Router();
+const router = express.Router();
 
 // Local routes
 router.use('/local', require('./local').default);

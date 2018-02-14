@@ -14,7 +14,6 @@ import ngValidationMatch from 'angular-validation-match';
 import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
 
-import angularLoadingBar from 'angular-loading-bar';
 import {
   routeConfig
 } from './app.config';
@@ -43,7 +42,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter,
-  uiBootstrap, 'angular-loading-bar', _Auth, account, admin, api, guides, navbar, spade, statEngine, user, modal, footer, main, constants, /*socket,*/ util,
+  uiBootstrap, _Auth, account, admin, api, guides, navbar, spade, statEngine, user, modal, footer, main, constants, /*socket,*/ util,
   angulartics, gtm
 ])
   .config(routeConfig)
@@ -51,12 +50,7 @@ angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidation
     'ngInject';
 
     $transitions.onSuccess({}, () => $('html, body').animate({ scrollTop: 0 }, 200));
-  })
-  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.latencyThreshold = 100;
-  }])
-
-
+  });
 
 angular.element(document)
   .ready(() => {

@@ -1,6 +1,6 @@
 'use strict';
 
-export function AuthorizationService($rootScope, $state, Principal) {
+export default function AuthorizationService($rootScope, $state, Principal) {
   'ngInject';
 
   return {

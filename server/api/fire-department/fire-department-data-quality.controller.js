@@ -1,6 +1,7 @@
-import connection from '../../elasticsearch/connection';
 import _ from 'lodash';
 import Promise from 'bluebird';
+
+import connection from '../../elasticsearch/connection';
 
 const noActionMessage = 'No action required.';
 const qaGradeStops = [10, 33];

@@ -1,9 +1,10 @@
 'use strict';
 
-import {Router} from 'express';
+import { Router } from 'express';
+import bodyParser from 'body-parser';
+
 import * as controller from './user.controller';
 import * as auth from '../../auth/auth.service';
-import bodyParser from 'body-parser';
 
 var router = new Router();
 

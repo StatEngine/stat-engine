@@ -55,9 +55,8 @@ export function create(req, res) {
   newUser.setDataValue('api_key', uuidv4());
 
   return newUser.save()
-    .then(function(user) {
-
-      if (config.mailchimp.apiKey && config.mailchimp.listId) {
+    .then(user => {
+      if(config.mailchimp.apiKey && config.mailchimp.listId) {
         const mailchimp = new Mailchimp(config.mailchimp.apiKey);
         mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {
           email_address: user.email,
@@ -66,12 +65,12 @@ export function create(req, res) {
             FNAME: user.first_name,
             LNAME: user.last_name
           }
-        }, (err, result) => {
-          if (err) {
+        }, err => {
+          if(err) {
             console.error(err);
           }
-          res.json(user)
-        })
+          res.json(user);
+        });
       } else {
         res.json(user);
       }
