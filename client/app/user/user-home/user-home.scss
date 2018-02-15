@@ -1,6 +1,6 @@
 .user-home {
   header {
-    background-image: linear-gradient(#002955 0%, #18466a 90%), url('../assets/images/fire-engine.png');
+    background-image: linear-gradient(#002955 0%, #18466a 90%), url('../assets/images/user-home-bg.png');
     background-blend-mode: hard-light;
     background-position: center;
     background-size: cover;
@@ -17,6 +17,7 @@
     color: white;
     h1.subheader {
       color: lighten($color-bondi-blue,12%);
+      font-weight: 200;
     }
   }
 
@@ -38,7 +39,10 @@
     dl {
       text-align: left;
       dt {
+        font-size: 14px;
+        font-weight: 600;
         margin-bottom: .5rem;
+        opacity: .4;
       }
       dd {
         margin-bottom: 3rem;

@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 
 function Socket(socketFactory) {
   'ngInject';
+
   // socket.io now auto-configures its connection when we ommit a connection url
 
   var ioSocket = io('', {

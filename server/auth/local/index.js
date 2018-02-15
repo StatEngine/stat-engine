@@ -7,7 +7,7 @@ import path from 'path';
 
 import config from '../../config/environment';
 
-var router = express.Router();
+const router = express.Router();
 
 // Login route
 router.post('/', bodyParser.json(), (req, res, next) => {

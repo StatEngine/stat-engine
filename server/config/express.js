@@ -13,11 +13,12 @@ import cookieParser from 'cookie-parser';
 import errorHandler from 'errorhandler';
 import path from 'path';
 import lusca from 'lusca';
-import config from './environment';
 import passport from 'passport';
 import session from 'express-session';
-import sqldb from '../sqldb';
 import connectSessionSequelize from 'connect-session-sequelize';
+
+import config from './environment';
+import sqldb from '../sqldb';
 
 const SequelizeStore = connectSessionSequelize(session.Store);
 

@@ -1,7 +1,8 @@
 'use strict';
 
 // Set default node environment to development
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
 
 if(env === 'development' || env === 'test') {
   // Register the Babel require hook
@@ -9,4 +10,4 @@ if(env === 'development' || env === 'test') {
 }
 
 // Export the application
-exports = module.exports = require('./app');
+module.exports = require('./app');

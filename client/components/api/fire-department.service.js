@@ -1,6 +1,6 @@
 'use strict';
 
-export function FireDepartmentResource($resource) {
+export default function FireDepartmentResource($resource) {
   'ngInject';
 
   return $resource('/api/fire-departments/:id/:type/:verb', {

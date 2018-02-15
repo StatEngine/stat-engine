@@ -1,4 +1,5 @@
 'use strict';
+
 /*eslint no-process-env:0*/
 
 import path from 'path';
@@ -92,4 +93,5 @@ var all = {
 module.exports = _.merge(
   all,
   require('./shared'),
+  // eslint-disable-next-line
   require(`./${process.env.NODE_ENV}.js`) || {});

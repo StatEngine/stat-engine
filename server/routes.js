@@ -4,10 +4,11 @@
 
 'use strict';
 
-import errors from './components/errors';
 import path from 'path';
-import config from './config/environment';
 import lusca from 'lusca';
+
+import errors from './components/errors';
+import config from './config/environment';
 
 export default function(app) {
   // Insert API routes below

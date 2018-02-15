@@ -66,3 +66,5 @@ export function UtilService($window) {
 
   return Util;
 }
+
+export default UtilService;

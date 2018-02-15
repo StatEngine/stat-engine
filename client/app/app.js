@@ -15,7 +15,6 @@ import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
 import angularDeckgrid from 'angular-deckgrid'
 
-import angularLoadingBar from 'angular-loading-bar';
 import {
   routeConfig
 } from './app.config';
@@ -56,7 +55,7 @@ angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidation
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
-  }])
+  }]);
 
 angular.element(document)
   .ready(() => {

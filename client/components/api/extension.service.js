@@ -1,6 +1,6 @@
 'use strict';
 
-export function ExtensionResource($resource) {
+export default function ExtensionResource($resource) {
   'ngInject';
 
   return $resource('/api/extensions/:id', {

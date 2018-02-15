@@ -5,9 +5,10 @@
 'use strict';
 
 import express from 'express';
+import http from 'http';
+
 import sqldb from './sqldb';
 import config from './config/environment';
-import http from 'http';
 
 // Populate databases with sample data
 if(config.seedDB) {
@@ -42,4 +43,4 @@ require('./consumers');
 require('./publishers');
 
 // Expose app
-exports = module.exports = app;
+module.exports = app;

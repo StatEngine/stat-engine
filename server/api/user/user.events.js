@@ -6,7 +6,8 @@
 
 import {EventEmitter} from 'events';
 import {User} from '../../sqldb';
-var UserEvents = new EventEmitter();
+
+const UserEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
 UserEvents.setMaxListeners(0);

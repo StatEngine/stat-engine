@@ -86,25 +86,40 @@ footer .newsletter-wrap {
 /////////////////////////////////
 // Signup //
 ////////////////////////////////
+#mc_embed_signup form{
+  text-align: left;
+  margin: 1.5rem 0;
+}
+
 #mc_embed_signup input.email {
   background-color: rgba(0, 0, 0, 0.19);
   border-radius: 100px;
   border: none;
-  outline: none;
-  padding: 10px 21px 10px 21px;
-  width: 327px;
   color: white;
+  outline: none;
+  padding: 2.2rem 11.5rem 2.2rem 2.2rem;
+  position: relative;
+  width: 327px;
+  &::placeholder {
+    color: rgba(255,255,255,.3);
+  }
 }
 
 #mc_embed_signup .button {
-  width: 103px;
-  height: 38px;
-  margin-top: 10px;
+  background-color: #00a9da;
   border-radius: 100px;
   border: none;
-  outline: none;
   color: white;
-  background-color: #00a9da;
+  height: 38px;
+  margin-top: 10px;
+  outline: none;
+  position: absolute;
+  right: 18px;
+  top: 94px;
+  width: 103px;
+  &:hover {
+    background: darken($color-cerulean,5%);
+  }
 }
 
 #bottom-bar {
