@@ -1,22 +1,17 @@
-import async from 'async';
+import _ from 'lodash';
 
-import { Extension } from '../../sqldb';
-import { ExtensionConfiguration } from '../../sqldb';
-import { FireDepartment } from '../../sqldb';
+import {
+  Extension,
+  ExtensionConfiguration,
+  FireDepartment
+} from '../../sqldb';
 
-// TODO: publishing is better done in model
 import { publishEnrichmentConfiguration } from '../../publishers';
-
-function validationError(res, statusCode) {
-  statusCode = statusCode || 422;
-  return function(err) {
-    return res.status(statusCode).json(err);
-  };
-}
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
+    console.error(err);
     return res.status(statusCode).send(err);
   };
 }
@@ -30,22 +25,23 @@ export function search(req, res) {
       model: Extension,
       where: { name: req.query.name }
     }]
-  }).then(extensionConfiguration => {
-      if (req.query.limit === 1 && extensionConfiguration.length > 0) {
+  })
+    .then(extensionConfiguration => {
+      if(req.query.limit === 1 && extensionConfiguration.length > 0) {
         extensionConfiguration = extensionConfiguration[0];
       }
       return res.json(extensionConfiguration);
     })
-    .catch(validationError(res));
+    .catch(handleError(res));
 }
 
 export function update(req, res) {
-  if (req.query.action === 'enable') {
-    return enable(req, res)
-  } else if (req.query.action === 'disable') {
-    return disable(req, res)
+  if(req.query.action === 'enable') {
+    return enable(req, res);
+  } else if(req.query.action === 'disable') {
+    return disable(req, res);
   } else {
-    return updateOptions(req, res)
+    return updateOptions(req, res);
   }
 }
 
@@ -61,17 +57,17 @@ export function updateOptions(req, res) {
       model: FireDepartment,
     }]
   }).then(config => {
-    if (!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
+    if(!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
 
-    config.config_json.options = req.body;
+    config.config_json = _.merge(config.config_json, req.body);
     config.changed('config_json', true);
 
     return config.save()
-      .then((updated) => {
+      .then(updated => {
         publishEnrichmentConfiguration(updated.get());
         return res.status(204).send();
       })
-      .catch(validationError(res));
+      .catch(handleError(res));
   });
 }
 
@@ -88,16 +84,16 @@ export function enable(req, res) {
       model: FireDepartment,
     }]
   }).then(config => {
-    if (!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
+    if(!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
 
     config.enabled = true;
 
     return config.save()
-      .then((updated) => {
+      .then(updated => {
         publishEnrichmentConfiguration(updated.get());
         return res.status(204).send();
       })
-      .catch(validationError(res));
+      .catch(handleError(res));
   });
 }
 
@@ -113,16 +109,16 @@ export function disable(req, res) {
       model: FireDepartment,
     }]
   }).then(config => {
-    if (!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
+    if(!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
 
     config.enabled = false;
 
     return config.save()
-      .then((updated) => {
+      .then(updated => {
         publishEnrichmentConfiguration(updated.get());
         return res.status(204).send();
       })
-      .catch(validationError(res));
+      .catch(handleError(res));
   });
 }
 
@@ -141,7 +137,7 @@ export function get(req, res) {
       }
       res.json(extensionConfiguration);
     })
-    .catch(validationError(res));
+    .catch(handleError(res));
 }
 
 export function create(req, res) {
@@ -151,7 +147,7 @@ export function create(req, res) {
     }
   })
     .then(extension => {
-      if (!extension) return res.status(500).end({ msg: 'Could not find extension'});
+      if(!extension) return res.status(500).end({ msg: 'Could not find extension'});
 
       return ExtensionConfiguration.create({
         extension__id: extension._id,
@@ -162,7 +158,6 @@ export function create(req, res) {
         .then(extensionConfiguration => {
           res.json(extensionConfiguration);
         })
-        .catch(validationError(res));
-
-    })
+        .catch(handleError(res));
+    });
 }

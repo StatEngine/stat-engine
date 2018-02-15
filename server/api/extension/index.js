@@ -7,9 +7,11 @@ import * as controller from './extension.controller';
 
 const router = new Router();
 
-router.get('/',
+router.get(
+  '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.search);
+  controller.search
+);
 
 module.exports = router;

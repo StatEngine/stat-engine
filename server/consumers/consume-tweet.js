@@ -1,17 +1,17 @@
 import { Tweet } from '../sqldb';
 
-module.exports.consumeTweet = (msg, done) =>{
-
+export function consumeTweet(msg, done) {
   const newTweet = Tweet.build(JSON.parse(msg.content.toString()));
 
-  console.dir(msg.content.toString())
   return newTweet.save()
     .then(() => {
       console.log('Tweet added');
       done();
     })
-    .catch((err) => {
+    .catch(err => {
       console.error('Error saving tweet');
       done(err);
-    })
+    });
 }
+
+export default consumeTweet;

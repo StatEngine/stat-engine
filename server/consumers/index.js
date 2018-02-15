@@ -23,23 +23,23 @@ async.series([
   // exchange + queue to catch uncaught errors
   done => channel.assertQueue('tweet-recommendation', {}, done),
   done => channel.assertQueue('refresh-enrichment-configuration', {}, done),
-], (err) => {
-  if (err) {
+], err => {
+  if(err) {
     console.error(err);
   }
 
   // Setup complete, now bind
   channel.consume('tweet-recommendation', msg => {
-    consumeTweet(msg, (err) => {
-      if (err) console.error(err);
+    consumeTweet(msg, err => {
+      if(err) console.error(err);
       channel.ack(msg);
-    })
+    });
   });
 
   channel.consume('refresh-enrichment-configuration', msg => {
-    consumeRefreshEnrichmentConfiguration(msg, (err) => {
-      if (err) console.error(err);
+    consumeRefreshEnrichmentConfiguration(msg, err => {
+      if(err) console.error(err);
       channel.ack(msg);
-    })
-  })
+    });
+  });
 });

@@ -67,7 +67,7 @@ export function hasRole(roleRequired) {
  * Checks if user has fire deparment and sets in request
  */
 export function hasFireDepartment(req, res, next) {
-  if (req.user.roles.indexOf('admin') >= 0){
+  if(req.user.roles.indexOf('admin') >= 0) {
     return next();
   }
 

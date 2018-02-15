@@ -31,10 +31,10 @@ export default function routes($stateProvider) {
       },
       resolve: {
         currentExtension($stateParams, Extension) {
-          return Extension.get({ name : $stateParams.name, limit: 1 }).$promise;
+          return Extension.get({ name: $stateParams.name, limit: 1 }).$promise;
         },
         currentExtensionConfiguration($stateParams, ExtensionConfiguration) {
-          return ExtensionConfiguration.get({ name : $stateParams.name, limit: 1 }).$promise;
+          return ExtensionConfiguration.get({ name: $stateParams.name, limit: 1 }).$promise;
         }
       },
       controllerAs: 'vm'

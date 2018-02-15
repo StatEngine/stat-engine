@@ -3,13 +3,13 @@
 const fs = require('fs');
 const path = require('path');
 
-// do on load
+// eslint-disable-next-line
 const files = fs.readdirSync(path.join(__dirname, '../../../client/assets/twitter-media'));
 let media = [];
-files.forEach(file => media.push(file))
+files.forEach(file => media.push(file));
 
 function getRandomMedia() {
-  return media[Math.floor(Math.random()*media.length)];
+  return media[Math.floor(Math.random() * media.length)];
 }
 
 export default function(sequelize, DataTypes) {
@@ -71,13 +71,12 @@ export default function(sequelize, DataTypes) {
      * Pre-save hooks
      */
     hooks: {
-      beforeBulkCreate(tweets, fields) {
-        var totalUpdated = 0;
-        tweets.forEach(tweets => {
-          tweets.media_path = getRandomMedia();
+      beforeBulkCreate(tweets) {
+        tweets.forEach(tweet => {
+          tweet.media_path = getRandomMedia();
         });
       },
-      beforeCreate(tweet, fields) {
+      beforeCreate(tweet) {
         tweet.media_path = getRandomMedia();
       },
     },

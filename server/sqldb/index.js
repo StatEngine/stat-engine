@@ -28,7 +28,7 @@ db.Tweet.belongsTo(db.FireDepartment);
 
 db.Extension.hasMany(db.ExtensionConfiguration);
 db.FireDepartment.hasMany(db.ExtensionConfiguration);
-db.ExtensionConfiguration.belongsTo(db.Extension)
-db.ExtensionConfiguration.belongsTo(db.FireDepartment)
+db.ExtensionConfiguration.belongsTo(db.Extension);
+db.ExtensionConfiguration.belongsTo(db.FireDepartment);
 
 module.exports = db;

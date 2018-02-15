@@ -231,6 +231,11 @@
       "resolved": "https://registry.npmjs.org/angular-cookies/-/angular-cookies-1.6.6.tgz",
       "integrity": "sha1-MRZC2v28T/fNaSILiSW4g1n7oUg="
     },
+    "angular-deckgrid": {
+      "version": "0.5.0",
+      "resolved": "https://registry.npmjs.org/angular-deckgrid/-/angular-deckgrid-0.5.0.tgz",
+      "integrity": "sha1-2BtLmuLQXM2QysAiloZvtDEF5cc="
+    },
     "angular-loading-bar": {
       "version": "0.9.0",
       "resolved": "https://registry.npmjs.org/angular-loading-bar/-/angular-loading-bar-0.9.0.tgz",
@@ -3028,6 +3033,14 @@
       "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000758.tgz",
       "integrity": "sha1-4mEUAHZlEEnPaJHtS8ZJtcjCbGk=",
       "dev": true
+    },
+    "canvas": {
+      "version": "2.0.0-alpha.9",
+      "resolved": "https://registry.npmjs.org/canvas/-/canvas-2.0.0-alpha.9.tgz",
+      "integrity": "sha512-H0wOexRlHg1bE6/JYIaNRcDj5B2RpuCDqJrO/J8UTPMjM19T1FbXfqjLYI5sZ1oua2E1Bpl4FL8bqzx0pPBalQ==",
+      "requires": {
+        "nan": "2.7.0"
+      }
     },
     "capture-stack-trace": {
       "version": "1.0.0",
@@ -5878,6 +5891,7 @@
       "version": "16.1.0",
       "resolved": "https://registry.npmjs.org/eslint-config-airbnb/-/eslint-config-airbnb-16.1.0.tgz",
       "integrity": "sha512-zLyOhVWhzB/jwbz7IPSbkUuj7X2ox4PHXTcZkEmDqTvd0baJmJyuxlFPDlZOE/Y5bC+HQRaEkT3FoHo9wIdRiw==",
+      "dev": true,
       "requires": {
         "eslint-config-airbnb-base": "12.1.0"
       }
@@ -5886,6 +5900,7 @@
       "version": "12.1.0",
       "resolved": "https://registry.npmjs.org/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.1.0.tgz",
       "integrity": "sha512-/vjm0Px5ZCpmJqnjIzcFb9TKZrKWz0gnuG/7Gfkt0Db1ELJR51xkZth+t14rYdqWgX836XbuxtArbIHlVhbLBA==",
+      "dev": true,
       "requires": {
         "eslint-restricted-globals": "0.1.1"
       }
@@ -6067,7 +6082,8 @@
     "eslint-restricted-globals": {
       "version": "0.1.1",
       "resolved": "https://registry.npmjs.org/eslint-restricted-globals/-/eslint-restricted-globals-0.1.1.tgz",
-      "integrity": "sha1-NfDVy8ZMLj7WLpO0saevBbp+1Nc="
+      "integrity": "sha1-NfDVy8ZMLj7WLpO0saevBbp+1Nc=",
+      "dev": true
     },
     "eslint-scope": {
       "version": "3.7.1",
@@ -19671,6 +19687,22 @@
       "resolved": "https://registry.npmjs.org/tweetnacl/-/tweetnacl-0.14.5.tgz",
       "integrity": "sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=",
       "optional": true
+    },
+    "twitter": {
+      "version": "1.7.1",
+      "resolved": "https://registry.npmjs.org/twitter/-/twitter-1.7.1.tgz",
+      "integrity": "sha1-B2I3jx3BwFDkj2ZqypBOJLGpYvQ=",
+      "requires": {
+        "deep-extend": "0.5.0",
+        "request": "2.83.0"
+      },
+      "dependencies": {
+        "deep-extend": {
+          "version": "0.5.0",
+          "resolved": "https://registry.npmjs.org/deep-extend/-/deep-extend-0.5.0.tgz",
+          "integrity": "sha1-bvSgmwX5iw41jW2T1Mo8rsZnKAM="
+        }
+      }
     },
     "type-check": {
       "version": "0.3.2",

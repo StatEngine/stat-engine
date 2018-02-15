@@ -1,9 +1,10 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default class UserHomeController {
   /*@ngInject*/
   constructor($window, $filter, currentPrincipal, currentFireDepartment, dataQuality) {
-
     this.$filter = $filter;
     this.$window = $window;
 

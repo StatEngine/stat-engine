@@ -6,5 +6,5 @@ export default function ExtensionResource($resource) {
   return $resource('/api/extensions/:id', {
     id: '@id'
   }, {
-  })
-};
+  });
+}

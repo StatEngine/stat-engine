@@ -17,19 +17,18 @@ export default class ExtensionController {
   buildOptions() {
     this.options = {};
 
-    _.forEach(this.extension.config_options, (option) => {
-      this.options[option.name] = this.extensionConfiguration.config_json.options[option.name];
+    _.forEach(this.extension.config_options, option => {
+      this.options[option.name] = this.extensionConfiguration.config_json[option.name];
     });
   }
 
   enable() {
     // update
-    if (this.extensionConfiguration._id) {
+    if(this.extensionConfiguration._id) {
       this.ExtensionConfigurationService.enable({ id: this.extensionConfiguration._id, action: 'enable'}, {})
         .$promise.finally(() => this.refresh());
-    }
     // create
-    else {
+    } else {
       this.ExtensionConfigurationService.save({ name: this.extension.name }, {})
         .$promise.then(extensionConfiguration => {
           this.extensionConfiguration = extensionConfiguration;
@@ -44,9 +43,10 @@ export default class ExtensionController {
   }
 
   refresh() {
-    this.ExtensionConfigurationService.get({ id: this.extensionConfiguration._id},
-      (extensionConfiguration) => {
-        this.extensionConfiguration = extensionConfiguration
+    this.ExtensionConfigurationService.get(
+      { id: this.extensionConfiguration._id},
+      extensionConfiguration => {
+        this.extensionConfiguration = extensionConfiguration;
         this.buildOptions();
       }
     );

@@ -19,14 +19,15 @@ async.series([
   }),
   // exchange + queue to catch uncaught errors
   done => channel.assertExchange('enrichment-configuration', 'fanout', {durable: false}, done),
-], (err) => {
-  if (err) {
+], err => {
+  if(err) {
     console.error(err);
   }
 });
 
-module.exports.publishEnrichmentConfiguration = (enrichmentConfiguration, done) => {
+export function publishEnrichmentConfiguration(enrichmentConfiguration) {
   console.info('Publishing Enrichment Configuration');
-  console.dir(JSON.stringify(enrichmentConfiguration));
-  channel.publish('enrichment-configuration', '', new Buffer(JSON.stringify(enrichmentConfiguration)));
+  channel.publish('enrichment-configuration', '', Buffer.from(JSON.stringify(enrichmentConfiguration)));
 }
+
+export default publishEnrichmentConfiguration;

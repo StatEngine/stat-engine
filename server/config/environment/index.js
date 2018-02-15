@@ -31,14 +31,14 @@ var all = {
     region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
   },
 
+  amqp: {
+    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`,
+  },
+
   elasticsearch: {
     host: process.env.ELASTICSEARCH_URI || 'localhost:9200',
     httpAuth: process.env.ELASTICSEARCH_USER && process.env.ELASTICSEARCH_PASSWORD ? `${process.env.ELASTICSEARCH_USER}:${process.env.ELASTICSEARCH_PASSWORD}` : undefined,
     apiVersion: process.env.ELASTICSEARCH_API_VERSION || '5.5',
-  },
-
-  amqp: {
-    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`,
   },
 
   // Local vs AWS Kibana
@@ -52,10 +52,6 @@ var all = {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
     appPath: process.env.NFORS_BASEPATH ? process.env.NFORS__BASEPATH : '/_plugin/kibana',
     uri: process.env.NFORS_URI ? process.env.NFORS_URI : 'http://localhost:5601',
-  },
-
-  amqp: {
-    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`
   },
 
   // Root path of server

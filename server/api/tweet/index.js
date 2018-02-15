@@ -10,33 +10,41 @@ import * as extensionConfiguration from '../extension-configuration/extension-co
 
 const router = new Router();
 
-router.get('/',
+router.get(
+  '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   extensionConfiguration.hasExtensionConfiguration('Twitter'),
-  controller.search);
+  controller.search
+);
 
-router.get('/:id',
+router.get(
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   extensionConfiguration.hasExtensionConfiguration('Twitter'),
-  controller.get);
+  controller.get
+);
 
-router.put('/:id',
+router.put(
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   extensionConfiguration.hasExtensionConfiguration('Twitter'),
   bodyParser.json(),
-  controller.update);
+  controller.update
+);
 
-router.delete('/:id',
+router.delete(
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   extensionConfiguration.hasExtensionConfiguration('Twitter'),
-  controller.destroy);
+  controller.destroy
+);
 
 module.exports = router;

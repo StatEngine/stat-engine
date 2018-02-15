@@ -15,5 +15,5 @@ export default function FireDepartmentResource($resource) {
         verb: 'data-quality'
       }
     },
-  })
-};
+  });
+}

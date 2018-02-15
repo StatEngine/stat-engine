@@ -8,30 +8,38 @@ import * as controller from './extension-configuration.controller';
 
 const router = new Router();
 
-router.get('/',
+router.get(
+  '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.search);
+  controller.search
+);
 
-router.get('/:id',
+router.get(
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.get);
+  controller.get
+);
 
-router.post('/',
+router.post(
+  '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  controller.create);
+  controller.create
+);
 
-router.put('/:id',
+router.put(
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  controller.update);
+  controller.update
+);
 
 module.exports = router;
