@@ -33,9 +33,6 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
-        tweets(Tweet) {
-          return Tweet.query();
-        }
       },
       controllerAs: 'vm'
     });
