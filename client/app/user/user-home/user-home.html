@@ -7,6 +7,8 @@
           <span> {{vm.greeting }}, </span>
           <h1 class="subheader"> {{ vm.principal.first_name }} {{ vm.principal.last_name }}</h1>
           <!--<p>Marketplace now in Beta - check it out <a ui-sref='site.marketplace.home'>here</a></p>-->
+          <p ng-if="vm.tweetCount > 0">You have <strong>{{ vm.tweetCount }}</strong> recommened tweets - check them out <a ui-sref='site.twitter.home'>here</a></p>
+
           <!--<p>Its been <strong>2 days</strong> since your last sign in and there is nothing new to report. --->
 
           <p ng-if="vm.dataQuality.grade" class="animated fadeIn"> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#">learn why</a>.</p>
@@ -15,8 +17,6 @@
           <button ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()">Dashboard</button>
           <button ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" id='user-home-getting-started' class="btn btn-primary" ng-click="vm.scrollTo('#getting-started')">Get Started</button>
         </div>
-
-
       </div>
     </section>
   </header>

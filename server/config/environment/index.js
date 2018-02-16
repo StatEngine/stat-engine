@@ -82,6 +82,11 @@ var all = {
     apiKey: process.env.MAILCHIMP_API_KEY,
     listId: process.env.MAILCHIMP_LIST_ID
   },
+  twitter: {
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/twitter/account/login/_callback' : 'https://statengine.io/api/twitter/account/login/_callback'
+  }
 };
 
 // Export the config object based on the NODE_ENV

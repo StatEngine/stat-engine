@@ -30,6 +30,7 @@ export function search(req, res) {
       if(req.query.limit === 1 && extensionConfiguration.length > 0) {
         extensionConfiguration = extensionConfiguration[0];
       }
+      
       return res.json(extensionConfiguration);
     })
     .catch(handleError(res));
@@ -70,7 +71,6 @@ export function updateOptions(req, res) {
       .catch(handleError(res));
   });
 }
-
 
 export function enable(req, res) {
   return ExtensionConfiguration.find({
@@ -140,6 +140,134 @@ export function get(req, res) {
     .catch(handleError(res));
 }
 
+// This should probably move to factory, a lib, or maybe be stored in db as default?
+function createDefaultConfig(fire_department, extensionType) {
+  if (extensionType === 'Twitter') {
+    return {
+      media_text: '',
+      tasks: [{
+        name: `${fire_department}Twitter`,
+        schedule: {
+          later: 'every 1 hours'
+        },
+        preprocessors: [{
+          type: 'daily',
+          options: {
+            timezone: `${fire_department.timezone}`
+          }
+        }],
+        queryTemplates: [{
+          type: 'count',
+          request: {
+            index: `${fire_department.es_indices['fire-incident']}`,
+            body: {
+              query: {
+                bool: {
+                  must: [{
+                    term: {
+                      'description.suppressed': false
+                    }
+                  }],
+                  filter: {
+                    range: {
+                      'description.event_opened': {
+                        gte: '{{daily.timeFrame.start}}',
+                        lt: '{{daily.timeFrame.end}}'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          type: 'count',
+          request: {
+            index: `${fire_department.es_indices['fire-incident']}`,
+            body: {
+              query: {
+                bool: {
+                  must: [{
+                    term: {
+                      'description.type': 'EMS-1STRESP'
+                    }
+                  }, {
+                    term: {
+                      'description.suppressed': false
+                    }
+                  }],
+                  filter: {
+                    range: {
+                      'description.event_opened': {
+                        gte: '{{daily.timeFrame.start}}',
+                        lt: '{{daily.timeFrame.end}}'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          type: 'count',
+          request: {
+            index: `${fire_department.es_indices['fire-incident']}`,
+            body: {
+              query: {
+                bool: {
+                  must_not: {
+                    term: {
+                      'description.type': 'EMS-1STRESP'
+                    }
+                  },
+                  must: {
+                    term: {
+                      'description.suppressed': false
+                    }
+                  },
+                  filter: {
+                    range: {
+                      'description.event_opened': {
+                        gte: '{{daily.timeFrame.start}}',
+                        lt: '{{daily.timeFrame.end}}'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }],
+        transforms: [{
+          type: 'set',
+          path: 'totalIncidentCount',
+          value: 'queryResults[0].count'
+        }, {
+          type: 'set',
+          path: 'emsIncidentCount',
+          value: 'queryResults[1].count'
+        }, {
+          type: 'set',
+          path: 'fireIncidentCount',
+          value: 'queryResults[2].count'
+        }],
+        actions: [{
+          type: 'console',
+          options: {}
+        }, {
+          type: 'twitter',
+          options: {
+            template: `${fire_department.name} responded to <%= totalIncidentCount %> incidents yesterday`,
+          }
+        }]
+      }]
+    }
+  }
+  // TODO generate report
+
+  return {}
+}
+
 export function create(req, res) {
   return Extension.find({
     where: {
@@ -152,7 +280,7 @@ export function create(req, res) {
       return ExtensionConfiguration.create({
         extension__id: extension._id,
         fire_department__id: req.fire_department._id,
-        config_json: {},
+        config_json: createDefaultConfig(req.fire_department, req.query.name),
         enabled: true,
       })
         .then(extensionConfiguration => {

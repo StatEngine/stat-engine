@@ -16,9 +16,18 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        tweets(Tweet) {
-          return Tweet.query();
-        }
+        tweets: function(Twitter) {
+          return Twitter.getTweets().$promise;
+        },
+        twitterProfile: function($q, Twitter) {
+          var deferred = $q.defer();
+
+          Twitter.profile().$promise
+            .then(profile => deferred.resolve(profile))
+            .catch(err => deferred.resolve({}));
+
+          return deferred.promise;
+        },
       },
       controllerAs: 'vm'
     });

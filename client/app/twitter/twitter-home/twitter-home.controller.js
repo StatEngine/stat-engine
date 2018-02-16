@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import _ from 'lodash';
 
 export class EditTweetFormController {
   constructor($uibModalInstance, tweet, media) {
@@ -29,19 +30,27 @@ export class EditTweetFormController {
 
 export default class TwitterHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $uibModal, Tweet, Modal, tweets) {
+  constructor($window, $filter, $uibModal, $http, Twitter, Modal, twitterProfile, tweets) {
     this.$window = $window;
     this.$filter = $filter;
     this.$uibModal = $uibModal;
+    this.$http = $http;
 
-    this.TweetService = Tweet;
+    this.TwitterService = Twitter;
     this.modalService = Modal;
+    this.twitterProfile = twitterProfile;
     this.tweets = tweets;
+
+    this.authorized = !_.isEmpty(twitterProfile);
   }
 
-  // Twitter
+  authorize() {
+    this.$http.get('/api/twitter/account/login')
+      .then(response => this.$window.location.href = response.data);
+  }
+
   previewTweet(tweet) {
-    this.TweetService.get(
+    this.TwitterService.getTweet(
       { id: tweet._id },
       updatedTweet => {
         if(updatedTweet.date_tweeted) {
@@ -67,7 +76,7 @@ export default class TwitterHomeController {
   }
 
   refreshTweets() {
-    this.TweetService.query(
+    this.TwitterService.getTweets(
       {},
       tweets => {
         this.tweets = tweets;
@@ -80,23 +89,24 @@ export default class TwitterHomeController {
   }
 
   editTweet(tweet) {
-    const svc = this.TweetService;
+    const svc = this.TwitterService;
     const modalInstance = this.$uibModal.open({
       template: require('./edit-tweet-form.html'),
       controller: ['$uibModalInstance', 'tweet', 'media', EditTweetFormController],
       controllerAs: 'vm',
       resolve: {
         tweet() {
+          console.dir(tweet)
           return angular.copy(tweet);
         },
         media() {
-          return svc.query({ media: true}).$promise;
+          return svc.getTweets({ media: true}).$promise;
         }
       }
     });
 
     modalInstance.result.then(updatedTweet => {
-      this.TweetService.update({ id: tweet._id, action: 'edit'}, updatedTweet)
+      this.TwitterService.updateTweet({ id: tweet._id, action: 'edit'}, updatedTweet)
         .$promise.finally(() => this.refreshTweets());
     }, () => {
       // modal dismissed
@@ -104,12 +114,12 @@ export default class TwitterHomeController {
   }
 
   postTweet(tweet) {
-    this.TweetService.update({ id: tweet._id, action: 'tweet'}, tweet)
+    this.TwitterService.updateTweet({ id: tweet._id, action: 'tweet'}, tweet)
       .$promise.then(res => {
         const html = `\
           <p>\
             Thanks for tweeting! You can check out the tweet \
-            <a href="${TwitterHomeController.createTweetUrl(res)}" "target="_blank"> here.</a><br><br>\
+            <a href="${TwitterHomeController.createTweetUrl(res)}" target="_blank"> here.</a><br><br>\
             You currently have ${res.response_json.user.followers_count} followers. Keep it up!\
           <p>`;
 
@@ -124,7 +134,7 @@ export default class TwitterHomeController {
   }
 
   deleteTweet(tweet) {
-    this.TweetService.delete({ id: tweet._id })
+    this.TwitterService.deleteTweet({ id: tweet._id })
       .$promise.finally(() => this.refreshTweets());
   }
 }

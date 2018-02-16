@@ -36,26 +36,6 @@ Extension
     categories: 'Social Media,Reporting',
     featured: true,
     config_options: [{
-      name: 'consumer_key',
-      description: 'Consumer Key',
-      type: 'password',
-      required: true,
-    }, {
-      name: 'consumer_secret',
-      description: 'Consumer Secret',
-      type: 'password',
-      required: true,
-    }, {
-      name: 'access_token_key',
-      description: 'Access Token Key',
-      type: 'password',
-      required: true,
-    }, {
-      name: 'access_token_secret',
-      description: 'Access Token Secret',
-      type: 'password',
-      required: true,
-    }, {
       name: 'media_text',
       description: 'Media Text',
       type: 'text',
@@ -116,10 +96,6 @@ Extension
     fire_department__id: richmond._id,
     extension__id: twitterEnrichment._id,
     config_json: {
-      consumer_key: 'adf',
-      consumer_secret: 'adsf',
-      access_token_key: 'afad',
-      access_token_secret: 'asdf',
       media_text: '@RVFD at work',
       tasks: [{
         name: 'richmondTwitter',

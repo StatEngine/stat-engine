@@ -4,13 +4,14 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, currentPrincipal, currentFireDepartment, dataQuality) {
+  constructor($window, $filter, currentPrincipal, currentFireDepartment, dataQuality, tweets) {
     this.$filter = $filter;
     this.$window = $window;
 
     this.principal = currentPrincipal;
     this.fireDepartment = currentFireDepartment;
     this.dataQuality = dataQuality;
+    this.tweetCount = tweets.length;
 
     const hours = new Date().getHours();
     this.greeting = hours < 12 ? 'Good Morning' : hours < 18 ? 'Good Afternoon' : 'Good Evening';

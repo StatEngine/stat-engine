@@ -33,6 +33,14 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
+        twitterExtensionConfiguration(ExtensionConfiguration) {
+          return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
+        },
+        tweets: function(twitterExtensionConfiguration, Twitter) {
+          console.dir(twitterExtensionConfiguration)
+          if (twitterExtensionConfiguration._id) return Twitter.getTweets().$promise;
+          else return [];
+        },
       },
       controllerAs: 'vm'
     });

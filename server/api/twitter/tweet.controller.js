@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Twitter from 'twitter';
 import { createCanvas, Image } from 'canvas';
 
+import config from '../../config/environment';
 import { Tweet } from '../../sqldb';
 
 function prepareMedia(mediaPath, text, dataURL, cb) {
@@ -14,15 +15,19 @@ function prepareMedia(mediaPath, text, dataURL, cb) {
     if(err) return cb(err);
     const img = new Image();
 
-    const width = 1440 / 2;
-    const height = 470 / 2;
+    const width = 1200 / 2;
+    const height = 627 / 2;
 
+    console.dir(text)
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
     img.src = data;
     ctx.drawImage(img, 0, 0, width, height);
     ctx.textAlign = 'center';
+    ctx.font = "48px Impact";
+    ctx.fillStyle = 'white';
+
     ctx.fillText(text, width / 2, height / 2);
 
     if(dataURL) return cb(null, canvas.toDataURL());
@@ -152,12 +157,13 @@ function edit(req, res) {
 }
 
 function tweet(req, res) {
-  const client = new Twitter({
-    consumer_key: req.extensionConfiguration.config_json.consumer_key,
-    consumer_secret: req.extensionConfiguration.config_json.consumer_secret,
-    access_token_key: req.extensionConfiguration.config_json.access_token_key,
-    access_token_secret: req.extensionConfiguration.config_json.access_token_secret,
-  });
+  const auth = {
+    consumer_key: config.twitter.consumerKey,
+    consumer_secret: config.twitter.consumerSecret,
+    access_token_key: req.session.twitter.userToken,
+    access_token_secret: req.session.twitter.userTokenSecret,
+  };
+  const client = new Twitter(auth);
 
   async.waterfall([
     done => prepareMedia(req.body.media_path, req.extensionConfiguration.config_json.media_text, false, done),
@@ -165,6 +171,7 @@ function tweet(req, res) {
     (media, mediaResponse, done) => {
       req.body.tweet_json.media_ids = media.media_id_string;
       client.post('statuses/update', req.body.tweet_json, (error, apiTweet, apiResponse) => {
+        console.error(error);
         done(null, error, apiTweet, apiResponse);
       });
     },
@@ -192,7 +199,10 @@ function tweet(req, res) {
       });
     }
   ], (err, dbTweet) => {
-    if(err) return res.status(500).end();
+    if (err) {
+      console.error(err);
+      return res.status(500).end();
+    }
 
     let resCode = 200;
     if(dbTweet.status === 'FAILED') resCode = 500;

@@ -16,7 +16,7 @@ var db = {
 // Insert models below
 db.User = db.sequelize.import('../api/user/user.model');
 db.FireDepartment = db.sequelize.import('../api/fire-department/fire-department.model');
-db.Tweet = db.sequelize.import('../api/tweet/tweet.model');
+db.Tweet = db.sequelize.import('../api/twitter/tweet.model');
 db.Extension = db.sequelize.import('../api/extension/extension.model');
 db.ExtensionConfiguration = db.sequelize.import('../api/extension-configuration/extension-configuration.model');
 

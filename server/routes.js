@@ -15,7 +15,7 @@ export default function(app) {
   app.use('/api/extensions', require('./api/extension'));
   app.use('/api/extension-configurations', require('./api/extension-configuration'));
   app.use('/api/fire-departments', require('./api/fire-department'));
-  app.use('/api/tweets', require('./api/tweet'));
+  app.use('/api/twitter', require('./api/twitter'));
   app.use('/api/users', require('./api/user'));
 
   // All routes after this point are csrf protected

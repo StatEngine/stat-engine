@@ -17,9 +17,11 @@ export default class ExtensionController {
   buildOptions() {
     this.options = {};
 
-    _.forEach(this.extension.config_options, option => {
-      this.options[option.name] = this.extensionConfiguration.config_json[option.name];
-    });
+    if (this.extensionConfiguration.config_json) {
+      _.forEach(this.extension.config_options, option => {
+        this.options[option.name] = this.extensionConfiguration.config_json[option.name];
+      });
+    }
   }
 
   enable() {

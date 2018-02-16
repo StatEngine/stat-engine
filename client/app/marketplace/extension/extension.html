@@ -28,7 +28,7 @@
         <!-- Integration Settings -->
         <div class="col-md-5 p-5 extension-settings" ng-if="vm.extensionConfiguration.enabled">
           <h3 class="heavyheader mb-2">Integration Settings</h3>
-          <form ng-if="vm.extension.config_options || vm.extension.config_options.length > 0" class="form mt-5" name="optionsForm" ng-submit="vm.updateOptions(optionsForm)" novalidate>
+          <form ng-if="vm.extension.config_options && vm.extension.config_options.length > 0" class="form mt-5" name="optionsForm" ng-submit="vm.updateOptions(optionsForm)" novalidate>
             <div class="form-group" ng-repeat="configOption in vm.extension.config_options">
               <div>
                 <label class="">{{configOption.description}}</label>
