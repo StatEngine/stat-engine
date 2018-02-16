@@ -17,7 +17,9 @@
 
 3. Create `statengine` database in PostgreSQL
 
-4. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
+4. Run `brew install pkg-config cairo pango libpng jpeg giflib`
+
+5. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
 
 ## Build & development
