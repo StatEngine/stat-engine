@@ -41,7 +41,7 @@
           <div class="row align-items-center">
             <div ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured" class="col">
               <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
-                <img src="../assets/images/extension-logo-generic.svg" alt="">
+                <img src="../assets/images/report-integration.png" alt="">
                 <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
                 <p>{{extension.description}}</p>
               </a>
@@ -56,7 +56,7 @@
           <div class="row align-items-center">
             <div ng-repeat="extension in vm.filteredExtensions | filter:query as filtered" class="col">
               <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
-                <img src="../assets/images/extension-logo-generic.svg" alt="">
+                <img src="../assets/images/twitter-integration.png" alt="">
                 <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
                 <p>{{extension.description}}</p>
               </a>
