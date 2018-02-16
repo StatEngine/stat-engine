@@ -7,11 +7,11 @@ const tw = new LoginWithTwitter({
   consumerKey: config.twitter.consumerKey,
   consumerSecret: config.twitter.consumerSecret,
   callbackUrl: config.twitter.callbackUrl,
-})
+});
 
 export function login(req, res) {
   tw.login((err, secret, url) => {
-    if (err) {
+    if(err) {
       console.error(err);
       return res.status(500).end();
     }
@@ -25,13 +25,13 @@ export function login(req, res) {
 }
 
 export function loginCallback(req, res) {
-  if (!req.session.twitterRequestSecret) {
+  if(!req.session.twitterRequestSecret) {
     console.error('No twitterRequestSecret found in session');
     return res.status(500).end();
   }
 
   tw.callback(req.query, req.session.twitterRequestSecret, (err, data) => {
-    if (err) {
+    if(err) {
       console.error(err);
       return res.status(500).end();
     }
@@ -45,12 +45,12 @@ export function loginCallback(req, res) {
       }
     */
     req.session.twitter = data;
-    res.redirect('/twitter')
-  })
+    res.redirect('/twitter');
+  });
 }
 
 export function profile(req, res) {
-  if (!req.session.twitter) return res.status(401).end();
+  if(!req.session.twitter) return res.status(401).end();
 
   const auth = {
     consumer_key: config.twitter.consumerKey,
@@ -66,7 +66,7 @@ export function profile(req, res) {
       delete req.session.twitter;
       return res.status(401).end();
     } else {
-      res.send(response)
+      res.send(response);
     }
   });
 }

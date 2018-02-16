@@ -30,7 +30,7 @@ export function search(req, res) {
       if(req.query.limit === 1 && extensionConfiguration.length > 0) {
         extensionConfiguration = extensionConfiguration[0];
       }
-      
+
       return res.json(extensionConfiguration);
     })
     .catch(handleError(res));
@@ -142,7 +142,7 @@ export function get(req, res) {
 
 // This should probably move to factory, a lib, or maybe be stored in db as default?
 function createDefaultConfig(fire_department, extensionType) {
-  if (extensionType === 'Twitter') {
+  if(extensionType === 'Twitter') {
     return {
       media_text: '',
       tasks: [{
@@ -261,11 +261,11 @@ function createDefaultConfig(fire_department, extensionType) {
           }
         }]
       }]
-    }
+    };
   }
-  // TODO generate report
+  // generate report and others here
 
-  return {}
+  return {};
 }
 
 export function create(req, res) {

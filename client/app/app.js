@@ -14,7 +14,7 @@ import ngValidationMatch from 'angular-validation-match';
 import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
 // eslint-disable-next-line
-import angularLoadingBar from 'angular-loading-bar';
+//import angularLoadingBar from 'angular-loading-bar';
 
 import {
   routeConfig

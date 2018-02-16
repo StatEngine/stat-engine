@@ -46,7 +46,7 @@ export default class TwitterHomeController {
 
   authorize() {
     this.$http.get('/api/twitter/account/login')
-      .then(response => this.$window.location.href = response.data);
+      .then(response => { this.$window.location.href = response.data; });
   }
 
   previewTweet(tweet) {
@@ -96,7 +96,6 @@ export default class TwitterHomeController {
       controllerAs: 'vm',
       resolve: {
         tweet() {
-          console.dir(tweet)
           return angular.copy(tweet);
         },
         media() {

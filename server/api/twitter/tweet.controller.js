@@ -24,7 +24,7 @@ function prepareMedia(mediaPath, text, dataURL, cb) {
     img.src = data;
     ctx.drawImage(img, 0, 0, width, height);
     ctx.textAlign = 'center';
-    ctx.font = "48px Impact";
+    ctx.font = '48px Impact';
     ctx.fillStyle = 'white';
 
     ctx.fillText(text, width / 2, height / 2);
@@ -198,7 +198,7 @@ function tweet(req, res) {
       });
     }
   ], (err, dbTweet) => {
-    if (err) {
+    if(err) {
       console.error(err);
       return res.status(500).end();
     }

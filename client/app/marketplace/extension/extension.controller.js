@@ -17,7 +17,7 @@ export default class ExtensionController {
   buildOptions() {
     this.options = {};
 
-    if (this.extensionConfiguration.config_json) {
+    if(this.extensionConfiguration.config_json) {
       _.forEach(this.extension.config_options, option => {
         this.options[option.name] = this.extensionConfiguration.config_json[option.name];
       });

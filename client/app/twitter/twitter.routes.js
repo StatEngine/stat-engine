@@ -16,15 +16,15 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        tweets: function(Twitter) {
+        tweets(Twitter) {
           return Twitter.getTweets().$promise;
         },
-        twitterProfile: function($q, Twitter) {
+        twitterProfile($q, Twitter) {
           var deferred = $q.defer();
 
           Twitter.profile().$promise
             .then(profile => deferred.resolve(profile))
-            .catch(err => deferred.resolve({}));
+            .catch(() => deferred.resolve({}));
 
           return deferred.promise;
         },
