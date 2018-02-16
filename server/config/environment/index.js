@@ -83,9 +83,9 @@ var all = {
     listId: process.env.MAILCHIMP_LIST_ID
   },
   twitter: {
-    consumerKey: process.env.TWITTER_CONSUMER_KEY,
-    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/twitter/account/login/_callback' : 'https://statengine.io/api/twitter/account/login/_callback'
+    consumerKey: process.env.TWITTER_CONSUMER_KEY || '123',
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET || '123',
+    callbackUrl: process.env.TWITTER_CALLBACK_URL || 'http://localhost:3000/api/twitter/account/login/_callback',
   }
 };
 

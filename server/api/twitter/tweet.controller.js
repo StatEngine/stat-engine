@@ -18,7 +18,6 @@ function prepareMedia(mediaPath, text, dataURL, cb) {
     const width = 1200 / 2;
     const height = 627 / 2;
 
-    console.dir(text)
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
@@ -163,6 +162,7 @@ function tweet(req, res) {
     access_token_key: req.session.twitter.userToken,
     access_token_secret: req.session.twitter.userTokenSecret,
   };
+
   const client = new Twitter(auth);
 
   async.waterfall([
@@ -171,7 +171,6 @@ function tweet(req, res) {
     (media, mediaResponse, done) => {
       req.body.tweet_json.media_ids = media.media_id_string;
       client.post('statuses/update', req.body.tweet_json, (error, apiTweet, apiResponse) => {
-        console.error(error);
         done(null, error, apiTweet, apiResponse);
       });
     },

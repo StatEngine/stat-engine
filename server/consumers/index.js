@@ -20,7 +20,7 @@ async.series([
     channel = openChannel;
     done(err);
   }),
-  // exchange + queue to catch uncaught errors
+  // Assert queues
   done => channel.assertQueue('tweet-recommendation', {}, done),
   done => channel.assertQueue('refresh-enrichment-configuration', {}, done),
 ], err => {
@@ -28,7 +28,6 @@ async.series([
     console.error(err);
   }
 
-  // Setup complete, now bind
   channel.consume('tweet-recommendation', msg => {
     consumeTweet(msg, err => {
       if(err) console.error(err);

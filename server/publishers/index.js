@@ -17,7 +17,7 @@ async.series([
     channel = openChannel;
     done(err);
   }),
-  // exchange + queue to catch uncaught errors
+  // Assert Exchange
   done => channel.assertExchange('enrichment-configuration', 'fanout', {durable: false}, done),
 ], err => {
   if(err) {

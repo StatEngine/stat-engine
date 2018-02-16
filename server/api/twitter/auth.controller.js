@@ -59,9 +59,8 @@ export function profile(req, res) {
     access_token_secret: req.session.twitter.userTokenSecret,
   };
 
-  console.dir(auth)
-
   const client = new Twitter(auth);
+
   client.get('account/verify_credentials', (err, response) => {
     if(err) {
       delete req.session.twitter;
