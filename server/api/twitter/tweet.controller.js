@@ -15,8 +15,8 @@ function prepareMedia(mediaPath, text, dataURL, cb) {
     if(err) return cb(err);
     const img = new Image();
 
-    const width = 1200 / 2;
-    const height = 627 / 2;
+    const width = 1200 / 1.2;
+    const height = 627 / 1.2;
 
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
@@ -24,7 +24,7 @@ function prepareMedia(mediaPath, text, dataURL, cb) {
     img.src = data;
     ctx.drawImage(img, 0, 0, width, height);
     ctx.textAlign = 'center';
-    ctx.font = '48px Impact';
+    ctx.font = '800 48px Montserrat, Open Sans, Impact, Arial';
     ctx.fillStyle = 'white';
 
     ctx.fillText(text, width / 2, height / 2);

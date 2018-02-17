@@ -1,19 +1,35 @@
-<div>
+<div class="site">
   <navbar class="animated fadeInDown naked"></navbar>
   <header class="naked"></header>
-  <section class="fluid-container py-5">
+  <section class="fluid-container pt-5 pb-3 site-content">
     <div class="container">
       <section class="row" ng-if="!vm.authorized">
-        <div class="col-md-6">
-          <h2 class="subheader text-center">
-          Please authorize StatEngine to use your Twitter account
-          </h2>
-          <p class="text-center">
-            <button class="btn btn-primary" ng-click="vm.authorize()"> Authorize </button>
-          </p>
+        <div class="col-md-10 col-md-offset-1 text-center">
+          <h3 class="subheader mb-4 pb-4">Please authorize StatEngine to use your Twitter account.</h3>
+          <div class="row">
+            <div class="col-md-4 col-md-offset-2">
+              <p class="text-left">This application <strong class="text-success">will be able to</strong>:</p>
+              <ul class="statengine ml-5 text-left">
+                <li>Read tweets from your timeline</li>
+                <li>See who you follow</li>
+                <li>Post tweets on your behalf</li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <p class="text-left">This application <strong class="text-danger">will NOT be able to</strong>:</p>
+              <ul class="statengine ml-5 text-left">
+                <li>Access your private messages</li>
+                <li>See your password</li>
+                <li>Update your profile</li>
+              </ul>
+            </div>
+          </div>
+          <button class="btn btn-primary mt-4 mb-5" ng-click="vm.authorize()">Authorize this Integration</button>
         </div>
-        <div id="intro-image" class="col-md-5 ml-auto">
-          <img src="/assets/images/Twitter_Logo_Blue.svg" class="twitter-logo">
+
+        <div id="intro-image" class="col-md-5">
+          <!-- <img src="/assets/images/Twitter_Logo_Blue.svg" class="twitter-logo"> -->
+
         </div>
       </section>
       <section ng-if="vm.authorized">
