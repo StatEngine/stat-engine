@@ -35,6 +35,7 @@ Extension
     type: 'PERIODIC',
     categories: 'Social Media,Reporting',
     featured: true,
+    image: 'extension-twitter.png',
     config_options: [{
       name: 'media_text',
       description: 'Media Text',
@@ -54,6 +55,7 @@ Extension
     type: 'PERIODIC',
     categories: 'Reporting',
     featured: true,
+    image: 'extension-reports.png',
     config_options: []
   }))
   .then(extension => { emailReportEnrichment = extension; })

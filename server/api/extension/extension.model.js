@@ -36,6 +36,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       default: false
     },
+    image: {
+      type: DataTypes.STRING,
+      default: 'extension-logo-generic.svg'
+    },
     date_created: {
       type: DataTypes.DATE,
       validate: {
