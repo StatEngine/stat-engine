@@ -201,7 +201,7 @@
 
   <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
     <div class="container">
-      <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION'}" class="badge">{{vm.dataQuality.grade}}</span></h3>
+      <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION' || vm.dataQuality.grade == 'UNKNOWN' }" class="badge">{{vm.dataQuality.grade}}</span></h3>
       <div class="row">
         <div class="col-md-8">
           <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>

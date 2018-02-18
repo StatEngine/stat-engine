@@ -28,17 +28,19 @@ async.series([
     console.error(err);
   }
 
-  channel.consume('tweet-recommendation', msg => {
-    consumeTweet(msg, err => {
-      if(err) console.error(err);
-      channel.ack(msg);
+  if(channel) {
+    channel.consume('tweet-recommendation', msg => {
+      consumeTweet(msg, err => {
+        if(err) console.error(err);
+        channel.ack(msg);
+      });
     });
-  });
 
-  channel.consume('refresh-enrichment-configuration', msg => {
-    consumeRefreshEnrichmentConfiguration(msg, err => {
-      if(err) console.error(err);
-      channel.ack(msg);
+    channel.consume('refresh-enrichment-configuration', msg => {
+      consumeRefreshEnrichmentConfiguration(msg, err => {
+        if(err) console.error(err);
+        channel.ack(msg);
+      });
     });
-  });
+  }
 });

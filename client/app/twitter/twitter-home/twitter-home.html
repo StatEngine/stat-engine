@@ -34,12 +34,12 @@
       </section>
       <section ng-if="vm.authorized">
         <div class="row">
-          <div class="col-sm-5">
-            <label>Twitter Account:</label> {{ vm.twitterProfile.name }}
+          <div class="col text-center">
+            <h1>{{ vm.twitterProfile.name }}</h1>
+            <img src={{vm.twitterProfile.profile_image_url_https}}></img>
           </div>
         </div>
-
-        <div class="row">
+        <div class="row mt-1">
           <div class="col-md-8">
             <h3 class="mb-2" >Tweet Recommendations</h3>
             <p>Tweet any of our recommendations directly to <a href="http://twitter.com" target="_blank">Twitter</a>. You can also discard, preview, or edit any recommendations prior to tweeting.</p>

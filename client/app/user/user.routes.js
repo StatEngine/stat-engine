@@ -37,7 +37,7 @@ export default function routes($stateProvider) {
           return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
         },
         tweets(twitterExtensionConfiguration, Twitter) {
-          if(twitterExtensionConfiguration._id) return Twitter.getTweets().$promise;
+          if(twitterExtensionConfiguration._id && twitterExtensionConfiguration.enabled) return Twitter.getTweets().$promise;
           else return [];
         },
       },
