@@ -18,13 +18,17 @@ export function runQA(options) {
       .then(res => res.count),
     client[options.method](params)
       .then(res => options.parser(res, options))
-  ]).then(responses => {
-    const [total, results] = responses;
-    results.totalDocuments = total;
-    results.percentViolation = _.round(results.violations / total, 2);
-    results.grade = gradeFromPercentage(results.percentViolation);
-    return results;
-  });
+  ])
+    .then(responses => {
+      const [total, results] = responses;
+      results.totalDocuments = total;
+      results.percentViolation = _.round(results.violations / total, 2);
+      results.grade = gradeFromPercentage(results.percentViolation);
+      return results;
+    })
+    .catch(err => {
+      console.error(err);
+    });
 }
 
 export const noApparatus = {
@@ -102,11 +106,12 @@ export const unTypedApparatus = {
 };
 
 export function gradeFromPercentage(score) {
+  if(!score) return 'UNKNOWN';
   return score <= qaGradeStops[0] ? 'GOOD' : score <= qaGradeStops[1] ? 'NEEDS ATTENTION' : 'POOR';
 }
 
 export function gradeQAResults(results) {
-  const worstScore = _.max(_.toPairs(results).map(result => result[1].percentViolation));
+  const worstScore = _.max(_.toPairs(results).map(result => (result[1] ? result[1].percentViolation : undefined)));
   return {
     grade: gradeFromPercentage(worstScore),
     results

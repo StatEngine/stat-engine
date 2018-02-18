@@ -12,8 +12,11 @@ import config from './config/environment';
 
 export default function(app) {
   // Insert API routes below
-  app.use('/api/users', require('./api/user'));
+  app.use('/api/extensions', require('./api/extension'));
+  app.use('/api/extension-configurations', require('./api/extension-configuration'));
   app.use('/api/fire-departments', require('./api/fire-department'));
+  app.use('/api/twitter', require('./api/twitter'));
+  app.use('/api/users', require('./api/user'));
 
   // All routes after this point are csrf protected
   app.use(lusca.csrf({

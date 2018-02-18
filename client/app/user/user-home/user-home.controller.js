@@ -4,13 +4,17 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, currentPrincipal, currentFireDepartment, dataQuality) {
+  constructor($window, $filter, currentPrincipal, currentFireDepartment, dataQuality, tweets) {
+    this.$filter = $filter;
+    this.$window = $window;
+
     this.principal = currentPrincipal;
     this.fireDepartment = currentFireDepartment;
     this.dataQuality = dataQuality;
+    this.tweetCount = tweets.length;
 
-    const date = new Date().getHours();
-    this.greeting = date < 12 ? 'Good Morning' : date < 18 ? 'Good Afternoon' : 'Good Evening';
+    const hours = new Date().getHours();
+    this.greeting = hours < 12 ? 'Good Morning' : hours < 18 ? 'Good Afternoon' : 'Good Evening';
 
     this.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
@@ -39,7 +43,7 @@ export default class UserHomeController {
     this.setupComplete = this.gettingStarted.every(t => t.status === true);
 
     this.dashboard = function() {
-      $window.location.href = '/dashboard';
+      this.$window.location.href = '/dashboard';
     };
   }
 }

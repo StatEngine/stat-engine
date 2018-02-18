@@ -9,6 +9,7 @@ $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~animate.css/animate.css';
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
+@import '~angular-loading-bar/build/loading-bar.css';
 
 /////////////////////////////////
 // VARIABLES //
@@ -65,6 +66,10 @@ body {
 
 p {
   line-height: 1.75;
+}
+
+hr {
+  border-top-color: #ced2d6;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -291,7 +296,8 @@ label.disabled {
   vertical-align: middle;
   position: relative;
   padding-left: 5px;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .checkbox label::before {
@@ -417,6 +423,19 @@ input[type="radio"]:focus {
   line-height: 1.1;
 }
 
+// Cards
+.card {
+  background-color: white;
+  border: 1px solid #ced2d6;
+  border-radius: 5px;
+  padding: 2rem;
+}
+
+.card-selected {
+  border: 4px solid $color-bondi-blue;
+  border-radius: 5px;
+}
+
 // Utilities
 .pt-3,
 .py-3 {
@@ -471,6 +490,12 @@ input[type="radio"]:focus {
   font-size: 15px;
   line-height: 26px;
   color: $color-pale-sky;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 // Bootstrap Overrides
@@ -529,9 +554,9 @@ button {
   color: lighten($color-pickled-bluewood,8%);
   border-color: lighten($color-pickled-bluewood,8%);
   &:hover {
-    background-color: lighten($color-geyser,10%);
-    color: $color-pickled-bluewood;
-    border-color:$color-pickled-bluewood;
+    background-color: lighten($color-geyser,8%);
+    color: darken($color-pickled-bluewood, 5%);
+    border-color: darken($color-pickled-bluewood, 5%);
   }
 }
 
@@ -540,6 +565,39 @@ button {
    $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
   border: none;
+}
+
+.btn-alt {
+  background: $color-cerulean;
+  color: white;
+  &:disabled:hover {
+    background: $color-cerulean;
+  }
+  &:hover {
+    background: darken($color-cerulean,5%);
+  }
+}
+
+.btn-alt-2 {
+  background: $color-java;
+  color: white;
+  &:disabled:hover {
+    background: $color-java;
+  }
+  &:hover {
+    background: darken($color-java,5%);
+  }
+}
+
+.btn-alt-3 {
+  background: $brand-danger;
+  color: white;
+  &:disabled:hover {
+    background: $brand-danger;
+  }
+  &:hover {
+    background: darken($brand-danger,5%);
+  }
 }
 
 .btn-outline {
@@ -658,6 +716,36 @@ li.nested:before {
   counter-increment: item
 }
 
+.fa-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#loading-bar-spinner {
+  left: 50%;
+  top: 50%;
+}
+
+#loading-bar-spinner .spinner-icon {
+  width: 50px;
+  height: 50px;
+}
+
+#loading-bar {
+  pointer-events: all;
+  z-index: 99999;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  cursor: wait;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -667,12 +755,13 @@ li.nested:before {
 @import 'admin/admin';
 @import 'main/main';
 @import 'spade/spade';
+@import 'marketplace/marketplace';
 @import 'statEngine/statEngine';
-
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
 @import '../app/account/login/login';
 @import '../app/account/signup/signup';
 @import '../app/user/user-home/user-home';
+@import '../app/twitter/twitter-home/twitter-home';
 @import '../components/oauth-buttons/oauth-buttons'; // endinject //

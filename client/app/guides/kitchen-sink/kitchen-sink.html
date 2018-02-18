@@ -42,11 +42,15 @@
               <button class="btn btn-default">Default Button</button>
               <button class="btn btn-primary">Primary Button</button>
               <button class="btn btn-primary btn-sm">Small Button</button>
+              <button class="btn btn-alt">Alt Button</button>
+              <button class="btn btn-alt-2">Alt 2 Button</button>
               <button class="btn btn-outline-inverse">Outline Button</button>
               <button class="btn btn-outline-inverse-alt">Outline Button Alt</button>
               <button class="btn-link">Hyperlink Button</button>
               <br><br>
               <button class="btn btn-primary" disabled>Disabled Primary Button</button>
+              <button class="btn btn-alt" disabled>Alt Button</button>
+              <button class="btn btn-alt-2" disabled>Alt 2 Button</button>
               <button class="btn btn-outline-inverse" disabled>Disabled Outline Button</button>
               <button class="btn btn-outline-inverse-alt" disabled>Disabled Outline Button Alt</button>
 
@@ -101,8 +105,11 @@
           <!-- ====== Modal ======  -->
           <div class="ks-container">
             <h1 class="demo">Modal</h1>
-            <button class="btn btn-lg btn-primary login" type="submit" ng-click="vm.openModal()">
-              Open Modal
+            <button class="btn btn-lg btn-primary login" type="submit" ng-click="vm.okModal()">
+              Ok Modal
+            </button>
+            <button class="btn btn-lg btn-primary login" type="submit" ng-click="vm.deleteModal()">
+              Delete Modal
             </button>
           </div>
 
@@ -133,7 +140,7 @@
                   <div class="form-group">
                     <div class="mb-4">
                       <label class="">I'm a Cool Label with standard input</label>
-                      <input type="text" name="demo" class="form-control" ng-model="vm.user.test" required>
+                      <input type="text-area" name="demo" class="form-control" ng-model="vm.user.test" required>
                     </div>
                     <div>
                       <label class="">I'm a Cool Label with standard input</label>

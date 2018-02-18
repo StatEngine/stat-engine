@@ -77,12 +77,6 @@
       line-height: 1.5;
     }
   }
-  .card {
-    background-color: #fbfcfd;
-    border: 1px solid #ced2d6;
-    border-radius: 5px;
-    padding: 2rem;
-  }
 
   .data-quality-analysis {
     h3 .badge {
@@ -92,6 +86,10 @@
 
   .badge-danger {
     background-color: $color-brand-danger;
+  }
+
+  .badge-primary {
+    background-color: #5bc0de;
   }
 
   .badge-success {

@@ -55,7 +55,7 @@ export function hasRole(roleRequired) {
 
   return compose()
     .use(function meetsRequirements(req, res, next) {
-      if(req.user.roles.indexOf(roleRequired) >= 0) {
+      if(req.user.roles.indexOf(roleRequired) >= 0 || req.user.roles.indexOf('admin') >= 0) {
         return next();
       } else {
         return res.status(403).send('Forbidden. User does not have necessary priviliges to access');
@@ -67,6 +67,10 @@ export function hasRole(roleRequired) {
  * Checks if user has fire deparment and sets in request
  */
 export function hasFireDepartment(req, res, next) {
+  if(req.user.roles.indexOf('admin') >= 0) {
+    return next();
+  }
+
   return FireDepartment.find({
     where: {
       _id: req.user.fire_department__id

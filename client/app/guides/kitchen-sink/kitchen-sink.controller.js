@@ -6,7 +6,11 @@ export default class KitchenSinkController {
     this.Modal = Modal;
   }
 
-  openModal() {
+  okModal() {
+    this.Modal.ok()('Kitchen Sink', 'kitchen');
+  }
+
+  deleteModal() {
     this.Modal.confirm.delete(() => {})();
   }
 }

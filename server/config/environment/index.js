@@ -31,6 +31,10 @@ var all = {
     region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
   },
 
+  amqp: {
+    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`,
+  },
+
   elasticsearch: {
     host: process.env.ELASTICSEARCH_URI || 'localhost:9200',
     httpAuth: process.env.ELASTICSEARCH_USER && process.env.ELASTICSEARCH_PASSWORD ? `${process.env.ELASTICSEARCH_USER}:${process.env.ELASTICSEARCH_PASSWORD}` : undefined,
@@ -48,10 +52,6 @@ var all = {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
     appPath: process.env.NFORS_BASEPATH ? process.env.NFORS__BASEPATH : '/_plugin/kibana',
     uri: process.env.NFORS_URI ? process.env.NFORS_URI : 'http://localhost:5601',
-  },
-
-  amqp: {
-    uri: `${process.env.AMQP_PROTOCOL}://${process.env.AMQP_USER}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:${process.env.AMQP_PORT}`
   },
 
   // Root path of server
@@ -82,6 +82,11 @@ var all = {
     apiKey: process.env.MAILCHIMP_API_KEY,
     listId: process.env.MAILCHIMP_LIST_ID
   },
+  twitter: {
+    consumerKey: process.env.TWITTER_CONSUMER_KEY || '123',
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET || '123',
+    callbackUrl: process.env.TWITTER_CALLBACK_URL || 'http://localhost:3000/api/twitter/account/login/_callback',
+  }
 };
 
 // Export the config object based on the NODE_ENV

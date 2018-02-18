@@ -420,27 +420,26 @@ header.naked {
 /////////////////////////////////
 // CONTACT US CALLOUT //
 ////////////////////////////////
-#contact {
+#contact, #marketplace-contact {
   font-family: 'Montserrat';
   font-weight: 400;
-  padding: 50px 15px;
 }
 
-#contact > div p {
+#contact > div p, #marketplace-contact > div p {
   font-family: 'Montserrat';
   font-weight: 400;
   font-size: 28px;
   line-height: 1.5;
 }
 
-#contact > div p.title {
+#contact > div p.title, #marketplace-contact > div p.title {
   font-weight: 300;
   color: #1ab4c2;
   font-family: 'Open Sans';
   font-weight: 700;
 }
 
-#contact > div p.subtitle {
+#contact > div p.subtitle, #marketplace-contact > div p.subtitle {
   color: #4f585d;
   font-family: 'Open Sans';
   font-weight: 400;
@@ -450,7 +449,7 @@ header.naked {
   }
 }
 
-#contact .button-group button {
+#contact .button-group button, #marketplace-contact .button-group button {
   @media (max-width: 576px) {
     min-width: 150px;
   }
