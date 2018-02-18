@@ -106,12 +106,12 @@ export const unTypedApparatus = {
 };
 
 export function gradeFromPercentage(score) {
-  if(!score) return 'UNKNOWN';
+  if(score === undefined) return 'UNKNOWN';
   return score <= qaGradeStops[0] ? 'GOOD' : score <= qaGradeStops[1] ? 'NEEDS ATTENTION' : 'POOR';
 }
 
 export function gradeQAResults(results) {
-  const worstScore = _.max(_.toPairs(results).map(result => (result[1] ? result[1].percentViolation : undefined)));
+  const worstScore = _.max(_.toPairs(results).map(result => _.get(result[1], 'percentViolation', undefined)));
   return {
     grade: gradeFromPercentage(worstScore),
     results

@@ -12,7 +12,7 @@
         <div class="row align-items-center">
           <div class="col" ng-repeat="media in vm.media">
             <a href="#" class="card hvr-float mt-2" ng-class="{'card-selected': media.id === vm.selectedMediaId }" ng-click="vm.selectMedia(media.id)">
-              <img src="{{media.path}}" alt="" class="twitter-media">
+              <img ng-src="{{media.path}}" alt="" class="twitter-media">
             </a>
           </div>
         </div>
