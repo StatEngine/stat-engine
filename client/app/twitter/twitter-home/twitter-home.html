@@ -84,7 +84,7 @@
                     {{tweet.status}}
                   </span>
                 </div>
-                <div class="cell" data-title="Actions">
+                <div class="cell action-cell" data-title="Actions">
                   <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-pencil text-warning"></i></button>
                   <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-eye text-success"></i></button>
                   <button class="btn-link" ng-click="vm.postTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-twitter text-primary"></i></button>
