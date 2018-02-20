@@ -146,7 +146,7 @@ function createDefaultConfig(fire_department, extensionType) {
     return {
       media_text: '',
       tasks: [{
-        name: `${fire_department}Twitter`,
+        name: `${fire_department.name} Twitter`,
         schedule: {
           later: 'every 1 hours'
         },
