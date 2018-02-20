@@ -24,6 +24,10 @@ export default class ExtensionController {
     }
   }
 
+  loadImage(path) {
+    return require(`../../../assets/images/extensions/${path}`)
+  }
+
   enable() {
     // update
     if(this.extensionConfiguration._id) {

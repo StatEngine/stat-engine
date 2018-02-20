@@ -20,6 +20,10 @@ export default class MarketplaceHomeController {
     this.selectedCategory = 'All';
   }
 
+  loadImage(path) {
+    return require(`../../../assets/images/extensions/${path}`)
+  }
+
   filterByCategory(searchCategory) {
     this.selectedCategory = searchCategory;
 

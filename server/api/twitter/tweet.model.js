@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // eslint-disable-next-line
-const files = fs.readdirSync(path.join(__dirname, '../../../client/assets/twitter-media'));
+const files = fs.readdirSync(path.join(__dirname, '../../../client/assets/images/twitter-media'));
 let media = [];
 files.forEach(file => media.push(file));
 

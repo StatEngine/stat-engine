@@ -3,5 +3,8 @@
     "env": {
         "browser": true,
         "commonjs": true
-    }
+    },
+    "rules": {
+        "import/no-dynamic-require": 0
+    }  
 }

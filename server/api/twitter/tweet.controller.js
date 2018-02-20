@@ -8,8 +8,10 @@ import { createCanvas, Image } from 'canvas';
 import config from '../../config/environment';
 import { Tweet } from '../../sqldb';
 
+const MEDIA_BASE_PATH = '../../../client/assets/images/twitter-media';
+
 function prepareMedia(mediaPath, text, dataURL, cb) {
-  const fullMediaPath = path.join(__dirname, '../../../client/assets/twitter-media', mediaPath);
+  const fullMediaPath = path.join(__dirname, MEDIA_BASE_PATH, mediaPath);
 
   fs.readFile(fullMediaPath, (err, data) => {
     if(err) return cb(err);
@@ -65,13 +67,13 @@ export function destroy(req, res) {
 }
 
 export function mediaSearch(req, res) {
-  fs.readdir(path.join(__dirname, '../../../client/assets/twitter-media'), (err, files) => {
+  fs.readdir(path.join(__dirname, MEDIA_BASE_PATH), (err, files) => {
     if(err) return res.status(500).end();
 
     let media = [];
     files.forEach(file => media.push({
       id: file,
-      path: path.join('../assets/twitter-media', file),
+      path: file,
     }));
 
     res.json(_.sortBy(media, m => m.id));

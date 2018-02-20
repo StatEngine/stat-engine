@@ -3,6 +3,12 @@
 import angular from 'angular';
 import _ from 'lodash';
 
+function importAll(r) {
+  return r.keys().map(r);
+}
+
+importAll(require.context('../../../assets/images/twitter-media', false));
+
 export class EditTweetFormController {
   constructor($uibModalInstance, tweet, media) {
     this.$uibModalInstance = $uibModalInstance;
