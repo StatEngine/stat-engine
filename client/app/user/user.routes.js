@@ -33,11 +33,15 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
-        twitterExtensionConfiguration(ExtensionConfiguration) {
-          return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
+        twitterExtensionConfiguration(currentFireDepartment, ExtensionConfiguration) {
+          if(currentFireDepartment) {
+            return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
+          } else {
+            return undefined;
+          }
         },
         tweets(twitterExtensionConfiguration, Twitter) {
-          if(twitterExtensionConfiguration._id && twitterExtensionConfiguration.enabled) return Twitter.getTweets().$promise;
+          if(twitterExtensionConfiguration && twitterExtensionConfiguration.enabled) return Twitter.getTweets().$promise;
           else return [];
         },
       },
