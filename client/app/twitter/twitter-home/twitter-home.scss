@@ -7,11 +7,6 @@
     min-width: 175px;
   }
 
-  .twitter-media {
-    width: 200px;
-    height: 100px;
-  }
-
   .badge-danger {
     background-color: $color-brand-danger;
   }
@@ -27,4 +22,9 @@
   .badge-warning {
     background-color: #ffc107;
   }
+}
+
+.twitter-media {
+  width: 200px;
+  height: 100px;
 }
