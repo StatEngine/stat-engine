@@ -1,3 +1,5 @@
+/* eslint  class-methods-use-this: 0 */
+
 'use strict';
 
 import _ from 'lodash';
@@ -25,7 +27,7 @@ export default class ExtensionController {
   }
 
   loadImage(path) {
-    return require(`../../../assets/images/extensions/${path}`)
+    return require(`../../../assets/images/extensions/${path}`);
   }
 
   enable() {

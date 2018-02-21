@@ -1,3 +1,5 @@
+/* eslint  class-methods-use-this: 0 */
+
 'use strict';
 
 import angular from 'angular';
@@ -21,7 +23,7 @@ export default class MarketplaceHomeController {
   }
 
   loadImage(path) {
-    return require(`../../../assets/images/extensions/${path}`)
+    return require(`../../../assets/images/extensions/${path}`);
   }
 
   filterByCategory(searchCategory) {
