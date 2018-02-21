@@ -57,6 +57,10 @@ export default function(sequelize, DataTypes) {
             .toLowerCase()
             .replace(/ /g, '_')
             .replace(/&/g, 'and'),
+          'apparatus-fire-incident': `${this.firecares_id}-${this.state}-${this.name}-apparatus-fire-incident*`
+            .toLowerCase()
+            .replace(/ /g, '_')
+            .replace(/&/g, 'and'),
           'vehicle-telemetry': `${this.firecares_id}-${this.state}-${this.name}-vehicle-telemetry*`
             .toLowerCase()
             .replace(/ /g, '_')
