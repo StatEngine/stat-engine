@@ -33,7 +33,7 @@ export default function(sequelize, DataTypes) {
       validate: {
         notEmpty: true
       },
-      defaultValue: new Date()
+      defaultValue: () => new Date()
     },
     media_path: {
       type: DataTypes.STRING,

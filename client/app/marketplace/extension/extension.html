@@ -31,7 +31,7 @@
           <form ng-if="vm.extension.config_options && vm.extension.config_options.length > 0" class="form mt-5" name="optionsForm" ng-submit="vm.updateOptions(optionsForm)" novalidate>
             <div class="form-group" ng-repeat="configOption in vm.extension.config_options">
               <div>
-                <label class="">{{configOption.description}}</label>
+                <label class="">{{configOption.description}} <i class="fa fa-question-circle" uib-popover="{{configOption.tooltip}}" popover-trigger="'mouseenter'"></i></label>
                 <input type="{{configOption.type}}" name="{{configOption.name}}" form="settingsForm" class="form-control" ng-model="vm.options[configOption.name]"></input>
               </div>
             </div>

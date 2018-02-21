@@ -1,4 +1,4 @@
-<div class="site">
+<div class="twitter-home">
   <navbar class="animated fadeInDown naked"></navbar>
   <header class="naked"></header>
   <section class="fluid-container pt-5 pb-3 site-content">
@@ -32,7 +32,7 @@
 
         </div>
       </section>
-      <section ng-if="vm.authorized">
+      <section>
         <div class="row">
           <div class="col text-center">
             <h1>{{ vm.twitterProfile.name }}</h1>
@@ -51,9 +51,6 @@
                   Text
                 </div>
                 <div class="cell">
-                  Media
-                </div>
-                <div class="cell">
                   Date Recommended
                 </div>
                 <div class="cell">
@@ -70,13 +67,11 @@
                 <div class="cell tweet-cell" data-title="Text">
                   {{tweet.tweet_json.status}}
                 </div>
-                <div class="cell" data-title="Media">
-                  {{tweet.media_path || '-'}}
-                </div>
-                <div class="cell" data-title="Media">
+
+                <div class="cell" data-title="Date Created">
                   {{tweet.date_created | date: 'medium'}}
                 </div>
-                <div class="cell" data-title="Media">
+                <div class="cell" data-title="Date Tweeted">
                   {{tweet.date_tweeted | date: 'medium'}}
                 </div>
                 <div class="cell" data-title="Status">

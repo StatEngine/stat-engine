@@ -38,7 +38,8 @@ Extension
     image: 'extension-twitter.png',
     config_options: [{
       name: 'media_text',
-      description: 'Media Text',
+      tooltip: 'Text is overlayed on tweet media',
+      description: 'Image Overlay Text',
       type: 'text',
       required: true,
     }]
