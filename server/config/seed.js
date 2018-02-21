@@ -35,7 +35,7 @@ Extension
     type: 'PERIODIC',
     categories: 'Social Media,Reporting',
     featured: true,
-    image: 'extension-twitter.png',
+    image: 'extension-twitter.svg',
     config_options: [{
       name: 'media_text',
       tooltip: 'Text is overlayed on tweet media',
@@ -56,7 +56,7 @@ Extension
     type: 'PERIODIC',
     categories: 'Reporting',
     featured: true,
-    image: 'extension-reports.png',
+    image: 'extension-reports.svg',
     config_options: []
   }))
   .then(extension => { emailReportEnrichment = extension; })
