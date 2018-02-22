@@ -189,7 +189,7 @@ function createDefaultConfig(fire_department, extensionType) {
                 bool: {
                   must: [{
                     term: {
-                      'description.type': 'EMS-1STRESP'
+                      'description.category': 'EMS'
                     }
                   }, {
                     term: {
@@ -215,16 +215,15 @@ function createDefaultConfig(fire_department, extensionType) {
             body: {
               query: {
                 bool: {
-                  must_not: {
+                  must: [{
                     term: {
-                      'description.type': 'EMS-1STRESP'
+                      'description.category': 'FIRE'
                     }
-                  },
-                  must: {
+                  }, {
                     term: {
                       'description.suppressed': false
                     }
-                  },
+                  }],
                   filter: {
                     range: {
                       'description.event_opened': {
@@ -257,7 +256,7 @@ function createDefaultConfig(fire_department, extensionType) {
         }, {
           type: 'twitter',
           options: {
-            template: `${fire_department.name} responded to <%= totalIncidentCount %> incidents yesterday`,
+            template: `${fire_department.name} responded to <%= emsIncidentCount %> EMS and <%= fireIncidentCount %> fire incidents yesterday`,
           }
         }]
       }]
