@@ -81,7 +81,7 @@ Extension
       email: 'richmond@prominentedge.com',
       password: 'password',
       nfors: true,
-      api_key: '1234',
+      api_key: 'richmond',
       aws_access_key_id: 'awsKey',
       aws_secret_access_key: 'awsSecret',
     }],
@@ -226,7 +226,7 @@ Extension
       tasks: [{
         name: 'richmond-current-shift',
         schedule: {
-          later: 'every 10 seconds'
+          later: 'every 10 minutes'
         },
         preprocessors: [{
           type: 'shiftly',
@@ -573,6 +573,44 @@ Extension
       email: 'boston@prominentedge.com',
       password: 'password',
       api_key: 'boston',
+    }]
+  }, {
+    include: [FireDepartment.Users, FireDepartment.Tweets]
+  }))
+  .then(() => FireDepartment.create({
+    fd_id: '60000',
+    firecares_id: '81154',
+    name: 'City of Fairfax Fire Department',
+    state: 'VA',
+    timezone: 'US/Eastern',
+    Users: [{
+      provider: 'local',
+      role: 'user,ingest',
+      username: 'ffxcity',
+      first_name: 'ffxcity',
+      last_name: 'User',
+      email: 'ffxcity@prominentedge.com',
+      password: 'password',
+      api_key: 'ffxcity',
+    }]
+  }, {
+    include: [FireDepartment.Users, FireDepartment.Tweets]
+  }))
+  .then(() => FireDepartment.create({
+    fd_id: '04600',
+    firecares_id: '93717',
+    name: 'Rogers Fire Department',
+    state: 'AR',
+    timezone: 'US/Central',
+    Users: [{
+      provider: 'local',
+      role: 'user,ingest',
+      username: 'rogers',
+      first_name: 'dev',
+      last_name: 'user',
+      email: 'rogers@prominentedge.com',
+      password: 'password',
+      api_key: 'rogers',
     }]
   }, {
     include: [FireDepartment.Users, FireDepartment.Tweets]

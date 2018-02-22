@@ -1,13 +1,17 @@
+/* eslint  class-methods-use-this: 0 */
+
 'use strict';
 
 import angular from 'angular';
 import _ from 'lodash';
 
 function importAll(r) {
-  return r.keys().map(r);
+  let images = {};
+  r.keys().map(item => { images[item.replace('./', '')] = r(item); return images; });
+  return images;
 }
 
-importAll(require.context('../../../assets/images/twitter-media', false));
+const images = importAll(require.context('../../../assets/images/twitter-media/', false, /\.(png|jpe?g|svg)$/));
 
 export class EditTweetFormController {
   constructor($uibModalInstance, tweet, media) {
@@ -22,6 +26,10 @@ export class EditTweetFormController {
 
   selectMedia(id) {
     this.selectedMediaId = id;
+  }
+
+  loadImage(path) {
+    return images[path];
   }
 
   cancel() {

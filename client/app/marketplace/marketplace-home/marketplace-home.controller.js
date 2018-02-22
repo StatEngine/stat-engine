@@ -5,6 +5,14 @@
 import angular from 'angular';
 import _ from 'lodash';
 
+function importAll(r) {
+  let images = {};
+  r.keys().map(item => { images[item.replace('./', '')] = r(item); return images; });
+  return images;
+}
+
+const images = importAll(require.context('../../../assets/images/extensions/', false, /\.(png|jpe?g|svg)$/));
+
 export default class MarketplaceHomeController {
   /*@ngInject*/
   constructor(extensions) {
@@ -23,7 +31,7 @@ export default class MarketplaceHomeController {
   }
 
   loadImage(path) {
-    return require(`../../../assets/images/extensions/${path}`);
+    return images[path];
   }
 
   filterByCategory(searchCategory) {

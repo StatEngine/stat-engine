@@ -1,5 +1,3 @@
-/* eslint  class-methods-use-this: 0 */
-
 'use strict';
 
 import _ from 'lodash';
@@ -14,6 +12,8 @@ export default class ExtensionController {
     this.ExtensionConfigurationService = ExtensionConfiguration;
 
     this.buildOptions();
+
+    this.extensionSrc = require(`../../../assets/images/extensions/${currentExtension.image}`);
   }
 
   buildOptions() {
@@ -24,10 +24,6 @@ export default class ExtensionController {
         this.options[option.name] = this.extensionConfiguration.config_json[option.name];
       });
     }
-  }
-
-  loadImage(path) {
-    return require(`../../../assets/images/extensions/${path}`);
   }
 
   enable() {
