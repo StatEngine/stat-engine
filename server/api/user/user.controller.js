@@ -79,6 +79,49 @@ export function create(req, res) {
 }
 
 /**
+ * Edits a user
+ */
+export function edit(req, res) {
+  var userId = req.params.id;
+
+  return User.find({
+    where: {
+      _id: userId
+    }
+  })
+  .then(user => {
+      user.last_name = req.body.last_name;
+      user.first_name = req.body.first_name;
+      user.username = req.body.username;
+      user.email = req.body.email;
+
+      user.save()
+        .then(usersaved => {
+          if(config.mailchimp.apiKey && config.mailchimp.listId) {
+            const mailchimp = new Mailchimp(config.mailchimp.apiKey);
+            mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {
+              email_address: usersaved.email,
+              status: 'subscribed',
+              merge_fields: {
+                FNAME: usersaved.first_name,
+                LNAME: usersaved.last_name
+              }
+            }, err => {
+              if(err) {
+                console.error(err);
+              }
+              res.json(usersaved);
+            });
+          } else {
+            res.json(usersaved);
+          }
+          res.status(204).end();
+        })
+        .catch(validationError(res));
+    });
+}
+
+/**
  * Get a single user
  */
 export function show(req, res, next) {

@@ -58,6 +58,10 @@ export default function PrincipalService($http, $q, User) {
       return User.save(user).$promise;
     },
 
+    edituser(user) {
+      return User.save(user).$promise;
+    },
+
     identity(force) {
       var deferred = $q.defer();
 
