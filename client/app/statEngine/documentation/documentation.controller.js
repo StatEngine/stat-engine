@@ -2,11 +2,12 @@
 
 export default class StatEngineDocumentationController {
   /*@ngInject*/
-  constructor($scope) {
-    $scope.sectionOpen = undefined;
+  constructor(appConfig) {
+    this.appConfig = appConfig;
+    this.sectionOpen = undefined;
 
-    $scope.scrollTo = function(location) {
-      $scope.sectionOpen = location;
+    this.scrollTo = function(location) {
+      this.sectionOpen = location;
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
     };
   }

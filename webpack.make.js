@@ -232,8 +232,8 @@ module.exports = function makeWebpackConfig(options) {
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
     let htmlConfig = {
-        template: 'client/_index.html',
-        filename: '../client/index.html',
+        template: 'client/app.template.html',
+        filename: '../client/app.html',
         alwaysWriteToDisk: true
     }
     config.plugins.push(

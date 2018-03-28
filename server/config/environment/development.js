@@ -19,6 +19,4 @@ module.exports = {
 
   // Seed database on startup
   seedDB: true,
-
-  on_premise: true,
 };

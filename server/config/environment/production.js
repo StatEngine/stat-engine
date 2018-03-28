@@ -16,12 +16,14 @@ module.exports = {
     || 8080,
 
   sequelize: {
-    uri: process.env.SEQUELIZE_URI,
+    uri: process.env.SEQUELIZE_URI || 'postgres://statengine:statengine@127.0.0.1:5432/statengine',
     options: {
       logging: false,
       define: {
         timestamps: false
       }
     }
-  }
+  },
+
+  browserSyncPort: 8080
 };

@@ -6,75 +6,75 @@
     <a href="#" class="spade-branding"><img src="assets/images/spade-docs-logo.png" alt=""></a>
 	  <div class="list-group">
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#welcome')"><h5 class="heavyheader">Welcome</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen=='#welcome'">
-          <li><a href="#welcome" ng-click="scrollTo('#welcome')">Intro</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#welcome')"><h5 class="heavyheader">Welcome</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen=='#welcome'">
+          <li><a href="#welcome" ng-click="vm.scrollTo('#welcome')">Intro</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#overview')"><h5 class="heavyheader">Overview</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#overview')>-1">
-          <li><a href="#" ng-click="scrollTo('#overviewWhatIsSpade')">What is Spade?</a></li>
-          <li><a href="#" ng-click="scrollTo('#overviewWhatIsStatengine')">What is StatEngine?</a></li>
-          <li><a href="#" ng-click="scrollTo('#overviewUsingGuide')">Using This Guide</a></li>
-          <li><a href="#" ng-click="scrollTo('#overviewGetHelp')">How to get help</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#overview')"><h5 class="heavyheader">Overview</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#overview')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#overviewWhatIsSpade')">What is Spade?</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#overviewWhatIsStatengine')">What is StatEngine?</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#overviewUsingGuide')">Using This Guide</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#overviewGetHelp')">How to get help</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#gettingStarted')"><h5 class="heavyheader">Getting Started</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#gettingStarted')>-1">
-          <li><a href="#" ng-click="scrollTo('#gettingStartedSysReq')">System requirements</a></li>
-          <li><a href="#" ng-click="scrollTo('#gettingStartedQuickStart')">Quick Start</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#gettingStarted')"><h5 class="heavyheader">Getting Started</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#gettingStarted')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#gettingStartedSysReq')">System requirements</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#gettingStartedQuickStart')">Quick Start</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#docFeatures')"><h5 class="heavyheader">Features</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#docFeatures')>-1">
-          <li><a href="#" ng-click="scrollTo('#docFeaturesTasks')">Tasks/Sources</a></li>
-          <li><a href="#" ng-click="scrollTo('#docFeaturesDestinations')">Destinations</a></li>
-          <li><a href="#" ng-click="scrollTo('#docFeaturesMisc')">Miscellaneous</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#docFeatures')"><h5 class="heavyheader">Features</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#docFeatures')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#docFeaturesTasks')">Tasks/Sources</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#docFeaturesDestinations')">Destinations</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#docFeaturesMisc')">Miscellaneous</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#creatingTasks')"><h5 class="heavyheader">Creating Tasks</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#creatingTasks')>-1">
-          <li><a href="#" ng-click="scrollTo('#creatingTasksHow')">How to create tasks</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#creatingTasks')"><h5 class="heavyheader">Creating Tasks</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#creatingTasks')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#creatingTasksHow')">How to create tasks</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#configDestinations')"><h5 class="heavyheader">Configuring Destinations</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#configDestinations')>-1">
-          <li><a href="#" ng-click="scrollTo('#configDestinationsWeb')">Web Service</a></li>
-          <li><a href="#" ng-click="scrollTo('#configDestinationsAmazon')">S3</a></li>
-          <li><a href="#" ng-click="scrollTo('#configDestinationsFile')">FileSystem</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#configDestinations')"><h5 class="heavyheader">Configuring Destinations</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#configDestinations')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#configDestinationsWeb')">Web Service</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#configDestinationsAmazon')">S3</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#configDestinationsFile')">FileSystem</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#configSources')"><h5 class="heavyheader">Configuring your Source</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#configSources')>-1">
-          <li><a href="#" ng-click="scrollTo('#configSourcesFileWatch')">Configuring the File Watch Source</a></li>
-          <li><a href="#" ng-click="scrollTo('#configSourcesTaskBar')">Using the Task Bar Icon</a></li>
-          <li><a href="#" ng-click="scrollTo('#configSourcesLaunchUi')">Launch the UI</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#configSources')"><h5 class="heavyheader">Configuring your Source</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#configSources')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#configSourcesFileWatch')">Configuring the File Watch Source</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#configSourcesTaskBar')">Using the Task Bar Icon</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#configSourcesLaunchUi')">Launch the UI</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#faqs')"><h5 class="heavyheader">Frequently Asked Questions</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#faqs')>-1">
-          <li><a href="#" ng-click="scrollTo('#faqs')">FAQs</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#faqs')"><h5 class="heavyheader">Frequently Asked Questions</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#faqs')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#faqs')">FAQs</a></li>
         </ul>
       </ul>
 
       <ul>
-        <li><a href="#" class="list-group-item" ng-click="scrollTo('#troubleshooting')"><h5 class="heavyheader">Troubleshooting</h5></a></li>
-        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#troubleshooting')>-1">
-          <li><a href="#" ng-click="scrollTo('#troubleshooting')">Troubleshooting</a></li>
+        <li><a href="#" class="list-group-item" ng-click="vm.scrollTo('#troubleshooting')"><h5 class="heavyheader">Troubleshooting</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="vm.sectionOpen.indexOf('#troubleshooting')>-1">
+          <li><a href="#" ng-click="vm.scrollTo('#troubleshooting')">Troubleshooting</a></li>
         </ul>
       </ul>
     </div>
@@ -89,7 +89,7 @@
 				<section id="welcome" class="mt-5">
 					<h2>Welcome</h2>
 					<h4 class="heavyheader mt-5">Thank You!</h4>
-					<p>Our goal is to build tools that enable public safety organizations to more efficiently and effectively achieve their mission.  We are thankful to have the opportunity to support your organization and hope that we have a positive impact on its operations through the technology we have built.  Please reach out to us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> if there is anything we can help you with.</p>
+					<p>Our goal is to build tools that enable public safety organizations to more efficiently and effectively achieve their mission.  We are thankful to have the opportunity to support your organization and hope that we have a positive impact on its operations through the technology we have built.  Please reach out to us at <a href="mailto:{{vm.appConfig.contact_email}}">{{vm.appConfig.contact_email}}</a> if there is anything we can help you with.</p>
 					<em>– The StatEngine Team</em>
 				</section>
 
@@ -109,7 +109,7 @@
 					<p>This manual is intended for system administrators responsible for installing and managing the Spade data tool in order to push department data to StatEngine. We’ve included a quickstart that will cover the majority of implementations, but also provided more detailed documentation that explains all the features and will help for more customized implementations.</p>
 
 					<h4 id="overviewGetHelp" class="heavyheader mt-5">How to get help</h4>
-					<p>If you run into problems contact statengine support at: <a href="mailto:support@statengine.io">support@statengine.io</a>.</p>
+					<p>If you run into problems contact statengine support at: <a href="mailto:{{vm.appConfig.contact_email}}">{{vm.appConfig.contact_email}}</a>.</p>
 				</section>
 
 				<hr>
@@ -347,7 +347,7 @@
           <p>Yes, all data transferred is through an encrypted HTTPS session. This is the same security that is used by your bank when you access your account online. Once, your data is on the StatEngine servers it is stored using industry best practices.</p>
 
           <h4 class="heavyheader mt-5">Who manages the spade installation?</h4>
-          <p>Departments are responsible for installing and managing Spade. However, if you have any issues you can contact <a href="mailto:support@statengine.io">support@statengine.io</a> and we’ll be happy to help you.</p>
+          <p>Departments are responsible for installing and managing Spade. However, if you have any issues you can contact <a href="mailto:{{vm.appConfig.contact_email}}">{{vm.appConfig.contact_email}}</a> and we’ll be happy to help you.</p>
 
           <h4 class="heavyheader mt-5">Is there any prerequisite software that would need to be installed for Spade to work?</h4>
           <p>No, Spade includes all of its own dependencies. You just need to have a computer running Windows with internet access and access to the data source.</p>
@@ -356,7 +356,7 @@
           <p>Update notifications will be sent to the administrative email associated with your statengine account. They will direct you to a download link for the newest version.</p>
 
           <h4 class="heavyheader mt-5">Who do I contact for support if there is an issue with the application?</h4>
-          <p>You can contact <a href="mailto:support@statengine.io">support@statengine.io</a>.</p>
+          <p>You can contact <a href="mailto:{{vm.appConfig.contact_email}}">{{vm.appConfig.contact_email}}</a>.</p>
 
           <h4 class="heavyheader mt-5">What IP addresses and ports would need to be open to make the connection with StatEngine?</h4>
           <p>Spade communicates with StatEngine over the standard HTTPS port (443) which is most likely already configured correctly on your firewall. Depending on your environment and your specific configuration of destinations in Spade, you may need to whitelist domains/IPs accordingly. </p>

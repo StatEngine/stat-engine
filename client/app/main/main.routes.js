@@ -31,5 +31,7 @@ export default function routes($stateProvider) {
     .state('site.main.partners', {
       url: '/partners',
       template: require('./partners/partners.html'),
+      controller: 'PartnersController',
+      controllerAs: 'vm'
     });
 }

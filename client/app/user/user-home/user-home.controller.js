@@ -4,9 +4,10 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, currentPrincipal, currentFireDepartment, dataQuality, tweets) {
+  constructor($window, $filter, currentPrincipal, currentFireDepartment, dataQuality, tweets, appConfig) {
     this.$filter = $filter;
     this.$window = $window;
+    this.appConfig = appConfig;
 
     this.principal = currentPrincipal;
     this.fireDepartment = currentFireDepartment;
@@ -28,7 +29,7 @@ export default class UserHomeController {
       { step: 'Connect your data.',
         status: _.get(this.fireDepartment, 'integration_complete', false),
         action: 'Contact our integration team at <a id=\'user-home-getting-started-connect-data-email\'\
-          target="_blank" href="mailto:contact@statengine.io">contact@statengine.io</a> to learn how to integrate your data into StatEngine.'
+          target="_blank" href="mailto:' + this.appConfig.support_email + '">' + this.appConfig.support_email + '</a> to learn how to integrate your data into StatEngine.'
       },
       { step: 'Verify your data.',
         status: _.get(this.fireDepartment, 'integration_verified', false),

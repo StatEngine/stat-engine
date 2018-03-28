@@ -534,7 +534,7 @@ Extension
       last_name: 'User',
       email: 'dc@prominentedge.com',
       password: 'password',
-      api_key: 'washingtondc',
+      api_key: 'dc',
     }]
   }, {
     include: [FireDepartment.Users, FireDepartment.Tweets]

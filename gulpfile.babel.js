@@ -8,6 +8,7 @@ import grunt from 'grunt';
 import path from 'path';
 import through2 from 'through2';
 import gulpLoadPlugins from 'gulp-load-plugins';
+import gulpNgConfig from 'gulp-ng-config';
 import http from 'http';
 import open from 'open';
 import lazypipe from 'lazypipe';
@@ -35,7 +36,7 @@ const paths = {
         styles: [`${clientPath}/{app,components}/**/*.scss`],
         mainStyle: `${clientPath}/app/app.scss`,
         views: `${clientPath}/{app,components}/**/*.html`,
-        mainView: `${clientPath}/index.html`,
+        mainView: `${clientPath}/app.html`,
         test: [`${clientPath}/{app,components}/**/*.{spec,mock}.js`],
         e2e: ['e2e/**/*.spec.js']
     },
@@ -181,6 +182,11 @@ gulp.task('env:test', () => {
 gulp.task('env:prod', () => {
     plugins.env({
         vars: {NODE_ENV: 'production'}
+    });
+});
+gulp.task('env:onPremise', () => {
+    plugins.env({
+        vars: {ON_PREMISE: 'true'}
     });
 });
 
@@ -338,6 +344,7 @@ gulp.task('serve', cb => {
     runSequence(
         [
             'clean:tmp',
+            'ngConfig:all',
             'lint:scripts',
             'inject',
             'copy:fonts:dev',
@@ -359,6 +366,7 @@ gulp.task('serve:debug', cb => {
             'copy:fonts:dev',
             'env:all'
         ],
+        'ngConfig:all',
         'webpack:dev',
         'start:inspector',
         ['start:server:debug', 'start:client'],
@@ -369,6 +377,7 @@ gulp.task('serve:debug', cb => {
 
 gulp.task('serve:dist', cb => {
     runSequence(
+        'ngConfig:all',
         'build',
         'env:all',
         'env:prod',
@@ -376,8 +385,38 @@ gulp.task('serve:dist', cb => {
         cb);
 });
 
+gulp.task('serve:onPremise', cb => {
+    runSequence(
+        'ngConfig:onPremise',
+        'build',
+        'env:all',
+        'env:prod',
+        'env:onPremise',
+        ['start:server:prod', 'start:client'],
+        cb);
+});
+
 gulp.task('test', cb => {
     return runSequence('test:server', 'test:client', cb);
+});
+
+
+gulp.task('ngConfig:all', cb => {
+    return gulp.src(`${clientPath}/app.constants.json`)
+      .pipe(gulpNgConfig('statEngineApp.constants', {
+         environment: ['all'],
+         templateFilePath: `${clientPath}/app.constants.template`
+      }))
+      .pipe(gulp.dest(`${clientPath}/app`))
+});
+
+gulp.task('ngConfig:onPremise', cb => {
+    return gulp.src(`${clientPath}/app.constants.json`)
+      .pipe(gulpNgConfig('statEngineApp.constants', {
+         environment: ['all','onPremise'],
+         templateFilePath: `${clientPath}/app.constants.template`
+      }))
+      .pipe(gulp.dest(`${clientPath}/app`))
 });
 
 gulp.task('test:server', cb => {

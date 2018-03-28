@@ -22,8 +22,9 @@ COPY . /usr/src/stat-engine
 # Build dist
 RUN /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build
 
-# Run pm2
+# Run
 ENV NODE_ENV=production
-CMD [ "node", "/usr/src/stat-engine/dist/server/index.js" ]
+
+CMD [ "/usr/src/stat-engine/run.sh" ]
 
 EXPOSE 8080
