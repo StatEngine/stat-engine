@@ -2,9 +2,10 @@
 
 // import angular from 'angular';
 // import uuidv4 from 'uuid/v4';
-// import Mailchimp from 'mailchimp-api-v3';
 
+// import Mailchimp from 'mailchimp-api-v3';
 // import config from '../../../../server/config/environment';
+// import { FireDepartment, User } from '../../sqldb';
 
 // function validationError(res, statusCode) {
 //   statusCode = statusCode || 422;
@@ -28,7 +29,10 @@ export default class ResetPasswordController {
     this.$state = $state;
   }
 
-  resetpass(form, res) {
+  /**
+  * Sends a password reset email.
+  */
+  resetPassword(form, res) {
     this.submitted = true;
     console.log(form.$valid + res);
     if(form.$valid) {
@@ -50,5 +54,25 @@ export default class ResetPasswordController {
       //   });
       // }
     }
+
+    /**
+    * Sends a password reset email.
+    */
+    // sendPasswordResetEmail(req) {
+    //   this.setDataValue('verifyEmailToken', shortid.generate());
+    //   this.setDataValue('verifyEmailTokenExpires', Date.now() + (5 * 3600000));
+
+    //   return this.save().then(function (user) {
+    //     var resetUrl = `${req.protocol}://${req.get('host')}/reset-password/${user.passwordResetToken}`;
+
+    //     return utils.sendMail({
+    //       to: user.email,
+    //       template_name: 'nfors-reset-password',
+    //       vars: {
+    //         'PASSWORD_RESET': resetUrl
+    //       }
+    //     })
+    //   });
+    // }
   }
 }

@@ -65,6 +65,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    user_reset_key: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     aws_access_key_id: {
       type: DataTypes.STRING,
     },

@@ -7,7 +7,7 @@
   <div class="row my-5 justify-content-center animated fadeIn">
     <div class="col-md-auto align-self-center">
       <h1 class="text-center">Reset Password</h1>
-      <form class="form form-wrapper" name="form" ng-submit="vm.resetpass(form)" novalidate="novalidate">
+      <form class="form form-wrapper" name="form" ng-submit="vm.resetPassword(form)" novalidate="novalidate">
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && vm.submitted,'has-error': form.email.$invalid && vm.submitted }">
             <label>Enter Email</label>
             <input type="email" name="email" class="form-control" ng-model="vm.user.email" required="required" mongoose-error="mongoose-error"/>
