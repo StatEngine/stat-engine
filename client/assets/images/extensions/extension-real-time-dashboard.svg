@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="286" height="283" viewBox="0 0 286 283">
+  <defs>
+    <linearGradient id="integration-real-time-dashboard-b" x1="33.284%" x2="119.851%" y1="-13.916%" y2="138.579%">
+      <stop offset="0%" stop-color="#FAD961"/>
+      <stop offset="100%" stop-color="#F71CD2"/>
+    </linearGradient>
+    <path id="integration-real-time-dashboard-a" d="M143,283 C221.976719,283 286,219.648292 286,141.5 C286,63.3517079 221.976719,0 143,0 C64.0232808,0 0,63.3517079 0,141.5 C0,219.648292 64.0232808,283 143,283 Z"/>
+    <linearGradient id="integration-real-time-dashboard-c" x1="40.731%" x2="85.015%" y1="17.029%" y2="93.664%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="integration-real-time-dashboard-d" x1="50%" x2="50%" y1="127.023%" y2="16.252%">
+      <stop offset="0%" stop-color="#CFCFCF"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+    <linearGradient id="integration-real-time-dashboard-e" x1="50%" x2="9.116%" y1="35.471%" y2="90.631%">
+      <stop offset="0%" stop-color="#F3F3F3"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+    <linearGradient id="integration-real-time-dashboard-f" x1="115%" x2="33.75%" y1="19.413%" y2="52.991%">
+      <stop offset="0%" stop-color="#F97D98"/>
+      <stop offset="100%" stop-color="#F98196"/>
+    </linearGradient>
+    <linearGradient id="integration-real-time-dashboard-g" x1="115.721%" x2="4.899%" y1="50%" y2="10.815%">
+      <stop offset="0%" stop-color="#EEE"/>
+      <stop offset="100%" stop-color="#B1B1B1"/>
+    </linearGradient>
+    <linearGradient id="integration-real-time-dashboard-h" x1="-47.777%" x2="108.738%" y1="233.485%" y2="-6.649%">
+      <stop offset="0%" stop-color="#3023AE"/>
+      <stop offset="62.221%" stop-color="#53A0FD"/>
+      <stop offset="100%" stop-color="#B4EC51"/>
+    </linearGradient>
+    <linearGradient id="integration-real-time-dashboard-i" x1="0%" x2="50%" y1="-44.627%" y2="149.712%">
+      <stop offset="0%" stop-color="#FAD961"/>
+      <stop offset="100%" stop-color="#F76B1C"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <use fill="url(#integration-real-time-dashboard-b)" xlink:href="#integration-real-time-dashboard-a"/>
+    <g transform="translate(27 47)">
+      <polygon fill="url(#integration-real-time-dashboard-c)" points="81 184 0 105 75 66 158 136.312" opacity=".273" style="mix-blend-mode:multiply"/>
+      <g transform="translate(71)">
+        <polygon fill="url(#integration-real-time-dashboard-d)" points="6 46 11 48.249 11 185 6 182"/>
+        <polygon fill="url(#integration-real-time-dashboard-e)" points="54.802 71.908 35.199 -16.241 38.75 -19.918 60.228 67.167" transform="rotate(73 47.714 25.995)"/>
+        <polygon fill="url(#integration-real-time-dashboard-e)" points="11 48.687 89 3 89 138.564 11 185"/>
+        <polygon fill="url(#integration-real-time-dashboard-f)" fill-rule="nonzero" points="18 124 18 78 81 41 81 87" opacity=".174"/>
+        <polygon fill="#FC9" fill-rule="nonzero" points="50 153 50 114 82 95 82 135" opacity=".539"/>
+        <g transform="rotate(8 -406.044 245.134)">
+          <path stroke="#C74DB3" d="M32.0120347,25.1305231 L32.4818568,25.2912582 L32.1667401,24.6609994 L32.0120347,25.1305231 Z M31.9928407,25.188776 L31.8352772,25.6669739 L32.469932,25.3496593 L31.9928407,25.188776 Z M16.2087767,18.0374517 L15.7598728,17.8837851 L15.3603692,17.7490656 L15.2235458,18.00255 L16.0209304,18.6075565 L16.2087767,18.0374517 Z M6.93109524,33.3654632 L6.90764702,33.4089043 L6.63152944,33.7727819 L7.33541171,33.6722337 L6.93109524,33.3654632 Z M6.89078762,33.3348803 L6.49686974,33.0359995 L6.59630589,33.7320974 L6.89078762,33.3348803 Z M15.1911935,17.978003 L15.2146533,17.9345708 L15.4907709,17.5706932 L14.7868886,17.6712413 L15.1911935,17.978003 Z M16.2279663,17.9792119 L16.3855298,17.5010139 L15.9106441,17.3445418 L15.750875,17.8183285 L16.2279663,17.9792119 Z M37.3551642,6.79396072 L37.3060676,6.78402699 L37.2926256,6.8510017 L33.0034728,21.964617 L32.9972308,21.9961903 L33.0449047,22.0058362 L33.0502825,21.9786338 L33.0597694,21.9391493 L37.3489223,6.82553404 L37.3551642,6.79396072 Z"/>
+          <ellipse cx="4.259" cy="36.006" fill="#D8498D" rx="4.259" ry="5.807"/>
+          <ellipse cx="15.099" cy="18.971" fill="#D8498D" rx="2.71" ry="4.259"/>
+          <ellipse cx="31.748" cy="23.617" fill="#D8498D" rx="3.872" ry="5.033"/>
+          <ellipse cx="37.942" cy="5.033" fill="#D8498D" rx="3.872" ry="5.033"/>
+        </g>
+        <polygon fill="url(#integration-real-time-dashboard-g)" fill-rule="nonzero" points="18 62.12 18 58.12 80.005 22 80 25.56"/>
+        <polygon fill="url(#integration-real-time-dashboard-g)" fill-rule="nonzero" points="18 70.12 18 66.12 80.005 30 80 33.56"/>
+        <polygon fill="url(#integration-real-time-dashboard-h)" fill-rule="nonzero" points="18 152 18 132 43 118 43 127 43 138"/>
+        <polyline stroke="#E6E6E6" stroke-linecap="square" points="18.5 148.5 21.5 139.5 23 143 27 144 28 132 33 136 37 133 38 128 41 131 43 125" opacity=".571"/>
+        <path fill="#C4C4C4" fill-rule="nonzero" d="M43,143 L43,146.83956 L18,161.332314 L18,157.332314 L43,143 Z M43,151 L43,154.83956 L18,169.332314 L18,165.332314 L43,151 Z"/>
+        <g fill="url(#integration-real-time-dashboard-i)" transform="translate(51 102)">
+          <polygon points="22 38.056 16 41 16 4 22 0"/>
+          <polygon points="30 33.056 24 36 24 9 30 5"/>
+          <polygon points="14 43.056 8 46 8 19 14 15"/>
+          <polygon points="6 48.056 0 51 0 40 6 36" opacity=".842"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

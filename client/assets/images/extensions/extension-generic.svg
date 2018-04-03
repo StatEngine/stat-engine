@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="286" height="283" viewBox="0 0 286 283">
+  <defs>
+    <linearGradient id="generic-a" x1="100%" x2="0%" y1="0%" y2="175.116%">
+      <stop offset="0%" stop-color="#DAD8D7"/>
+      <stop offset="100%" stop-color="#304351"/>
+    </linearGradient>
+    <linearGradient id="generic-b" x1="21.997%" x2="66.24%" y1="83.555%" y2="50%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="url(#generic-a)" d="M143,283 C221.976719,283 286,219.648292 286,141.5 C286,63.3517079 221.976719,0 143,0 C64.0232808,0 0,63.3517079 0,141.5 C0,219.648292 64.0232808,283 143,283 Z"/>
+    <path fill="url(#generic-b)" d="M98,276 C71.4278921,265.022445 53.6201718,254.781532 44.576839,245.277262 C35.5335063,235.772991 24.6745599,221.013904 12,201 L69,172 L158.825929,159 L174,231 L98,276 Z" opacity=".214" style="mix-blend-mode:multiply"/>
+    <g transform="translate(63 83)">
+      <polygon fill="#C4C4C4" points="5 37 51.429 60.952 51.564 116.266 5 90"/>
+      <polygon fill="#FFF" points="41.207 40.95 89.762 55.578 103.825 108.625 55.442 94.076" transform="scale(-1 1) rotate(15 0 -476.024)"/>
+      <polygon fill="#DBDBDB" points="41.948 11.181 92.864 22.284 57.69 60.683 5.821 48.699" transform="rotate(15 49.343 35.932)"/>
+    </g>
+    <g transform="translate(123 115)">
+      <polygon fill="#C4C4C4" points="5 37 51.429 60.952 51.564 116.266 5 90"/>
+      <polygon fill="#FFF" points="41.207 40.95 89.762 55.578 103.825 108.625 55.442 94.076" transform="scale(-1 1) rotate(15 0 -476.024)"/>
+      <polygon fill="#DBDBDB" points="41.948 11.181 92.864 22.284 57.69 60.683 5.821 48.699" transform="rotate(15 49.343 35.932)"/>
+    </g>
+    <g transform="translate(93 46)">
+      <polygon fill="#C4C4C4" points="4 37 50.429 59.952 50.564 115.266 4 91"/>
+      <polygon fill="#FFF" points="40.207 39.95 88.762 54.578 102.825 107.625 54.442 93.076" transform="scale(-1 1) rotate(15 0 -469.428)"/>
+      <polygon fill="#DBDBDB" points="43.589 11.4 91.704 21.297 56.53 59.696 4.92 48.678" transform="rotate(15 48.312 35.548)"/>
+    </g>
+  </g>
+</svg>

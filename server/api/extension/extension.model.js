@@ -38,7 +38,7 @@ export default function(sequelize, DataTypes) {
     },
     image: {
       type: DataTypes.STRING,
-      default: 'extension-logo-generic.svg'
+      default: 'extension-generic.svg'
     },
     date_created: {
       type: DataTypes.DATE,
