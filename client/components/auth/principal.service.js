@@ -7,6 +7,8 @@ export default function PrincipalService($http, $q, User) {
 
   var _identity = {};
   var _authenticated = false;
+  var _passwordExt = '/password';
+  var _userAPI = '/api/users/';
 
   return {
     isIdentityResolved() {
@@ -59,13 +61,13 @@ export default function PrincipalService($http, $q, User) {
     },
 
     edituser(user) {
-      return $http.post('/api/users/' + user._id, {
+      return $http.post(_userAPI + user._id, {
         user
       }).then(response => response.data);
     },
 
     editpassword(user, oldPassword, newPassword) {
-      return $http.put('/api/users/' + user._id + '/password', {
+      return $http.put(_userAPI + user._id + _passwordExt, {
         user,
         oldPassword,
         newPassword,
@@ -75,6 +77,12 @@ export default function PrincipalService($http, $q, User) {
     resetpassword(useremail) {
       return $http.put('/api/users/resetpassword', {
         useremail
+      }).then(response => response.data);
+    },
+
+    updateresetPassword(newPassword, password_token) {
+      return $http.put('/api/users/updatepassword', {
+        newPassword, password_token
       }).then(response => response.data);
     },
 

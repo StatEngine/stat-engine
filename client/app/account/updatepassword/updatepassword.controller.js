@@ -2,10 +2,11 @@
 
 export default class UpdatePasswordController {
   user = {
-    email: ''
+    newPassword: '',
+    password_token: ''
   };
   errors = {
-    resetpassword: undefined
+    newPassword: undefined
   };
   submitted = false;
 
@@ -16,17 +17,23 @@ export default class UpdatePasswordController {
   }
 
   /**
-  * Sends a password reset email.
+  * Resets the password in the database
   */
   updatePassword(form) {
     this.submitted = true;
     if(form.$valid) {
-      this.Principal.updatePassword(this.user.email)
-        .then(() => {
-          this.$state.go('site.user.login');
+      this.Principal.updateresetPassword(this.user.newPassword, this.$state.params.password_token)
+        .then(daata => {
+          if(daata) {
+            form.newPassword.$setValidity('mongoose', false);
+            this.errors.newPassword = 'Could not reset using that password and token. ';
+          } else {
+            this.$state.go('site.account.login');
+          }
         })
-        .catch(err => {
-          this.errors.resetpassword = err.data.message;
+        .catch(() => {
+          form.newPassword.$setValidity('mongoose', false);
+          this.errors.newPassword = 'Error resetting New Password. ';
         });
     }
   }

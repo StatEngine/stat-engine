@@ -169,6 +169,32 @@ export function changePassword(req, res) {
 }
 
 /**
+ * Updates a users password with token
+ */
+export function updatePassword(req, res) {
+  var pass_token = String(req.body.password_token);
+  var newPass = String(req.body.newPassword);
+
+  return User.find({
+    where: {
+      password_token: pass_token
+    }
+  })
+    .then(user => {
+      if(user) {
+        user.password = newPass;
+        return user.save()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(validationError(res));
+      } else {
+        return res.json('Password was not able to reset.');
+      }
+    });
+}
+
+/**
  * Sends email to reset a users password
  */
 export function resetPassword(req, res) {
@@ -180,44 +206,51 @@ export function resetPassword(req, res) {
     }
   })
     .then(user => {
-      if(config.mailSettings.mandrillAPIKey) {
-        user.password_token = uuidv4();
-        user.password_reset_expire = Date.now() + 5 * 3600000;
+      if(user) {
+        if(config.mailSettings.mandrillAPIKey) {
+          user.password_token = uuidv4();
+          user.password_reset_expire = Date.now() + 5 * 3600000;
 
-        return user.save()
-          .then(() => {
-            var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword/${user.password_token}`;
-            var mailOptions = {};
-            mailOptions.from = config.mailSettings.serverEmail;
+          return user.save()
+            .then(() => {
+              var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword?password_token=${user.password_token}`;
+              var mailOptions = {};
+              mailOptions.from = config.mailSettings.serverEmail;
+              mailOptions.to = user.email;
 
-            // Mailing service
-            var mailTransport = nodemailer.createTransport(mandrillTransport({
-              auth: {
-                apiKey: config.mailSettings.mandrillAPIKey
-              }
-            }));
+              // Mailing service
+              var mailTransport = nodemailer.createTransport(mandrillTransport({
+                auth: {
+                  apiKey: config.mailSettings.mandrillAPIKey
+                }
+              }));
 
-            mailOptions.mandrillOptions = {
-              template_name: config.mailSettings.resetpassword,
-              template_content: [],
-              message: {
-                merge: false,
-                merge_language: 'handlebars',
-                global_merge_vars: [{RESETPASSWORDURL: resetUrl}]
-              }
-            };
-            console.log(mailOptions);
-
-            return mailTransport.sendMail(mailOptions)
-              .then(() => {
-                res.status(204).end();
-              })
-              .catch(validationError(res));
-          })
-          .catch(validationError(res));
+              mailOptions.mandrillOptions = {
+                template_name: config.mailSettings.resetPasswordTemplate,
+                template_content: [],
+                message: {
+                  merge: true,
+                  merge_language: 'handlebars',
+                  global_merge_vars: [{
+                    name: 'RESETPASSWORDURL',
+                    content: resetUrl
+                  }]
+                }
+              };
+              console.log(mailOptions);
+              return mailTransport.sendMail(mailOptions)
+                .then(data => {
+                  console.log(data);
+                  res.status(204).end();
+                })
+                .catch(validationError(res));
+            })
+            .catch(validationError(res));
+        } else {
+          return res.status(403).end();
+        }
       } else {
-        console.log('mailOptions');
-        return res.status(403).end();
+        res.json('No user matches that Email.');
       }
     });
 }

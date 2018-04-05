@@ -5,7 +5,7 @@ export default class ResetPasswordController {
     email: ''
   };
   errors = {
-    resetpassword: undefined
+    email: undefined
   };
   submitted = false;
 
@@ -22,11 +22,17 @@ export default class ResetPasswordController {
     this.submitted = true;
     if(form.$valid) {
       this.Principal.resetpassword(this.user.email)
-        .then(() => {
-          this.$state.go('site.user.login');
+        .then(data => {
+          if(data) {
+            this.errors.email = data;
+            form.email.$setValidity('mongoose', false);
+          } else {
+            this.$state.go('site.account.login');
+          }
         })
-        .catch(err => {
-          this.errors.resetpassword = err.data.message;
+        .catch(() => {
+          this.errors.email = 'There was an error sending email. ';
+          form.email.$setValidity('mongoose', false);
         });
     }
   }

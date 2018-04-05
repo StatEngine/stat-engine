@@ -27,12 +27,9 @@ export default function routes($stateProvider) {
       controllerAs: 'vm'
     })
     .state('site.account.updatepassword', {
-      url: '/updatepassword',
+      url: '/updatepassword?password_token',
       template: require('./updatepassword/updatepassword.html'),
       controller: 'UpdatePasswordController',
-      data: {
-        roles: ['user']
-      },
       controllerAs: 'vm'
     })
     .state('site.account.edituser', {

@@ -26,6 +26,16 @@ export default function UserResource($resource) {
         useremail: 'me'
       }
     },
+    updatepassword: {
+      method: 'PUT',
+      params: {
+        controller: 'updatepassword'
+      },
+      body: {
+        newPassword: 'me',
+        password_token: 'token'
+      }
+    },
     get: {
       method: 'GET',
       params: {

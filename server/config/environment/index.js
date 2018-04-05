@@ -81,7 +81,7 @@ var all = {
   mailSettings: {
     serverEmail: 'noreply@statengine.io',
     resetPasswordTemplate: 'resetpassword',
-    mandrillAPIKey: process.env.MANDRILL_API_KEY
+    mandrillAPIKey: process.env.MANDRILL_API_KEY,
   },
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,

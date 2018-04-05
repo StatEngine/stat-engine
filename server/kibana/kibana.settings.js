@@ -15,7 +15,7 @@ export default {
     }
     if(req.fire_department) {
       const es_indicies = req.fire_department.get().es_indices;
-      proxyReq.setHeader('x-se-fire-department-all', es_indicies['all']);
+      proxyReq.setHeader('x-se-fire-department-all', es_indicies.all);
     }
   },
   // Router function to direct nfors

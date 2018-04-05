@@ -14,6 +14,7 @@ router.delete('/:id', auth.isApiAuthenticated, auth.hasRole('admin'), controller
 router.get('/me', auth.isApiAuthenticated, controller.me);
 router.put('/:id/password', bodyParser.json(), auth.isApiAuthenticated, controller.changePassword);
 router.put('/resetpassword', bodyParser.json(), controller.resetPassword);
+router.put('/updatepassword', bodyParser.json(), controller.updatePassword);
 router.get('/:id', auth.isApiAuthenticated, controller.show);
 router.post('/:id', bodyParser.json(), controller.edit);
 
