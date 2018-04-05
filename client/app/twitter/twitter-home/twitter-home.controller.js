@@ -7,7 +7,9 @@ import _ from 'lodash';
 
 function importAll(r) {
   let images = {};
-  r.keys().map(item => { images[item.replace('./', '')] = r(item); return images; });
+  r.keys().map(item => {
+    images[item.replace('./', '')] = r(item); return images;
+  });
   return images;
 }
 
@@ -60,7 +62,9 @@ export default class TwitterHomeController {
 
   authorize() {
     this.$http.get('/api/twitter/account/login')
-      .then(response => { this.$window.location.href = response.data; });
+      .then(response => {
+        this.$window.location.href = response.data;
+      });
   }
 
   previewTweet(tweet) {

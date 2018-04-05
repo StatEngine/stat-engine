@@ -7,7 +7,8 @@ import routing from './user.routes';
 
 // modules
 import userHome from './user-home';
+import settings from './settings';
 
-export default angular.module('statEngineApp.user', [uiRouter, userHome])
+export default angular.module('statEngineApp.user', [uiRouter, userHome, settings])
   .config(routing)
   .name;

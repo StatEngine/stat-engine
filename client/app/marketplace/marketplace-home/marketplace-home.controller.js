@@ -7,7 +7,9 @@ import _ from 'lodash';
 
 function importAll(r) {
   let images = {};
-  r.keys().map(item => { images[item.replace('./', '')] = r(item); return images; });
+  r.keys().map(item => {
+    images[item.replace('./', '')] = r(item); return images;
+  });
   return images;
 }
 

@@ -9,7 +9,7 @@
 
           <div class="form-group" ng-class="{ 'has-success': form.email.$valid && vm.submitted,'has-error': form.email.$invalid && vm.submitted }">
             <label>Email</label>
-            <input type="email" name="email" class="form-control" ng-model="vm.user.email" required="required" mongoose-error="mongoose-error"/>
+            <input type="email" style="width:250px;" name="email" class="form-control" ng-model="vm.user.email" required="required" mongoose-error="mongoose-error"/>
             <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
               Doesn't look like a valid email.
             </p>
@@ -23,7 +23,7 @@
 
           <div class="form-group " ng-class="{ 'has-success': form.first_name.$valid && vm.submitted,'has-error': form.first_name.$invalid && vm.submitted }">
             <label>First Name</label>
-            <input type="text" name="first_name" class="form-control" ng-model="vm.user.first_name" required="required"/>
+            <input type="text" style="width:250px;" name="first_name" class="form-control" ng-model="vm.user.first_name" required="required"/>
             <p class="help-block" ng-show="form.first_name.$error.required && vm.submitted">
               A first name is required
             </p>
@@ -31,7 +31,7 @@
 
           <div class="form-group" ng-class="{ 'has-success': form.last_name.$valid && vm.submitted,'has-error': form.last_name.$invalid && vm.submitted }">
             <label>Last Name</label>
-            <input type="text" name="last_name" class="form-control" ng-model="vm.user.last_name" required="required"/>
+            <input type="text" style="width:250px;" name="last_name" class="form-control" ng-model="vm.user.last_name" required="required"/>
             <p class="help-block" ng-show="form.last_name.$error.required && vm.submitted">
               A last name is required
             </p>
@@ -39,7 +39,7 @@
 
           <div>
             <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
-            <span><a class="ml-0" ui-sref="site.account.resetpassword">Reset Password</a></span>
+            <span><a class="ml-0" ui-sref="site.user.editpassword">Reset Password</a></span>
           </div>
         </form>
       </div>

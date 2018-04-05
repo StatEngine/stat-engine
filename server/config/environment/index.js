@@ -78,6 +78,11 @@ var all = {
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
   },
+  mailSettings: {
+    serverEmail: 'noreply@statengine.io',
+    resetPasswordTemplate: 'resetpassword',
+    mandrillAPIKey: process.env.MANDRILL_API_KEY
+  },
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,
     listId: process.env.MAILCHIMP_LIST_ID

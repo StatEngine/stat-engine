@@ -8,6 +8,20 @@ export default function routes($stateProvider) {
       abstract: true,
       template: '<div ui-view />'
     })
+    .state('site.user.editpassword', {
+      url: '/settings',
+      template: require('./settings/settings.html'),
+      data: {
+        roles: ['user']
+      },
+      controller: 'SettingsController',
+      controllerAs: 'vm',
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity();
+        }
+      },
+    })
     .state('site.user.home', {
       url: '/home',
       template: require('./user-home/user-home.html'),

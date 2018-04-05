@@ -21,9 +21,18 @@ export default function routes($stateProvider) {
       controllerAs: 'vm'
     })
     .state('site.account.resetpassword', {
-      url: '/resetpassword',
-      template: require('./reset/resetpass.html'),
+      url: '/resetpassword/',
+      template: require('./resetpassword/resetpass.html'),
       controller: 'ResetPasswordController',
+      controllerAs: 'vm'
+    })
+    .state('site.account.updatepassword', {
+      url: '/updatepassword',
+      template: require('./updatepassword/updatepassword.html'),
+      controller: 'UpdatePasswordController',
+      data: {
+        roles: ['user']
+      },
       controllerAs: 'vm'
     })
     .state('site.account.edituser', {

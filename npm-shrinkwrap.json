@@ -131,6 +131,12 @@
         }
       }
     },
+    "addressparser": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/addressparser/-/addressparser-1.0.1.tgz",
+      "integrity": "sha1-R6++GiqSYhkdtoOOT9HTm0CCF0Y=",
+      "dev": true
+    },
     "adm-zip": {
       "version": "0.4.4",
       "resolved": "https://registry.npmjs.org/adm-zip/-/adm-zip-0.4.4.tgz",
@@ -12744,6 +12750,12 @@
         "pify": "3.0.0"
       }
     },
+    "mandrill-api": {
+      "version": "1.0.45",
+      "resolved": "https://registry.npmjs.org/mandrill-api/-/mandrill-api-1.0.45.tgz",
+      "integrity": "sha1-Fjk5z0hr0YJ3sPO69BLD5l2Epy0=",
+      "dev": true
+    },
     "map-cache": {
       "version": "0.2.2",
       "resolved": "https://registry.npmjs.org/map-cache/-/map-cache-0.2.2.tgz",
@@ -13836,6 +13848,22 @@
           "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.11.0.tgz",
           "integrity": "sha1-U0uQM8AiyVecVro7Plpcqvu2UOE="
         }
+      }
+    },
+    "nodemailer": {
+      "version": "4.6.4",
+      "resolved": "https://registry.npmjs.org/nodemailer/-/nodemailer-4.6.4.tgz",
+      "integrity": "sha512-SD4uuX7NMzZ5f5m1XHDd13J4UC3SmdJk8DsmU1g6Nrs5h3x9LcXr6EBPZIqXRJ3LrF7RdklzGhZRF/TuylTcLg=="
+    },
+    "nodemailer-mandrill-transport": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/nodemailer-mandrill-transport/-/nodemailer-mandrill-transport-1.2.0.tgz",
+      "integrity": "sha1-aZaQKdJZtGkhzBLbcMoVUb85SwQ=",
+      "dev": true,
+      "requires": {
+        "addressparser": "1.0.1",
+        "extend": "3.0.1",
+        "mandrill-api": "1.0.45"
       }
     },
     "nodemon": {

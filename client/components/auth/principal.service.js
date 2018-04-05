@@ -59,7 +59,23 @@ export default function PrincipalService($http, $q, User) {
     },
 
     edituser(user) {
-      return User.save(user).$promise;
+      return $http.post('/api/users/' + user._id, {
+        user
+      }).then(response => response.data);
+    },
+
+    editpassword(user, oldPassword, newPassword) {
+      return $http.put('/api/users/' + user._id + '/password', {
+        user,
+        oldPassword,
+        newPassword,
+      }).then(response => response.data);
+    },
+
+    resetpassword(useremail) {
+      return $http.put('/api/users/resetpassword', {
+        useremail
+      }).then(response => response.data);
     },
 
     identity(force) {

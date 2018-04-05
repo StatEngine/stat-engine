@@ -2,9 +2,11 @@
 
 import uuidv4 from 'uuid/v4';
 import Mailchimp from 'mailchimp-api-v3';
-
+import nodemailer from 'nodemailer';
+import mandrillTransport from 'nodemailer-mandrill-transport';
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
+
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -84,44 +86,25 @@ export function create(req, res) {
 export function edit(req, res) {
   var userId = req.params.id;
 
-  if (req.body.username === req.user.username) {
+  if(req.body.user.username === req.user.username) {
     return User.find({
       where: {
         _id: userId
       }
     })
-    .then(user => {
-        user.last_name = req.body.last_name;
-        user.first_name = req.body.first_name;
-        user.username = req.body.username;
-        user.email = req.body.email;
+      .then(user => {
+        user.last_name = req.body.user.last_name;
+        user.first_name = req.body.user.first_name;
+        user.username = req.body.user.username;
+        user.email = req.body.user.email;
 
         user.save()
           .then(usersaved => {
-            if(config.mailchimp.apiKey && config.mailchimp.listId) {
-              const mailchimp = new Mailchimp(config.mailchimp.apiKey);
-              mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {
-                email_address: usersaved.email,
-                status: 'subscribed',
-                merge_fields: {
-                  FNAME: usersaved.first_name,
-                  LNAME: usersaved.last_name
-                }
-              }, err => {
-                if(err) {
-                  console.error(err);
-                }
-                res.json(usersaved);
-              });
-            } else {
-              res.json(usersaved);
-            }
-            res.status(204).end();
+            res.status(204).send({usersaved});
           })
           .catch(validationError(res));
       });
-  }
-  else{
+  } else {
     return res.status(403).end();
   }
 }
@@ -186,6 +169,60 @@ export function changePassword(req, res) {
 }
 
 /**
+ * Sends email to reset a users password
+ */
+export function resetPassword(req, res) {
+  var userEmail = req.body.useremail;
+
+  return User.find({
+    where: {
+      email: userEmail
+    }
+  })
+    .then(user => {
+      if(config.mailSettings.mandrillAPIKey) {
+        user.password_token = uuidv4();
+        user.password_reset_expire = Date.now() + 5 * 3600000;
+
+        return user.save()
+          .then(() => {
+            var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword/${user.password_token}`;
+            var mailOptions = {};
+            mailOptions.from = config.mailSettings.serverEmail;
+
+            // Mailing service
+            var mailTransport = nodemailer.createTransport(mandrillTransport({
+              auth: {
+                apiKey: config.mailSettings.mandrillAPIKey
+              }
+            }));
+
+            mailOptions.mandrillOptions = {
+              template_name: config.mailSettings.resetpassword,
+              template_content: [],
+              message: {
+                merge: false,
+                merge_language: 'handlebars',
+                global_merge_vars: [{RESETPASSWORDURL: resetUrl}]
+              }
+            };
+            console.log(mailOptions);
+
+            return mailTransport.sendMail(mailOptions)
+              .then(() => {
+                res.status(204).end();
+              })
+              .catch(validationError(res));
+          })
+          .catch(validationError(res));
+      } else {
+        console.log('mailOptions');
+        return res.status(403).end();
+      }
+    });
+}
+
+/**
  * Get my info
  */
 export function me(req, res, next) {
@@ -206,6 +243,8 @@ export function me(req, res, next) {
       'api_key',
       'aws_access_key_id',
       'aws_secret_access_key',
+      'password_token',
+      'password_reset_expire',
     ]
   })
     .then(user => {
