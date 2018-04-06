@@ -17,17 +17,16 @@ export default class SettingsController {
 
 
   /*@ngInject*/
-  constructor(Principal, $state, currentPrincipal) {
+  constructor(User, currentPrincipal) {
     this.user = currentPrincipal;
-    this.Principal = Principal;
-    this.$state = $state;
+    this.UserService = User;
   }
 
   changePassword(form) {
     this.submitted = true;
 
     if(form.$valid) {
-      this.Principal.editpassword(this.user, this.user.oldPassword, this.user.newPassword)
+      this.UserService.changePassword({ id: this.user._id }, { oldPassword: this.user.oldPassword, newPassword: this.user.newPassword }).$promise
         .then(() => {
           this.message = 'Password successfully changed.';
         })

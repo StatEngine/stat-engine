@@ -10,30 +10,18 @@ export default function UserResource($resource) {
       method: 'PUT',
       params: {
         controller: 'password'
-      },
-      body: {
-        user: 'me',
-        newPassword: 'password2',
-        oldPassword: 'password1'
       }
     },
-    resetpassword: {
+    resetPassword: {
       method: 'PUT',
       params: {
-        controller: 'resetpassword'
-      },
-      body: {
-        useremail: 'me'
+        controller: 'resetPassword'
       }
     },
-    updatepassword: {
+    updatePassword: {
       method: 'PUT',
       params: {
-        controller: 'updatepassword'
-      },
-      body: {
-        newPassword: 'me',
-        password_token: 'token'
+        controller: 'updatePassword'
       }
     },
     get: {

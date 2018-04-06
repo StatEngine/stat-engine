@@ -10,8 +10,8 @@ export default class ResetPasswordController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Principal, $state) {
-    this.Principal = Principal;
+  constructor(User, $state) {
+    this.UserService = User;
     this.$state = $state;
   }
 
@@ -21,7 +21,7 @@ export default class ResetPasswordController {
   resetPassword(form) {
     this.submitted = true;
     if(form.$valid) {
-      this.Principal.resetpassword(this.user.email)
+      this.UserService.resetPassword({}, { useremail: this.user.email }).$promise
         .then(data => {
           if(data) {
             this.errors.email = data;
@@ -30,8 +30,9 @@ export default class ResetPasswordController {
             this.$state.go('site.account.login');
           }
         })
-        .catch(() => {
-          this.errors.email = 'There was an error sending email. ';
+        .catch(err => {
+          if(err.data.error) this.errors.email = err.data.error;
+          else this.errors.email = 'There was an error sending email. ';
           form.email.$setValidity('mongoose', false);
         });
     }

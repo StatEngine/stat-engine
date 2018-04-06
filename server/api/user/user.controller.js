@@ -189,7 +189,7 @@ export function updatePassword(req, res) {
           })
           .catch(validationError(res));
       } else {
-        return res.json('Password was not able to reset.');
+        return res.status(400).send({ error: 'Password was not able to reset.' });
       }
     });
 }
@@ -250,7 +250,7 @@ export function resetPassword(req, res) {
           return res.status(403).end();
         }
       } else {
-        res.json('No user matches that Email.');
+        res.status(400).send({ error: 'No user matches that Email.' });
       }
     });
 }

@@ -11,8 +11,8 @@ export default class UpdatePasswordController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Principal, $state) {
-    this.Principal = Principal;
+  constructor(User, $state) {
+    this.UserService = User;
     this.$state = $state;
   }
 
@@ -22,18 +22,20 @@ export default class UpdatePasswordController {
   updatePassword(form) {
     this.submitted = true;
     if(form.$valid) {
-      this.Principal.updateresetPassword(this.user.newPassword, this.$state.params.password_token)
-        .then(daata => {
-          if(daata) {
+      this.UserService.updatePassword({}, { newPassword: this.user.newPassword, oldPassword: this.$state.params.password_token}).$promise
+        .then(data => {
+          if(data) {
             form.newPassword.$setValidity('mongoose', false);
             this.errors.newPassword = 'Could not reset using that password and token. ';
           } else {
             this.$state.go('site.account.login');
           }
         })
-        .catch(() => {
+        .catch(err => {
+          if(err.data.error) this.errors.newPassword = err.data.error;
+          else this.errors.newPassword = 'Error resetting New Password. ';
+
           form.newPassword.$setValidity('mongoose', false);
-          this.errors.newPassword = 'Error resetting New Password. ';
         });
     }
   }
