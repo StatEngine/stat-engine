@@ -2,40 +2,36 @@
 
 export default class EditUserController {
   user = {
-    email: '',
     first_name: '',
-    last_name: ''
+    last_name: '',
+    error: ''
   };
-
   errors = {
-    edituser: undefined
+    error: undefined
   };
   submitted = false;
 
   /*@ngInject*/
-  constructor(Principal, $state, currentPrincipal) {
+  constructor(User, $state, currentPrincipal) {
     this.user = currentPrincipal;
-    this.Principal = Principal;
+    this.UserService = User;
     this.$state = $state;
   }
 
   edituser(form) {
     this.submitted = true;
     if(form.$valid) {
-      this.Principal.edituser({
-        _id: this.user._id,
-        username: this.user.username,
-        email: this.user.email,
+      this.UserService.save({ id: this.user._id }, {
         first_name: this.user.first_name,
-        last_name: this.user.last_name
-      })
+        last_name: this.user.last_name,
+      }).$promise
         .then(() => {
           // Logged in, redirect to user home
           this.$state.go('site.user.home');
         })
-        .catch(err => {
-          console.log(err);
-          this.errors.edituser = err.data.message;
+        .catch(() => {
+          form.error.$setValidity('mongoose', false);
+          this.errors.error = 'Error Saving User Data. ';
         });
     }
   }

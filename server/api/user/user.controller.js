@@ -86,17 +86,15 @@ export function create(req, res) {
 export function edit(req, res) {
   var userId = req.params.id;
 
-  if(req.body.user.username === req.user.username) {
+  if(req.body.username === req.params.username) {
     return User.find({
       where: {
         _id: userId
       }
     })
       .then(user => {
-        user.last_name = req.body.user.last_name;
-        user.first_name = req.body.user.first_name;
-        user.username = req.body.user.username;
-        user.email = req.body.user.email;
+        user.last_name = req.body.last_name;
+        user.first_name = req.body.first_name;
 
         user.save()
           .then(usersaved => {
@@ -175,23 +173,27 @@ export function updatePassword(req, res) {
   var pass_token = String(req.body.password_token);
   var newPass = String(req.body.newPassword);
 
-  return User.find({
-    where: {
-      password_token: pass_token
-    }
-  })
-    .then(user => {
-      if(user) {
-        user.password = newPass;
-        return user.save()
-          .then(() => {
-            res.status(204).end();
-          })
-          .catch(validationError(res));
-      } else {
-        return res.status(400).send({ error: 'Password was not able to reset.' });
+  if(!pass_token || !newPass) {
+    return res.status(400).send({ error: 'Password was not able to reset.' });
+  } else {
+    return User.find({
+      where: {
+        password_token: pass_token
       }
-    });
+    })
+      .then(user => {
+        if(user) {
+          user.password = newPass;
+          return user.save()
+            .then(() => {
+              res.status(204).end();
+            })
+            .catch(validationError(res));
+        } else {
+          return res.status(400).send({ error: 'Password was not able to reset.' });
+        }
+      });
+  }
 }
 
 /**
@@ -200,59 +202,61 @@ export function updatePassword(req, res) {
 export function resetPassword(req, res) {
   var userEmail = req.body.useremail;
 
-  return User.find({
-    where: {
-      email: userEmail
-    }
-  })
-    .then(user => {
-      if(user) {
-        if(config.mailSettings.mandrillAPIKey) {
-          user.password_token = uuidv4();
-          user.password_reset_expire = Date.now() + 5 * 3600000;
-
-          return user.save()
-            .then(() => {
-              var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword?password_token=${user.password_token}`;
-              var mailOptions = {};
-              mailOptions.from = config.mailSettings.serverEmail;
-              mailOptions.to = user.email;
-
-              // Mailing service
-              var mailTransport = nodemailer.createTransport(mandrillTransport({
-                auth: {
-                  apiKey: config.mailSettings.mandrillAPIKey
-                }
-              }));
-
-              mailOptions.mandrillOptions = {
-                template_name: config.mailSettings.resetPasswordTemplate,
-                template_content: [],
-                message: {
-                  merge: true,
-                  merge_language: 'handlebars',
-                  global_merge_vars: [{
-                    name: 'RESETPASSWORDURL',
-                    content: resetUrl
-                  }]
-                }
-              };
-              console.log(mailOptions);
-              return mailTransport.sendMail(mailOptions)
-                .then(data => {
-                  console.log(data);
-                  res.status(204).end();
-                })
-                .catch(validationError(res));
-            })
-            .catch(validationError(res));
-        } else {
-          return res.status(403).end();
-        }
-      } else {
-        res.status(400).send({ error: 'No user matches that Email.' });
+  if(!userEmail) {
+    return res.status(400).send({ error: 'Password was not able to reset.' });
+  } else {
+    return User.find({
+      where: {
+        email: userEmail
       }
-    });
+    })
+      .then(user => {
+        if(user) {
+          if(config.mailSettings.mandrillAPIKey) {
+            user.password_token = uuidv4();
+            user.password_reset_expire = Date.now() + 5 * 3600000;
+
+            return user.save()
+              .then(() => {
+                var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword?password_token=${user.password_token}`;
+                var mailOptions = {};
+                mailOptions.from = config.mailSettings.serverEmail;
+                mailOptions.to = user.email;
+
+                // Mailing service
+                var mailTransport = nodemailer.createTransport(mandrillTransport({
+                  auth: {
+                    apiKey: config.mailSettings.mandrillAPIKey
+                  }
+                }));
+
+                mailOptions.mandrillOptions = {
+                  template_name: config.mailSettings.resetPasswordTemplate,
+                  template_content: [],
+                  message: {
+                    merge: true,
+                    merge_language: 'handlebars',
+                    global_merge_vars: [{
+                      name: 'RESETPASSWORDURL',
+                      content: resetUrl
+                    }]
+                  }
+                };
+                return mailTransport.sendMail(mailOptions)
+                  .then(() => {
+                    res.status(204).end();
+                  })
+                  .catch(validationError(res));
+              })
+              .catch(validationError(res));
+          } else {
+            return res.status(403).end();
+          }
+        } else {
+          res.status(400).send({ error: 'No user matches that Email.' });
+        }
+      });
+  }
 }
 
 /**

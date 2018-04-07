@@ -22,14 +22,9 @@ export default class UpdatePasswordController {
   updatePassword(form) {
     this.submitted = true;
     if(form.$valid) {
-      this.UserService.updatePassword({}, { newPassword: this.user.newPassword, oldPassword: this.$state.params.password_token}).$promise
-        .then(data => {
-          if(data) {
-            form.newPassword.$setValidity('mongoose', false);
-            this.errors.newPassword = 'Could not reset using that password and token. ';
-          } else {
-            this.$state.go('site.account.login');
-          }
+      this.UserService.updatePassword({}, { newPassword: this.user.newPassword, password_token: this.$state.params.password_token}).$promise
+        .then(() => {
+          this.$state.go('site.account.login');
         })
         .catch(err => {
           if(err.data.error) this.errors.newPassword = err.data.error;

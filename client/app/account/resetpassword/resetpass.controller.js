@@ -22,13 +22,8 @@ export default class ResetPasswordController {
     this.submitted = true;
     if(form.$valid) {
       this.UserService.resetPassword({}, { useremail: this.user.email }).$promise
-        .then(data => {
-          if(data) {
-            this.errors.email = data;
-            form.email.$setValidity('mongoose', false);
-          } else {
-            this.$state.go('site.account.login');
-          }
+        .then(() => {
+          this.$state.go('site.account.login');
         })
         .catch(err => {
           if(err.data.error) this.errors.email = err.data.error;
