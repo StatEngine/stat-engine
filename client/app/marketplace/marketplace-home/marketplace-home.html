@@ -42,8 +42,8 @@
             <div ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured" class="col">
               <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
                 <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
-                <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
-                <p>{{extension.description}}</p>
+                <h5 class="heavyheader text-truncate text-">{{extension.name}}</h5>
+                <p>{{extension.short_description}}</p>
               </a>
             </div>
             <div ng-if="filteredFeatured.length == 0" class="col">
@@ -58,7 +58,7 @@
               <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
                 <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
                 <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
-                <p>{{extension.description}}</p>
+                <p>{{extension.short_description}}</p>
               </a>
             </div>
             <div ng-if="filtered.length == 0" class="col">

@@ -20,8 +20,14 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       },
     },
-    description: {
+    short_description: {
       type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      },
+    },
+    description: {
+      type: DataTypes.TEXT,
       validate: {
         notEmpty: true
       },
