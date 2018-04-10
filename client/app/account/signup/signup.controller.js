@@ -14,8 +14,8 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Principal, $state) {
-    this.Principal = Principal;
+  constructor(User, $state) {
+    this.UserService = User;
     this.$state = $state;
   }
 
@@ -23,13 +23,13 @@ export default class SignupController {
     this.submitted = true;
 
     if(form.$valid) {
-      this.Principal.signup({
+      this.UserService.create({
         username: this.user.username,
         first_name: this.user.first_name,
         last_name: this.user.last_name,
         email: this.user.email,
         password: this.user.password
-      })
+      }).$promise
         .then(() => {
           // Account created, redirect to home
           this.$state.go('site.account.login');

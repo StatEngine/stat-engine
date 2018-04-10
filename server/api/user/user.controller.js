@@ -1,7 +1,6 @@
 'use strict';
 
 import uuidv4 from 'uuid/v4';
-import Mailchimp from 'mailchimp-api-v3';
 import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
 import config from '../../config/environment';
@@ -58,23 +57,34 @@ export function create(req, res) {
 
   return newUser.save()
     .then(user => {
-      if(config.mailchimp.apiKey && config.mailchimp.listId) {
-        const mailchimp = new Mailchimp(config.mailchimp.apiKey);
-        mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {
-          email_address: user.email,
-          status: 'subscribed',
-          merge_fields: {
-            FNAME: user.first_name,
-            LNAME: user.last_name
+      if(config.mailSettings.mandrillAPIKey) {
+        var mailOptions = {};
+        mailOptions.from = config.mailSettings.serverEmail;
+        mailOptions.to = user.email;
+
+        // Mailing service
+        var mailTransport = nodemailer.createTransport(mandrillTransport({
+          auth: {
+            apiKey: config.mailSettings.mandrillAPIKey
           }
-        }, err => {
-          if(err) {
-            console.error(err);
+        }));
+
+        mailOptions.mandrillOptions = {
+          template_name: config.mailSettings.newUserTemplate,
+          template_content: [],
+          message: {
+            merge: false,
+            merge_language: 'handlebars',
+            global_merge_vars: []
           }
-          res.json(user);
-        });
+        };
+        return mailTransport.sendMail(mailOptions)
+          .then(() => {
+            res.status(204).send({user});
+          })
+          .catch(validationError(res));
       } else {
-        res.json(user);
+        res.status(204).send({user});
       }
     })
     .catch(validationError(res));

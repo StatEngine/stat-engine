@@ -24,6 +24,9 @@ export default function UserResource($resource) {
         controller: 'updatePassword'
       }
     },
+    create: {
+      method: 'POST',
+    },
     get: {
       method: 'GET',
       params: {
