@@ -26,6 +26,7 @@ Extension
   .then(() => Extension.destroy({ where: {} }))
   .then(() => Extension.create({
     name: 'Twitter',
+    short_description: 'Auto-generate recommended tweets capturing important metrics of your department',
     description: 'Auto-generate recommended tweets capturing important metrics of your department',
     features: [
       'Directly post to your departments Twitter',
@@ -46,7 +47,7 @@ Extension
   }))
   .then(extension => { twitterEnrichment = extension; })
   .then(() => Extension.create({
-    name: 'Email Reports',
+    name: 'Daily Report',
     description: 'Get summary reports delivered straight to your inbox',
     features: [
       'Configurable on shiftly, daily, weekly, or monthly basis',

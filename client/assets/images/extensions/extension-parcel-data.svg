@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="286" height="283" viewBox="0 0 286 283">
+  <defs>
+    <linearGradient id="integration-parcel-data-b" x1="81.476%" x2="0%" y1="13.993%" y2="143.736%">
+      <stop offset="0%" stop-color="#CCCCD7"/>
+      <stop offset="100%" stop-color="#304351"/>
+    </linearGradient>
+    <path id="integration-parcel-data-a" d="M143,283 C221.976719,283 286,219.648292 286,141.5 C286,63.3517079 221.976719,0 143,0 C64.0232808,0 0,63.3517079 0,141.5 C0,219.648292 64.0232808,283 143,283 Z"/>
+    <linearGradient id="integration-parcel-data-c" x1="21.997%" x2="66.24%" y1="83.555%" y2="50%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-e" x1="12.833%" x2="94.507%" y1="18.023%" y2="80.718%">
+      <stop offset="0%" stop-color="#8E8E8E"/>
+      <stop offset="100%" stop-color="#989898"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-f" x1="96.921%" x2="3.809%" y1="16.676%" y2="85.384%">
+      <stop offset="0%" stop-color="#CDCDCD"/>
+      <stop offset="100%" stop-color="#C0C0C0"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-g" x1="68.574%" x2="42.091%" y1="20.985%" y2="67.966%">
+      <stop offset="0%" stop-color="#C2E574"/>
+      <stop offset="100%" stop-color="#8FC640"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-h" x1="122.249%" x2="4.678%" y1="-11.672%" y2="87.187%">
+      <stop offset="0%" stop-color="#C3925F"/>
+      <stop offset="100%" stop-color="#B38A70"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-i" x1="87.473%" x2="14.567%" y1="75.391%" y2="18.015%">
+      <stop offset="0%" stop-color="#8C654B"/>
+      <stop offset="100%" stop-color="#74523C"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-j" x1="45.168%" x2="85.241%" y1="50%" y2="-18.479%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <filter id="integration-parcel-data-k" width="107.6%" height="113.2%" x="-3.8%" y="-6.6%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation=".684"/>
+    </filter>
+    <linearGradient id="integration-parcel-data-l" x1="51.488%" x2="83.237%" y1="4.293%" y2="95.88%">
+      <stop offset="0%" stop-color="#D61B69"/>
+      <stop offset="39.844%" stop-color="#9B0342"/>
+      <stop offset="100%" stop-color="#7F0A3A"/>
+    </linearGradient>
+    <linearGradient id="integration-parcel-data-m" x1="35.258%" x2="48.268%" y1="0%" y2="96.452%">
+      <stop offset="0%" stop-color="#FF74AE"/>
+      <stop offset="67.697%" stop-color="#B70E54"/>
+      <stop offset="100%" stop-color="#9B0342"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="integration-parcel-data-d" fill="#fff">
+      <use xlink:href="#integration-parcel-data-a"/>
+    </mask>
+    <use fill="url(#integration-parcel-data-b)" xlink:href="#integration-parcel-data-a"/>
+    <polygon fill="url(#integration-parcel-data-c)" points="37 285 -1 157 66 124 182 189" mask="url(#integration-parcel-data-d)" opacity=".058" style="mix-blend-mode:multiply"/>
+    <g transform="translate(40 45)">
+      <g transform="translate(0 34)">
+        <path fill="#C0C0C0" d="M174.707804,87.090359 L105.688602,48.5958882 L137.339871,31.1435409 L206.402551,67.2743146 L174.707804,87.090359 Z M171.101497,89.3450778 L115.411317,124.163436 L43.7665807,82.7393737 L101.84227,50.7167363 L171.101497,89.3450778 Z M131.621634,28.1519931 L38.32691,79.5942262 L0.36895944,57.6474288 L93.6843535,8.30475726 L131.621634,28.1519931 Z"/>
+        <polygon fill="url(#integration-parcel-data-e)" points="175 80 103 37 103 45.062 175 88" opacity=".347"/>
+        <path fill="#EFEFEF" d="M174.707804,79.6117265 L105.688602,41.1172557 L137.339871,23.6649084 L206.402551,59.7956821 L174.707804,79.6117265 Z M171.101497,81.8664453 L115.411317,116.684804 L43.7665807,75.2607412 L101.84227,43.2381038 L171.101497,81.8664453 Z M131.621634,20.6733606 L38.32691,72.1155938 L0.36895944,50.1687963 L93.6843535,0.826124786 L131.621634,20.6733606 Z"/>
+        <polygon fill="url(#integration-parcel-data-f)" points="174 88 174 80 206 59 206 66"/>
+        <polygon fill="url(#integration-parcel-data-e)" points="38 72 0 50 0 58.062 38 80"/>
+      </g>
+      <g transform="translate(43 77)">
+        <polygon fill="#417505" points="0 40 59.667 6.455 129 45.857 73 82" opacity=".781"/>
+        <polygon fill="url(#integration-parcel-data-g)" points="1 31.948 59.667 0 129 39.403 73.533 74.545"/>
+        <polygon fill="url(#integration-parcel-data-g)" points="1 31.948 59.667 0 129 39.403 73.533 74.545"/>
+        <polygon fill="url(#integration-parcel-data-h)" points="73 83 73 75 129 40 129 47"/>
+        <polygon fill="url(#integration-parcel-data-i)" points="73 75 1 32 1 40.062 73 83"/>
+      </g>
+      <g transform="translate(52)">
+        <polygon fill="url(#integration-parcel-data-j)" points="56.092 113.033 2.092 117.076 47.789 144.033" filter="url(#integration-parcel-data-k)" opacity=".307" transform="rotate(-9 29.092 128.533)"/>
+        <path fill="#940440" d="M35.8120009,16 C29.8120009,28 30.8120009,40.6666667 38.8120009,54 C46.8120009,67.3333333 55.5413339,74.3333333 65,75 C52.3333333,79 40.6040003,72.6666667 29.8120009,56 C23.1622165,45.7303794 21.0464063,34.2547464 27,24 C28.1915559,21.9476087 31.1288896,19.2809421 35.8120009,16 Z"/>
+        <path fill="url(#integration-parcel-data-l)" d="M26.8585638,24.1694321 C26.8318537,18.4157401 27.9612532,13.2661719 30.2458635,9.20672779 C29.8937103,8.76770796 29.4760713,8.06872578 28.9929468,7.10978123 L35.7029788,3.11419772 C35.9967968,2.9110493 36.2979321,2.71668417 36.6063841,2.53134751 C36.953357,2.32286515 37.3060704,2.12792085 37.6642159,1.94635134 L39.0174921,1.1405239 L39.2851082,1.22905489 C52.3107584,-3.7379676 71.3887808,7.26753586 83.4383261,27.3213469 C87.0462194,33.3258897 88.838697,38.7527036 89.6320217,43.8267712 C90.8236016,54.7508249 86.946261,66.4752345 78,79 C68.698368,92.0222848 60.838742,101.006953 54.421122,105.954004 L63.1209344,81.1852616 C60.0880619,79.8797243 56.9689016,77.9680452 53.8938471,75.5718218 C57.9328563,76.6097121 61.7593264,76.3056991 64.9100103,74.4125773 C74.0773532,68.9042819 74.0520165,52.0284999 64.8534192,36.7194631 C55.6548219,21.4104264 40.7662857,13.4653557 31.5989427,18.973651 C29.5674712,20.1942823 27.9874153,21.9731253 26.8585638,24.1694321 Z M54.4159292,108.40708 L53,110 L53.4608323,108.687991 L54.4159292,108.40708 Z"/>
+        <path fill="url(#integration-parcel-data-m)" d="M80.5376016,70.1648587 C79.7417261,72.5884621 74.7583848,80.8084119 65.5875777,94.8247081 L52.5063068,110 C35.9018177,78.2661317 27.3383935,61.968752 26.8160341,61.1078611 C13.7594228,39.5894987 13.7234596,15.8689212 26.735708,8.12646831 C39.7479564,0.384015442 63.6000006,14.9441742 73.9375541,33.069959 C84.2751075,51.1957438 82.4063546,64.4741243 80.5376016,70.1648587 Z M64.9100103,74.4125773 C74.0773532,68.9042819 74.0520165,52.0284999 64.8534192,36.7194631 C55.6548219,21.4104264 40.7662857,13.4653557 31.5989427,18.973651 C22.4315998,24.4819464 22.4569365,41.3577284 31.6555338,56.6667651 C40.8541311,71.9758019 55.7426673,79.9208726 64.9100103,74.4125773 Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

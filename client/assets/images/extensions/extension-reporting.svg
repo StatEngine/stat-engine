@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="286" height="283" viewBox="0 0 286 283">
+  <defs>
+    <linearGradient id="integration-reporting-app-b" x1="81.707%" x2="25.566%" y1="26.545%" y2="86.287%">
+      <stop offset="0%" stop-color="#FAD961"/>
+      <stop offset="43.351%" stop-color="#F9AA43"/>
+      <stop offset="100%" stop-color="#F76B1C"/>
+    </linearGradient>
+    <path id="integration-reporting-app-a" d="M143,283 C221.976719,283 286,219.648292 286,141.5 C286,63.3517079 221.976719,0 143,0 C64.0232808,0 0,63.3517079 0,141.5 C0,219.648292 64.0232808,283 143,283 Z"/>
+    <linearGradient id="integration-reporting-app-c" x1="40.055%" x2="55.522%" y1="46.055%" y2="14.255%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <path id="integration-reporting-app-f" d="M108.5,91.5 L53.5,104.5"/>
+    <filter id="integration-reporting-app-e" width="133.9%" height="235.7%" x="-17%" y="-82.1%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1" result="shadowSpreadOuter1"/>
+      <feOffset dy="-2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feMorphology in="SourceAlpha" radius="1" result="shadowInner"/>
+      <feOffset dy="-2" in="shadowInner" result="shadowInner"/>
+      <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2.5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <path id="integration-reporting-app-h" d="M49,103 L5.03734137,43.2507803"/>
+    <filter id="integration-reporting-app-g" width="143.2%" height="131.8%" x="-21.6%" y="-19.2%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1" result="shadowSpreadOuter1"/>
+      <feOffset dy="-2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feMorphology in="SourceAlpha" radius="1" result="shadowInner"/>
+      <feOffset dy="-2" in="shadowInner" result="shadowInner"/>
+      <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2.5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <linearGradient id="integration-reporting-app-i" x1="52.83%" x2="52.83%" y1="70.889%" y2="50%">
+      <stop offset="0%" stop-color="#FCECD9"/>
+      <stop offset="100%" stop-color="#EEDDC9"/>
+    </linearGradient>
+    <filter id="integration-reporting-app-j" width="173.5%" height="232.3%" x="-36.7%" y="-66.1%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.102"/>
+    </filter>
+    <linearGradient id="integration-reporting-app-k" x1="0%" y1="50%" y2="50%">
+      <stop offset="0%" stop-color="#DBB86E"/>
+      <stop offset="100%" stop-color="#8A5203"/>
+    </linearGradient>
+    <linearGradient id="integration-reporting-app-l" x1="49.255%" x2="33.884%" y1="39.647%" y2="89.01%">
+      <stop offset="0%" stop-color="#FCECD9"/>
+      <stop offset="100%" stop-color="#B3833F"/>
+    </linearGradient>
+    <linearGradient id="integration-reporting-app-m" x1="75.661%" x2="66.344%" y1="83.306%" y2="30.322%">
+      <stop offset="0%" stop-color="#EDEDED"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <filter id="integration-reporting-app-n" width="119.3%" height="115.4%" x="-9.6%" y="-7.7%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation=".837"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="integration-reporting-app-d" fill="#fff">
+      <use xlink:href="#integration-reporting-app-a"/>
+    </mask>
+    <use fill="url(#integration-reporting-app-b)" xlink:href="#integration-reporting-app-a"/>
+    <polygon fill="url(#integration-reporting-app-c)" points="66 289 -59 243 86 168 203 218" mask="url(#integration-reporting-app-d)" opacity=".144" style="mix-blend-mode:multiply"/>
+    <g transform="translate(85 60)">
+      <polygon fill="#FFF" points="5 44 5 24 34 4 112 44 112 89 52 106"/>
+      <polygon fill="#434343" points="29 37 29 40.478 58 55 58.699 51.826"/>
+      <polygon fill="#434343" points="29 52 29 55.478 55 68 55.699 64.826"/>
+      <polygon fill="#434343" points="29 67 29 70.478 52 81 52.699 77.826"/>
+      <polygon fill="#434343" points="29 81 29 84.478 86.301 112 87 108.826"/>
+      <g stroke-linecap="square" opacity=".436">
+        <use fill="#000" filter="url(#integration-reporting-app-e)" xlink:href="#integration-reporting-app-f"/>
+        <use stroke="#D9D9D9" stroke-width="2" xlink:href="#integration-reporting-app-f"/>
+      </g>
+      <g stroke-linecap="square" opacity=".436">
+        <use fill="#000" filter="url(#integration-reporting-app-g)" xlink:href="#integration-reporting-app-h"/>
+        <use stroke="#D9D9D9" stroke-width="2" xlink:href="#integration-reporting-app-h"/>
+      </g>
+      <polygon fill="#B4823B" points="117 85 111 77 111 88"/>
+      <polygon fill="url(#integration-reporting-app-i)" points="0 109 108 163 108 89 52 103 0 36"/>
+      <polygon fill="#E0E0E0" points="108 45 108 90.011 112 89 112 43.956"/>
+      <path fill="#6C440B" fill-rule="nonzero" d="M116,84 L117,85 L108,89 L109,88 L116,84 Z" filter="url(#integration-reporting-app-j)"/>
+      <polygon fill="#F6D6A9" points="108 89 117 85 117 159 108 163"/>
+      <polygon fill="url(#integration-reporting-app-k)" points="0 36 5 33 5 43"/>
+      <polygon fill="url(#integration-reporting-app-l)" points="80 29 63 3 45 11"/>
+      <polygon fill="url(#integration-reporting-app-m)" points="108 45 31 6 35 5 112 44"/>
+      <polygon fill="#E0E0E0" points="28.403 34.698 6.665 24.636 32.753 2.072" filter="url(#integration-reporting-app-n)" transform="rotate(7 19.709 18.385)"/>
+      <polygon fill="#FFF" points="23.833 31.578 5.985 25.709 32.944 2.03" transform="rotate(7 19.464 16.804)"/>
+      <path fill="#2185FC" d="M81.8935297,61.2484306 L76,75 L86,83 C86.3921005,82.3094059 86.7559864,81.642446 87.0916578,80.9991203 C85.2374933,86.8632469 80.7461648,91 75.5,91 C68.5964406,91 63,83.836556 63,75 C63,66.163444 68.5964406,59 75.5,59 C77.8362924,59 80.0228843,59.8204085 81.8935297,61.2484306 Z"/>
+      <path fill="#D52579" d="M81,74.1174603 L88.3809524,80 C92.0952381,72.421164 91.1248677,67.1079365 85.4698413,64.0603175 L81,73 L81,74.1174603 Z"/>
+    </g>
+  </g>
+</svg>
