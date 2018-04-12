@@ -53,7 +53,7 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       es_indices() {
         return {
-          'all': `${this.firecares_id}-${this.state}-${this.name}*`
+          all: `${this.firecares_id}-${this.state}-${this.name}*`
             .toLowerCase()
             .replace(/ /g, '_')
             .replace(/&/g, 'and'),

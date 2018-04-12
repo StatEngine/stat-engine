@@ -27,7 +27,7 @@ router.post('/', bodyParser.json(), (req, res, next) => {
       delete u.password;
 
       let redirect;
-      if (req.session.returnTo) {
+      if(req.session.returnTo) {
         redirect = req.session.returnTo;
         delete req.session.returnTo;
       }
