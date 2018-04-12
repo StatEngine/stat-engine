@@ -42,8 +42,8 @@ var all = {
   },
 
   // Local vs AWS Kibana
-  jwt: {
-    secret: process.env.KIBANA_JWT_SECRET || '123456'
+  ror: {
+    secret: process.env.ROR_JWT_SIGNATURE_KEY || '123456'
   },
 
   kibana: {

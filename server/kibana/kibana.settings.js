@@ -22,7 +22,7 @@ export default {
         firecares_id: req.fire_department.firecares_id
       };
 
-      var jwt = nJwt.create(claims, config.jwt.secret);
+      var jwt = nJwt.create(claims, config.ror.secret);
       jwt.setExpiration(new Date().getTime() + (86400 * 1000 * 7)); // 7d
       let key = jwt.compact();
 
