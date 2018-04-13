@@ -12,10 +12,10 @@ router.get('/', auth.isApiAuthenticated, auth.hasRole('admin'), controller.index
 router.post('/', bodyParser.json(), controller.create);
 router.delete('/:id', auth.isApiAuthenticated, auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isApiAuthenticated, controller.me);
-router.put('/:id/password', bodyParser.json(), auth.isApiAuthenticated, controller.changePassword);
+router.put('/:id/password', bodyParser.json(), auth.isApiAuthenticated, controller.hasEditPermisssion, controller.changePassword);
 router.put('/resetPassword', bodyParser.json(), controller.resetPassword);
 router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
-router.get('/:id', auth.isApiAuthenticated, controller.show);
-router.post('/:id', bodyParser.json(), controller.edit);
+router.get('/:id', auth.isApiAuthenticated, controller.hasEditPermisssion, controller.show);
+router.post('/:id', bodyParser.json(), controller.hasEditPermisssion, controller.edit);
 
 module.exports = router;

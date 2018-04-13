@@ -134,8 +134,7 @@
     "addressparser": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/addressparser/-/addressparser-1.0.1.tgz",
-      "integrity": "sha1-R6++GiqSYhkdtoOOT9HTm0CCF0Y=",
-      "dev": true
+      "integrity": "sha1-R6++GiqSYhkdtoOOT9HTm0CCF0Y="
     },
     "adm-zip": {
       "version": "0.4.4",
@@ -12753,8 +12752,7 @@
     "mandrill-api": {
       "version": "1.0.45",
       "resolved": "https://registry.npmjs.org/mandrill-api/-/mandrill-api-1.0.45.tgz",
-      "integrity": "sha1-Fjk5z0hr0YJ3sPO69BLD5l2Epy0=",
-      "dev": true
+      "integrity": "sha1-Fjk5z0hr0YJ3sPO69BLD5l2Epy0="
     },
     "map-cache": {
       "version": "0.2.2",
@@ -13859,7 +13857,6 @@
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/nodemailer-mandrill-transport/-/nodemailer-mandrill-transport-1.2.0.tgz",
       "integrity": "sha1-aZaQKdJZtGkhzBLbcMoVUb85SwQ=",
-      "dev": true,
       "requires": {
         "addressparser": "1.0.1",
         "extend": "3.0.1",

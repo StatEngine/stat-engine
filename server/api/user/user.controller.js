@@ -96,26 +96,24 @@ export function create(req, res) {
 export function edit(req, res) {
   var userId = req.params.id;
 
-  if(req.body.username === req.params.username) {
-    return User.find({
-      where: {
-        _id: userId
-      }
-    })
-      .then(user => {
-        user.last_name = req.body.last_name;
-        user.first_name = req.body.first_name;
+  return User.find({
+    where: {
+      _id: userId
+    }
+  })
+    .then(user => {
+      user.last_name = req.body.last_name;
+      user.first_name = req.body.first_name;
 
-        user.save()
-          .then(usersaved => {
-            res.status(204).send({usersaved});
-          })
-          .catch(validationError(res));
-      });
-  } else {
-    return res.status(403).end();
-  }
+      user.save()
+        .then(usersaved => {
+          res.status(204).send({usersaved});
+        })
+        .catch(validationError(res));
+    })
+    .catch(validationError(res));
 }
+
 
 /**
  * Get a single user
@@ -153,7 +151,8 @@ export function destroy(req, res) {
  * Change a users password
  */
 export function changePassword(req, res) {
-  var userId = req.user._id;
+  var userId = req.params.id;
+
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
@@ -171,9 +170,10 @@ export function changePassword(req, res) {
           })
           .catch(validationError(res));
       } else {
-        return res.status(403).end();
+        return res.status(403).send({ password: 'Wrong password'});
       }
-    });
+    })
+    .catch(validationError(res));
 }
 
 /**
@@ -194,6 +194,9 @@ export function updatePassword(req, res) {
       .then(user => {
         if(user) {
           user.password = newPass;
+          user.password_token = null;
+          user.password_reset_expire = null;
+
           return user.save()
             .then(() => {
               res.status(204).end();
@@ -213,7 +216,7 @@ export function resetPassword(req, res) {
   var userEmail = req.body.useremail;
 
   if(!userEmail) {
-    return res.status(400).send({ error: 'Password was not able to reset.' });
+    return res.status(400).send({ error: 'Email must be included in request.' });
   } else {
     return User.find({
       where: {
@@ -315,6 +318,11 @@ export function me(req, res, next) {
         .catch(err => next(err));
     })
     .catch(err => next(err));
+}
+
+export function hasEditPermisssion(req, res, next) {
+  if(req.user.username === req.body.username) return next();
+  else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }
 
 /**

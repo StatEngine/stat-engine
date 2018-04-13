@@ -24,14 +24,15 @@ export default class EditUserController {
       this.UserService.save({ id: this.user._id }, {
         first_name: this.user.first_name,
         last_name: this.user.last_name,
+        username: this.user.username,
       }).$promise
         .then(() => {
           // Logged in, redirect to user home
           this.$state.go('site.user.home');
         })
-        .catch(() => {
-          form.error.$setValidity('mongoose', false);
-          this.errors.error = 'Error Saving User Data. ';
+        .catch(err => {
+          if(err.data.error) this.errors.error = err.data.error;
+          else this.errors.error = 'Error saving data.';
         });
     }
   }
