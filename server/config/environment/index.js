@@ -90,7 +90,7 @@ var all = {
   },
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,
-    listId: process.env.MAILCHIMP_LIST_ID
+    listId: process.env.MAILCHIMP_LIST_ID || '61455277a5', // dev list
   },
   twitter: {
     consumerKey: process.env.TWITTER_CONSUMER_KEY || '123',

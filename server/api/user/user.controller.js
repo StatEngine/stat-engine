@@ -3,6 +3,8 @@
 import uuidv4 from 'uuid/v4';
 import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
+import Mailchimp from 'mailchimp-api-v3';
+
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
 
@@ -43,6 +45,55 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+function sendWelcomeEmail(user) {
+  if(config.mailSettings.mandrillAPIKey) {
+    var mailOptions = {};
+    mailOptions.from = config.mailSettings.serverEmail;
+    mailOptions.to = user.email;
+
+    // Mailing service
+    var mailTransport = nodemailer.createTransport(mandrillTransport({
+      auth: {
+        apiKey: config.mailSettings.mandrillAPIKey
+      }
+    }));
+
+    mailOptions.mandrillOptions = {
+      template_name: config.mailSettings.newUserTemplate,
+      template_content: [],
+      message: {
+        merge: false,
+        merge_language: 'handlebars',
+        global_merge_vars: []
+      }
+    };
+    return mailTransport.sendMail(mailOptions);
+  } else {
+    return new Promise(resolve => {
+      setTimeout(resolve, 0);
+    });
+  }
+}
+
+function addToMailingList(user) {
+  if(config.mailchimp.apiKey && config.mailchimp.listId) {
+    const mailchimp = new Mailchimp(config.mailchimp.apiKey);
+    return mailchimp.post(`/lists/${config.mailchimp.listId}/members`, {
+      email_address: user.email,
+      status: 'subscribed',
+      merge_fields: {
+        FNAME: user.first_name,
+        LNAME: user.last_name
+      }
+    });
+  } else {
+    return new Promise(resolve => {
+      setTimeout(resolve, 0);
+    });
+  }
+}
+
+
 /**
  * Creates a new user
  */
@@ -56,37 +107,13 @@ export function create(req, res) {
   newUser.setDataValue('api_key', uuidv4());
 
   return newUser.save()
-    .then(user => {
-      if(config.mailSettings.mandrillAPIKey) {
-        var mailOptions = {};
-        mailOptions.from = config.mailSettings.serverEmail;
-        mailOptions.to = user.email;
-
-        // Mailing service
-        var mailTransport = nodemailer.createTransport(mandrillTransport({
-          auth: {
-            apiKey: config.mailSettings.mandrillAPIKey
-          }
-        }));
-
-        mailOptions.mandrillOptions = {
-          template_name: config.mailSettings.newUserTemplate,
-          template_content: [],
-          message: {
-            merge: false,
-            merge_language: 'handlebars',
-            global_merge_vars: []
-          }
-        };
-        return mailTransport.sendMail(mailOptions)
+    .then(user => addToMailingList(user)
+      .then(() => {
+        sendWelcomeEmail(user)
           .then(() => {
             res.status(204).send({user});
-          })
-          .catch(validationError(res));
-      } else {
-        res.status(204).send({user});
-      }
-    })
+          });
+      }))
     .catch(validationError(res));
 }
 
