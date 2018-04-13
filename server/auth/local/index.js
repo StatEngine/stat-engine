@@ -61,7 +61,7 @@ router.get('/', (req, res) => {
     delete user.api_key;
     delete user.aws_access_key_id;
     delete user.aws_secret_access_key;
-    res.send({ user: user });
+    res.send({ user });
   } else {
     res.send({});
   }

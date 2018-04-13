@@ -51,6 +51,8 @@
     "mailchimp-api-v3": "^1.8.0",
     "method-override": "^2.3.10",
     "morgan": "~1.9.0",
+    "nodemailer": "^4.4.2",
+    "nodemailer-mandrill-transport": "^1.2.0",
     "njwt": "^0.4.0",
     "passport": "~0.4.0",
     "passport-google-oauth20": "^1.0.0",

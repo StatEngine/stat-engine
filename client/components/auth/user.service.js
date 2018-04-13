@@ -12,6 +12,21 @@ export default function UserResource($resource) {
         controller: 'password'
       }
     },
+    resetPassword: {
+      method: 'PUT',
+      params: {
+        controller: 'resetPassword'
+      }
+    },
+    updatePassword: {
+      method: 'PUT',
+      params: {
+        controller: 'updatePassword'
+      }
+    },
+    create: {
+      method: 'POST',
+    },
     get: {
       method: 'GET',
       params: {

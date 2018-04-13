@@ -1,0 +1,29 @@
+<div class="site">
+  <navbar class="animated fadeInDown naked"></navbar>
+  <header class="naked"></header>
+  <section class="container site-content">
+    <section class="row mb-5">
+      <div class="col-md-12">
+        <h2 class="subheader">Department Administration</h2>
+        <form style="margin:0;padding:2rem;" class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="form-edit-dept" ng-submit="admin.editdept(form-edit-dept)" novalidate="">
+          <div class="form-group">
+            <label>Username</label>
+
+            <input type="text" name="username" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" ng-model="admin.user.username" required="required" style="">
+          </div>
+
+          <div class="form-group">
+            <label>User Role</label>
+
+            <input type="text" name="role" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" ng-model="admin.user.role" required="required" style="">
+          </div>
+
+          <div>
+            <button id='save_dept_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Department Settings</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </section>
+  <footer id="footer"></footer>
+</div>

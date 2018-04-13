@@ -82,9 +82,15 @@ var all = {
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
   },
+  mailSettings: {
+    serverEmail: 'noreply@statengine.io',
+    resetPasswordTemplate: 'resetpassword',
+    newUserTemplate: 'getting-started-statengine',
+    mandrillAPIKey: process.env.MANDRILL_API_KEY,
+  },
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,
-    listId: process.env.MAILCHIMP_LIST_ID
+    listId: process.env.MAILCHIMP_LIST_ID || '61455277a5', // dev list
   },
   twitter: {
     consumerKey: process.env.TWITTER_CONSUMER_KEY || '123',

@@ -4,32 +4,44 @@ export default class SettingsController {
   user = {
     oldPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    email: '',
+    first_name: '',
+    last_name: ''
   };
   errors = {
-    other: undefined
+    password: undefined,
+    error: undefined
   };
   message = '';
   submitted = false;
 
 
   /*@ngInject*/
-  constructor(Auth) {
-    this.Auth = Auth;
+  constructor(User, $state, currentPrincipal) {
+    this.user = currentPrincipal;
+    this.UserService = User;
+    this.$state = $state;
   }
 
   changePassword(form) {
     this.submitted = true;
 
     if(form.$valid) {
-      this.Auth.changePassword(this.user.oldPassword, this.user.newPassword)
+      this.UserService.changePassword({ id: this.user._id }, { username: this.user.username, oldPassword: this.user.oldPassword, newPassword: this.user.newPassword }).$promise
         .then(() => {
-          this.message = 'Password successfully changed.';
+          // Logged in, redirect to user home
+          this.$state.go('site.user.home');
         })
-        .catch(() => {
-          form.password.$setValidity('mongoose', false);
-          this.errors.other = 'Incorrect password';
-          this.message = '';
+        .catch(err => {
+          if(err.data.password) {
+            this.errors.password = err.data.password;
+            form.password.$setValidity('mongoose', false);
+          } else if(err.data.error) {
+            this.errors.error = err.data.error;
+          } else {
+            this.errors.error = 'Error saving data.';
+          }
         });
     }
   }

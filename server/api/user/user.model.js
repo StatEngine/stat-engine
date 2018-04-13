@@ -65,6 +65,14 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    password_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    password_reset_expire: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     aws_access_key_id: {
       type: DataTypes.STRING,
     },

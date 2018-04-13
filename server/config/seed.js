@@ -45,7 +45,9 @@ Extension
       required: true,
     }]
   }))
-  .then(extension => { twitterEnrichment = extension; })
+  .then(extension => {
+    twitterEnrichment = extension;
+  })
   .then(() => Extension.create({
     name: 'Daily Report',
     description: 'Get summary reports delivered straight to your inbox',
@@ -60,7 +62,9 @@ Extension
     image: 'extension-reports.svg',
     config_options: []
   }))
-  .then(extension => { emailReportEnrichment = extension; })
+  .then(extension => {
+    emailReportEnrichment = extension;
+  })
   .then(User.sync())
   .then(() => User.destroy({ where: {} }))
   .then(() => Tweet.destroy({ where: {} }))
@@ -106,7 +110,9 @@ Extension
   }, {
     include: [FireDepartment.Users, FireDepartment.Tweets]
   }))
-  .then(dbRichmond => { richmond = dbRichmond; })
+  .then(dbRichmond => {
+    richmond = dbRichmond;
+  })
   .then(() => ExtensionConfiguration.create({
     enabled: true,
     fire_department__id: richmond._id,
