@@ -42,6 +42,10 @@ var all = {
   },
 
   // Local vs AWS Kibana
+  ror: {
+    secret: process.env.ROR_JWT_SIGNATURE_KEY || '123456'
+  },
+
   kibana: {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
     appPath: process.env.KIBANA_BASEPATH ? process.env.KIBANA_BASEPATH : '/_plugin/kibana',

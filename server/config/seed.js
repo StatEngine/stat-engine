@@ -85,6 +85,18 @@ Extension
       api_key: 'richmond',
       aws_access_key_id: 'awsKey',
       aws_secret_access_key: 'awsSecret',
+    }, {
+      provider: 'local',
+      role: 'user,kibana_admin',
+      username: 'richmond2',
+      first_name: 'Richmond2',
+      last_name: 'User',
+      email: 'richmond2@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'richmond',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
     }],
     Tweets: [{
       tweet_json: {
@@ -605,7 +617,7 @@ Extension
     timezone: 'US/Central',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user,ingest,kibana_admin',
       username: 'rogers',
       first_name: 'dev',
       last_name: 'user',
