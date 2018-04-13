@@ -20,8 +20,14 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       },
     },
-    description: {
+    short_description: {
       type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      },
+    },
+    description: {
+      type: DataTypes.TEXT,
       validate: {
         notEmpty: true
       },
@@ -38,7 +44,7 @@ export default function(sequelize, DataTypes) {
     },
     image: {
       type: DataTypes.STRING,
-      default: 'extension-logo-generic.svg'
+      default: 'extension-generic.svg'
     },
     date_created: {
       type: DataTypes.DATE,

@@ -25,7 +25,17 @@ router.post('/', bodyParser.json(), (req, res, next) => {
       const u = user.get();
       delete u.salt;
       delete u.password;
-      return res.send(u);
+
+      let redirect;
+      if(req.session.returnTo) {
+        redirect = req.session.returnTo;
+        delete req.session.returnTo;
+      }
+
+      return res.send({
+        user: u,
+        redirect
+      });
     });
   })(req, res, next);
 });
@@ -51,7 +61,7 @@ router.get('/', (req, res) => {
     delete user.api_key;
     delete user.aws_access_key_id;
     delete user.aws_secret_access_key;
-    res.send(user);
+    res.send({ user: user });
   } else {
     res.send({});
   }

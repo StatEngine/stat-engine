@@ -26,6 +26,7 @@ Extension
   .then(() => Extension.destroy({ where: {} }))
   .then(() => Extension.create({
     name: 'Twitter',
+    short_description: 'Auto-generate recommended tweets capturing important metrics of your department',
     description: 'Auto-generate recommended tweets capturing important metrics of your department',
     features: [
       'Directly post to your departments Twitter',
@@ -48,7 +49,7 @@ Extension
     twitterEnrichment = extension;
   })
   .then(() => Extension.create({
-    name: 'Email Reports',
+    name: 'Daily Report',
     description: 'Get summary reports delivered straight to your inbox',
     features: [
       'Configurable on shiftly, daily, weekly, or monthly basis',
@@ -83,6 +84,18 @@ Extension
       first_name: 'Richmond',
       last_name: 'User',
       email: 'richmond@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'richmond',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
+    }, {
+      provider: 'local',
+      role: 'user,kibana_admin',
+      username: 'richmond2',
+      first_name: 'Richmond2',
+      last_name: 'User',
+      email: 'richmond2@prominentedge.com',
       password: 'password',
       nfors: true,
       api_key: 'richmond',
@@ -610,7 +623,7 @@ Extension
     timezone: 'US/Central',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user,ingest,kibana_admin',
       username: 'rogers',
       first_name: 'dev',
       last_name: 'user',
