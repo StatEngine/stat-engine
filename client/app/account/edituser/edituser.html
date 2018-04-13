@@ -3,14 +3,14 @@
   <header class="naked"></header>
   <section class="container site-content">
     <section class="row mb-5 justify-content-md-center">
-      <div class="col-md-6">
+      <div class="col-md-auto align-self-center">
         <h2 class="subheader">Edit Profile</h2>
         <div class="form-elements">
-          <form style="margin:0;padding:2rem;" class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="form" ng-submit="vm.edituser(form)" novalidate="">
+          <form class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="form" ng-submit="vm.edituser(form)" novalidate="">
 
             <div class="form-group " ng-class="{ 'has-success': form.first_name.$valid && vm.submitted,'has-error': form.first_name.$invalid && vm.submitted }">
               <label>First Name</label>
-              <input type="text" style="width:500px;" name="first_name" class="form-control" ng-model="vm.user.first_name" required="required"/>
+              <input type="text" name="first_name" class="form-control input-md" ng-model="vm.user.first_name" required="required"/>
               <p class="help-block" ng-show="form.first_name.$error.required && vm.submitted">
                 A first name is required
               </p>
@@ -18,7 +18,7 @@
 
             <div class="form-group" ng-class="{ 'has-success': form.last_name.$valid && vm.submitted,'has-error': form.last_name.$invalid && vm.submitted }">
               <label>Last Name</label>
-              <input type="text" style="width:500px;" name="last_name" class="form-control" ng-model="vm.user.last_name" required="required"/>
+              <input type="text" name="last_name" class="form-control input-md" ng-model="vm.user.last_name" required="required"/>
               <p class="help-block" ng-show="form.last_name.$error.required && vm.submitted">
                 A last name is required
               </p>
