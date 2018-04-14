@@ -20,7 +20,8 @@ passport.deserializeUser(function(userId, done) {
   return User.find({
     where: {
       _id: userId
-    }
+    },
+    include: [ FireDepartment ]
   }).nodeify(done);
 });
 

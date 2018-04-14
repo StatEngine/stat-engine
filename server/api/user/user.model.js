@@ -79,6 +79,9 @@ export default function(sequelize, DataTypes) {
     aws_secret_access_key: {
       type: DataTypes.STRING,
     },
+    requested_firecares_id: {
+      type: DataTypes.STRING,
+    },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
   }, {

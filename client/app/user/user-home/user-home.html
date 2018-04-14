@@ -14,8 +14,26 @@
           <p ng-if="vm.dataQuality.grade" class="animated fadeIn"> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#">learn why</a>.</p>
         </div>
         <div class="col-12 py-2 button-group">
-          <button ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()">Dashboard</button>
-          <button ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" id='user-home-getting-started' class="btn btn-primary" ng-click="vm.scrollTo('#getting-started')">Get Started</button>
+          <div ng-if="!vm.fireDepartment && !vm.requestedFireDepartment">
+            <p> Thanks for signing up! <br>
+              <button id='user-home-request-access' class="btn btn-primary" ui-sref="site.user.requestAccess">Request Access Now</button> <br> <br>
+            </p>
+          </div>
+          <div ng-if="!vm.fireDepartment && vm.requestedFireDepartment">
+            <p> Thanks for signing up! <br>
+              Your're pending approval from {{vm.requestedFireDepartment.name }}. <br>
+              Please follow up with your local adminstrator to receive approval.
+            </p>
+          </div>
+          <div ng-if="vm.fireDepartment && !vm.setupComplete">
+            <p>
+              We're still in the onboarding process. <br>
+              <button id='user-home-getting-started' class="btn btn-primary" ui-sref="site.user.gettingStarted">Onboarding Status</button>
+            </p>
+          </div>
+          <div ng-if="vm.setupComplete">
+            <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()">Dashboard</button>
+          </div>
         </div>
       </div>
     </section>
@@ -45,7 +63,7 @@
       <div class="col-sm-5 col-sm-offset-2 summary-department">
         <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span>
         <h4 class="heavyheader">My Department Summary</h4>
-        <dl class="row">
+        <dl class="row" ng-if="vm.fireDepartment">
           <div class="col">
             <dt>FDID</dt>
             <dd>{{ vm.fireDepartment.fd_id }}</dd>
@@ -64,6 +82,21 @@
             <dd>{{ vm.fireDepartment.state }}</dd>
           </div>
         </dl>
+        <div ng-if="!vm.fireDepartment">
+          <div class="row justify-content-md-center">
+            <div class="col">
+              <div ng-if="!vm.requestedFireDepartment">
+                <p class='text-danger text-center'>
+                  Looks like you haven't been assinged a department yet. <br>
+                  Please <a ui-sref="site.user.requestAccess"> Request Access </a> now
+                </p>
+              </div>
+              <div ng-if="vm.requestedFireDepartment">
+                <p class='text-warning'> Pending approval from {{ vm.requestedFireDepartment.name }} </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -155,49 +188,6 @@
   </section>
 
   -->
-
-  <section ng-if="!vm.setupComplete" id="getting-started" class="fluid-container py-5 data-quality-analysis">
-     <div class="container">
-       <h3 class="mb-2">Getting Started</h3>
-       <div class="row">
-         <div class="col-md-8">
-           <p>
-             In order for your organization to maximize the value of StatEngine, we need to take care of a few things.  Complete these steps and you'll be analyzing data in no time!
-           </p>
-         </div>
-         <div class="col-12 py-4">
-           <div class="row">
-             <div class="col-12 py-4">
-               <div class="table mb-5">
-                 <div class="table-row header">
-                   <div class="cell">
-                     Step
-                   </div>
-                   <div class="cell">
-                     Status
-                   </div>
-                   <div class="cell">
-                     Required Action
-                   </div>
-                 </div>
-
-                 <div class="table-row" ng-repeat="step in vm.gettingStarted">
-                   <div class="cell" data-title="Step">
-                     {{step.step}}
-                   </div>
-                   <div class="cell" data-title="Status">
-                     <span ng-class="{'badge-success': step.status, 'badge-danger': !step.status}" class="badge">{{step.status ? 'COMPLETE' : 'PENDING'}}</span>
-                   </div>
-                    <div class="cell" data-title="Required Action" ng-bind-html="step.status ? 'No action required.' : step.action">
-                 </div>
-               </div>
-             </div>
-           </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </section>
 
   <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
     <div class="container">

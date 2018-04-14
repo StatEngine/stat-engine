@@ -141,6 +141,34 @@ export function edit(req, res) {
     .catch(validationError(res));
 }
 
+/**
+ * Request access
+ */
+export function requestAccess(req, res) {
+  const userId = req.params.id;
+
+  return User.find({
+    where: {
+      _id: userId
+    }
+  })
+    .then(user => {
+      if (user) {
+        user.requested_firecares_id = req.body.firecaresId;
+
+        user.save()
+          .then(usersaved => {
+            res.status(204).send({usersaved});
+          })
+          .catch(validationError(res));
+      }
+      else {
+        res.status(404).send();
+      }
+    })
+    .catch(validationError(res));
+}
+
 
 /**
  * Get a single user

@@ -3,7 +3,7 @@
 export default function FireDepartmentResource($resource) {
   'ngInject';
 
-  return $resource('/api/fire-departments/:id/:type/:verb', {
+  return $resource('/api/fire-departments/:id/:resource/:resource2', {
     id: '@id'
   }, {
     dataQuality: {
@@ -11,9 +11,9 @@ export default function FireDepartmentResource($resource) {
       isArray: false,
       params: {
         id: '@id',
-        type: '@type',
-        verb: 'data-quality'
+        resource: '@type',
+        resource2: 'data-quality'
       }
-    },
+    }
   });
 }

@@ -30,10 +30,9 @@ function handleError(res, statusCode) {
 
 /**
  * Search for fire departments
- * restriction: 'admin'
  */
 export function search(req, res) {
-  return FireDepartment.find({
+  return FireDepartment.findAll({
     where: req.query
   })
     .then(fireDepartments => {
