@@ -1,79 +1,69 @@
 <div class="container">
   <div class="row">
-    <div class="col-auto">
+
+    <!-- Branding -->
+    <div class="col-auto" ng-if="!vm.Principal.isAuthenticated()">
       <a ui-sref="site.main.main" href="#" class="branding"></a>
     </div>
+
+    <div class="col-auto" ng-if="vm.Principal.isAuthenticated()">
+      <a ui-sref="site.user.home" href="#" class="branding mark"></a>
+    </div>
+
+    <!-- Navigation Links -->
     <div id="navbar-links" class="col-auto pr-0">
       <div class="row">
         <div class="col-12 pr-0">
-          <ul class="new-nav">
-             <li><a href="/control-center">Control Center</a></li>
-             <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
-               <div id="dashboards-navigation" class="dashboards dropdown animated fadeInDownShort" ng-class="{open: is_active}">
-                 <ul>
-                   <li>Dashboard 1</li>
-                   <li>Dashboard 2</li>
-                   <li>Dashboard 3</li>
-                   <li>Dashboard 4</li>
-                 </ul>
-                 <div class="footer"> An optional footer </div>
-               </div>
-             </li>
-             <li><a href="/data-quality">Data Quality</a></li>
-             <li><a href="/data-quality">App Marketplace</a></li>
-             <li><a href="/data-quality">Installed Apps</a></li>
-           </ul>
+
+          <div ng-if="vm.Principal.isAuthenticated()">
+            <ul id="user-nav">
+               <li><a href="site.user.home">Control Center</a></li>
+               <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
+                 <div id="dashboards-navigation" class="dashboards dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+                   <ul>
+                     <li><a href="#">Dashboard 1</a></li>
+                     <li><a href="#">Dashboard 2</a></li>
+                     <li><a href="#">Dashboard 3</a></li>
+                     <li><a href="#">Dashboard 4</a></li>
+                   </ul>
+                   <!-- <div class="footer"> An optional footer </div> -->
+                 </div>
+               </li>
+               <li><a href="/data-quality">Data Quality</a></li>
+               <li><a href="/data-quality">App Marketplace</a></li>
+               <li><a href="/data-quality">Installed Apps</a></li>
+            </ul>
+          </div>
+
+          <div ng-if="!vm.Principal.isAuthenticated()">
+             <a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#" class="col-3">Products</a>
+             <a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#" class="col-3">Developers</a>
+             <a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#" class="col-3 pr-0">Company</a>
+          </div>
+
         </div>
       </div>
     </div>
+
+    <!-- Utility -->
     <div id="navbar-button" class="col-auto ml-auto pl-0">
-      <div ng-if="vm.Principal.isAuthenticated()">
-        <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a>
-        <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
-      </div>
-      <div ng-if="!vm.Principal.isAuthenticated()">
-        <button id='navbar-links-sign-in' class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
-        <button id='navbar-links-sign-up' class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
-      </div>
-    </div>
 
-    <div id="navbar-burger" class="col-auto ml-auto">
-      <img src="/assets/images/burger.svg"/>
-    </div>
-  </div>
-</div>
-
-
-
-
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-auto">
-      <a ui-sref="site.main.main" href="#" class="branding"></a>
-    </div>
-    <div id="navbar-links" class="col-auto pr-0">
-      <div class="row">
-        <div class="col-12 pr-0">
-          <a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#" class="col-3">Products</a>
-          <a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#" class="col-3">Developers</a>
-          <a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#" class="col-3 pr-0">Company</a>
-        </div>
-      </div>
-    </div>
-    <div id="navbar-button" class="col-auto ml-auto pl-0">
       <div ng-if="vm.Principal.isAuthenticated()">
         <a id='navbar-links-home' ng-if="vm.currentPrincipal.isAdmin" ui-sref="site.admin.home"><i class="fa fa-gear"></i>Admin</a>
         <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a>
         <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
       </div>
+
       <div ng-if="!vm.Principal.isAuthenticated()">
         <button id='navbar-links-sign-in' class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
         <button id='navbar-links-sign-up' class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
       </div>
+
     </div>
 
     <div id="navbar-burger" class="col-auto ml-auto">
       <img src="/assets/images/burger.svg"/>
     </div>
+
   </div>
-</div> -->
+</div>

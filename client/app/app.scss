@@ -15,6 +15,7 @@ $fa-font-path: '/assets/fonts/font-awesome/';
 // VARIABLES //
 ////////////////////////////////
 $color-cerulean: #00A9DA;
+$color-pacific-blue: #0099c2;
 $color-bondi-blue: #16a2b3;
 $color-java: #1fc8a7;
 $color-pickled-bluewood: #334A56;
@@ -62,6 +63,13 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: $color-pacific-blue;
+  &:hover {
+    color: darken($color-pacific-blue,8%);
+  }
 }
 
 p {

@@ -5,14 +5,18 @@ navbar {
   animation-duration: 0.5s;
   color: white;
   font-family: 'Montserrat';
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.05rem;
   // overflow: hidden;
   position: absolute;
-  top: 2rem;
+  top: 0;
+  padding: 1.3rem 0;
   width: 100%;
   z-index: 1;
+  &.colored {
+    background: #123250;
+  }
 }
 
 navbar .branding {
@@ -20,6 +24,15 @@ navbar .branding {
   background: url("../assets/images/branding.svg") no-repeat;
   height: 42px;
   min-width: 155px;
+
+  &.mark {
+    height: 50px;
+    min-width: 50px;
+    background: url("../assets/images/statengine-symbol.svg") no-repeat;
+    background-size: 50px 50px;
+    position: relative;
+    top: 2px;
+  }
 }
 
 navbar div {
@@ -62,7 +75,7 @@ navbar div#navbar-burger {
 
 @media (min-width: 992px) {
   navbar div#navbar-links {
-    padding-left: 5rem;
+    padding-left: 3.5rem;
   }
 }
 
@@ -97,33 +110,29 @@ navbar.naked {
   }
 }
 
-
-
-.new-nav {
+#user-nav {
   margin-bottom: 0;
-  .with-dropdown {
-    position: relative;
-  }
+
   li {
     display: inline-block;
     margin-right: 1.5rem;
-
-    &.with-dropdown {
-      position: relative;
-      a::after {
-        color: white;
-        content:"\f107";
-        font-family: "FontAwesome";
-        position: relative;
-        margin-left: 8px;
-      }
-    }
 
     a {
       display: block;
       height: 100%;
       padding: 0.46875rem 0.625rem;
       width: 100%;
+    }
+
+    &.with-dropdown {
+      position: relative;
+      > a::after {
+        color: white;
+        content:"\f107";
+        font-family: "FontAwesome";
+        position: relative;
+        margin-left: 8px;
+      }
     }
   }
 
@@ -158,10 +167,7 @@ navbar.naked {
           -ms-flex-direction: column;
               flex-direction: column;
       margin: 0;
-      padding: 1.875rem;
       width: 100%;
-
-
     }
 
     li {
@@ -169,13 +175,22 @@ navbar.naked {
       margin: 0;
       overflow: hidden;
       padding: 0;
+      &:last-child a {
+        border-bottom: 0;
+      }
     }
 
     a {
+      color: $color-pacific-blue;
       display: block;
       height: 100%;
-      padding: 0.46875rem 0.9375rem;
+      padding: 1rem 1.6rem;
       width: 100%;
+      border-bottom: 1px solid #e4e9eb;
+      line-height: 2.2rem;
+      &:hover {
+        background: #eff2f4;
+      }
     }
 
     &::before {
