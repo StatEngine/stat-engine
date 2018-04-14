@@ -98,8 +98,6 @@ export function dataQuality(req, res) {
     unTypedApparatus
   };
 
-  console.dir(qaChecks);
-
   return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
     const [name, qaConfig] = qa;
     return runQA(_.merge(qaConfig, { index: fireIndex }))

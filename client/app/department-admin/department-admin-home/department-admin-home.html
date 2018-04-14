@@ -1,0 +1,98 @@
+<div class="department-admin-home">
+  <navbar class="animated fadeInDown naked"></navbar>
+  <header class="naked"></header>
+  <section class="container site-content">
+    <section id="department-users" class="fluid-container py-5">
+      <div class="container">
+        <h3 class="mb-2" >Department Users</h3>
+        <div class="row">
+          <div class="col-12 py-4">
+            <div class="table mb-5">
+              <div class="table-row header">
+                <div class="cell">
+                  Name
+                </div>
+                <div class="cell">
+                  Email
+                </div>
+                <div class="cell">
+                  Admin Access
+                </div>
+                <div class="cell">
+                  Status
+                </div>
+                <div class="cell">
+                  Action
+                </div>
+              </div>
+
+              <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
+                <div class="cell" data-title="Name">
+                  {{user.first_name}} {{user.last_name}}
+                </div>
+                <div class="cell" data-title="Email">
+                  {{user.email}}
+                </div>
+                <div class="cell" data-title="Admin">
+                  <span ng-if="user.isDepartmentAdmin"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="Status">
+                  <span class="text-success" ng-if="user.FireDepartment">Approved</span>
+                  <span class="text-warning" ng-if="!user.FireDepartment">Pending</span>
+                </div>
+                <div class="cell" data-title="Action">
+                  <button class="btn-link" ng-click="vm.approveAccess(user)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i></button>
+                  <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
+      <div class="container">
+        <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION' || vm.dataQuality.grade == 'UNKNOWN' }" class="badge">{{vm.dataQuality.grade}}</span></h3>
+        <div class="row">
+          <div class="col-md-8">
+            <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>
+          </div>
+          <div class="col-12 py-4">
+            <div class="table mb-5">
+              <div class="table-row header">
+                <div class="cell">
+                  Rule Check
+                </div>
+                <div class="cell">
+                  Violations
+                </div>
+                <div class="cell">
+                  Percentage
+                </div>
+                <div class="cell">
+                  Required Action
+                </div>
+              </div>
+
+              <div class="table-row" ng-repeat="result in vm.dataQuality.results">
+                <div class="cell" data-title="Rule Check">
+                  {{result.rule}}
+                </div>
+                <div class="cell" data-title="Violations">
+                  {{result.violations|number:0}}
+                </div>
+                <div class="cell" data-title="Percentage">
+                  {{result.percentViolation|number}}%
+                </div>
+                <div class="cell" data-title="Required Action">
+                  {{result.requiredAction}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <footer id="footer"></footer>
+</div>

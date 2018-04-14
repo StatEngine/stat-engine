@@ -30,6 +30,18 @@ export default function UserResource($resource) {
         controller: 'requestAccess'
       }
     },
+    approveAccess: {
+      method: 'PUT',
+      params: {
+        controller: 'approveAccess'
+      }
+    },
+    revokeAccess: {
+      method: 'PUT',
+      params: {
+        controller: 'revokeAccess'
+      }
+    },
     create: {
       method: 'POST',
     },

@@ -62,7 +62,7 @@
       </div>
       <div class="col-sm-5 col-sm-offset-2 summary-department">
         <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span>
-        <h4 class="heavyheader">My Department Summary</h4>
+        <h4 class="heavyheader">My Department Summary &nbsp<a ng-if="vm.principal.isDepartmentAdmin" ui-sref="site.departmentAdmin.home"><span class="fa fa-pencil"></span></a></h4>
         <dl class="row" ng-if="vm.fireDepartment">
           <div class="col">
             <dt>FDID</dt>
@@ -188,48 +188,5 @@
   </section>
 
   -->
-
-  <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
-    <div class="container">
-      <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION' || vm.dataQuality.grade == 'UNKNOWN' }" class="badge">{{vm.dataQuality.grade}}</span></h3>
-      <div class="row">
-        <div class="col-md-8">
-          <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>
-        </div>
-        <div class="col-12 py-4">
-          <div class="table mb-5">
-            <div class="table-row header">
-              <div class="cell">
-                Rule Check
-              </div>
-              <div class="cell">
-                Violations
-              </div>
-              <div class="cell">
-                Percentage
-              </div>
-              <div class="cell">
-                Required Action
-              </div>
-            </div>
-
-            <div class="table-row" ng-repeat="result in vm.dataQuality.results">
-              <div class="cell" data-title="Rule Check">
-                {{result.rule}}
-              </div>
-              <div class="cell" data-title="Violations">
-                {{result.violations|number:0}}
-              </div>
-              <div class="cell" data-title="Percentage">
-                {{result.percentViolation|number}}%
-               </div>
-               <div class="cell" data-title="Required Action">
-                {{result.requiredAction}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
   <footer id="footer"></footer>
 </div>

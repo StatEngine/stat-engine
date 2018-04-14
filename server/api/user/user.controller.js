@@ -4,10 +4,10 @@ import uuidv4 from 'uuid/v4';
 import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
 import Mailchimp from 'mailchimp-api-v3';
+import _ from 'lodash';
 
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
-
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -29,6 +29,13 @@ function handleError(res, statusCode) {
  */
 export function index(req, res) {
   return User.findAll({
+    where: {
+      $or: [
+        {fire_department__id: req.user.fire_department__id},
+        {requested_firecares_id: req.user.FireDepartment.firecares_id},
+      ]
+    },
+    include: [ FireDepartment ],
     attributes: [
       '_id',
       'username',
@@ -36,7 +43,6 @@ export function index(req, res) {
       'last_name',
       'email',
       'role',
-      'provider',
     ]
   })
     .then(users => {
@@ -121,22 +127,14 @@ export function create(req, res) {
  * Edits a user
  */
 export function edit(req, res) {
-  var userId = req.params.id;
+  const user = req.loadedUser;
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      user.last_name = req.body.last_name;
-      user.first_name = req.body.first_name;
+  user.last_name = req.body.last_name;
+  user.first_name = req.body.first_name;
 
-      user.save()
-        .then(usersaved => {
-          res.status(204).send({usersaved});
-        })
-        .catch(validationError(res));
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
     })
     .catch(validationError(res));
 }
@@ -145,49 +143,50 @@ export function edit(req, res) {
  * Request access
  */
 export function requestAccess(req, res) {
-  const userId = req.params.id;
+  const user = req.loadedUser;
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      if (user) {
-        user.requested_firecares_id = req.body.firecaresId;
+  user.requested_firecares_id = req.body.firecaresId;
 
-        user.save()
-          .then(usersaved => {
-            res.status(204).send({usersaved});
-          })
-          .catch(validationError(res));
-      }
-      else {
-        res.status(404).send();
-      }
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
     })
-    .catch(validationError(res));
+    .catch(handleError(res));
 }
 
+/**
+ * Request access
+ */
+export function revokeAccess(req, res) {
+  const user = req.loadedUser;
+
+  user.fire_department__id = null;
+  user.requested_firecares_id = null;
+  let roles = user.role.split(',');
+  _.pull(roles, 'kibana_admin');
+  user.role = roles.join(',');
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
+    })
+    .catch(handleError(res));
+}
 
 /**
- * Get a single user
+ * Request access
  */
-export function show(req, res, next) {
-  var userId = req.params.id;
+export function approveAccess(req, res) {
+  const user = req.loadedUser;
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      if(!user) {
-        return res.status(404).end();
-      }
-      res.json(user.profile);
+  user.fire_department__id = req.user.FireDepartment._id;
+  user.role = user.role + ',kibana_admin';
+  delete user.requested_firecares_id;
+
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
     })
-    .catch(err => next(err));
+    .catch(handleError(res));
 }
 
 /**
@@ -206,29 +205,21 @@ export function destroy(req, res) {
  * Change a users password
  */
 export function changePassword(req, res) {
-  var userId = req.params.id;
+  const user = req.loadedUser;
 
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      if(user.authenticate(oldPass)) {
-        user.password = newPass;
-        return user.save()
-          .then(() => {
-            res.status(204).end();
-          })
-          .catch(validationError(res));
-      } else {
-        return res.status(403).send({ password: 'Wrong password'});
-      }
-    })
-    .catch(validationError(res));
+  if(user.authenticate(oldPass)) {
+    user.password = newPass;
+    return user.save()
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(validationError(res));
+  } else {
+    return res.status(403).send({ password: 'Wrong password'});
+  }
 }
 
 /**
@@ -376,7 +367,12 @@ export function me(req, res, next) {
 }
 
 export function hasEditPermisssion(req, res, next) {
-  if(req.user.username === req.body.username) return next();
+  if(req.user.username === req.loadedUser.username) return next();
+
+  if(req.user.isAdmin) return next();
+  if(req.user.isDepartmentAdmin && req.loadedUser.requested_firecares_id === req.user.FireDepartment.firecares_id) return next();
+  if(req.user.isDepartmentAdmin && req.loadedUser.FireDepartment.firecares_id === req.user.FireDepartment.firecares_id) return next();
+
   else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }
 
@@ -385,4 +381,19 @@ export function hasEditPermisssion(req, res, next) {
  */
 export function authCallback(req, res) {
   res.redirect('/');
+}
+
+export function loadUser(req, res, next, id) {
+  User.find({
+    where: {
+      _id: id
+    },
+    include: [ FireDepartment ]
+  }).then((user) => {
+    if (user) {
+      req.loadedUser = user;
+      return next();
+    }
+    return res.status(404).send({ error: 'User not found'});
+  }).catch(err => next(err));
 }

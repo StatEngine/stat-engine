@@ -11,7 +11,6 @@ import authInterceptor from './interceptor.service';
 import routerDecorator from './router.decorator';
 import PrincipalService from './principal.service';
 import AuthorizationService from './authorization.service';
-import UserResource from './user.service';
 
 function addInterceptor($httpProvider) {
   'ngInject';
@@ -24,6 +23,5 @@ export default angular.module('statEngineApp.auth', [constants, util, ngCookies,
   .factory('Authorization', AuthorizationService)
   .factory('Principal', PrincipalService)
   .run(routerDecorator)
-  .factory('User', UserResource)
   .config(['$httpProvider', addInterceptor])
   .name;

@@ -23,7 +23,7 @@ export default function(sequelize, DataTypes) {
       },
       validate: {
         isAlphanumeric: true,
-        len: [2, 12],
+        len: [2, 20],
       }
     },
     first_name: {
@@ -94,11 +94,12 @@ export default function(sequelize, DataTypes) {
       roles() {
         return this.role.split(',');
       },
-      profile() {
-        return {
-          name: this.first_name + this.last_name,
-          role: this.role
-        };
+      isAdmin() {
+        return this.role.split(',').indexOf('admin') >= 0;
+      },
+      isDepartmentAdmin() {
+        return this.role.split(',').indexOf('department_admin') >= 0 ||
+               this.role.split(',').indexOf('admin') >= 0;
       },
     },
 

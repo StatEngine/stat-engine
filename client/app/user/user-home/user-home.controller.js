@@ -4,14 +4,13 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, currentPrincipal, requestedFireDepartment, dataQuality, tweets) {
+  constructor($window, $filter, currentPrincipal, requestedFireDepartment, tweets) {
     this.$filter = $filter;
     this.$window = $window;
 
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
 
-    this.dataQuality = dataQuality;
     this.tweetCount = tweets.length;
     this.requestedFireDepartment = requestedFireDepartment;
 
@@ -37,8 +36,6 @@ export default class UserHomeController {
         status: _.get(this.fireDepartment, 'integration_verified', false),
       },
     ];
-
-    console.dir(this.gettingStarted)
 
     this.setupComplete = this.gettingStarted.every(t => t.status === true);
   }

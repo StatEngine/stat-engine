@@ -31,6 +31,7 @@ import main from './main';
 import spade from './spade';
 import statEngine from './statEngine';
 import user from './user';
+import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import marketplace from './marketplace';
 
@@ -46,7 +47,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, twitter, modal, footer, main, constants, /*socket,*/ util, angulartics, gtm
+  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .run(function($transitions) {

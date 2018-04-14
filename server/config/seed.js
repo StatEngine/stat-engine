@@ -103,6 +103,18 @@ Extension
       api_key: 'richmond',
       aws_access_key_id: 'awsKey',
       aws_secret_access_key: 'awsSecret',
+    }, {
+      provider: 'local',
+      role: 'user,department_admin',
+      username: 'richmondAdmin',
+      first_name: 'RichmondAdmin',
+      last_name: 'User',
+      email: 'richmondadmin@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'richmond',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
     }],
     Tweets: [{
       tweet_json: {
@@ -659,6 +671,20 @@ Extension
     api_key: 'user',
     aws_access_key_id: 'awsKey',
     aws_secret_access_key: 'awsSecret',
+  }))
+  .then(() => User.create({
+    provider: 'local',
+    role: 'user',
+    first_name: 'Requested',
+    last_name: 'User',
+    username: 'requested',
+    email: 'requested@prominentedge.com',
+    password: 'password',
+    nfors: true,
+    api_key: 'user',
+    aws_access_key_id: 'awsKey',
+    aws_secret_access_key: 'awsSecret',
+    requested_firecares_id: '93345',
   }))
   .then(() => FireDepartment.create({
     fd_id: '0000',

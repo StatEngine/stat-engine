@@ -83,13 +83,6 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
-        dataQuality(FireDepartment, currentPrincipal) {
-          if(currentPrincipal.FireDepartment && currentPrincipal.FireDepartment.firecares_id) {
-            return FireDepartment.dataQuality({ id: currentPrincipal.FireDepartment.firecares_id, type: 'fire-incident'});
-          } else {
-            return undefined;
-          }
-        },
         twitterExtensionConfiguration(currentPrincipal, ExtensionConfiguration) {
           if(currentPrincipal.FireDepartment) {
             return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;

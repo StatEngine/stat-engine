@@ -12,7 +12,7 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.username.$valid && vm.submitted,'has-error': form.username.$invalid && vm.submitted }">
           <label>Username</label>
-          <input type="text" name="username" class="form-control" ng-model="vm.user.username" required="required" ng-pattern="/^[a-zA-Z0-9]{2,12}$/" mongoose-error="mongoose-error"/>
+          <input type="text" name="username" class="form-control" ng-model="vm.user.username" required="required" ng-pattern="/^[a-zA-Z0-9]{2,20}$/" mongoose-error="mongoose-error"/>
           <p class="help-block" ng-show="form.username.$error.pattern && vm.submitted">
             Usernames must be 2 to 12 alphanumeric characters.
           </p>
