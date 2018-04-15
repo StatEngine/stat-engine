@@ -40,6 +40,7 @@ export default function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       unique: {
         msg: 'The specified email address is already in use.'
       },
@@ -57,6 +58,7 @@ export default function(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true
       }
@@ -79,8 +81,8 @@ export default function(sequelize, DataTypes) {
     aws_secret_access_key: {
       type: DataTypes.STRING,
     },
-    requested_firecares_id: {
-      type: DataTypes.STRING,
+    requested_fire_department_id: {
+      type: DataTypes.INTEGER,
     },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
@@ -94,11 +96,19 @@ export default function(sequelize, DataTypes) {
       roles() {
         return this.role.split(',');
       },
+      isIngest() {
+        return this.role.split(',').indexOf('ingest') >= 0;
+      },
       isAdmin() {
         return this.role.split(',').indexOf('admin') >= 0;
       },
       isDepartmentAdmin() {
         return this.role.split(',').indexOf('department_admin') >= 0 ||
+               this.role.split(',').indexOf('admin') >= 0;
+      },
+      isKibanaAdmin() {
+        return this.role.split(',').indexOf('kibana_admin') >= 0 ||
+               this.role.split(',').indexOf('department_admin') >= 0 ||
                this.role.split(',').indexOf('admin') >= 0;
       },
     },

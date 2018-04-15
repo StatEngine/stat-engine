@@ -57,41 +57,30 @@ export function create(req, res) {
     .catch(validationError(res));
 }
 
-/**
- * Get a single fire department
- */
-export function show(req, res, next) {
-  return FireDepartment.find({
-    where: {
-      firecares_id: req.params.firecaresId
-    }
-  })
+export function edit(req, res) {
+  let fireDepartment = req.fireDepartment;
+
+  fireDepartment = _.merge(fireDepartment, req.body);
+
+  fireDepartment.save()
     .then(fireDepartment => {
-      if(!fireDepartment) {
-        return res.status(404).end();
-      }
-      res.json(fireDepartment);
+      res.status(204).send({fireDepartment});
     })
-    .catch(err => next(err));
+    .catch(validationError(res));
 }
 
 /**
- * Deletes a FireDepartment
- * restriction: 'admin'
+ * Get a single fire department
  */
-export function destroy(req, res) {
-  return FireDepartment.destroy({ where: { _id: req.params.firecaresId } })
-    .then(function() {
-      res.status(204).end();
-    })
-    .catch(handleError(res));
+export function get(req, res, next) {
+  return res.json(req.fireDepartment)
 }
 
 /**
  * Gets data quality stats
  */
 export function dataQuality(req, res) {
-  const fireIndex = req.fire_department.es_indices[req.params.type];
+  const fireIndex = req.fireDepartment.es_indices[req.params.type];
 
   const qaChecks = {
     noApparatus,
@@ -149,4 +138,25 @@ export function queueIngest(req, res) {
     }
     return res.send(204);
   });
+}
+
+export function hasAdminPermission(req, res, next) {
+  if(req.user.isAdmin) return next();
+  if(req.user.isDepartmentAdmin && req.fireDepartment._id.toString() === req.params.id) return next();
+
+  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+}
+
+export function loadFireDepartment(req, res, next, id) {
+  FireDepartment.find({
+    where: {
+      _id: id
+    },
+  }).then((fd) => {
+    if (fd) {
+      req.fireDepartment = fd;
+      return next();
+    }
+    return res.status(404).send({ error: 'Fire Department not found'});
+  }).catch(err => next(err));
 }

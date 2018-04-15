@@ -10,16 +10,22 @@
             <div class="table mb-5">
               <div class="table-row header">
                 <div class="cell">
+                  Username
+                </div>
+                <div class="cell">
                   Name
                 </div>
                 <div class="cell">
                   Email
                 </div>
                 <div class="cell">
-                  Admin Access
+                  Admin
                 </div>
                 <div class="cell">
-                  Status
+                  Ingest
+                </div>
+                <div class="cell">
+                  Dashboard
                 </div>
                 <div class="cell">
                   Action
@@ -27,14 +33,23 @@
               </div>
 
               <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
+                <div class="cell" data-title="Username">
+                  {{ user.username }}
+                </div>
                 <div class="cell" data-title="Name">
-                  {{user.first_name}} {{user.last_name}}
+                  {{ user.first_name }} {{ user.last_name }}
                 </div>
                 <div class="cell" data-title="Email">
-                  {{user.email}}
+                  {{ user.email }}
                 </div>
                 <div class="cell" data-title="Admin">
                   <span ng-if="user.isDepartmentAdmin"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="Ingest">
+                  <span ng-if="user.isIngest"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="Kibana Admin">
+                  <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
                 </div>
                 <div class="cell" data-title="Status">
                   <span class="text-success" ng-if="user.FireDepartment">Approved</span>
@@ -42,7 +57,7 @@
                 </div>
                 <div class="cell" data-title="Action">
                   <button class="btn-link" ng-click="vm.approveAccess(user)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i></button>
-                  <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i></button>
+                  <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin || user.isIngest }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i></button>
                 </div>
               </div>
             </div>
@@ -76,16 +91,16 @@
 
               <div class="table-row" ng-repeat="result in vm.dataQuality.results">
                 <div class="cell" data-title="Rule Check">
-                  {{result.rule}}
+                  {{ result.rule }}
                 </div>
                 <div class="cell" data-title="Violations">
-                  {{result.violations|number:0}}
+                  {{ result.violations|number:0 }}
                 </div>
                 <div class="cell" data-title="Percentage">
-                  {{result.percentViolation|number}}%
+                  {{ result.percentViolation|number }}%
                 </div>
                 <div class="cell" data-title="Required Action">
-                  {{result.requiredAction}}
+                  {{ result.requiredAction }}
                 </div>
               </div>
             </div>

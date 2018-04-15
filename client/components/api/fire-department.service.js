@@ -11,9 +11,15 @@ export default function FireDepartmentResource($resource) {
       isArray: false,
       params: {
         id: '@id',
-        resource: '@type',
+        resource: '@resource',
         resource2: 'data-quality'
       }
-    }
+    },
+    create: {
+      method: 'POST',
+    },
+    update: {
+      method:'PUT'
+    },
   });
 }

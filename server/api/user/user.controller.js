@@ -28,13 +28,19 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-  return User.findAll({
-    where: {
+  let where;
+  if (req.user.isAdmin) where = undefined;
+  else {
+    where = {
       $or: [
         {fire_department__id: req.user.fire_department__id},
-        {requested_firecares_id: req.user.FireDepartment.firecares_id},
+        {requested_fire_department_id: req.user.FireDepartment._id }
       ]
-    },
+    };
+  }
+
+  return User.findAll({
+    where: where,
     include: [ FireDepartment ],
     attributes: [
       '_id',
@@ -43,12 +49,17 @@ export function index(req, res) {
       'last_name',
       'email',
       'role',
+      'requested_fire_department_id',
     ]
   })
     .then(users => {
       res.status(200).json(users);
     })
     .catch(handleError(res));
+}
+
+export function get(req, res, next) {
+  return res.json(req.loadedUser)
 }
 
 function sendWelcomeEmail(user) {
@@ -132,6 +143,16 @@ export function edit(req, res) {
   user.last_name = req.body.last_name;
   user.first_name = req.body.first_name;
 
+  if (req.user.isAdmin) {
+    user.role = req.body.role;
+
+    user.fire_department__id = req.body.fire_department__id;
+    user.requested_fire_department_id = req.body.requested_fire_department_id;
+    console.dir(user);
+    console.dir(req.body);
+
+  }
+
   user.save()
     .then(usersaved => {
       res.status(204).send({usersaved});
@@ -145,7 +166,7 @@ export function edit(req, res) {
 export function requestAccess(req, res) {
   const user = req.loadedUser;
 
-  user.requested_firecares_id = req.body.firecaresId;
+  user.requested_fire_department_id = req.body.requested_fire_department_id;
 
   user.save()
     .then(usersaved => {
@@ -161,7 +182,7 @@ export function revokeAccess(req, res) {
   const user = req.loadedUser;
 
   user.fire_department__id = null;
-  user.requested_firecares_id = null;
+  user.requested_fire_department_id = null;
   let roles = user.role.split(',');
   _.pull(roles, 'kibana_admin');
   user.role = roles.join(',');
@@ -178,25 +199,13 @@ export function revokeAccess(req, res) {
 export function approveAccess(req, res) {
   const user = req.loadedUser;
 
-  user.fire_department__id = req.user.FireDepartment._id;
+  user.fire_department__id = user.requested_fire_department_id;
   user.role = user.role + ',kibana_admin';
-  delete user.requested_firecares_id;
+  user.requested_fire_department_id = null;
 
   user.save()
     .then(usersaved => {
       res.status(204).send({usersaved});
-    })
-    .catch(handleError(res));
-}
-
-/**
- * Deletes a user
- * restriction: 'admin'
- */
-export function destroy(req, res) {
-  return User.destroy({ where: { _id: req.params.id } })
-    .then(function() {
-      res.status(204).end();
     })
     .catch(handleError(res));
 }
@@ -370,8 +379,8 @@ export function hasEditPermisssion(req, res, next) {
   if(req.user.username === req.loadedUser.username) return next();
 
   if(req.user.isAdmin) return next();
-  if(req.user.isDepartmentAdmin && req.loadedUser.requested_firecares_id === req.user.FireDepartment.firecares_id) return next();
-  if(req.user.isDepartmentAdmin && req.loadedUser.FireDepartment.firecares_id === req.user.FireDepartment.firecares_id) return next();
+  if(req.user.isDepartmentAdmin && req.loadedUser.requested_fire_department_id === req.user.FireDepartment._id) return next();
+  if(req.user.isDepartmentAdmin && req.loadedUser.FireDepartment._id === req.user.FireDepartment._id) return next();
 
   else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }

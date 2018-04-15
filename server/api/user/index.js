@@ -10,14 +10,15 @@ var router = new Router();
 
 // department admin routes
 router.get('/', auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.index);
+router.get('/:id', auth.isApiAuthenticated, auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.get);
+router.put('/:id/revokeAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, controller.revokeAccess);
+router.put('/:id/approveAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, controller.approveAccess);
 
 // authenticated routes
 router.get('/me', auth.isApiAuthenticated, controller.me);
-router.put('/:id', bodyParser.json(), auth.isApiAuthenticated, controller.hasEditPermisssion, controller.edit);
-router.put('/:id/password', bodyParser.json(), auth.isApiAuthenticated, controller.hasEditPermisssion, controller.changePassword);
-router.put('/:id/requestAccess', bodyParser.json(), auth.isApiAuthenticated, controller.hasEditPermisssion, controller.requestAccess);
-router.put('/:id/revokeAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, controller.revokeAccess);
-router.put('/:id/approveAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, controller.approveAccess);
+router.put('/:id', auth.isApiAuthenticated, bodyParser.json(),  controller.hasEditPermisssion, controller.edit);
+router.put('/:id/password', auth.isApiAuthenticated, bodyParser.json(),  controller.hasEditPermisssion, controller.changePassword);
+router.put('/:id/requestAccess', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.requestAccess);
 router.param('id', controller.loadUser);
 
 // unprotected routes

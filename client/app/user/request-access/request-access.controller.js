@@ -14,7 +14,7 @@ export default class RequestAccessController {
   }
 
   requestAccess($state, form) {
-    this.UserService.requestAccess({ id: this.principal._id }, { firecaresId: this.selectedFireDepartment, username: this.principal.username }).$promise
+    this.UserService.requestAccess({ id: this.principal._id }, { requested_fire_department_id: this.selectedFireDepartment, username: this.principal.username }).$promise
       .then(() => {
         this.$state.go('site.user.home');
       })

@@ -752,7 +752,6 @@ li.nested:before {
 // == Styles are injected through gulp ==//
 // inject:scss //
 @import 'guides/guides';
-@import 'admin/admin';
 @import 'main/main';
 @import 'spade/spade';
 @import 'marketplace/marketplace';
@@ -765,4 +764,5 @@ li.nested:before {
 @import '../app/user/user-home/user-home';
 @import '../app/user/getting-started/getting-started';
 @import '../app/twitter/twitter-home/twitter-home';
+@import '../app/admin/admin-home/admin-home';
 @import '../components/oauth-buttons/oauth-buttons'; // endinject //

@@ -20,10 +20,10 @@ export default function routes($stateProvider) {
           return Principal.identity(true);
         },
         dataQuality(FireDepartment, currentPrincipal) {
-          return FireDepartment.dataQuality({ id: currentPrincipal.FireDepartment.firecares_id, type: 'fire-incident'});
+          return FireDepartment.dataQuality({ id: currentPrincipal.FireDepartment._id, resource: 'fire-incident' }).$promise;
         },
         departmentUsers(User, currentPrincipal) {
-          return User.query();
+          return User.query().$promise;
         },
       },
       controllerAs: 'vm'

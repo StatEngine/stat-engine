@@ -9,10 +9,9 @@ import routing from './account.routes';
 import login from './login';
 import signup from './signup';
 import edituser from './edituser';
-import editdept from './editdept';
 import resetpassword from './resetpassword';
 import updatepassword from './updatepassword';
 
-export default angular.module('statEngineApp.account', [uiRouter, login, signup, edituser, editdept, resetpassword, updatepassword, mongooseError])
+export default angular.module('statEngineApp.account', [uiRouter, login, signup, edituser, resetpassword, updatepassword, mongooseError])
   .config(routing)
   .name;

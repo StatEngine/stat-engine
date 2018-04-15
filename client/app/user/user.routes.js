@@ -34,8 +34,8 @@ export default function routes($stateProvider) {
           return Principal.identity(true);
         },
         requestedFireDepartment(currentPrincipal, FireDepartment) {
-          if(currentPrincipal.requested_firecares_id) {
-            return FireDepartment.get({ id: currentPrincipal.requested_firecares_id});
+          if(currentPrincipal.requested_fire_department_id) {
+            return FireDepartment.get({ id: currentPrincipal.requested_fire_department_id}).$promise;
           } else {
             return undefined;
           }
@@ -77,8 +77,8 @@ export default function routes($stateProvider) {
           return Principal.identity(true);
         },
         requestedFireDepartment(currentPrincipal, FireDepartment) {
-          if(currentPrincipal.requested_firecares_id) {
-            return FireDepartment.get({ id: currentPrincipal.requested_firecares_id});
+          if(currentPrincipal.requested_fire_department_id) {
+            return FireDepartment.get({ id: currentPrincipal.requested_fire_department_id}).$promise;
           } else {
             return undefined;
           }

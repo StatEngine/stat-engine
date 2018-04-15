@@ -23,21 +23,37 @@ router.get(
 );
 
 router.get(
-  '/:firecaresId',
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.show
+  controller.get
+);
+
+router.post(
+  '/',
+  auth.isApiAuthenticated,
+  bodyParser.json(),
+  auth.hasRole('admin'),
+  controller.create
+);
+
+router.put(
+  '/:id',
+  auth.isApiAuthenticated,
+  bodyParser.json(),
+  auth.hasRole('admin'),
+  controller.edit
 );
 
 router.get(
-  '/:firecaresId/:type/data-quality',
+  '/:id/:type/data-quality',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
+  controller.hasAdminPermission,
   controller.dataQuality
 );
 
+// TODO - need to think about standardizing this to use id instead of Firecares ID!
 router.put(
   '/:firecaresId/:type/:id',
   auth.isApiAuthenticated,
@@ -47,5 +63,7 @@ router.put(
   rawParser,
   controller.queueIngest
 );
+
+router.param('id', controller.loadFireDepartment);
 
 module.exports = router;

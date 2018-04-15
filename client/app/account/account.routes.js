@@ -46,19 +46,4 @@ export default function routes($stateProvider) {
       },
       controllerAs: 'vm'
     })
-    .state('site.account.editdept', {
-      url: '/editdeptartment',
-      template: require('./editdept/editdepartment.html'),
-      controller: 'EditDeptController',
-      data: {
-        roles: ['admin']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity();
-        }
-      },
-      controllerAs: 'admin',
-      authenticate: 'admin'
-    });
 }

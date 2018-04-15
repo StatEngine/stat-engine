@@ -561,7 +561,7 @@ Extension
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user',
       username: 'dc',
       first_name: 'DC',
       last_name: 'User',
@@ -599,7 +599,7 @@ Extension
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user',
       username: 'boston',
       first_name: 'boston',
       last_name: 'User',
@@ -618,7 +618,7 @@ Extension
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user',
       username: 'ffxcity',
       first_name: 'ffxcity',
       last_name: 'User',
@@ -637,7 +637,7 @@ Extension
     timezone: 'US/Central',
     Users: [{
       provider: 'local',
-      role: 'user,ingest,kibana_admin',
+      role: 'user,kibana_admin',
       username: 'rogers',
       first_name: 'dev',
       last_name: 'user',
@@ -684,7 +684,7 @@ Extension
     api_key: 'user',
     aws_access_key_id: 'awsKey',
     aws_secret_access_key: 'awsSecret',
-    requested_firecares_id: '93345',
+    requested_fire_department_id: richmond._id,
   }))
   .then(() => FireDepartment.create({
     fd_id: '0000',
