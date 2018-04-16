@@ -34,7 +34,7 @@ export default function routes($stateProvider) {
       },
       resolve: {
         currentFireDepartment(FireDepartment, $stateParams) {
-          if ($stateParams.id === 'new') return;
+          if($stateParams.id === 'new') return;
           return FireDepartment.get({ id: $stateParams.id }).$promise;
         },
       },
@@ -49,7 +49,7 @@ export default function routes($stateProvider) {
       },
       resolve: {
         currentUser(User, $stateParams) {
-          if ($stateParams.id === 'new') return;
+          if($stateParams.id === 'new') return;
           return User.get({ id: $stateParams.id }).$promise;
         },
         fireDepartments(FireDepartment) {

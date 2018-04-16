@@ -16,8 +16,8 @@ router.put('/:id/approveAccess', bodyParser.json(), auth.isApiAuthenticated, aut
 
 // authenticated routes
 router.get('/me', auth.isApiAuthenticated, controller.me);
-router.put('/:id', auth.isApiAuthenticated, bodyParser.json(),  controller.hasEditPermisssion, controller.edit);
-router.put('/:id/password', auth.isApiAuthenticated, bodyParser.json(),  controller.hasEditPermisssion, controller.changePassword);
+router.put('/:id', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.edit);
+router.put('/:id/password', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.changePassword);
 router.put('/:id/requestAccess', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.requestAccess);
 router.param('id', controller.loadUser);
 

@@ -29,7 +29,7 @@ function handleError(res, statusCode) {
  */
 export function index(req, res) {
   let where;
-  if (req.user.isAdmin) where = undefined;
+  if(req.user.isAdmin) where = undefined;
   else {
     where = {
       $or: [
@@ -40,8 +40,8 @@ export function index(req, res) {
   }
 
   return User.findAll({
-    where: where,
-    include: [ FireDepartment ],
+    where,
+    include: [FireDepartment],
     attributes: [
       '_id',
       'username',
@@ -58,8 +58,8 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
-export function get(req, res, next) {
-  return res.json(req.loadedUser)
+export function get(req, res) {
+  return res.json(req.loadedUser);
 }
 
 function sendWelcomeEmail(user) {
@@ -143,14 +143,11 @@ export function edit(req, res) {
   user.last_name = req.body.last_name;
   user.first_name = req.body.first_name;
 
-  if (req.user.isAdmin) {
+  if(req.user.isAdmin) {
     user.role = req.body.role;
 
     user.fire_department__id = req.body.fire_department__id;
     user.requested_fire_department_id = req.body.requested_fire_department_id;
-    console.dir(user);
-    console.dir(req.body);
-
   }
 
   user.save()
@@ -200,7 +197,7 @@ export function approveAccess(req, res) {
   const user = req.loadedUser;
 
   user.fire_department__id = user.requested_fire_department_id;
-  user.role = user.role + ',kibana_admin';
+  user.role = `${user.role},kibana_admin`;
   user.requested_fire_department_id = null;
 
   user.save()
@@ -397,12 +394,14 @@ export function loadUser(req, res, next, id) {
     where: {
       _id: id
     },
-    include: [ FireDepartment ]
-  }).then((user) => {
-    if (user) {
-      req.loadedUser = user;
-      return next();
-    }
-    return res.status(404).send({ error: 'User not found'});
-  }).catch(err => next(err));
+    include: [FireDepartment]
+  })
+    .then(user => {
+      if(user) {
+        req.loadedUser = user;
+        return next();
+      }
+      return res.status(404).send({ error: 'User not found'});
+    })
+    .catch(err => next(err));
 }

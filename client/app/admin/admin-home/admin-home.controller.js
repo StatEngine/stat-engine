@@ -23,7 +23,7 @@ export default class AdminHomeController {
 
   refreshUsers() {
     this.UserService.query().$promise
-      .then((users) => {
+      .then(users => {
         this.users = users;
         this.buildData();
       });

@@ -63,8 +63,8 @@ export function edit(req, res) {
   fireDepartment = _.merge(fireDepartment, req.body);
 
   fireDepartment.save()
-    .then(fireDepartment => {
-      res.status(204).send({fireDepartment});
+    .then(savedFireDepartment => {
+      res.status(204).send({savedFireDepartment});
     })
     .catch(validationError(res));
 }
@@ -72,8 +72,8 @@ export function edit(req, res) {
 /**
  * Get a single fire department
  */
-export function get(req, res, next) {
-  return res.json(req.fireDepartment)
+export function get(req, res) {
+  return res.json(req.fireDepartment);
 }
 
 /**
@@ -92,7 +92,8 @@ export function dataQuality(req, res) {
     return runQA(_.merge(qaConfig, { index: fireIndex }))
       .then(out => _.set(results, name, out));
   }, {})
-    .then(r => res.json(gradeQAResults(r)));
+    .then(r => res.json(gradeQAResults(r)))
+    .catch(handleError(res));
 }
 
 /*
@@ -133,7 +134,6 @@ export function queueIngest(req, res) {
       if(channel) channel.close();
       if(connection) connection.close();
 
-      console.error(err);
       return res.send(500);
     }
     return res.send(204);
@@ -152,11 +152,13 @@ export function loadFireDepartment(req, res, next, id) {
     where: {
       _id: id
     },
-  }).then((fd) => {
-    if (fd) {
-      req.fireDepartment = fd;
-      return next();
-    }
-    return res.status(404).send({ error: 'Fire Department not found'});
-  }).catch(err => next(err));
+  })
+    .then(fd => {
+      if(fd) {
+        req.fireDepartment = fd;
+        return next();
+      }
+      return res.status(404).send({ error: 'Fire Department not found'});
+    })
+    .catch(err => next(err));
 }

@@ -46,7 +46,7 @@ export default function UserResource($resource) {
       method: 'POST',
     },
     update: {
-      method:'PUT'
+      method: 'PUT',
     },
     get: {
       method: 'GET',

@@ -41,10 +41,9 @@ export default function routes($stateProvider) {
           }
         },
         fireDepartments(requestedFireDepartment, FireDepartment) {
-          if (!requestedFireDepartment) {
+          if(!requestedFireDepartment) {
             return FireDepartment.query().$promise;
-          }
-          else {
+          } else {
             return undefined;
           }
         }

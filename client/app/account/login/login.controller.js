@@ -24,11 +24,10 @@ export default class LoginController {
         username: this.user.username,
         password: this.user.password
       })
-        .then((res) => {
+        .then(res => {
           // Logged in, redirect to user home
-          if (!res.data.user.isAdmin) this.$state.go('site.user.home');
+          if(!res.data.user.isAdmin) this.$state.go('site.user.home');
           else this.$state.go('site.admin.home');
-
         })
         .catch(err => {
           this.errors.login = err.data.message;

@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class DepartmentAdminHomeController {
   /*@ngInject*/
   constructor(currentPrincipal, dataQuality, departmentUsers, User) {
@@ -14,7 +12,7 @@ export default class DepartmentAdminHomeController {
 
   refreshUsers() {
     this.UserService.query().$promise
-      .then((users) => {
+      .then(users => {
         this.users = users;
       });
   }

@@ -22,7 +22,7 @@ export default function routes($stateProvider) {
         dataQuality(FireDepartment, currentPrincipal) {
           return FireDepartment.dataQuality({ id: currentPrincipal.FireDepartment._id, resource: 'fire-incident' }).$promise;
         },
-        departmentUsers(User, currentPrincipal) {
+        departmentUsers(User) {
           return User.query().$promise;
         },
       },

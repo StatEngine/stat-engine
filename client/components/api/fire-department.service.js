@@ -19,7 +19,7 @@ export default function FireDepartmentResource($resource) {
       method: 'POST',
     },
     update: {
-      method:'PUT'
+      method: 'PUT',
     },
   });
 }

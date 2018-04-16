@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export default class GettingStartedController {
   /*@ngInject*/
-  constructor(currentPrincipal, ) {
+  constructor(currentPrincipal) {
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
 
@@ -24,9 +24,6 @@ export default class GettingStartedController {
       },
     ];
 
-    console.dir(this.gettingStarted)
-
     this.setupComplete = this.gettingStarted.every(t => t.status === true);
-
   }
 }

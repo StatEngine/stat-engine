@@ -6,7 +6,7 @@ function localAuthenticate(User, FireDepartment, username, password, done) {
     where: {
       username: username.toLowerCase()
     },
-    include: [ FireDepartment ]
+    include: [FireDepartment]
   }).nodeify((err, user) => {
     if(err) {
       return done(err);

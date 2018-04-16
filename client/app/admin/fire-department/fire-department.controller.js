@@ -1,5 +1,7 @@
 'use strict';
 
+import angular from 'angular';
+
 export default class FireDepartmentController {
   fireDepartment = {};
   errors = {
@@ -20,8 +22,7 @@ export default class FireDepartmentController {
     this.submitted = true;
 
     if(form.$valid) {
-
-      if (this.fireDepartment._id) {
+      if(this.fireDepartment._id) {
         this.FireDeparmtentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
           .then(() => {
             this.$state.go('site.admin.home');

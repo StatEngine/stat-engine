@@ -97,19 +97,21 @@ export default function(sequelize, DataTypes) {
         return this.role.split(',');
       },
       isIngest() {
-        return this.role.split(',').indexOf('ingest') >= 0;
+        return this.roles.indexOf('ingest') >= 0;
       },
       isAdmin() {
-        return this.role.split(',').indexOf('admin') >= 0;
+        return this.roles.indexOf('admin') >= 0;
       },
       isDepartmentAdmin() {
-        return this.role.split(',').indexOf('department_admin') >= 0 ||
-               this.role.split(',').indexOf('admin') >= 0;
+        let roles = this.role.split(',');
+        return this.roles.indexOf('department_admin') >= 0
+               || this.roles.indexOf('admin') >= 0;
       },
       isKibanaAdmin() {
-        return this.role.split(',').indexOf('kibana_admin') >= 0 ||
-               this.role.split(',').indexOf('department_admin') >= 0 ||
-               this.role.split(',').indexOf('admin') >= 0;
+        let roles = this.role.split(',');
+        return this.roles.indexOf('kibana_admin') >= 0
+               || this.roles.indexOf('department_admin') >= 0
+               || this.roles.indexOf('admin') >= 0;
       },
     },
 
