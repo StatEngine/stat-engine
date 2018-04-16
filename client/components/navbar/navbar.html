@@ -19,7 +19,7 @@
             <ul id="user-nav">
                <li><a href="site.user.home">Control Center</a></li>
                <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
-                 <div id="dashboards-navigation" class="dashboards dropdown wide animated fadeInDownShort" ng-class="{open: is_active}">
+                 <div id="dashboards-navigation" class="dashboards dropdown animated fadeInDownShort" ng-class="{open: is_active}">
                    <ul>
                      <li><a href="#" ng-click="vm.dashboard()">Advanced Dashboard</a></li>
                      <li><a href="#">Dashboard 2</a></li>
@@ -45,12 +45,26 @@
       </div>
     </div>
 
-    <!-- Utility -->
+    <!-- Secondary Nav -->
     <div id="navbar-button" class="col-auto ml-auto pl-0">
-
       <div ng-if="vm.Principal.isAuthenticated()">
+        <ul class="secondary-nav">
+          <li><a href="" class="se-icon-dashboard"></a></li>
+          <li><a href="" class="se-icon-help"></a></li>
+          <li class="with-dropdown user"><a href="" ng-click="is_active = !is_active" ng-init="is_active=false" class="se-icon-user"></a>
+            <div class="settings dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+              <ul>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Upgrade</a></li>
+                <li><a href="#" ng-click="vm.logout()">Sign Out</a></li>
+              </ul>
+              <!-- <div class="footer"> An optional footer </div> -->
+            </div>
+          </li>
+        </ul>
         <!-- <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a> -->
-        <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
+        <!-- <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button> -->
       </div>
 
       <div ng-if="!vm.Principal.isAuthenticated()">

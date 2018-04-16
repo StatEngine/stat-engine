@@ -9,7 +9,10 @@ $icon-font-path: '/assets/fonts/bootstrap/';
 @import '~animate.css/animate.css';
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
+$fa-font-path: '/assets/fonts/statengine/';
 @import '~angular-loading-bar/build/loading-bar.css';
+@import "../assets/sass/se-font-styles";
+
 
 /////////////////////////////////
 // VARIABLES //
@@ -773,7 +776,6 @@ li.nested:before {
   animation-name: fadeInDownShort;
 }
 
-
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -793,4 +795,5 @@ li.nested:before {
 @import '../app/user/getting-started/getting-started';
 @import '../app/twitter/twitter-home/twitter-home';
 @import '../app/admin/admin-home/admin-home';
-@import '../components/oauth-buttons/oauth-buttons'; // endinject //
+@import '../components/oauth-buttons/oauth-buttons';
+// endinject //

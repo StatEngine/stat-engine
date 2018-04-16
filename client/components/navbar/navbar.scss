@@ -39,19 +39,6 @@ navbar div {
   align-items: center;
 }
 
-#navbar-links a {
-  cursor: pointer;
-  color: white;
-  transition: all 0.2s ease-in-out;
-
-  &:active,
-  &:focus,
-  &:hover, &:hover:after {
-    transition: all 0.2s ease-in-out;
-    color: #99abbb;
-    text-decoration: none;
-  }
-}
 
 navbar .btn {
   font-size: 14px;
@@ -95,30 +82,24 @@ navbar div#navbar-burger {
   }
 }
 
-// Naked Variant
-navbar.naked {
-  #navbar-links a, .btn, .btn-outline {
-    color: $color-oxford-blue;
-  }
-
-  .btn-outline {
-    @extend .btn-outline-inverse-alt;
-  }
-}
-
 // Authenticated/User Nav
-#user-nav {
+#user-nav, .secondary-nav {
   margin-bottom: 0;
 
-  li {
+  > li {
     display: inline-block;
     margin-right: 1.5rem;
-
-    a {
+    > a {
+      color: white;
       display: block;
       height: 100%;
       padding: 0.46875rem 0.625rem;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
       width: 100%;
+      &:hover {
+        color: lighten($color-bondi-blue,5%);
+      }
     }
 
     &.with-dropdown {
@@ -129,6 +110,11 @@ navbar.naked {
         font-family: "FontAwesome";
         position: relative;
         margin-left: 8px;
+        transition: all 0.2s ease-in-out;
+      }
+      > a:hover:after {
+        transition: all 0.2s ease-in-out;
+        color: lighten($color-bondi-blue,5%);
       }
     }
   }
@@ -178,15 +164,18 @@ navbar.naked {
     }
 
     a {
-      color: $color-pacific-blue;
+      color: #12334f; //$color-pacific-blue;
       display: block;
       height: 100%;
       padding: 1rem 1.6rem;
       width: 100%;
       border-bottom: 1px solid #e4e9eb;
       line-height: 2.2rem;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
       &:hover {
         background: #eff2f4;
+        color: $color-bondi-blue;
       }
     }
 
@@ -219,6 +208,55 @@ navbar.naked {
       right: 0;
       top: 0.9375rem;
       z-index: -10;
+    }
+  }
+}
+
+
+// Secondary and Utility Nav
+.secondary-nav {
+  > li {
+    margin-right: 1rem;
+    > a {
+      font-size: 2.2rem;
+    }
+  }
+  .with-dropdown {
+    .dropdown {
+      left: -13rem;
+      top: 3.25rem;
+      &::before {
+        left: initial;
+        right: 3.5625rem;
+      }
+    }
+    a::after {
+      font-size: initial;
+      position: relative;
+      top: -4px;
+    }
+  }
+}
+
+// Naked Variant
+navbar.naked {
+  #navbar-links a, .btn, .btn-outline {
+    color: $color-oxford-blue;
+    &:hover {
+      color: $color-bondi-blue;
+    }
+  }
+
+  .btn-outline {
+    @extend .btn-outline-inverse-alt;
+  }
+
+  .user-nav, .secondary-nav {
+    a {
+      color: $color-oxford-blue;
+      &:hover {
+        color: $color-bondi-blue;
+      }
     }
   }
 }

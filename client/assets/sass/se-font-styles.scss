@@ -1,0 +1,47 @@
+@import "se-font-variables";
+
+@font-face {
+  font-family: 'statengine';
+  src:  url('#{$statengine-font-path}/statengine.eot?uj2tck');
+  src:  url('#{$statengine-font-path}/statengine.eot?uj2tck#iefix') format('embedded-opentype'),
+    url('#{$statengine-font-path}/statengine.ttf?uj2tck') format('truetype'),
+    url('#{$statengine-font-path}/statengine.woff?uj2tck') format('woff'),
+    url('#{$statengine-font-path}/statengine.svg?uj2tck#statengine') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="se-icon-"], [class*=" se-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'statengine' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@function unicode($str) {
+  @return unquote("\"") + $str + unquote("\"");
+}
+
+.se-icon-dashboard {
+  &:before {
+    content: unicode($se-icon-dashboard);
+  }
+}
+.se-icon-help {
+  &:before {
+    content: unicode($se-icon-help);
+  }
+}
+.se-icon-user {
+  &:before {
+    content: unicode($se-icon-user);
+  }
+}
