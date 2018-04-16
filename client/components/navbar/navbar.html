@@ -19,18 +19,18 @@
             <ul id="user-nav">
                <li><a href="site.user.home">Control Center</a></li>
                <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
-                 <div id="dashboards-navigation" class="dashboards dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+                 <div id="dashboards-navigation" class="dashboards dropdown wide animated fadeInDownShort" ng-class="{open: is_active}">
                    <ul>
-                     <li><a href="#">Dashboard 1</a></li>
+                     <li><a href="#" ng-click="vm.dashboard()">Advanced Dashboard</a></li>
                      <li><a href="#">Dashboard 2</a></li>
-                     <li><a href="#">Dashboard 3</a></li>
+                     <li><a href="#">Another Dashboard 3</a></li>
                      <li><a href="#">Dashboard 4</a></li>
                    </ul>
                    <!-- <div class="footer"> An optional footer </div> -->
                  </div>
                </li>
                <li><a href="/data-quality">Data Quality</a></li>
-               <li><a href="/data-quality">App Marketplace</a></li>
+               <li><a href="/marketplace/home">App Marketplace</a></li>
                <li><a href="/data-quality">Installed Apps</a></li>
             </ul>
           </div>
@@ -49,8 +49,7 @@
     <div id="navbar-button" class="col-auto ml-auto pl-0">
 
       <div ng-if="vm.Principal.isAuthenticated()">
-        <a id='navbar-links-home' ng-if="vm.currentPrincipal.isAdmin" ui-sref="site.admin.home"><i class="fa fa-gear"></i>Admin</a>
-        <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a>
+        <!-- <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a> -->
         <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
       </div>
 

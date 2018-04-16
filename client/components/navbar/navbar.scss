@@ -97,10 +97,6 @@ navbar div#navbar-burger {
 
 // Naked Variant
 navbar.naked {
-  .branding {
-    background-image: url("../assets/images/branding-alt.svg");
-  }
-
   #navbar-links a, .btn, .btn-outline {
     color: $color-oxford-blue;
   }
@@ -110,6 +106,7 @@ navbar.naked {
   }
 }
 
+// Authenticated/User Nav
 #user-nav {
   margin-bottom: 0;
 
@@ -143,7 +140,7 @@ navbar.naked {
     padding: 0.9375rem 0 0;
     position: absolute;
     top: 2.5rem;
-    width: 18.75rem;
+    width: 20rem;
 
     &.open {
       display: block;
