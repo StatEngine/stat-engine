@@ -4,7 +4,7 @@
   <section class="container site-content">
     <section id="department-users" class="fluid-container py-5">
       <div class="container">
-        <h3 class="mb-2" >Fire Department</h3><button class="btn btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
+        <h3 class="mb-2" >Fire Department <span class="badge badge-success">{{vm.fireDepartments.length}} </span></h3><button class="btn btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
 
         <div class="row">
           <div class="col-12 py-4">
@@ -70,10 +70,10 @@
     <hr>
     <section id="department-users" class="fluid-container py-5">
       <div class="container">
-        <h3 class="mb-2" >Users</h3><button class="btn btn-success" ui-sref="site.admin.user({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
+        <h3 class="mb-2" >Users <span class="badge badge-success">{{vm.users.length}} </span></h3><button class="btn btn-success" ui-sref="site.admin.user({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
         <div class="row">
           <div class="col-12 py-4">
-            <h4> Homeless Users </h4>
+            <h4> Homeless Users <span class="badge badge-danger">{{vm.homelessUsers.length}} </span></h4>
             <p> Users that have signed up, but not requested acceess to any department yet </p>
             <p ng-if="!vm.homelessUsers || vm.homelessUsers.length === 0" class="text-success"> No homeless users </p>
             <div ng-if="vm.homelessUsers.length > 0" class="table mb-5">
@@ -106,7 +106,7 @@
         <hr>
         <div class="row">
           <div class="col-12 py-4">
-            <h4> Pending Data Access Requests</h4>
+            <h4> Pending Data Access Requests <span class="badge badge-warning">{{vm.pendingUsers.length}} </span></h4>
             <p> Users that have requested acceess to a department, but haven't received approval</p>
             <p ng-if="!vm.pendingUsers || vm.pendingUsers.length === 0" class="text-success"> No pending requests </p>
             <div ng-if="vm.pendingUsers.length > 0" class="table mb-5">
@@ -152,7 +152,7 @@
         <hr>
         <div class="row">
           <div class="col-12 py-4">
-            <h4> Ingest Users</h4>
+            <h4> Ingest Users <span class="badge badge-primary">{{vm.ingestUsers.length}} </span></h4>
             <p> Spade Users </p>
             <p ng-if="!vm.ingestUsers || vm.ingestUsers.length === 0" class="text-success"> No spade users </p>
             <div ng-if="vm.ingestUsers.length > 0" class="table mb-5">
@@ -191,7 +191,7 @@
         <hr>
         <div class="row">
           <div class="col-12 py-4">
-            <h4> Admin Users</h4>.
+            <h4> Admin Users <span class="badge badge-primary">{{vm.adminUsers.length}} </span></h4>.
             <div class="table mb-5">
               <div class="table-row header">
                 <div class="cell">
@@ -223,7 +223,7 @@
         <div class="row" ng-repeat="(id, users) in vm.departmentUsers">
           <div ng-if="id !== 'undefined'">
             <div class="col-12 py-4">
-              <h4 ng-if="id"> {{ id }} - {{ users[0].FireDepartment.name }} </h4>
+              <h4 ng-if="id"> {{ id }} - {{ users[0].FireDepartment.name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
               <div class="table tabemb-5">
                 <div class="table-row header">
                   <div class="cell">
