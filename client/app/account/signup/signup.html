@@ -14,7 +14,7 @@
           <label>Username</label>
           <input type="text" name="username" class="form-control" ng-model="vm.user.username" required="required" ng-pattern="/^[a-zA-Z0-9]{2,20}$/" mongoose-error="mongoose-error"/>
           <p class="help-block" ng-show="form.username.$error.pattern && vm.submitted">
-            Usernames must be 2 to 12 alphanumeric characters.
+            Usernames must be 2 to 20 alphanumeric characters.
           </p>
           <p class="help-block" ng-show="form.username.$error.required && vm.submitted">
             Username is required
@@ -51,6 +51,16 @@
           </p>
           <p class="help-block" ng-show="form.email.$error.mongoose">
             {{ vm.errors.email }}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.requested_fire_department_id.$valid && vm.submitted,'has-error': form.requested_fire_department_id.$invalid && vm.submitted }">
+          <label>Department</label>
+          <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.user.requested_fire_department_id" class="form-control select-md">
+            <option value="">-- New Department --</option>
+          </select>
+          <p class="help-block" ng-show="form.requested_fire_department_id.$error.mongoose">
+            {{ vm.errors.requested_fire_department_id }}
           </p>
         </div>
 

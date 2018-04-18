@@ -32,6 +32,14 @@
       </ul>
 
       <ul>
+        <li><a href="#" class="list-group-item" ng-click="scrollTo('#dataAccess')"><h5 class="heavyheader">Data Access</h5></a></li>
+        <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#dataAccess')>-1">
+          <li><a href="#" ng-click="scrollTo('#dataAccessSignup')">Signup</a></li>
+          <li><a href="#" ng-click="scrollTo('#dataAccessGrantingAccess')">Granting Access</a></li>
+        </ul>
+      </ul>
+
+      <ul>
         <li><a href="#" class="list-group-item" ng-click="scrollTo('#dashboardFeatures')"><h5 class="heavyheader">Dashboard Features</h5></a></li>
         <ul class="sub-list-group-item" ng-show="sectionOpen.indexOf('#dashboardFeatures')>-1">
           <li><a href="#" ng-click="scrollTo('#dashboardFeaturesBasic')">Basic Stats</a></li>
@@ -146,6 +154,34 @@
         </section>
 				<hr>
 
+        <!-- Data Access  -->
+        <section id="dataAccess" class="mt-5">
+          <h2>Signup</h2>
+
+          <p>
+            Once you department is onboard, please encourage others to signup!
+          </p>
+
+          <h4 id="dataAccessSignup" class="heavyheader mt-5">Signup</h4>
+          <p>
+            Users should request access to your department's data when signing up for an account.
+          </p>
+
+          <img alt="singup" src="/assets/images/statEngine-docs/signup.png" class="my-4">
+
+          <h4 id="dataAccessGrantingAccess" class="heavyheader mt-5">Granting Access</h4>
+          <p>
+            The department adminstrator can then grant or revoke access.
+          </p>
+
+          1.  Navigate to your Department Admin screen by clicking the pencil icon in <strong>My Department Summary</strong><br>
+          <img alt="graphs 1" src="/assets/images/statEngine-docs/departmentSummary.png" class="my-4">
+
+          <br>
+          2.  Approve/disapprove access by clicking the appropriate icon in the action column.   <i class="fa fa-2x fa-check-circle text-success"></i> will approve, <i class="fa fa-2x fa-times-circle text-danger"></i> will revoke access.<br>
+          <img alt="graphs 1" src="/assets/images/statEngine-docs/grantAccess.png" class="my-4">
+        </section>
+
         <!-- Dashboard Features -->
         <section id="dashboardFeatures" class="mt-5">
           <h2>Dashboard Features</h2>
@@ -210,6 +246,18 @@
 
           <h4 class="heavyheader mt-5">Who do I contact for support if there is an issue with the application?</h4>
           <p>You can contact <a href="mailto:support@statengine.io">support@statengine.io</a>.</p>
+
+
+          <h4 class="heavyheader mt-5">How do I change my profile settings or reset my password?</h4>
+          <p>You can change user profile settings and your password by clicking the pencil icon on the home screen.</p>
+
+          <br>
+          1. Navigate to your Profile screen by clicking the pencil icon in <strong>My Profile Summary</strong><br>
+          <img alt="user summary" src="/assets/images/statEngine-docs/userSummary.png" class="my-4">
+
+          <br>
+          2. Update your profile and change password<br>
+          <img alt="edit user profile" src="/assets/images/statEngine-docs/editProfile.png" class="my-4">
 
 				</section>
 

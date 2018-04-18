@@ -120,16 +120,21 @@ export function create(req, res) {
   // force this all so user cannot overwrite in request
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');
-  newUser.setDataValue('department', '');
   newUser.setDataValue('api_key', uuidv4());
+
+  if(!req.user || !req.user.isAdmin) newUser.setDataValue('fire_department__id', undefined);
 
   return newUser.save()
     .then(user => addToMailingList(user)
       .then(() => {
-        sendWelcomeEmail(user)
-          .then(() => {
-            res.status(204).send({user});
-          });
+        if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
+          sendWelcomeEmail(user)
+            .then(() => {
+              res.status(204).send({user});
+            });
+        } else {
+          res.status(204).send({user});
+        }
       }))
     .catch(validationError(res));
 }

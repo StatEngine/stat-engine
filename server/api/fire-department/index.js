@@ -7,18 +7,10 @@ import * as auth from '../../auth/auth.service';
 
 import * as controller from './fire-department.controller';
 
-const rawParser = bodyParser.raw({
-  inflate: true,
-  limit: '15mb',
-  type: 'application/octet-stream',
-});
-
 const router = new Router();
 
 router.get(
   '/',
-  auth.isApiAuthenticated,
-  auth.hasRole('user'),
   controller.search
 );
 
@@ -53,14 +45,12 @@ router.get(
   controller.dataQuality
 );
 
-//  need to think about standardizing this to use id instead of Firecares ID!
-router.put(
-  '/:firecaresId/:type/:id',
+router.post(
+  '/:id/:type',
   auth.isApiAuthenticated,
   auth.hasRole('ingest'),
-  auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
-  rawParser,
+  controller.hasIngestPermission,
+  bodyParser.json(),
   controller.queueIngest
 );
 

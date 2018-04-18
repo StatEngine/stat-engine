@@ -599,7 +599,7 @@ Extension
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user',
+      role: 'user,ingest',
       username: 'boston',
       first_name: 'boston',
       last_name: 'User',

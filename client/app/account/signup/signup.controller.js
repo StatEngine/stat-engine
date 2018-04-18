@@ -14,9 +14,10 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(User, $state) {
+  constructor(User, $state, fireDepartments) {
     this.UserService = User;
     this.$state = $state;
+    this.fireDepartments = fireDepartments;
   }
 
   register(form) {
@@ -28,7 +29,8 @@ export default class SignupController {
         first_name: this.user.first_name,
         last_name: this.user.last_name,
         email: this.user.email,
-        password: this.user.password
+        password: this.user.password,
+        requested_fire_department_id: this.user.requested_fire_department_id ? this.user.requested_fire_department_id._id : undefined,
       }).$promise
         .then(() => {
           // Account created, redirect to home

@@ -33,7 +33,17 @@ function handleError(res, statusCode) {
  */
 export function search(req, res) {
   return FireDepartment.findAll({
-    where: req.query
+    where: req.query,
+    attributes: [
+      'firecares_id',
+      '_id',
+      'name',
+      'fd_id',
+      'timezone',
+      'state',
+      'integration_complete',
+      'integration_verified',
+    ]
   })
     .then(fireDepartments => {
       if(!fireDepartments) {
@@ -104,7 +114,7 @@ export function queueIngest(req, res) {
     return res.status(400).send('Request body cannot be empty');
   }
 
-  const queueName = req.params.firecaresId;
+  const queueName = req.body.firecaresId;
 
   let connection;
   let channel;
@@ -122,7 +132,7 @@ export function queueIngest(req, res) {
     }),
     // Write data
     cb => {
-      channel.sendToQueue(queueName, req.body, {});
+      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(req.body)), {});
       cb();
     },
     cb => channel.close(cb),
@@ -143,6 +153,13 @@ export function queueIngest(req, res) {
 export function hasAdminPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.isDepartmentAdmin && req.fireDepartment._id.toString() === req.params.id) return next();
+
+  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+}
+
+export function hasIngestPermission(req, res, next) {
+  if(req.user.isAdmin) return next();
+  if(req.user.isIngest && req.fireDepartment._id.toString() === req.params.id) return next();
 
   else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }

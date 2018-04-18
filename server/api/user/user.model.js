@@ -103,12 +103,10 @@ export default function(sequelize, DataTypes) {
         return this.roles.indexOf('admin') >= 0;
       },
       isDepartmentAdmin() {
-        let roles = this.role.split(',');
         return this.roles.indexOf('department_admin') >= 0
                || this.roles.indexOf('admin') >= 0;
       },
       isKibanaAdmin() {
-        let roles = this.role.split(',');
         return this.roles.indexOf('kibana_admin') >= 0
                || this.roles.indexOf('department_admin') >= 0
                || this.roles.indexOf('admin') >= 0;
