@@ -19,6 +19,7 @@ export default function PrincipalService($http, $q, $window, User) {
 
     isInRole(role) {
       if(!_authenticated || !_identity.roles) return false;
+      if(_identity.roles.indexOf('admin') >= 0) return true;
 
       return _identity.roles.indexOf(role) >= 0;
     },
