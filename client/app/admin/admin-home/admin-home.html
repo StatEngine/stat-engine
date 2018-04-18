@@ -244,6 +244,9 @@
                   <div class="cell">
                     Dashboard
                   </div>
+                  <div class="cell">
+                    NFORS
+                  </div>
                 </div>
 
                 <div class="table-row" ng-repeat="user in users | orderBy:'first_name'">
@@ -264,6 +267,9 @@
                   </div>
                   <div class="cell" data-title="Kibana Admin">
                     <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
+                  </div>
+                  <div class="cell" data-title="NFORS">
+                    <span ng-if="user.nfors"><span class="fa fa-check text-success"></span></span>
                   </div>
                 </div>
               </div>

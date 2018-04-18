@@ -100,6 +100,10 @@
               <input type="checkbox" name="department_admin" class="form-control input-md" ng-model="vm.userRoles.department_admin"/>
             </div>
 
+            <div class="form-group " ng-class="{ 'has-success': form.user.nfors.$valid && vm.submitted,'has-error': form.user.nfors.$invalid && vm.submitted }">
+              <label>NFORS Account</label>
+              <input type="checkbox" name="nfors" class="form-control input-md" ng-model="vm.user.nfors"/>
+            </div>
             <div>
               <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
             </div>
