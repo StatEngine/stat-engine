@@ -1,11 +1,10 @@
 <div class="user-home">
-  <navbar class="animated fadeInDown colored"></navbar>
-  <header class="slim">
-    <section class="container m-auto pt-5">
+  <navbar class="animated fadeInDown dark-bg"></navbar>
+  <header class="extra-slim">
+    <section class="container m-auto">
       <div class="row">
-        <div class="welcome-text col-12">
-          <span> {{vm.greeting }}, </span>
-          <h1 class="subheader"> {{ vm.principal.first_name }} {{ vm.principal.last_name }}</h1>
+        <div class="col-lg-7 welcome-text my-auto">
+          <h2> {{vm.greeting }}, {{ vm.principal.first_name }} {{ vm.principal.last_name }} !</h2>
           <!--<p>Marketplace now in Beta - check it out <a ui-sref='site.marketplace.home'>here</a></p>-->
           <!--<p ng-if="vm.tweetCount > 0">You have <strong>{{ vm.tweetCount }}</strong> recommened tweets - check them out <a ui-sref='site.twitter.home'>here</a></p>-->
 
@@ -13,108 +12,73 @@
 
           <!--<p ng-if="vm.dataQuality.grade" class="animated fadeIn"> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#">learn why</a>.</p>-->
         </div>
-        <div class="col-12 py-2 button-group">
-          <div ng-if="!vm.fireDepartment && !vm.requestedFireDepartment">
-            <p> Thanks for signing up! <br>
-              <button id='user-home-request-access' class="btn btn-primary" ui-sref="site.user.requestAccess">Request Access Now</button> <br> <br>
-            </p>
-          </div>
-          <div ng-if="!vm.fireDepartment && vm.requestedFireDepartment">
-            <p> Thanks for signing up! <br>
-              Your're pending approval from {{vm.requestedFireDepartment.name }}. <br>
-              Please follow up with your local adminstrator to receive approval.
-            </p>
-          </div>
-          <div ng-if="vm.fireDepartment && !vm.setupComplete">
-            <p>
-              We're still in the onboarding process. <br>
-              <button id='user-home-getting-started' class="btn btn-primary" ui-sref="site.user.gettingStarted">Onboarding Status</button>
-              <button ng-if="vm.fireDepartment.integration_complete" id='user-home-getting-started' class="btn btn-outline " ng-click="vm.dashboard()">Dashboard</button>
-            </p>
-          </div>
-          <div ng-if="vm.setupComplete">
-            <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()">Dashboard</button>
-          </div>
+        <div class="col-lg-5 actions">
+          <a href="">
+            <img src="/assets/images/actions-reports.svg"/>
+            <span>Daily Reports</span>
+          </a>
+          <a href="">
+            <img src="/assets/images/actions-twitter.svg"/>
+            <span>Twitter App</span>
+          </a>
+          <a href="">
+            <img src="/assets/images/actions-big-board.svg"/>
+            <span>Big Board</span>
+          </a>
+          <!-- <button ng-if="vm.principal.roles.indexOf('kibana_admin') > -1" id='user-home-dashboard' class="btn btn-primary" ng-click="vm.dashboard()">Dashboard</button>
+          <button ng-if="vm.principal.roles.indexOf('kibana_admin') < 0" id='user-home-getting-started' class="btn btn-primary" ng-click="vm.scrollTo('#getting-started')">Get Started</button> -->
         </div>
+        <hr>
       </div>
     </section>
   </header>
-  <section class="container py-5 overview">
+  <section class="container py-2 overview">
     <div class="row">
-      <div class="col-sm-5 summary-profile">
-        <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span>
-        <h4 class="heavyheader">My Profile Summary &nbsp<a ui-sref="site.account.edituser"><span class="fa fa-pencil"></span></a></h4>
-        <dl class="row">
-          <div class="col">
-            <dt>First Name</dt>
-            <dd> {{ vm.principal.first_name }}</dd>
-
-            <dt>Last Name</dt>
-            <dd> {{ vm.principal.last_name }}</dd>
-          </div>
-          <div class="col">
-            <dt>Email</dt>
-            <dd> {{ vm.principal.email }}</dd>
-
-            <dt>Roles</dt>
-            <dd> {{ vm.principal.roles.join(", ") }}</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="col-sm-5 col-sm-offset-2 summary-department">
-        <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span>
-        <h4 class="heavyheader">My Department Summary &nbsp<a ng-if="vm.principal.isDepartmentAdmin" ui-sref="site.departmentAdmin.home"><span class="fa fa-pencil"></span></a></h4>
-        <dl class="row" ng-if="vm.fireDepartment">
-          <div class="col">
-            <dt>FDID</dt>
-            <dd>{{ vm.fireDepartment.fd_id }}</dd>
-
-            <dt>Name</dt>
-            <dd>{{ vm.fireDepartment.name }}</dd>
-
-            <dt>Timezone</dt>
-            <dd>{{ vm.fireDepartment.timezone }}</dd>
-          </div>
-          <div class="col">
-            <dt>Firecares ID</dt>
-            <dd>{{ vm.fireDepartment.firecares_id }}</dd>
-
-            <dt>State</dt>
-            <dd>{{ vm.fireDepartment.state }}</dd>
-          </div>
-        </dl>
-        <div ng-if="!vm.fireDepartment && !vm.principal.isAdmin">
-          <div class="row justify-content-md-center">
+      <div class="col-md-6 summary-profile">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card">
+          <h4 class="heavyheader">My Profile Summary</h4>
+          <dl class="row">
             <div class="col">
-              <div ng-if="!vm.requestedFireDepartment">
-                <p class='text-danger text-center'>
-                  Looks like you haven't been assinged a department yet. <br>
-                  Please <a ui-sref="site.user.requestAccess"> Request Access </a> now
-                </p>
-              </div>
-              <div ng-if="vm.requestedFireDepartment">
-                <p class='text-warning'> Pending approval from {{ vm.requestedFireDepartment.name }} </p>
-              </div>
+              <dt>First Name</dt>
+              <dd> {{ vm.principal.first_name }}</dd>
+
+              <dt>Last Name</dt>
+              <dd> {{ vm.principal.last_name }}</dd>
             </div>
-          </div>
+            <div class="col">
+              <dt>Email</dt>
+              <dd> {{ vm.principal.email }}</dd>
+
+              <dt>Roles</dt>
+              <dd> {{ vm.principal.roles.join(", ") }}</dd>
+            </div>
+          </dl>
         </div>
-        <div ng-if="vm.principal.isAdmin">
-          <div class="row justify-content-md-center">
+      </div>
+      <div class="col-md-6 summary-department">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card">
+          <h4 class="heavyheader">My Department Summary</h4>
+          <dl class="row">
             <div class="col">
-              <div class="form-group">
-                <div ng-if="!vm.assignedFireDepartment">
-                  <p class='text-danger text-center'>
-                    Not currently assigned to a department. <br>
-                  </p>
-                </div>
-                <label>Select Fire Department</label>
-                <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
-              </div>
-              <div>
-                <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
-              </div>
+              <dt>FDID</dt>
+              <dd>{{ vm.fireDepartment.fd_id }}</dd>
+
+              <dt>Name</dt>
+              <dd>{{ vm.fireDepartment.name }}</dd>
+
+              <dt>Timezone</dt>
+              <dd>{{ vm.fireDepartment.timezone }}</dd>
             </div>
-          </div>
+            <div class="col">
+              <dt>Firecares ID</dt>
+              <dd>{{ vm.fireDepartment.firecares_id }}</dd>
+
+              <dt>State</dt>
+              <dd>{{ vm.fireDepartment.state }}</dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>

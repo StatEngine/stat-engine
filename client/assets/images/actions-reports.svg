@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="91" height="91" viewBox="0 0 91 91">
+  <defs>
+    <linearGradient id="actions-reports-b" x1="38.869%" x2="82.525%" y1="94.274%" y2="-17.213%">
+      <stop offset="0%" stop-color="#0099C2"/>
+      <stop offset="100%" stop-color="#29b5c5"/>
+    </linearGradient>
+    <path id="actions-reports-a" d="M45.5,91 C70.6289561,91 91,70.6289561 91,45.5 C91,20.3710439 70.6289561,0 45.5,0 C20.3710439,0 0,20.3710439 0,45.5 C0,70.6289561 20.3710439,91 45.5,91 Z"/>
+    <linearGradient id="actions-reports-c" x1="31.635%" x2="66.469%" y1="70.881%" y2="24.425%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="actions-reports-e" x1="79.215%" x2="82.856%" y1="18.233%" y2="8.848%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="actions-reports-d" fill="#fff">
+      <use xlink:href="#actions-reports-a"/>
+    </mask>
+    <use fill="url(#actions-reports-b)" xlink:href="#actions-reports-a"/>
+    <path fill="url(#actions-reports-c)" d="M31.1679036,94.2629695 C22.923861,95.0107622 17.9109322,94.4483416 16.1291173,92.5757078 C14.3473024,90.7030739 8.76548845,87.8409357 -0.616324447,83.9892931 L31.5013105,57.3341228 L47.3454397,63.3269044 L61.2817014,69.8565194 L31.1679036,94.2629695 Z" mask="url(#actions-reports-d)" opacity=".065" style="mix-blend-mode:multiply" transform="rotate(6 30.333 75.959)"/>
+    <polygon fill="url(#actions-reports-e)" points="32.368 95.378 14.577 101.451 50.616 72.12 53.512 68.906 59.924 71.465" mask="url(#actions-reports-d)" opacity=".142" style="mix-blend-mode:multiply" transform="rotate(6 37.25 85.178)"/>
+    <polygon fill="url(#actions-reports-e)" points="20.333 87.597 2.541 93.67 38.581 64.34 41.476 61.125 47.889 63.685" mask="url(#actions-reports-d)" opacity=".142" style="mix-blend-mode:multiply" transform="rotate(6 25.215 77.398)"/>
+    <polygon fill="url(#actions-reports-e)" points="10.421 80.845 -7.37 86.918 28.669 57.587 31.565 54.373 37.977 56.932" mask="url(#actions-reports-d)" opacity=".142" style="mix-blend-mode:multiply" transform="rotate(6 15.303 70.645)"/>
+    <g transform="matrix(-1 0 0 1 63 15)">
+      <g transform="translate(17.254)">
+        <polygon fill="#C4C4C4" points="5.325 3.14 11.013 6.395 11.084 46.34 5.397 43.109"/>
+        <polygon fill="#FFF" points="5.231 5.225 10.87 6.371 21.272 44.845 15.366 43.13" transform="scale(-1 1) rotate(15 0 -75.62)"/>
+        <polygon fill="#DBDBDB" points="9.782 1.342 15.667 2.424 11.36 6.218 5.036 4.544" transform="rotate(15 10.351 3.78)"/>
+      </g>
+      <g transform="translate(9.643 19.263)">
+        <polygon fill="#C4C4C4" points="2.053 3.084 7.667 6.344 7.737 33.551 2.123 30.314"/>
+        <polygon fill="#FFF" points="3.603 4.954 9.17 6.103 16.15 32.271 10.32 30.553" transform="scale(-1 1) rotate(15 0 -56.408)"/>
+        <polygon fill="#DBDBDB" points="6.448 1.545 12.256 2.628 8.005 6.43 1.762 4.752" transform="rotate(15 7.01 3.987)"/>
+      </g>
+      <g transform="translate(0 36.921)">
+        <polygon fill="#C4C4C4" points="1.042 3.045 6.67 6.263 6.741 23 1.112 19.805"/>
+        <polygon fill="#FFF" points="3.915 4.718 9.496 5.852 13.857 21.909 8.012 20.213" transform="scale(-1 1) rotate(15 0 -54.185)"/>
+        <polygon fill="#DBDBDB" points="5.448 1.526 11.272 2.595 7.01 6.347 .751 4.691" transform="rotate(15 6.011 3.936)"/>
+      </g>
+    </g>
+  </g>
+</svg>

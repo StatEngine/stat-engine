@@ -1,94 +1,81 @@
 /////////////////////////////////
 // NAVBAR //
 ////////////////////////////////
+
 navbar {
   animation-duration: 0.5s;
   color: white;
   font-family: 'Montserrat';
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
   letter-spacing: 0.05rem;
-  // overflow: hidden;
+  padding: 1.75rem 0;
   position: absolute;
   top: 0;
-  padding: 1.3rem 0;
+  transition: all 0.2s ease-in-out;
   width: 100%;
   z-index: 1;
-  &.colored {
+
+  &.dark-bg {
     background: #123250;
   }
-}
 
-navbar .branding {
-  display: inline-block;
-  background: url("../assets/images/branding.svg") no-repeat;
-  height: 42px;
-  min-width: 155px;
+  .branding {
+    display: inline-block;
+    background: url("../assets/images/branding.svg") no-repeat;
+    height: 42px;
+    width: 155px;
 
-  &.mark {
-    height: 50px;
-    min-width: 50px;
-    background: url("../assets/images/statengine-symbol.svg") no-repeat;
-    background-size: 50px 50px;
-    position: relative;
-    top: 2px;
+    &.symbol {
+      background: url("../assets/images/branding-symbol.svg") no-repeat;
+      width: 25px;
+    }
   }
-}
 
-navbar div {
-  align-items: center;
-}
-
-
-navbar .btn {
-  font-size: 14px;
-}
-
-navbar .btn-link {
-  color: white;
-  &:hover {
-    color: white;
-  }
-}
-
-navbar img {
-  height: 48px;
-  max-width: 158px;
-}
-
-navbar div#navbar-burger {
-  display: none;
-}
-
-@media (min-width: 992px) {
-  navbar div#navbar-links {
+  #navbar-links {
     padding-left: 3.5rem;
   }
-}
 
-@media (max-width: 768px) {
-  navbar div#navbar-button,
-  navbar div#navbar-links {
-    display: none;
+  a,
+  a:active,
+  a:focus,
+  a:visited {
+    color: rgba(255,255,255,1);
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+
+    &:hover {
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+    }
+    // Without settings below, the logo will shake and boogie...unwantedly.
+    &.branding {
+      outline-offset: 0;
+      outline: none;
+    }
   }
 
-  navbar div#navbar-burger {
-    display: block;
+  div {
+    align-items: center;
   }
 
-  navbar div#navbar-burger img {
-    width: 20px;
-    height: 20px;
+  .btn {
+    font-size: 14px;
   }
-}
 
-// Authenticated/User Nav
-#user-nav, .secondary-nav {
-  margin-bottom: 0;
+  .btn-link {
+    color: white;
 
-  > li {
+    &:hover {
+      color: rgba(255,255,255,.65);
+    }
+  }
+
+  // Dropdown Styling
+  li {
     display: inline-block;
     margin-right: 1.5rem;
+
     > a {
       color: white;
       display: block;
@@ -97,24 +84,28 @@ navbar div#navbar-burger {
       text-decoration: none;
       transition: all 0.2s ease-in-out;
       width: 100%;
+
       &:hover {
-        color: lighten($color-bondi-blue,5%);
+        // color: lighten($color-bondi-blue,5%);
       }
     }
 
     &.with-dropdown {
       position: relative;
+
       > a::after {
         color: white;
-        content:"\f107";
+        content: "\f107";
         font-family: "FontAwesome";
         position: relative;
         margin-left: 8px;
         transition: all 0.2s ease-in-out;
       }
-      > a:hover:after {
+
+      > a:hover::after {
         transition: all 0.2s ease-in-out;
-        color: lighten($color-bondi-blue,5%);
+        color: rgba(255,255,255,.65);
+        // color: lighten($color-bondi-blue,5%);
       }
     }
   }
@@ -133,7 +124,7 @@ navbar div#navbar-burger {
     }
 
     &.animated {
-      animation-duration: .3s;
+      animation-duration: 0.3s;
     }
 
     ul {
@@ -145,10 +136,10 @@ navbar div#navbar-burger {
       display: flex;
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
-         -moz-box-orient: vertical;
-         -moz-box-direction: normal;
-          -ms-flex-direction: column;
-              flex-direction: column;
+      -moz-box-orient: vertical;
+      -moz-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
       margin: 0;
       width: 100%;
     }
@@ -158,13 +149,14 @@ navbar div#navbar-burger {
       margin: 0;
       overflow: hidden;
       padding: 0;
+
       &:last-child a {
         border-bottom: 0;
       }
     }
 
     a {
-      color: #12334f; //$color-pacific-blue;
+      color: #12334f;
       display: block;
       height: 100%;
       padding: 1rem 1.6rem;
@@ -173,32 +165,34 @@ navbar div#navbar-burger {
       line-height: 2.2rem;
       text-decoration: none;
       transition: all 0.2s ease-in-out;
+
       &:hover {
         background: #eff2f4;
-        color: $color-bondi-blue;
+        color: #067a98;
+        // color: $color-bondi-blue;
       }
     }
 
     &::before {
       background: #fff;
       -webkit-box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.05);
-              box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.05);
       content: '';
       display: block;
       height: 0.9375rem;
       left: 3.5625rem;
       position: absolute;
-      top: .5625rem;
+      top: 0.5625rem;
       -webkit-transform: rotate(-45deg);
-          -ms-transform: rotate(-45deg);
-              transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
       width: 0.9375rem;
       z-index: -5;
     }
 
     &::after {
       -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.18);
-              box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.18);
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.18);
       background: #fff;
       border-radius: 0.3125rem;
       bottom: 0;
@@ -210,26 +204,64 @@ navbar div#navbar-burger {
       z-index: -10;
     }
   }
-}
+  // Mobile & Smaller Screen Adjustments
+  @media (max-width: 1199px) {
+    #navbar-links {
+      padding-left: 1rem;
+    }
 
-
-// Secondary and Utility Nav
-.secondary-nav {
-  > li {
-    margin-right: 1rem;
-    > a {
-      font-size: 2.2rem;
+    li {
+      margin-right: 1rem;
     }
   }
+  @media (max-width: 991px) {
+    #navbar-button,
+    #navbar-links {
+      display: none;
+    }
+
+    .hamburger {
+      display: block;
+    }
+
+    #navbar-burger img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
+// Secondary and Utility Nav
+
+.secondary-nav {
+  margin-bottom: 0;
+
+  > li {
+    margin-right: 1rem;
+
+    > a {
+      font-size: 2rem;
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+      a {
+        padding-right: 0;
+      }
+    }
+  }
+
   .with-dropdown {
     .dropdown {
       left: -13rem;
       top: 3.25rem;
+
       &::before {
         left: initial;
         right: 3.5625rem;
       }
     }
+
     a::after {
       font-size: initial;
       position: relative;
@@ -237,25 +269,226 @@ navbar div#navbar-burger {
     }
   }
 }
-
 // Naked Variant
 navbar.naked {
-  #navbar-links a, .btn, .btn-outline {
+  .branding {
+    background-image: url("../assets/images/branding-alt.svg");
+  }
+
+  a:hover {
+    color: rgba(255,255,255,.65);
+  }
+
+  .btn-outline {
+    @extend .btn-outline-inverse-alt;
+
+    &:hover {
+      color: #384553;
+    }
+  }
+
+  #navbar-links a,
+  .btn-link {
     color: $color-oxford-blue;
+
     &:hover {
       color: $color-bondi-blue;
     }
   }
 
-  .btn-outline {
-    @extend .btn-outline-inverse-alt;
-  }
-
-  .user-nav, .secondary-nav {
+  .secondary-nav {
     a {
       color: $color-oxford-blue;
+
       &:hover {
         color: $color-bondi-blue;
+      }
+    }
+  }
+
+  .secondary-nav > li.with-dropdown > a,
+  li.with-dropdown > a {
+    &::after {
+      color: $color-oxford-blue;
+    }
+
+    &:hover::after {
+      color: $color-bondi-blue;
+    }
+  }
+  .hamburger .line {
+    background-color: $color-oxford-blue;
+  }
+}
+
+// Hamburger Menu
+.hamburger {
+  display: none;
+}
+
+.hamburger .line {
+  width: 28px;
+  height: 3px;
+  background-color: rgba(255,255,255,1);
+  display: block;
+  margin: 8px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger:hover {
+  cursor: pointer;
+  .line {
+    background-color: rgba(255,255,255,.65);
+  }
+}
+
+.hamburger {
+  position: absolute;
+  right: 1rem;
+  top: 1.65rem;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+
+// Mobile Nav Menu
+.mobile-nav {
+  background: #222;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  margin: 0 -300px 0 0;
+  -moz-transition: all 200ms ease-in;
+  -webkit-transition: all 200ms ease-in;
+  -o-transition: all 200ms ease-in;
+  transition: all 200ms ease-in;
+}
+
+.mobile-nav ul {
+  background: #222;
+  height: 100vh;
+  line-height: 3rem;
+  list-style: none;
+  margin: 7rem 0 0;
+  overflow: auto;
+  padding: 0 0 8rem;
+  width: 300px;
+}
+
+.mobile-nav li {
+  line-height: 2;
+  display: block;
+  margin-right: 0;
+  width: 100%;
+}
+
+.mobile-nav a {
+  color: #fff;
+  padding: 1rem 2rem;
+
+  &.btn {
+    width: 87%;
+    margin: 2rem 2rem 0;
+    transition: all 0.2s ease-in-out;
+
+    &.btn-primary {
+      color: #fff;
+      background-color: #286090;
+      border-color: #204d74;
+    }
+  }
+}
+
+.mobile-nav a:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.mobile-nav.open {
+  margin: 0;
+  -webkit-transform: translate3d(300px, 0, 0);
+  -moz-transform: translate3d(300px, 0, 0);
+  -o-transform: translate3d(300px, 0, 0);
+  transform: translate3d(300px, 0, 0);
+}
+
+// Wrapper for "push" effect on mobile menu
+.pushy-wrapper {
+  -moz-transition: all 200ms ease-in;
+  -webkit-transition: all 200ms ease-in;
+  -o-transition: all 200ms ease-in;
+  transition: all 200ms ease-in;
+
+  .site-overlay {
+    display: none;
+  }
+
+  &.is-open {
+    overflow: hidden;
+    -webkit-transform: translate3d(-300px, 0, 0);
+    -moz-transform: translate3d(-300px, 0, 0);
+    -o-transform: translate3d(-300px, 0, 0);
+    transform: translate3d(-300px, 0, 0);
+
+    .site-overlay {
+      -webkit-animation: fade 500ms;
+      animation: fade 500ms;
+      background: transparent;
+      background-color: rgba(0, 0, 0, 0.25);
+      bottom: 0;
+      display: block;
+      left: 0;
+      opacity: 1;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 9998;
+    }
+    @-webkit-keyframes fade {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fade {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .hamburger {
+      -webkit-transform: translate3d(300px, 0, 0);
+      -moz-transform: translate3d(300px, 0, 0);
+      -o-transform: translate3d(300px, 0, 0);
+      transform: translate3d(300px, 0, 0);
+      .line {
+        background-color: rgba(255,255,255,1);
+      }
+      .line:nth-child(2) {
+        opacity: 0;
+      }
+      .line:nth-child(1) {
+        -webkit-transform: translateY(10px) rotate(45deg);
+        -ms-transform: translateY(10px) rotate(45deg);
+        -o-transform: translateY(10px) rotate(45deg);
+        transform: translateY(10px) rotate(45deg);
+      }
+      .line:nth-child(3) {
+        -webkit-transform: translateY(-13px) rotate(-45deg);
+        -ms-transform: translateY(-13px) rotate(-45deg);
+        -o-transform: translateY(-13px) rotate(-45deg);
+        transform: translateY(-13px) rotate(-45deg);
       }
     }
   }

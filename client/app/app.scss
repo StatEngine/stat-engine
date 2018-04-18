@@ -70,8 +70,10 @@ body {
 
 a {
   color: $color-pacific-blue;
+  transition: all 0.2s ease-in-out;
   &:hover {
-    color: darken($color-pacific-blue,8%);
+    color: darken($color-pacific-blue,20%);
+    text-decoration: none;
   }
 }
 
@@ -440,6 +442,7 @@ input[type="radio"]:focus {
   border: 1px solid #ced2d6;
   border-radius: 5px;
   padding: 2rem;
+  height: 100%;
 }
 
 .card-selected {
