@@ -151,11 +151,12 @@ export function edit(req, res) {
   user.last_name = req.body.last_name;
   user.first_name = req.body.first_name;
 
+  // protected fields
   if(req.user.isAdmin) {
     user.role = req.body.role;
-
     user.fire_department__id = req.body.fire_department__id;
     user.requested_fire_department_id = req.body.requested_fire_department_id;
+    user.nfors = req.body.nfors;
   }
 
   user.save()
