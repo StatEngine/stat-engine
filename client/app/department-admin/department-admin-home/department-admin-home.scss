@@ -1,0 +1,23 @@
+.department-admin-home {
+  .data-quality-analysis {
+    h3 .badge {
+      margin-left: 1rem;
+    }
+  }
+
+  .badge-danger {
+    background-color: $color-brand-danger;
+  }
+
+  .badge-primary {
+    background-color: #5bc0de;
+  }
+
+  .badge-success {
+    background-color: #28a745;
+  }
+
+  .badge-warning {
+    background-color: #ffc107;
+  }
+}

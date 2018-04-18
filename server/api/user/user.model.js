@@ -23,7 +23,7 @@ export default function(sequelize, DataTypes) {
       },
       validate: {
         isAlphanumeric: true,
-        len: [2, 12],
+        len: [2, 20],
       }
     },
     first_name: {
@@ -40,6 +40,7 @@ export default function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       unique: {
         msg: 'The specified email address is already in use.'
       },
@@ -57,6 +58,7 @@ export default function(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true
       }
@@ -79,6 +81,9 @@ export default function(sequelize, DataTypes) {
     aws_secret_access_key: {
       type: DataTypes.STRING,
     },
+    requested_fire_department_id: {
+      type: DataTypes.INTEGER,
+    },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
   }, {
@@ -91,11 +96,20 @@ export default function(sequelize, DataTypes) {
       roles() {
         return this.role.split(',');
       },
-      profile() {
-        return {
-          name: this.first_name + this.last_name,
-          role: this.role
-        };
+      isIngest() {
+        return this.roles.indexOf('ingest') >= 0;
+      },
+      isAdmin() {
+        return this.roles.indexOf('admin') >= 0;
+      },
+      isDepartmentAdmin() {
+        return this.roles.indexOf('department_admin') >= 0
+               || this.roles.indexOf('admin') >= 0;
+      },
+      isKibanaAdmin() {
+        return this.roles.indexOf('kibana_admin') >= 0
+               || this.roles.indexOf('department_admin') >= 0
+               || this.roles.indexOf('admin') >= 0;
       },
     },
 

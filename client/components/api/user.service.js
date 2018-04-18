@@ -24,8 +24,29 @@ export default function UserResource($resource) {
         controller: 'updatePassword'
       }
     },
+    requestAccess: {
+      method: 'PUT',
+      params: {
+        controller: 'requestAccess'
+      }
+    },
+    approveAccess: {
+      method: 'PUT',
+      params: {
+        controller: 'approveAccess'
+      }
+    },
+    revokeAccess: {
+      method: 'PUT',
+      params: {
+        controller: 'revokeAccess'
+      }
+    },
     create: {
       method: 'POST',
+    },
+    update: {
+      method: 'PUT',
     },
     get: {
       method: 'GET',

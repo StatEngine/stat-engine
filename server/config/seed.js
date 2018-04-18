@@ -77,6 +77,8 @@ Extension
     name: 'Richmond Fire and Emergency Services',
     state: 'VA',
     timezone: 'US/Eastern',
+    integration_complete: true,
+    integration_verified: true,
     Users: [{
       provider: 'local',
       role: 'user,kibana_admin',
@@ -96,6 +98,18 @@ Extension
       first_name: 'Richmond2',
       last_name: 'User',
       email: 'richmond2@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'richmond',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
+    }, {
+      provider: 'local',
+      role: 'user,department_admin',
+      username: 'richmondAdmin',
+      first_name: 'RichmondAdmin',
+      last_name: 'User',
+      email: 'richmondadmin@prominentedge.com',
       password: 'password',
       nfors: true,
       api_key: 'richmond',
@@ -547,7 +561,7 @@ Extension
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user',
       username: 'dc',
       first_name: 'DC',
       last_name: 'User',
@@ -604,7 +618,7 @@ Extension
     timezone: 'US/Eastern',
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user',
       username: 'ffxcity',
       first_name: 'ffxcity',
       last_name: 'User',
@@ -623,7 +637,7 @@ Extension
     timezone: 'US/Central',
     Users: [{
       provider: 'local',
-      role: 'user,ingest,kibana_admin',
+      role: 'user,kibana_admin',
       username: 'rogers',
       first_name: 'dev',
       last_name: 'user',
@@ -644,5 +658,51 @@ Extension
     api_key: 'admin',
     aws_access_key_id: 'awsKey',
     aws_secret_access_key: 'awsSecret',
+  }))
+  .then(() => User.create({
+    provider: 'local',
+    role: 'user',
+    first_name: 'New',
+    last_name: 'User',
+    username: 'user',
+    email: 'user@prominentedge.com',
+    password: 'password',
+    nfors: true,
+    api_key: 'user',
+    aws_access_key_id: 'awsKey',
+    aws_secret_access_key: 'awsSecret',
+  }))
+  .then(() => User.create({
+    provider: 'local',
+    role: 'user',
+    first_name: 'Requested',
+    last_name: 'User',
+    username: 'requested',
+    email: 'requested@prominentedge.com',
+    password: 'password',
+    nfors: true,
+    api_key: 'user',
+    aws_access_key_id: 'awsKey',
+    aws_secret_access_key: 'awsSecret',
+    requested_fire_department_id: richmond._id,
+  }))
+  .then(() => FireDepartment.create({
+    fd_id: '0000',
+    firecares_id: '00000',
+    name: 'Onboarding Department',
+    state: 'VA',
+    timezone: 'US/Eastern',
+    Users: [{
+      provider: 'local',
+      role: 'user',
+      username: 'onboarding',
+      first_name: 'Onboarding',
+      last_name: 'User',
+      email: 'onbording@prominentedge.com',
+      password: 'password',
+      api_key: 'onbording',
+    }]
+  }, {
+    include: [FireDepartment.Users, FireDepartment.Tweets]
   }))
   .then(() => console.log('finished populating data'));

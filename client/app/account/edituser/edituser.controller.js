@@ -21,7 +21,7 @@ export default class EditUserController {
   edituser(form) {
     this.submitted = true;
     if(form.$valid) {
-      this.UserService.save({ id: this.user._id }, {
+      this.UserService.update({ id: this.user._id }, {
         first_name: this.user.first_name,
         last_name: this.user.last_name,
         username: this.user.username,

@@ -4,10 +4,10 @@ import uuidv4 from 'uuid/v4';
 import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
 import Mailchimp from 'mailchimp-api-v3';
+import _ from 'lodash';
 
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
-
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -28,7 +28,20 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
+  let where;
+  if(req.user.isAdmin) where = undefined;
+  else {
+    where = {
+      $or: [
+        {fire_department__id: req.user.fire_department__id},
+        {requested_fire_department_id: req.user.FireDepartment._id }
+      ]
+    };
+  }
+
   return User.findAll({
+    where,
+    include: [FireDepartment],
     attributes: [
       '_id',
       'username',
@@ -36,13 +49,17 @@ export function index(req, res) {
       'last_name',
       'email',
       'role',
-      'provider',
+      'requested_fire_department_id',
     ]
   })
     .then(users => {
       res.status(200).json(users);
     })
     .catch(handleError(res));
+}
+
+export function get(req, res) {
+  return res.json(req.loadedUser);
 }
 
 function sendWelcomeEmail(user) {
@@ -103,16 +120,21 @@ export function create(req, res) {
   // force this all so user cannot overwrite in request
   newUser.setDataValue('provider', 'local');
   newUser.setDataValue('role', 'user');
-  newUser.setDataValue('department', '');
   newUser.setDataValue('api_key', uuidv4());
+
+  if(!req.user || !req.user.isAdmin) newUser.setDataValue('fire_department__id', undefined);
 
   return newUser.save()
     .then(user => addToMailingList(user)
       .then(() => {
-        sendWelcomeEmail(user)
-          .then(() => {
-            res.status(204).send({user});
-          });
+        if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
+          sendWelcomeEmail(user)
+            .then(() => {
+              res.status(204).send({user});
+            });
+        } else {
+          res.status(204).send({user});
+        }
       }))
     .catch(validationError(res));
 }
@@ -121,55 +143,71 @@ export function create(req, res) {
  * Edits a user
  */
 export function edit(req, res) {
-  var userId = req.params.id;
+  const user = req.loadedUser;
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      user.last_name = req.body.last_name;
-      user.first_name = req.body.first_name;
+  user.last_name = req.body.last_name;
+  user.first_name = req.body.first_name;
 
-      user.save()
-        .then(usersaved => {
-          res.status(204).send({usersaved});
-        })
-        .catch(validationError(res));
+  if(req.user.isAdmin) {
+    user.role = req.body.role;
+
+    user.fire_department__id = req.body.fire_department__id;
+    user.requested_fire_department_id = req.body.requested_fire_department_id;
+  }
+
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
     })
     .catch(validationError(res));
 }
 
-
 /**
- * Get a single user
+ * Request access
  */
-export function show(req, res, next) {
-  var userId = req.params.id;
+export function requestAccess(req, res) {
+  const user = req.loadedUser;
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      if(!user) {
-        return res.status(404).end();
-      }
-      res.json(user.profile);
+  user.requested_fire_department_id = req.body.requested_fire_department_id;
+
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
     })
-    .catch(err => next(err));
+    .catch(handleError(res));
 }
 
 /**
- * Deletes a user
- * restriction: 'admin'
+ * Request access
  */
-export function destroy(req, res) {
-  return User.destroy({ where: { _id: req.params.id } })
-    .then(function() {
-      res.status(204).end();
+export function revokeAccess(req, res) {
+  const user = req.loadedUser;
+
+  user.fire_department__id = null;
+  user.requested_fire_department_id = null;
+  let roles = user.role.split(',');
+  _.pull(roles, 'kibana_admin');
+  user.role = roles.join(',');
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
+    })
+    .catch(handleError(res));
+}
+
+/**
+ * Request access
+ */
+export function approveAccess(req, res) {
+  const user = req.loadedUser;
+
+  user.fire_department__id = user.requested_fire_department_id;
+  user.role = `${user.role},kibana_admin`;
+  user.requested_fire_department_id = null;
+
+  user.save()
+    .then(usersaved => {
+      res.status(204).send({usersaved});
     })
     .catch(handleError(res));
 }
@@ -178,29 +216,21 @@ export function destroy(req, res) {
  * Change a users password
  */
 export function changePassword(req, res) {
-  var userId = req.params.id;
+  const user = req.loadedUser;
 
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  return User.find({
-    where: {
-      _id: userId
-    }
-  })
-    .then(user => {
-      if(user.authenticate(oldPass)) {
-        user.password = newPass;
-        return user.save()
-          .then(() => {
-            res.status(204).end();
-          })
-          .catch(validationError(res));
-      } else {
-        return res.status(403).send({ password: 'Wrong password'});
-      }
-    })
-    .catch(validationError(res));
+  if(user.authenticate(oldPass)) {
+    user.password = newPass;
+    return user.save()
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(validationError(res));
+  } else {
+    return res.status(403).send({ password: 'Wrong password'});
+  }
 }
 
 /**
@@ -348,7 +378,12 @@ export function me(req, res, next) {
 }
 
 export function hasEditPermisssion(req, res, next) {
-  if(req.user.username === req.body.username) return next();
+  if(req.user.username === req.loadedUser.username) return next();
+
+  if(req.user.isAdmin) return next();
+  if(req.user.isDepartmentAdmin && req.loadedUser.requested_fire_department_id === req.user.FireDepartment._id) return next();
+  if(req.user.isDepartmentAdmin && req.loadedUser.FireDepartment._id === req.user.FireDepartment._id) return next();
+
   else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }
 
@@ -357,4 +392,21 @@ export function hasEditPermisssion(req, res, next) {
  */
 export function authCallback(req, res) {
   res.redirect('/');
+}
+
+export function loadUser(req, res, next, id) {
+  User.find({
+    where: {
+      _id: id
+    },
+    include: [FireDepartment]
+  })
+    .then(user => {
+      if(user) {
+        req.loadedUser = user;
+        return next();
+      }
+      return res.status(404).send({ error: 'User not found'});
+    })
+    .catch(err => next(err));
 }

@@ -1,0 +1,61 @@
+<div class="getting-started">
+  <navbar class="animated fadeInDown naked"></navbar>
+  <header class="naked"></header>
+  <section class="container site-content">
+    <section id="getting-started" class="fluid-container py-5 data-quality-analysis">
+       <div class="container">
+         <h3 class="mb-2">Getting Started</h3>
+         <div class="row">
+           <div class="col-md-8">
+             <h1 ng-if="vm.fireDepartment.name">
+               {{ vm.fireDepartment.name }}
+             </h1>
+             <h1 ng-if="!vm.fireDepartment.name">
+               Onboarding Status
+             </h1>
+           </div>
+           <div ng-if="vm.setupComplete" class="col-md-8">
+             <p>
+               Looks like you're all set to go!
+             </p>
+           </div>
+           <div ng-if="!vm.setupComplete"  class="col-md-8">
+             <p>
+               In order for your organization to maximize the value of StatEngine, we need to take care of a few things.  Complete these steps and you'll be analyzing data in no time!
+             </p>
+           </div>
+           <div class="col-12 py-4">
+             <div class="row">
+               <div class="col-12 py-4">
+                 <div class="table mb-5">
+                   <div class="table-row header">
+                     <div class="cell">
+                       Step
+                     </div>
+                     <div class="cell">
+                       Status
+                     </div>
+                     <div class="cell">
+                       Required Action
+                     </div>
+                   </div>
+
+                   <div class="table-row" ng-repeat="step in vm.gettingStarted">
+                     <div class="cell" data-title="Step">
+                       {{step.step}}
+                     </div>
+                     <div class="cell" data-title="Status">
+                       <span ng-class="{'badge-success': step.status, 'badge-danger': !step.status}" class="badge">{{step.status ? 'COMPLETE' : 'PENDING'}}</span>
+                     </div>
+                    <div class="cell" data-title="Required Action" ng-bind-html="step.status ? 'No action required.' : step.action"></div>
+                  </div>
+                </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </section>
+  </section>
+  <footer id="footer"></footer>
+</div>

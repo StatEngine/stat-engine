@@ -25,6 +25,7 @@ db.FireDepartment.Users = db.FireDepartment.hasMany(db.User);
 db.FireDepartment.Tweets = db.FireDepartment.hasMany(db.Tweet);
 
 db.Tweet.belongsTo(db.FireDepartment);
+db.User.belongsTo(db.FireDepartment);
 
 db.Extension.hasMany(db.ExtensionConfiguration);
 db.FireDepartment.hasMany(db.ExtensionConfiguration);

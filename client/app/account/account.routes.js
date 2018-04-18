@@ -18,7 +18,12 @@ export default function routes($stateProvider) {
       url: '/signup',
       template: require('./signup/signup.html'),
       controller: 'SignupController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        fireDepartments(FireDepartment) {
+          return FireDepartment.query().$promise;
+        }
+      },
     })
     .state('site.account.resetpassword', {
       url: '/resetpassword/',
@@ -45,20 +50,5 @@ export default function routes($stateProvider) {
         }
       },
       controllerAs: 'vm'
-    })
-    .state('site.account.editdept', {
-      url: '/editdeptartment',
-      template: require('./editdept/editdepartment.html'),
-      controller: 'EditDeptController',
-      data: {
-        roles: ['admin']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity();
-        }
-      },
-      controllerAs: 'admin',
-      authenticate: 'admin'
     });
 }
