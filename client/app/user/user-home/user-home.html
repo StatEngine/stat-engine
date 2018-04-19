@@ -29,7 +29,7 @@
             <p>
               We're still in the onboarding process. <br>
               <button id='user-home-getting-started' class="btn btn-primary" ui-sref="site.user.gettingStarted">Onboarding Status</button>
-              <button ng-if="vm.fireDepartment.integration_complete" id='user-home-getting-started' class="btn btn-outline " ui-sref="vm.dashboard()">Dashboard</button>
+              <button ng-if="vm.fireDepartment.integration_complete" id='user-home-getting-started' class="btn btn-outline " ng-click="vm.dashboard()">Dashboard</button>
             </p>
           </div>
           <div ng-if="vm.setupComplete">
