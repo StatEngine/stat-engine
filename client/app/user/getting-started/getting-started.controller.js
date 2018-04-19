@@ -20,7 +20,7 @@ export default class GettingStartedController {
       },
       { step: 'Verify your data.',
         status: _.get(this.fireDepartment, 'integration_verified', false),
-        action: 'Visit your dashboard and confirm that everything looks good!'
+        action: 'Visit your dashboard and confirm that everything looks good!  Email us with any suggestions and your confirmation.'
       },
     ];
 

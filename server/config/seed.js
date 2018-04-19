@@ -690,18 +690,39 @@ Extension
   .then(() => FireDepartment.create({
     fd_id: '0000',
     firecares_id: '00000',
-    name: 'Onboarding Department',
+    name: 'New Onboarding Department',
     state: 'VA',
     timezone: 'US/Eastern',
+    integration_complete: false,
     Users: [{
       provider: 'local',
       role: 'user',
       username: 'onboarding',
       first_name: 'Onboarding',
       last_name: 'User',
-      email: 'onbording@prominentedge.com',
+      email: 'onboarding@prominentedge.com',
       password: 'password',
-      api_key: 'onbording',
+      api_key: 'onboarding',
+    }]
+  }, {
+    include: [FireDepartment.Users, FireDepartment.Tweets]
+  }))
+  .then(() => FireDepartment.create({
+    fd_id: '0001',
+    firecares_id: '0001',
+    name: 'Integration Complete Department',
+    state: 'VA',
+    timezone: 'US/Eastern',
+    integration_complete: true,
+    Users: [{
+      provider: 'local',
+      role: 'user',
+      username: 'icomplete',
+      first_name: 'Integration Complete',
+      last_name: 'User',
+      email: 'icomplete@prominentedge.com',
+      password: 'password',
+      api_key: 'icomplete',
     }]
   }, {
     include: [FireDepartment.Users, FireDepartment.Tweets]
