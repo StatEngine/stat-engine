@@ -4,7 +4,12 @@
   <section class="container site-content">
     <section id="department-users" class="fluid-container py-5">
       <div class="container">
-        <h3 class="mb-2" >Fire Department <span class="badge badge-success">{{vm.fireDepartments.length}} </span></h3><button class="btn btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
+        <h3 class="mb-2" >Fire Departments
+          <span class="badge badge-success" uib-popover="Onboarding Complete" popover-trigger="'mouseenter'">{{vm.onboardedFireDepartments.length}}</span>
+          <span class="badge badge-warning" uib-popover="Integration Complete" popover-trigger="'mouseenter'">{{vm.integratedFireDepartments.length}}</span>
+          <span class="badge badge-danger" uib-popover="Not Started" popover-trigger="'mouseenter'">{{vm.notStartedFireDepartments.length}}</span>
+
+        </h3><button class="btn btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
 
         <div class="row">
           <div class="col-12 py-4">
@@ -223,7 +228,7 @@
         <div class="row" ng-repeat="(id, users) in vm.departmentUsers">
           <div ng-if="id !== 'undefined'">
             <div class="col-12 py-4">
-              <h4 ng-if="id"> {{ id }} - {{ users[0].FireDepartment.name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
+              <h4 ng-if="id"> {{ users[0].FireDepartment.name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
               <div class="table tabemb-5">
                 <div class="table-row header">
                   <div class="cell">

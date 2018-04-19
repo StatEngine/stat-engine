@@ -535,6 +535,7 @@ Extension
     name: 'Hanover Fire-EMS',
     state: 'VA',
     timezone: 'US/Eastern',
+    integration_complete: true,
     Users: [{
       provider: 'local',
       role: 'user',

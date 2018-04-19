@@ -7,6 +7,11 @@ export default class AdminHomeController {
   constructor(User, fireDepartments, users) {
     this.UserService = User;
     this.fireDepartments = fireDepartments;
+
+    this.onboardedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_verified);
+    this.integratedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_complete && !fd.integration_verified);
+    this.notStartedFireDepartments = _.filter(this.fireDepartments, fd => !fd.integration_complete);
+
     this.users = users;
 
     this.buildData();
