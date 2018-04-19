@@ -3,11 +3,11 @@
 export default function routes($stateProvider) {
   'ngInject';
 
-  /*$stateProvider.state('statEngine', {
+  $stateProvider.state('statEngine', {
     url: '/statEngine',
     template: require('./landing/landing.html'),
     controller: 'StatEngineLandingController'
-  });*/
+  });
 
   $stateProvider.state('statEngineDocumentation', {
     url: '/statEngine/documentation',
