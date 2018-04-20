@@ -52,7 +52,7 @@ export default function(app) {
   });
   // https://www.npmjs.com/package/express-session
   let sess = {
-    secret: config.secrets.session,
+    secret: config.session.secret,
     saveUninitialized: true,
     resave: false,
     store: myStore,
@@ -65,9 +65,10 @@ export default function(app) {
       secure: false,
     },
   };
+
   if(process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1); // trust first proxy
-    sess.cookie.secure = true; // serve secure cookies
+    sess.cookie.secure = config.session.secure; // serve secure cookies
   }
   app.use(session(sess));
   myStore.sync();
@@ -80,7 +81,7 @@ export default function(app) {
    * Lusca - express server security
    * https://github.com/krakenjs/lusca
    */
-  if(env !== 'test' && !config.on_premise) {
+  if(env !== 'test') {
     app.use(lusca({
       // globally at false (so we can have external api users)
       // but enable later on route bootstrapping for individual routes

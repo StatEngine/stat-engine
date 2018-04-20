@@ -24,8 +24,6 @@ process.env.AMQP_PASSWORD = process.env.AMQP_PASSWORD || 'guest';
 var all = {
   env: process.env.NODE_ENV,
 
-  on_premise: process.env.ON_PREMISE && process.env.ON_PREMISE.toLowerCase() === 'true',
-
   // AWS Credentials for signing requests to Kibana
   aws: {
     region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
@@ -73,25 +71,23 @@ var all = {
   // Should we populate the DB with sample data?
   seedDB: false,
 
-  // Secret for session, you will want to change this and make it an environment variable
-  secrets: {
-    session: 'session-secret'
+  session: {
+    secret: process.env.SESSION_SECRET || '123456',
+    secure: _.isUndefined(process.env.SESSION_SECURE) ? true : process.env.SESSION_SECURE.toLowerCase() !== 'false',
   },
-  google: {
-    clientID: process.env.GOOGLE_ID || 'id',
-    clientSecret: process.env.GOOGLE_SECRET || 'secret',
-    callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
-  },
+
   mailSettings: {
     serverEmail: 'noreply@statengine.io',
     resetPasswordTemplate: 'resetpassword',
     newUserTemplate: 'getting-started-statengine',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
   },
+
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,
     listId: process.env.MAILCHIMP_LIST_ID || '61455277a5', // dev list
   },
+
   twitter: {
     consumerKey: process.env.TWITTER_CONSUMER_KEY || '123',
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET || '123',
@@ -103,6 +99,5 @@ var all = {
 // ==============================================
 module.exports = _.merge(
   all,
-  require('./shared'),
   // eslint-disable-next-line
   require(`./${process.env.NODE_ENV}.js`) || {});

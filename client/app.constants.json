@@ -1,0 +1,17 @@
+{
+  "all": {
+    "appConfig": {
+      "contact_email": "contact@statengine.io",
+      "support_email": "support@statengine.io",
+      "on_premise": false
+
+    }
+  },
+  "onPremise": {
+    "appConfig": {
+      "contact_email": "contact@statengine.io",
+      "support_email": "support@statengine.io",
+      "on_premise": true
+    }
+  }
+}

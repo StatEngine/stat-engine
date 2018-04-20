@@ -14,7 +14,7 @@ export default {
 
     // inject jwt token
     if((p.indexOf('login') >= 0 || !req.cookies.rorCookie)
-    && (req.fire_department && req.user && (req.user.isKibanaAdmin || req.user.isAdmin))) {
+       && (req.fire_department && req.user && req.user.isKibanaAdmin)) {
       var claims = {
         sub: req.user.username,
         iss: 'https://statengine.io',
