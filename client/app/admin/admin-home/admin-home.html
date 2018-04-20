@@ -79,7 +79,7 @@
         <div class="row">
           <div class="col-12 py-4">
             <h4> Homeless Users <span class="badge badge-danger">{{vm.homelessUsers.length}} </span></h4>
-            <p> Users that have signed up, but not requested acceess to any department yet </p>
+            <p> Users that have signed up, but not requested access to any department yet </p>
             <p ng-if="!vm.homelessUsers || vm.homelessUsers.length === 0" class="text-success"> No homeless users </p>
             <div ng-if="vm.homelessUsers.length > 0" class="table mb-5">
               <div class="table-row header">
@@ -112,7 +112,7 @@
         <div class="row">
           <div class="col-12 py-4">
             <h4> Pending Data Access Requests <span class="badge badge-warning">{{vm.pendingUsers.length}} </span></h4>
-            <p> Users that have requested acceess to a department, but haven't received approval</p>
+            <p> Users that have requested access to a department, but haven't received approval</p>
             <p ng-if="!vm.pendingUsers || vm.pendingUsers.length === 0" class="text-success"> No pending requests </p>
             <div ng-if="vm.pendingUsers.length > 0" class="table mb-5">
               <div class="table-row header">
