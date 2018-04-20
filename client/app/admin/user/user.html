@@ -1,0 +1,116 @@
+<div class="fire-deparment-home">
+  <navbar class="animated fadeInDown naked"></navbar>
+  <header class="naked"></header>
+  <section class="container site-content">
+    <section class="row mb-5 justify-content-md-center">
+      <div class="col-md-auto align-self-center">
+        <h2 class="subheader">Edit Fire Department</h2>
+        <div class="form-elements">
+          <form class="form form-wrapper" name="form" ng-submit="vm.updateUser(form)" novalidate="novalidate">
+            <div class="form-group" ng-class="{ 'has-success': form.username.$valid && vm.submitted,'has-error': form.username.$invalid && vm.submitted }">
+              <label>Username</label>
+              <input type="text" name="username" class="form-control" ng-model="vm.user.username" required="required" ng-pattern="/^[a-zA-Z0-9]{2,20}$/" mongoose-error="mongoose-error" ng-disabled="!vm.newUser"/>
+              <p class="help-block" ng-show="form.username.$error.pattern && vm.submitted">
+                Usernames must be 2 to 20 alphanumeric characters.
+              </p>
+              <p class="help-block" ng-show="form.username.$error.required && vm.submitted">
+                Username is required
+              </p>
+              <p class="help-block" ng-show="form.username.$error.mongoose">
+                {{ vm.errors.username }}
+              </p>
+            </div>
+
+            <div class="form-group " ng-class="{ 'has-success': form.first_name.$valid && vm.submitted,'has-error': form.first_name.$invalid && vm.submitted }">
+              <label>First Name</label>
+              <input type="text" name="first_name" class="form-control" ng-model="vm.user.first_name" required="required"/>
+              <p class="help-block" ng-show="form.first_name.$error.required && vm.submitted">
+                A first name is required
+              </p>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-success': form.last_name.$valid && vm.submitted,'has-error': form.last_name.$invalid && vm.submitted }">
+              <label>Last Name</label>
+              <input type="text" name="last_name" class="form-control" ng-model="vm.user.last_name" required="required"/>
+              <p class="help-block" ng-show="form.last_name.$error.required && vm.submitted">
+                A last name is required
+              </p>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-success': form.email.$valid && vm.submitted,'has-error': form.email.$invalid && vm.submitted }">
+              <label>Email</label>
+              <input type="email" name="email" class="form-control" ng-model="vm.user.email" required="required" mongoose-error="mongoose-error" ng-disabled="!vm.newUser"/>
+              <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
+                Doesn't look like a valid email.
+              </p>
+              <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
+                What's your email address?
+              </p>
+              <p class="help-block" ng-show="form.email.$error.mongoose">
+                {{ vm.errors.email }}
+              </p>
+            </div>
+
+            <div ng-if="!!vm.newUser">
+              <div class="form-group" ng-class="{ 'has-success': form.password.$valid && vm.submitted,'has-error': form.password.$invalid && vm.submitted }">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" ng-model="vm.user.password" ng-minlength="3" required="required" mongoose-error="mongoose-error" ng-disabled="!vm.newUser"/>
+                <p class="help-block" ng-show="(form.password.$error.minlength || form.password.$error.required) && vm.submitted">
+                  Password must be at least 3 characters.
+                </p>
+                <p class="help-block" ng-show="form.password.$error.mongoose">
+                  {{ vm.errors.password }}
+                </p>
+              </div>
+
+              <div class="form-group" ng-class="{ 'has-success': form.confirmPassword.$valid && vm.submitted,'has-error': form.confirmPassword.$invalid && vm.submitted }">
+                <label>Confirm Password</label>
+                <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword" match="vm.user.password" ng-minlength="3" required="required" ng-disabled="!vm.newUser"/>
+                <p class="help-block" ng-show="form.confirmPassword.$error.match && vm.submitted">
+                  Passwords must match.
+                </p>
+              </div>
+            </div>
+
+            <hr>
+            <h3>Fire Department</h3>
+            <div class="form-group">
+              <label>Requested</label>
+              <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.requestedFireDepartment" class="form-control select-md"></select>
+            </div>
+            <div class="form-group">
+              <label>Assigned</label>
+              <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
+            </div>
+
+            <hr>
+            <h3>Roles</h3>
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.ingest.$valid && vm.submitted,'has-error': form.userRoles.ingest.$invalid && vm.submitted }">
+              <label>Ingest User (Spade Account)</label>
+              <input type="checkbox" name="ingest" class="form-control input-md" ng-model="vm.userRoles.ingest"/>
+            </div>
+
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.kibana_admin.$valid && vm.submitted,'has-error': form.userRoles.kibana_admin.$invalid && vm.submitted }">
+              <label>Kibana Admin</label>
+              <input type="checkbox" name="kibana_admin" class="form-control input-md" ng-model="vm.userRoles.kibana_admin"/>
+            </div>
+
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.department_admin.$valid && vm.submitted,'has-error': form.userRoles.department_admin.$invalid && vm.submitted }">
+              <label>Department Admin</label>
+              <input type="checkbox" name="department_admin" class="form-control input-md" ng-model="vm.userRoles.department_admin"/>
+            </div>
+
+            <div class="form-group " ng-class="{ 'has-success': form.user.nfors.$valid && vm.submitted,'has-error': form.user.nfors.$invalid && vm.submitted }">
+              <label>NFORS Account</label>
+              <input type="checkbox" name="nfors" class="form-control input-md" ng-model="vm.user.nfors"/>
+            </div>
+            <div>
+              <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </section>
+  <footer id="footer"></footer>
+</div>

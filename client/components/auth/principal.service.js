@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-export default function PrincipalService($http, $q, User) {
+export default function PrincipalService($http, $q, $window, User) {
   'ngInject';
 
   var _identity = {};
@@ -19,6 +19,7 @@ export default function PrincipalService($http, $q, User) {
 
     isInRole(role) {
       if(!_authenticated || !_identity.roles) return false;
+      if(_identity.roles.indexOf('admin') >= 0) return true;
 
       return _identity.roles.indexOf(role) >= 0;
     },
@@ -42,7 +43,11 @@ export default function PrincipalService($http, $q, User) {
       return $http.post('/auth/local', {
         username,
         password,
-      }).then(response => this.authenticate(response.data));
+      }).then(response => {
+        this.authenticate(response.data.user);
+        if(response.data.redirect) $window.location.href = response.data.redirect;
+        return response;
+      });
     },
 
     logout() {
@@ -77,8 +82,8 @@ export default function PrincipalService($http, $q, User) {
       // resolve.
       $http.get('/auth/local')
         .then(response => {
-          this.authenticate(response.data);
-          deferred.resolve(response.data);
+          this.authenticate(response.data.user);
+          deferred.resolve(response.data.user);
         })
         .catch(err => deferred.reject(err));
 

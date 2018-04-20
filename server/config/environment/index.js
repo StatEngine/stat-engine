@@ -40,6 +40,10 @@ var all = {
   },
 
   // Local vs AWS Kibana
+  ror: {
+    secret: process.env.ROR_JWT_SIGNATURE_KEY || '123456'
+  },
+
   kibana: {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
     appPath: process.env.KIBANA_BASEPATH ? process.env.KIBANA_BASEPATH : '/_plugin/kibana',
@@ -72,9 +76,16 @@ var all = {
     secure: _.isUndefined(process.env.SESSION_SECURE) ? true : (process.env.SESSION_SECURE.toLowerCase() !== 'false'),
   },
 
+  mailSettings: {
+    serverEmail: 'noreply@statengine.io',
+    resetPasswordTemplate: 'resetpassword',
+    newUserTemplate: 'getting-started-statengine',
+    mandrillAPIKey: process.env.MANDRILL_API_KEY,
+  },
+  
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,
-    listId: process.env.MAILCHIMP_LIST_ID
+    listId: process.env.MAILCHIMP_LIST_ID || '61455277a5', // dev list
   },
 
   twitter: {

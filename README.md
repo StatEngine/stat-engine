@@ -36,7 +36,7 @@ Running `npm test` will run the unit tests with karma.
 `docker build -t stat-engine .`
 
 ### Running
-`docker run -p 80:8080 stat-engine`
+`docker run -p 80:8080 -e SEQUELIZE_URI=postgres://statengine:statengine@docker.for.mac.localhost:5432/statengine -e NODE_ENV=test stat-engine`
 
 App is available at http://localhost:80
 
@@ -48,6 +48,3 @@ brew services start elasticsearch
 echo 'server.basePath: "/_plugin/kibana"' >> /usr/local/etc/kibana/kibana.yml
 brew services start kibana
 ```
-
-## Use AWS Kibana
-TODO

@@ -1,87 +1,44 @@
-<div class="spade-landing">
+<div class="statEngine-landing">
   <navbar class="animated fadeInDown"></navbar>
   <header class="slim">
     <section class="container m-auto pt-5">
       <div class="row animated fadeIn">
         <div class="col-12">
-          <img src="../assets/images/spade-logo-color.png" class="mb-2 spade-logo" alt="Spade Logo">
-          <h4>Data ingestion and preperation for the StatEngine platform</h4>
+          <img src="../assets/images/statEngine-logo-color.png" class="mb-2 statEngine-logo" alt="StatEngine Logo">
+          <h4>Data analytics and visualization platform for public safety data</h4>
         </div>
         <div class="col-12 py-3 button-group">
+          <a id='statEngine-landing-header-download' ui-sref="site.account.signup"><button class="btn btn-primary hvr-float">Cloud</button></a>
           <span>
-            <a id='spade-landing-header-download' href="http://files.statengine.io/spade-v1.exe"><button class="btn btn-primary hvr-float">Download</button></a>
-            <em>or <a id='spade-landing-header-view-github' href="https://github.com/StatEngine/spade" target="_blank">View on Github</a></em>
+            <a id='statEngine-landing-header-download' href="https://github.com/StatEngine/stat-engine/releases"><button class="btn btn-outline hvr-float ml-3">On-Premise</button></a>
+            <em>or <a id='statEngine-landing-header-view-github' href="https://github.com/StatEngine/stat-engine" target="_blank">View on Github</a></em>
           </span>
-          <a id='spade-landing-header-view-docs' href="spade/documentation" class="btn btn-outline hvr-float ml-3">View the Docs</a>
         </div>
       </div>
     </section>
   </header>
   <section class="container py-4 py-sm-5 mb-2 mb-sm-0">
-    <h3 class="mb-2">What is Spade?</h3>
+    <h3 class="mb-2">What version should I use?</h3>
     <div class="row">
-      <div class="col-md-8">
-        <p>Spade is the core data ingestion component of StatEngine. Spade aggregates data from local data repositories including CADs, Records Management Systems, and other databases and optimally prepares and sends that data for consumption by StatEngine.</p>
+      <div class="col-md-12">
+        <p>StatEngine is available either as a hosted cloud version or an on-premise installation.  Using the cloud version, all of the data is stored on our secure cloud servers and you can access the platform anywhere using any Browser or mobile devices.   The cloud version offers additional features such as the App marketplace.   Little to no maintenance is needed once we're setup and running.
+           The on-premise version is also available, if you prefer managing all aspects of the platform yourself.  We recommend using the on-premise version as a way to experiement with the platform or if your prefer to keep all data local to your department.  We also only recommend using the on-premise method if you have skilled IT personnel available to setup and support the platform.</p>
       </div>
     </div>
   </section>
   <section class="container info-cards mb-5 pb-5">
     <div class="row">
       <div class="col-md-6 my-4">
-        <a id='spade-landing-container-view-docs' href="spade/documentation" class="card hvr-float-shadow documentation">
+        <a id='statEngine-landing-container-view-docs' href="statEngine/documentation" class="card hvr-float-shadow documentation">
           <h4 class="heavyheader">Explore the Docs <i class="fa fa-arrow-right hidden-xs" aria-hidden="true"></i></h4>
           <p>Getting starting, tutorials, and frequently asked questions</p>
         </a>
       </div>
       <div class="col-md-6 my-4">
-        <a id='spade-landing-container-download' href="http://files.statengine.io/spade-v1.exe" class="card hvr-float-shadow download">
+        <a id='statEngine-landing-container-download' href="https://github.com/StatEngine/stat-engine/releases" class="card hvr-float-shadow download">
           <h4 class="heavyheader">View Downloads <i class="fa fa-arrow-right hidden-xs" aria-hidden="true"></i></h4>
-          <p>Download the latest Windows installer</p>
+          <p>Download the latest on-premise installer</p>
         </a>
-      </div>
-    </div>
-  </section>
-  <section class="fluid-container py-5 bg-light-gray integrations-container">
-    <div class="container mb-5">
-      <h3 class="mb-5">Frequently Asked Questions</h3>
-      <div class="row">
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">What is StatEngine?</h4>
-          <p>StatEngine is a real-time open source data analytics and visualization platform for public safety organizations. Check out <a href="/main">statengine.io</a> to find out more.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">What is Spade?</h4>
-          <p>Spade is the core data ingestion component of StatEngine. It’s used to copy data from your local sources such as CAD systems, Record Management Systems, or other applications and send it to StatEngine to be processed and visualized.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">Who created spade?</h4>
-          <p>Spade was created and is maintained by Prominent Edge. Check out <a href="https://www.prominentedge.com/?utm_source=statengine&utm_medium=spade%20documentation&utm_campaign=spade-boston&utm_term=AKIAIO6PHIYQ44CCKEOQ&utm_content=RBfkdbxG9xJ3HwWkxIFRkhkrOV%2FARHE9bZjS0hju" target="_blank">prominentedge.com </a>to find out more.</p>
-
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">Is my data secure?</h4>
-          <p>Yes, all data transferred is through an encrypted HTTPS session. This is the same security that is used by your bank when you access your account online. Once, your data is on the StatEngine servers it is stored using industry best practices.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">Who manages the spade installation?</h4>
-          <p>Departments are responsible for installing and managing Spade. However, if you have any issues you can contact <a id='spade-landing-faq-support-who' href="mailto: {{vm.appConfig.support_email}}">{{vm.appConfig.support_email}}</a> and we’ll be happy to help you.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">Is there any prerequisite software that would need to be installed for Spade to work?</h4>
-          <p>No, Spade includes all of its own dependencies. You just need to have a computer running Windows with internet access and access to the data source.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">How do I get updates when they are released?</h4>
-          <p>Update notifications will be sent to the administrative email associated with your statengine account. They will direct you to a download link for the newest version.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">Who do I contact for support if there is an issue with the application?</h4>
-          <p>You can contact <a id='spade-landing-faq-support-bugs-who' href="mailto: {{vm.appConfig.support_email}}">{{vm.appConfig.support_email}}</a>.</p>
-        </div>
-        <div class="col-12 mb-4 pb-2">
-          <h4 class="heavyheader">What IP addresses and ports would need to be open to make the connection with StatEngine?</h4>
-          <p>Spade communicates with StatEngine over the standard HTTPS port (443) which is most likely already configured correctly on your firewall. Depending on your environment and your specific configuration of destinations in Spade, you may need to whitelist domains/IPs accordingly. </p>
-        </div>
       </div>
     </div>
   </section>

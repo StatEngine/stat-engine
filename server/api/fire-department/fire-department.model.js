@@ -11,27 +11,35 @@ export default function(sequelize, DataTypes) {
     },
     fd_id: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true
       }
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: true,
       }
     },
     state: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true
       }
     },
     firecares_id: {
       type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     timezone: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true
       }
@@ -53,7 +61,7 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       es_indices() {
         return {
-          'all': `${this.firecares_id}-${this.state}-${this.name}*`
+          all: `${this.firecares_id}-${this.state}-${this.name}*`
             .toLowerCase()
             .replace(/ /g, '_')
             .replace(/&/g, 'and'),

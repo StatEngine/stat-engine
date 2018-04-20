@@ -14,6 +14,7 @@
     </div>
     <div id="navbar-button" class="col-auto ml-auto pl-0">
       <div ng-if="vm.Principal.isAuthenticated()">
+        <a id='navbar-links-home' ng-if="vm.currentPrincipal.isAdmin" ui-sref="site.admin.home"><i class="fa fa-gear"></i>Admin</a>
         <a id='navbar-links-home' ng-show="vm.state.current.name != 'site.user.home'" ui-sref="site.user.home"><i class="fa fa-home"></i>Home</a>
         <button id='navbar-links-sign-out' class="btn btn-outline btn-sm" ng-click="vm.logout()"><i class="fa fa-sign-out"></i> Sign out</button>
       </div>

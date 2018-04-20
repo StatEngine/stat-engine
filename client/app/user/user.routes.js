@@ -8,6 +8,62 @@ export default function routes($stateProvider) {
       abstract: true,
       template: '<div ui-view />'
     })
+    .state('site.user.editpassword', {
+      url: '/settings',
+      template: require('./settings/settings.html'),
+      data: {
+        roles: ['user']
+      },
+      controller: 'SettingsController',
+      controllerAs: 'vm',
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity();
+        }
+      },
+    })
+    .state('site.user.requestAccess', {
+      url: '/requestAccess',
+      template: require('./request-access/request-access.html'),
+      controller: 'RequestAccessController',
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+        requestedFireDepartment(currentPrincipal, FireDepartment) {
+          if(currentPrincipal.requested_fire_department_id) {
+            return FireDepartment.get({ id: currentPrincipal.requested_fire_department_id}).$promise;
+          } else {
+            return undefined;
+          }
+        },
+        fireDepartments(requestedFireDepartment, FireDepartment) {
+          if(!requestedFireDepartment) {
+            return FireDepartment.query().$promise;
+          } else {
+            return undefined;
+          }
+        }
+      },
+      controllerAs: 'vm'
+    })
+    .state('site.user.gettingStarted', {
+      url: '/gettingStarted',
+      template: require('./getting-started/getting-started.html'),
+      controller: 'GettingStartedController',
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+      },
+      controllerAs: 'vm'
+    })
     .state('site.user.home', {
       url: '/home',
       template: require('./user-home/user-home.html'),
@@ -17,33 +73,39 @@ export default function routes($stateProvider) {
       },
       resolve: {
         currentPrincipal(Principal) {
-          return Principal.identity();
+          return Principal.identity(true);
         },
-        currentFireDepartment($q, FireDepartment, currentPrincipal) {
-          if(currentPrincipal.fire_department__id) {
-            return FireDepartment.get({ _id: currentPrincipal.fire_department__id }).$promise;
+        requestedFireDepartment(currentPrincipal, FireDepartment) {
+          if(currentPrincipal.requested_fire_department_id) {
+            return FireDepartment.get({ id: currentPrincipal.requested_fire_department_id}).$promise;
           } else {
             return undefined;
           }
         },
-        dataQuality(FireDepartment, currentFireDepartment) {
-          if(currentFireDepartment) {
-            return FireDepartment.dataQuality({ id: currentFireDepartment.firecares_id, type: 'fire-incident'});
+        fireDepartments(currentPrincipal, FireDepartment) {
+          if(currentPrincipal.isAdmin) {
+            return FireDepartment.query().$promise;
           } else {
             return undefined;
           }
         },
-        twitterExtensionConfiguration(currentFireDepartment, ExtensionConfiguration) {
-          if(currentFireDepartment) {
+        /*twitterExtensionConfiguration(currentPrincipal, ExtensionConfiguration) {
+          if(currentPrincipal.FireDepartment) {
             return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
           } else {
             return undefined;
           }
+        },*/
+        twitterExtensionConfiguration() {
+          return undefined;
         },
-        tweets(twitterExtensionConfiguration, Twitter) {
+        /*tweets(twitterExtensionConfiguration, Twitter) {
           if(twitterExtensionConfiguration && twitterExtensionConfiguration.enabled) return Twitter.getTweets().$promise;
           else return [];
-        },
+        },*/
+        tweets() {
+          return [];
+        }
       },
       controllerAs: 'vm'
     });

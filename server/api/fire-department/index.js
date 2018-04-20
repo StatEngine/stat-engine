@@ -7,45 +7,53 @@ import * as auth from '../../auth/auth.service';
 
 import * as controller from './fire-department.controller';
 
-const rawParser = bodyParser.raw({
-  inflate: true,
-  limit: '15mb',
-  type: 'application/octet-stream',
-});
-
 const router = new Router();
 
 router.get(
   '/',
-  auth.isApiAuthenticated,
-  auth.hasRole('user'),
   controller.search
 );
 
 router.get(
-  '/:firecaresId',
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.show
+  controller.get
 );
 
-router.get(
-  '/:firecaresId/:type/data-quality',
+router.post(
+  '/',
   auth.isApiAuthenticated,
-  auth.hasRole('user'),
-  auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
-  controller.dataQuality
+  bodyParser.json(),
+  auth.hasRole('admin'),
+  controller.create
 );
 
 router.put(
-  '/:firecaresId/:type/:id',
+  '/:id',
+  auth.isApiAuthenticated,
+  bodyParser.json(),
+  auth.hasRole('admin'),
+  controller.edit
+);
+
+router.get(
+  '/:id/:type/data-quality',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.hasAdminPermission,
+  controller.dataQuality
+);
+
+router.post(
+  '/:id/:type',
   auth.isApiAuthenticated,
   auth.hasRole('ingest'),
-  auth.hasFireDepartment,
-  auth.belongsToFireDepartment,
-  rawParser,
+  controller.hasIngestPermission,
+  bodyParser.json(),
   controller.queueIngest
 );
+
+router.param('id', controller.loadFireDepartment);
 
 module.exports = router;
