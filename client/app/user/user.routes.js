@@ -82,17 +82,30 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
-        twitterExtensionConfiguration(currentPrincipal, ExtensionConfiguration) {
+        fireDepartments(currentPrincipal, FireDepartment) {
+          if(currentPrincipal.isAdmin) {
+            return FireDepartment.query().$promise;
+          } else {
+            return undefined;
+          }
+        },
+        /*twitterExtensionConfiguration(currentPrincipal, ExtensionConfiguration) {
           if(currentPrincipal.FireDepartment) {
             return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
           } else {
             return undefined;
           }
+        },*/
+        twitterExtensionConfiguration() {
+          return undefined;
         },
-        tweets(twitterExtensionConfiguration, Twitter) {
+        /*tweets(twitterExtensionConfiguration, Twitter) {
           if(twitterExtensionConfiguration && twitterExtensionConfiguration.enabled) return Twitter.getTweets().$promise;
           else return [];
-        },
+        },*/
+        tweets() {
+          return [];
+        }
       },
       controllerAs: 'vm'
     });

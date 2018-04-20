@@ -83,7 +83,7 @@
             <dd>{{ vm.fireDepartment.state }}</dd>
           </div>
         </dl>
-        <div ng-if="!vm.fireDepartment">
+        <div ng-if="!vm.fireDepartment && !vm.principal.isAdmin">
           <div class="row justify-content-md-center">
             <div class="col">
               <div ng-if="!vm.requestedFireDepartment">
@@ -94,6 +94,24 @@
               </div>
               <div ng-if="vm.requestedFireDepartment">
                 <p class='text-warning'> Pending approval from {{ vm.requestedFireDepartment.name }} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="vm.principal.isAdmin">
+          <div class="row justify-content-md-center">
+            <div class="col">
+              <div class="form-group">
+                <div ng-if="!vm.assignedFireDepartment">
+                  <p class='text-danger text-center'>
+                    Not currently assigned to a department. <br>
+                  </p>
+                </div>
+                <label>Select Fire Department</label>
+                <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
+              </div>
+              <div>
+                <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
               </div>
             </div>
           </div>
