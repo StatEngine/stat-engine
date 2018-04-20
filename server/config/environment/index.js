@@ -73,7 +73,7 @@ var all = {
 
   session: {
     secret: process.env.SESSION_SECRET || '123456',
-    secure: _.isUndefined(process.env.SESSION_SECURE) ? true : (process.env.SESSION_SECURE.toLowerCase() !== 'false'),
+    secure: _.isUndefined(process.env.SESSION_SECURE) ? true : process.env.SESSION_SECURE.toLowerCase() !== 'false',
   },
 
   mailSettings: {
@@ -82,7 +82,7 @@ var all = {
     newUserTemplate: 'getting-started-statengine',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
   },
-  
+
   mailchimp: {
     apiKey: process.env.MAILCHIMP_API_KEY,
     listId: process.env.MAILCHIMP_LIST_ID || '61455277a5', // dev list

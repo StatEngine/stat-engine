@@ -36,6 +36,6 @@ Running `npm test` will run the unit tests with karma.
 `docker build -t stat-engine .`
 
 ### Running
-`docker run -p 80:8080 -e SEQUELIZE_URI=postgres://statengine:statengine@docker.for.mac.localhost:5432/statengine -e NODE_ENV=test stat-engine`
+`docker run -p 80:8080 -e SEQUELIZE_URI=postgres://statengine:statengine@docker.for.mac.localhost:5432/statengine stat-engine`
 
 App is available at http://localhost:80
