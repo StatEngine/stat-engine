@@ -4,8 +4,11 @@ import _ from 'lodash';
 
 export default class AdminHomeController {
   /*@ngInject*/
-  constructor(User, fireDepartments, users) {
+  constructor(User, FireDepartment, Modal, fireDepartments, users) {
     this.UserService = User;
+    this.FireDepartmentService = FireDepartment;
+    this.ModalService = Modal;
+
     this.fireDepartments = fireDepartments;
 
     this.onboardedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_verified);
@@ -45,6 +48,22 @@ export default class AdminHomeController {
     this.UserService.revokeAccess({ id: user._id}, {}).$promise
       .finally(() => {
         this.refreshUsers();
+      });
+  }
+
+  fixtures(type) {
+    let params = {
+      resource2: type
+    };
+
+
+    this.FireDepartmentService.fixtures(params, {}).$promise
+      .then(() => {
+        this.ModalService.ok()('Success', 'Fixtures Loaded!');
+      })
+      .catch(err => {
+        console.error(err);
+        this.ModalService.ok()('Error', 'Fixtures Error', err);
       });
   }
 }

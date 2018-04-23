@@ -2,7 +2,7 @@
   <navbar class="animated fadeInDown naked"></navbar>
   <header class="naked"></header>
   <section class="container site-content">
-    <section class="row mb-5 justify-content-md-center">
+    <section class="row mb-12 justify-content-md-center">
       <div class="col-md-auto align-self-center">
         <h2 class="subheader">Edit Fire Department</h2>
         <div class="form-elements">
@@ -52,6 +52,28 @@
               </p>
             </div>
 
+            <div class="form-group " ng-class="{ 'has-success': fdForm.latitude.$valid && vm.submitted,'has-error': fdForm.latitude.$invalid && vm.submitted }">
+              <label>Latitude</label>
+              <input type="number" name="latitude" class="form-control input-md" ng-model="vm.fireDepartment.latitude" required="required"/>
+              <p class="help-block" ng-show="fdForm.latitude.$error.required && vm.submitted">
+                Latitude is required
+              </p>
+              <p class="help-block" ng-show="fdForm.latitude.$error.mongoose">
+                {{ vm.errors.latitude }}
+              </p>
+            </div>
+
+            <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
+              <label>Latitude</label>
+              <input type="number" name="longitude" class="form-control input-md" ng-model="vm.fireDepartment.longitude" required="required"/>
+              <p class="help-block" ng-show="fdForm.longitude.$error.required && vm.submitted">
+                Longitude is required
+              </p>
+              <p class="help-block" ng-show="fdForm.longitude.$error.mongoose">
+                {{ vm.errors.longitude }}
+              </p>
+            </div>
+
             <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
               <label>Timezone</label>
               <input type="text" name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required="required"/>
@@ -77,6 +99,49 @@
               <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
             </div>
           </form>
+        </div>
+      </div>
+      <div class="col-md-auto align-self-center" ng-if="vm.fireDepartment._id && vm.fireDepartment._id !== 'new'">
+        <h2 class="subheader">Kibana Fixtures</h2>
+        <div class="form-elements">
+          <div class="form form-wrapper">
+            <div>
+              <label>Configuration</label>
+              <p> Seeds config with timezone, browser setting, and other advanced settings.</p>
+              <span><button id='seedKibanaConfig' ng-click="vm.fixtures('config')" class="btn btn-alt-2 btn-sm">Seed Config</button></span>
+            </div>
+
+            <br>
+            <div>
+              <label>Visualizations</label>
+              <p> Seeds new and updates existing visualizations.</p>
+              <span><button id='seedKibanaVisualizations' ng-click="vm.fixtures('visualization')" class="btn btn-alt-2 btn-sm">Seed Visualizations</button></span>
+            </div>
+
+            <br>
+            <div>
+              <label>Dashboards</label>
+              <p> Seeds new and updates existing dashboards.</p>
+              <span><button id='seedKibanaDashboards' ng-click="vm.fixtures('dashboard')"  class="btn btn-alt-2 btn-sm">Seed Dashboards</button></span>
+            </div>
+
+
+            <hr>
+            <h3 class="text-danger">Danger Zone</h3>
+
+            <div>
+              <label>Index Patterns</label>
+              <p> Seeds new and updates exsiting index patterns.  Custom scripted fields will be removed! </p>
+              <span><button id='seedIndexPatterns' ng-click="vm.fixtures('indexPattern')" class="btn btn-alt-2 btn-sm btn-danger">Seed Index Patterns</button></span>
+            </div>
+
+            <br>
+            <div>
+              <label>Seed All</label>
+              <p> Deletes, creates, and seeds entire Kibana Index.  All user modifications will be removed!</p>
+              <span><button id='seedAlKibana' ng-click="vm.fixtures('all')" class="btn btn-alt-2 btn-sm btn-danger">Seed All</button></span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

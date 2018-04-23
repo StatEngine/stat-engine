@@ -12,6 +12,9 @@ process.env.AMQP_PORT = process.env.AMQP_PORT || 5672;
 process.env.AMQP_USER = process.env.AMQP_USER || 'guest';
 process.env.AMQP_PASSWORD = process.env.AMQP_PASSWORD || 'guest';
 
+process.env.ELASTICSEARCH_USER = process.env.ELASTICSEARCH_USER ? process.env.ELASTICSEARCH_USER : 'kibana';
+process.env.ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD ? process.env.ELASTICSEARCH_PASSWORD : 'kibana';
+
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');

@@ -4,7 +4,7 @@ export default function FireDepartmentResource($resource) {
   'ngInject';
 
   return $resource('/api/fire-departments/:id/:resource/:resource2', {
-    id: '@id'
+    id: '@id',
   }, {
     dataQuality: {
       method: 'GET',
@@ -17,6 +17,14 @@ export default function FireDepartmentResource($resource) {
     },
     create: {
       method: 'POST',
+    },
+    fixtures: {
+      method: 'POST',
+      params: {
+        id: '@id',
+        resource: 'fixtures',
+        resource2: '@resource2',
+      }
     },
     update: {
       method: 'PUT',

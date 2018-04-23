@@ -8,8 +8,15 @@
           <span class="badge badge-success" uib-popover="Onboarding Complete" popover-trigger="'mouseenter'">{{vm.onboardedFireDepartments.length}}</span>
           <span class="badge badge-warning" uib-popover="Integration Complete" popover-trigger="'mouseenter'">{{vm.integratedFireDepartments.length}}</span>
           <span class="badge badge-danger" uib-popover="Not Started" popover-trigger="'mouseenter'">{{vm.notStartedFireDepartments.length}}</span>
+        </h3>
 
-        </h3><button class="btn btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
+        <div class="row">
+          <button class="btn-sm btn mr-2 btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">&nbsp Add New</span></button>
+          <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('config')"><span class="fa fa-pagelines">&nbsp Seed Kibana Config</span></button>
+          <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('visualization')"><span class="fa fa-pagelines">&nbsp Seed Kibana Visualizations</span></button>
+          <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('dashboard')"><span class="fa fa-pagelines">&nbsp Seed Kibana Dashboards</span></button>
+
+        </div>
 
         <div class="row">
           <div class="col-12 py-4">
@@ -26,6 +33,9 @@
                 </div>
                 <div class="cell">
                   State
+                </div>
+                <div class="cell">
+                  Location
                 </div>
                 <div class="cell">
                   Timezone
@@ -53,6 +63,9 @@
                 </div>
                 <div class="cell" data-title="State">
                   {{ fd.state }}
+                </div>
+                <div class="cell" data-title="Location">
+                  <a href="https://www.google.com/maps/?ll={{fd.latitude }},{{ fd.longitude }}&z=10" target="_blank">{{ fd.latitude | number: 2 }},{{ fd.longitude | number: 2 }}</a>
                 </div>
                 <div class="cell" data-title="Timezone">
                   {{ fd.timezone }}

@@ -5,6 +5,12 @@
 <div class="modal-body">
   <p ng-if="modal.text" ng-bind="modal.text"></p>
   <div ng-if="modal.html" ng-bind-html="modal.html"></div>
+  <div ng-if="modal.pre">
+    <pre>
+      {{modal.pre}}
+    </pre>
+  </div>
+
 </div>
 <div class="modal-footer">
   <button ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event)" ng-bind="button.text" class="btn"></button>

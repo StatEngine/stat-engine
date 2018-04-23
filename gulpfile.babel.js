@@ -396,6 +396,17 @@ gulp.task('serve:onPremise', cb => {
         cb);
 });
 
+gulp.task('serve:onPremise', cb => {
+    runSequence(
+        'ngConfig:onPremise',
+        'build',
+        'env:all',
+        'env:prod',
+        'env:onPremise',
+        ['start:server:prod', 'start:client'],
+        cb);
+});
+
 gulp.task('test', cb => {
     return runSequence('test:server', 'test:client', cb);
 });
@@ -505,6 +516,29 @@ gulp.task('build', cb => {
             'clean:tmp'
         ],
         'inject',
+        'transpile:server',
+        [
+            'build:images'
+        ],
+        [
+            'copy:extras',
+            'copy:assets',
+            'copy:fonts:dist',
+            'copy:server',
+            'webpack:dist'
+        ],
+        'revReplaceWebpack',
+        cb);
+});
+
+gulp.task('build:onPremise', cb => {
+    runSequence(
+        [
+            'clean:dist',
+            'clean:tmp'
+        ],
+        'inject',
+        'ngConfig:onPremise',
         'transpile:server',
         [
             'build:images'

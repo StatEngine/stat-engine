@@ -22,6 +22,14 @@ router.get(
 );
 
 router.post(
+  '/fixtures/:fixtureType',
+  auth.isApiAuthenticated,
+  bodyParser.json(),
+  auth.hasRole('admin'),
+  controller.multiFixtures
+);
+
+router.post(
   '/',
   auth.isApiAuthenticated,
   bodyParser.json(),
@@ -46,6 +54,14 @@ router.get(
 );
 
 router.post(
+  '/:id/fixtures/:fixtureType',
+  auth.isApiAuthenticated,
+  bodyParser.json(),
+  auth.hasRole('admin'),
+  controller.fixtures
+);
+
+router.post(
   '/:id/:type',
   auth.isApiAuthenticated,
   auth.hasRole('ingest'),
@@ -55,5 +71,6 @@ router.post(
 );
 
 router.param('id', controller.loadFireDepartment);
+router.param('fixtureType', controller.fixtureType);
 
 module.exports = router;
