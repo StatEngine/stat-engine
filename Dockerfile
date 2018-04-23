@@ -20,7 +20,8 @@ RUN npm install
 COPY . /usr/src/stat-engine
 
 # Build dist
-RUN if [ "x$onPremise" = "x" ] ; then /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
+ARG ON_PREMISE
+RUN if [ "x$ON_PREMISE" = "x" ] ; then /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
 
 # Run
 ENV NODE_ENV=production
