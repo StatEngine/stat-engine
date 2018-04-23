@@ -26,6 +26,6 @@ RUN if [ "x$ON_PREMISE" = "x" ] ; then /usr/src/stat-engine/node_modules/gulp/bi
 # Run
 ENV NODE_ENV=production
 
-CMD [ "node", "./dist/server/index.js" ]
+CMD [ "node", "/usr/src/stat-engine/dist/server/index.js" ]
 
 EXPOSE 8080
