@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 export default angular.module("<%= moduleName %>"<% if (createModule) { %>, []<% } %>)<% _.forEach(constants, function (constant) { %>
 .<%= type %>("<%= constant.name %>", <%= constant.value %>)<% }) %>
 .name;

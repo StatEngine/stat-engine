@@ -52,6 +52,14 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    latitude: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
+    longitude: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
   }, {
 
     /**

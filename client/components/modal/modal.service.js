@@ -35,6 +35,7 @@ export function Modal($rootScope, $uibModal) {
             dismissable: true,
             title: `${title}`,
             html: `<p>${msg}</p>`,
+            pre: error,
             buttons: [{
               classes: error ? 'btn-danger' : 'btn-success',
               text: 'Ok',

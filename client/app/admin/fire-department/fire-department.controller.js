@@ -12,10 +12,29 @@ export default class FireDepartmentController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(FireDepartment, currentFireDepartment, $state) {
-    this.FireDeparmtentService = FireDepartment;
+  constructor(FireDepartment, Modal, currentFireDepartment, $state) {
+    this.FireDepartmentService = FireDepartment;
+    this.ModalService = Modal;
+
     this.fireDepartment = currentFireDepartment || {};
     this.$state = $state;
+  }
+
+  fixtures(type) {
+    let params = {
+      id: this.fireDepartment._id,
+      resource2: type
+    };
+
+
+    this.FireDepartmentService.fixtures(params, {}).$promise
+      .then(() => {
+        this.ModalService.ok()('Success', 'Fixtures Loaded!');
+      })
+      .catch(err => {
+        console.error(err);
+        this.ModalService.ok()('Error', 'Fixtures Error', err);
+      });
   }
 
   updateFireDepartment(form) {
@@ -23,7 +42,7 @@ export default class FireDepartmentController {
 
     if(form.$valid) {
       if(this.fireDepartment._id) {
-        this.FireDeparmtentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
+        this.FireDepartmentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -32,7 +51,7 @@ export default class FireDepartmentController {
             else this.errors.error = 'Error saving data.';
           });
       } else {
-        this.FireDeparmtentService.create(this.fireDepartment).$promise
+        this.FireDepartmentService.create(this.fireDepartment).$promise
           .then(() => {
             this.$state.go('site.admin.home');
           })

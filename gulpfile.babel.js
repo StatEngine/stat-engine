@@ -520,6 +520,29 @@ gulp.task('build', cb => {
         cb);
 });
 
+gulp.task('build:onPremise', cb => {
+    runSequence(
+        [
+            'clean:dist',
+            'clean:tmp'
+        ],
+        'inject',
+        'ngConfig:onPremise',
+        'transpile:server',
+        [
+            'build:images'
+        ],
+        [
+            'copy:extras',
+            'copy:assets',
+            'copy:fonts:dist',
+            'copy:server',
+            'webpack:dist'
+        ],
+        'revReplaceWebpack',
+        cb);
+});
+
 gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
 
 gulp.task('build:images', () => {

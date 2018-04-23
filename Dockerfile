@@ -20,11 +20,11 @@ RUN npm install
 COPY . /usr/src/stat-engine
 
 # Build dist
-RUN /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build
+RUN if [ "x$onPremise" = "x" ] ; then /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
 
 # Run
 ENV NODE_ENV=production
 
-CMD [ "/usr/src/stat-engine/run.sh" ]
+CMD [ "node", "./dist/server/index.js" ]
 
 EXPOSE 8080

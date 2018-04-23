@@ -79,6 +79,8 @@ Extension
     timezone: 'US/Eastern',
     integration_complete: true,
     integration_verified: true,
+    latitude: 37.5407,
+    longitude: -77.4360,
     Users: [{
       provider: 'local',
       role: 'user,kibana_admin',
@@ -536,6 +538,8 @@ Extension
     state: 'VA',
     timezone: 'US/Eastern',
     integration_complete: true,
+    latitude: 37.7772,
+    longitude: -77.5161,
     Users: [{
       provider: 'local',
       role: 'user',
@@ -560,6 +564,8 @@ Extension
     name: 'Washington DC Fire & EMS Department',
     state: 'DC',
     timezone: 'US/Eastern',
+    latitude: 47.7511,
+    longitude: -120.7401,
     Users: [{
       provider: 'local',
       role: 'user',
@@ -579,6 +585,8 @@ Extension
     name: 'Tucson Fire Department',
     state: 'AZ',
     timezone: 'US/Eastern',
+    latitude: 32.2226,
+    longitude: -110.9747,
     Users: [{
       provider: 'local',
       role: 'user',
@@ -598,9 +606,13 @@ Extension
     name: 'Boston Fire Department',
     state: 'MA',
     timezone: 'US/Eastern',
+    latitude: 42.3601,
+    longitude: -71.0589,
+    integration_complete: true,
+    integration_verified: true,
     Users: [{
       provider: 'local',
-      role: 'user,ingest',
+      role: 'user,kibana_admin',
       username: 'boston',
       first_name: 'boston',
       last_name: 'User',
@@ -617,6 +629,8 @@ Extension
     name: 'City of Fairfax Fire Department',
     state: 'VA',
     timezone: 'US/Eastern',
+    latitude: 38.8462,
+    longitude: -77.3064,
     Users: [{
       provider: 'local',
       role: 'user',
@@ -636,6 +650,8 @@ Extension
     name: 'Rogers Fire Department',
     state: 'AR',
     timezone: 'US/Central',
+    latitude: 36.3320,
+    longitude: -94.1185,
     Users: [{
       provider: 'local',
       role: 'user,kibana_admin',
@@ -694,6 +710,8 @@ Extension
     state: 'VA',
     timezone: 'US/Eastern',
     integration_complete: false,
+    latitude: 19.6400,
+    longitude: 155.9969,
     Users: [{
       provider: 'local',
       role: 'user',
@@ -714,6 +732,8 @@ Extension
     state: 'VA',
     timezone: 'US/Eastern',
     integration_complete: true,
+    latitude: 19.6400,
+    longitude: 155.9969,
     Users: [{
       provider: 'local',
       role: 'user',
