@@ -27,6 +27,7 @@ process.env.ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD ? proces
 var all = {
   env: process.env.NODE_ENV,
 
+
   // AWS Credentials for signing requests to Kibana
   aws: {
     region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
@@ -72,7 +73,7 @@ var all = {
   ip: process.env.IP || '0.0.0.0',
 
   // Should we populate the DB with sample data?
-  seedDB: false,
+  seedDB: process.env.SEED_DB || false,
 
   session: {
     secret: process.env.SESSION_SECRET || '123456',

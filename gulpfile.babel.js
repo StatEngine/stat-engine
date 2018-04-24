@@ -176,17 +176,23 @@ gulp.task('env:all', () => {
 });
 gulp.task('env:test', () => {
     plugins.env({
-        vars: {NODE_ENV: 'test'}
+        vars: {
+          NODE_ENV: 'test'
+        }
     });
 });
 gulp.task('env:prod', () => {
     plugins.env({
-        vars: {NODE_ENV: 'production'}
+        vars: {
+          NODE_ENV: 'production'
+        }
     });
 });
 gulp.task('env:onPremise', () => {
     plugins.env({
-        vars: {ON_PREMISE: 'true'}
+        vars: {
+          SEED_DB: 'true'
+        }
     });
 });
 
@@ -381,17 +387,6 @@ gulp.task('serve:dist', cb => {
         'build',
         'env:all',
         'env:prod',
-        ['start:server:prod', 'start:client'],
-        cb);
-});
-
-gulp.task('serve:onPremise', cb => {
-    runSequence(
-        'ngConfig:onPremise',
-        'build',
-        'env:all',
-        'env:prod',
-        'env:onPremise',
         ['start:server:prod', 'start:client'],
         cb);
 });
