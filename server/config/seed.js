@@ -20,7 +20,7 @@ let richmond;
 let twitterEnrichment;
 let emailReportEnrichment;
 
-if (process.env.NODE_ENV === 'dev') {
+if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
     .then(() => ExtensionConfiguration.sync())
@@ -750,8 +750,7 @@ if (process.env.NODE_ENV === 'dev') {
       include: [FireDepartment.Users, FireDepartment.Tweets]
     }))
     .then(() => console.log('finished populating data'));
-  }
-else {
+} else {
   console.info('Seeding Demo Data');
   User.sync()
     .then(() => FireDepartment.sync())
@@ -789,12 +788,12 @@ else {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then((fireDepartment) => {
+    .then(fireDepartment => {
       const locals = {
         FireDepartment: fireDepartment.get(),
       };
-      seedKibanaAll({}, locals, (err) => {
-        if (err) throw err;
+      seedKibanaAll({}, locals, err => {
+        if(err) throw err;
       });
     })
     .then(() => console.log('finished populating demo data'));
