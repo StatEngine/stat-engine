@@ -8,11 +8,4 @@ export default function routes($stateProvider) {
     template: require('./landing/landing.html'),
     controller: 'StatEngineLandingController'
   });
-
-  $stateProvider.state('statEngineDocumentation', {
-    url: '/statEngine/documentation',
-    template: require('./documentation/documentation.html'),
-    controller: 'StatEngineDocumentationController',
-    controllerAs: 'vm'
-  });
 }

@@ -176,17 +176,23 @@ gulp.task('env:all', () => {
 });
 gulp.task('env:test', () => {
     plugins.env({
-        vars: {NODE_ENV: 'test'}
+        vars: {
+          NODE_ENV: 'test'
+        }
     });
 });
 gulp.task('env:prod', () => {
     plugins.env({
-        vars: {NODE_ENV: 'production'}
+        vars: {
+          NODE_ENV: 'production'
+        }
     });
 });
 gulp.task('env:onPremise', () => {
     plugins.env({
-        vars: {ON_PREMISE: 'true'}
+        vars: {
+          SEED_DB: 'true'
+        }
     });
 });
 
