@@ -5,7 +5,14 @@ export default function routes($stateProvider) {
 
   $stateProvider.state('statEngine', {
     url: '/statEngine',
-    template: require('./landing/landing.html'),
-    controller: 'StatEngineLandingController'
+    views: {
+      'navbar@': {
+        template: '<navbar class="animated fadeInDown"></navbar>'
+      },
+      'content@': {
+        template: require('./landing/landing.html'),
+        controller: 'StatEngineLandingController'
+      },
+    },
   });
 }

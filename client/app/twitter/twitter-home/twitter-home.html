@@ -1,7 +1,6 @@
-<div class="twitter-home">
-  <navbar class="animated fadeInDown naked"></navbar>
+<div class="site-content twitter-home">
   <header class="naked"></header>
-  <section class="fluid-container pt-5 pb-3 site-content">
+  <section class="container pt-5 pb-3 ">
     <div class="container">
       <section class="row" ng-if="!vm.authorized">
         <div class="col-md-10 col-md-offset-1 text-center">
@@ -26,22 +25,20 @@
           </div>
           <button class="btn btn-primary mt-4 mb-5" ng-click="vm.authorize()">Authorize this Integration</button>
         </div>
-
-        <div id="intro-image" class="col-md-5">
-          <!-- <img src="/assets/images/Twitter_Logo_Blue.svg" class="twitter-logo"> -->
-
-        </div>
       </section>
+
       <section ng-if="vm.authorized">
         <div class="row">
           <div class="col text-center">
-            <h1>{{ vm.twitterProfile.name }}</h1>
-            <img src={{vm.twitterProfile.profile_image_url_https}}></img>
+            <h2>
+              <img src={{vm.twitterProfile.profile_image_url_https}}></img>
+              {{ vm.twitterProfile.name }}
+            </h2>
           </div>
         </div>
         <div class="row mt-1">
           <div class="col-md-8">
-            <h3 class="mb-2" >Tweet Recommendations</h3>
+            <h3 class="mb-2">Recommendations</h3>
             <p>Tweet any of our recommendations directly to <a href="http://twitter.com" target="_blank">Twitter</a>. You can also discard, preview, or edit any recommendations prior to tweeting.</p>
           </div>
           <div class="col-12 py-4">
@@ -89,8 +86,16 @@
             </div>
           </div>
         </div>
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <hr>
+            <h5 class="heavyheader">
+              Disclaimer: All marketplace integrations are experimentatl in nature.  You are responsibly for vefifying any information presented and we ask that you report any discrepencies to us immediately.
+              All marketplace integrations are subject to pricing in the future.
+            </h5>
+          </div>
+        </div>
       </section>
     </div>
   </section>
-  <footer id="footer"></footer>
 </div>

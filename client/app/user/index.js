@@ -8,10 +8,10 @@ import routing from './user.routes';
 // modules
 import userHome from './user-home';
 import userSettings from './user-settings';
-import settings from './settings';
+import changePassword from './change-password';
 import requestAccess from './request-access';
 import gettingStarted from './getting-started';
 
-export default angular.module('statEngineApp.user', [uiRouter, userHome, userSettings, settings, requestAccess, gettingStarted])
+export default angular.module('statEngineApp.user', [uiRouter, userHome, userSettings, changePassword, requestAccess, gettingStarted])
   .config(routing)
   .name;

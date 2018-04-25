@@ -716,7 +716,8 @@ button {
 
 // Apply to main/"middle" content wrapper
 .site-content {
-  flex: 1
+  height: 100%;
+  background-color: #f5f7f8;
 }
 
 
@@ -800,7 +801,7 @@ li.nested:before {
 @import '../components/navbar/navbar';
 @import '../app/account/login/login';
 @import '../app/account/signup/signup';
-@import '../app/user/user-home/user-home';
+@import '../app/user/user';
 @import '../app/user/getting-started/getting-started';
 @import '../app/twitter/twitter-home/twitter-home';
 @import '../app/admin/admin-home/admin-home';

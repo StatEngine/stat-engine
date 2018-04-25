@@ -10,8 +10,16 @@ export default function routes($stateProvider) {
     })
     .state('site.twitter.home', {
       url: '/twitter',
-      template: require('./twitter-home/twitter-home.html'),
-      controller: 'TwitterHomeController',
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: require('./twitter-home/twitter-home.html'),
+          controller: 'TwitterHomeController',
+          controllerAs: 'vm'
+        },
+      },
       data: {
         roles: ['user']
       },
@@ -29,6 +37,5 @@ export default function routes($stateProvider) {
           return deferred.promise;
         },
       },
-      controllerAs: 'vm'
     });
 }

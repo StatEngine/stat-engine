@@ -5,15 +5,29 @@ export default function routes($stateProvider) {
 
   $stateProvider.state('spadeLanding', {
     url: '/spade',
-    template: require('./landing/landing.html'),
-    controller: 'SpadeLandingController',
-    controllerAs: 'vm'
+    views: {
+      'navbar@': {
+        template: '<navbar class="animated fadeInDown"></navbar>'
+      },
+      'content@': {
+        template: require('./landing/landing.html'),
+        controller: 'SpadeLandingController',
+        controllerAs: 'vm'
+      },
+    },
   });
 
   $stateProvider.state('spadeDocumentation', {
     url: '/spade/documentation',
-    template: require('./documentation/documentation.html'),
-    controller: 'SpadeDocumentationController',
-    controllerAs: 'vm'
+    views: {
+      'navbar@': {
+        template: '<navbar class="animated fadeInDown"></navbar>'
+      },
+      'content@': {
+        template: require('./documentation/documentation.html'),
+        controller: 'SpadeDocumentationController',
+        controllerAs: 'vm'
+      },
+    },
   });
 }

@@ -15,13 +15,13 @@ export default function routes($stateProvider) {
         }
       },
     })
-    .state('site.user.editpassword', {
-      url: '/password',
+    .state('site.user.changePassword', {
+      url: '/changePassword',
       views: {
         'content@': {
-          controller: 'SettingsController',
+          controller: 'ChangePasswordController',
           controllerAs: 'vm',
-          template: require('./settings/settings.html'),
+          template: require('./change-password/change-password.html'),
         }
       },
       data: {
@@ -113,23 +113,6 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
-        /*twitterExtensionConfiguration(currentPrincipal, ExtensionConfiguration) {
-          if(currentPrincipal.FireDepartment) {
-            return ExtensionConfiguration.get({ name: 'Twitter', limit: 1 }).$promise;
-          } else {
-            return undefined;
-          }
-        },*/
-        twitterExtensionConfiguration() {
-          return undefined;
-        },
-        /*tweets(twitterExtensionConfiguration, Twitter) {
-          if(twitterExtensionConfiguration && twitterExtensionConfiguration.enabled) return Twitter.getTweets().$promise;
-          else return [];
-        },*/
-        tweets() {
-          return [];
-        }
       }
     })
     .state('site.user.settings', {

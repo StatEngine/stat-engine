@@ -42,7 +42,7 @@
                  </div>
                </li>
                <li><a href="/marketplace/home">Marketplace</a></li>
-               <li><a href="/data-quality">Installed Apps</a></li>
+               <!--<li><a href="/data-quality">Installation</a></li>-->
                <li ng-if="vm.currentPrincipal.isAdmin"><a href="/admin">Admin</a></li>
                <li ng-if="vm.currentPrincipal.isDepartmentAdmin && !vm.currentPrincipal.isAdmin"><a href="/departmentAdmin">Admin</a></li>
             </ul>
@@ -72,7 +72,7 @@
         <ul class="secondary-nav">
           <li><a href="" ng-click="vm.dashboard()" class="se-icon-dashboard"></a></li>
           <li><a href="https://statengine.github.io/se-documenation/" target="_blank" class="se-icon-help"></a></li>
-          <li class="with-dropdown user"><a href="" ng-click="vm.userDropDownActive = !vm.userDropDownActive" class="se-icon-user"></a>
+          <li class="with-dropdown"><a href="" ng-click="vm.userDropDownActive = !vm.userDropDownActive" class="se-icon-user"></a>
             <div class="settings dropdown animated fadeInDownShort" ng-class="{open: vm.userDropDownActive}">
               <ul>
                 <li><a href="#" ng-click="vm.goto('site.user.settings')">Settings</a></li>
@@ -113,7 +113,7 @@
            </li>
            <li><a href="/data-quality">Data Quality</a></li>
            <li><a href="/marketplace/home">App Marketplace</a></li>
-           <li><a href="/data-quality">Installed Apps</a></li>
+           <li><a href="/data-quality">C</a></li>
         </ul>
       </div>
 

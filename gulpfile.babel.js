@@ -171,6 +171,7 @@ gulp.task('env:all', () => {
         localConfig = {};
     }
     plugins.env({
+        file: 'env.json',
         vars: localConfig
     });
 });
