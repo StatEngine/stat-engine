@@ -63,13 +63,16 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   angular.module('statEngineApp').config(function (appConfig, segmentProvider, SegmentEvents) {
     // EventsConstant is a key-value object of events you track
     console.dir(appConfig)
-    segmentProvider
-      .setKey('abc')
-      //.setCondition(function ($rootScope) {
-      //    return $rootScope.isProduction;
-      //})
-      .setDebug(true)
-    segmentProvider.setEvents(SegmentEvents);
+
+    if (appConfig.env != 'dev') {
+      segmentProvider
+        .setKey('abc')
+        //.setCondition(function ($rootScope) {
+        //    return $rootScope.isProduction;
+        //})
+        .setDebug(true)
+      segmentProvider.setEvents(SegmentEvents);
+    }
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;

@@ -5,26 +5,38 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($state, Principal) {
+  constructor($state, $window, Principal) {
     'ngInject';
 
-    this.state = $state;
-    this.Principal = Principal;
-    this.currentPrincipal = undefined;
+    this.$state = $state;
+    this.$window = $window;
+    this.PrincipalService = Principal;
 
-    /*Principal.identity()
+    this.userDropDownActive = false;
+
+    this.currentPrincipal = undefined;
+    this.PrincipalService.identity()
       .then(currentPrincipal => {
         this.currentPrincipal = currentPrincipal;
-      });*/
+      });
 
     this.logout = function() {
-      $state.go('site.main.main');
-      this.Principal.logout();
+      this.$state.go('site.main.main');
+      this.PrincipalService.logout();
     };
 
     this.scrollTo = function(location) {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
     };
+
+    this.dashboard = function() {
+      this.$window.location.href = '/dashboard';
+    };
+
+    this.goto = function(state) {
+      this.userDropDownActive = false;
+      $state.go(state);
+    }
   }
 }
 

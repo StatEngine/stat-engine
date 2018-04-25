@@ -1,6 +1,6 @@
 'use strict';
 
-export default class EditUserController {
+export default class UserSettingsController {
   user = {
     first_name: '',
     last_name: '',

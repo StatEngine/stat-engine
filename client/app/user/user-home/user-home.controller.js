@@ -31,10 +31,6 @@ export default class UserHomeController {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
     };
 
-    this.dashboard = function() {
-      this.$window.location.href = '/dashboard';
-    };
-
     this.gettingStarted = [
       {
         status: this.fireDepartment !== undefined,

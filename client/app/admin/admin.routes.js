@@ -6,12 +6,24 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.admin', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: '<div ui-view />'
+        }
+      },
     })
     .state('site.admin.home', {
       url: '/admin',
-      template: require('./admin-home/admin-home.html'),
-      controller: 'AdminHomeController',
+      views: {
+        'content@': {
+          template: require('./admin-home/admin-home.html'),
+          controller: 'AdminHomeController',
+          controllerAs: 'vm'
+        }
+      },
       data: {
         roles: ['admin']
       },
@@ -23,12 +35,16 @@ export default function routes($stateProvider) {
           return User.query().$promise;
         },
       },
-      controllerAs: 'vm'
     })
     .state('site.admin.fireDepartment', {
       url: '/admin/fireDepartment/:id',
-      template: require('./fire-department/fire-department.html'),
-      controller: 'FireDepartmentController',
+      views: {
+        'content@': {
+          template: require('./fire-department/fire-department.html'),
+          controller: 'FireDepartmentController',
+          controllerAs: 'vm'
+        }
+      },
       data: {
         roles: ['admin']
       },
@@ -38,12 +54,16 @@ export default function routes($stateProvider) {
           return FireDepartment.get({ id: $stateParams.id }).$promise;
         },
       },
-      controllerAs: 'vm'
     })
     .state('site.admin.user', {
       url: '/admin/user/:id',
-      template: require('./user/user.html'),
-      controller: 'UserController',
+      views: {
+        'content@': {
+          template: require('./user/user.html'),
+          controller: 'UserController',
+          controllerAs: 'vm'
+        }
+      },
       data: {
         roles: ['admin']
       },
@@ -56,6 +76,5 @@ export default function routes($stateProvider) {
           return FireDepartment.query().$promise;
         }
       },
-      controllerAs: 'vm'
     });
 }

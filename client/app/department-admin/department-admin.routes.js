@@ -6,12 +6,24 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.departmentAdmin', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: '<div ui-view />'
+        }
+      },
     })
     .state('site.departmentAdmin.home', {
       url: '/departmentAdmin',
-      template: require('./department-admin-home/department-admin-home.html'),
-      controller: 'DepartmentAdminHomeController',
+      views: {
+        'content@': {
+          template: require('./department-admin-home/department-admin-home.html'),
+          controller: 'DepartmentAdminHomeController',
+          controllerAs: 'vm'
+        }
+      },
       data: {
         roles: ['department_admin']
       },
@@ -26,6 +38,5 @@ export default function routes($stateProvider) {
           return User.query().$promise;
         },
       },
-      controllerAs: 'vm'
     });
 }

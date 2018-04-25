@@ -6,16 +6,27 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.user', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: '<div ui-view />'
+        }
+      },
     })
     .state('site.user.editpassword', {
-      url: '/settings',
-      template: require('./settings/settings.html'),
+      url: '/password',
+      views: {
+        'content@': {
+          controller: 'SettingsController',
+          controllerAs: 'vm',
+          template: require('./settings/settings.html'),
+        }
+      },
       data: {
         roles: ['user']
       },
-      controller: 'SettingsController',
-      controllerAs: 'vm',
       resolve: {
         currentPrincipal(Principal) {
           return Principal.identity();
@@ -24,8 +35,13 @@ export default function routes($stateProvider) {
     })
     .state('site.user.requestAccess', {
       url: '/requestAccess',
-      template: require('./request-access/request-access.html'),
-      controller: 'RequestAccessController',
+      views: {
+        'content@': {
+          controller: 'RequestAccessController',
+          controllerAs: 'vm',
+          template: require('./request-access/request-access.html'),
+        }
+      },
       data: {
         roles: ['user']
       },
@@ -48,12 +64,16 @@ export default function routes($stateProvider) {
           }
         }
       },
-      controllerAs: 'vm'
     })
     .state('site.user.gettingStarted', {
       url: '/gettingStarted',
-      template: require('./getting-started/getting-started.html'),
-      controller: 'GettingStartedController',
+      views: {
+        'content@': {
+          controller: 'GettingStartedController',
+          controllerAs: 'vm',
+          template: require('./getting-started/getting-started.html'),
+        }
+      },
       data: {
         roles: ['user']
       },
@@ -62,12 +82,16 @@ export default function routes($stateProvider) {
           return Principal.identity(true);
         },
       },
-      controllerAs: 'vm'
     })
     .state('site.user.home', {
       url: '/home',
-      template: require('./user-home/user-home.html'),
-      controller: 'UserHomeController',
+      views: {
+        'content@': {
+          template: require('./user-home/user-home.html'),
+          controller: 'UserHomeController',
+          controllerAs: 'vm',
+        }
+      },
       data: {
         roles: ['user']
       },
@@ -106,7 +130,24 @@ export default function routes($stateProvider) {
         tweets() {
           return [];
         }
+      }
+    })
+    .state('site.user.settings', {
+      url: '/settings',
+      views: {
+        'content@': {
+          template: require('./user-settings/user-settings.html'),
+          controller: 'UserSettingsController',
+          controllerAs: 'vm'
+        }
       },
-      controllerAs: 'vm'
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity();
+        }
+      },
     });
 }

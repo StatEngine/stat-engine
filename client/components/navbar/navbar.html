@@ -4,12 +4,12 @@
     <!-- Logo/Branding -->
 
     <!-- Unauthenticated -->
-    <div class="col-auto" ng-if="!vm.Principal.isAuthenticated()">
+    <div class="col-auto" ng-if="!vm.PrincipalService.isAuthenticated()">
       <a ui-sref="site.main.main" href="#" class="branding" ></a>
     </div>
 
     <!-- Authenticated -->
-    <div class="col-auto" ng-if="vm.Principal.isAuthenticated()">
+    <div class="col-auto" ng-if="vm.PrincipalService.isAuthenticated()">
       <a ui-sref="site.user.home" href="#" class="branding symbol"></a>
     </div>
 
@@ -19,7 +19,7 @@
         <div class="col-12 pr-0">
 
           <!-- Unauthenticated -->
-          <div ng-if="!vm.Principal.isAuthenticated()">
+          <div ng-if="!vm.PrincipalService.isAuthenticated()">
             <ul class="mb-0">
               <li> <a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
               <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#">Developers</a></li>
@@ -28,27 +28,27 @@
           </div>
 
           <!-- Authenticated -->
-          <div ng-if="vm.Principal.isAuthenticated()">
+          <div ng-if="vm.PrincipalService.isAuthenticated()">
             <ul class="mb-0">
                <li><a href="site.user.home">Control Center</a></li>
                <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
                  <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
                    <ul>
-                     <li><a href="#" ng-click="vm.dashboard()">Advanced Dashboard</a></li>
-                     <li><a href="#">Dashboard 2</a></li>
-                     <li><a href="#">Another Dashboard 3</a></li>
-                     <li><a href="#">Dashboard 4</a></li>
+                     <li><a href="#" ng-click="vm.dashboard()">Analytics</a></li>
+                     <li><a href="#">Daily Reports</a></li>
+                     <li><a href="#">Twitter</a></li>
                    </ul>
                    <!-- <div class="footer"> An optional footer </div> -->
                  </div>
                </li>
-               <li><a href="/data-quality">Data Quality</a></li>
-               <li><a href="/marketplace/home">App Marketplace</a></li>
+               <li><a href="/marketplace/home">Marketplace</a></li>
                <li><a href="/data-quality">Installed Apps</a></li>
+               <li ng-if="vm.currentPrincipal.isAdmin"><a href="/admin">Admin</a></li>
+               <li ng-if="vm.currentPrincipal.isDepartmentAdmin && !vm.currentPrincipal.isAdmin"><a href="/departmentAdmin">Admin</a></li>
             </ul>
           </div>
 
-          <!-- <div ng-if="!vm.Principal.isAuthenticated()">
+          <!-- <div ng-if="!vm.PrincipalService.isAuthenticated()">
              <span class="col-3"><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></span>
              <span class="col-3"><a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#">Developers</a></span>
              <span class="col-3 pr-0"><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></span>
@@ -62,22 +62,20 @@
     <div id="navbar-button" class="col-auto ml-auto pl-0">
 
       <!-- Unauthenticated -->
-      <div ng-if="!vm.Principal.isAuthenticated()">
+      <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <button id='navbar-links-sign-in' class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
         <button id='navbar-links-sign-up' class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
       </div>
 
       <!-- Authenticated -->
-      <div ng-if="vm.Principal.isAuthenticated()">
+      <div ng-if="vm.PrincipalService.isAuthenticated()">
         <ul class="secondary-nav">
-          <li><a href="" class="se-icon-dashboard"></a></li>
-          <li><a href="" class="se-icon-help"></a></li>
-          <li class="with-dropdown user"><a href="" ng-click="is_active = !is_active" ng-init="is_active=false" class="se-icon-user"></a>
-            <div class="settings dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+          <li><a href="" ng-click="vm.dashboard()" class="se-icon-dashboard"></a></li>
+          <li><a href="https://statengine.github.io/se-documenation/" target="_blank" class="se-icon-help"></a></li>
+          <li class="with-dropdown user"><a href="" ng-click="vm.userDropDownActive = !vm.userDropDownActive" class="se-icon-user"></a>
+            <div class="settings dropdown animated fadeInDownShort" ng-class="{open: vm.userDropDownActive}">
               <ul>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Notifications</a></li>
-                <li><a href="#">Upgrade</a></li>
+                <li><a href="#" ng-click="vm.goto('site.user.settings')">Settings</a></li>
                 <li><a href="#" ng-click="vm.logout()">Sign Out</a></li>
               </ul>
               <!-- <div class="footer"> An optional footer </div> -->
@@ -89,7 +87,7 @@
 
     <div class="mobile-nav">
       <!-- Unauthenticated -->
-      <div ng-if="!vm.Principal.isAuthenticated()">
+      <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
           <li><a href="#">Products</a></li>
           <li><a href="#">Developers</a></li>
@@ -99,7 +97,7 @@
         </ul>
       </div>
 
-      <div ng-if="vm.Principal.isAuthenticated()">
+      <div ng-if="vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
            <li><a href="site.user.home">Control Center</a></li>
            <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
