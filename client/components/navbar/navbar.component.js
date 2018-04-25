@@ -12,10 +12,10 @@ export class NavbarComponent {
     this.Principal = Principal;
     this.currentPrincipal = undefined;
 
-    Principal.identity()
+    /*Principal.identity()
       .then(currentPrincipal => {
         this.currentPrincipal = currentPrincipal;
-      });
+      });*/
 
     this.logout = function() {
       $state.go('site.main.main');

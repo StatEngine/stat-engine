@@ -4,10 +4,12 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, tweets, User, Principal) {
+  constructor($window, $filter, $state, segment, currentPrincipal, requestedFireDepartment, fireDepartments, tweets, User, Principal) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
+
+    segment.identify(currentPrincipal._id, currentPrincipal);
 
     this.principal = currentPrincipal;
     this.UserService = User;

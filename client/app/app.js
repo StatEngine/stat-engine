@@ -16,6 +16,8 @@ import gtm from 'angulartics-google-tag-manager';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
 
+import ngSegment from 'angular-segment-analytics';
+
 import {
   routeConfig
 } from './app.config';
@@ -41,19 +43,33 @@ import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 
 import constants from './app.constants';
+import segmentConstants from './segment.constants';
+
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, /*socket,*/ util, angulartics, gtm
+
+angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
+  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentConstants, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .run(function($transitions) {
     'ngInject';
 
     $transitions.onSuccess({}, () => $('html, body').animate({ scrollTop: 0 }, 200));
+  })
+  angular.module('statEngineApp').config(function (appConfig, segmentProvider, SegmentEvents) {
+    // EventsConstant is a key-value object of events you track
+    console.dir(appConfig)
+    segmentProvider
+      .setKey('abc')
+      //.setCondition(function ($rootScope) {
+      //    return $rootScope.isProduction;
+      //})
+      .setDebug(true)
+    segmentProvider.setEvents(SegmentEvents);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;

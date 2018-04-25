@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-export default function PrincipalService($http, $q, $window, User) {
+export default function PrincipalService($http, $q, $window, User, segment) {
   'ngInject';
 
   var _identity = {};

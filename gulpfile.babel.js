@@ -350,7 +350,7 @@ gulp.task('serve', cb => {
     runSequence(
         [
             'clean:tmp',
-            'ngConfig:all',
+            'ngConfig:dev',
             'lint:scripts',
             'inject',
             'copy:fonts:dev',
@@ -372,7 +372,7 @@ gulp.task('serve:debug', cb => {
             'copy:fonts:dev',
             'env:all'
         ],
-        'ngConfig:all',
+        'ngConfig:dev',
         'webpack:dev',
         'start:inspector',
         ['start:server:debug', 'start:client'],
@@ -383,7 +383,7 @@ gulp.task('serve:debug', cb => {
 
 gulp.task('serve:dist', cb => {
     runSequence(
-        'ngConfig:all',
+        'ngConfig:cloud',
         'build',
         'env:all',
         'env:prod',
@@ -418,10 +418,19 @@ gulp.task('test', cb => {
 });
 
 
-gulp.task('ngConfig:all', cb => {
+gulp.task('ngConfig:dev', cb => {
     return gulp.src(`${clientPath}/app.constants.json`)
       .pipe(gulpNgConfig('statEngineApp.constants', {
-         environment: ['all'],
+         environment: ['dev'],
+         templateFilePath: `${clientPath}/app.constants.template`
+      }))
+      .pipe(gulp.dest(`${clientPath}/app`))
+});
+
+gulp.task('ngConfig:cloud', cb => {
+    return gulp.src(`${clientPath}/app.constants.json`)
+      .pipe(gulpNgConfig('statEngineApp.constants', {
+         environment: ['cloud'],
          templateFilePath: `${clientPath}/app.constants.template`
       }))
       .pipe(gulp.dest(`${clientPath}/app`))
