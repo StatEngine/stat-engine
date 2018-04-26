@@ -12,11 +12,11 @@
           <!--<p ng-if="vm.dataQuality.grade" class="animated fadeIn"> Your data quality score is <strong> {{ vm.dataQuality.grade | lowercase }}</strong> - <a id='user-home-data-quality' ng-click="vm.scrollTo('#data-quality-analysis')" href="#">learn why</a>.</p>-->
         </div>
         <div class="col-lg-5 actions" ng-if="vm.principal.fire_department__id" >
-          <a href="">
+          <a href="" ng-click="vm.dashboard()" >
             <img src="/assets/images/actions-dashboard.svg"/>
             <span>Dashboard</span>
           </a>
-          <a href="" ui-sref="site.twitter.home">
+          <a href="" ng-click="vm.goto('site.twitter.home','Twitter')" >
             <img src="/assets/images/actions-twitter.svg"/>
             <span>Twitter</span>
           </a>

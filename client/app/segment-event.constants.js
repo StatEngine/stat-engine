@@ -2,8 +2,9 @@ import angular from 'angular';
 
 export default angular.module("statEngineApp.segmentConstants", [])
   .constant("SegmentEvents", {
+    SIGNED_IN: 'Signed In',
     SIGNED_UP: 'Signed Up',
-    KIBANA_ACCESS: 'Kibana Dashboard',
-    EXTENSION_REQUEST: 'Extension Request',
+    APP_ACCESS: 'App Access',
+    APP_REQUEST: 'App Request',
   })
 .name;

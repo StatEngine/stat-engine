@@ -17,11 +17,9 @@ const images = importAll(require.context('../../../assets/images/extensions/', f
 
 export default class MarketplaceHomeController {
   /*@ngInject*/
-  constructor(extensions, segment) {
+  constructor(extensions) {
     this.allExtensions = _.sortBy(extensions, o => o.name);
 
-    segment.page();
-    
     this.filteredExtensions = this.allExtensions;
     this.filteredFeaturedExtensions = _.filter(this.allExtensions, f => f.featured);
 

@@ -34,8 +34,8 @@
                <li ng-if="vm.currentPrincipal.fire_department__id" class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Apps</a>
                  <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
                    <ul>
-                     <li><a href="#" ng-click="vm.dashboard()">Dashboard</a></li>
-                     <li><a href="#" ui-sref="site.twitter.home">Twitter</a></li>
+                     <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
+                     <li><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
                    </ul>
                    <!-- <div class="footer"> An optional footer </div> -->
                  </div>
@@ -69,7 +69,7 @@
       <!-- Authenticated -->
       <div ng-if="vm.PrincipalService.isAuthenticated()">
         <ul class="secondary-nav">
-          <li><a href="" ng-click="vm.dashboard()" class="se-icon-dashboard"></a></li>
+          <li><a href="" ng-click="vm.dashboard('navbar-icon')" class="se-icon-dashboard"></a></li>
           <li><a href="https://statengine.github.io/se-documenation/" target="_blank" class="se-icon-help"></a></li>
           <li class="with-dropdown"><a href="" ng-click="vm.userDropDownActive = !vm.userDropDownActive" class="se-icon-user"></a>
             <div class="settings dropdown animated fadeInDownShort" ng-class="{open: vm.userDropDownActive}">

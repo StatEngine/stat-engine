@@ -14,10 +14,11 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(User, $state, fireDepartments) {
+  constructor(User, $state, fireDepartments, segment) {
     this.UserService = User;
     this.$state = $state;
     this.fireDepartments = fireDepartments;
+    this.segment = segment;
   }
 
   register(form) {
@@ -32,8 +33,10 @@ export default class SignupController {
         password: this.user.password,
         requested_fire_department_id: this.user.requested_fire_department_id ? this.user.requested_fire_department_id._id : undefined,
       }).$promise
-        .then(() => {
+        .then((res) => {
           // Account created, redirect to home
+          this.segment.track(this.segment.events.SIGNED_UP, this.user);
+
           this.$state.go('site.account.login');
         })
         .catch(err => {

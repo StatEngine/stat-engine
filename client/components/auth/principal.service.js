@@ -7,6 +7,7 @@ export default function PrincipalService($http, $q, $window, User, segment) {
 
   var _identity = {};
   var _authenticated = false;
+  var _segmentIdentify = false;
 
   return {
     isIdentityResolved() {
@@ -37,6 +38,11 @@ export default function PrincipalService($http, $q, $window, User, segment) {
     authenticate(identity) {
       _identity = identity;
       _authenticated = !_.isEmpty(identity);
+
+      if (_authenticated && !_segmentIdentify) {
+        segment.identify(_identity._id, _identity);
+        _segmentIdentify = true;
+      }
     },
 
     login({ username, password }) {

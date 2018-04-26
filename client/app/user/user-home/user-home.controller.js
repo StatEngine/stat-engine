@@ -4,17 +4,16 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, segment, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal) {
+  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, segment) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
 
-    segment.identify(currentPrincipal._id, currentPrincipal);
-
     this.principal = currentPrincipal;
     this.UserService = User;
     this.PrincipalService = Principal;
-
+    this.segment = segment;
+    
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.requestedFireDepartment = requestedFireDepartment;
 
@@ -56,5 +55,25 @@ export default class UserHomeController {
           console.error(err);
         });
     };
+
+    this.dashboard = function(location) {
+      this.segment.track(this.segment.events.APP_ACCESS, {
+        app: 'dashboard',
+        location: 'user-home'
+      });
+      this.$window.location.href = '/dashboard';
+    };
+
+    this.goto = function(state, appName) {
+      this.userDropDownActive = false;
+
+      if (appName) {
+        this.segment.track(this.segment.events.APP_ACCESS, {
+          app: appName,
+          location: 'user-home'
+        });
+      }
+      $state.go(state);
+    }
   }
 }
