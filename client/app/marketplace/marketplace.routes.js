@@ -52,6 +52,9 @@ export default function routes($stateProvider) {
         currentExtension($stateParams, Extension) {
           return Extension.get({ id: $stateParams.id }).$promise;
         },
+        hasRequested($stateParams, Extension) {
+          return Extension.hasRequested({ id: $stateParams.id }).$promise;
+        },
       },
     });
     /*.state('site.marketplace.extension', {

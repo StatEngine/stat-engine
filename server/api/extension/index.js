@@ -21,6 +21,13 @@ router.get(
   controller.get
 );
 
+router.get(
+  '/:id/request',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.findRequest
+);
+
 router.put(
   '/:id/request',
   auth.isApiAuthenticated,

@@ -21,14 +21,16 @@
           <ul class="statengine ml-5">
             <li ng-repeat="feature in vm.extension.features">{{feature}}</li>
           </ul>
-          <a class="btn btn-alt-2" ng-if="!vm.extensionConfiguration.requested" ng-click="vm.request()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Request to add</a>
+          <a class="btn btn-alt-2" ng-show="!vm.requested" ng-click="vm.request()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Request to add</a><br>
+          <span ng-show="vm.requested" class="text-success">Thanks for the request! We'll let you know as soon as the app is available.</span>
+
         </div>
         <div class="col-md-5 p-5 extension-preview">
           <h3 class="heavyheader mb-2">Screenshots</h3>
           <div ng-if="!vm.extension.preview">
             <p> Sorry, no preview available yet </p>
           </div>
-          <div ng-if="!vm.extension.previewSrc" class="extension-preview statengine d-flex hidden-xs animated zoomIn">
+          <div ng-if="vm.extension.preview" class="extension-preview statengine d-flex hidden-xs animated zoomIn">
             <img class="img-thumbnail" ng-src="{{vm.extensionPreviewSrc}}" alt="">
           </div>
         </div>

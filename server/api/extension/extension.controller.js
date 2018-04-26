@@ -22,6 +22,27 @@ export function search(req, res) {
     .catch(handleError(res));
 }
 
+export function findRequest(req, res) {
+  return ExtensionRequest.find({
+    where: {
+      user__id: req.user._id,
+      extension__id: req.extension._id,
+      requested: true,
+    }
+  })
+    .then(requested => {
+      let response = {
+        requested: false,
+      };
+
+      if (requested) response.requested = true;
+
+      res.json(response);
+    })
+    .catch(handleError(res));
+}
+
+
 export function request(req, res) {
   return ExtensionRequest.create({
     requested: true,

@@ -15,6 +15,7 @@ const FireDepartment = sqldb.FireDepartment;
 const Tweet = sqldb.Tweet;
 const Extension = sqldb.Extension;
 const ExtensionConfiguration = sqldb.ExtensionConfiguration;
+const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
 let twitterEnrichment;
@@ -25,6 +26,8 @@ if(process.env.NODE_ENV === 'development') {
     .sync()
     .then(() => ExtensionConfiguration.sync())
     .then(() => ExtensionConfiguration.destroy({ where: {} }))
+    .then(() => ExtensionRequest.sync())
+    .then(() => ExtensionRequest.destroy({ where: {} }))
     .then(() => Extension.destroy({ where: {} }))
     .then(() => Extension.create({
       name: 'Twitter',

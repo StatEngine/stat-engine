@@ -21,7 +21,7 @@ export const QUERIES = [{
           filter: {
             range: {
               'description.event_opened': {
-                gte: 'now-300d/d',
+                gte: 'now-1d/d',
                 lt: 'now/d'
               }
             }
