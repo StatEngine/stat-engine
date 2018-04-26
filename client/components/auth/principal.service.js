@@ -39,7 +39,7 @@ export default function PrincipalService($http, $q, $window, User, segment) {
       _identity = identity;
       _authenticated = !_.isEmpty(identity);
 
-      if (_authenticated && !_segmentIdentify) {
+      if(_authenticated && !_segmentIdentify) {
         segment.identify(_identity._id, _identity);
         _segmentIdentify = true;
       }

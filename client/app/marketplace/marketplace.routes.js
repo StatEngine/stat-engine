@@ -57,28 +57,28 @@ export default function routes($stateProvider) {
         },
       },
     });
-    /*.state('site.marketplace.extension', {
-      url: '/marketplace/extension?name',
-      views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown"></navbar>'
-        },
-        'content@': {
-          template: require('./extension/extension.html'),
-          controller: 'ExtensionController',
-          controllerAs: 'vm'
-        }
+  /*.state('site.marketplace.extension', {
+    url: '/marketplace/extension?name',
+    views: {
+      'navbar@': {
+        template: '<navbar class="animated fadeInDown"></navbar>'
       },
-      data: {
-        roles: ['user']
+      'content@': {
+        template: require('./extension/extension.html'),
+        controller: 'ExtensionController',
+        controllerAs: 'vm'
+      }
+    },
+    data: {
+      roles: ['user']
+    },
+    resolve: {
+      currentExtension($stateParams, Extension) {
+        return Extension.get({ name: $stateParams.name, limit: 1 }).$promise;
       },
-      resolve: {
-        currentExtension($stateParams, Extension) {
-          return Extension.get({ name: $stateParams.name, limit: 1 }).$promise;
-        },
-        currentExtensionConfiguration($stateParams, ExtensionConfiguration) {
-          return ExtensionConfiguration.get({ name: $stateParams.name, limit: 1 }).$promise;
-        }
-      },
-    });*/
+      currentExtensionConfiguration($stateParams, ExtensionConfiguration) {
+        return ExtensionConfiguration.get({ name: $stateParams.name, limit: 1 }).$promise;
+      }
+    },
+  });*/
 }

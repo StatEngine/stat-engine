@@ -13,7 +13,7 @@ export default class UserHomeController {
     this.UserService = User;
     this.PrincipalService = Principal;
     this.segment = segment;
-    
+
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.requestedFireDepartment = requestedFireDepartment;
 
@@ -41,7 +41,19 @@ export default class UserHomeController {
       },
     ];
 
+    // user status
+    this.homeless = !this.fireDepartment && !this.requestedFireDepartment;
+    this.pending = !this.fireDepartment && this.requestedFireDepartment;
+
+    // fd status
     this.setupComplete = this.gettingStarted.every(t => t.status === true);
+    this.onboarding = this.fireDepartment && !this.setupComplete;
+    this.appAccess = this.fireDepartment && this.fireDepartment.integration_complete;
+
+    if(this.principal.isAdmin) {
+      this.homeless = false;
+      this.pending = false;
+    }
 
     this.setFireDepartment = function(fd) {
       this.principal.fire_department__id = fd._id;
@@ -56,7 +68,7 @@ export default class UserHomeController {
         });
     };
 
-    this.dashboard = function(location) {
+    this.dashboard = function() {
       this.segment.track(this.segment.events.APP_ACCESS, {
         app: 'dashboard',
         location: 'user-home'
@@ -67,13 +79,13 @@ export default class UserHomeController {
     this.goto = function(state, appName) {
       this.userDropDownActive = false;
 
-      if (appName) {
+      if(appName) {
         this.segment.track(this.segment.events.APP_ACCESS, {
           app: appName,
           location: 'user-home'
         });
       }
       $state.go(state);
-    }
+    };
   }
 }

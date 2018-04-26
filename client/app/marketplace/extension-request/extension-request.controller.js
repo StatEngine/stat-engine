@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default class ExtensionRequestController {
   submitted = false;
 
@@ -13,8 +11,8 @@ export default class ExtensionRequestController {
 
     this.requested = hasRequested ? hasRequested.requested : false;
 
-    if (currentExtension.image) this.extensionSrc = require(`../../../assets/images/extensions/${currentExtension.image}`);
-    if (currentExtension.preview) this.extensionPreviewSrc = require(`../../../assets/images/extensions/${currentExtension.preview}`);
+    if(currentExtension.image) this.extensionSrc = require(`../../../assets/images/extensions/${currentExtension.image}`);
+    if(currentExtension.preview) this.extensionPreviewSrc = require(`../../../assets/images/extensions/${currentExtension.preview}`);
   }
 
   request() {
@@ -24,6 +22,6 @@ export default class ExtensionRequestController {
         this.segment.track(this.segment.events.APP_REQUEST, {
           app: this.extension.name,
         });
-      })
+      });
   }
 }

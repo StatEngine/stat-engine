@@ -46,12 +46,14 @@ export class EditTweetFormController {
 
 export default class TwitterHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $scope, $uibModal, $http, Twitter, Modal, twitterProfile, recommendedTweets, recentTweets) {
+  constructor($window, $filter, $scope, $uibModal, $http, Twitter, Modal, twitterProfile, recommendedTweets, recentTweets, segment) {
     this.$window = $window;
     this.$filter = $filter;
     this.$uibModal = $uibModal;
     this.$scope = $scope;
     this.$http = $http;
+
+    this.segment = segment;
 
     this.TwitterService = Twitter;
     this.modalService = Modal;
@@ -70,25 +72,23 @@ export default class TwitterHomeController {
   }
 
   previewTweet(tweet) {
-    this.TwitterService.previewTweet({}, tweet,
-      tweetPreview => {
-        let preview = tweetPreview.tweet_json.status;
+    this.TwitterService.previewTweet({}, tweet, tweetPreview => {
+      let preview = tweetPreview.tweet_json.status;
 
-        // replace hashtags with links for preview
-        const re = /#\w+/g;
-        const matches = preview.match(re) || [];
+      // replace hashtags with links for preview
+      const re = /#\w+/g;
+      const matches = preview.match(re) || [];
 
-        for(var i = 0; i < matches.length; i++) {
-          preview = preview.replace(
-            matches[i],
-            `<a href="https://twitter.com/search?q=%23${matches[i].substring(1)}" target="_blank"> ${matches[i]}  </a>`
-          );
-        }
-
-        if (tweetPreview.media_url) preview += `<div class="row"><div class="col"><img class="img-responsive" src=${tweetPreview.media_url}></img></div></div>`;
-        this.modalService.ok()('Tweet Preview', preview);
+      for(var i = 0; i < matches.length; i++) {
+        preview = preview.replace(
+          matches[i],
+          `<a href="https://twitter.com/search?q=%23${matches[i].substring(1)}" target="_blank"> ${matches[i]}  </a>`
+        );
       }
-    );
+
+      if(tweetPreview.media_url) preview += `<div class="row"><div class="col"><img class="img-responsive" src=${tweetPreview.media_url}></img></div></div>`;
+      this.modalService.ok()('Tweet Preview', preview);
+    });
   }
 
   refreshTweets() {
@@ -150,13 +150,17 @@ export default class TwitterHomeController {
             You currently have ${res.user.followers_count} followers. Keep it up!\
           <p>`;
 
+        this.segment.track(this.segment.events.APP_ACTION, {
+          app: 'TWITTER',
+          action: 'tweet',
+        });
 
         this.modalService.ok(this.refreshTweets.bind(this))('Thanks for Tweeting ', html, false);
       }, err => {
-        console.dir(err)
-        const html = `\
+        console.dir(err);
+        const html = '\
           <p class="text-danger">Please try again later. If this error persists, please contact an administrator. <p>\
-          <label>Details:</label><br>`;
+          <label>Details:</label><br>';
         this.modalService.ok(this.refreshTweets.bind(this))('Tweet Failed', html, err.data);
       });
   }

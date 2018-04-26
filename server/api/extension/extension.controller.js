@@ -35,7 +35,7 @@ export function findRequest(req, res) {
         requested: false,
       };
 
-      if (requested) response.requested = true;
+      if(requested) response.requested = true;
 
       res.json(response);
     })

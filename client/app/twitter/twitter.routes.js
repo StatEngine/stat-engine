@@ -36,10 +36,10 @@ export default function routes($stateProvider) {
           return deferred.promise;
         },
         recommendedTweets(twitterProfile, Twitter) {
-          if (!_.isEmpty(twitterProfile)) return Twitter.getRecommendedTweets().$promise;
+          if(!_.isEmpty(twitterProfile)) return Twitter.getRecommendedTweets().$promise;
         },
         recentTweets(twitterProfile, Twitter) {
-          if (!_.isEmpty(twitterProfile)) return Twitter.getRecentTweets().$promise;
+          if(!_.isEmpty(twitterProfile)) return Twitter.getRecentTweets().$promise;
         },
       },
     });

@@ -19,7 +19,7 @@ import angularLoadingBar from 'angular-loading-bar';
 import ngSegment from 'angular-segment-analytics';
 
 import {
-  routeConfig
+  routeConfig,
 } from './app.config';
 
 import _Auth from '../components/auth/auth.module';
@@ -54,11 +54,11 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentEventConstants, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
-  angular.module('statEngineApp').config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
-    segmentProvider.setKey(segmentConfig.key)
+  .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
+    segmentProvider.setKey(segmentConfig.key);
     segmentProvider.setEvents(SegmentEvents);
 
-    if (appConfig.env === 'dev') segmentProvider.setDebug(true);
+    if(appConfig.env === 'dev') segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
@@ -66,11 +66,11 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   .run(($transitions, segment) => {
     'ngInject';
 
-    $transitions.onSuccess({}, (transition) => {
+    $transitions.onSuccess({}, transition => {
       $('html, body').animate({ scrollTop: 0 }, 200);
       segment.page({
         path: transition.to().url
-      })
+      });
     });
   });
 

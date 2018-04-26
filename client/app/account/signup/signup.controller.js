@@ -33,7 +33,7 @@ export default class SignupController {
         password: this.user.password,
         requested_fire_department_id: this.user.requested_fire_department_id ? this.user.requested_fire_department_id._id : undefined,
       }).$promise
-        .then((res) => {
+        .then(() => {
           // Account created, redirect to home
           this.segment.track(this.segment.events.SIGNED_UP, this.user);
 

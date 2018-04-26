@@ -7,7 +7,7 @@ import * as auth from '../../auth/auth.service';
 import * as twitterAuth from './auth.controller';
 import * as controller from './tweet.controller';
 
-import * as extensionConfiguration from '../extension-configuration/extension-configuration.service';
+//import * as extensionConfiguration from '../extension-configuration/extension-configuration.service';
 
 const router = new Router();
 
@@ -64,7 +64,7 @@ router.post(
   auth.hasRole('user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  controller.tweet
+  controller.tweetTweet
 );
 
 module.exports = router;

@@ -72,7 +72,7 @@ export function hasRole(roleRequired) {
  * Checks if user has fire deparment and sets in request
  */
 export function hasFireDepartment(req, res, next) {
-  if (!req.user || !req.user.FireDepartment || !req.user.FireDepartment._id) {
+  if(!req.user || !req.user.FireDepartment || !req.user.FireDepartment._id) {
     return res.status(403).send('User is not assigned to Fire Department with id');
   }
   next();

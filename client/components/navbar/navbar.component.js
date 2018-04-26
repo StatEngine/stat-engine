@@ -12,7 +12,7 @@ export class NavbarComponent {
     this.$window = $window;
     this.PrincipalService = Principal;
     this.segment = segment;
-    
+
     this.userDropDownActive = false;
 
     this.currentPrincipal = undefined;
@@ -33,7 +33,7 @@ export class NavbarComponent {
     this.dashboard = function(location) {
       this.segment.track(this.segment.events.APP_ACCESS, {
         app: 'dashboard',
-        location: location
+        location
       });
       this.$window.location.href = '/dashboard';
     };
@@ -41,14 +41,14 @@ export class NavbarComponent {
     this.goto = function(state, appName) {
       this.userDropDownActive = false;
 
-      if (appName) {
+      if(appName) {
         this.segment.track(this.segment.events.APP_ACCESS, {
           app: appName,
           location: 'navbar-dropdown'
         });
       }
       $state.go(state);
-    }
+    };
   }
 }
 

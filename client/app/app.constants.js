@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import angular from 'angular';
 
 export default angular.module("statEngineApp.constants", [])

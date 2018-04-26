@@ -25,7 +25,7 @@ export default class LoginController {
         username: this.user.username,
         password: this.user.password
       })
-        .then((res) => {
+        .then(res => {
           // Logged in, redirect to user home
           let user = res.data.user;
           this.segment.track(this.segment.events.SIGNED_IN, user);

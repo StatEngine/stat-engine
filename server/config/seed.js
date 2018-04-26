@@ -12,7 +12,6 @@ import sqldb from '../sqldb';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
-const Tweet = sqldb.Tweet;
 const Extension = sqldb.Extension;
 const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
@@ -74,7 +73,6 @@ if(process.env.NODE_ENV === 'development') {
     })
     .then(User.sync())
     .then(() => User.destroy({ where: {} }))
-    .then(() => Tweet.destroy({ where: {} }))
     .then(() => ExtensionConfiguration.destroy({ where: {} }))
     .then(() => FireDepartment.sync())
     .then(() => FireDepartment.destroy({ where: {} }))
@@ -125,13 +123,8 @@ if(process.env.NODE_ENV === 'development') {
         aws_access_key_id: 'awsKey',
         aws_secret_access_key: 'awsSecret',
       }],
-      Tweets: [{
-        tweet_json: {
-          status: '#richmond responded to 475 calls on Saturday, January 13th',
-        }
-      }],
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(dbRichmond => {
       richmond = dbRichmond;
@@ -559,13 +552,8 @@ if(process.env.NODE_ENV === 'development') {
         password: 'password',
         api_key: uuidv4(),
       }],
-      Tweets: [{
-        tweet_json: {
-          status: 'Hanover tweeet',
-        }
-      }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
       fd_id: '11001',
@@ -586,7 +574,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'dc',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',
@@ -607,7 +595,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'tucson',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
       fd_id: '25035',
@@ -630,7 +618,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'boston',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
       fd_id: '60000',
@@ -651,7 +639,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'ffxcity',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
       fd_id: '04600',
@@ -672,7 +660,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'rogers',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => User.create({
       provider: 'local',
@@ -732,7 +720,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'onboarding',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
       fd_id: '0001',
@@ -754,7 +742,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'icomplete',
       }]
     }, {
-      include: [FireDepartment.Users, FireDepartment.Tweets]
+      include: [FireDepartment.Users]
     }))
     .then(() => console.log('finished populating data'));
 } else {
