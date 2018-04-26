@@ -1,7 +1,7 @@
 'use strict';
 
 export default function(sequelize, DataTypes) {
-  const ExtensionConfiguration = sequelize.define('ExtensionConfiguration', {
+  const ExtensionRequest = sequelize.define('ExtensionRequest', {
     _id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -14,19 +14,6 @@ export default function(sequelize, DataTypes) {
         notEmpty: true
       },
       defaultValue: false
-    },
-    enabled: {
-      type: DataTypes.BOOLEAN,
-      validate: {
-        notEmpty: true
-      },
-      defaultValue: false
-    },
-    config_json: {
-      type: DataTypes.JSON,
-      validate: {
-        notEmpty: true
-      }
     },
   }, {
 
@@ -52,5 +39,5 @@ export default function(sequelize, DataTypes) {
   });
 
 
-  return ExtensionConfiguration;
+  return ExtensionRequest;
 }

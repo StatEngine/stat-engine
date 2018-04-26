@@ -14,4 +14,20 @@ router.get(
   controller.search
 );
 
+router.get(
+  '/:id',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.get
+);
+
+router.put(
+  '/:id/request',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.request
+);
+
+router.param('id', controller.loadExtension);
+
 module.exports = router;

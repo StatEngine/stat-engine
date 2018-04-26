@@ -34,40 +34,37 @@ router.get(
 );
 
 router.get(
-  '/tweets',
+  '/tweets/recommendations',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('Twitter'),
-  controller.search
+  controller.recommendations
 );
 
 router.get(
-  '/tweets/:id',
+  '/tweets/recent',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('Twitter'),
-  controller.get
+  controller.recent
 );
 
-router.put(
-  '/tweets/:id',
+router.post(
+  '/tweets/preview',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('Twitter'),
   bodyParser.json(),
-  controller.update
+  controller.preview
 );
 
-router.delete(
-  '/tweets/:id',
+router.post(
+  '/tweets/tweet',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  extensionConfiguration.hasExtensionConfiguration('Twitter'),
-  controller.destroy
+  bodyParser.json(),
+  controller.tweet
 );
 
 module.exports = router;

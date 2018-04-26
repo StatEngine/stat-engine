@@ -1,5 +1,6 @@
 import {
   Extension,
+  ExtensionRequest,
 } from '../../sqldb';
 
 function handleError(res, statusCode) {
@@ -11,12 +12,7 @@ function handleError(res, statusCode) {
 }
 
 export function search(req, res) {
-  const where = {};
-  if(req.query.name) where.name = req.query.name;
-
-  return Extension.findAll({
-    where
-  })
+  return Extension.findAll({})
     .then(extensions => {
       if(req.query.limit == 1 && extensions.length > 0) {
         extensions = extensions[0];
@@ -26,4 +22,34 @@ export function search(req, res) {
     .catch(handleError(res));
 }
 
-export default search;
+export function request(req, res) {
+  return ExtensionRequest.create({
+    requested: true,
+    extension__id: req.extension._id,
+    user__id: req.user._id,
+  })
+    .then(extensionRequest => {
+      res.json(extensionRequest);
+    })
+    .catch(handleError(res));
+}
+
+export function get(req, res) {
+  return res.json(req.extension);
+}
+
+export function loadExtension(req, res, next, id) {
+  Extension.find({
+    where: {
+      _id: id
+    },
+  })
+    .then(extension => {
+      if(extension) {
+        req.extension = extension;
+        return next();
+      }
+      return res.status(404).send({ error: 'Extension not found'});
+    })
+    .catch(err => next(err));
+}

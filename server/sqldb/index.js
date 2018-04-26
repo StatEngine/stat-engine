@@ -19,6 +19,7 @@ db.FireDepartment = db.sequelize.import('../api/fire-department/fire-department.
 db.Tweet = db.sequelize.import('../api/twitter/tweet.model');
 db.Extension = db.sequelize.import('../api/extension/extension.model');
 db.ExtensionConfiguration = db.sequelize.import('../api/extension-configuration/extension-configuration.model');
+db.ExtensionRequest = db.sequelize.import('../api/extension-request/extension-request.model');
 
 // Move to relations file
 db.FireDepartment.Users = db.FireDepartment.hasMany(db.User);
@@ -26,10 +27,13 @@ db.FireDepartment.Tweets = db.FireDepartment.hasMany(db.Tweet);
 
 db.Tweet.belongsTo(db.FireDepartment);
 db.User.belongsTo(db.FireDepartment);
+db.User.hasMany(db.ExtensionRequest);
 
 db.Extension.hasMany(db.ExtensionConfiguration);
+db.Extension.hasMany(db.ExtensionRequest);
 db.FireDepartment.hasMany(db.ExtensionConfiguration);
 db.ExtensionConfiguration.belongsTo(db.Extension);
 db.ExtensionConfiguration.belongsTo(db.FireDepartment);
+db.ExtensionRequest.belongsTo(db.Extension);
 
 module.exports = db;

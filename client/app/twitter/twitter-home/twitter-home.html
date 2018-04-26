@@ -1,101 +1,130 @@
 <div class="site-content twitter-home">
   <header class="naked"></header>
-  <section class="container pt-5 pb-3 ">
-    <div class="container">
-      <section class="row" ng-if="!vm.authorized">
-        <div class="col-md-10 col-md-offset-1 text-center">
-          <h3 class="subheader mb-4 pb-4">Please authorize StatEngine to use your Twitter account.</h3>
-          <div class="row">
-            <div class="col-md-4 col-md-offset-2">
-              <p class="text-left">This application <strong class="text-success">will be able to</strong>:</p>
-              <ul class="statengine ml-5 text-left">
-                <li>Read tweets from your timeline</li>
-                <li>See who you follow</li>
-                <li>Post tweets on your behalf</li>
-              </ul>
-            </div>
-            <div class="col-md-4">
-              <p class="text-left">This application <strong class="text-danger">will NOT be able to</strong>:</p>
-              <ul class="statengine ml-5 text-left">
-                <li>Access your private messages</li>
-                <li>See your password</li>
-                <li>Update your profile</li>
-              </ul>
-            </div>
-          </div>
-          <button class="btn btn-primary mt-4 mb-5" ng-click="vm.authorize()">Authorize this Integration</button>
-        </div>
-      </section>
-
-      <section ng-if="vm.authorized">
+  <div class="container pt-5 pb-3 ">
+    <section class="row" ng-if="!vm.authorized">
+      <div class="col-md-10 col-md-offset-1 text-center">
+        <h3 class="subheader mb-4 pb-4">Please authorize StatEngine to use your Twitter account.</h3>
         <div class="row">
-          <div class="col text-center">
-            <h2>
-              <img src={{vm.twitterProfile.profile_image_url_https}}></img>
-              {{ vm.twitterProfile.name }}
-            </h2>
+          <div class="col-md-4 col-md-offset-2">
+            <p class="text-left">This application <strong class="text-success">will be able to</strong>:</p>
+            <ul class="statengine ml-5 text-left">
+              <li>Read tweets from your timeline</li>
+              <li>See who you follow</li>
+              <li>Post tweets on your behalf</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <p class="text-left">This application <strong class="text-danger">will NOT be able to</strong>:</p>
+            <ul class="statengine ml-5 text-left">
+              <li>Access your private messages</li>
+              <li>See your password</li>
+              <li>Update your profile</li>
+            </ul>
           </div>
         </div>
-        <div class="row mt-1">
-          <div class="col-md-8">
-            <h3 class="mb-2">Recommendations</h3>
-            <p>Tweet any of our recommendations directly to <a href="http://twitter.com" target="_blank">Twitter</a>. You can also discard, preview, or edit any recommendations prior to tweeting.</p>
-          </div>
-          <div class="col-12 py-4">
-            <div class="table mb-5">
-              <div class="table-row header">
-                <div class="cell tweet-cell">
-                  Text
-                </div>
-                <div class="cell">
-                  Date Recommended
-                </div>
-                <div class="cell">
-                  Date Tweeted
-                </div>
-                <div class="cell">
-                  Status
-                </div>
-                <div class="cell">
-                  Actions
-                </div>
-              </div>
-              <div class="table-row" ng-repeat="tweet in vm.tweets">
-                <div class="cell tweet-cell" data-title="Text">
-                  {{tweet.tweet_json.status}}
-                </div>
+        <button class="btn btn-primary mt-4 mb-5" ng-click="vm.authorize()">Authorize this Integration</button>
+      </div>
+    </section>
 
-                <div class="cell" data-title="Date Created">
-                  {{tweet.date_created | date: 'medium'}}
-                </div>
-                <div class="cell" data-title="Date Tweeted">
-                  {{tweet.date_tweeted | date: 'medium'}}
-                </div>
-                <div class="cell" data-title="Status">
-                  <span ng-class="{'badge-danger': tweet.status === 'FAILED', 'badge-success': tweet.status === 'PENDING', 'badge-primary': tweet.status === 'TWEETED'}" class="badge">
-                    {{tweet.status}}
-                  </span>
-                </div>
-                <div class="cell action-cell" data-title="Actions">
-                  <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-pencil text-warning"></i></button>
-                  <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-eye text-success"></i></button>
-                  <button class="btn-link" ng-click="vm.postTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-twitter text-primary"></i></button>
-                  <button class="btn-link" ng-click="vm.deleteTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Delete" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-trash text-danger"></i></button>
-                </div>
+    <section ng-if="vm.authorized">
+      <div class="row">
+        <div class="col text-center">
+          <h2>
+            <img src={{vm.twitterProfile.profile_image_url_https}}></img>
+            {{ vm.twitterProfile.name }}
+          </h2>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-md-8">
+          <h3 class="mb-4">Recommendations</h3>
+          <p>Tweet any of our recommendations directly to <a href="http://twitter.com" target="_blank">Twitter</a>!
+            <br>
+            <br>
+             You can edit the suggested text, or add images and overlay text prior to tweeting by clicking the <i class="fa fa-2x fa-pencil text-warning"></i> button<br>
+             You can preview what the recommend tweet will look like by clicking the <i class="fa fa-2x fa-eye text-success"></i> button<br>
+             Finally, to post the tweet, click the <i class="fa fa-2x fa-twitter text-primary"></i> button<br>
+
+          <div ng-if="!vm.recommendedTweets || vm.recommendedTweets.length === 0" class="text-warning">
+            <br>
+            <p>We don't have any tweets recommended for you right now.  Please check back later! </p>
+          </div>
+        </div>
+
+        <div ng-if="vm.recommendedTweets.length > 0" class="col-12 py-4">
+          <div class="table mb-5">
+            <div class="table-row header">
+              <div class="cell tweet-cell">
+                Recommended Tweet
+              </div>
+              <div class="cell">
+                Actions
+              </div>
+            </div>
+            <div class="table-row" ng-repeat="tweet in vm.recommendedTweets">
+              <div class="cell tweet-cell" data-title="Text">
+                {{tweet.tweet_json.status}}
+              </div>
+              <div class="cell action-cell" data-title="Actions">
+                <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-pencil text-warning"></i></button>
+                <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-eye text-success"></i></button>
+                <button class="btn-link" ng-click="vm.tweetTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-twitter text-primary"></i></button>
               </div>
             </div>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-md-12">
-            <hr>
-            <h5 class="heavyheader">
-              Disclaimer: All marketplace integrations are experimentatl in nature.  You are responsibly for vefifying any information presented and we ask that you report any discrepencies to us immediately.
-              All marketplace integrations are subject to pricing in the future.
-            </h5>
+      </div>
+      <hr>
+      <div class="row mt-1">
+        <div class="col-md-8">
+          <h3 class="mb-4">Recent Activity</h3>
+          <div ng-if="!vm.recentTweets || vm.recentTweets.length === 0" class="text-warning">
+            <br>
+            <p>Whoops - looks like you don't have any recent activity.  Start tweeting now! </p>
           </div>
         </div>
-      </section>
-    </div>
-  </section>
+
+        <div ng-if="vm.recentTweets.length > 0" class="col-12 py-4">
+          <div class="table mb-5">
+            <div class="table-row header">
+              <div class="cell tweet-cell">
+                Tweet
+              </div>
+              <div class="cell tweet-cell">
+                # Retweets <i class="fa fa-retweet"></i>
+              </div>
+              <div class="cell tweet-cell">
+                # Favorites <i class="fa fa-heart-o"></i>
+              </div>
+              <div class="cell tweet-cell">
+                Date
+              </div>
+            </div>
+            <div class="table-row" ng-repeat="tweet in vm.recentTweets">
+              <div class="cell tweet-cell" data-title="Text">
+                <a ng-click="vm.openTweet(tweet)" target="_blank" href="#"> {{tweet.text}} </a>
+              </div>
+              <div class="cell tweet-cell" data-title="Text">
+                {{tweet.retweet_count}}
+              </div>
+              <div class="cell tweet-cell" data-title="Text">
+                {{tweet.favorite_count}}
+              </div>
+              <div class="cell tweet-cell" data-title="Text">
+                {{tweet.created_at}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <hr>
+          <h5 class="heavyheader">
+            All marketplace integrations are currently experimental.&nbsp&nbspYou are responsibly for verifying any information presented before distributing.  Please report any discrepencies or suggestions to us.&nbsp&nbspAll marketplace integrations are also subject to pricing in the future.
+          </h5>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>

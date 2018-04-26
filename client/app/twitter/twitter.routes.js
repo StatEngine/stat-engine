@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default function routes($stateProvider) {
   'ngInject';
 
@@ -24,9 +26,6 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        tweets(Twitter) {
-          return Twitter.getTweets().$promise;
-        },
         twitterProfile($q, Twitter) {
           var deferred = $q.defer();
 
@@ -35,6 +34,12 @@ export default function routes($stateProvider) {
             .catch(() => deferred.resolve({}));
 
           return deferred.promise;
+        },
+        recommendedTweets(twitterProfile, Twitter) {
+          if (!_.isEmpty(twitterProfile)) return Twitter.getRecommendedTweets().$promise;
+        },
+        recentTweets(twitterProfile, Twitter) {
+          if (!_.isEmpty(twitterProfile)) return Twitter.getRecentTweets().$promise;
         },
       },
     });

@@ -39,6 +39,7 @@ if(process.env.NODE_ENV === 'development') {
       categories: 'Social Media,Reporting',
       featured: true,
       image: 'extension-twitter.svg',
+      preview: 'extension-twitter-preview.png',
       config_options: [{
         name: 'media_text',
         tooltip: 'Text is overlayed on tweet media',
@@ -52,6 +53,7 @@ if(process.env.NODE_ENV === 'development') {
     })
     .then(() => Extension.create({
       name: 'Daily Report',
+      short_description: 'Daily reports delivered straight to your inbox',
       description: 'Get summary reports delivered straight to your inbox',
       features: [
         'Configurable on shiftly, daily, weekly, or monthly basis',
@@ -133,6 +135,7 @@ if(process.env.NODE_ENV === 'development') {
     })
     .then(() => ExtensionConfiguration.create({
       enabled: true,
+      requested: false,
       fire_department__id: richmond._id,
       extension__id: twitterEnrichment._id,
       config_json: {
@@ -257,6 +260,7 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => ExtensionConfiguration.create({
       enabled: true,
+      requested: false,
       fire_department__id: richmond._id,
       extension__id: emailReportEnrichment._id,
       config_json: {

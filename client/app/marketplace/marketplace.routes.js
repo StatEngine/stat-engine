@@ -33,7 +33,28 @@ export default function routes($stateProvider) {
         }
       },
     })
-    .state('site.marketplace.extension', {
+    .state('site.marketplace.extensionRequest', {
+      url: '/marketplace/:id/extensionRequest',
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown"></navbar>'
+        },
+        'content@': {
+          template: require('./extension-request/extension-request.html'),
+          controller: 'ExtensionRequestController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentExtension($stateParams, Extension) {
+          return Extension.get({ id: $stateParams.id }).$promise;
+        },
+      },
+    });
+    /*.state('site.marketplace.extension', {
       url: '/marketplace/extension?name',
       views: {
         'navbar@': {
@@ -56,5 +77,5 @@ export default function routes($stateProvider) {
           return ExtensionConfiguration.get({ name: $stateParams.name, limit: 1 }).$promise;
         }
       },
-    });
+    });*/
 }

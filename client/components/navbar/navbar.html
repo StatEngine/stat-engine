@@ -31,12 +31,11 @@
           <div ng-if="vm.PrincipalService.isAuthenticated()">
             <ul class="mb-0">
                <li><a href="site.user.home">Control Center</a></li>
-               <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
+               <li ng-if="vm.currentPrincipal.fire_department__id" class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Apps</a>
                  <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
                    <ul>
-                     <li><a href="#" ng-click="vm.dashboard()">Analytics</a></li>
-                     <li><a href="#">Daily Reports</a></li>
-                     <li><a href="#">Twitter</a></li>
+                     <li><a href="#" ng-click="vm.dashboard()">Dashboard</a></li>
+                     <li><a href="#" ui-sref="site.twitter.home">Twitter</a></li>
                    </ul>
                    <!-- <div class="footer"> An optional footer </div> -->
                  </div>

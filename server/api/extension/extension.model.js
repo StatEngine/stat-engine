@@ -46,6 +46,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       default: 'extension-generic.svg'
     },
+    preview: {
+      type: DataTypes.STRING,
+      default: 'extension-preview-generic.svg'
+    },
     date_created: {
       type: DataTypes.DATE,
       validate: {

@@ -1,0 +1,38 @@
+<div class="site-content extension-request">
+  <header class="slim">
+    <section class="container m-auto pb-5">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-sm-4 extension-logo d-flex animated zoomIn">
+          <img ng-src="{{vm.extensionSrc}}" alt="">
+        </div>
+        <div class="col-sm-2 plus-sign hidden-xs animated bounceIn"></div>
+        <div class="col-sm-4 extension-logo statengine d-flex hidden-xs animated zoomIn">
+          <img src="../assets/images/statengine-symbol.svg" alt="StatEngine">
+        </div>
+      </div>
+    </section>
+  </header>
+  <section class="site-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 my-5 pb-5">
+          <h3 class="heavyheader mb-2">{{vm.extension.name}}</h3>
+          <p>{{vm.extension.description}}</p>
+          <ul class="statengine ml-5">
+            <li ng-repeat="feature in vm.extension.features">{{feature}}</li>
+          </ul>
+          <a class="btn btn-alt-2" ng-if="!vm.extensionConfiguration.requested" ng-click="vm.request()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Request to add</a>
+        </div>
+        <div class="col-md-5 p-5 extension-preview">
+          <h3 class="heavyheader mb-2">Screenshots</h3>
+          <div ng-if="!vm.extension.preview">
+            <p> Sorry, no preview available yet </p>
+          </div>
+          <div ng-if="!vm.extension.previewSrc" class="extension-preview statengine d-flex hidden-xs animated zoomIn">
+            <img class="img-thumbnail" ng-src="{{vm.extensionPreviewSrc}}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
