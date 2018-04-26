@@ -5,6 +5,9 @@
       "support_email": "support@statengine.io",
       "on_premise": false,
       "env": "dev"
+    },
+    "segmentConfig": {
+      "key": "2Znov725qcnCA7jFDz2WOWYV29lre9Oj"
     }
   },
   "cloud": {
@@ -13,6 +16,8 @@
       "support_email": "support@statengine.io",
       "on_premise": false,
       "env": "prod"
+    },
+    "segmentConfig": {
     }
   },
   "onPremise": {

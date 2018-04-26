@@ -50,7 +50,6 @@ import util from '../components/util/util.module';
 
 import './app.scss';
 
-
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
   _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentConstants, /*socket,*/ util, angulartics, gtm
 ])
@@ -60,19 +59,16 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
 
     $transitions.onSuccess({}, () => $('html, body').animate({ scrollTop: 0 }, 200));
   })
-  angular.module('statEngineApp').config(function (appConfig, segmentProvider, SegmentEvents) {
+  angular.module('statEngineApp').config((appConfig, segmentProvider, SegmentEvents) => {
     // EventsConstant is a key-value object of events you track
     console.dir(appConfig)
 
-    if (appConfig.env != 'dev') {
+    //if (appConfig.env != 'dev') {
       segmentProvider
         .setKey('abc')
-        //.setCondition(function ($rootScope) {
-        //    return $rootScope.isProduction;
-        //})
         .setDebug(true)
       segmentProvider.setEvents(SegmentEvents);
-    }
+    //}
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
