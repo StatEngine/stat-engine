@@ -46,14 +46,14 @@ export class EditTweetFormController {
 
 export default class TwitterHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $scope, $uibModal, $http, Twitter, Modal, twitterProfile, recommendedTweets, recentTweets, segment) {
+  constructor($window, $filter, $scope, $uibModal, $http, Twitter, Modal, twitterProfile, recommendedTweets, recentTweets, SegmentService) {
     this.$window = $window;
     this.$filter = $filter;
     this.$uibModal = $uibModal;
     this.$scope = $scope;
     this.$http = $http;
 
-    this.segment = segment;
+    this.SegmentService = SegmentService;
 
     this.TwitterService = Twitter;
     this.modalService = Modal;
@@ -150,7 +150,7 @@ export default class TwitterHomeController {
             You currently have ${res.user.followers_count} followers. Keep it up!\
           <p>`;
 
-        this.segment.track(this.segment.events.APP_ACTION, {
+        this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
           app: 'TWITTER',
           action: 'tweet',
         });

@@ -14,11 +14,11 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(User, $state, fireDepartments, segment) {
+  constructor(User, $state, fireDepartments, SegmentService) {
     this.UserService = User;
     this.$state = $state;
     this.fireDepartments = fireDepartments;
-    this.segment = segment;
+    this.SegmentService = SegmentService;
   }
 
   register(form) {
@@ -35,7 +35,7 @@ export default class SignupController {
       }).$promise
         .then(() => {
           // Account created, redirect to home
-          this.segment.track(this.segment.events.SIGNED_UP, this.user);
+          this.SegmentService.track(this.SegmentService.events.SIGNED_UP, this.user);
 
           this.$state.go('site.account.login');
         })

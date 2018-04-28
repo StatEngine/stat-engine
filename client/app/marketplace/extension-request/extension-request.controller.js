@@ -4,9 +4,9 @@ export default class ExtensionRequestController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Extension, currentExtension, hasRequested, segment) {
+  constructor(Extension, currentExtension, hasRequested, SegmentService) {
     this.extension = currentExtension;
-    this.segment = segment;
+    this.SegmentService = SegmentService;
     this.ExtensionService = Extension;
 
     this.requested = hasRequested ? hasRequested.requested : false;
@@ -19,7 +19,7 @@ export default class ExtensionRequestController {
     this.requested = true;
     this.ExtensionService.request({ id: this.extension._id}).$promise
       .then(() => {
-        this.segment.track(this.segment.events.APP_REQUEST, {
+        this.SegmentService.track(this.SegmentService.events.APP_REQUEST, {
           app: this.extension.name,
         });
       });

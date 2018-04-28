@@ -11,10 +11,10 @@ export default class LoginController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Principal, $state, segment) {
+  constructor(Principal, $state, SegmentService) {
     this.Principal = Principal;
     this.$state = $state;
-    this.segment = segment;
+    this.SegmentService = SegmentService;
   }
 
   login(form) {
@@ -28,7 +28,7 @@ export default class LoginController {
         .then(res => {
           // Logged in, redirect to user home
           let user = res.data.user;
-          this.segment.track(this.segment.events.SIGNED_IN, user);
+          this.SegmentService.track(this.SegmentService.events.SIGNED_IN, user);
 
           this.$state.go('site.user.home');
         })

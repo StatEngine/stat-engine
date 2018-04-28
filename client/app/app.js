@@ -24,6 +24,7 @@ import {
 
 import _Auth from '../components/auth/auth.module';
 import api from '../components/api/api.module';
+import segmentService from '../components/segment/segment.module';
 
 // modules
 import account from './account';
@@ -51,7 +52,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentEventConstants, /*socket,*/ util, angulartics, gtm
+  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentEventConstants, segmentService, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
@@ -63,12 +64,12 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
-  .run(($transitions, segment) => {
+  .run(($transitions, SegmentService) => {
     'ngInject';
 
     $transitions.onSuccess({}, transition => {
       $('html, body').animate({ scrollTop: 0 }, 200);
-      segment.page({
+      SegmentService.page({
         path: transition.to().url
       });
     });

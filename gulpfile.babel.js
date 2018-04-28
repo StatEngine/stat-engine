@@ -438,7 +438,12 @@ gulp.task('ngConfig:cloud', cb => {
     return gulp.src(`${clientPath}/app.constants.json`)
       .pipe(gulpNgConfig('statEngineApp.constants', {
          environment: ['cloud'],
-         templateFilePath: `${clientPath}/app.constants.template`
+         templateFilePath: `${clientPath}/app.constants.template`,
+         constants: {
+           segmentConfig: {
+             key: process.env.SEGMENT_WRITE_KEY
+           }
+         }
       }))
       .pipe(gulp.dest(`${clientPath}/app`))
 });
