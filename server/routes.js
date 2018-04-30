@@ -23,6 +23,11 @@ export default function(app) {
     angular: true
   }));
 
+  app.route('/heartbeat')
+    .post((res, req) => {
+        req.status(204).send();
+    });
+
   // Authentication
   app.use('/auth', require('./auth').default);
 
