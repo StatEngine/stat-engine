@@ -456,6 +456,11 @@ input[type="radio"]:focus {
   border-radius: 5px;
 }
 
+.card-shadowed {
+  border: 1px solid #ced2d685;
+  box-shadow: 0px 1px 16px #e0e2e3;
+}
+
 // Utilities
 .pt-3,
 .py-3 {

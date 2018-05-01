@@ -1,4 +1,4 @@
-.user-home {  
+.user-home {
   header {
     background: transparent;
     height: auto;
@@ -65,9 +65,9 @@
     }
     @media (max-width: 991px) {
       justify-content: space-between;
-      margin-top: 3rem;
+      margin-top: 2rem;
       a {
-        margin: 0;
+        margin: 0 4rem 0 0;
       }
     }
   }
@@ -90,6 +90,9 @@
       dd {
         margin-bottom: 3rem;
       }
+    }
+    @media screen and (max-width: 767px) {
+      margin-bottom: 4rem;
     }
   }
 
