@@ -367,6 +367,7 @@ export function me(req, res, next) {
           _id: user.fire_department__id
         },
         attributes: [
+          '_id',
           'fd_id',
           'name',
           'state',
