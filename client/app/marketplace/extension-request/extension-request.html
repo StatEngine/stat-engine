@@ -22,7 +22,7 @@
             <li ng-repeat="feature in vm.extension.features">{{feature}}</li>
           </ul>
           <a class="btn btn-alt-2" ng-show="!vm.requested" ng-click="vm.request()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Request to add</a><br>
-          <span ng-show="vm.requested" class="text-success">Thanks for the request! We'll let you know as soon as the app is available.</span>
+          <div ng-show="vm.requested" class="alert alert-success" role="alert">Thanks for the request! We'll let you know as soon as the app is available.</div>
 
         </div>
         <div class="col-md-5 p-5 extension-preview">

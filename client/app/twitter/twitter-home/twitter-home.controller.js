@@ -58,9 +58,10 @@ export default class TwitterHomeController {
     this.TwitterService = Twitter;
     this.modalService = Modal;
     this.twitterProfile = twitterProfile;
+    this.profileUrl = this.twitterProfile.profile_image_url_https;
+    this.profileUrl = this.profileUrl.slice(0, -10) + 'bigger.jpg'
     this.recommendedTweets = recommendedTweets;
     this.recentTweets = recentTweets;
-
     this.authorized = !_.isEmpty(twitterProfile);
   }
 

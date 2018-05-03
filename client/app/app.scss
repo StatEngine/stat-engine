@@ -25,8 +25,9 @@ $color-pickled-bluewood: #334A56;
 $color-pale-sky: #697983;
 $color-oxford-blue: #384553;
 $color-geyser: #D7DEE3;
+$color-brand-success: #30b370;
 $color-brand-danger: #d61745;
-
+$color-porcelain: #f5f7f8;
 
 /////////////////////////////////
 // BROWSER //
@@ -449,11 +450,27 @@ input[type="radio"]:focus {
   border-radius: 5px;
   padding: 2rem;
   height: 100%;
+  overflow: hidden;
+  .card-header {
+    border-bottom: 1px solid $color-geyser;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 2.5rem;
+    padding: .25rem 0 1.5rem;
+  }
+  &.light-border {
+    border-color: $color-geyser;
+  }
 }
 
 .card-selected {
   border: 4px solid $color-bondi-blue;
   border-radius: 5px;
+}
+
+.card-shadowed {
+  border: 1px solid #ced2d685;
+  box-shadow: 0px 1px 16px #e0e2e3;
 }
 
 // Utilities
@@ -518,6 +535,24 @@ input[type="radio"]:focus {
   white-space: nowrap;
 }
 
+// Background Colors
+.light-bg {
+  background-color: $color-porcelain;
+}
+
+// Effects
+.embossed, .embossed ::before {
+  -moz-background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke-color: rgba(69, 80, 99, 0.02);
+  -webkit-text-stroke-width: 1px;
+  background-clip: text;
+  background-color: #bdc7d0;
+  color: transparent;
+  text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.36);
+}
+
+
 // Bootstrap Overrides
 @media (min-width: 1230px) {
   .container {
@@ -526,6 +561,16 @@ input[type="radio"]:focus {
     width: 1230px;
   }
 }
+
+.text-success, .alert-success {
+  color: $color-brand-success;
+}
+
+.text-danger, .alert-danger {
+  color: $color-brand-danger;
+}
+
+
 
 // Hover.css Overrides
 .hvr-float-shadow:active,
@@ -716,8 +761,8 @@ button {
 
 // Apply to main/"middle" content wrapper
 .site-content {
-  height: 100%;
-  background-color: #f5f7f8;
+  display: block;
+  min-height: 100vh;
 }
 
 
