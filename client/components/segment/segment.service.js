@@ -7,8 +7,6 @@ export default function SegmentService(segment, appConfig) {
     events: segment.events,
 
     track(name, obj) {
-      console.dir(name);
-      console.dir(obj)
       obj.env = appConfig.env;
       segment.track(name, obj);
     },

@@ -8,13 +8,6 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    requested: {
-      type: DataTypes.BOOLEAN,
-      validate: {
-        notEmpty: true
-      },
-      defaultValue: false
-    },
     enabled: {
       type: DataTypes.BOOLEAN,
       validate: {
