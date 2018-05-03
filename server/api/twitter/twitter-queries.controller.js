@@ -19,7 +19,7 @@ export const QUERIES = [{
           filter: {
             range: {
               'description.event_opened': {
-                gte: 'now-300d/d',
+                gte: 'now-1d/d',
                 lt: 'now/d'
               }
             }
@@ -40,7 +40,7 @@ export const QUERIES = [{
     let tweet;
     if(fireBucket || emsBucket) {
       if(fireBucket && emsBucket) {
-        tweet = `${options.name} responded to ${fireBucket.doc_count} fire && ${emsBucket.doc_count} EMS incidents`;
+        tweet = `${options.name} responded to ${fireBucket.doc_count} fire & ${emsBucket.doc_count} EMS incidents`;
       } else if(fireBucket) {
         tweet = `${options.name} responded to ${fireBucket.doc_count} fire incidents`;
       } else if(emsBucket) {
@@ -66,7 +66,7 @@ export const QUERIES = [{
           filter: {
             range: {
               'description.event_opened': {
-                gte: 'now-300d/d',
+                gte: 'now-7d/d',
                 lt: 'now/d'
               }
             }
@@ -87,13 +87,13 @@ export const QUERIES = [{
     let tweet;
     if(fireBucket || emsBucket) {
       if(fireBucket && emsBucket) {
-        tweet = `${options.name} responded to ${fireBucket.doc_count} fire && ${emsBucket.doc_count} EMS incidents`;
+        tweet = `${options.name} responded to ${fireBucket.doc_count} fire & ${emsBucket.doc_count} EMS incidents`;
       } else if(fireBucket) {
         tweet = `${options.name} responded to ${fireBucket.doc_count} fire incidents`;
       } else if(emsBucket) {
         tweet = `${options.name} responded to ${emsBucket.doc_count} EMS incidents`;
       }
-      tweet += ' in the past week';
+      tweet += ' last week';
     }
     return tweet;
   }
