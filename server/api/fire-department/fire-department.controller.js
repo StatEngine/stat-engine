@@ -218,7 +218,7 @@ export function queueIngest(req, res) {
     return res.status(400).send('Request body cannot be empty');
   }
 
-  const queueName = req.body.firecaresId;
+  const queueName = req.fireDepartment.firecares_id;
 
   let connection;
   let channel;
@@ -230,15 +230,15 @@ export function queueIngest(req, res) {
       cb(err);
     }),
     // Open channel
-    cb => connection.createChannel((err, openChannel) => {
+    cb => connection.createConfirmChannel((err, openChannel) => {
       channel = openChannel;
       cb(err);
     }),
+    // Assert queue
+    cb => channel.assertQueue(queueName, { deadLetterExchange: 'dlx.direct', deadLetterRoutingKey: 'uncaught-error' }, cb),
     // Write data
-    cb => {
-      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(req.body)), {});
-      cb();
-    },
+    cb => channel.sendToQueue(queueName, Buffer.from(JSON.stringify(req.body)), {}, cb),
+    // Cleanup
     cb => channel.close(cb),
     cb => connection.close(cb),
   ], err => {
@@ -248,6 +248,7 @@ export function queueIngest(req, res) {
       if(channel) channel.close();
       if(connection) connection.close();
 
+      console.error(err)
       return res.send(500);
     }
     return res.send(204);

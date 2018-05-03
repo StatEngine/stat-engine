@@ -14,11 +14,13 @@ export default function routes($stateProvider) {
     })
     .state('site.account.login', {
       url: '/login',
-      views: {
-        'content@': {
-          template: require('./login/login.html'),
-          controller: 'LoginController',
-          controllerAs: 'vm'
+      template: require('./login/login.html'),
+      controller: 'LoginController',
+      controllerAs: 'vm',
+      resolve: {
+        // heartbeat is used to ensure CSRF token is set
+        heartbeat($http) {
+          $http.post('/heartbeat', {});
         }
       },
     })

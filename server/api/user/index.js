@@ -8,6 +8,11 @@ import * as auth from '../../auth/auth.service';
 
 var router = new Router();
 
+// unprotected routes
+router.post('/', bodyParser.json(), controller.create);
+router.put('/resetPassword', bodyParser.json(), controller.resetPassword);
+router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
+
 // authenticated routes
 router.get('/me', auth.isApiAuthenticated, controller.me);
 router.put('/:id', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.edit);
@@ -20,10 +25,5 @@ router.get('/', auth.isApiAuthenticated, auth.hasRole('department_admin'), contr
 router.get('/:id', auth.isApiAuthenticated, auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.get);
 router.put('/:id/revokeAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, controller.revokeAccess);
 router.put('/:id/approveAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, controller.approveAccess);
-
-// unprotected routes
-router.post('/', bodyParser.json(), controller.create);
-router.put('/resetPassword', bodyParser.json(), controller.resetPassword);
-router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
 
 module.exports = router;

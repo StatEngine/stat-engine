@@ -133,144 +133,18 @@ if(process.env.NODE_ENV === 'development') {
       enabled: true,
       requested: false,
       fire_department__id: richmond._id,
-      extension__id: twitterEnrichment._id,
-      config_json: {
-        media_text: '@RVFD at work',
-        tasks: [{
-          name: 'richmondTwitter',
-          schedule: {
-            later: 'every 5 seconds'
-          },
-          preprocessors: [{
-            type: 'daily',
-            options: {
-              timezone: 'US/Eastern'
-            }
-          }],
-          queryTemplates: [{
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must: [{
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }],
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{daily.timeFrame.start}}',
-                          lt: '{{daily.timeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must: [{
-                      term: {
-                        'description.type': 'EMS-1STRESP'
-                      }
-                    }, {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }],
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{daily.timeFrame.start}}',
-                          lt: '{{daily.timeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must_not: {
-                      term: {
-                        'description.type': 'EMS-1STRESP'
-                      }
-                    },
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    },
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{daily.timeFrame.start}}',
-                          lt: '{{daily.timeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }],
-          transforms: [{
-            type: 'set',
-            path: 'totalIncidentCount',
-            value: 'queryResults[0].count'
-          }, {
-            type: 'set',
-            path: 'emsIncidentCount',
-            value: 'queryResults[1].count'
-          }, {
-            type: 'set',
-            path: 'fireIncidentCount',
-            value: 'queryResults[2].count'
-          }],
-          actions: [{
-            type: 'console',
-            options: {}
-          }, {
-            type: 'twitter',
-            options: {
-              template: 'Richmond responded to <%= totalIncidentCount %> incidents yesterday',
-            }
-          }]
-        }],
-      }
-    }))
-    .then(() => ExtensionConfiguration.create({
-      enabled: true,
-      requested: false,
-      fire_department__id: richmond._id,
       extension__id: emailReportEnrichment._id,
       config_json: {
         tasks: [{
           name: 'richmond-current-shift',
           schedule: {
-            later: 'every 10 minutes'
+            later: 'every 5 seconds'
           },
           preprocessors: [{
             type: 'shiftly',
             options: {
               name: 'richmondVA',
               timezone: 'US/Eastern',
-              current: true
             }
           }],
           queryTemplates: [{
@@ -403,12 +277,6 @@ if(process.env.NODE_ENV === 'development') {
                           percents: [90]
                         }
                       },
-                      turnout_percentile_rank: {
-                        percentiles: {
-                          field: 'apparatus.extended_data.turnout_duration',
-                          percents: [90]
-                        }
-                      },
                       unit_responses: {
                         terms: {
                           field: 'apparatus.unit_id',
@@ -421,6 +289,12 @@ if(process.env.NODE_ENV === 'development') {
                           total_distance: {
                             sum: {
                               field: 'apparatus.distance'
+                            }
+                          },
+                          turnout_percentile_rank: {
+                            percentiles: {
+                              field: 'apparatus.extended_data.turnout_duration',
+                              percents: [90]
                             }
                           },
                           utilization: {
@@ -445,6 +319,24 @@ if(process.env.NODE_ENV === 'development') {
                     percentiles: {
                       field: 'description.extended_data.event_duration',
                       percents: [25, 50, 75, 90, 100]
+                    }
+                  }
+                }
+              }
+            }
+          }, {
+            type: 'search',
+            request: {
+              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
+              body: {
+                size: 100,
+                _source: ['address.latitude', 'address.longitude'],
+                query: {
+                  bool: {
+                    must: {
+                      term: {
+                        'description.suppressed': false
+                      }
                     }
                   }
                 }
@@ -495,6 +387,10 @@ if(process.env.NODE_ENV === 'development') {
             type: 'set',
             path: 'addressBattalionBuckets',
             value: 'queryResults[3].aggregations.address_battalions.buckets'
+          }, {
+            type: 'set',
+            path: 'locations',
+            value: 'queryResults[4]'
           }],
           actions: [{
             type: 'console',
@@ -511,6 +407,11 @@ if(process.env.NODE_ENV === 'development') {
                 name: 'Richmond Current Shift',
                 ga: {
                   uid: 'joechop'
+                },
+                sections: {
+                  battalionSummary: true,
+                  unitSummary: true,
+                  incidentSummary: false
                 }
               }
             }
@@ -744,13 +645,6 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then(() => console.log('finished populating data'));
-} else {
-  console.info('Seeding Demo Data');
-  User.sync()
-    .then(() => FireDepartment.sync())
-    .then(() => FireDepartment.destroy({ where: {} }))
-    .then(() => User.destroy({ where: {} }))
     .then(() => FireDepartment.create({
       fd_id: '38005',
       firecares_id: '94264',
@@ -764,21 +658,78 @@ if(process.env.NODE_ENV === 'development') {
       Users: [{
         provider: 'local',
         role: 'user,kibana_admin',
-        username: 'user',
+        username: 'sfUser',
         first_name: 'Demo',
         last_name: 'User',
-        email: 'demouser@example.com',
+        email: 'sfUser@example.com',
         password: 'password',
-        api_key: 'user',
+        api_key: 'sfUser',
       }, {
         provider: 'local',
-        role: 'admin',
-        username: 'admin',
-        first_name: 'Admin',
+        role: 'ingest',
+        username: 'sfAdmin',
+        first_name: 'Demo',
         last_name: 'User',
-        email: 'adminuser@example.com',
+        email: 'sfAdmin@example.com',
         password: 'password',
-        api_key: 'admin',
+        api_key: 'sfAdmin',
+      }, {
+        provider: 'local',
+        role: 'ingest',
+        username: 'sfIngest',
+        first_name: 'Demo',
+        last_name: 'User',
+        email: 'sfIngest@example.com',
+        password: 'password',
+        api_key: 'sfDemo',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => console.log('finished populating data'));
+} else {
+  console.info('Seeding Demo Data');
+  User.sync()
+    .then(() => FireDepartment.sync())
+    .then(() => FireDepartment.destroy({ where: {} }))
+    .then(() => User.destroy({ where: {} }))
+    .then(() => FireDepartment.create({
+      fd_id: '38005',
+      firecares_id: '94264',
+      name: '(Demo) San Francisco Fire Department',
+      state: 'CA',
+      timezone: 'US/Pacific',
+      integration_verified: true,
+      integration_complete: true,
+      latitude: 37.7749,
+      longitude: -122.4194,
+      Users: [{
+        provider: 'local',
+        role: 'user,kibana_admin',
+        username: 'sfUser',
+        first_name: 'Demo',
+        last_name: 'User',
+        email: 'sfUser@example.com',
+        password: 'password',
+        api_key: 'sfUser',
+      }, {
+        provider: 'local',
+        role: 'ingest',
+        username: 'sfAdmin',
+        first_name: 'Demo',
+        last_name: 'Admin',
+        email: 'sfAdmin@example.com',
+        password: 'password',
+        api_key: 'sfAdmin',
+      }, {
+        provider: 'local',
+        role: 'ingest',
+        username: 'sfIngest',
+        first_name: 'Demo',
+        last_name: 'INgest',
+        email: 'sfIngest@example.com',
+        password: 'password',
+        api_key: 'sfIngest',
       }]
     }, {
       include: [FireDepartment.Users]
