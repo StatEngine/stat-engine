@@ -702,7 +702,7 @@ if(process.env.NODE_ENV === 'development') {
     .then(() => FireDepartment.create({
       fd_id: '38005',
       firecares_id: '94264',
-      name: '(Demo) San Francisco Fire Department',
+      name: 'San Francisco Fire Department',
       state: 'CA',
       timezone: 'US/Pacific',
       integration_verified: true,
