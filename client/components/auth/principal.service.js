@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-export default function PrincipalService($http, $q, $window, User, segment) {
+export default function PrincipalService($http, $q, $cookies, $window, User, segment) {
   'ngInject';
 
   var _identity = {};
@@ -60,6 +60,12 @@ export default function PrincipalService($http, $q, $window, User, segment) {
       return $http.get('/auth/local/logout')
         .finally(() => {
           this.authenticate({});
+          const cookies = $cookies.getAll()
+          angular.forEach(cookies, function (v, k) {
+            $cookies.remove(k);
+          });
+          segment.reset();
+
           // invalidate server session in case kibana doesn't callback
           return $http.get('/auth/local/logout/_callback');
         });

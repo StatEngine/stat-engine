@@ -34,7 +34,7 @@ Running `npm test` will run the unit tests with karma.
 
 ### Building
 #### Cloud Version
-`docker build -t stat-engine .`
+`docker build --build-arg SEGMENT_KEY=<key> -t stat-engine .`
 
 #### On-Premise Version
 `docker build --build-arg ON_PREMISE=true -t stat-engine .`
