@@ -28,6 +28,7 @@ export default class LoginController {
         .then(res => {
           // Logged in, redirect to user home
           let user = res.data.user;
+
           this.SegmentService.track(this.SegmentService.events.SIGNED_IN, user);
 
           this.$state.go('site.user.home');

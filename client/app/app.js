@@ -56,9 +56,11 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
-    segmentProvider.setKey(segmentConfig.key);
+    if (segmentConfig.key) {
+      segmentProvider.setKey(segmentConfig.key);
+    }
     segmentProvider.setEvents(SegmentEvents);
-
+    
     if(appConfig.env === 'dev') segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
