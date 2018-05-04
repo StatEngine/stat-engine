@@ -6,7 +6,7 @@
 'use strict';
 
 import uuidv4 from 'uuid/v4';
-import { seedKibanaAll } from '@statengine/se-fixtures';
+import { seedKibanaAll, seedIndexTemplates } from '@statengine/se-fixtures';
 
 import sqldb from '../sqldb';
 
@@ -744,8 +744,12 @@ if(process.env.NODE_ENV === 'development') {
       const locals = {
         FireDepartment: fireDepartment.get(),
       };
-      seedKibanaAll({}, locals, err => {
+      seedIndexTemplates({}, locals, err => {
         if(err) throw err;
+
+        seedKibanaAll({}, locals, err => {
+          if(err) throw err;
+        });
       });
     })
     .then(() => console.log('finished populating demo data'));
