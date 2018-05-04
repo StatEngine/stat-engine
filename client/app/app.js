@@ -52,7 +52,7 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentEventConstants, segmentService, /*socket,*/ util, angulartics, gtm
+  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, segmentEventConstants, constants, segmentService, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
@@ -60,8 +60,9 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
       segmentProvider.setKey(segmentConfig.key);
     }
     segmentProvider.setEvents(SegmentEvents);
-    
-    if(appConfig.env === 'dev') segmentProvider.setDebug(true);
+    console.dir(appConfig)
+    console.dir(segmentConfig)
+    segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;

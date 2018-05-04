@@ -385,7 +385,6 @@ gulp.task('serve:debug', cb => {
 
 gulp.task('serve:dist', cb => {
     runSequence(
-        'ngConfig:cloud',
         'build',
         'env:all',
         'env:prod',
@@ -395,19 +394,7 @@ gulp.task('serve:dist', cb => {
 
 gulp.task('serve:onPremise', cb => {
     runSequence(
-        'ngConfig:onPremise',
-        'build',
-        'env:all',
-        'env:prod',
-        'env:onPremise',
-        ['start:server:prod', 'start:client'],
-        cb);
-});
-
-gulp.task('serve:onPremise', cb => {
-    runSequence(
-        'ngConfig:onPremise',
-        'build',
+        'build:onPremise',
         'env:all',
         'env:prod',
         'env:onPremise',
@@ -427,7 +414,7 @@ gulp.task('ngConfig:dev', cb => {
          templateFilePath: `${clientPath}/app.constants.template`,
          constants: {
            segmentConfig: {
-             key: process.env.SEGMENT_WRITE_KEY
+             key: process.env.SEGMENT_KEY || ''
            }
          }
       }))
@@ -441,7 +428,7 @@ gulp.task('ngConfig:cloud', cb => {
          templateFilePath: `${clientPath}/app.constants.template`,
          constants: {
            segmentConfig: {
-             key: process.env.SEGMENT_WRITE_KEY
+             key: process.env.SEGMENT_KEY || ''
            }
          }
       }))
@@ -451,8 +438,13 @@ gulp.task('ngConfig:cloud', cb => {
 gulp.task('ngConfig:onPremise', cb => {
     return gulp.src(`${clientPath}/app.constants.json`)
       .pipe(gulpNgConfig('statEngineApp.constants', {
-         environment: ['all','onPremise'],
-         templateFilePath: `${clientPath}/app.constants.template`
+         environment: ['onPremise'],
+         templateFilePath: `${clientPath}/app.constants.template`,
+         constants: {
+           segmentConfig: {
+             key: process.env.SEGMENT_KEY || ''
+           }
+         }
       }))
       .pipe(gulp.dest(`${clientPath}/app`))
 });
@@ -543,6 +535,7 @@ gulp.task('build', cb => {
             'clean:tmp'
         ],
         'inject',
+        'ngConfig:cloud',
         'transpile:server',
         [
             'build:images'
