@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="91" height="89" viewBox="0 0 91 89">
+  <defs>
+    <linearGradient id="actions-big-board-a" x1="38.869%" x2="82.525%" y1="94.274%" y2="-17.213%">
+      <stop offset="0%" stop-color="#0099C2"/>
+      <stop offset="100%" stop-color="#29b5c5"/>
+    </linearGradient>
+    <linearGradient id="actions-big-board-b" x1="80.676%" x2="80.676%" y1="50%" y2="126.354%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="actions-big-board-c" x1="50%" x2="50%" y1="127.023%" y2="-70.909%">
+      <stop offset="0%" stop-color="#787878"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+    <linearGradient id="actions-big-board-d" x1="60.483%" x2="55.206%" y1="30.141%" y2="109.832%">
+      <stop offset="0%" stop-color="#F3F3F3"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(-1)">
+    <path fill="url(#actions-big-board-a)" d="M45.3655172,89 C70.4202006,89 90.7310345,69.0766714 90.7310345,44.5 C90.7310345,19.9233286 70.4202006,0 45.3655172,0 C20.3108339,0 0,19.9233286 0,44.5 C0,69.0766714 20.3108339,89 45.3655172,89 Z" transform="translate(1)"/>
+    <g transform="translate(0 20)">
+      <g fill="url(#actions-big-board-b)" opacity=".362" transform="translate(0 27)">
+        <polygon points="28.486 21 0 3.3 19.45 7.95 38.901 20.1" style="mix-blend-mode:multiply"/>
+        <polygon points="42.883 19.5 14.396 1.8 33.847 6.45 53.297 18.6" style="mix-blend-mode:multiply"/>
+        <polygon points="57.586 17.7 29.099 0 48.55 4.65 68 16.8" style="mix-blend-mode:multiply"/>
+      </g>
+      <g transform="translate(27)">
+        <g transform="translate(0 33.586)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.38298773 L2.46317358,4.34588746 L2.46317358,15.0982678 L1.69048715,14.616818 C0.866288286,14.0818737 0.42843264,13.7876543 0.376920211,13.7341599 C0.325407782,13.6806654 0.299651568,10.2302747 0.299651568,3.38298773 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.266 12.431 3.611 12.431 14.042 2.463 15.098"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(14.084 32.045)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.38298773 L2.46317358,4.34588746 L2.46317358,15.0982678 L1.69048715,14.616818 C0.866288286,14.0818737 0.42843264,13.7876543 0.376920211,13.7341599 C0.325407782,13.6806654 0.299651568,10.2302747 0.299651568,3.38298773 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.574 12.431 3.611 12.431 14.042 2.463 15.098"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(28.767 30.813)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.69111565 L2.46317358,4.65401538 L2.46317358,14.482012 L1.69048715,14.0005621 C0.866288286,13.4656178 0.42843264,13.1713985 0.376920211,13.117904 C0.325407782,13.0644096 0.299651568,9.92214681 0.299651568,3.69111565 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.574 12.431 3.611 12.431 13.426 2.463 14.482"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(0 18.488)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.38298773 L2.46317358,4.34588746 L2.46317358,15.0982678 L1.69048715,14.616818 C0.866288286,14.0818737 0.42843264,13.7876543 0.376920211,13.7341599 C0.325407782,13.6806654 0.299651568,10.2302747 0.299651568,3.38298773 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.266 12.431 3.611 12.431 14.042 2.463 15.098"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(14.084 16.947)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.38298773 L2.46317358,4.34588746 L2.46317358,15.0982678 L1.69048715,14.616818 C0.866288286,14.0818737 0.42843264,13.7876543 0.376920211,13.7341599 C0.325407782,13.6806654 0.299651568,10.2302747 0.299651568,3.38298773 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.574 12.431 3.611 12.431 14.042 2.463 15.098"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(28.767 15.406)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.69111565 L2.46317358,4.65401538 L2.46317358,14.7901399 L1.69048715,14.30869 C0.866288286,13.7737457 0.42843264,13.4795264 0.376920211,13.426032 C0.325407782,13.3725375 0.299651568,10.1275654 0.299651568,3.69111565 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.574 12.431 3.919 12.431 13.734 2.463 14.79"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(0 3.081)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.38298773 L2.46317358,4.34588746 L2.46317358,15.0982678 L1.69048715,14.616818 C0.866288286,14.0818737 0.42843264,13.7876543 0.376920211,13.7341599 C0.325407782,13.6806654 0.299651568,10.2302747 0.299651568,3.38298773 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.266 12.431 3.611 12.431 14.042 2.463 15.098"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(14.084 1.54)">
+          <path fill="url(#actions-big-board-c)" d="M0.299651568,3.38298773 L2.46317358,4.34588746 L2.46317358,15.0982678 L1.69048715,14.616818 C0.866288286,14.0818737 0.42843264,13.7876543 0.376920211,13.7341599 C0.325407782,13.6806654 0.299651568,10.2302747 0.299651568,3.38298773 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.386 4.574 12.431 3.611 12.431 14.042 2.463 15.098"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+        <g transform="translate(29.066)">
+          <path fill="url(#actions-big-board-c)" d="M4.54747351e-13,3.69111565 L2.16352201,4.34588746 L2.16352201,14.7901399 L1.39083558,14.30869 C0.566636718,13.7737457 0.128781072,13.4795264 0.0772686433,13.426032 C0.0257562144,13.3725375 4.07370361e-13,10.1275654 4.54747351e-13,3.69111565 Z"/>
+          <polygon fill="url(#actions-big-board-d)" points="2.086 4.574 12.131 3.611 12.131 13.734 2.164 14.79"/>
+          <polygon fill="#D8D8D8" points="4.503 9.852 6.462 .07 8.382 -2.258 5.977 8.139" transform="rotate(73 6.443 3.797)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

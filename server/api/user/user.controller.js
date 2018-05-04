@@ -118,13 +118,13 @@ function addToMailingList(user) {
 export function create(req, res) {
   var newUser = User.build(req.body);
 
-  newUser.setDataValue('api_key', uuidv4());
-
+  // force this all so user cannot overwrite in request
   if(!req.user || !req.user.isAdmin) {
-    newUser.setDataValue('fire_department__id', undefined);
     newUser.setDataValue('provider', 'local');
     newUser.setDataValue('role', 'user');
+    newUser.setDataValue('fire_department__id', undefined);
   }
+  newUser.setDataValue('api_key', uuidv4());
 
   return newUser.save()
     .then(user => addToMailingList(user)

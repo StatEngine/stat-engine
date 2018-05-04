@@ -3,40 +3,45 @@
 export default function TwitterResource($resource) {
   'ngInject';
 
-  return $resource('/api/twitter/:verb/:id/', {
+  return $resource('/api/twitter/:resource/:resource2/', {
     id: '@id'
   }, {
-    getTweets: {
-      method: 'GET',
-      isArray: true,
-      params: {
-        verb: 'tweets',
-      }
-    },
     profile: {
       method: 'GET',
       isArray: false,
       params: {
-        verb: 'account',
-        id: 'profile'
+        resource: 'account',
+        resource2: 'profile'
       }
     },
-    getTweet: {
+    getRecommendedTweets: {
       method: 'GET',
+      isArray: true,
       params: {
-        verb: 'tweets',
+        resource: 'tweets',
+        resource2: 'recommendations',
       }
     },
-    updateTweet: {
-      method: 'PUT',
+    getRecentTweets: {
+      method: 'GET',
+      isArray: true,
       params: {
-        verb: 'tweets',
+        resource: 'tweets',
+        resource2: 'recent',
       }
     },
-    deleteTweet: {
-      method: 'DELETE',
+    previewTweet: {
+      method: 'POST',
       params: {
-        verb: 'tweets',
+        resource: 'tweets',
+        resource2: 'preview'
+      }
+    },
+    tweetTweet: {
+      method: 'POST',
+      params: {
+        resource: 'tweets',
+        resource2: 'tweet'
       }
     },
   });

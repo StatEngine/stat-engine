@@ -182,8 +182,6 @@ export function fixtures(req, res) {
 }
 
 export function multiFixtures(req, res) {
-  console.dir(req.seedFnc);
-
   const options = {
     force: true
   };

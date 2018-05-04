@@ -1,7 +1,6 @@
-<div class="site">
-  <navbar class="animated fadeInDown naked"></navbar>
+<div class="site-content request-access">
   <header class="naked"></header>
-  <section class="container site-content">
+  <section class="container">
     <section class="row mb-5 justify-content-md-center">
       <div class="col-md-auto align-self-center">
         <div ng-if="vm.fireDepartment">
@@ -40,7 +39,7 @@
               </p>
               <button class="btn btn-lg btn-primary" type="submit" ng-disabled="!vm.selectedFireDepartment">Request Access</button>
               <div class="col-12 form-extras">
-                <span class="d-flex w-100" >Don't see your department? <a class="ml-3" ui-sref="statEngineDocumentation"> Lets get started <i class="fa fa-chevron-right"></i></a></span>
+                <span class="d-flex w-100" >Don't see your department? <a class="ml-3" href="https://statengine.github.io/se-documenation/"> Lets get started <i class="fa fa-chevron-right"></i></a></span>
               </div>
             </form>
           </div>
@@ -48,5 +47,4 @@
       </div>
     </section>
   </section>
-  <footer id="footer"></footer>
 </div>

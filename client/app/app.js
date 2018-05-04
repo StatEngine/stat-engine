@@ -16,12 +16,15 @@ import gtm from 'angulartics-google-tag-manager';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
 
+import ngSegment from 'angular-segment-analytics';
+
 import {
-  routeConfig
+  routeConfig,
 } from './app.config';
 
 import _Auth from '../components/auth/auth.module';
 import api from '../components/api/api.module';
+import segmentService from '../components/segment/segment.module';
 
 // modules
 import account from './account';
@@ -41,23 +44,38 @@ import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 
 import constants from './app.constants';
+import segmentEventConstants from './segment-event.constants';
+
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, /*socket,*/ util, angulartics, gtm
+angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
+  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, constants, segmentEventConstants, segmentService, /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
-  .run(function($transitions) {
-    'ngInject';
-
-    $transitions.onSuccess({}, () => $('html, body').animate({ scrollTop: 0 }, 200));
+  .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
+    if (segmentConfig.key) {
+      segmentProvider.setKey(segmentConfig.key);
+    }
+    segmentProvider.setEvents(SegmentEvents);
+    
+    if(appConfig.env === 'dev') segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
-  }]);
+  }])
+  .run(($transitions, SegmentService) => {
+    'ngInject';
+
+    $transitions.onSuccess({}, transition => {
+      $('html, body').animate({ scrollTop: 0 }, 200);
+      SegmentService.page({
+        path: transition.to().url
+      });
+    });
+  });
 
 angular.element(document)
   .ready(() => {

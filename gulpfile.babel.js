@@ -19,6 +19,7 @@ import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
 import webpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
+import b2v from 'buffer-to-vinyl';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -171,6 +172,7 @@ gulp.task('env:all', () => {
         localConfig = {};
     }
     plugins.env({
+        file: 'env.json',
         vars: localConfig
     });
 });
@@ -350,11 +352,11 @@ gulp.task('serve', cb => {
     runSequence(
         [
             'clean:tmp',
-            'ngConfig:all',
             'lint:scripts',
+            'env:all',
+            'ngConfig:dev',
             'inject',
             'copy:fonts:dev',
-            'env:all'
         ],
         // 'webpack:dev',
         ['start:server', 'start:client'],
@@ -372,7 +374,7 @@ gulp.task('serve:debug', cb => {
             'copy:fonts:dev',
             'env:all'
         ],
-        'ngConfig:all',
+        'ngConfig:dev',
         'webpack:dev',
         'start:inspector',
         ['start:server:debug', 'start:client'],
@@ -383,7 +385,7 @@ gulp.task('serve:debug', cb => {
 
 gulp.task('serve:dist', cb => {
     runSequence(
-        'ngConfig:all',
+        'ngConfig:cloud',
         'build',
         'env:all',
         'env:prod',
@@ -418,11 +420,30 @@ gulp.task('test', cb => {
 });
 
 
-gulp.task('ngConfig:all', cb => {
+gulp.task('ngConfig:dev', cb => {
     return gulp.src(`${clientPath}/app.constants.json`)
       .pipe(gulpNgConfig('statEngineApp.constants', {
-         environment: ['all'],
-         templateFilePath: `${clientPath}/app.constants.template`
+         environment: ['dev'],
+         templateFilePath: `${clientPath}/app.constants.template`,
+         constants: {
+           segmentConfig: {
+             key: process.env.SEGMENT_WRITE_KEY
+           }
+         }
+      }))
+      .pipe(gulp.dest(`${clientPath}/app`))
+});
+
+gulp.task('ngConfig:cloud', cb => {
+    return gulp.src(`${clientPath}/app.constants.json`)
+      .pipe(gulpNgConfig('statEngineApp.constants', {
+         environment: ['cloud'],
+         templateFilePath: `${clientPath}/app.constants.template`,
+         constants: {
+           segmentConfig: {
+             key: process.env.SEGMENT_WRITE_KEY
+           }
+         }
       }))
       .pipe(gulp.dest(`${clientPath}/app`))
 });

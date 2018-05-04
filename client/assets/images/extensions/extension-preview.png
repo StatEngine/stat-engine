@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="283" height="283" viewBox="0 0 283 283">
+  <defs>
+    <linearGradient id="integration-twitter-b" x1="25.354%" x2="78.207%" y1="90.611%" y2="16.428%">
+      <stop offset="0%" stop-color="#1B93C5"/>
+      <stop offset="100%" stop-color="#52CBFF"/>
+    </linearGradient>
+    <path id="integration-twitter-a" d="M141.5,283 C219.648292,283 283,219.648292 283,141.5 C283,63.3517079 219.648292,0 141.5,0 C63.3517079,0 0,63.3517079 0,141.5 C0,219.648292 63.3517079,283 141.5,283 Z"/>
+    <linearGradient id="integration-twitter-c" x1="31.635%" x2="66.469%" y1="70.881%" y2="24.425%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="integration-twitter-e" x1="14.759%" x2="31.735%" y1="32.363%" y2="43.478%">
+      <stop offset="0%" stop-color="#C8C8C8"/>
+      <stop offset="100%" stop-color="#D5CFCF"/>
+    </linearGradient>
+    <linearGradient id="integration-twitter-f" x1="31.242%" x2="71.249%" y1="50%" y2="78.764%">
+      <stop offset="0%" stop-color="#C8C8C8"/>
+      <stop offset="100%" stop-color="#D5CFCF"/>
+    </linearGradient>
+    <linearGradient id="integration-twitter-i" x1="72.678%" x2="50%" y1="100%" y2="58.279%">
+      <stop offset="0%" stop-color="#CBCBCB"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <path id="integration-twitter-h" d="M19,118.01928 C41.4561404,114.038657 57.6245614,105.63512 67.5052632,92.8086674 C43.2526316,82.635964 30.677193,65.8288888 29.7789474,42.3874417 C52.6842105,52.5601452 69.9754386,56.5407682 81.6526316,54.329311 C80.754386,29.5609896 89.9614035,15.1865174 109.273684,11.2058943 C120.052632,9.87901994 127.463158,14.9653716 131.505263,26.4649494 L147,19.1671405 C140.263158,33.320467 136.894737,40.3971302 136.894737,40.3971302 C140.936842,60.742537 131.505263,82.8571097 108.6,106.740848 C85.6947368,130.624587 55.8280702,134.384064 19,118.01928 Z"/>
+    <filter id="integration-twitter-g" width="103.1%" height="103.4%" x="-1.6%" y="-.9%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.117697011 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="integration-twitter-d" fill="#fff">
+      <use xlink:href="#integration-twitter-a"/>
+    </mask>
+    <use fill="url(#integration-twitter-b)" xlink:href="#integration-twitter-a"/>
+    <path fill="url(#integration-twitter-c)" d="M81.4654087,286.252036 C48.5087414,264.422973 27.5087414,248.756306 18.4654087,239.252036 C9.42207589,229.747766 2.70809177,215.205532 -1.6765437,195.625334 L66.1286639,112.334308 L151.291337,148.252036 L177.465409,167.252036 L81.4654087,286.252036 Z" mask="url(#integration-twitter-d)" opacity=".17" style="mix-blend-mode:multiply" transform="rotate(9 87.894 199.293)"/>
+    <g transform="translate(68 78)">
+      <path fill="#B3B3B3" d="M11,32 C36.6573209,43.8860728 53.6884735,47.848097 62.0934579,43.8860728 L82,55.1118081 C65.0458789,56.7681841 51.9960346,56.1078467 42.8504673,53.130796 C33.7048999,50.1537453 23.0880775,43.1101467 11,32 Z"/>
+      <path fill="url(#integration-twitter-e)" d="M63.173942,44.5301205 C61.8597134,22.0401606 67.9927802,8.09638554 81.5731423,2.69879518 C92.086971,-2.69879518 104.353105,-1.77635684e-15 118.371543,10.7951807 L121,13.4939759 L82.8873709,56 L63.173942,44.5301205 Z"/>
+      <path fill="url(#integration-twitter-f)" d="M20,118 L0,107.454545 C25.7777778,101.30303 42,92.7348485 48.6666667,81.75 C27.3333333,74.280303 14.6666667,57.3636364 10.6666667,31 L30.6666667,42.2045455 L68,91.6363636 C62.2746454,102.494776 56.4968676,109.525079 50.6666667,112.727273 C44.8364657,115.929466 34.6142435,117.687042 20,118 Z"/>
+      <polygon fill="#B3B3B3" points="147 19 128 21.769 131.8 28"/>
+      <use fill="#000" filter="url(#integration-twitter-g)" xlink:href="#integration-twitter-h"/>
+      <use fill="url(#integration-twitter-i)" xlink:href="#integration-twitter-h"/>
+    </g>
+  </g>
+</svg>

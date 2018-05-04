@@ -1,6 +1,6 @@
 'use strict';
 
-export default class SettingsController {
+export default class ChangePasswordController {
   user = {
     oldPassword: '',
     newPassword: '',

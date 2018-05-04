@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="89" height="88" viewBox="0 0 89 88">
+  <defs>
+    <linearGradient id="actions-twitter-b" x1="38.869%" x2="82.525%" y1="94.274%" y2="-17.213%">
+      <stop offset="0%" stop-color="#0099C2"/>
+      <stop offset="100%" stop-color="#29b5c5"/>
+    </linearGradient>
+    <path id="actions-twitter-a" d="M44.5,88 C69.0766714,88 89,68.300529 89,44 C89,19.699471 69.0766714,0 44.5,0 C19.9233286,0 0,19.699471 0,44 C0,68.300529 19.9233286,88 44.5,88 Z"/>
+    <linearGradient id="actions-twitter-c" x1="21.997%" x2="66.24%" y1="83.555%" y2="50%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="actions-twitter-e" x1="14.759%" x2="31.735%" y1="32.363%" y2="43.478%">
+      <stop offset="0%" stop-color="#C8C8C8"/>
+      <stop offset="100%" stop-color="#D5CFCF"/>
+    </linearGradient>
+    <linearGradient id="actions-twitter-f" x1="31.242%" x2="71.249%" y1="50%" y2="78.764%">
+      <stop offset="0%" stop-color="#C8C8C8"/>
+      <stop offset="100%" stop-color="#D5CFCF"/>
+    </linearGradient>
+    <linearGradient id="actions-twitter-i" x1="72.678%" x2="50%" y1="100%" y2="58.279%">
+      <stop offset="0%" stop-color="#CBCBCB"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <path id="actions-twitter-h" d="M5.94557823,35.9589994 C12.9726698,34.7461534 18.0321757,32.1857005 21.124096,28.2776408 C13.5348371,25.1781453 9.59966583,20.0572395 9.31858217,12.9149237 C16.4862155,16.0144192 21.897076,17.2272653 25.5511636,16.5534619 C25.27008,9.00686402 28.1511875,4.62714201 34.1944862,3.41429592 C37.5674902,3.01001389 39.8864304,4.55976167 41.1513068,8.06353928 L46,5.83998811 C43.8918725,10.1523298 42.8378088,12.3085006 42.8378088,12.3085006 C44.1026853,18.5074918 41.1513068,25.2455256 33.9836735,32.5226022 C26.8160401,39.7996787 17.4700084,40.9451445 5.94557823,35.9589994 Z"/>
+    <filter id="actions-twitter-g" width="110%" height="111.2%" x="-5%" y="-2.8%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.117697011 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="actions-twitter-d" fill="#fff">
+      <use xlink:href="#actions-twitter-a"/>
+    </mask>
+    <use fill="url(#actions-twitter-b)" xlink:href="#actions-twitter-a"/>
+    <path fill="url(#actions-twitter-c)" d="M23.1766237,88.9861989 C14.3718578,82.2151563 8.56238283,77.3519393 5.74819886,74.3965478 C2.93401488,71.4411564 0.844698147,66.9191896 -0.519751353,60.8306475 L20.5804706,34.9309648 L47.0821417,46.099728 L55.2272198,52.0078552 L23.1766237,88.9861989 Z" mask="url(#actions-twitter-d)" opacity=".119" style="mix-blend-mode:multiply" transform="rotate(9 27.354 61.959)"/>
+    <g transform="translate(21 24)">
+      <path fill="#B3B3B3" d="M3.44217687,9.75 C11.4709984,13.3715378 16.8004747,14.5787171 19.4306059,13.3715378 L25.6598639,16.791879 C20.3544927,17.2965561 16.270868,17.0953595 13.4089898,16.1882894 C10.5471115,15.2812193 7.22484058,13.1351228 3.44217687,9.75 Z"/>
+      <path fill="url(#actions-twitter-e)" d="M19.7687166,13.5677711 C19.3574613,6.71536145 21.2766523,2.46686747 25.5262894,0.822289157 C28.8163311,-0.822289157 32.654713,0 37.0414352,3.28915663 L37.8639456,4.11144578 L25.9375446,17.0625 L19.7687166,13.5677711 Z"/>
+      <path fill="url(#actions-twitter-f)" d="M6.2585034,35.6484375 L0,32.4353693 C8.0665155,30.5610795 13.1428571,27.9504616 15.2290249,24.6035156 C8.55328798,22.3275923 4.58956916,17.1732955 3.33786848,9.140625 L9.59637188,12.5545099 L21.2789116,27.615767 C19.487304,30.9241896 17.6792919,33.066235 15.8548753,34.0419034 C14.0304587,35.0175718 10.831668,35.5530832 6.2585034,35.6484375 Z"/>
+      <polygon fill="#B3B3B3" points="46 5.789 40.054 6.633 41.244 8.531"/>
+      <use fill="#000" filter="url(#actions-twitter-g)" xlink:href="#actions-twitter-h"/>
+      <use fill="url(#actions-twitter-i)" xlink:href="#actions-twitter-h"/>
+    </g>
+  </g>
+</svg>

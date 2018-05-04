@@ -1,5 +1,4 @@
 <div class="marketplace-home">
-  <navbar class="animated fadeInDown naked"></navbar>
   <header class="naked"></header>
   <section class="masthead container-fluid animated fadeIn">
     <div class="container">
@@ -28,19 +27,19 @@
         </div>
         <hr class="my-5 mr-5">
         <div class="extension-request mr-5 pt-2">
-          <h6 class="text-uppercase heavyheader">EXTENSION REQUEST</h6>
-          <p>Don't see a plugin or enrichment you're looking for? Request an extension and include the data that is most valuable to you and we'll make it a priority!</p>
+          <h6 class="text-uppercase heavyheader">REQUEST</h6>
+          <p>Don't see a plugin, enrichment, or app you're looking for? Request an extension and include the data that is most valuable to you and we'll make it a priority!</p>
           <a id='' href="mailto: contact@statengine.io" target="_blank">
-            <button class="btn btn-outline-inverse-alt btn-sm hvr-float">Request extension</button>
+            <button class="btn btn-outline-inverse-alt btn-sm hvr-float">Request</button>
           </a>
         </div>
       </div>
       <div class="extensions-content col-md-9">
         <section class="featured-extensions">
-          <h3 class="mt-0 pb-4">Featured Extensions</h3>
+          <h3 class="mt-0 pb-4">Featured</h3>
           <div class="row align-items-center">
             <div ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured" class="col">
-              <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
+              <a ui-sref="site.marketplace.extensionRequest({id: extension._id})" class="card hvr-float">
                 <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
                 <h5 class="heavyheader text-truncate text-">{{extension.name}}</h5>
                 <p>{{extension.short_description}}</p>
@@ -55,7 +54,7 @@
           <h3 class="mt-0 pb-4">{{vm.selectedCategory}}</h3>
           <div class="row align-items-center">
             <div ng-repeat="extension in vm.filteredExtensions | filter:query as filtered" class="col">
-              <a ui-sref="site.marketplace.extension({name: extension.name})" class="card hvr-float">
+              <a ui-sref="site.marketplace.extensionRequest({id: extension._id})" class="card hvr-float">
                 <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
                 <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
                 <p>{{extension.short_description}}</p>
@@ -72,4 +71,3 @@
   <section class="container py-5 bg-gray-light">
   </section>
 </div>
-<footer id="footer"></footer>

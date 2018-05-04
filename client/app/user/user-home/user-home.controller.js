@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, tweets, User, Principal) {
+  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, SegmentService) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
@@ -12,7 +12,7 @@ export default class UserHomeController {
     this.principal = currentPrincipal;
     this.UserService = User;
     this.PrincipalService = Principal;
-    this.tweetCount = tweets.length;
+    this.SegmentService = SegmentService;
 
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.requestedFireDepartment = requestedFireDepartment;
@@ -29,10 +29,6 @@ export default class UserHomeController {
       $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
     };
 
-    this.dashboard = function() {
-      this.$window.location.href = '/dashboard';
-    };
-
     this.gettingStarted = [
       {
         status: this.fireDepartment !== undefined,
@@ -45,7 +41,19 @@ export default class UserHomeController {
       },
     ];
 
+    // user status
+    this.homeless = !this.fireDepartment && !this.requestedFireDepartment;
+    this.pending = !this.fireDepartment && this.requestedFireDepartment;
+
+    // fd status
     this.setupComplete = this.gettingStarted.every(t => t.status === true);
+    this.onboarding = this.fireDepartment && !this.setupComplete;
+    this.appAccess = this.fireDepartment && this.fireDepartment.integration_complete;
+
+    if(this.principal.isAdmin) {
+      this.homeless = false;
+      this.pending = false;
+    }
 
     this.setFireDepartment = function(fd) {
       this.principal.fire_department__id = fd._id;
@@ -58,6 +66,26 @@ export default class UserHomeController {
           console.error('error switching fire departments');
           console.error(err);
         });
+    };
+
+    this.dashboard = function() {
+      this.SegmentService.track(this.SegmentService.events.APP_ACCESS, {
+        app: 'Dashboard',
+        location: 'user-home'
+      });
+      this.$window.location.href = '/dashboard';
+    };
+
+    this.goto = function(state, appName) {
+      this.userDropDownActive = false;
+
+      if(appName) {
+        this.SegmentService.track(this.SegmentService.events.APP_ACCESS, {
+          app: appName,
+          location: 'user-home'
+        });
+      }
+      $state.go(state);
     };
   }
 }

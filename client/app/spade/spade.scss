@@ -7,7 +7,7 @@ $color-spade-hyperlink: #0a85ff;
 // Landing Page Styles
 .spade-landing {
 
-  a {
+  section a {
     color: $color-spade-hyperlink;
     &:hover {
       color: darken($color-spade-hyperlink,15%);

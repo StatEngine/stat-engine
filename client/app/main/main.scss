@@ -12,13 +12,13 @@ header {
   @media (max-width: 576px) {
     height: 620px;
   }
-}
 
-svg {
-  position: absolute;
-  bottom: -1px;
-  width: 100%;
-  height: auto;
+  svg {
+    position: absolute;
+    bottom: -1px;
+    width: 100%;
+    height: auto;
+  }
 }
 
 #wave {
@@ -63,8 +63,6 @@ header section p {
   }
 }
 
-// BINGLES TO DO: Move Header into its own component
-// ====
 header section button {
   border-radius: 100px;
   outline: none;
@@ -265,7 +263,7 @@ header.naked {
 
 #features .circle {
   background: #e3eaee;
-  background-image: repeating-linear-gradient(6deg, #9cafbb -33.7%, white 100%);
+  background-image: repeating-linear-gradient(6deg, #c2ddee -33.7%, white 100%);
   max-height: 23rem;
   max-width: 23rem;
   height: 100%;

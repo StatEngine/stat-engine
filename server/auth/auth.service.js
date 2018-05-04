@@ -72,20 +72,10 @@ export function hasRole(roleRequired) {
  * Checks if user has fire deparment and sets in request
  */
 export function hasFireDepartment(req, res, next) {
-  return FireDepartment.find({
-    where: {
-      _id: req.user.fire_department__id
-    },
-  }).nodeify((err, fireDepartment) => {
-    if(err) {
-      return res.status(500);
-    } else if(!fireDepartment && !req.user.isAdmin) {
-      return res.status(403).send('Forbidden. User is not assigned to a Fire Department');
-    }
-    req.fire_department = fireDepartment;
-
-    next();
-  });
+  if(!req.user || !req.user.FireDepartment || !req.user.FireDepartment._id) {
+    return res.status(403).send('User is not assigned to Fire Department with id');
+  }
+  next();
 }
 
 /*

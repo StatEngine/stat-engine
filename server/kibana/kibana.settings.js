@@ -14,12 +14,12 @@ export default {
 
     // inject jwt token
     if((p.indexOf('login') >= 0 || !req.cookies.rorCookie)
-       && (req.fire_department && req.user && req.user.isKibanaAdmin)) {
+       && (req.user && req.user.isKibanaAdmin)) {
       var claims = {
         sub: req.user.username,
         iss: 'https://statengine.io',
         roles: 'kibana_admin',
-        firecares_id: req.fire_department.firecares_id
+        firecares_id: req.user.FireDepartment.firecares_id,
       };
 
       var jwt = nJwt.create(claims, config.ror.secret);
@@ -40,8 +40,8 @@ export default {
   },
   // add custom headers to request
   onProxyReq: (proxyReq, req) => {
-    if(req.fire_department) {
-      const es_indicies = req.fire_department.get().es_indices;
+    if(req.user.FireDepartment) {
+      const es_indicies = req.user.FireDepartment.get().es_indices;
       proxyReq.setHeader('x-se-fire-department-all', es_indicies.all);
     }
   },

@@ -46,17 +46,22 @@ export class EditTweetFormController {
 
 export default class TwitterHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $uibModal, $http, Twitter, Modal, twitterProfile, tweets) {
+  constructor($window, $filter, $scope, $uibModal, $http, Twitter, Modal, twitterProfile, recommendedTweets, recentTweets, SegmentService) {
     this.$window = $window;
     this.$filter = $filter;
     this.$uibModal = $uibModal;
+    this.$scope = $scope;
     this.$http = $http;
+
+    this.SegmentService = SegmentService;
 
     this.TwitterService = Twitter;
     this.modalService = Modal;
     this.twitterProfile = twitterProfile;
-    this.tweets = tweets;
-
+    this.profileUrl = this.twitterProfile.profile_image_url_https;
+    this.profileUrl = this.profileUrl ? this.profileUrl.slice(0, -10) + 'bigger.jpg' : undefined;
+    this.recommendedTweets = recommendedTweets;
+    this.recentTweets = recentTweets;
     this.authorized = !_.isEmpty(twitterProfile);
   }
 
@@ -68,42 +73,43 @@ export default class TwitterHomeController {
   }
 
   previewTweet(tweet) {
-    this.TwitterService.getTweet(
-      { id: tweet._id },
-      updatedTweet => {
-        if(updatedTweet.date_tweeted) {
-          this.$window.open(TwitterHomeController.createTweetUrl(updatedTweet), '_blank');
-        } else {
-          let preview = updatedTweet.tweet_json.status;
+    this.TwitterService.previewTweet({}, tweet, tweetPreview => {
+      let preview = tweetPreview.tweet_json.status;
 
-          // replace hashtags with links for preview
-          const re = /#\w+/g;
-          const matches = preview.match(re) || [];
+      // replace hashtags with links for preview
+      const re = /#\w+/g;
+      const matches = preview.match(re) || [];
 
-          for(var i = 0; i < matches.length; i++) {
-            preview = preview.replace(
-              matches[i],
-              `<a href="https://twitter.com/search?q=%23${matches[i].substring(1)}" target="_blank"> ${matches[i]}  </a>`
-            );
-          }
-          preview += `<div class="row"><div class="col"><img class="img-responsive" src=${updatedTweet.media_url}></img></div></div>`;
-          this.modalService.ok()('Tweet Preview', preview);
-        }
+      for(var i = 0; i < matches.length; i++) {
+        preview = preview.replace(
+          matches[i],
+          `<a href="https://twitter.com/search?q=%23${matches[i].substring(1)}" target="_blank"> ${matches[i]}  </a>`
+        );
       }
-    );
+
+      if(tweetPreview.media_url) preview += `<div class="row"><div class="col"><img class="img-responsive" src=${tweetPreview.media_url}></img></div></div>`;
+      this.modalService.ok()('Tweet Preview', preview);
+    });
   }
 
   refreshTweets() {
-    this.TwitterService.getTweets(
+    this.TwitterService.getRecommendedTweets(
       {},
       tweets => {
-        this.tweets = tweets;
+        this.recommendedTweets = tweets;
+      }
+    );
+
+    this.TwitterService.getRecentTweets(
+      {},
+      tweets => {
+        this.recentTweets = tweets;
       }
     );
   }
 
   static createTweetUrl(tweet) {
-    return `https://twitter.com/${tweet.response_json.user.screen_name}/status/${tweet.response_json.id_str}`;
+    return `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
   }
 
   editTweet(tweet) {
@@ -117,41 +123,46 @@ export default class TwitterHomeController {
           return angular.copy(tweet);
         },
         media() {
-          return svc.getTweets({ media: true}).$promise;
+          return svc.getRecommendedTweets({ media: true}).$promise;
         }
       }
     });
 
     modalInstance.result.then(updatedTweet => {
-      this.TwitterService.updateTweet({ id: tweet._id, action: 'edit'}, updatedTweet)
-        .$promise.finally(() => this.refreshTweets());
+      tweet.tweet_json.status = updatedTweet.tweet_json.status;
+      tweet.media_text = updatedTweet.media_text;
+      tweet.media_path = updatedTweet.media_path;
     }, () => {
       // modal dismissed
     });
   }
 
-  postTweet(tweet) {
-    this.TwitterService.updateTweet({ id: tweet._id, action: 'tweet'}, tweet)
+  openTweet(tweet) {
+    this.$window.open(TwitterHomeController.createTweetUrl(tweet));
+  }
+
+  tweetTweet(tweet) {
+    this.TwitterService.tweetTweet({}, tweet)
       .$promise.then(res => {
         const html = `\
           <p>\
             Thanks for tweeting! You can check out the tweet \
             <a href="${TwitterHomeController.createTweetUrl(res)}" target="_blank"> here.</a><br><br>\
-            You currently have ${res.response_json.user.followers_count} followers. Keep it up!\
+            You currently have ${res.user.followers_count} followers. Keep it up!\
           <p>`;
 
+        this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+          app: 'TWITTER',
+          action: 'tweet',
+        });
 
         this.modalService.ok(this.refreshTweets.bind(this))('Thanks for Tweeting ', html, false);
       }, err => {
-        const html = `\
+        console.dir(err);
+        const html = '\
           <p class="text-danger">Please try again later. If this error persists, please contact an administrator. <p>\
-          <label>Details:</label><br>${this.$filter('json')(err.data.response_json)}`;
-        this.modalService.ok(this.refreshTweets.bind(this))('Tweet Failed', html, true);
+          <label>Details:</label><br>';
+        this.modalService.ok(this.refreshTweets.bind(this))('Tweet Failed', html, err.data);
       });
-  }
-
-  deleteTweet(tweet) {
-    this.TwitterService.deleteTweet({ id: tweet._id })
-      .$promise.finally(() => this.refreshTweets());
   }
 }

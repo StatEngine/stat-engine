@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default function routes($stateProvider) {
   'ngInject';
 
@@ -10,15 +12,20 @@ export default function routes($stateProvider) {
     })
     .state('site.twitter.home', {
       url: '/twitter',
-      template: require('./twitter-home/twitter-home.html'),
-      controller: 'TwitterHomeController',
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: require('./twitter-home/twitter-home.html'),
+          controller: 'TwitterHomeController',
+          controllerAs: 'vm'
+        },
+      },
       data: {
         roles: ['user']
       },
       resolve: {
-        tweets(Twitter) {
-          return Twitter.getTweets().$promise;
-        },
         twitterProfile($q, Twitter) {
           var deferred = $q.defer();
 
@@ -28,7 +35,12 @@ export default function routes($stateProvider) {
 
           return deferred.promise;
         },
+        recommendedTweets(twitterProfile, Twitter) {
+          if(!_.isEmpty(twitterProfile)) return Twitter.getRecommendedTweets().$promise;
+        },
+        recentTweets(twitterProfile, Twitter) {
+          if(!_.isEmpty(twitterProfile)) return Twitter.getRecentTweets().$promise;
+        },
       },
-      controllerAs: 'vm'
     });
 }

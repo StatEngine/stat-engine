@@ -6,9 +6,13 @@
   <div class="modal-body">
     <div class="form-group">
       <div class="mb-4">
-        <label>Text</label>
-        <textarea name="status" rows="5" cols="30" class="form-control" ng-model="vm.tweet.tweet_json.status" maxlength="230" required></textarea>
-        <label>Media</label>
+        <label>Tweet Text</label>
+        <textarea name="status" rows="3" cols="30" class="form-control" ng-model="vm.tweet.tweet_json.status" maxlength="230" required></textarea>
+        <br>
+        <label>Image Overlay Text</label>
+        <input name="meda_test" type="text" class="form-control" ng-model="vm.tweet.media_text"></textarea>
+        <br>
+        <label>Image (Select One)</label>
         <div class="row align-items-center">
           <div class="col" ng-repeat="media in vm.media">
             <a href="#" class="card hvr-float mt-2" ng-class="{'card-selected': media.id === vm.selectedMediaId }" ng-click="vm.selectMedia(media.id)">

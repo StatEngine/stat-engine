@@ -6,7 +6,11 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.account', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'content@': {
+          template: '<div ui-view />'
+        }
+      },
     })
     .state('site.account.login', {
       url: '/login',
@@ -22,9 +26,13 @@ export default function routes($stateProvider) {
     })
     .state('site.account.signup', {
       url: '/signup',
-      template: require('./signup/signup.html'),
-      controller: 'SignupController',
-      controllerAs: 'vm',
+      views: {
+        'content@': {
+          template: require('./signup/signup.html'),
+          controller: 'SignupController',
+          controllerAs: 'vm',
+        }
+      },
       resolve: {
         fireDepartments(FireDepartment) {
           return FireDepartment.query().$promise;
@@ -33,28 +41,22 @@ export default function routes($stateProvider) {
     })
     .state('site.account.resetpassword', {
       url: '/resetpassword/',
-      template: require('./resetpassword/resetpass.html'),
-      controller: 'ResetPasswordController',
-      controllerAs: 'vm'
+      views: {
+        'content@': {
+          template: require('./resetpassword/resetpass.html'),
+          controller: 'ResetPasswordController',
+          controllerAs: 'vm'
+        }
+      },
     })
     .state('site.account.updatepassword', {
       url: '/updatepassword?password_token',
-      template: require('./updatepassword/updatepassword.html'),
-      controller: 'UpdatePasswordController',
-      controllerAs: 'vm'
-    })
-    .state('site.account.edituser', {
-      url: '/edituser',
-      template: require('./edituser/edituser.html'),
-      controller: 'EditUserController',
-      data: {
-        roles: ['user']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity();
+      views: {
+        'content@': {
+          template: require('./updatepassword/updatepassword.html'),
+          controller: 'UpdatePasswordController',
+          controllerAs: 'vm'
         }
       },
-      controllerAs: 'vm'
     });
 }
