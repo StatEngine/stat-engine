@@ -64,6 +64,7 @@ export default function PrincipalService($http, $q, $cookies, $window, User, seg
           angular.forEach(cookies, function (v, k) {
             $cookies.remove(k);
           });
+          segment.identify(null);
           segment.reset();
 
           // invalidate server session in case kibana doesn't callback
