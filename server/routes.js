@@ -19,17 +19,7 @@ export default function(app) {
   app.use('/api/users', require('./api/user'));
 
   // All routes after this point are csrf protected
-  let cookie;
-  if(process.env.NODE_ENV === 'production') {
-    cookie = {
-      options: {
-        httpOnly: true,
-        secure: true,
-      }
-    }
-  }
   app.use(lusca.csrf({
-    cookie: cookie,
     angular: true
   }));
 
