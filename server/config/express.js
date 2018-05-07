@@ -16,6 +16,7 @@ import lusca from 'lusca';
 import passport from 'passport';
 import session from 'express-session';
 import connectSessionSequelize from 'connect-session-sequelize';
+import helmet from 'helmet';
 
 import config from './environment';
 import sqldb from '../sqldb';
@@ -24,6 +25,8 @@ const SequelizeStore = connectSessionSequelize(session.Store);
 
 export default function(app) {
   var env = app.get('env');
+
+  app.use(helmet())
 
   if(env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));
@@ -64,6 +67,7 @@ export default function(app) {
       maxAge: 1000 * 60 * 60 * 5,
       secure: false,
     },
+    name: 'sessionId',
   };
 
   if(process.env.NODE_ENV === 'production') {
