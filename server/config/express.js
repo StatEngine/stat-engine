@@ -17,6 +17,7 @@ import passport from 'passport';
 import session from 'express-session';
 import connectSessionSequelize from 'connect-session-sequelize';
 import helmet from 'helmet';
+import noCache from 'nocache';
 
 import config from './environment';
 import sqldb from '../sqldb';
@@ -27,7 +28,8 @@ export default function(app) {
   var env = app.get('env');
 
   app.use(helmet());
-  
+  app.use(noCache())
+
   if(env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));
   }

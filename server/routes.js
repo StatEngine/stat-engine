@@ -20,7 +20,7 @@ export default function(app) {
 
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
-    angular: true
+    angular: true,
   }));
 
   app.route('/heartbeat')
