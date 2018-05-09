@@ -21,7 +21,7 @@
           <!-- Unauthenticated -->
           <div ng-if="!vm.PrincipalService.isAuthenticated()">
             <ul class="mb-0">
-              <li> <a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
+              <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
               <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#">Developers</a></li>
               <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></li>
             </ul>
@@ -84,13 +84,10 @@
       </div>
     </div>
 
-    <div class="mobile-nav">
+    <div id="mobileNav" class="mobile-nav">
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
-          <li><a href="#">Products</a></li>
-          <li><a href="#">Developers</a></li>
-          <li><a href="#">Company</a></li>
           <li><a class="btn btn-primary btn-sm" ui-sref="site.account.login">Sign In</a></li>
           <li><a class="btn btn-outline btn-sm" ui-sref="site.account.signup">Sign Up</a></li>
         </ul>
@@ -99,29 +96,28 @@
       <div ng-if="vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
            <li><a href="site.user.home">Control Center</a></li>
-           <li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
-             <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+           <!--<li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
+             <div class="animated fadeInDownShort" ng-class="{open: is_active}">
                <ul>
                  <li><a href="#" ng-click="vm.dashboard()">Advanced Dashboard</a></li>
                  <li><a href="#">Dashboard 2</a></li>
                  <li><a href="#">Another Dashboard 3</a></li>
                  <li><a href="#">Dashboard 4</a></li>
                </ul>
-               <!-- <div class="footer"> An optional footer </div> -->
              </div>
            </li>
-           <li><a href="/data-quality">Data Quality</a></li>
-           <li><a href="/marketplace/home">App Marketplace</a></li>
-           <li><a href="/data-quality">C</a></li>
+          -->
+            <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
+            <li><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
+            <li><a href="/marketplace/home">App Marketplace</a></li>
+            <li><a class="btn btn-outline btn-sm" ng-click="vm.logout()">Sign Out</a></li>
         </ul>
       </div>
 
     </div>
 
     <div class="hamburger col-auto ml-auto">
-      <span class="line"></span>
-      <span class="line"></span>
-      <span class="line"></span>
+      <a ng-click="vm.openMobile()" span class="fa fa-2x fa-bars"></span></a>
     </div>
 
   </div>
