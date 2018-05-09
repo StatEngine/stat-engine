@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <div class="mobile-nav">
+    <div id="mobileNav" class="mobile-nav">
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
@@ -119,9 +119,7 @@
     </div>
 
     <div class="hamburger col-auto ml-auto">
-      <span class="line"></span>
-      <span class="line"></span>
-      <span class="line"></span>
+      <a ng-click="vm.openMobile()" span class="fa fa-2x fa-bars"></span></a>
     </div>
 
   </div>

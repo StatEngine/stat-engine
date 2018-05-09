@@ -50,6 +50,16 @@ export class NavbarComponent {
       $state.go(state);
     };
   }
+
+  openMobile() {
+    var x = angular.element( document.querySelector( '#mobileNav' ) )[0];
+    console.dir(x.className);
+    if (x.className === "mobile-nav open") {
+        x.className = "mobile-nav";
+    } else {
+        x.className = "mobile-nav open";
+    }
+  }
 }
 
 export default angular.module('directives.nav', [])

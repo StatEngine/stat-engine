@@ -363,10 +363,10 @@ navbar.naked {
   width: 300px;
   height: 100%;
   margin: 0 -300px 0 0;
-  -moz-transition: all 200ms ease-in;
-  -webkit-transition: all 200ms ease-in;
-  -o-transition: all 200ms ease-in;
-  transition: all 200ms ease-in;
+//  -moz-transition: all 200ms ease-in;
+//  -webkit-transition: all 200ms ease-in;
+//  -o-transition: all 200ms ease-in;
+//  transition: all 200ms ease-in;
 }
 
 .mobile-nav ul {
@@ -410,10 +410,10 @@ navbar.naked {
 
 .mobile-nav.open {
   margin: 0;
-  -webkit-transform: translate3d(300px, 0, 0);
-  -moz-transform: translate3d(300px, 0, 0);
-  -o-transform: translate3d(300px, 0, 0);
-  transform: translate3d(300px, 0, 0);
+//  -webkit-transform: translate3d(300px, 0, 0);
+//  -moz-transform: translate3d(300px, 0, 0);
+//  -o-transform: translate3d(300px, 0, 0);
+//  transform: translate3d(300px, 0, 0);
 }
 
 // Wrapper for "push" effect on mobile menu
