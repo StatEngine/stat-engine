@@ -369,6 +369,10 @@ navbar.naked {
 //  transition: all 200ms ease-in;
 }
 
+.noScroll {
+  overflow: hidden;
+}
+
 .mobile-nav ul {
   background: #222;
   height: 100vh;

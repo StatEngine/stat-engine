@@ -5,7 +5,7 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($state, $window, Principal, SegmentService) {
+  constructor($state, $scope, $window, Principal, SegmentService) {
     'ngInject';
 
     this.$state = $state;
@@ -49,16 +49,32 @@ export class NavbarComponent {
       }
       $state.go(state);
     };
+
+    $scope.$on('$destroy', function () {
+      const body = angular.element( document.querySelector( 'body' ) )[0];
+      const bodyClasses = body.className.split(' ');
+      const noScroll = bodyClasses.indexOf('noScroll');
+      if (noScroll > 0) bodyClasses.splice(noScroll, 1);
+      body.className = bodyClasses.join(' ');
+    });
   }
 
   openMobile() {
-    var x = angular.element( document.querySelector( '#mobileNav' ) )[0];
-    console.dir(x.className);
+    const x = angular.element( document.querySelector( '#mobileNav' ) )[0];
+    const body = angular.element( document.querySelector( 'body' ) )[0];
+    const bodyClasses = body.className.split(' ');
+
+    const noScroll = bodyClasses.indexOf('noScroll');
+
     if (x.className === "mobile-nav open") {
-        x.className = "mobile-nav";
+      x.className = "mobile-nav";
+      if (noScroll > 0) bodyClasses.splice(noScroll, 1);
     } else {
-        x.className = "mobile-nav open";
+      x.className = "mobile-nav open";
+      bodyClasses.push('noScroll');
     }
+
+    body.className = bodyClasses.join(' ');
   }
 }
 
