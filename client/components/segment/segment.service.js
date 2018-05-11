@@ -15,5 +15,5 @@ export default function SegmentService(segment, appConfig) {
       obj.env = appConfig.env;
       segment.page(obj);
     }
-  }
+  };
 }

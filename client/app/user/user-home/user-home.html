@@ -31,6 +31,10 @@
               <img src="/assets/images/actions-dashboard.svg"/>
               <span>Dashboard</span>
             </a>
+            <a href="" ng-if="vm.principal.isAdmin" ng-click="vm.goto('site.nfpa.home','NFPA')" >
+              <img src="/assets/images/actions-big-board.svg"/>
+              <span>NFPA Compliance</span>
+            </a>
             <a href="" ng-click="vm.goto('site.twitter.home','Twitter')" >
               <img src="/assets/images/actions-twitter.svg"/>
               <span>Twitter</span>

@@ -15,8 +15,9 @@ import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
-
 import ngSegment from 'angular-segment-analytics';
+
+import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
 import {
   routeConfig,
@@ -36,6 +37,8 @@ import statEngine from './statEngine';
 import user from './user';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
+import nfpa from './nfpa';
+
 import marketplace from './marketplace';
 
 // global components
@@ -52,16 +55,15 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, modal, footer, main, segmentEventConstants, constants, segmentService, /*socket,*/ util, angulartics, gtm
+  'ngCountTo', _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
-    if (segmentConfig.key) {
+    if(segmentConfig.key) {
       segmentProvider.setKey(segmentConfig.key);
     }
     segmentProvider.setEvents(SegmentEvents);
-    console.dir(appConfig)
-    console.dir(segmentConfig)
     segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {

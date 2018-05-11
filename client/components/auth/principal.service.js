@@ -1,6 +1,7 @@
 'use strict';
 
 import _ from 'lodash';
+import angular from 'angular';
 
 export default function PrincipalService($http, $q, $cookies, $window, User, segment) {
   'ngInject';
@@ -60,8 +61,8 @@ export default function PrincipalService($http, $q, $cookies, $window, User, seg
       return $http.get('/auth/local/logout')
         .finally(() => {
           this.authenticate({});
-          const cookies = $cookies.getAll()
-          angular.forEach(cookies, function (v, k) {
+          const cookies = $cookies.getAll();
+          angular.forEach(cookies, (v, k) => {
             $cookies.remove(k);
           });
           segment.identify(null);
