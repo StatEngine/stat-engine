@@ -124,12 +124,12 @@ export const nfpa1710 = {
       },
       action: val => `Can you trim ${(val - 90).toFixed(0)} seconds?`
     },
-    ems_turnout_90: {
+    ems_turnout_60: {
       category: 'Turnout Time',
       description: 'Turnout time on EMS incidents should be less than 60 secs , 90% of the time',
       grade: val => {
         if(_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
-        else if(val > 90) return GRADE.NEEDS_ATTENTION;
+        else if(val > 60) return GRADE.NEEDS_ATTENTION;
         else return GRADE.GOOD;
       },
       value: res => {
