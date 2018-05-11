@@ -13,7 +13,6 @@ $fa-font-path: '/assets/fonts/statengine/';
 @import '~angular-loading-bar/build/loading-bar.css';
 @import "../assets/sass/se-font-styles";
 
-
 /////////////////////////////////
 // VARIABLES //
 ////////////////////////////////
@@ -851,6 +850,7 @@ li.nested:before {
 @import '../app/twitter/twitter-home/twitter-home';
 @import '../app/admin/admin-home/admin-home';
 @import '../app/nfpa/nfpa';
+@import '../app/motd/motd';
 
 @import '../components/oauth-buttons/oauth-buttons';
 // endinject //

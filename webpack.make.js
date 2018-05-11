@@ -27,6 +27,7 @@ module.exports = function makeWebpackConfig(options) {
      */
     var config = {};
 
+
     /**
      * Entry
      * Reference: http://webpack.github.io/docs/configuration.html#entry
@@ -37,9 +38,9 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
-            app: './client/app/app.js',
             polyfills: './client/polyfills.js',
             vendor: [
+                'jquery',
                 'angular',
                 'angular-animate',
                 'angular-aria',
@@ -50,7 +51,8 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
                 'lodash',
-            ]
+            ],
+            app: './client/app/app.js',
         };
     }
 
@@ -83,10 +85,14 @@ module.exports = function makeWebpackConfig(options) {
     }
 
 
-
+    config.resolve = {
+      alias: {
+         jquery: "jquery/src/jquery"
+       },
+    }
+    
     if(TEST) {
-        config.resolve = {
-            modulesDirectories: [
+        config.resolve = {            modulesDirectories: [
                 'node_modules'
             ],
             extensions: ['', '.js', '.ts']
@@ -210,10 +216,14 @@ module.exports = function makeWebpackConfig(options) {
             disable: !BUILD || TEST
         }),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+          $: 'jquery',
+          'jQuery': 'jquery',
+        }),
+        new webpack.DefinePlugin({
+          'require.specified': 'require.resolve'
         })
     ];
+
 
     if(!TEST) {
         config.plugins.push(new CommonsChunkPlugin({
