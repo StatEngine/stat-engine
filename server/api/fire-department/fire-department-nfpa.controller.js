@@ -72,7 +72,7 @@ export const nfpa1710 = {
         const percents = _.get(res, 'aggregations.alarm_processing.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: val => `The 90th percentile was calculated to be ${val} secs.  Can you trim ${(val - 64).toFixed(0)} seconds?`
+      action: val => `Can you trim ${(val - 64).toFixed(0)} seconds?`
     },
     alarm_processing_95: {
       category: 'Alarm Processing',
@@ -86,7 +86,7 @@ export const nfpa1710 = {
         const percents = _.get(res, 'aggregations.alarm_processing.values');
         return percents ? percents['95.0'] : undefined;
       },
-      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 106).toFixed(0)} seconds?`
+      action: val => `Can you trim ${(val - 106).toFixed(0)} seconds?`
     },
     first_engine_arrival_90: {
       category: 'Travel Time',
@@ -104,7 +104,7 @@ export const nfpa1710 = {
         const percents = _.get(fireIncidents, 'percentiles.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 240).toFixed(0)} seconds?`
+      action: val => `Can you trim ${(val - 240).toFixed(0)} seconds?`
     },
     fire_turnout_90: {
       category: 'Turnout Time',
@@ -122,7 +122,7 @@ export const nfpa1710 = {
         const percents = _.get(fireIncidents, 'percentiles.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 90).toFixed(0)} seconds?`
+      action: val => `Can you trim ${(val - 90).toFixed(0)} seconds?`
     },
     ems_turnout_90: {
       category: 'Turnout Time',
@@ -140,7 +140,7 @@ export const nfpa1710 = {
         const percents = _.get(fireIncidents, 'percentiles.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 60).toFixed(0)} seconds?`
+      action: val => `Can you trim ${(val - 60).toFixed(0)} seconds?`
     },
   },
   payload: {
@@ -220,7 +220,7 @@ export const nfpa1710 = {
       let value = rule.value(res);
       let grade = rule.grade(value);
       rules[key] = {
-        value,
+        value: value.toFixed(2),
         category: rule.category,
         description: rule.description,
         grade,

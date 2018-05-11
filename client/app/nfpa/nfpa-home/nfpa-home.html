@@ -34,6 +34,9 @@
                 Compliant?
               </div>
               <div class="cell">
+                Calculated Value
+              </div>
+              <div class="cell">
                 Action
               </div>
             </div>
@@ -47,6 +50,9 @@
               </div>
               <div class="cell" data-title="Grade">
                 <span ng-class="{'badge-danger': rule.grade == 'NEEDS ATTENTION', 'badge-success': rule.grade == 'GOOD', 'badge-warning': rule.grade == 'UNKNOWN' }" class="badge">{{rule.grade}}</span>
+              </div>
+              <div class="cell" data-title="Value">
+                {{ rule.value }}
               </div>
               <div class="cell" data-title="Required Action">
                 {{ rule.action }}
