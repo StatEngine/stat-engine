@@ -21,6 +21,12 @@ import {
   unTypedApparatus,
   gradeQAResults } from './fire-department-data-quality.controller';
 
+import {
+  runNFPA,
+  gradeNFPAResults,
+  nfpa1710,
+} from './fire-department-nfpa.controller';
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -129,6 +135,25 @@ export function dataQuality(req, res) {
     .then(r => res.json(gradeQAResults(r)))
     .catch(handleError(res));
 }
+
+/**
+ * Gets NFPA stats
+ */
+export function nfpa(req, res) {
+  const fireIndex = req.fireDepartment.es_indices[req.params.type];
+
+  const qaChecks = {
+    nfpa1710,
+  };
+
+  return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+    const [name, qaConfig] = qa;
+    return runNFPA(_.merge(qaConfig, { index: fireIndex }))
+      .then(out => res.json(out));
+  }, {})
+    .catch(handleError(res));
+}
+
 
 export function fixtureType(req, res, next) {
   let fnc;
@@ -257,14 +282,21 @@ export function queueIngest(req, res) {
 
 export function hasAdminPermission(req, res, next) {
   if(req.user.isAdmin) return next();
-  if(req.user.isDepartmentAdmin && req.fireDepartment._id.toString() === req.params.id) return next();
+  if(req.user.isDepartmentAdmin && req.user.FireDepartment._id.toString() === req.params.id) return next();
+
+  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+}
+
+export function hasReadPermission(req, res, next) {
+  if(req.user.isAdmin) return next();
+  if(req.user.FireDepartment._id.toString() === req.params.id) return next();
 
   else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }
 
 export function hasIngestPermission(req, res, next) {
   if(req.user.isAdmin) return next();
-  if(req.user.isIngest && req.fireDepartment._id.toString() === req.params.id) return next();
+  if(req.user.isIngest && req.user.FireDepartment._id.toString() === req.params.id) return next();
 
   else res.status(403).send({ error: 'User is not authorized to perform this function' });
 }

@@ -457,6 +457,19 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '05936',
+      firecares_id: '81205',
+      name: 'Fairmount Fire Protection District',
+      state: 'VA',
+      timezone: '81205',
+      integration_complete: true,
+      latitude: 39.7881,
+      longitude: -105.1851,
+      Users: [],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '11001',
       firecares_id: '98606',
       name: 'Washington DC Fire & EMS Department',

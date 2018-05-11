@@ -53,6 +53,14 @@ router.get(
   controller.dataQuality
 );
 
+router.get(
+  '/:id/:type/nfpa',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.hasReadPermission,
+  controller.nfpa
+);
+
 router.post(
   '/:id/fixtures/:fixtureType',
   auth.isApiAuthenticated,

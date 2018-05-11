@@ -26,6 +26,7 @@ export default {
       jwt.setExpiration(new Date().getTime() + (86400 * 1000 * 7)); // 7d
       let key = jwt.compact();
 
+      console.dir(claims);
       // Deep linking w/ JWT https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md
       if(!req.cookies.rorCookie && p.indexOf('login') < 0) {
         p = `/login?jwt=${key}&nextUrl=${encodeURI(p)}`;
