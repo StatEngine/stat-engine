@@ -59,7 +59,7 @@ export default class TwitterHomeController {
     this.modalService = Modal;
     this.twitterProfile = twitterProfile;
     this.profileUrl = this.twitterProfile.profile_image_url_https;
-    this.profileUrl = this.profileUrl ? this.profileUrl.slice(0, -10) + 'bigger.jpg' : undefined;
+    this.profileUrl = this.profileUrl ? `${this.profileUrl.slice(0, -10)}bigger.jpg` : undefined;
     this.recommendedTweets = recommendedTweets;
     this.recentTweets = recentTweets;
     this.authorized = !_.isEmpty(twitterProfile);

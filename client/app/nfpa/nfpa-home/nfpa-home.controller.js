@@ -2,9 +2,6 @@
 
 'use strict';
 
-import angular from 'angular';
-import _ from 'lodash';
-
 export default class NFPAHomeController {
   /*@ngInject*/
   constructor(SegmentService, nfpaResults) {

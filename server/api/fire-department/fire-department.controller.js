@@ -23,7 +23,6 @@ import {
 
 import {
   runNFPA,
-  gradeNFPAResults,
   nfpa1710,
 } from './fire-department-nfpa.controller';
 
@@ -273,7 +272,6 @@ export function queueIngest(req, res) {
       if(channel) channel.close();
       if(connection) connection.close();
 
-      console.error(err)
       return res.send(500);
     }
     return res.send(204);

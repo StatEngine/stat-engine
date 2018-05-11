@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 export default function routes($stateProvider) {
   'ngInject';
 

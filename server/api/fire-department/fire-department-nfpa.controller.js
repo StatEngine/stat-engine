@@ -3,14 +3,11 @@ import Promise from 'bluebird';
 
 import connection from '../../elasticsearch/connection';
 
-const noActionMessage = 'No action required.';
-const qaGradeStops = [10, 33];
-
 const GRADE = {
   UNKNOWN: 'UNKNOWN',
   NEEDS_ATTENTION: 'NEEDS ATTENTION',
   GOOD: 'GOOD',
-}
+};
 
 export function runNFPA(options) {
   const params = _.merge({
@@ -23,19 +20,15 @@ export function runNFPA(options) {
     client[options.method](params)
       .then(res => options.parser(res, options))
   ])
-    .then(responses => {
-      return responses;
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    .then(responses => responses)
+    .catch(err => console.error(err));
 }
 
 function getAction(rule, grade, value) {
-    if (grade === GRADE.UNKNOWN) return 'Please contact us.';
-    if (grade === GRADE.GOOD) return 'Keep up the good work!';
+  if(grade === GRADE.UNKNOWN) return 'Please contact us.';
+  if(grade === GRADE.GOOD) return 'Keep up the good work!';
 
-    return rule.action(value)
+  return rule.action(value);
 }
 
 export const nfpa1710 = {
@@ -70,94 +63,84 @@ export const nfpa1710 = {
     alarm_processing_90: {
       category: 'Alarm Processing',
       description: 'Alarm processing time should be less than 64 secs, 90% of the time',
-      grade: (val) => {
-        if (_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
-        else if (val > 64) return GRADE.NEEDS_ATTENTION;
+      grade: val => {
+        if(_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
+        else if(val > 64) return GRADE.NEEDS_ATTENTION;
         else return GRADE.GOOD;
       },
-      value: (res) => {
-        const percents = _.get(res,'aggregations.alarm_processing.values');
+      value: res => {
+        const percents = _.get(res, 'aggregations.alarm_processing.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: (val) => {
-        return `The 90th percentile was calculated to be ${val} secs.  Can you trim ${(val-64).toFixed(0)} seconds?`
-      }
+      action: val => `The 90th percentile was calculated to be ${val} secs.  Can you trim ${(val - 64).toFixed(0)} seconds?`
     },
     alarm_processing_95: {
       category: 'Alarm Processing',
       description: 'Alarm processing time should be less than 106 secs, 95% of the time',
-      grade: (val) => {
-        if (_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
-        else if (val > 106) return GRADE.NEEDS_ATTENTION;
+      grade: val => {
+        if(_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
+        else if(val > 106) return GRADE.NEEDS_ATTENTION;
         else return GRADE.GOOD;
       },
-      value: (res) => {
-        const percents = _.get(res,'aggregations.alarm_processing.values');
+      value: res => {
+        const percents = _.get(res, 'aggregations.alarm_processing.values');
         return percents ? percents['95.0'] : undefined;
       },
-      action: (val) => {
-        return `The 90th percentile was calculated to be ${val}.  Can you trim ${(val-106).toFixed(0)} seconds?`
-      }
+      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 106).toFixed(0)} seconds?`
     },
     first_engine_arrival_90: {
       category: 'Travel Time',
       description: 'First engine travel time to a fire suppression incident should be less than 240 secs, 90% of the time',
-      grade: (val) => {
-        if (_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
-        else if (val > 90) return GRADE.NEEDS_ATTENTION;
+      grade: val => {
+        if(_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
+        else if(val > 90) return GRADE.NEEDS_ATTENTION;
         else return GRADE.GOOD;
       },
-      value: (res) => {
-        const buckets = _.get(res,'aggregations.first_engine_travel_time.buckets');
-        if (!buckets) return undefined;
+      value: res => {
+        const buckets = _.get(res, 'aggregations.first_engine_travel_time.buckets');
+        if(!buckets) return undefined;
 
-        const fireIncidents = _.find(buckets, (b) => b.key === 'FIRE');
-        const percents = _.get(fireIncidents,'percentiles.values');
+        const fireIncidents = _.find(buckets, b => b.key === 'FIRE');
+        const percents = _.get(fireIncidents, 'percentiles.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: (val) => {
-        return `The 90th percentile was calculated to be ${val}.  Can you trim ${(val-240).toFixed(0)} seconds?`
-      }
+      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 240).toFixed(0)} seconds?`
     },
     fire_turnout_90: {
       category: 'Turnout Time',
       description: 'Turnout Time on fire incidents should be less than 90 secs, 90% of the time',
-      grade: (val) => {
-        if (_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
-        else if (val > 90) return GRADE.NEEDS_ATTENTION;
+      grade: val => {
+        if(_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
+        else if(val > 90) return GRADE.NEEDS_ATTENTION;
         else return GRADE.GOOD;
       },
-      value: (res) => {
-        const buckets = _.get(res,'aggregations.turnout_durations_seconds.buckets');
-        if (!buckets) return undefined;
+      value: res => {
+        const buckets = _.get(res, 'aggregations.turnout_durations_seconds.buckets');
+        if(!buckets) return undefined;
 
-        const fireIncidents = _.find(buckets, (b) => b.key === 'FIRE');
-        const percents = _.get(fireIncidents,'percentiles.values');
+        const fireIncidents = _.find(buckets, b => b.key === 'FIRE');
+        const percents = _.get(fireIncidents, 'percentiles.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: (val) => {
-        return `The 90th percentile was calculated to be ${val}.  Can you trim ${(val-90).toFixed(0)} seconds?`
-      }
+      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 90).toFixed(0)} seconds?`
     },
     ems_turnout_90: {
       category: 'Turnout Time',
       description: 'Turnout time on EMS incidents should be less than 60 secs , 90% of the time',
-      grade: (val) => {
-        if (_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
-        else if (val > 90) return GRADE.NEEDS_ATTENTION;
+      grade: val => {
+        if(_.isNaN(val) || !_.isNumber(val)) return GRADE.UNKNOWN;
+        else if(val > 90) return GRADE.NEEDS_ATTENTION;
         else return GRADE.GOOD;
       },
-      value: (res) => {
-        const buckets = _.get(res,'aggregations.turnout_durations_seconds.buckets');
-        if (!buckets) return undefined;
+      value: res => {
+        const buckets = _.get(res, 'aggregations.turnout_durations_seconds.buckets');
+        if(!buckets) return undefined;
 
-        const fireIncidents = _.find(buckets, (b) => b.key === 'EMS');
-        const percents = _.get(fireIncidents,'percentiles.values');
+        const fireIncidents = _.find(buckets, b => b.key === 'EMS');
+        const percents = _.get(fireIncidents, 'percentiles.values');
         return percents ? percents['90.0'] : undefined;
       },
-      action: (val) => {
-        return `The 90th percentile was calculated to be ${val}.  Can you trim ${(val-60).toFixed(0)} seconds?`
-      }
+      action: val => `The 90th percentile was calculated to be ${val}.  Can you trim ${(val - 60).toFixed(0)} seconds?`
     },
   },
   payload: {
@@ -167,12 +150,12 @@ export const nfpa1710 = {
         bool: {
           must: {
             exists: {
-              field: "NFPA"
+              field: 'NFPA'
             }
           },
           must_not: {
             term: {
-              "description.suppressed": true
+              'description.suppressed': true
             }
           }
         }
@@ -180,39 +163,39 @@ export const nfpa1710 = {
       aggs: {
         alarm_answering: {
           percentiles: {
-            field: "NFPA.alarm_answering_duration_seconds",
+            field: 'NFPA.alarm_answering_duration_seconds',
             percents: [95, 99]
           }
         },
         alarm_processing: {
           percentiles: {
-            field: "NFPA.alarm_processing_duration_seconds",
+            field: 'NFPA.alarm_processing_duration_seconds',
             percents: [90, 95]
           }
         },
         turnout_durations_seconds: {
           terms: {
-            field: "NFPA.type"
+            field: 'NFPA.type'
           },
           aggs: {
             percentiles: {
-                percentiles: {
-                  field: "NFPA.turnout_durations_seconds",
-                  percents: [ 90 ]
-                }
+              percentiles: {
+                field: 'NFPA.turnout_durations_seconds',
+                percents: [90]
+              }
             }
           }
         },
         first_engine_travel_time: {
           terms: {
-            field: "NFPA.type"
+            field: 'NFPA.type'
           },
           aggs: {
             percentiles: {
-                percentiles: {
-                  field: "NFPA.first_engine_travel_duration_seconds",
-                  percents: [ 90 ]
-                }
+              percentiles: {
+                field: 'NFPA.first_engine_travel_duration_seconds',
+                percents: [90]
+              }
             }
           }
         }
@@ -242,11 +225,11 @@ export const nfpa1710 = {
         description: rule.description,
         grade,
         action: getAction(rule, grade, value)
-      }
-    })
+      };
+    });
     return {
       totalHits: _.get(res, 'hits.total'),
-      rules: rules
-    }
+      rules: rules,
+    };
   }
 };

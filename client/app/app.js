@@ -53,17 +53,17 @@ import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
 import './app.scss';
-angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar', 'ngCountTo',
-  _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService, /*socket,*/ util, angulartics, gtm
+
+angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
+  'ngCountTo', _Auth, account, admin, api, guides, navbar, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
-    if (segmentConfig.key) {
+    if(segmentConfig.key) {
       segmentProvider.setKey(segmentConfig.key);
     }
     segmentProvider.setEvents(SegmentEvents);
-    console.dir(appConfig)
-    console.dir(segmentConfig)
     segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {

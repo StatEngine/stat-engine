@@ -51,26 +51,26 @@ export class NavbarComponent {
     };
 
     $scope.$on('$destroy', function () {
-      const body = angular.element( document.querySelector( 'body' ) )[0];
+      const body = angular.element(document.querySelector('body'))[0];
       const bodyClasses = body.className.split(' ');
       const noScroll = bodyClasses.indexOf('noScroll');
-      if (noScroll > 0) bodyClasses.splice(noScroll, 1);
+      if(noScroll > 0) bodyClasses.splice(noScroll, 1);
       body.className = bodyClasses.join(' ');
     });
   }
 
   openMobile() {
-    const x = angular.element( document.querySelector( '#mobileNav' ) )[0];
-    const body = angular.element( document.querySelector( 'body' ) )[0];
+    const x = angular.element(document.querySelector('#mobileNav'))[0];
+    const body = angular.element(document.querySelector('body'))[0];
     const bodyClasses = body.className.split(' ');
 
     const noScroll = bodyClasses.indexOf('noScroll');
 
-    if (x.className === "mobile-nav open") {
-      x.className = "mobile-nav";
-      if (noScroll > 0) bodyClasses.splice(noScroll, 1);
+    if(x.className === 'mobile-nav open') {
+      x.className = 'mobile-nav';
+      if(noScroll > 0) bodyClasses.splice(noScroll, 1);
     } else {
-      x.className = "mobile-nav open";
+      x.className = 'mobile-nav open';
       bodyClasses.push('noScroll');
     }
 
