@@ -14,9 +14,11 @@
   <section class="fluid-container py-5 nfpa-analysis">
     <div class="container">
       <h3 class="mb-2">Message of the Day</h3>
+      Debug:
+      {{vm.content}}
       <div class="row">
         <div class="col-12 py-4">
-          <div summernote></div>
+          <div summernote ng-model="vm.content"></div>
         </div>
       </div>
     </div>

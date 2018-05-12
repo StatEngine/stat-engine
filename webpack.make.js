@@ -40,7 +40,6 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {
             polyfills: './client/polyfills.js',
             vendor: [
-                'jquery',
                 'angular',
                 'angular-animate',
                 'angular-aria',
@@ -85,12 +84,6 @@ module.exports = function makeWebpackConfig(options) {
     }
 
 
-    config.resolve = {
-      alias: {
-         jquery: "jquery/src/jquery"
-       },
-    }
-    
     if(TEST) {
         config.resolve = {            modulesDirectories: [
                 'node_modules'
@@ -218,6 +211,8 @@ module.exports = function makeWebpackConfig(options) {
         new webpack.ProvidePlugin({
           $: 'jquery',
           'jQuery': 'jquery',
+          'window.jQuery': 'jquery',
+          'window.$': 'jquery'
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'
