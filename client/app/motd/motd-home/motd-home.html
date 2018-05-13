@@ -13,13 +13,28 @@
   </div>
   <section class="fluid-container py-5 nfpa-analysis">
     <div class="container">
-      <h3 class="mb-2">Message of the Day</h3>
-      Debug:
-      {{vm.content}}
+      <h3 class="mb-2">Safety Message</h3>
+      <h5>Enter a custom safety message below or <button ng-click="vm.getRandomSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
       <div class="row">
         <div class="col-12 py-4">
-          <div summernote ng-model="vm.content"></div>
+          <div summernote ng-model="vm.safetyMessage"></div>
         </div>
+        Debug:
+        {{vm.safetyMessage}}
+      </div>
+    </div>
+  </section>
+
+  <section class="fluid-container py-5 nfpa-analysis">
+    <div class="container">
+      <h3 class="mb-2">Weather</h3>
+      <h5>What's on tap for today?</h5>
+      <div class="row">
+        <div class="col-12 py-4">
+          <div summernote ng-model="vm.training"></div>
+        </div>
+        Debug:
+        {{vm.training}}
       </div>
     </div>
   </section>

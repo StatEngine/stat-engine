@@ -1,0 +1,155 @@
+<div class="site-content user-home light-bg">
+  <header class="extra-slim">
+    <section class="container m-auto">
+      <div class="row">
+        <div class="col-lg-7 welcome-text my-auto">
+          <div class="container">
+            <div class="row text-center" ng-if="!vm.authorized">
+              <div class="col-md-8 col-md-offset-2 mt-5">
+                <!-- Integration Info & Description -->
+                <div class="extension-logo pb-3">
+                  <img src="{{vm.logoUrl}}" width="150" alt="Reporting">
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+          <h2>Daily Message</h2>
+          <p>{{vm.data.date | date:'fullDate'}}</p>
+        </div>
+        <div class="col-lg-5 actions" >
+          <div ng-if="vm.appAccess" class="actions">
+            <a href="" ng-click="vm.dashboard()" >
+              <img src="/assets/images/actions-dashboard.svg"/>
+              <span>Dashboard</span>
+            </a>
+            <!--<a href="" ng-if="vm.principal.isAdmin" ng-click="vm.goto('site.nfpa.home','NFPA')" >
+              <img src="/assets/images/actions-big-board.svg"/>
+              <span>NFPA Compliance</span>
+            </a>-->
+            <a href="" ng-click="vm.goto('site.twitter.home','Twitter')" >
+              <img src="/assets/images/actions-twitter.svg"/>
+              <span>Twitter</span>
+            </a>
+            <!--<a href="">
+                <img src="/assets/images/actions-big-board.svg"/>
+                <span>Big Board</span>
+            </a>-->
+          </div>
+        </div>
+        <!-- <hr> -->
+      </div>
+    </section>
+  </header>
+  <section class="container py-2 pt-3 mt-4 overview">
+    <div class="row">
+      <div class="col-md-6 summary-profile">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card light-border">
+          <h5 class="card-header">Safety Message<a ng-if="vm.principal.isDepartmentAdmin" href="#" ng-click="vm.editSafetySection=!vm.editSafetySection"><span class="fa fa-pencil pull-right"></span></a></h5>
+          <div ng-if="vm.editSafetySection">
+          <h5>Enter a custom safety message below or <button ng-click="vm.getRandomSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
+            <div class="row">
+              <div class="col-12 py-4">
+                <div summernote ng-model="vm.safetyMessage"></div>
+              </div>
+              <!--Debug:
+              <div ng-bind-html="vm.safetyMessage"></div>-->
+            </div>
+          </div>
+          <div ng-if="!vm.editSafetySection">
+            <h4 ng-bind-html="vm.safetyMessage"></h4>
+          </div>
+          <button class="btn btn-primary pull-right" ng-if="vm.editSafetySection" ng-click="vm.save('editSafetySection')">Save</button>
+        </div>
+      </div>
+      <div class="col-md-6 summary-department">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card light-border">
+          <h5 class="card-header">Weather<a ng-if="vm.principal.isDepartmentAdmin" href="#" ng-click="vm.getWeather()"><span class="fa fa-arrow-circle-down pull-right"></span></a></h5>
+          <dl class="row">
+            <div class="col">
+              <dt>Summary</dt>
+              <dd>{{ vm.weatherData.daily.data[0].summary}}</dd>
+
+              <dt>Day Low</dt>
+              <dd>{{ vm.weatherData.daily.data[0].temperatureMin | number:0 }}</dd>
+
+              <dt>Day High</dt>
+              <dd>{{ vm.weatherData.daily.data[0].temperatureMax | number:0 }}</dd>
+            </div>
+            <div class="col">
+              <dt>Humidity</dt>
+              <dd>{{ vm.weatherData.daily.data[0].humidity * 100 | number:0 }}%</dd>
+
+              <dt>Visibility</dt>
+              <dd>{{ vm.weatherData.daily.data[0].visibility }} miles</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-2 pt-3 mt-4 overview">
+    <div class="row">
+      <div class="col-md-6 summary-profile">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card light-border">
+          <h5 class="card-header">Training Message<a ng-if="vm.principal.isDepartmentAdmin" href="#" ng-click="vm.editTrainingSection=!vm.editTrainingSection"><span class="fa fa-pencil pull-right"></span></a></h5>
+          <div ng-if="vm.editTrainingSection">
+          <h5>Enter a custom training message below or <button ng-click="vm.getRandomSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
+            <div class="row">
+              <div class="col-12 py-4">
+                <div summernote ng-model="vm.trainingMessage"></div>
+              </div>
+              <!--Debug:
+              <div ng-bind-html="vm.safetyMessage"></div>-->
+            </div>
+          </div>
+          <div ng-if="!vm.editTrainingSection">
+            <h4 ng-bind-html="vm.trainingMessage"></h4>
+          </div>
+          <button class="btn btn-primary pull-right" ng-if="vm.editTrainingSection" ng-click="vm.save('editTrainingSection')">Save</button>
+        </div>
+      </div>
+      <div class="col-md-6 summary-department">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card light-border">
+          <h5 class="card-header">Weather<a ng-if="vm.principal.isDepartmentAdmin" href="#" ng-click="vm.getWeather()"><span class="fa fa-arrow-circle-down pull-right"></span></a></h5>
+          <dl class="row">
+            <div class="col">
+              <dt>Summary</dt>
+              <dd>{{ vm.weatherData.daily.data[0].summary}}</dd>
+
+              <dt>Day Low</dt>
+              <dd>{{ vm.weatherData.daily.data[0].temperatureMin | number:0 }}</dd>
+
+              <dt>Day High</dt>
+              <dd>{{ vm.weatherData.daily.data[0].temperatureMax | number:0 }}</dd>
+            </div>
+            <div class="col">
+              <dt>Humidity</dt>
+              <dd>{{ vm.weatherData.daily.data[0].humidity * 100 | number:0 }}%</dd>
+
+              <dt>Visibility</dt>
+              <dd>{{ vm.weatherData.daily.data[0].visibility }} miles</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- stats -->
+  <section class="container py-2 pt-3 mt-4 overview">
+    <div class="row">
+      <div class="col-md-12 summary-profile">
+        <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
+        <div class="card light-border">
+          <h5 class="card-header">Stats<a ng-if="vm.principal.isDepartmentAdmin" href="#" ng-click="vm.getStats()"><span class="fa fa-arrow-circle-down pull-right"></span></a></h5>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

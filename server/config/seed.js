@@ -88,7 +88,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -77.4360,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,kibana_admin,deparment_admin',
         username: 'richmond',
         first_name: 'Richmond',
         last_name: 'User',

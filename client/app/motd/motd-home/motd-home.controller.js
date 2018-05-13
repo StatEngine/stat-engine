@@ -1,16 +1,16 @@
 'use strict';
 
 import _ from 'lodash';
+import data from './safetyMessages.js';
+
 
 export default class MOTDHomeController {
   /*@ngInject*/
   constructor(SegmentService) {
     this.SegmentService = SegmentService;
 
-    this.content = '';
-
     // fetch from ?
-    this.safetyMessage = 'Be safe today';
+    this.safetyMessage = data[Math.floor(Math.random() * data.length)];
     this.weatherForecast = 'Its going to rain';
     this.logoUrl = 'https://s3.amazonaws.com/statengine-public-assets/richmond.png';
 
@@ -40,8 +40,11 @@ export default class MOTDHomeController {
   }
 
   safety() {
-    this._addParagraph('Safety Message of the Day', { bold: true })
-    this._addParagraph(this.safetyMessage, { bold: false })
+    this._addParagraph(this.safetyMessage, { bold: false });
+  }
+
+  getRandomSafetyMessage() {
+    this.safetyMessage = `<p>${data[Math.floor(Math.random() * data.length)]}</p>`;
   }
 
   logo() {
@@ -49,14 +52,17 @@ export default class MOTDHomeController {
   }
 
   weather() {
-    this._addParagraph('Weather', { bold: true })
-    this._addParagraph(this.weatherForecast, { bold: false })
+    this._addParagraph('Weather', { bold: true });
+    this._addParagraph(this.weatherForecast, { bold: false });
   }
 
   buildContent() {
-    this.logo();
+    //this.logo();
     this.safety();
-    this.weather();
+    //this.weather();
+  }
+
+  save() {
 
   }
 }

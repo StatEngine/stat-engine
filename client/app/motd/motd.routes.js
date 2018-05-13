@@ -28,5 +28,30 @@ export default function routes($stateProvider) {
           return Principal.identity(true);
         },
       },
+    })
+    .state('site.motd.day', {
+      url: '/motd/:year/:month/:day',
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: require('./motd-daily/motd-daily.html'),
+          controller: 'MOTDDailyController',
+          controllerAs: 'vm'
+        },
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        dayData($http, $stateParams) {
+            // $http returns a promise for the url data
+            return $http({method: 'GET', url: `/api/motd/${$stateParams.year}/${$stateParams.month}/${$stateParams.day}`});
+         },
+         currentPrincipal(Principal) {
+           return Principal.identity(true);
+         },
+      },
     });
 }
