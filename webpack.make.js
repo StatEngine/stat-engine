@@ -50,6 +50,7 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
                 'lodash',
+                'skycons',
             ],
             app: './client/app/app.js',
         };
@@ -212,7 +213,9 @@ module.exports = function makeWebpackConfig(options) {
           $: 'jquery',
           'jQuery': 'jquery',
           'window.jQuery': 'jquery',
-          'window.$': 'jquery'
+          'window.$': 'jquery',
+          'Skycons': 'skycons',
+          'window.Skycons': 'skycons'
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'

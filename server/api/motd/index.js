@@ -8,9 +8,34 @@ import * as controller from './motd.controller';
 const router = new Router();
 
 router.get(
+  '/templates/weather',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getWeatherForecast
+);
+
+router.get(
+  '/templates/safetyMessage',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getSafetyMessage
+);
+
+router.get(
+  '/templates/incidentSummary',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getIncidentSummary
+);
+
+router.get(
   '/:year/:month/:day',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
+  auth.hasFireDepartment,
   controller.day
 );
 
@@ -18,15 +43,9 @@ router.post(
   '/:year/:month/:day',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
+  auth.hasFireDepartment,
   bodyParser.json(),
   controller.configDay
-);
-
-router.get(
-  '/weather',
-  auth.isApiAuthenticated,
-  auth.hasRole('user'),
-  controller.getWeather
 );
 
 module.exports = router;

@@ -6,7 +6,6 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import 'angular-socket-io';
-
 import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
 // import ngMessages from 'angular-messages';
@@ -51,17 +50,21 @@ import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 
+// tables
+import incidentSummaryTable from '../components/tables/incident-summary.component';
+
 import constants from './app.constants';
 import segmentEventConstants from './segment-event.constants';
 
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
+import 'angular-ui-grid';
 
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', _Auth, 'summernote', account, admin, api, guides, navbar, motd, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  'ngCountTo', _Auth, incidentSummaryTable, 'ui.grid', 'summernote', account, admin, api, guides, navbar, motd, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
   /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)

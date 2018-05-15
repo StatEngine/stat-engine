@@ -24,8 +24,14 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity(true);
+        weather(MOTD) {
+          return MOTD.getTemplate({ resource2: 'weather'} ).$promise;
+        },
+        safetyMessage(MOTD) {
+          return MOTD.getTemplate({ resource2: 'safetyMessage'}).$promise;
+        },
+        incidentSummary(MOTD) {
+          return MOTD.getTemplate({ resource2: 'incidentSummary'}).$promise;
         },
       },
     })

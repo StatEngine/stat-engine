@@ -11,31 +11,44 @@
       </div>
     </div>
   </div>
-  <section class="fluid-container py-5 nfpa-analysis">
+  <section class="fluid-container">
     <div class="container">
       <h3 class="mb-2">Safety Message</h3>
-      <h5>Enter a custom safety message below or <button ng-click="vm.getRandomSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
+      <h5>Enter a custom safety message below or <button ng-click="vm.refreshSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
       <div class="row">
         <div class="col-12 py-4">
           <div summernote ng-model="vm.safetyMessage"></div>
         </div>
-        Debug:
-        {{vm.safetyMessage}}
       </div>
     </div>
   </section>
 
-  <section class="fluid-container py-5 nfpa-analysis">
+  <section class="fluid-container">
     <div class="container">
-      <h3 class="mb-2">Weather</h3>
-      <h5>What's on tap for today?</h5>
+      <h3 class="mb-2">Weather Commentary</h3>
+      icon placeholder <br>
+      <label> Summary: </label> {{ vm.weatherForcast.daily.data[0].summary }} <br>
+      <label> Sunrise: </label> {{ vm.weatherForcast.daily.data[0].sunriseTime }} <br>
+      <label> Sunset: </label> {{ vm.weatherForcast.daily.data[0].sunsetTime }} <br>
+      <label> Low: </label> {{ vm.weatherForcast.daily.data[0].temperatureLow }}<br>
+      <label> High: </label> {{ vm.weatherForcast.daily.data[0].temperatureHigh }}<br>
+
+      <label> Precipiation: </label> {{ vm.weatherForcast.daily.data[0].precipProbability*100 }} % of {{ vm.weatherForcast.daily.data[0].precipType }}<br>
+      <label> Wind: </label> {{ vm.weatherForcast.daily.data[0].windSpeed }} mph with gusts up to {{ vm.weatherForcast.daily.data[0].windGust }} mph<br>
+
+      <p>
+
+      <label> Alerts: </label> {{ vm.weatherForcast.daily.alerts }} <br>
+
+      <h5>Any special precautions?</h5>
       <div class="row">
         <div class="col-12 py-4">
-          <div summernote ng-model="vm.training"></div>
+          <div summernote ng-model="vm.weatherCommentary"></div>
         </div>
-        Debug:
-        {{vm.training}}
       </div>
     </div>
   </section>
+
+  <incident-summary-table data="vm.myData"></incident-summary-table>
+
 </div>

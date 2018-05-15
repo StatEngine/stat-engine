@@ -1,65 +1,33 @@
 'use strict';
 
 import _ from 'lodash';
-import data from './safetyMessages.js';
-
 
 export default class MOTDHomeController {
   /*@ngInject*/
-  constructor(SegmentService) {
-    this.SegmentService = SegmentService;
+  constructor(MOTD, weather, safetyMessage, incidentSummary) {
+    this.MOTDService = MOTD;
 
-    // fetch from ?
-    this.safetyMessage = data[Math.floor(Math.random() * data.length)];
-    this.weatherForecast = 'Its going to rain';
-    this.logoUrl = 'https://s3.amazonaws.com/statengine-public-assets/richmond.png';
+    this.weatherForcast = weather;
+    this.safetyMessage = safetyMessage.message;
 
-    this.buildContent();
+    this.incidentSummary = incidentSummary;
+
+    this.myData = [
+            {
+                "firstName": "Cox",
+                "lastName": "Carney",
+              }]
   }
 
-  _addParagraph(text, options) {
-    let bold = _.get(options, 'bold');
+  refreshWeather() {
 
-    let p = '<p>'
-    if (bold) p += '<b>';
-    p += text;
-    if (bold) p += '</b>';
-    p + '</p>';
-
-    this.content += p;
   }
 
-  _addImage(uri, options) {
-    let p = '<p>';
-
-    p += `<img src="${uri}" style="width: 250px;">`;
-
-    p + '</p>';
-
-    this.content += p;
-  }
-
-  safety() {
-    this._addParagraph(this.safetyMessage, { bold: false });
-  }
-
-  getRandomSafetyMessage() {
-    this.safetyMessage = `<p>${data[Math.floor(Math.random() * data.length)]}</p>`;
-  }
-
-  logo() {
-    this._addImage(this.logoUrl);
-  }
-
-  weather() {
-    this._addParagraph('Weather', { bold: true });
-    this._addParagraph(this.weatherForecast, { bold: false });
-  }
-
-  buildContent() {
-    //this.logo();
-    this.safety();
-    //this.weather();
+  refreshSafetyMessage() {
+    this.MOTDService.safetyMessageTemplate().$promise
+      .then((safetyMessageTemplate) => {
+        this.safetyMessage = safetyMessageTemplate.message;
+      });
   }
 
   save() {
