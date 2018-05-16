@@ -6,7 +6,9 @@ import ExtensionConfigurationResource from './extension-configuration.service';
 import ExtensionResource from './extension.service';
 import FireDepartmentResource from './fire-department.service';
 import MOTDResource from './motd.service';
-
+import WeatherResource from './weather.service';
+import SafetyResource from './safety.service';
+import StatsResource from './stats.service';
 import TwitterResource from './twitter.service';
 import UserResource from './user.service';
 
@@ -17,4 +19,7 @@ export default angular.module('statEngineApp.api', [])
   .factory('MOTD', MOTDResource)
   .factory('Twitter', TwitterResource)
   .factory('User', UserResource)
+  .factory('Weather', WeatherResource)
+  .factory('Stats', StatsResource)
+  .factory('Safety', SafetyResource)
   .name;

@@ -21,6 +21,7 @@ import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 require('summernote');
 require('bootstrap/dist/js/bootstrap.js');
 import 'angular-summernote/dist/angular-summernote.min.js';
+import 'angular-timeline/dist/angular-timeline.js';
 
 import {
   routeConfig,
@@ -50,8 +51,8 @@ import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 
-// tables
-import incidentSummaryTable from '../components/tables/incident-summary.component';
+import statsTable from '../components/tables/stats-table.component';
+import safety from '../components/safety/safety.component';
 
 import constants from './app.constants';
 import segmentEventConstants from './segment-event.constants';
@@ -64,7 +65,7 @@ import 'angular-ui-grid';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', _Auth, incidentSummaryTable, 'ui.grid', 'summernote', account, admin, api, guides, navbar, motd, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  'ngCountTo', _Auth, 'ui.grid', statsTable, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, motd, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
   /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)

@@ -18,6 +18,7 @@
     "angular-skycons": "projectweekend/angular-skycons",
     "angular-socket-io": "~0.7.0",
     "angular-summernote": "^0.8.1",
+    "angular-timeline": "^1.7.0",
     "angular-ui-bootstrap": "^2.0.1",
     "angular-ui-grid": "^4.4.10",
     "angular-validation-match": "^1.9.0",

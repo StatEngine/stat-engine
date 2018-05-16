@@ -3,15 +3,12 @@
 export default function MOTDResource($resource) {
   'ngInject';
 
-  return $resource('/api/motd/:resource/:resource2/', {
+  return $resource('/api/motd/:year/:month/:date', {
     id: '@id'
   }, {
-    getTemplate: {
+    get: {
       method: 'GET',
       isArray: false,
-      params: {
-        resource: 'templates',
-      }
     },
   });
 }

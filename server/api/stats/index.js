@@ -2,27 +2,19 @@
 
 import { Router } from 'express';
 import bodyParser from 'body-parser';
+import moment from 'moment';
 
 import * as auth from '../../auth/auth.service';
-import * as controller from './motd.controller';
+import * as controller from './stats.controller';
 
 const router = new Router();
 
 router.get(
-  '/:year/:month/:day',
+  '/daily',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.get
-);
-
-router.post(
-  '/',
-  auth.isApiAuthenticated,
-  auth.hasRole('user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
-  controller.create
+  controller.getStats
 );
 
 module.exports = router;

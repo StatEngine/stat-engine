@@ -18,6 +18,9 @@ export default function(app) {
   app.use('/api/twitter', require('./api/twitter'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/motd', require('./api/motd'));
+  app.use('/api/weather', require('./api/weather'));
+  app.use('/api/safety', require('./api/safety'));
+  app.use('/api/stats', require('./api/stats'));
 
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
