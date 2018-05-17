@@ -101,11 +101,10 @@ export function getStats(req, res) {
       }
     }
   }).then((result) => {
-    console.dir(result)
     const data = {};
 
     const categoryBuckets = _.get(result, 'aggregations.category.buckets');
-    data.incidentSummary = [
+    data.incident = [
       //platoon: 'TODO',
       {
         name: 'Incidents',
@@ -137,10 +136,10 @@ export function getStats(req, res) {
       }
     ]
 
-    data.unitSummary = [];
+    data.unit = [];
     const unitBuckets = _.get(result, 'aggregations.apparatus.units.buckets');
     _.forEach(unitBuckets, (u) => {
-      data.unitSummary.push({
+      data.unit.push({
         name: u.key,
         totalCount: _.get(u, 'doc_count'),
         utilization: _.get(u, 'totalEventDuration.value'),
@@ -148,8 +147,6 @@ export function getStats(req, res) {
         turnoutDuration90: _.get(u, 'turnoutDuration.values[\'90.0\']'),
       });
     });
-
-    data.incidentTypeSummary = [];
 
     res.json(data);
 

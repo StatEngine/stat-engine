@@ -1,0 +1,30 @@
+<div>
+  <div class="row">
+    <div class="col-8">
+      <label> Summary: </label> {{ vm.weather.forecast.daily.data[0].summary }} <br>
+      <label> Sunrise: </label> {{ vm.weather.forecast.daily.data[0].sunriseTime }} <br>
+      <label> Sunset: </label> {{ vm.weather.forecast.daily.data[0].sunsetTime }} <br>
+      <label> Low: </label> {{ vm.weather.forecast.daily.data[0].temperatureLow }}<br>
+      <label> High: </label> {{ vm.weather.forecast.daily.data[0].temperatureHigh }}<br>
+
+      <label> Precipiation: </label> {{ vm.weather.forecast.daily.data[0].precipProbability*100 }}% of {{ vm.weather.forecast.daily.data[0].precipType }}<br>
+      <label> Wind: </label> {{ vm.weather.forecast.daily.data[0].windSpeed }} mph with gusts up to {{ vm.weather.forecast.daily.data[0].windGust }} mph<br>
+
+      <label> Alerts: </label> {{ vm.weather.daily.alerts }}
+      <span ng-if="!vm.weather.forecast.alerts" class="text-success"> No alerts </span>
+      <span ng-if="vm.weather.forecast.alerts" class="text-danger"> {{vm.weather.forecast.alerts}}</span>
+
+      <br>
+      <div ng-if="vm.options.showNarrative">
+        <hr>
+        <label> Narrative: </label> <br>
+        <span ng-if="!vm.weather.narrative"> No remarks </span>
+        <span ng-if="vm.weather.narrative" ng-bind-html="vm.weather.narrative | trusted"> </span>
+      </div>
+
+    </div>
+    <div class="col-4">
+      <skycon class="img-responsive pt-4" icon="vm.weather.forecast.daily.data[0].icon" size="128"></skycon>
+    </div>
+  </div>
+</div>

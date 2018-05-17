@@ -4,25 +4,33 @@ import { Router } from 'express';
 import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
-import * as controller from './motd.controller';
+import * as controller from './report.controller';
 
 const router = new Router();
 
 router.get(
-  '/:year/:month/:day',
+  '/',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.search
+);
+
+router.get(
+  '/:type/:name',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   controller.get
 );
 
-router.post(
-  '/',
+router.put(
+  '/:type/:name',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  controller.create
+  controller.upsert
 );
 
 module.exports = router;

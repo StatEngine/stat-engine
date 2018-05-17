@@ -1,0 +1,61 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Daily Report</h4>
+  <logo department="vm.FireDepartment"></logo>
+
+  <section ng-if="vm.report">
+    <h4 class="text-center"> {{ vm.report.name}} <a href="#" ng-click="vm.edit(vm.report)"><i class="fa fa-pencil"></i></a>  </h4>
+    <h6 ng-if="vm.report" class="text-center">
+      Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
+    </h6>
+    <h6 ng-if="vm.report" class="text-center"> Total Views <a class="#">399</a> </h6>
+    <br>
+  </section>
+
+  <section ng-if="!vm.report">
+    <div class="container">
+      <div class="mt-5 row">
+        <div class="col-md-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Information</h5>
+            <span> No report available. Create a <a href="#" ui-sref="site.report.today.edit"> daily </a> one now!</span>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section ng-if="vm.report" class="fluid-container pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 pt-2">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-medkit">&nbsp;</i></span>Safety Message</h5>
+            <safety message="vm.report.content.safety.message"></safety>
+          </div>
+        </div>
+        <div class="col-md-6 pt-2">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-sun-o">&nbsp;</i></span>Weather</h5>
+            <weather weather="vm.report.content.weather" options="{ 'showNarrative': true }"></weather>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-2">
+        <div class="col-md-12 pt-2">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics</h5>
+
+            <stats-table data="vm.report.content.stats.incident.stats"></stats-table>
+            <hr>
+            <stats-table data="vm.report.content.stats.unit.stats"></stats-table>
+            <hr>
+            <label>Narrative: </label>
+            <span ng-if="vm.report.content.stats.narrative" ng-bind-html="vm.report.content.stats.narrative | trusted"></span>
+            <span ng-if="!vm.report.content.stats.narrative"> No remarks </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <h5 class="text-center pb-5"> Looking for older reports? View them <a href="#" ui-sref="site.report.history">here</a></h5>
+</div>

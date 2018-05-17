@@ -1,7 +1,7 @@
 'use strict';
 
 export default function(sequelize, DataTypes) {
-  const DailyMessage = sequelize.define('DailyMessages', {
+  const Report = sequelize.define('Reports', {
 
     _id: {
       type: DataTypes.INTEGER,
@@ -9,25 +9,36 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    date: {
-      type: DataTypes.DATEONLY,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
       unique: 'departmentDate',
       validate: {
         notEmpty: true
       }
     },
-    config: {
+    type: {
+      type: DataTypes.ENUM('DAILY', 'WEEKLY', 'QUARTLERY', 'YEARLY', 'ADHOC'),
+      unique: 'departmentDate',
+      validate: {
+        notEmpty: true
+      },
+      default: 'DAILY',
+    },
+    fire_department__id: {
+      type: DataTypes.INTEGER,
+      unique: 'departmentDate',
+      validate: {
+        notEmpty: true,
+      }
+    },
+    content: {
       type: DataTypes.JSON,
       allowNull: false,
       validate: {
         notEmpty: true,
       }
     },
-    fire_department__id: {
-      type: DataTypes.INTEGER,
-      unique: 'departmentDate',
-    }
   }, {
     /**
      * Pre-save hooks
@@ -41,8 +52,11 @@ export default function(sequelize, DataTypes) {
     instanceMethods: {
     },
     underscored: true,
+    
+    timestamps: true,
+
   });
 
 
-  return DailyMessage;
+  return Report;
 }

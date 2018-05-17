@@ -42,7 +42,7 @@ import user from './user';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import nfpa from './nfpa';
-import motd from './motd';
+import report from './report';
 
 import marketplace from './marketplace';
 
@@ -53,6 +53,11 @@ import modal from '../components/modal/modal.service';
 
 import statsTable from '../components/tables/stats-table.component';
 import safety from '../components/safety/safety.component';
+import weather from '../components/weather/weather.component';
+import skycon from '../components/weather/skycon.directive';
+import logo from '../components/logo/logo.component';
+
+import trusted from '../components/trusted/trusted.filter';
 
 import constants from './app.constants';
 import segmentEventConstants from './segment-event.constants';
@@ -65,7 +70,7 @@ import 'angular-ui-grid';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', _Auth, 'ui.grid', statsTable, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, motd, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  'ngCountTo', _Auth, 'ui.grid', trusted, statsTable, logo, skycon, weather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
   /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)

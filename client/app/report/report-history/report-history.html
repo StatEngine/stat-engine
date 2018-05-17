@@ -7,9 +7,9 @@
     <div class="row">
       <div class="col-lg-12 mb-3">
         <div class="card light-border">
-          <h4 class="card-header">Timeline</h4>
+          <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Historic Reports</h5>
           <timeline>
-            <timeline-event ng-repeat="report in vm.reports" side="alternate">
+            <timeline-event ng-repeat="report in vm.timelineReports" side="alternate">
               <timeline-badge class="{{report.badgeClass}}">
                 <i class="glyphicon {{report.badgeIconClass}}"></i>
               </timeline-badge>
@@ -21,9 +21,11 @@
               </timeline-panel>
             </timeline-event>
           </timeline>
+          <div ng-if="!vm.reports || vm.reports.length === 0">
+            <span class="text-warning"> Looks like you don't have any reports yet! </span>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
