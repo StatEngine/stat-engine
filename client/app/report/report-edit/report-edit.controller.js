@@ -1,19 +1,18 @@
 'use strict';
 
-import _ from 'lodash';
-import moment from 'moment';
-
 export default class ReportEditController {
   /*@ngInject*/
-  constructor($stateParams, $state, currentPrincipal, Report, Safety, report, weatherForecast, safetyMessage, stats) {
+  constructor($stateParams, $state, currentPrincipal, Report, Safety, report, weatherForecast, safetyMessage, stats, SegmentService) {
     this.$stateParams = $stateParams;
     this.$state = $state;
     this.FireDepartment = currentPrincipal.FireDepartment;
+    this.timezone = this.FireDepartment.timezone;
     this.ReportService = Report;
     this.SafetyService = Safety;
+    this.SegmentService = SegmentService;
 
     this.report = report;
-    if (!this.report) {
+    if(!this.report) {
       this.report = {
         content: {
           weather: {
@@ -23,6 +22,7 @@ export default class ReportEditController {
             message: safetyMessage.message
           },
           stats: {
+            timeFilter: stats.timeFilter,
             incident: {
               stats: stats.incident,
             },
@@ -31,11 +31,11 @@ export default class ReportEditController {
             }
           }
         }
-      }
+      };
     }
 
     this.toolbar = [
-      ['edit',['undo','redo']],
+      ['edit', ['undo', 'redo']],
       ['headline', ['style']],
       ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
       ['fontface', ['fontname']],
@@ -44,10 +44,41 @@ export default class ReportEditController {
       ['alignment', ['ul', 'ol', 'paragraph']],
       ['height', ['height']],
       ['table', ['table']],
-      ['insert', ['link','picture']],
+      ['insert', ['link', 'picture']],
     ];
 
-    this.now = moment();
+    this.incidentTableOptions = {
+      data: this.report.content.stats.incident.stats,
+      columnDefs: [{
+        field: 'name',
+      }, {
+        field: 'value',
+        cellFilter: 'number: 0',
+      }]
+    };
+
+    this.unitTableOptions = {
+      data: this.report.content.stats.unit.stats,
+      columnDefs: [{
+        field: 'name',
+      }, {
+        field: 'totalCount',
+        cellFilter: 'number: 0',
+        displayName: 'Incidents'
+      }, {
+        field: 'utilization',
+        displayName: 'Utilization (min)',
+        cellFilter: 'number: 2',
+      }, {
+        field: 'distance',
+        cellFilter: 'number: 2',
+        displayName: 'Total Distance (m)'
+      }, {
+        field: 'turnoutDuration90',
+        cellFilter: 'number: 2',
+        displayName: '90% Turnout Duration (s)'
+      }]
+    };
   }
 
   reset() {
@@ -61,12 +92,17 @@ export default class ReportEditController {
 
   refreshSafetyMessage() {
     this.SafetyService.getRandomMessage().$promise
-      .then((rando) => {
+      .then(rando => {
         this.report.content.safety.message = rando.message;
       });
   }
 
   save() {
+    this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+      app: 'REPORT',
+      action: 'save',
+    });
+
     this.ReportService.update({
       type: this.$stateParams.type,
       name: this.$stateParams.name,

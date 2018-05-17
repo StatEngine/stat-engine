@@ -1,11 +1,12 @@
 'use strict';
 
-export class StatsTableController {
-    constructor() {
-      'ngInject';
-    }
-}
+import angular from 'angular';
 
+export class StatsTableController {
+  constructor() {
+    'ngInject';
+  }
+}
 
 export default angular.module('tables.statsTable', [])
   .component('statsTable', {
@@ -13,7 +14,7 @@ export default angular.module('tables.statsTable', [])
     controller: StatsTableController,
     controllerAs: 'vm',
     bindings: {
-      data: '<'
+      options: '<'
     },
   })
   .name;

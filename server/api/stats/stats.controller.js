@@ -1,9 +1,25 @@
 import _ from 'lodash';
 
+import { FirecaresLookup } from '@statengine/shiftly';
+
 import connection from '../../elasticsearch/connection';
+
+export function buildTimeFilter(ShiftConfig, type, date) {
+  if(!ShiftConfig) throw new Error('No ShiftConfig found');
+  const shiftly = new ShiftConfig();
+
+  if(type === 'daily') return shiftly.shiftTimeFrame(date);
+}
+
+function checkIfZero(val) {
+  return _.isNil(val) || _.isNaN(val) || val === 'NaN' ? 0 : val;
+}
 
 export function getStats(req, res) {
   const client = connection.getClient();
+
+  const timeFilter = buildTimeFilter(FirecaresLookup[req.user.FireDepartment.firecares_id], 'daily', req.query.date);
+
   client.search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: {
@@ -14,7 +30,15 @@ export function getStats(req, res) {
             term: {
               'description.suppressed': true
             }
-          }
+          },
+          filter: {
+            range: {
+              'description.event_opened': {
+                lt: timeFilter.end,
+                gte: timeFilter.start,
+              }
+            }
+          },
         },
       },
       aggs: {
@@ -44,12 +68,6 @@ export function getStats(req, res) {
           }
         },
         turnoutDuration: {
-          percentiles: {
-            field: 'description.extended_data.event_duration',
-            percents: [90]
-          }
-        },
-        eventDuration: {
           percentiles: {
             field: 'description.extended_data.event_duration',
             percents: [90]
@@ -100,58 +118,61 @@ export function getStats(req, res) {
         }
       }
     }
-  }).then((result) => {
-    const data = {};
+  }).then(result => {
+    const data = {
+      timeFilter
+    };
 
     const categoryBuckets = _.get(result, 'aggregations.category.buckets');
+
     data.incident = [
       //platoon: 'TODO',
       {
         name: 'Incidents',
-        value: _.get(result, 'hits.total'),
+        value: checkIfZero(_.get(result, 'hits.total'))
       }, {
         name: 'EMS Incidents',
-        value: categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'EMS'), 'doc_count') : undefined,
+        value: checkIfZero(categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'EMS'), 'doc_count') : undefined),
       }, {
         name: 'Fire Incidents',
-        value: categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'FIRE'), 'doc_count') : undefined,
+        value: checkIfZero(categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'FIRE'), 'doc_count') : undefined),
       }, {
         name: 'Other Incidents',
-        value: categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'OTHER'), 'doc_count') : undefined,
+        value: checkIfZero(categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'OTHER'), 'doc_count') : undefined),
       }, {
         name: 'Total Responses',
-        value: categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'OTHER'), 'doc_count') : undefined,
+        value: checkIfZero(_.get(result, 'aggregations.totalResponses.value')),
       }, {
         name: 'Six Minute Response Percentage',
-        value: _.get(result, 'aggregations.apparatus.values[\'360.0\']'),
+        value: checkIfZero(_.get(result, 'aggregations.apparatus.values[\'360.0\']')),
       }, {
         name: '90% Percentile Turnout Duration',
-        value: _.get(result, 'aggregations.turnoutDuration.values[\'90.0\']'),
+        value: checkIfZero(_.get(result, 'aggregations.turnoutDuration.values[\'90.0\']')),
       }, {
         name: '90% Percentile Distance Travelled',
-        value: _.get(result, 'aggregations.distance.values[\'90.0\']'),
+        value: checkIfZero(_.get(result, 'aggregations.distance.values[\'90.0\']')),
       }, {
         name: '90% Event Duration',
-        value: _.get(result, 'aggregations.eventDuration.values[\'90.0\']'),
+        value: checkIfZero(_.get(result, 'aggregations.eventDuration.values[\'90.0\']')),
       }
-    ]
+    ];
 
     data.unit = [];
     const unitBuckets = _.get(result, 'aggregations.apparatus.units.buckets');
-    _.forEach(unitBuckets, (u) => {
+    _.forEach(unitBuckets, u => {
       data.unit.push({
         name: u.key,
-        totalCount: _.get(u, 'doc_count'),
-        utilization: _.get(u, 'totalEventDuration.value'),
-        distance: _.get(u, 'totalDistance.value'),
-        turnoutDuration90: _.get(u, 'turnoutDuration.values[\'90.0\']'),
+        totalCount: checkIfZero(_.get(u, 'doc_count')),
+        utilization: checkIfZero(_.get(u, 'totalEventDuration.value') ? _.get(u, 'totalEventDuration.value') / 60 : undefined),
+        distance: checkIfZero(_.get(u, 'totalDistance.value')),
+        turnoutDuration90: checkIfZero(_.get(u, 'turnoutDuration.values[\'90.0\']')),
       });
     });
 
     res.json(data);
-
-  }).catch((err) => {
-    console.dir(err)
-    res.status(500).send();
-  });
+  })
+    .catch(err => {
+      console.dir(err);
+      res.status(500).send();
+    });
 }

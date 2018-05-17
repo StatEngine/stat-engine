@@ -17,7 +17,6 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
-let twitterEnrichment;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -50,9 +49,6 @@ if(process.env.NODE_ENV === 'development') {
         required: true,
       }]
     }))
-    .then(extension => {
-      twitterEnrichment = extension;
-    })
     .then(() => Extension.create({
       name: 'Daily Report',
       short_description: 'Daily reports delivered straight to your inbox',
@@ -563,6 +559,8 @@ if(process.env.NODE_ENV === 'development') {
       timezone: 'US/Central',
       latitude: 36.3320,
       longitude: -94.1185,
+      integration_complete: true,
+      integration_verified: true,
       Users: [{
         provider: 'local',
         role: 'user,kibana_admin',

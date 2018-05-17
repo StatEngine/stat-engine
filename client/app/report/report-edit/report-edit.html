@@ -1,8 +1,8 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
-  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Daily Report</h4>
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting</h4>
   <logo department="vm.FireDepartment"></logo>
-  <h4 class="text-center"> {{ vm.now.format('MMM Do, YYYY') }} </h4>
+  <h4 class="text-center"> {{ vm.$stateParams.name }} </h4>
 
   <div class="container">
     <div class="row">
@@ -10,14 +10,14 @@
         <div class="card light-border">
           <h5 class="card-header"><span><i class="fa fa-medkit">&nbsp;</i></span>Safety Message</h5>
             <h5>Enter a custom safety message below or <button ng-click="vm.refreshSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
-            <div summernote ng-model="vm.report.content.safety.message" height="315" max-height="315" min-height="315" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar }"></div>
+            <div summernote ng-model="vm.report.content.safety.message" height="315" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar }"></div>
         </div>
       </div>
       <div class="col-md-6 pt-2">
         <div class="card light-border">
           <h5 class="card-header"><span><i class="fa fa-sun-o">&nbsp;</i></span>Weather</h5>
-          <weather weather="vm.report.content.weather" options="{ 'showNarrative': false }"></weather>
-          <div summernote ng-model="vm.report.content.weather.narrative" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar }" height="150" max-height="150" min-height="150"></div>
+          <weather weather="vm.report.content.weather" options="{ 'showNarrative': false, 'timezone': vm.timezone }"></weather>
+          <div summernote ng-model="vm.report.content.weather.narrative" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar }" height="150"></div>
         </div>
       </div>
     </div>
@@ -27,12 +27,12 @@
     <div class="row pt-2">
       <div class="col-md-12 pt-2">
         <div class="card light-border">
-          <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics</h5>
-          <stats-table data="vm.report.content.stats.incident.stats"></stats-table>
+          <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics ({{ vm.report.content.stats.timeFilter.start | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} to {{ vm.report.content.stats.timeFilter.end | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} )</h5>
+          <stats-table options="vm.incidentTableOptions"></stats-table>
           <hr>
-          <stats-table data="vm.report.content.stats.unit.stats"></stats-table>
+          <stats-table options="vm.unitTableOptions"></stats-table>
           <hr>
-          <div class="mt-5" summernote ng-model="vm.report.content.stats.narrative" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar}" height="200" max-height="200" min-height="200"></div>
+          <div class="mt-5" summernote ng-model="vm.report.content.stats.narrative" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar}" height="200"></div>
         </div>
       </div>
     </div>

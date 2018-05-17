@@ -1,7 +1,9 @@
 'use strict';
 
+import angular from 'angular';
 
 import skycons from 'skycons';
+
 skycons(window);
 
 export class WeatherController {

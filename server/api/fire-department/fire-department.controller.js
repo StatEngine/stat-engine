@@ -146,6 +146,7 @@ export function nfpa(req, res) {
   };
 
   return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+    // eslint-disable-next-line
     const [name, qaConfig] = qa;
     return runNFPA(_.merge(qaConfig, { index: fireIndex }))
       .then(out => res.json(out));

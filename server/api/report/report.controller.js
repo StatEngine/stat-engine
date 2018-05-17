@@ -1,14 +1,4 @@
-import async from 'async';
-import fs from 'fs';
-import path from 'path';
-import _ from 'lodash';
-import request from 'request-promise';
-
 import { Report, User } from '../../sqldb';
-
-import connection from '../../elasticsearch/connection';
-
-import config from '../../config/environment';
 
 export function search(req, res) {
   Report.findAll({
@@ -29,10 +19,10 @@ export function get(req, res) {
     },
     include: [{
       model: User,
-      attributes: ['first_name', 'last_name', 'role' ]
+      attributes: ['first_name', 'last_name', 'role']
     }],
   }).then(report => {
-    if (report) return res.json(report);
+    if(report) return res.json(report);
     else return res.status(404).send();
   });
 }
@@ -44,9 +34,7 @@ export function upsert(req, res) {
     content: req.body,
     fire_department__id: req.user.FireDepartment._id,
     updated_by: req.user._id,
-  }
+  };
 
-  return Report.upsert(motd).then((message) => {
-    return res.json(message);
-  });
+  return Report.upsert(motd).then(message => res.json(message));
 }

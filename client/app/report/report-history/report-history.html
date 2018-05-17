@@ -1,7 +1,7 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
   <!-- Extension Attribution -->
-  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Daily Reports History</h4>
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting History</h4>
 
   <div class="container">
     <div class="row">
@@ -21,7 +21,7 @@
               </timeline-panel>
             </timeline-event>
           </timeline>
-          <div ng-if="!vm.reports || vm.reports.length === 0">
+          <div ng-if="!vm.timelineReports || vm.timelineReports.length === 0">
             <span class="text-warning"> Looks like you don't have any reports yet! </span>
           </div>
         </div>

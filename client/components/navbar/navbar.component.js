@@ -50,7 +50,7 @@ export class NavbarComponent {
       $state.go(state);
     };
 
-    $scope.$on('$destroy', function () {
+    $scope.$on('$destroy', () => {
       const body = angular.element(document.querySelector('body'))[0];
       const bodyClasses = body.className.split(' ');
       const noScroll = bodyClasses.indexOf('noScroll');
@@ -59,6 +59,7 @@ export class NavbarComponent {
     });
   }
 
+  // eslint-disable-next-line
   openMobile() {
     const x = angular.element(document.querySelector('#mobileNav'))[0];
     const body = angular.element(document.querySelector('body'))[0];

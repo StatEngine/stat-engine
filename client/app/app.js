@@ -18,10 +18,13 @@ import ngSegment from 'angular-segment-analytics';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
-require('summernote');
-require('bootstrap/dist/js/bootstrap.js');
 import 'angular-summernote/dist/angular-summernote.min.js';
 import 'angular-timeline/dist/angular-timeline.js';
+
+import 'summernote';
+import 'bootstrap/dist/js/bootstrap.js';
+import 'angular-moment';
+import 'angular-ui-grid';
 
 import {
   routeConfig,
@@ -65,12 +68,11 @@ import segmentEventConstants from './segment-event.constants';
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
-import 'angular-ui-grid';
-
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', _Auth, 'ui.grid', trusted, statsTable, logo, skycon, weather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report, spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  'ngCountTo', 'angularMoment', _Auth, 'ui.grid', trusted, statsTable, logo, skycon, weather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
+  spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
   /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
@@ -93,7 +95,8 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
         path: transition.to().url
       });
     });
-  });
+  })
+  .constant('moment', require('moment-timezone/builds/moment-timezone-with-data-2012-2022'));
 
 angular.element(document)
   .ready(() => {

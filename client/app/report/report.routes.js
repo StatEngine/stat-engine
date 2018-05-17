@@ -38,14 +38,14 @@ export default function routes($stateProvider) {
 
           return deferred.promise;
         },
-        weatherForecast(report, Weather) {
-          if (!report) return Weather.getForecast().$promise;
+        weatherForecast(report, Weather, $stateParams) {
+          if(!report) return Weather.getForecast({ date: $stateParams.name }).$promise;
         },
         safetyMessage(report, Safety) {
-          if (!report) return Safety.getRandomMessage().$promise;
+          if(!report) return Safety.getRandomMessage().$promise;
         },
-        stats(report, Stats) {
-          if (!report) return Stats.getDaily().$promise;
+        stats(report, Stats, $stateParams) {
+          if(!report) return Stats.getDaily({ date: $stateParams.name }).$promise;
         },
       },
     })
@@ -91,7 +91,7 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
-        reports(Report) {
+        savedReports(Report) {
           return Report.query().$promise;
         },
       },

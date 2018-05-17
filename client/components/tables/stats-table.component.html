@@ -1,3 +1,5 @@
 <div>
-  <div ui-grid="{ data: vm.data }" class="myGrid"></div>
+  <div ui-grid="vm.options" class="myGrid">
+    <div class="watermark" ng-show="!vm.options.data.length">No data available</div>
+  </div>
 </div>

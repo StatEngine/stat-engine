@@ -1,28 +1,34 @@
 'use strict';
 
+import moment from 'moment';
+import _ from 'lodash';
+
 export default class ReportHistoryController {
   /*@ngInject*/
-  constructor($state, reports) {
+  constructor($state, savedReports) {
     this.$state = $state;
 
-    this.reports = reports || [];
-    console.dir(this.reports);
+    var reports = savedReports || [];
+
+    reports.forEach(report => {
+      report.timestamp = moment(report.name).valueOf();
+    });
+
+    reports = _.orderBy(reports, ['timestamp'], ['desc']);
 
     this.timelineReports = [];
-    this.reports.forEach((report) => {
+    reports.forEach(report => {
       this.timelineReports.push({
-        title: report.name,
+        title: `${report.name} ${_.capitalize(report.type)}`,
         badgeClass: 'info',
         badgeIconClass: 'glyphicon-check',
         type: report.type,
         name: report.name,
-      })
+      });
     });
   }
 
   goto(report) {
-
-    console.dir(report)
     this.$state.go('site.report.view', {
       type: report.type,
       name: report.name

@@ -52,9 +52,7 @@ export default function(sequelize, DataTypes) {
     instanceMethods: {
     },
     underscored: true,
-    
     timestamps: true,
-
   });
 
 

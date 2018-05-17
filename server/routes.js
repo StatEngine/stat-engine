@@ -29,7 +29,7 @@ export default function(app) {
 
   app.route('/heartbeat')
     .post((res, req) => {
-        req.status(204).send();
+      req.status(204).send();
     });
 
   // Authentication
