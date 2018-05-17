@@ -144,13 +144,13 @@ export function getStats(req, res) {
         value: checkIfZero(_.get(result, 'aggregations.totalResponses.value')),
       }, {
         name: 'Six Minute Response Percentage',
-        value: checkIfZero(_.get(result, 'aggregations.apparatus.values[\'360.0\']')),
+        value: checkIfZero(_.get(result, 'aggregations.responseDuration.values[\'360.0\']')),
       }, {
         name: '90% Percentile Turnout Duration',
-        value: checkIfZero(_.get(result, 'aggregations.turnoutDuration.values[\'90.0\']')),
+        value: checkIfZero(_.get(result, 'aggregations.apparatus.turnoutDuration.values[\'90.0\']')),
       }, {
         name: '90% Percentile Distance Travelled',
-        value: checkIfZero(_.get(result, 'aggregations.distance.values[\'90.0\']')),
+        value: checkIfZero(_.get(result, 'aggregations.apparatus.distance.values[\'90.0\']')),
       }, {
         name: '90% Event Duration',
         value: checkIfZero(_.get(result, 'aggregations.eventDuration.values[\'90.0\']')),
