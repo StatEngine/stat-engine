@@ -3,6 +3,7 @@
 'use strict';
 
 import { FirecaresLookup } from '@statengine/shiftly';
+import moment from 'moment';
 
 export default class ShiftHomeController {
   /*@ngInject*/
@@ -31,7 +32,11 @@ export default class ShiftHomeController {
   }
 
   cellModifier = function(cell) {
-    let shift = this.shiftly.calculateShift(cell.date).toUpperCase();
+    const thisDate = moment(cell.date);
+    thisDate.set('hour', this.shiftly.shiftStart.substring(0, 2));
+    thisDate.set('minutes', this.shiftly.shiftStart.substring(2, 4));
+
+    let shift = this.shiftly.calculateShift(thisDate).toUpperCase();
 
     cell.cssClass = this.shiftClasses[shift].cellClass;
   };
