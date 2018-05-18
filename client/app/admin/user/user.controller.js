@@ -19,6 +19,7 @@ export default class UserController {
       ingest: this.user.isIngest,
       kibana_admin: this.user.isKibanaAdmin,
       department_admin: this.user.isDepartmentAdmin,
+      admin: this.user.isAdmin,
     };
 
     this.requestedFireDepartment = _.find(this.fireDepartments, f => f._id === this.user.requested_fire_department_id);
@@ -36,6 +37,7 @@ export default class UserController {
       if(this.userRoles.ingest) roles.push('ingest');
       if(this.userRoles.kibana_admin) roles.push('kibana_admin');
       if(this.userRoles.department_admin) roles.push('department_admin');
+      if(this.userRoles.admin) roles.push('admin');
       this.user.role = roles.join(',');
 
       if(this.assignedFireDepartment) {
