@@ -8,7 +8,9 @@
     <h6 ng-if="vm.report" class="text-center">
       Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
     </h6>
-    <br>
+    <h6 ng-if="vm.reportViews" class="text-center">
+      Total Views: {{ vm.reportViews.totalViews }}, Unique Users: {{ vm.reportViews.uniqueUsers }},
+    </h6>
   </section>
 
   <section ng-if="!vm.report">

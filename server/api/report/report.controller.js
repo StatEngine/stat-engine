@@ -1,4 +1,10 @@
-import { Report, User } from '../../sqldb';
+import {
+  Report,
+  ReportMetric,
+  User,
+} from '../../sqldb';
+
+import _ from 'lodash';
 
 export function search(req, res) {
   Report.findAll({
@@ -37,4 +43,69 @@ export function upsert(req, res) {
   };
 
   return Report.upsert(motd).then(message => res.json(message));
+}
+
+export function view(req, res) {
+  ReportMetric.find({
+    where: {
+      report__id: req.report._id,
+      user__id: req.user._id,
+    }
+  }).then(reportMetric => {
+    if (!reportMetric) {
+      const newReportMetric = ReportMetric.build({
+        report__id: req.report._id,
+        user__id: req.user._id,
+        views: 1,
+      });
+      return newReportMetric.save();
+    } else {
+      return reportMetric.increment('views', { by: 1 });
+    }
+  }).then(reportMetric => {
+    res.status(204).send();
+  }).catch((err) => {
+    res.status(500).send();
+  })
+}
+
+export function getViews(req, res) {
+  ReportMetric.findAll({
+    attributes: [ 'views', 'user__id' ],
+    where: {
+      report__id: req.report._id,
+    },
+    include: [{
+      model: User,
+      attributes: ['first_name', 'last_name']
+    }],
+  }).then(reportMetrics => {
+    res.json({
+      views: reportMetrics,
+      uniqueUsers: reportMetrics.length,
+      totalViews: _.sumBy(reportMetrics, rm => rm.views),
+    })
+  }).catch((err) => {
+    console.dir(err)
+    res.status(500).send();
+  })
+}
+
+export function findReport(req, res, next) {
+  Report.findOne({
+    attributes: ['_id'],
+    where: {
+      name: req.params.name,
+      type: req.params.type.toUpperCase(),
+      fire_department__id: req.user.FireDepartment._id
+    },
+  }).then(report => {
+    if(report) {
+      req.report = report;
+      next();
+    }
+    else return res.status(404).send();
+  }).catch((err) => {
+    res.status(500).send();
+  })
 }

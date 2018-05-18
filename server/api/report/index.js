@@ -33,4 +33,22 @@ router.put(
   controller.upsert
 );
 
+router.get(
+  '/:type/:name/views',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.findReport,
+  controller.getViews
+);
+
+router.post(
+  '/:type/:name/views',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.findReport,
+  controller.view
+);
+
 module.exports = router;

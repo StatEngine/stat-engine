@@ -124,6 +124,12 @@ export default function routes($stateProvider) {
 
           return deferred.promise;
         },
+        view(Report, $stateParams, report) {
+          if (report) return Report.view({ type: $stateParams.type, name: $stateParams.name }).$promise;
+        },
+        reportViews(Report, $stateParams, report, view) {
+          if (report) return Report.getViews({ type: $stateParams.type, name: $stateParams.name }).$promise;
+        },
       },
     });
 }

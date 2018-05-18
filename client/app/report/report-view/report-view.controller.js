@@ -2,12 +2,16 @@
 
 export default class ReportsViewController {
   /*@ngInject*/
-  constructor($state, SegmentService, currentPrincipal, report) {
+  constructor($state, SegmentService, currentPrincipal, report, reportViews) {
     this.$state = $state;
     this.SegmentService = SegmentService;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.timezone = this.FireDepartment.timezone;
     this.report = report;
+    this.reportViews = reportViews;
+
+    console.dir(report);
+    console.dir(reportViews)
 
     if(this.report) {
       this.incidentTableOptions = {
