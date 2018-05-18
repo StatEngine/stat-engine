@@ -1,60 +1,68 @@
-$color-0: #9CAF7B;
-$color-1: #F4CC70;
-$color-2: #688B8A;
-$color-3: #F8F1E5;
-$color-4: #2F3131;
-
+$color-0: $color-cerulean;
+$color-1: $color-pale-sky;
+$color-2: $color-geyser;
+$color-3: $color-pale-sky;
+$color-4: $color-geyser;
 
 .shift-calendar {
-  .shift-0 {
-    background-color: $color-0;
+  .btn-default {
+    border-color: transparent;
   }
 
-  .legend-0 {
-    color: $color-0;
-  }
+  .calendar {
+    .shift-0 {
+      background-color: $color-0;
+    }
 
-  .shift-1 {
-    background-color: $color-1;
-  }
+    .legend-0 {
+      color: $color-0;
+    }
 
-  .legend-1 {
-    color: $color-1;
-  }
+    .shift-1 {
+      background-color: $color-1;
+    }
 
-  .shift-2 {
-    background-color: $color-2;
-  }
+    .legend-1 {
+      color: $color-1;
+    }
 
-  .legend-2 {
-    color: $color-2;
-  }
+    .shift-2 {
+      background-color: $color-2;
+    }
 
-  .shift-3 {
-    background-color: $color-3;
-  }
+    .legend-2 {
+      color: $color-2;
+    }
 
-  .legend-3 {
-    color: $color-3;
-  }
+    .shift-3 {
+      background-color: $color-3;
+    }
 
-  .shift-4 {
-    background-color: $color-4;
-  }
+    .legend-3 {
+      color: $color-3;
+    }
 
-  .legend-4 {
-    color: $color-4;
-  }
-}
+    .shift-4 {
+      background-color: $color-4;
+    }
 
-.heavy {
-  color: #fff;
+    .legend-4 {
+      color: $color-4;
+    }
+    pointer-events: none;
+  }
 }
 
 mwl-calendar {
   .cal-day-weekend {
     span {
-      color: #fff !important;
+      color: $color-porcelain !important;
+    }
+  }
+
+  .cal-day-today {
+    span {
+      color: $color-porcelain !important;
     }
   }
 }

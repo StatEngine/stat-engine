@@ -480,6 +480,10 @@ input[type="radio"]:focus {
   padding-top: 3rem !important;
 }
 
+.pr-3 {
+  right: 3rem !important;
+}
+
 .pt-5,
 .py-5 {
   padding-top: 5rem !important;
@@ -597,6 +601,11 @@ input[type="radio"]:focus {
 button {
   cursor: pointer;
 }
+
+.btn-group {
+  display: flex;
+}
+
 
 .btn {
   border-radius: 999px;

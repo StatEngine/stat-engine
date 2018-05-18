@@ -1,7 +1,7 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
 
-  <div class="container">
+  <div class="container shift-calendar">
     <div class="mt-5 row">
       <div class="col-md-12">
         <div class="card light-border">
@@ -9,12 +9,12 @@
           <h2 class="text-center">{{ vm.calendarTitle }}</h2>
 
           <div class="row">
-            <div class="col-md-12 text-center">
-              <div class="btn-group">
+            <div class="col-sm-12">
+              <div class="btn-group justify-content-sm-center">
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-alt-2"
                   mwl-date-modifier
-                  date="vm.viewDate"
+                  date="vm.today"
                   decrement="vm.calendarView"
                   ng-click="vm.cellIsOpen = false">
                   Previous
@@ -22,15 +22,15 @@
                 <button
                   class="btn btn-default"
                   mwl-date-modifier
-                  date="vm.viewDate"
+                  date="vm.today"
                   set-to-today
                   ng-click="vm.cellIsOpen = false">
                   Today
                 </button>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-alt-2"
                   mwl-date-modifier
-                  date="vm.viewDate"
+                  date="vm.today"
                   increment="vm.calendarView"
                   ng-click="vm.cellIsOpen = false">
                   Next
@@ -38,25 +38,34 @@
               </div>
             </div>
           </div>
-
-          <div class="shift-calendar">
-            <div class="row">
+          <div class="row">
             <div class="col-9">
-              <mwl-calendar
-                events="[]"
-                view="vm.calendarView"
-                view-title="vm.calendarTitle"
-                view-date="vm.viewDate"
-                cell-modifier="vm.cellModifier(calendarCell)">
-              </mwl-calendar>
-            </div>
-            <div class="col-3">
-              <h3>Legend </h3>
-              <ul ng-repeat="(key, value) in vm.shiftClasses | orderObjectBy:'name'">
-                <li><i class="fa fa-square fa-2x" ng-class="value.legendClass"></i> {{ value.name }} Shift</li>
+              <ul class="pt-2">
+                <li><label> Yesterday ({{ vm.importantShifts.yesterday.text }}): </label> {{ vm.importantShifts.yesterday.shift }} </li>
+                <li><strong><label> Today ({{ vm.importantShifts.today.text }}): </label> {{ vm.importantShifts.today.shift }}</strong> </li>
+                <li><label> Tomorrow ({{ vm.importantShifts.tomorrow.text }}): </label> {{ vm.importantShifts.tomorrow.shift }} </li>
               </ul>
-              <p> Shifts start at {{ vm.shiftly.shiftStart }}</p>
             </div>
+
+            <div class="col-3">
+              <div class="calendar text-right pt-2">
+                <span ng-repeat="(key, value) in vm.shiftClasses | orderObjectBy:'name'">
+                  <i class="fa fa-square fa-2x" ng-class="value.legendClass"></i> {{ value.name }}
+                </span>
+                <p class="text-right"> Shifts start at {{ vm.shiftly.shiftStart }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="calendar">
+            <mwl-calendar
+              events="vm.events"
+              view="vm.calendarView"
+              view-title="vm.calendarTitle"
+              view-date="vm.today"
+              cell-modifier="vm.cellModifier(calendarCell)">
+            </mwl-calendar>
+            <br>
           </div>
         </div>
       </div>

@@ -11,7 +11,6 @@ export default class ShiftHomeController {
     this.SegmentService = SegmentService;
 
     this.calendarView = 'month';
-    this.viewDate = new Date()
 
     const ShiftConfiguration = FirecaresLookup[currentPrincipal.FireDepartment.firecares_id]
     this.shiftly = new ShiftConfiguration();
@@ -19,7 +18,6 @@ export default class ShiftHomeController {
     const uniqueShifts = _.uniq(this.shiftly.pattern.split(''));
     this.shiftClasses = {};
 
-    console.dir(this.shiftly)
     let i = 0;
     uniqueShifts.forEach(shift => {
       this.shiftClasses[shift.toUpperCase()] = {
@@ -29,6 +27,30 @@ export default class ShiftHomeController {
       }
       ++i;
     });
+
+    this.events = [];
+
+    this.today = moment().tz(currentPrincipal.FireDepartment.timezone);
+    this.today.set('hour', this.shiftly.shiftStart.substring(0, 2));
+    this.today.set('minutes', this.shiftly.shiftStart.substring(2, 4));
+
+    this.yesterday = moment(this.today).subtract(1, 'day');
+    this.tomorrow = moment(this.today).add(1, 'day');
+
+    this.importantShifts = {
+      today: {
+        text: this.today.format('MM-DD-YYYY'),
+        shift: this.shiftly.calculateShift(this.today).toUpperCase(),
+      },
+      yesterday: {
+        text: this.yesterday.format('MM-DD-YYYY'),
+        shift: this.shiftly.calculateShift(this.yesterday).toUpperCase(),
+      },
+      tomorrow: {
+        text: this.tomorrow.format('MM-DD-YYYY'),
+        shift: this.shiftly.calculateShift(this.tomorrow).toUpperCase(),
+      }
+    }
   }
 
   cellModifier = function(cell) {
