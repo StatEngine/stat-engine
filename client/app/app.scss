@@ -13,6 +13,7 @@ $fa-font-path: '/assets/fonts/statengine/';
 @import '~angular-loading-bar/build/loading-bar.css';
 @import "../assets/sass/se-font-styles";
 @import '~angular-ui-grid/ui-grid.css';
+@import "~angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css";
 
 /////////////////////////////////
 // VARIABLES //
@@ -853,6 +854,7 @@ li.nested:before {
 @import '../app/admin/admin-home/admin-home';
 @import '../app/nfpa/nfpa';
 @import '../app/report/report';
+@import '../app/shift/shift';
 
 @import '../components/oauth-buttons/oauth-buttons';
 // endinject //

@@ -1,0 +1,65 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+
+  <div class="container">
+    <div class="mt-5 row">
+      <div class="col-md-12">
+        <div class="card light-border">
+          <h5 class="card-header"><span><i class="fa fa-calendar">&nbsp;</i></span>Shift Calendar</h5>
+          <h2 class="text-center">{{ vm.calendarTitle }}</h2>
+
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="btn-group">
+                <button
+                  class="btn btn-primary"
+                  mwl-date-modifier
+                  date="vm.viewDate"
+                  decrement="vm.calendarView"
+                  ng-click="vm.cellIsOpen = false">
+                  Previous
+                </button>
+                <button
+                  class="btn btn-default"
+                  mwl-date-modifier
+                  date="vm.viewDate"
+                  set-to-today
+                  ng-click="vm.cellIsOpen = false">
+                  Today
+                </button>
+                <button
+                  class="btn btn-primary"
+                  mwl-date-modifier
+                  date="vm.viewDate"
+                  increment="vm.calendarView"
+                  ng-click="vm.cellIsOpen = false">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="shift-calendar">
+            <div class="row">
+            <div class="col-9">
+              <mwl-calendar
+                events="[]"
+                view="vm.calendarView"
+                view-title="vm.calendarTitle"
+                view-date="vm.viewDate"
+                cell-modifier="vm.cellModifier(calendarCell)">
+              </mwl-calendar>
+            </div>
+            <div class="col-3">
+              <h3>Legend </h3>
+              <ul ng-repeat="(key, value) in vm.shiftClasses | orderObjectBy:'name'">
+                <li><i class="fa fa-square fa-2x" ng-class="value.legendClass"></i> {{ value.name }} Shift</li>
+              </ul>
+              <p> Shifts start at {{ vm.shiftly.shiftStart }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
