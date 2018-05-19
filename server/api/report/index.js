@@ -33,6 +33,16 @@ router.put(
   controller.upsert
 );
 
+router.post(
+  '/:type/:name/notify',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.findReport,
+  controller.loadNofiticationDestinations,
+  controller.notify
+);
+
 router.get(
   '/:type/:name/metrics',
   auth.isApiAuthenticated,

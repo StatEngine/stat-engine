@@ -4,10 +4,10 @@ import moment from 'moment';
 
 export default class ReportsViewController {
   /*@ngInject*/
-  constructor($state, $stateParams, SegmentService, currentPrincipal, report, reportMetrics) {
+  constructor($state, $stateParams, SegmentService, Report, currentPrincipal, report, reportMetrics) {
     this.$state = $state;
     this.$stateParams = $stateParams;
-
+    this.ReportService = Report;
     this.SegmentService = SegmentService;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.timezone = this.FireDepartment.timezone;
@@ -82,5 +82,18 @@ export default class ReportsViewController {
       type: this.$stateParams.type,
       name: dest
     });
+  }
+
+  notify() {
+    this.ReportService.notify({
+      type: this.$stateParams.type,
+      name: this.$stateParams.name,
+    }, {}).$promise
+      .then(() => {
+        this.$state.go('site.report.view', {
+          type: this.$stateParams.type,
+          name: this.$stateParams.name
+        });
+      });
   }
 }

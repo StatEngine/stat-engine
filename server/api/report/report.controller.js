@@ -1,10 +1,17 @@
 import _ from 'lodash';
 
+import nodemailer from 'nodemailer';
+import mandrillTransport from 'nodemailer-mandrill-transport';
+import moment from 'moment';
+
 import {
+  FireDepartment,
   Report,
   ReportMetric,
   User,
 } from '../../sqldb';
+
+import config from '../../config/environment';
 
 export function search(req, res) {
   Report.findAll({
@@ -106,12 +113,16 @@ export function getMetrics(req, res) {
 
 export function findReport(req, res, next) {
   Report.findOne({
-    attributes: ['_id'],
+    attributes: ['_id', 'updated_at', 'updated_by', 'name'],
     where: {
       name: req.params.name,
       type: req.params.type.toUpperCase(),
       fire_department__id: req.user.FireDepartment._id
     },
+    include: [{
+      model: User,
+      attributes: ['first_name', 'last_name']
+    }],
   })
     .then(report => {
       if(report) {
@@ -122,4 +133,69 @@ export function findReport(req, res, next) {
     .catch(() => {
       res.status(500).send();
     });
+}
+
+export function loadNofiticationDestinations(req, res, next) {
+  return FireDepartment.find({
+    where: {
+      _id: req.user.FireDepartment._id
+    },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: ['first_name', 'last_name', 'email']
+    }]
+  })
+    .then(fd => {
+      req.emails = [];
+      fd.Users.forEach(u => req.emails.push(u.email));
+      next();
+    })
+    .catch(err => next(err));
+}
+
+export function notify(req, res) {
+  if(config.mailSettings.mandrillAPIKey) {
+    var mailOptions = {};
+    mailOptions.from = config.mailSettings.serverEmail;
+    mailOptions.to = req.emails.join(',');
+
+    // Mailing service
+    var mailTransport = nodemailer.createTransport(mandrillTransport({
+      auth: {
+        apiKey: config.mailSettings.mandrillAPIKey
+      }
+    }));
+
+    mailOptions.mandrillOptions = {
+      template_name: config.mailSettings.newReportTemplate,
+      template_content: [],
+      message: {
+        merge: true,
+        merge_language: 'handlebars',
+        global_merge_vars: [{
+          name: 'UpdatedBy',
+          content: req.report.User.name,
+        }, {
+          name: 'ReportName',
+          content: req.report.name,
+        }, {
+          name: 'UpdatedAt',
+          content:
+            moment(req.report.updated_at)
+              .tz(req.user.FireDepartment.timezone)
+              .format()
+        }]
+      }
+    };
+    mailTransport.sendMail(mailOptions)
+      .then(() => res.status(204).send())
+      .catch(() => res.status(500).send());
+  } else {
+    return new Promise(resolve => {
+      setTimeout(resolve, 0);
+    });
+  }
 }

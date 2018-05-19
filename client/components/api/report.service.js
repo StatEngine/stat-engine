@@ -20,6 +20,12 @@ export default function ReportResource($resource) {
         action: 'views'
       }
     },
+    notify: {
+      method: 'POST',
+      params: {
+        action: 'notify'
+      }
+    },
     getMetrics: {
       method: 'GET',
       isArray: false,
