@@ -8,9 +8,17 @@ import {
 
 export function search(req, res) {
   Report.findAll({
+    attributes: ['name', 'type', 'updated_by', 'updated_at'],
     where: {
       fire_department__id: req.user.FireDepartment._id
     },
+    include: [{
+      model: ReportMetric,
+      attributes: ['views'],
+    }, {
+      model: User,
+      attributes: ['first_name', 'last_name', 'role']
+    }],
   }).then(reports => {
     res.send(reports);
   });

@@ -17,7 +17,8 @@
                 <timeline-heading>
                   <h4><a href="#" ng-click="vm.goto(report)">{{report.title}}</a></h4>
                 </timeline-heading>
-                <p>{{report.content}}</p>
+                <strong> Last Updated {{ report.lastUpdated | date: 'short' }} by {{ report.lastUpdatedBy }}</strong> <br>
+                <span> Total Views: {{ report.totalViews }}, Unique Users: {{ report.uniqueUsers }} </span>
               </timeline-panel>
             </timeline-event>
           </timeline>

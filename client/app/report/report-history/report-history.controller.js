@@ -24,6 +24,10 @@ export default class ReportHistoryController {
         badgeIconClass: 'glyphicon-check',
         type: report.type,
         name: report.name,
+        lastUpdated: report.updated_at,
+        lastUpdatedBy: report.User.name,
+        totalViews: _.sumBy(report.ReportMetrics, rm => rm.views),
+        uniqueUsers: report.ReportMetrics.length,
       });
     });
   }
