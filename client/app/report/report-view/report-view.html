@@ -1,69 +1,72 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
   <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting</h4>
-
+  
   <logo department="vm.FireDepartment"></logo>
-  <h4 class="text-center">
-     <a href="#" ng-click="vm.pageBack()"><i class="fa fa-arrow-left"></i></a>
-     {{ vm.$stateParams.name }}
-     <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
-  </h4>
+  <div id="export">
+    <h4 class="text-center">
+       <a href="#" ng-click="vm.pageBack()"><i class="fa fa-arrow-left"></i></a>
+       {{ vm.$stateParams.name }}
+       <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
+    </h4>
 
-  <section ng-if="vm.report">
-    <h6 class="text-center">
-      Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
-    </h6>
-    <h6 ng-if="vm.reportMetrics" class="text-center">
-      <a href="#" ng-click="vm.metrics()">Total Views: {{ vm.reportMetrics.views.totalViews }}, Unique Users: {{ vm.reportMetrics.views.uniqueUsers }}</a>
-    </h6>
-    <h6 class="text-center"> Edit <a href="#" ng-click="vm.edit()"><i class="fa fa-pencil"></i></a> </h6>
-    <h6 class="text-center"> Notify <a href="#" ng-click="vm.notify()"><i class="fa fa-envelope"></i></a> </h6>
-  </section>
-  <h5 class="text-center pb-5"> Looking for older reports? View them <a href="#" ui-sref="site.report.history">here</a></h5>
+    <section ng-if="vm.report">
+      <h6 class="text-center">
+        Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
+      </h6>
+      <h6 ng-if="vm.reportMetrics" class="text-center">
+        <a href="#" ng-click="vm.metrics()">Total Views: {{ vm.reportMetrics.views.totalViews }}, Unique Users: {{ vm.reportMetrics.views.uniqueUsers }}</a>
+      </h6>
+      <h6 class="text-center"> Edit <a href="#" ng-click="vm.edit()"><i class="fa fa-pencil"></i></a> </h6>
+      <h6 class="text-center"> Notify <a href="#" ng-click="vm.notify()"><i class="fa fa-envelope"></i></a> </h6>
+      <h6 class="text-center"> Download <a href="#" ng-click="vm.download()"><i class="fa fa-download"></i></a> </h6>
+    </section>
+    <h5 class="text-center pb-5"> Looking for older reports? View them <a href="#" ui-sref="site.report.history">here</a></h5>
 
-  <section ng-if="!vm.report">
-    <div class="container">
-      <div class="mt-5 row">
-        <div class="col-md-12">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Information</h5>
-            <span> No report available. Create a <a href="#" ng-click="vm.edit()"> daily </a> one now!</span>
+    <section ng-if="!vm.report">
+      <div class="container">
+        <div class="mt-5 row">
+          <div class="col-md-12">
+            <div class="card light-border">
+              <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Information</h5>
+              <span> No report available. Create a <a href="#" ng-click="vm.edit()"> daily </a> one now!</span>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section ng-if="vm.report" class="fluid-container pb-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 pt-2">
+            <div class="card light-border">
+              <h5 class="card-header"><span><i class="fa fa-medkit">&nbsp;</i></span>Safety Message</h5>
+              <safety message="vm.report.content.safety.message"></safety>
+            </div>
+          </div>
+          <div class="col-md-6 pt-2">
+            <div class="card light-border">
+              <h5 class="card-header"><span><i class="fa fa-sun-o">&nbsp;</i></span>Weather</h5>
+              <weather weather="vm.report.content.weather" options="{ 'showNarrative': true, 'timezone': vm.timezone }"></weather>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-2">
+          <div class="col-md-12 pt-2">
+            <div class="card light-border">
+              <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics ({{ vm.report.content.stats.timeFilter.start | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} to {{ vm.report.content.stats.timeFilter.end | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} )</h5>
+
+              <stats-table options="vm.incidentTableOptions"></stats-table>
+              <hr>
+              <stats-table options="vm.unitTableOptions"></stats-table>
+              <hr>
+              <label>Narrative: </label>
+              <span ng-if="vm.report.content.stats.narrative" ng-bind-html="vm.report.content.stats.narrative | trusted"></span>
+              <span ng-if="!vm.report.content.stats.narrative"> No remarks </span>
+            </div>
           </div>
         </div>
       </div>
-  </section>
-
-  <section ng-if="vm.report" class="fluid-container pb-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 pt-2">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-medkit">&nbsp;</i></span>Safety Message</h5>
-            <safety message="vm.report.content.safety.message"></safety>
-          </div>
-        </div>
-        <div class="col-md-6 pt-2">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-sun-o">&nbsp;</i></span>Weather</h5>
-            <weather weather="vm.report.content.weather" options="{ 'showNarrative': true, 'timezone': vm.timezone }"></weather>
-          </div>
-        </div>
-      </div>
-      <div class="row pt-2">
-        <div class="col-md-12 pt-2">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics ({{ vm.report.content.stats.timeFilter.start | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} to {{ vm.report.content.stats.timeFilter.end | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} )</h5>
-
-            <stats-table options="vm.incidentTableOptions"></stats-table>
-            <hr>
-            <stats-table options="vm.unitTableOptions"></stats-table>
-            <hr>
-            <label>Narrative: </label>
-            <span ng-if="vm.report.content.stats.narrative" ng-bind-html="vm.report.content.stats.narrative | trusted"></span>
-            <span ng-if="!vm.report.content.stats.narrative"> No remarks </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>

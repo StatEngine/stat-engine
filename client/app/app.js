@@ -16,6 +16,13 @@ import gtm from 'angulartics-google-tag-manager';
 import angularLoadingBar from 'angular-loading-bar';
 import ngSegment from 'angular-segment-analytics';
 
+// eslint-disable-next-line
+import pdfMake from 'pdfmake/build/pdfmake';
+// eslint-disable-next-line
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+// eslint-disable-next-line
+import html2canvas from 'html2canvas';
+
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
 import 'angular-summernote/dist/angular-summernote.min.js';
