@@ -1,17 +1,18 @@
 'use strict';
 
+import moment from 'moment';
+
 export default class ReportsViewController {
   /*@ngInject*/
-  constructor($state, SegmentService, currentPrincipal, report, reportViews) {
+  constructor($state, $stateParams, SegmentService, currentPrincipal, report, reportViews) {
     this.$state = $state;
+    this.$stateParams = $stateParams;
+
     this.SegmentService = SegmentService;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.timezone = this.FireDepartment.timezone;
     this.report = report;
     this.reportViews = reportViews;
-
-    console.dir(report);
-    console.dir(reportViews)
 
     if(this.report) {
       this.incidentTableOptions = {
@@ -49,10 +50,30 @@ export default class ReportsViewController {
     }
   }
 
-  edit(report) {
+  edit() {
     this.$state.go('site.report.edit', {
-      type: report.type,
-      name: report.name
+      type: this.$stateParams.type,
+      name: this.$stateParams.name
+    });
+  }
+
+  pageBack() {
+    const dest = moment(this.$stateParams.name, 'YYYY-MM-DD')
+      .subtract(1, 'day')
+      .format('YYYY-MM-DD');
+    this.$state.go('site.report.view', {
+      type: this.$stateParams.type,
+      name: dest
+    });
+  }
+
+  pageForward() {
+    const dest = moment(this.$stateParams.name, 'YYYY-MM-DD')
+      .add(1, 'day')
+      .format('YYYY-MM-DD');
+    this.$state.go('site.report.view', {
+      type: this.$stateParams.type,
+      name: dest
     });
   }
 }

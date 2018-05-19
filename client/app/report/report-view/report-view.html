@@ -1,16 +1,22 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
   <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting</h4>
+
   <logo department="vm.FireDepartment"></logo>
+  <h4 class="text-center">
+     <a href="#" ng-click="vm.pageBack()"><i class="fa fa-arrow-left"></i></a>
+     {{ vm.$stateParams.name }}
+     <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
+  </h4>
 
   <section ng-if="vm.report">
-    <h4 class="text-center"> {{ vm.report.name}} <a href="#" ng-click="vm.edit(vm.report)"><i class="fa fa-pencil"></i></a>  </h4>
-    <h6 ng-if="vm.report" class="text-center">
+    <h6 class="text-center">
       Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
     </h6>
     <h6 ng-if="vm.reportViews" class="text-center">
       Total Views: {{ vm.reportViews.totalViews }}, Unique Users: {{ vm.reportViews.uniqueUsers }},
     </h6>
+    <h6 class="text-center"> Edit <a href="#" ng-click="vm.edit()"><i class="fa fa-pencil"></i></a> </h6>
   </section>
 
   <section ng-if="!vm.report">
@@ -19,7 +25,7 @@
         <div class="col-md-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Information</h5>
-            <span> No report available. Create a <a href="#" ui-sref="site.report.today.edit"> daily </a> one now!</span>
+            <span> No report available. Create a <a href="#" ng-click="vm.edit()"> daily </a> one now!</span>
           </div>
         </div>
       </div>

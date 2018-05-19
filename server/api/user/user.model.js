@@ -97,7 +97,7 @@ export default function(sequelize, DataTypes) {
         return this.role ? this.role.split(',') : [];
       },
       name() {
-        return this.first_name + ' ' + this.last_name;
+        return `${this.first_name} ${this.last_name}`;
       },
       isIngest() {
         return this.roles.indexOf('ingest') >= 0;

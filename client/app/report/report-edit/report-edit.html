@@ -1,8 +1,13 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
   <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting</h4>
+
   <logo department="vm.FireDepartment"></logo>
-  <h4 class="text-center"> {{ vm.$stateParams.name }} </h4>
+  <h4 class="text-center">
+     <a href="#" ng-click="vm.pageBack()"><i class="fa fa-arrow-left"></i></a>
+     {{ vm.$stateParams.name }}
+     <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
+  </h4>
 
   <div class="container">
     <div class="row">

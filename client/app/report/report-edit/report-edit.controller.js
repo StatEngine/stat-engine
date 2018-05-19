@@ -1,5 +1,7 @@
 'use strict';
 
+import moment from 'moment';
+
 export default class ReportEditController {
   /*@ngInject*/
   constructor($stateParams, $state, currentPrincipal, Report, Safety, report, weatherForecast, safetyMessage, stats, SegmentService) {
@@ -95,6 +97,26 @@ export default class ReportEditController {
       .then(rando => {
         this.report.content.safety.message = rando.message;
       });
+  }
+
+  pageBack() {
+    const dest = moment(this.$stateParams.name, 'YYYY-MM-DD')
+      .subtract(1, 'day')
+      .format('YYYY-MM-DD');
+    this.$state.go('site.report.edit', {
+      type: this.$stateParams.type,
+      name: dest
+    });
+  }
+
+  pageForward() {
+    const dest = moment(this.$stateParams.name, 'YYYY-MM-DD')
+      .add(1, 'day')
+      .format('YYYY-MM-DD');
+    this.$state.go('site.report.edit', {
+      type: this.$stateParams.type,
+      name: dest
+    });
   }
 
   save() {
