@@ -20,11 +20,11 @@ export default function ReportResource($resource) {
         action: 'views'
       }
     },
-    getViews: {
+    getMetrics: {
       method: 'GET',
       isArray: false,
       params: {
-        action: 'views'
+        action: 'metrics'
       }
     },
   });

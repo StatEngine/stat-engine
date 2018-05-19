@@ -18,7 +18,9 @@ export function getForecast(req, res) {
       exclude: 'minutely'
     },
     json: true
-  }).then(results => res.json(results));
+  })
+    .then(results => res.json(results))
+    .catch(() => res.status(500).send());
 }
 
 export default getForecast;

@@ -15,6 +15,14 @@ export default function FireDepartmentResource($resource) {
         resource2: 'data-quality'
       }
     },
+    getUsers: {
+      method: 'GET',
+      isArray: false,
+      params: {
+        id: '@id',
+        resource: 'users',
+      }
+    },
     nfpa: {
       method: 'GET',
       isArray: true,

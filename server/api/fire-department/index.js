@@ -21,6 +21,14 @@ router.get(
   controller.get
 );
 
+router.get(
+  '/:id/users',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getUsers
+);
+
 router.post(
   '/fixtures/:fixtureType',
   auth.isApiAuthenticated,

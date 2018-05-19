@@ -4,7 +4,7 @@ import moment from 'moment';
 
 export default class ReportsViewController {
   /*@ngInject*/
-  constructor($state, $stateParams, SegmentService, currentPrincipal, report, reportViews) {
+  constructor($state, $stateParams, SegmentService, currentPrincipal, report, reportMetrics) {
     this.$state = $state;
     this.$stateParams = $stateParams;
 
@@ -12,7 +12,7 @@ export default class ReportsViewController {
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.timezone = this.FireDepartment.timezone;
     this.report = report;
-    this.reportViews = reportViews;
+    this.reportMetrics = reportMetrics;
 
     if(this.report) {
       this.incidentTableOptions = {
@@ -52,6 +52,13 @@ export default class ReportsViewController {
 
   edit() {
     this.$state.go('site.report.edit', {
+      type: this.$stateParams.type,
+      name: this.$stateParams.name
+    });
+  }
+
+  metrics() {
+    this.$state.go('site.report.metrics', {
       type: this.$stateParams.type,
       name: this.$stateParams.name
     });

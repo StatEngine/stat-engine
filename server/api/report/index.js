@@ -34,12 +34,12 @@ router.put(
 );
 
 router.get(
-  '/:type/:name/views',
+  '/:type/:name/metrics',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
   controller.findReport,
-  controller.getViews
+  controller.getMetrics
 );
 
 router.post(

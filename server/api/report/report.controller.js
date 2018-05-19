@@ -79,7 +79,7 @@ export function view(req, res) {
     });
 }
 
-export function getViews(req, res) {
+export function getMetrics(req, res) {
   ReportMetric.findAll({
     attributes: ['views', 'user__id'],
     where: {
@@ -92,9 +92,11 @@ export function getViews(req, res) {
   })
     .then(reportMetrics => {
       res.json({
-        views: reportMetrics,
-        uniqueUsers: reportMetrics.length,
-        totalViews: _.sumBy(reportMetrics, rm => rm.views),
+        views: {
+          uniqueUsers: reportMetrics.length,
+          totalViews: _.sumBy(reportMetrics, rm => rm.views),
+        },
+        metrics: reportMetrics,
       });
     })
     .catch(() => {

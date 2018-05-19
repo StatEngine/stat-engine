@@ -128,9 +128,45 @@ export default function routes($stateProvider) {
           if(report) return Report.view({ type: $stateParams.type, name: $stateParams.name }).$promise;
         },
         // eslint-disable-next-line
-        reportViews(Report, $stateParams, report, view) {
-          if(report) return Report.getViews({ type: $stateParams.type, name: $stateParams.name }).$promise;
+        reportMetrics(Report, $stateParams, report, view) {
+          if(report) return Report.getMetrics({ type: $stateParams.type, name: $stateParams.name }).$promise;
         },
+      },
+    })
+    .state('site.report.metrics', {
+      url: '/reports/:type/:name/metrics',
+      views: {
+        'navbar@': {
+          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+        },
+        'content@': {
+          template: require('./report-metrics/report-metrics.html'),
+          controller: 'ReportMetricsController',
+          controllerAs: 'vm'
+        },
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity();
+        },
+        report(Report, $q, $stateParams) {
+          var deferred = $q.defer();
+
+          Report.get({ type: $stateParams.type, name: $stateParams.name }).$promise
+            .then(report => deferred.resolve(report))
+            .catch(() => deferred.resolve(null));
+
+          return deferred.promise;
+        },
+        reportMetrics(Report, $stateParams, report) {
+          if(report) return Report.getMetrics({ type: $stateParams.type, name: $stateParams.name }).$promise;
+        },
+        fireDepartmentUsers(FireDepartment, currentPrincipal) {
+          return FireDepartment.getUsers({ id: currentPrincipal.FireDepartment._id }).$promise;
+        }
       },
     });
 }

@@ -8,8 +8,9 @@ import routing from './report.routes';
 // modules
 import reportEdit from './report-edit';
 import reportView from './report-view';
+import reportMetrics from './report-metrics';
 import reportHistory from './report-history';
 
-export default angular.module('statEngineApp.reports', [uiRouter, reportEdit, reportView, reportHistory])
+export default angular.module('statEngineApp.reports', [uiRouter, reportEdit, reportView, reportHistory, reportMetrics])
   .config(routing)
   .name;
