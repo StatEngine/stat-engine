@@ -12,7 +12,15 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getStats
+  controller.getDailyStats
+);
+
+router.get(
+  '/shift',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getShiftStats
 );
 
 module.exports = router;

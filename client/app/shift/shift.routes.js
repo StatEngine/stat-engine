@@ -27,6 +27,9 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
+        stats(Stats) {
+          return Stats.getShift().$promise;
+        },
       },
     });
 }

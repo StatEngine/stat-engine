@@ -1,10 +1,15 @@
 $color-0: $color-cerulean;
 $color-1: $color-pale-sky;
 $color-2: $color-geyser;
-$color-3: $color-pale-sky;
-$color-4: $color-geyser;
+$color-3: $color-oxford-blue;
+
+.btn-group-flex {
+  display: flex;
+}
 
 .shift-calendar {
+  height: 800px;
+
   .btn-default {
     border-color: transparent;
   }
@@ -42,27 +47,40 @@ $color-4: $color-geyser;
       color: $color-3;
     }
 
-    .shift-4 {
-      background-color: $color-4;
-    }
-
-    .legend-4 {
-      color: $color-4;
-    }
     pointer-events: none;
   }
 }
 
 mwl-calendar {
-  .cal-day-weekend {
+  .cal-month-day {
     span {
-      color: $color-porcelain !important;
+      color: black !important;
     }
   }
 
   .cal-day-today {
     span {
       color: $color-porcelain !important;
+      display: table-cell;
+      height: 30px; /*change this and the width
+      for the size of your initial circle*/
+      width: 30px;
+      text-align: center;
+      vertical-align: middle;
+      border-radius: 50%;
+      /*make it pretty*/
+      background: red;
+      color: #fff;
+      font-size:1.4em !important;
+
     }
   }
+}
+
+.whos-on {
+  height: 490px;
+}
+
+.turnout{
+  height: 305px;
 }

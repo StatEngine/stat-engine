@@ -16,7 +16,9 @@ function checkIfZero(val) {
   return _.isNil(val) || _.isNaN(val) || val === 'NaN' ? 0 : val;
 }
 
-export function getStats(req, res) {
+export function getDailyStats(req, res) {
+  const client = connection.getClient();
+
   const timeFilter = buildTimeFilter(FirecaresLookup[req.user.FireDepartment.firecares_id], 'daily', req.query.date);
 
   const queries = [{
@@ -239,6 +241,109 @@ export function getStats(req, res) {
 
       res.json(data);
     })
+    .catch(err => {
+      console.dir(err);
+      res.status(500).send();
+    });
+}
+
+export function getShiftStats(req, res) {
+  const client = connection.getClient();
+
+  function query(timeFilter) {
+    return client.search({
+      index: req.user.FireDepartment.get().es_indices['fire-incident'],
+      body: {
+        size: 0,
+        query: {
+          bool: {
+            must_not: {
+              term: {
+                'description.suppressed': true
+              }
+            },
+            filter: {
+              range: {
+                'description.event_opened': {
+                  lt: timeFilter.end,
+                  gte: timeFilter.start,
+                }
+              }
+            },
+          },
+        },
+        aggs: {
+          shift: {
+            terms: {
+              field: 'description.shift.keyword',
+            },
+            aggs: {
+              apparatus: {
+                nested: {
+                  path: 'apparatus'
+                },
+                aggs: {
+                  turnoutDuration: {
+                    percentiles: {
+                      field: 'apparatus.extended_data.turnout_duration',
+                      percents: [90]
+                    }
+                  },
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  const queries = [{
+    name: 'lastWeek',
+    range: { start: 'now-1w', end: 'now'},
+  }, {
+    name: 'lastMonth',
+    range: { start: 'now-1M', end: 'now'},
+  }, {
+    name: 'lastQuarter',
+    range: { start: 'now-3M', end: 'now'},
+  }, {
+    name: 'lastYear',
+    range: { start: 'now-1y', end: 'now'},
+  }];
+
+  Promise.all([
+    query(queries[0].range),
+    query(queries[1].range),
+    query(queries[2].range),
+    query(queries[3].range),
+  ]).then(results => {
+    const shifts = {};
+
+    for(let i = 0; i < queries.length; i += 1) {
+      const shiftBuckets = _.get(results[i], 'aggregations.shift.buckets');
+
+      _.forEach(shiftBuckets, u => {
+        if(!shifts[u.key]) shifts[u.key] = {};
+        shifts[u.key][queries[i].name] = {
+          totalIncidents: u.doc_count,
+          turnoutDuration90: checkIfZero(_.get(u, 'apparatus.turnoutDuration.values[\'90.0\']')),
+        };
+      });
+    }
+
+    let shiftData = [];
+    _.forEach(shifts, (value, key) => {
+      shiftData.push({
+        name: key,
+        turnoutDuration90_lastWeek: _.get(value, 'lastWeek.turnoutDuration90'),
+        turnoutDuration90_lastMonth: _.get(value, 'lastMonth.turnoutDuration90'),
+        turnoutDuration90_lastQuarter: _.get(value, 'lastQuarter.turnoutDuration90'),
+        turnoutDuration90_lastYear: _.get(value, 'lastYear.turnoutDuration90'),
+      });
+    });
+    res.json({ shifts: shiftData });
+  })
     .catch(err => {
       console.dir(err);
       res.status(500).send();
