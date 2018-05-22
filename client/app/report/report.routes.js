@@ -23,7 +23,7 @@ export default function routes($stateProvider) {
         },
       },
       data: {
-        roles: ['user']
+        roles: ['department_admin']
       },
       resolve: {
         currentPrincipal(Principal) {
@@ -128,8 +128,8 @@ export default function routes($stateProvider) {
           if(report) return Report.view({ type: $stateParams.type, name: $stateParams.name }).$promise;
         },
         // eslint-disable-next-line
-        reportMetrics(Report, $stateParams, report, view) {
-          if(report) return Report.getMetrics({ type: $stateParams.type, name: $stateParams.name }).$promise;
+        reportMetrics(currentPrincipal, Report, $stateParams, report, view) {
+          if(report && currentPrincipal.isDepartmentAdmin) return Report.getMetrics({ type: $stateParams.type, name: $stateParams.name }).$promise;
         },
       },
     })
@@ -146,7 +146,7 @@ export default function routes($stateProvider) {
         },
       },
       data: {
-        roles: ['user']
+        roles: ['department_admin']
       },
       resolve: {
         currentPrincipal(Principal) {

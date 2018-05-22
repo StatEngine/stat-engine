@@ -178,8 +178,12 @@ export function getStats(req, res) {
     const q = _.cloneDeep(query);
 
     const yesterday = {
-      gte: moment.parseZone(timeFilter.start).subtract(1, 'day').format(),
-      lt: moment.parseZone(timeFilter.end).subtract(1, 'day').format()
+      gte: moment.parseZone(timeFilter.start)
+        .subtract(1, 'day')
+        .format(),
+      lt: moment.parseZone(timeFilter.end)
+        .subtract(1, 'day')
+        .format()
     };
     _.set(q, ['request', 'body', 'query', 'bool', 'filter', 'range', 'description.event_opened'], yesterday);
 
@@ -188,7 +192,6 @@ export function getStats(req, res) {
 
   return Promise.map(queries, query => connection.getClient()[query.type](query.request))
     .then(result => {
-
       const [today, todayApparatus, compDay, compApparatus] = result;
 
       const data = {

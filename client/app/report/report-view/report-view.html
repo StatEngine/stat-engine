@@ -10,16 +10,15 @@
        <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
     </h4>
 
-    <section ng-if="vm.report">
+    <section ng-if="vm.report && vm.currentPrincipal.isDepartmentAdmin">
       <h6 class="text-center">
         Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
       </h6>
       <h6 ng-if="vm.reportMetrics" class="text-center">
         <a href="#" ng-click="vm.metrics()">Total Views: {{ vm.reportMetrics.views.totalViews }}, Unique Users: {{ vm.reportMetrics.views.uniqueUsers }}</a>
       </h6>
-      <h6 class="text-center"> Edit <a href="#" ng-click="vm.edit()"><i class="fa fa-pencil"></i></a> </h6>
-      <h6 class="text-center"> Notify <a href="#" ng-click="vm.notify()"><i class="fa fa-envelope"></i></a> </h6>
-      <h6 class="text-center"> Download <a href="#" ng-click="vm.download()"><i class="fa fa-download"></i></a> </h6>
+      <h6 class="text-center"><a href="#" ng-click="vm.edit()"><i class="fa fa-pencil"></i>&nbsp;Edit</a> </h6>
+      <h6 class="text-center"><a href="#" ng-click="vm.notify()"><i class="fa fa-envelope"></i>&nbsp;Notify</a> </h6>
     </section>
     <h5 class="text-center pb-5"> Looking for older reports? View them <a href="#" ui-sref="site.report.history">here</a></h5>
 
@@ -29,7 +28,7 @@
           <div class="col-md-12">
             <div class="card light-border">
               <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Information</h5>
-              <span> No report available. Create a <a href="#" ng-click="vm.edit()"> daily </a> one now!</span>
+              <span> No report available. </span> <span ng-if="vm.currentPrincipal.isDepartmentAdmin">Create a <a href="#" ng-click="vm.edit()"> daily </a> one now!</span>
             </div>
           </div>
         </div>

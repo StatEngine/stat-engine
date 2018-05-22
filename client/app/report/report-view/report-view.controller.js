@@ -7,18 +7,19 @@ import html2canvas from 'html2canvas';
 
 export default class ReportsViewController {
   /*@ngInject*/
-  constructor($state, $stateParams, SegmentService, Report, currentPrincipal, report, reportMetrics) {
+  constructor($state, $stateParams, SegmentService, Modal, Report, currentPrincipal, report, reportMetrics) {
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.ReportService = Report;
     this.SegmentService = SegmentService;
+    this.ModalService = Modal;
     this.FireDepartment = currentPrincipal.FireDepartment;
+    this.currentPrincipal = currentPrincipal;
     this.timezone = this.FireDepartment.timezone;
     this.report = report;
     this.reportMetrics = reportMetrics;
 
     if(this.report) {
-
       this.unitTableOptions = {
         data: this.report.content.stats.unit.stats,
         columnDefs: [{
@@ -84,10 +85,7 @@ export default class ReportsViewController {
       name: this.$stateParams.name,
     }, {}).$promise
       .then(() => {
-        this.$state.go('site.report.view', {
-          type: this.$stateParams.type,
-          name: this.$stateParams.name
-        });
+        this.notifyModal();
       });
   }
 
@@ -103,5 +101,9 @@ export default class ReportsViewController {
         };
         pdfMake.createPdf(docDefinition).download(`${this.$stateParams.name}.pdf`);
       });
+  }
+
+  notifyModal() {
+    this.ModalService.ok()('Success!', 'Your department has been notified via email.');
   }
 }

@@ -13,9 +13,7 @@
     <h6 class="text-center">
       Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
     </h6>
-    <h6 ng-if="vm.reportMetrics" class="text-center">
-    Total Views: {{ vm.reportMetrics.views.totalViews }}, Unique Users: {{ vm.reportMetrics.views.uniqueUsers }}
-    </h6>
+    <h6 class="text-center"><a href="#" ng-click="vm.view()"><i class="fa fa-eye"></i>&nbsp;View Report</a></h6>
   </section>
   <h5 class="text-center pb-5"> Looking for older reports? View them <a href="#" ui-sref="site.report.history">here</a></h5>
 

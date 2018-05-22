@@ -59,4 +59,11 @@ export default class ReportMetricsController {
       name: dest
     });
   }
+
+  view() {
+    this.$state.go('site.report.view', {
+      type: this.$stateParams.type,
+      name: this.$stateParams.name,
+    });
+  }
 }

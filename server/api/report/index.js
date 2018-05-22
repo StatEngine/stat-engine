@@ -27,7 +27,7 @@ router.get(
 router.put(
   '/:type/:name',
   auth.isApiAuthenticated,
-  auth.hasRole('user'),
+  auth.hasRole('department_admin'),
   auth.hasFireDepartment,
   bodyParser.json(),
   controller.upsert
@@ -36,7 +36,7 @@ router.put(
 router.post(
   '/:type/:name/notify',
   auth.isApiAuthenticated,
-  auth.hasRole('user'),
+  auth.hasRole('department_admin'),
   auth.hasFireDepartment,
   controller.findReport,
   controller.loadNofiticationDestinations,
@@ -46,7 +46,7 @@ router.post(
 router.get(
   '/:type/:name/metrics',
   auth.isApiAuthenticated,
-  auth.hasRole('user'),
+  auth.hasRole('department_admin'),
   auth.hasFireDepartment,
   controller.findReport,
   controller.getMetrics
