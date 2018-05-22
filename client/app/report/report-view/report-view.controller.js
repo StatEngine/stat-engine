@@ -18,15 +18,6 @@ export default class ReportsViewController {
     this.reportMetrics = reportMetrics;
 
     if(this.report) {
-      this.incidentTableOptions = {
-        data: this.report.content.stats.incident.stats,
-        columnDefs: [{
-          field: 'name',
-        }, {
-          field: 'value',
-          cellFilter: 'number: 0',
-        }]
-      };
 
       this.unitTableOptions = {
         data: this.report.content.stats.unit.stats,

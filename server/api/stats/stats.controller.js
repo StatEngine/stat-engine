@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
 import { FirecaresLookup } from '@statengine/shiftly';
-
+import moment from 'moment-timezone';
+import Promise from 'bluebird';
 import connection from '../../elasticsearch/connection';
 
 export function buildTimeFilter(ShiftConfig, type, date) {
@@ -16,161 +17,222 @@ function checkIfZero(val) {
 }
 
 export function getStats(req, res) {
-  const client = connection.getClient();
-
   const timeFilter = buildTimeFilter(FirecaresLookup[req.user.FireDepartment.firecares_id], 'daily', req.query.date);
 
-  client.search({
-    index: req.user.FireDepartment.get().es_indices['fire-incident'],
-    body: {
+  const queries = [{
+    type: 'search',
+    request: {
+      index: req.user.FireDepartment.get().es_indices['fire-incident'],
       size: 0,
-      query: {
-        bool: {
-          must_not: {
-            term: {
-              'description.suppressed': true
-            }
-          },
-          filter: {
-            range: {
-              'description.event_opened': {
-                lt: timeFilter.end,
-                gte: timeFilter.start,
+      body: {
+        query: {
+          bool: {
+            must: [{
+              term: {
+                'description.suppressed': false
               }
-            }
-          },
-        },
-      },
-      aggs: {
-        category: {
-          terms: {
-            field: 'description.category',
-          }
-        },
-        totalResponses: {
-          sum: {
-            script: {
-              lang: 'painless',
-              inline: 'doc[\'description.units.keyword\'].length'
-            }
-          }
-        },
-        responseDuration: {
-          percentile_ranks: {
-            field: 'description.extended_data.response_duration',
-            values: [360]
-          }
-        },
-        eventDuration: {
-          percentiles: {
-            field: 'description.extended_data.event_duration',
-            percents: [90]
-          }
-        },
-        turnoutDuration: {
-          percentiles: {
-            field: 'description.extended_data.event_duration',
-            percents: [90]
-          }
-        },
-        apparatus: {
-          nested: {
-            path: 'apparatus'
-          },
-          aggs: {
-            distance: {
-              percentiles: {
-                field: 'apparatus.distance',
-                percents: [90]
-              }
-            },
-            turnoutDuration: {
-              percentiles: {
-                field: 'apparatus.extended_data.turnout_duration',
-                percents: [90]
-              }
-            },
-            units: {
-              terms: {
-                field: 'apparatus.unit_id',
-                size: 100
-              },
-              aggs: {
-                turnoutDuration: {
-                  percentiles: {
-                    field: 'apparatus.extended_data.turnout_duration',
-                    percents: [90]
-                  }
-                },
-                totalDistance: {
-                  sum: {
-                    field: 'apparatus.distance'
-                  }
-                },
-                totalEventDuration: {
-                  sum: {
-                    field: 'apparatus.extended_data.event_duration'
-                  }
+            }],
+            filter: {
+              range: {
+                'description.event_opened': {
+                  gte: timeFilter.start,
+                  lt: timeFilter.end,
                 }
               }
+            }
+          },
+        },
+        aggs: {
+          incident_types: {
+            terms: {
+              field: 'description.category',
+              size: 3,
+              order: { _term: 'asc' }
             },
+          },
+          local_incident_types: {
+            terms: {
+              field: 'description.extended_data.AgencyIncidentCallTypeDescription.keyword',
+              size: 300,
+              order: { _term: 'asc' }
+            },
+          },
+          response_time_percentile_rank: {
+            percentile_ranks: {
+              field: 'description.extended_data.response_duration',
+              values: [360]
+            }
+          },
+          address_battalions: {
+            terms: {
+              field: 'address.battalion',
+              size: 50,
+              order: { _term: 'asc' }
+            }
+          },
+          event_duration_time_percentile_rank: {
+            percentiles: {
+              field: 'description.extended_data.event_duration',
+              percents: [90]
+            }
+          }
+        },
+      }
+    }
+  },
+  {
+    type: 'search',
+    request: {
+      index: req.user.FireDepartment.get().es_indices['apparatus-fire-incident'],
+      body: {
+        size: 0,
+        query: {
+          bool: {
+            must: {
+              term: {
+                'description.suppressed': false
+              }
+            },
+            filter: {
+              range: {
+                'description.event_opened': {
+                  gte: timeFilter.start,
+                  lt: timeFilter.end,
+                }
+              }
+            }
+          }
+        },
+        aggs: {
+          distance_percentile_rank: {
+            percentiles: {
+              field: 'apparatus_data.distance',
+              percents: [90]
+            }
+          },
+          turnout_percentile_rank: {
+            percentiles: {
+              field: 'apparatus_data.extended_data.turnout_duration',
+              percents: [90]
+            }
+          },
+          unit_responses: {
+            terms: {
+              field: 'apparatus_data.unit_id',
+              size: 50,
+              order: { utilization: 'desc' }
+            },
+            aggs: {
+              total_distance: {
+                sum: {
+                  field: 'apparatus_data.distance'
+                }
+              },
+              utilization: {
+                sum: {
+                  field: 'apparatus_data.extended_data.event_duration'
+                }
+              },
+              turnout_percentile_rank: {
+                percentiles: {
+                  field: 'apparatus_data.extended_data.turnout_duration',
+                  percents: [90]
+                }
+              },
+              turnout_percentile_buckets: {
+                percentiles: {
+                  field: 'apparatus_data.extended_data.turnout_duration',
+                  percents: [90]
+                }
+              },
+              transports: {
+                value_count: {
+                  field: 'apparatus_data.unit_status.transport_started.timestamp'
+                }
+              },
+              turnout_buckets: {
+                terms: {
+                  field: 'description.category',
+                  size: 3,
+                  order: { _term: 'asc' }
+                },
+                aggs: {
+                  turnout_percentile_buckets: {
+                    percentiles: {
+                      field: 'apparatus_data.extended_data.turnout_duration',
+                      percents: [90]
+                    }
+                  },
+                }
+              }
+            }
           }
         }
       }
     }
-  }).then(result => {
-    const data = {
-      timeFilter
-    };
+  }
+  ];
 
-    const categoryBuckets = _.get(result, 'aggregations.category.buckets');
 
-    data.incident = [
-      //platoon: 'TODO',
-      {
-        name: 'Incidents',
-        value: checkIfZero(_.get(result, 'hits.total'))
-      }, {
-        name: 'EMS Incidents',
-        value: checkIfZero(categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'EMS'), 'doc_count') : undefined),
-      }, {
-        name: 'Fire Incidents',
-        value: checkIfZero(categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'FIRE'), 'doc_count') : undefined),
-      }, {
-        name: 'Other Incidents',
-        value: checkIfZero(categoryBuckets ? _.get(_.find(categoryBuckets, u => u.key === 'OTHER'), 'doc_count') : undefined),
-      }, {
-        name: 'Total Responses',
-        value: checkIfZero(_.get(result, 'aggregations.totalResponses.value')),
-      }, {
-        name: 'Six Minute Response Percentage',
-        value: checkIfZero(_.get(result, 'aggregations.responseDuration.values[\'360.0\']')),
-      }, {
-        name: '90% Percentile Turnout Duration',
-        value: checkIfZero(_.get(result, 'aggregations.apparatus.turnoutDuration.values[\'90.0\']')),
-      }, {
-        name: '90% Percentile Distance Travelled',
-        value: checkIfZero(_.get(result, 'aggregations.apparatus.distance.values[\'90.0\']')),
-      }, {
-        name: '90% Event Duration',
-        value: checkIfZero(_.get(result, 'aggregations.eventDuration.values[\'90.0\']')),
-      }
-    ];
-
-    data.unit = [];
-    const unitBuckets = _.get(result, 'aggregations.apparatus.units.buckets');
-    _.forEach(unitBuckets, u => {
-      data.unit.push({
-        name: u.key,
-        totalCount: checkIfZero(_.get(u, 'doc_count')),
-        utilization: checkIfZero(_.get(u, 'totalEventDuration.value') ? _.get(u, 'totalEventDuration.value') / 60 : undefined),
-        distance: checkIfZero(_.get(u, 'totalDistance.value')),
-        turnoutDuration90: checkIfZero(_.get(u, 'turnoutDuration.values[\'90.0\']')),
-      });
+  queries.forEach(query => {
+    const q = _.cloneDeep(query);
+    _.set(q, ['request', 'body', 'query', 'bool', 'filter', 'range', 'description.event_opened'], {
+      // TODO: This needs to use a shiftly method that is timezone aware
+      gte: moment(timeFilter.start).subtract(1, 'day').format(),
+      lt: moment(timeFilter.end).subtract(1, 'day').format()
     });
+    queries.push(q);
+  });
 
-    res.json(data);
-  })
+  return Promise.map(queries, query => connection.getClient()[query.type](query.request))
+    .then(result => {
+
+      const [today, todayApparatus, compDay, compApparatus] = result;
+
+      const data = {
+        timeFilter,
+        incident: []
+      };
+
+      const categoryBuckets = day => _.get(day, 'aggregations.incident_types.buckets');
+      const computeChange = (newVal, oldVal) => _.round((newVal - oldVal) / oldVal * 100, 2);
+
+      const comps = [today, compDay];
+      const compsApparatus = [todayApparatus, compApparatus];
+
+      [
+        ['Incidents', results => checkIfZero(_.get(results, 'hits.total')), comps],
+        ['EMS Incidents', results => checkIfZero(categoryBuckets(results) ? _.get(_.find(categoryBuckets(results), u => u.key === 'EMS'), 'doc_count') : undefined), comps],
+        ['Fire Incidents', results => checkIfZero(categoryBuckets(results) ? _.get(_.find(categoryBuckets(results), u => u.key === 'FIRE'), 'doc_count') : undefined), comps],
+        ['Six Minute Response Percentage', results => checkIfZero(_.get(results, 'aggregations.response_time_percentile_rank.values[\'360.0\']')), comps],
+        ['90% Percentile Turnout Duration', results => checkIfZero(_.get(results, 'aggregations.turnout_percentile_rank.values[\'90.0\']')), compsApparatus],
+        ['90% Percentile Distance Travelled', results => checkIfZero(_.get(results, 'aggregations.distance_percentile_rank.values[\'90.0\']')), compsApparatus],
+        ['90% Event Duration', results => checkIfZero(_.get(results, 'aggregations.event_duration_time_percentile_rank.values[\'90.0\']')), comps],
+      ].forEach(metrics => {
+        const [name, func, vals] = metrics;
+        const [actual, comparison] = vals;
+
+        data.incident.push({
+          name,
+          value: func(actual),
+          change: computeChange(func(actual), func(comparison))
+        });
+      });
+
+      data.unit = [];
+      const unitBuckets = _.get(todayApparatus, 'aggregations.unit_responses.buckets');
+      _.forEach(unitBuckets, u => {
+        data.unit.push({
+          name: u.key,
+          totalCount: checkIfZero(_.get(u, 'doc_count')),
+          utilization: checkIfZero(_.get(u, 'utilization.value') ? _.get(u, 'utilization.value') / 60 : undefined),
+          distance: checkIfZero(_.get(u, 'total_distance.value')),
+          turnoutDuration90: checkIfZero(_.get(u, 'turnout_percentile_buckets.values[\'90.0\']')),
+        });
+      });
+
+      res.json(data);
+    })
     .catch(err => {
       console.dir(err);
       res.status(500).send();

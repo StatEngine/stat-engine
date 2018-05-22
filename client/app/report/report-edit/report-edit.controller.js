@@ -49,16 +49,6 @@ export default class ReportEditController {
       ['insert', ['link', 'picture']],
     ];
 
-    this.incidentTableOptions = {
-      data: this.report.content.stats.incident.stats,
-      columnDefs: [{
-        field: 'name',
-      }, {
-        field: 'value',
-        cellFilter: 'number: 0',
-      }]
-    };
-
     this.unitTableOptions = {
       data: this.report.content.stats.unit.stats,
       columnDefs: [{
