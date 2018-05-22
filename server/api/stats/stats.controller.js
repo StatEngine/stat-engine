@@ -176,11 +176,13 @@ export function getStats(req, res) {
 
   queries.forEach(query => {
     const q = _.cloneDeep(query);
-    _.set(q, ['request', 'body', 'query', 'bool', 'filter', 'range', 'description.event_opened'], {
-      // TODO: This needs to use a shiftly method that is timezone aware
-      gte: moment(timeFilter.start).subtract(1, 'day').format(),
-      lt: moment(timeFilter.end).subtract(1, 'day').format()
-    });
+
+    const yesterday = {
+      gte: moment.parseZone(timeFilter.start).subtract(1, 'day').format(),
+      lt: moment.parseZone(timeFilter.end).subtract(1, 'day').format()
+    };
+    _.set(q, ['request', 'body', 'query', 'bool', 'filter', 'range', 'description.event_opened'], yesterday);
+
     queries.push(q);
   });
 
