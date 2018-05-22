@@ -1,0 +1,86 @@
+$color-0: $color-cerulean;
+$color-1: $color-pale-sky;
+$color-2: $color-geyser;
+$color-3: $color-oxford-blue;
+
+.btn-group-flex {
+  display: flex;
+}
+
+.shift-calendar {
+  height: 800px;
+
+  .btn-default {
+    border-color: transparent;
+  }
+
+  .calendar {
+    .shift-0 {
+      background-color: $color-0;
+    }
+
+    .legend-0 {
+      color: $color-0;
+    }
+
+    .shift-1 {
+      background-color: $color-1;
+    }
+
+    .legend-1 {
+      color: $color-1;
+    }
+
+    .shift-2 {
+      background-color: $color-2;
+    }
+
+    .legend-2 {
+      color: $color-2;
+    }
+
+    .shift-3 {
+      background-color: $color-3;
+    }
+
+    .legend-3 {
+      color: $color-3;
+    }
+
+    pointer-events: none;
+  }
+}
+
+mwl-calendar {
+  .cal-month-day {
+    span {
+      color: black !important;
+    }
+  }
+
+  .cal-day-today {
+    span {
+      color: $color-porcelain !important;
+      display: table-cell;
+      height: 30px; /*change this and the width
+      for the size of your initial circle*/
+      width: 30px;
+      text-align: center;
+      vertical-align: middle;
+      border-radius: 50%;
+      /*make it pretty*/
+      background: red;
+      color: #fff;
+      font-size:1.4em !important;
+
+    }
+  }
+}
+
+.whos-on {
+  height: 490px;
+}
+
+.turnout{
+  height: 305px;
+}

@@ -1,0 +1,94 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7 col-md-7 pt-2">
+        <div class="shift-calendar">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-calendar">&nbsp;</i></span>Shift Calendar</h5>
+            <h2 class="text-center">{{ vm.calendarTitle }}</h2>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="btn-group-flex btn-group justify-content-sm-center">
+                  <button
+                    class="btn btn-alt-2"
+                    mwl-date-modifier
+                    date="vm.today"
+                    decrement="vm.calendarView"
+                    ng-click="vm.cellIsOpen = false">
+                    Previous
+                  </button>
+                  <button
+                    class="btn btn-default"
+                    mwl-date-modifier
+                    date="vm.today"
+                    set-to-today
+                    ng-click="vm.cellIsOpen = false">
+                    Today
+                  </button>
+                  <button
+                    class="btn btn-alt-2"
+                    mwl-date-modifier
+                    date="vm.today"
+                    increment="vm.calendarView"
+                    ng-click="vm.cellIsOpen = false">
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row pt-4">
+              <div class="col-xs-12">
+                <div class="calendar">
+                  <mwl-calendar
+                    events="vm.events"
+                    view="vm.calendarView"
+                    view-title="vm.calendarTitle"
+                    view-date="vm.today"
+                    cell-modifier="vm.cellModifier(calendarCell)">
+                  </mwl-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="calendar pt-2">
+              <span ng-repeat="(key, value) in vm.shiftClasses | orderObjectBy:'name'">
+                <i class="fa fa-square fa-2x" ng-class="value.legendClass"></i> {{ value.name }}
+              </span>
+              <p class="text-right">*Shifts start at {{ vm.shiftly.shiftStart }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5 pt-2">
+        <div class="card light-border whos-on">
+          <h5 class="card-header"><span><i class="fa fa-users">&nbsp;</i></span>Who's On?</h5>
+          <h4 class="text-center"> Today's Shift ({{vm.todaysShift.date}}) </h4>
+            <h2 class="text-center"> {{ vm.todaysShift.shift }} </h2>
+            <hr>
+            <h4 class="text-center"> Upcoming Shifts </h4>
+            <span class="text-center" ng-repeat="shift in vm.upcomingShifts">
+              <p class="text-center"> {{ shift.date }}: <strong> {{ shift.shift }} </strong> </p>
+            </span>
+        </div>
+        <div class="card light-border mt-2 turnout">
+          <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Who's Leading?</h5>
+          <h6 class="text-center">90th Percentile Turnout Time</h6>
+          <stats-table height="100px" options="vm.statsTableOptions"></stats-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<h4 class="text-center"> Turnout Times (secs) </h4>
+<stats-table height="100px" options="vm.statsTableOptions"></stats-table>-->
+<!--
+<div class="col-3">
+  <div class="calendar text-right pt-2">
+    <span ng-repeat="(key, value) in vm.shiftClasses | orderObjectBy:'name'">
+      <i class="fa fa-square fa-2x" ng-class="value.legendClass"></i> {{ value.name }}
+    </span>
+    <p class="text-right"> Shifts start at {{ vm.shiftly.shiftStart }}</p>
+  </div>
+</div>-->

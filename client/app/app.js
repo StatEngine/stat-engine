@@ -27,6 +27,7 @@ import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
 import 'angular-summernote/dist/angular-summernote.min.js';
 import 'angular-timeline/dist/angular-timeline.js';
+import angularCalendar from 'angular-bootstrap-calendar';
 
 import 'summernote';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -47,6 +48,7 @@ import admin from './admin';
 import guides from './guides';
 import main from './main';
 import spade from './spade';
+import shift from './shift';
 import statEngine from './statEngine';
 import user from './user';
 import departmentAdmin from './department-admin';
@@ -68,6 +70,7 @@ import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
 
 import trusted from '../components/trusted/trusted.filter';
+import orderObjectBy from '../components/order-object-by/order-object-by.filter';
 
 import constants from './app.constants';
 import segmentEventConstants from './segment-event.constants';
@@ -78,8 +81,8 @@ import util from '../components/util/util.module';
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', 'angularMoment', _Auth, 'ui.grid', trusted, statsTable, logo, skycon, weather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
-  spade, marketplace, statEngine, user, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
+  spade, marketplace, statEngine, user, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
   /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)

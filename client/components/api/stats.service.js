@@ -13,5 +13,12 @@ export default function StatsResource($resource) {
         resource: 'daily'
       }
     },
+    getShift: {
+      method: 'GET',
+      isArray: false,
+      params: {
+        resource: 'shift'
+      }
+    },
   });
 }
