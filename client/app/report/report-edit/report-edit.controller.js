@@ -53,10 +53,15 @@ export default class ReportEditController {
       data: this.report.content.stats.unit.stats,
       columnDefs: [{
         field: 'name',
+        displayName: 'Unit',
       }, {
         field: 'totalCount',
         cellFilter: 'number: 0',
         displayName: 'Incidents'
+      }, {
+        field: 'transports',
+        displayName: 'Transports',
+        cellFilter: 'number: 0',
       }, {
         field: 'utilization',
         displayName: 'Utilization (min)',

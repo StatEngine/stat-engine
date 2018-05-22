@@ -34,7 +34,7 @@
         <div class="card light-border">
           <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics ({{ vm.report.content.stats.timeFilter.start | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} to {{ vm.report.content.stats.timeFilter.end | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} )</h5>
           <div ng-repeat="stat in vm.report.content.stats.incident.stats">
-            <label>{{stat.name}}:</label> {{stat.value | number: 2}} (<span class="small" ng-class="{'text-danger': stat.change < 0, 'text-success': stat.change > 0}">{{stat.change}}%</span>)
+            <label>{{stat.name}}:</label> {{stat.value | number: 1}} <span class="small" ng-class="{'text-danger': stat.change < 0, 'text-success': stat.change > 0}"><i class="small fa" ng-class="{'fa-long-arrow-down': stat.change < 0, 'fa-long-arrow-up': stat.change > 0}"></i> {{stat.change | number: 1}}%</span>
           </div>
           <hr>
           <stats-table options="vm.unitTableOptions"></stats-table>
