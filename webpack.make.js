@@ -27,6 +27,7 @@ module.exports = function makeWebpackConfig(options) {
      */
     var config = {};
 
+
     /**
      * Entry
      * Reference: http://webpack.github.io/docs/configuration.html#entry
@@ -37,7 +38,6 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
-            app: './client/app/app.js',
             polyfills: './client/polyfills.js',
             vendor: [
                 'angular',
@@ -50,7 +50,9 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
                 'lodash',
-            ]
+                'skycons',
+            ],
+            app: './client/app/app.js',
         };
     }
 
@@ -83,10 +85,8 @@ module.exports = function makeWebpackConfig(options) {
     }
 
 
-
     if(TEST) {
-        config.resolve = {
-            modulesDirectories: [
+        config.resolve = {            modulesDirectories: [
                 'node_modules'
             ],
             extensions: ['', '.js', '.ts']
@@ -210,10 +210,18 @@ module.exports = function makeWebpackConfig(options) {
             disable: !BUILD || TEST
         }),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+          $: 'jquery',
+          'jQuery': 'jquery',
+          'window.jQuery': 'jquery',
+          'window.$': 'jquery',
+          'Skycons': 'skycons',
+          'window.Skycons': 'skycons'
+        }),
+        new webpack.DefinePlugin({
+          'require.specified': 'require.resolve'
         })
     ];
+
 
     if(!TEST) {
         config.plugins.push(new CommonsChunkPlugin({

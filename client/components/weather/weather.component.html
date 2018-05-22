@@ -1,0 +1,35 @@
+<div>
+  <div class="row">
+    <div class="col-8">
+      <h4> {{ vm.weather.forecast.daily.data[0].time | amFromUnix | amTimezone:vm.options.timezone | amDateFormat:'dddd, MMMM D, YYYY' }} Forecast </h4>
+      <label> Summary: </label> {{ vm.weather.forecast.daily.data[0].summary }} <br>
+      <label> Sunrise: </label> {{ vm.weather.forecast.daily.data[0].sunriseTime | amTimezone:vm.options.timezone | amFromUnix | amTimezone:vm.options.timezone | amDateFormat:'HH:mm:ss' }} <br>
+      <label> Sunset: </label> {{ vm.weather.forecast.daily.data[0].sunsetTime | amTimezone:vm.options.timezone | amFromUnix | amTimezone:vm.options.timezone | amDateFormat:'HH:mm:ss' }} <br>
+      <label> Low: </label> {{ vm.weather.forecast.daily.data[0].temperatureLow | number : 0 }}<br>
+      <label> High: </label> {{ vm.weather.forecast.daily.data[0].temperatureHigh | number : 0  }}<br>
+
+      <label> Precipiation: </label> {{ vm.weather.forecast.daily.data[0].precipProbability*100 | number : 0 }}% of {{ vm.weather.forecast.daily.data[0].precipType }}<br>
+      <label> Wind: </label> {{ vm.weather.forecast.daily.data[0].windSpeed | number : 0 }} mph with gusts up to {{ vm.weather.forecast.daily.data[0].windGust | number : 0  }} mph<br>
+
+      <label> Alerts: </label> {{ vm.weather.daily.alerts }}
+      <span ng-if="!vm.weather.forecast.alerts" class="text-success"> No alerts </span>
+      <div ng-if="vm.weather.forecast.alerts">
+        <span ng-repeat="alert in vm.weather.forecast.alerts">
+          <a href="{{alert.uri}}" target="_blank"> <strong ng-class="{'text-primary': alert.severity === 'advisory', 'text-warning': alert.severity === 'watch', 'text-danger': alert.severity === 'warning' }">{{alert.title}}</strong></a><br>
+        </span>
+      </div>
+
+      <br>
+      <div ng-if="vm.options.showNarrative">
+        <hr>
+        <label> Narrative: </label> <br>
+        <span ng-if="!vm.weather.narrative"> No remarks </span>
+        <span ng-if="vm.weather.narrative" ng-bind-html="vm.weather.narrative | trusted"> </span>
+      </div>
+
+    </div>
+    <div class="col-4">
+      <skycon class="img-responsive pt-4" icon="vm.weather.forecast.daily.data[0].icon" size="128"></skycon>
+    </div>
+  </div>
+</div>

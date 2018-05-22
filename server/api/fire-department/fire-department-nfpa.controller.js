@@ -229,7 +229,7 @@ export const nfpa1710 = {
     });
     return {
       totalHits: _.get(res, 'hits.total'),
-      rules: rules,
+      rules,
     };
   }
 };

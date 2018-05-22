@@ -1,0 +1,32 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+  <!-- Extension Attribution -->
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting History</h4>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 mb-3">
+        <div class="card light-border">
+          <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Historic Reports</h5>
+          <timeline>
+            <timeline-event ng-repeat="report in vm.timelineReports" side="alternate">
+              <timeline-badge class="{{report.badgeClass}}">
+                <i class="glyphicon {{report.badgeIconClass}}"></i>
+              </timeline-badge>
+              <timeline-panel class="{{report.badgeClass}}">
+                <timeline-heading>
+                  <h4><a href="#" ng-click="vm.goto(report)">{{report.title}}</a></h4>
+                </timeline-heading>
+                <strong> Last Updated {{ report.lastUpdated | date: 'short' }} by {{ report.lastUpdatedBy }}</strong> <br>
+                <span> Total Views: {{ report.totalViews }}, Unique Users: {{ report.uniqueUsers }} </span>
+              </timeline-panel>
+            </timeline-event>
+          </timeline>
+          <div ng-if="!vm.timelineReports || vm.timelineReports.length === 0">
+            <span class="text-warning"> Looks like you don't have any reports yet! </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

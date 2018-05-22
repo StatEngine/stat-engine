@@ -13,7 +13,10 @@ import {
 } from '@statengine/se-fixtures';
 
 import config from '../../config/environment';
-import { FireDepartment } from '../../sqldb';
+import {
+  FireDepartment,
+  User,
+} from '../../sqldb';
 
 import {
   runQA,
@@ -115,6 +118,29 @@ export function get(req, res) {
   return res.json(req.fireDepartment);
 }
 
+export function getUsers(req, res) {
+  return FireDepartment.find({
+    where: {
+      _id: req.user.FireDepartment._id
+    },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: ['first_name', 'last_name', 'role']
+    }]
+  })
+    .then(users => {
+      if(!users) {
+        return res.status(404).end();
+      }
+      return res.json(users);
+    })
+    .catch(validationError(res));
+}
+
+
 /**
  * Gets data quality stats
  */
@@ -146,6 +172,7 @@ export function nfpa(req, res) {
   };
 
   return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+    // eslint-disable-next-line
     const [name, qaConfig] = qa;
     return runNFPA(_.merge(qaConfig, { index: fireIndex }))
       .then(out => res.json(out));

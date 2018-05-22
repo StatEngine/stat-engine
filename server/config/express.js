@@ -28,7 +28,7 @@ export default function(app) {
   var env = app.get('env');
 
   app.use(helmet());
-  app.use(noCache())
+  app.use(noCache());
 
   if(env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));

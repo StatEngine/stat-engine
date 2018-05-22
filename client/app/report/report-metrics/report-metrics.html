@@ -1,0 +1,52 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting</h4>
+
+  <logo department="vm.FireDepartment"></logo>
+  <h4 class="text-center">
+     <a href="#" ng-click="vm.pageBack()"><i class="fa fa-arrow-left"></i></a>
+     {{ vm.$stateParams.name }}
+     <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
+  </h4>
+
+  <section ng-if="vm.report">
+    <h6 class="text-center">
+      Last Edited at {{ vm.report.updated_at | date : 'short' }} by {{ vm.report.User.first_name }}  {{ vm.report.User.last_name }}
+    </h6>
+    <h6 class="text-center"><a href="#" ng-click="vm.view()"><i class="fa fa-eye"></i>&nbsp;View Report</a></h6>
+  </section>
+  <h5 class="text-center pb-5"> Looking for older reports? View them <a href="#" ui-sref="site.report.history">here</a></h5>
+
+
+  <section ng-if="!vm.reportMetrics">
+    <div class="container">
+      <div class="mt-5 row">
+        <div class="col-md-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Information</h5>
+            <span> No report metrics available</span>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section ng-if="vm.reportMetrics" class="fluid-container pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 pt-2">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-eye">&nbsp;</i></span>Metrics</h5>
+            <div class="col-md-3">
+              <h3 class="text-warning">Awaiting</h3>
+              <stats-table options="vm.unviewedTableOptions"></stats-table>
+            </div>
+            <div class="col-md-9">
+              <h3 class="text-success">Viewers</h3>
+              <stats-table options="vm.viewerTableOptions"></stats-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

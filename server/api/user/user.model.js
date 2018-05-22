@@ -94,7 +94,10 @@ export default function(sequelize, DataTypes) {
     getterMethods: {
       // Public profile information
       roles() {
-        return this.role.split(',');
+        return this.role ? this.role.split(',') : [];
+      },
+      name() {
+        return `${this.first_name} ${this.last_name}`;
       },
       isIngest() {
         return this.roles.indexOf('ingest') >= 0;

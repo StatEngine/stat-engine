@@ -84,6 +84,7 @@ var all = {
     serverEmail: 'noreply@statengine.io',
     resetPasswordTemplate: 'resetpassword',
     newUserTemplate: 'getting-started-statengine',
+    newReportTemplate: 'new-report',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
   },
 

@@ -17,6 +17,10 @@ export default function(app) {
   app.use('/api/fire-departments', require('./api/fire-department'));
   app.use('/api/twitter', require('./api/twitter'));
   app.use('/api/users', require('./api/user'));
+  app.use('/api/reports', require('./api/report'));
+  app.use('/api/weather', require('./api/weather'));
+  app.use('/api/safety', require('./api/safety'));
+  app.use('/api/stats', require('./api/stats'));
 
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
@@ -25,7 +29,7 @@ export default function(app) {
 
   app.route('/heartbeat')
     .post((res, req) => {
-        req.status(204).send();
+      req.status(204).send();
     });
 
   // Authentication

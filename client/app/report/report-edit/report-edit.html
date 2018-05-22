@@ -1,0 +1,51 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Reporting</h4>
+
+  <logo department="vm.FireDepartment"></logo>
+  <h4 class="text-center">
+     <a href="#" ng-click="vm.pageBack()"><i class="fa fa-arrow-left"></i></a>
+     {{ vm.$stateParams.name }}
+     <a href="#" ng-click="vm.pageForward()"><i class="fa fa-arrow-right"></i></a>
+  </h4>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 pt-2">
+        <div class="card light-border">
+          <h5 class="card-header"><span><i class="fa fa-medkit">&nbsp;</i></span>Safety Message</h5>
+            <h5>Enter a custom safety message below or <button ng-click="vm.refreshSafetyMessage()" class="btn btn-primary btn-sm">use one of ours</button>.</h5>
+            <div summernote ng-model="vm.report.content.safety.message" height="315" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar }"></div>
+        </div>
+      </div>
+      <div class="col-md-6 pt-2">
+        <div class="card light-border">
+          <h5 class="card-header"><span><i class="fa fa-sun-o">&nbsp;</i></span>Weather</h5>
+          <weather weather="vm.report.content.weather" options="{ 'showNarrative': false, 'timezone': vm.timezone }"></weather>
+          <div summernote ng-model="vm.report.content.weather.narrative" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar }" height="150"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row pt-2">
+      <div class="col-md-12 pt-2">
+        <div class="card light-border">
+          <h5 class="card-header"><span><i class="fa fa-table">&nbsp;</i></span>Statistics ({{ vm.report.content.stats.timeFilter.start | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} to {{ vm.report.content.stats.timeFilter.end | amTimezone:vm.timezone | amDateFormat:'MM-DD-YYYY HH:mm' }} )</h5>
+          <div ng-repeat="stat in vm.report.content.stats.incident.stats">
+            <label>{{stat.name}}:</label> {{stat.value | number: 1}} <span class="small" ng-class="{'text-danger': stat.change < 0, 'text-success': stat.change > 0}"><i class="small fa" ng-class="{'fa-long-arrow-down': stat.change < 0, 'fa-long-arrow-up': stat.change > 0}"></i> {{stat.change | number: 1}}%</span>
+          </div>
+          <hr>
+          <stats-table options="vm.unitTableOptions"></stats-table>
+          <hr>
+          <div class="mt-5" summernote ng-model="vm.report.content.stats.narrative" config="{ placeholder: 'Any special remarks?', toolbar: vm.toolbar}" height="200"></div>
+        </div>
+      </div>
+    </div>
+
+  <section class="container py-2 pt-2 mt-2 mb-4 text-center">
+    <button class="btn btn-default" ng-click="vm.reset()">Reset</button>
+    <button class="btn btn-primary" ng-click="vm.save()">Save</button>
+  </section>
+</div>
