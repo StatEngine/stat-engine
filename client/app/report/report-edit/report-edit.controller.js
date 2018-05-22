@@ -58,6 +58,10 @@ export default class ReportEditController {
         cellFilter: 'number: 0',
         displayName: 'Incidents'
       }, {
+        field: 'transports',
+        displayName: 'Transports',
+        cellFilter: 'number: 0',
+      }, {
         field: 'utilization',
         displayName: 'Utilization (min)',
         cellFilter: 'number: 2',
