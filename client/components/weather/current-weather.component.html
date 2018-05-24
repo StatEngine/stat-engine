@@ -1,0 +1,16 @@
+<div>
+  <div class="row">
+    <div class="col-8">
+      <h5> {{ vm.weather.time | amTimezone:vm.options.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} </h5>
+      <label> Summary: </label> {{ vm.weather.summary }} <br>
+      <label> Temperature: </label> {{ vm.weather.temperature | number : 0 }}<br>
+      <label> Feels Like: </label> {{ vm.weather.apparentTemperature | number : 0  }}<br>
+
+      <label> Precipiation: </label> {{ vm.weather.precipProbability*100 | number : 0 }}% of {{ vm.weather.precipType }}<br>
+      <label> Wind: </label> {{ vm.weather.windSpeed | number : 0 }} mph with gusts up to {{ vm.weather.windGust | number : 0  }} mph<br>
+    </div>
+    <div class="col-4">
+      <skycon class="img-responsive pt-4" icon="vm.weather.icon" size="128"></skycon>
+    </div>
+  </div>
+</div>

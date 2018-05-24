@@ -1,0 +1,196 @@
+<div class="site-content light-bg">
+  <header class="naked mb-2"></header>
+  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Incident</h4>
+
+  <section>
+    <div class="container">
+      <div class="mt-5 row">
+        <div class="col-md-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-newspaper-o">&nbsp;</i></span>Summary</h5>
+            <div class="col-md-3">
+              <logo department="vm.currentPrincipal.FireDepartment"></logo>
+            </div>
+            <div class="col-md-9">
+              <blockquote>{{ vm.incidentSummary }}</blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 row">
+        <div class="col-md-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-map">&nbsp;</i></span>Location</h5>
+            <div class="row">
+              <div class="col-md-7">
+                <div id="map" class="incident-map"></div>
+              </div>
+              <div class="col-md-5">
+                <h2 class="text-center">
+                  {{ vm.incident.address.address_line1 }} <br>
+                  {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
+                </h2>
+                <hr>
+                <blockquote> {{ vm.locationSummary }} </blockquote>
+
+                <hr>
+                <div class="row">
+                  <div class="col-6">
+                    <h3>Parcel</h3>
+                    <label> Owner: </label> {{ vm.incident.address.location.parcel.owner_name }} <br>
+                    <label> Land Use: </label> {{ vm.incident.address.location.parcel.land_use }} <br>
+                    <label> Land Area: </label> {{ vm.incident.address.location.parcel.land_area }} <br>
+                    <label> Dwelling Value: </label> {{ vm.incident.address.location.parcel.dwelling_value }}
+                  </div>
+                  <div class="col-6">
+                    <h3>Census</h3>
+                    <label> Year: </label> 2010 <br>
+                    <label> Tract: </label> {{ vm.incident.address.location.census.tract }} <br>
+                    <label> Block: </label> {{ vm.incident.address.location.census.block }} <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 row">
+        <div class="col-md-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Situational Awareness</h5>
+            <blockquote> At the time of the incident, the weather was drizzling. </blockquote>
+            <div class="row">
+              <div class="col-md-6">
+                <h4>Weather</h4>
+                <current-weather weather="vm.incident.weather.currently" options="{ 'timezone': vm.currentPrincipal.FireDepartment.timezone }"></current-weather>
+              </div>
+              <div class="col-md-6">
+                <h4>Traffic</h4>
+                <p> <span class="text-warning">No traffic at time of incident available.</span> <a href="#">Request</a> to add now.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mt-5 row">
+        <div class="col-md-3">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Alarm</h5>
+            {{ vm.incident.description.durations.total_event }}
+            <h2 class="text-center">3</h2>
+            <div class="card-footer">
+              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Turnout</h5>
+            {{ vm.incident.description.durations.total_event }}
+            <h2 class="text-center">3</h2>
+            <div class="card-footer">
+              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Travel</h5>
+            {{ vm.incident.description.durations.total_event }}
+            <h2 class="text-center">3</h2>
+            <div class="card-footer">
+              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Total</h5>
+            {{ vm.incident.description.durations.total_event }}
+            <h2 class="text-center">3</h2>
+            <div class="card-footer">
+              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 row">
+        <div class="col-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
+            <blockquote> {{ vm.responseSummary }}</blockquote>
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <h4 class="text-center">Timeline of Events</h4>
+                <div class="flex flex-full-center">
+                  <div id="chart" timeline incident="vm.incident"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row pt-5">
+              <div class="col-6">
+                <div id="unit-timeline" class="unit-timeline responsive-plot"></div>
+              </div>
+              <div class="col-6">
+                <div id="travel" class="unit-timeline responsive-plot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 mb-4 row">
+        <div class="col-md-12">
+          <div class="card light-border">
+            <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>StatEngine&trade; Premium Analysis</h5>
+            <div class="row">
+              <div class="col-6">
+                <h3> Findings </h3>
+                <ul>
+                  <li><i class="fa fa-check text-success"></i>&nbsp;All units had turnout times of less then 90 seconds</li>
+                  <li><i class="fa fa-warning text-warning"></i>&nbsp;First due unit did not arrive first</li>
+                  <li><i class="fa fa-exclamation text-danger"></i>&nbsp;Units had to travel further than 20 miles</li>
+                </ul>
+              </div>
+              <div class="col-6">
+                <h3> NFPA 1710/1720 Compliance </h3>
+                <ul>
+                  <li><i class="fa fa-check text-success"></i>&nbsp;First engine arrived within 240 seconds</li>
+                  <li><i class="fa fa-warning text-warning"></i>&nbsp;Alarm processing time ....</li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <h3> Trending <sup>BETA</sup> </h3>
+                <ul>
+                  <li><i class="fa fa-check text-success"></i>&nbsp;Responding shift (A) is currently leading turnout performance</li>
+                  <li><i class="fa fa-warning text-warning"></i>&nbsp;This address has been called to 5 times in the past year</li>
+                  <li><i class="fa fa-warning text-warning"></i>&nbsp;On raining days, travel times in 2 times slower on average</li>
+                  <li><i class="fa fa-exclamation text-danger"></i>&nbsp;Incidents between 12:00AM and 3:00AM have 3% slower turnout times</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!--
+Summary of analysis
+
+calls this year
+time of day
+shift day
+-->

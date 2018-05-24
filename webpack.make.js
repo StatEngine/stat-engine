@@ -51,6 +51,7 @@ module.exports = function makeWebpackConfig(options) {
                 '@uirouter/angularjs',
                 'lodash',
                 'skycons',
+                'mapbox-gl',
             ],
             app: './client/app/app.js',
         };
@@ -215,7 +216,8 @@ module.exports = function makeWebpackConfig(options) {
           'window.jQuery': 'jquery',
           'window.$': 'jquery',
           'Skycons': 'skycons',
-          'window.Skycons': 'skycons'
+          'window.Skycons': 'skycons',
+          'window.mapboxgl': 'mapbox-gl'
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'
