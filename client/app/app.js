@@ -80,11 +80,10 @@ import orderObjectBy from '../components/order-object-by/order-object-by.filter'
 import constants from './app.constants';
 import segmentEventConstants from './segment-event.constants';
 
-import './app.scss';
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
-//import Plotly from 'plotly.js';
+import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
   'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
