@@ -415,6 +415,9 @@ gulp.task('ngConfig:dev', cb => {
          constants: {
            segmentConfig: {
              key: process.env.SEGMENT_KEY || ''
+           },
+           mapboxConfig: {
+             token: process.env.MAPBOX_TOKEN || ''
            }
          }
       }))
@@ -429,6 +432,9 @@ gulp.task('ngConfig:cloud', cb => {
          constants: {
            segmentConfig: {
              key: process.env.SEGMENT_KEY || ''
+           },
+           mapboxConfig: {
+             token: process.env.MAPBOX_TOKEN || ''
            }
          }
       }))
@@ -443,6 +449,9 @@ gulp.task('ngConfig:onPremise', cb => {
          constants: {
            segmentConfig: {
              key: process.env.SEGMENT_KEY || ''
+           },
+           mapboxConfig: {
+             token: process.env.MAPBOX_TOKEN || ''
            }
          }
       }))

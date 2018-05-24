@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import mapboxgl from 'mapbox-gl';
 import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
@@ -101,6 +102,9 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
+  .run(mapboxConfig => {
+    mapboxgl.accessToken = mapboxConfig.token;
+  })
   .run(($transitions, SegmentService) => {
     'ngInject';
 
