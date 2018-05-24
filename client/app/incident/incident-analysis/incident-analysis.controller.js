@@ -12,17 +12,12 @@ export default class IncidentAnalysisController {
   constructor(SegmentService, currentPrincipal, incident) {
     this.SegmentService = SegmentService;
     this.currentPrincipal = currentPrincipal;
-    this.incident = incident;
-
-    // TODO generate these magically
-    this.incidentSummary = 'On Friday, Mon 13 12:00 AM, Richmond Fire Department responded to a structure fire at 348 Maple Road, a Commerical property valued at 10M.  The first response arrived withn 4 minutes, and the total reponse included 10 units across 2 stations.  The incident was resolved within 12 minutes.';
-    this.responseSummary =
-      this.incident.fire_department.name + ' response included 3 units, including 3 trucks, 2 engines, 1 chief, and .  The incident occurred in response zone.  Station X was first due.  The first unit arrived on scene within 2 minutes';
-    this.locationSummary = 'Incident location is located within an Urban population density within the south market neighborhood and council district 8';
+    this.incident = incident.incident;
+    this.incidentSummaries = incident.summaries;
 
     // TODO should move this to component
     // Future - uber driving route
-    const incidentLocation = [incident.address.longitude, incident.address.latitude];
+    const incidentLocation = [this.incident.address.longitude, this.incident.address.latitude];
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',

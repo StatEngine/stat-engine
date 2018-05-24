@@ -12,7 +12,7 @@
               <logo department="vm.currentPrincipal.FireDepartment"></logo>
             </div>
             <div class="col-md-9">
-              <blockquote>{{ vm.incidentSummary }}</blockquote>
+              <blockquote>{{ vm.incidentSummaries.overview }}</blockquote>
             </div>
           </div>
         </div>
@@ -32,7 +32,7 @@
                   {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
                 </h2>
                 <hr>
-                <blockquote> {{ vm.locationSummary }} </blockquote>
+                <blockquote>{{ vm.incidentSummaries.location }}</blockquote>
 
                 <hr>
                 <div class="row">
@@ -126,7 +126,7 @@
         <div class="col-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
-            <blockquote> {{ vm.responseSummary }}</blockquote>
+            <blockquote>{{ vm.incidentSummaries.unit }}</blockquote>
             <br>
             <div class="row">
               <div class="col-12">

@@ -1,29 +1,12 @@
-import _ from 'lodash';
-
-import Promise from 'bluebird';
-import connection from '../../elasticsearch/connection';
-
 import {
   generateIncidentSummary,
   generateLocationSummary,
-  generateUnitSummary }
-from './incident.helpers';
+  generateUnitSummary } from './incident.helpers';
+import 'chai/register-should';
 
-export function getIncident(req, res) {
-  res.json({
-    incident: req.incident,
-    summaries: {
-      overview: generateIncidentSummary(req.incident),
-      location: generateLocationSummary(req.incident),
-      unit: generateUnitSummary(req.incident),
-    }
-  });
-}
-
-export function loadIncident(req, res, next, id) {
-  const client = connection.getClient();
-
-  req.incident = {"address": {
+describe('generateSummary', () => {
+  let incident = {
+    "address": {
       "population_density": "Urban",
       "location": {
         "census": {
@@ -356,31 +339,16 @@ export function loadIncident(req, res, next, id) {
       "errorsText": "No errors"
     }
   };
-  next();
-  /*client.search({
-    index: req.user.FireDepartment.get().es_indices['fire-incident'],
-    body: {
-      query: {
-        bool: {
-          must: {
-            term: {
-              //TODO 'description.incident_number': id,
-              'description.incident_number.keyword': id,
-            }
-          }
-        }
-      }
-    }
-  })
-    .then((searchResult) => {
-      const hits = _.get(searchResult, 'hits.hits');
-      console.dir(hits)
-      console.dir(hits.length)
 
-      if (!hits || hits.length === 0) return res.status(404).send();
+  it('should generate incident summary', () => {
+    generateIncidentSummary(incident).should.equal('Richmond Fire and Emergency Services responded to a fire incident on Thursday, May 17th 2018 at 11:36:22 pm.  The response included 3 units from 3 different stations.  The incident was resolved in -16.5 minutes.');
+  });
 
-      req.incident = hits[0]._source;
-      next();
-    })
-    .catch(err => next(err));*/
-}
+  it('should generate location summary', () => {
+    generateLocationSummary(incident).should.equal('This address is located inan Urban zoned area');
+  });
+
+  it('should generate unit summary', () => {
+    generateUnitSummary(incident).should.equal('The response included 3 units, including ....');
+  });
+});

@@ -53,69 +53,6 @@ export default angular.module('statEngineApp.timeline', [])
           data.push(unitData);
         });
 
-        /*
-        const data = [{
-            label: 'Name',
-            data: [{
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 1, 1])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 2, 1])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 3, 1])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 4, 1])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 5, 1]),
-                customClass: 'blue-dot'
-
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 6, 1]),
-                customClass: 'blue-dot'
-            }]
-        }, {
-            label: 'Type',
-            data: [{
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 1, 11])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 1, 15])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 3, 10])
-            }, {
-                label: 'I\'m a label with a custom class',
-                type: TimelineChart.TYPE.INTERVAL,
-                from: new Date([2015, 2, 1]),
-                to: new Date([2015, 3, 1]),
-                customClass: 'blue-interval'
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 6, 1])
-            }, {
-                type: TimelineChart.TYPE.POINT,
-                at: new Date([2015, 7, 1])
-            }]
-        }, {
-            label: 'Imp',
-            data: [{
-                label: 'Label 1',
-                type: TimelineChart.TYPE.INTERVAL,
-                from: new Date([2015, 1, 15]),
-                to: new Date([2015, 3, 1])
-            }, {
-                label: 'Label 2',
-                type: TimelineChart.TYPE.INTERVAL,
-                from: new Date([2015, 4, 1]),
-                to: new Date([2015, 5, 12])
-            }]
-        }];*/
         const timeline = new TimelineChart(element[0], data);
       }
     };
