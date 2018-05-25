@@ -15,21 +15,6 @@ export default class IncidentAnalysisController {
     this.incident = incident.incident;
     this.incidentSummaries = incident.summaries;
 
-    // TODO should move this to component
-    // Future - uber driving route
-    const incidentLocation = [this.incident.address.longitude, this.incident.address.latitude];
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/light-v9',
-      center: incidentLocation,
-      zoom: 13,
-    });
-
-    var marker = new mapboxgl.Marker()
-      .setLngLat(incidentLocation)
-      .addTo(map);
-
-
     var unitTimelineData = [];
     const turnoutDurations = {
       x: [],

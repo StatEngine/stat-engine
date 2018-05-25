@@ -34,11 +34,16 @@ export function generateLocationSummary(incident) {
   const censusData = _.get(incident, 'address.census');
 
   let location = 'This address is located in';
-  if (populationDensity) location += 'an ' + populationDensity + ' zoned area'
+  if (populationDensity) location += ' an ' + populationDensity + ' area within council district X, and Y neighborhood'
 
   return location;
 }
 
-export function generateUnitSummary(incident) {
-  return 'The response included ' + _.get(incident, 'apparatus.length') + ' units, including ....'
+export function generateResponseSummary(incident) {
+  return 'Station X was assigned first due.  Stations X and Y also responded on the call.  The response included ' + _.get(incident, 'apparatus.length') + ' units, including ....'
+}
+
+
+export function generateSituationalAwarnessSummary(incident) {
+  return 'The weather was .....'
 }

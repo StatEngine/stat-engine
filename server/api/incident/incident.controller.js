@@ -6,7 +6,9 @@ import connection from '../../elasticsearch/connection';
 import {
   generateIncidentSummary,
   generateLocationSummary,
-  generateUnitSummary }
+  generateResponseSummary,
+  generateSituationalAwarnessSummary,
+  generateStationSummary }
 from './incident.helpers';
 
 export function getIncident(req, res) {
@@ -15,7 +17,8 @@ export function getIncident(req, res) {
     summaries: {
       overview: generateIncidentSummary(req.incident),
       location: generateLocationSummary(req.incident),
-      unit: generateUnitSummary(req.incident),
+      response: generateResponseSummary(req.incident),
+      situationalAwareness: generateSituationalAwarnessSummary(req.incident),
     }
   });
 }

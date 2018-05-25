@@ -1,7 +1,6 @@
 <div>
   <div class="row">
     <div class="col-8">
-      <h5> {{ vm.weather.time | amTimezone:vm.options.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} </h5>
       <label> Summary: </label> {{ vm.weather.summary }} <br>
       <label> Temperature: </label> {{ vm.weather.temperature | number : 0 }}<br>
       <label> Feels Like: </label> {{ vm.weather.apparentTemperature | number : 0  }}<br>

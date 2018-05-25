@@ -22,32 +22,96 @@
         <div class="col-md-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-map">&nbsp;</i></span>Location</h5>
+            <div clas="row">
+              <h2 class="text-center">
+                {{ vm.incident.address.address_line1 }} <br>
+                {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
+              </h2>
+            </div>
             <div class="row">
               <div class="col-md-7">
-                <div id="map" class="incident-map"></div>
+                <incident-map class="incident-map" incident="vm.incident"></incident-map>
               </div>
               <div class="col-md-5">
-                <h2 class="text-center">
-                  {{ vm.incident.address.address_line1 }} <br>
-                  {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
-                </h2>
-                <hr>
-                <blockquote>{{ vm.incidentSummaries.location }}</blockquote>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <blockquote>{{ vm.incidentSummaries.location }}</blockquote>
+                    </div>
+                    <hr>
+                    <h3 class="text-center"><i class="fa fa-x fa-home"></i>&nbsp;Parcel</h3>
+
+                    <div ng-if="!vm.incident.address.location.parcel" class="text-center">
+                      <span class="text-warning"> No parcel data available.  <a href="#" ui-sref="site.marketplace.home"> Request </a> to add now </span>
+                    </div>
+
+                    <div ng-if="vm.incident.address.location.parcel" class="row">
+                      <div class="col-4">
+                        <div class="text-center">
+                          <h4 > Land Use </h4>
+                          <h3> {{ vm.incident.address.location.parcel.land_use }}</h3>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="text-center">
+                          <h4> Land Area </h4>
+                          <h3> {{ vm.incident.address.location.parcel.land_area | number:0 }}</h3>
+                          <h5>sq ft</h5>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="text-center">
+                          <h4> Dwelling Value </h4>
+                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 1000000"> $$$$ <h3>
+                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 500000 && vm.incident.address.location.parcel.dwelling_value < 1000000"> $$$ <h3>
+                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 250000 && vm.incident.address.location.parcel.dwelling_value < 500000"> $$ <h3>
+                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value < 250000"> $ <h3>
+                          <h4> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <hr>
-                <div class="row">
-                  <div class="col-6">
-                    <h3>Parcel</h3>
-                    <label> Owner: </label> {{ vm.incident.address.location.parcel.owner_name }} <br>
-                    <label> Land Use: </label> {{ vm.incident.address.location.parcel.land_use }} <br>
-                    <label> Land Area: </label> {{ vm.incident.address.location.parcel.land_area }} <br>
-                    <label> Dwelling Value: </label> {{ vm.incident.address.location.parcel.dwelling_value }}
-                  </div>
-                  <div class="col-6">
-                    <h3>Census</h3>
-                    <label> Year: </label> 2010 <br>
-                    <label> Tract: </label> {{ vm.incident.address.location.census.tract }} <br>
-                    <label> Block: </label> {{ vm.incident.address.location.census.block }} <br>
+
+                <div class="row mt-2">
+                  <div class="col-12">
+                    <h3 class="text-center"><i class="fa fa-x fa-users"></i>&nbsp;Census</h3>
+
+                    <div ng-if="!vm.incident.address.location.census" class="text-center">
+                      <span class="text-warning"> No census data available.  <a href="#" ui-sref="site.marketplace.home"> Request </a> to add now </span>
+                    </div>
+
+                    <div ng-if="vm.incident.address.location.census" class="row">
+                      <div class="col-3">
+                        <div class="text-center">
+                          <h4> Year </h4>
+                          <h3> 2010 </h3>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="text-center">
+                          <h4> Density </h4>
+                          <h3 ng-if="vm.incident.address.population_density === 'Urban'"><i class="fa fa-2x fa-building"></i></h3>
+                          <h3 ng-if="vm.incident.address.population_density === 'Rural'"><i class="fa fa-2x fa-square-o"></i></h3>
+                          <h5> {{ vm.incident.address.population_density }} </h5>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="text-center">
+                          <h4> Tract </h4>
+                          <h3> {{ vm.incident.address.location.census.census_2010.tract }}</h3>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="text-center">
+                          <h4> Block </h4>
+                          <h3> {{ vm.incident.address.location.census.census_2010.block }} </h3>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -59,15 +123,24 @@
         <div class="col-md-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Situational Awareness</h5>
-            <blockquote> At the time of the incident, the weather was drizzling. </blockquote>
+            <blockquote>{{ vm.incidentSummaries.situationalAwareness }}</blockquote>
             <div class="row">
               <div class="col-md-6">
-                <h4>Weather</h4>
-                <current-weather weather="vm.incident.weather.currently" options="{ 'timezone': vm.currentPrincipal.FireDepartment.timezone }"></current-weather>
+                <h3 class="text-center"><i class="fa fa-x fa-sun-o"></i>&nbsp;Weather</h3>
+
+                <div ng-if="vm.incident.weather.currently">
+                  <h5 class="text-center"> At {{ vm.incident.weather.currently.time | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} </h5>
+                  <current-weather weather="vm.incident.weather.currently"></current-weather>
+                </div>
+
+                <div ng-if="!vm.incident.weather.currently" class="text-center">
+                  <span class="text-warning">No weather data available.</span><br> <a href="#" ui-sref="site.marketplace.home">Request</a> to add now.
+                </div>
               </div>
-              <div class="col-md-6">
-                <h4>Traffic</h4>
-                <p> <span class="text-warning">No traffic at time of incident available.</span> <a href="#">Request</a> to add now.</p>
+
+              <div class="col-md-6 text-center">
+                <h3><i class="fa fa-x fa-car"></i>&nbsp;Traffic</h3>
+                <span class="text-warning">No traffic data available.</span><br> <a href="#" ui-sref="site.marketplace.home">Request</a> to add now.
               </div>
             </div>
           </div>
@@ -126,14 +199,12 @@
         <div class="col-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
-            <blockquote>{{ vm.incidentSummaries.unit }}</blockquote>
+            <blockquote>{{ vm.incidentSummaries.response }}</blockquote>
             <br>
             <div class="row">
-              <div class="col-12">
+              <div class="col-sm-12">
                 <h4 class="text-center">Timeline of Events</h4>
-                <div class="flex flex-full-center">
-                  <div id="chart" timeline incident="vm.incident"></div>
-                </div>
+                <incident-timeline incident="vm.incident" class='img-responsive'></incident-timeline>
               </div>
             </div>
             <div class="row pt-5">

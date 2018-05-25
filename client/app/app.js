@@ -71,7 +71,6 @@ import weather from '../components/weather/weather.component';
 import currentWeather from '../components/weather/current-weather.component';
 
 import skycon from '../components/weather/skycon.directive';
-import timeline from '../components/timeline/timeline.directive';
 import logo from '../components/logo/logo.component';
 
 import trusted from '../components/trusted/trusted.filter';
@@ -83,11 +82,13 @@ import segmentEventConstants from './segment-event.constants';
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
+import incidentComponents from '../components/incident';
+
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
   'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
-  spade, marketplace, statEngine, user, timeline, incident, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
+  spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
   /*socket,*/ util, angulartics, gtm
 ])
   .config(routeConfig)
