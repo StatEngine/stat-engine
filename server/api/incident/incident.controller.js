@@ -8,7 +8,9 @@ import {
   generateLocationSummary,
   generateResponseSummary,
   generateSituationalAwarnessSummary,
-  generateStationSummary }
+  generateStationSummary,
+  nfpaSummary
+}
 from './incident.helpers';
 
 export function getIncident(req, res) {
@@ -19,6 +21,7 @@ export function getIncident(req, res) {
       location: generateLocationSummary(req.incident),
       response: generateResponseSummary(req.incident),
       situationalAwareness: generateSituationalAwarnessSummary(req.incident),
+      nfpaSummary: nfpaSummary(req.incident)
     }
   });
 }

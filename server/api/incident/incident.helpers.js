@@ -47,3 +47,15 @@ export function generateResponseSummary(incident) {
 export function generateSituationalAwarnessSummary(incident) {
   return 'The weather was .....'
 }
+
+export function nfpaSummary(incident) {
+  const ems = incident.description.category === 'EMS';
+  const firstEngineArrival = {compliant: incident.NFPA.first_engine_travel_duration_seconds <= 240, description: 'First engine travel time within 4 minutes.'};
+  const alarmProcessing = {compliant: incident.NFPA.alarm_processing_duration_seconds <= 64, description: 'Alarm processing time within 60 seconds.'};
+  const turnoutDuration = {compliant: incident.NFPA.turnout_durations_seconds > ems ? 60 : 80, description: `All units turnout time within ${ems ? 60 : 80} seconds.`};
+  return {
+    alarmProcessing,
+    turnoutDuration,
+    firstEngineArrival,
+  };
+}

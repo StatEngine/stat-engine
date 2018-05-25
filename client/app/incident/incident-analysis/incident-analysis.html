@@ -215,6 +215,9 @@
                 <div id="travel" class="unit-timeline responsive-plot"></div>
               </div>
             </div>
+            <div class="row pt-5 text-center">
+              <div id="response-comparison" class="unit-timeline responsive-plot"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -226,7 +229,6 @@
               <div class="col-6">
                 <h3> Findings </h3>
                 <ul>
-                  <li><i class="fa fa-check text-success"></i>&nbsp;All units had turnout times of less then 90 seconds</li>
                   <li><i class="fa fa-warning text-warning"></i>&nbsp;First due unit did not arrive first</li>
                   <li><i class="fa fa-exclamation text-danger"></i>&nbsp;Units had to travel further than 20 miles</li>
                 </ul>
@@ -234,8 +236,9 @@
               <div class="col-6">
                 <h3> NFPA 1710/1720 Compliance </h3>
                 <ul>
-                  <li><i class="fa fa-check text-success"></i>&nbsp;First engine arrived within 240 seconds</li>
-                  <li><i class="fa fa-warning text-warning"></i>&nbsp;Alarm processing time ....</li>
+                  <li ng-repeat="rule in vm.incidentSummaries.nfpaSummary">
+                    <i ng-class="{'fa-check text-success': rule.compliant, 'fa-times text-danger': !rule.compliant }" class="fa"></i>&nbsp;{{rule.description}}
+                  </li>
                 </ul>
               </div>
             </div>
