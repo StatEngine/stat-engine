@@ -1,10 +1,9 @@
 import {
-  generateIncidentSummary,
-  generateLocationSummary,
-  generateUnitSummary } from './incident.helpers';
+  getMatrix,
+} from './mapbox.helpers';
 import 'chai/register-should';
 
-describe('generateSummary', () => {
+describe('getMatrix', () => {
   let incident = {
     "address": {
       "population_density": "Urban",
@@ -340,15 +339,7 @@ describe('generateSummary', () => {
     }
   };
 
-  it('should generate incident summary', () => {
-    generateIncidentSummary(incident).should.equal('Richmond Fire and Emergency Services responded to a fire incident on Thursday, May 17th 2018 at 11:36:22 pm.  The response included 3 units from 3 different stations.  The incident was resolved in -16.5 minutes.');
-  });
-
-  it('should generate location summary', () => {
-    generateLocationSummary(incident).should.equal('This address is located inan Urban zoned area');
-  });
-
-  it('should generate unit summary', () => {
-    generateUnitSummary(incident).should.equal('The response included 3 units, including ....');
+  it('should get travel matrix', () => {
+    console.dir(getMatrix(incident));
   });
 });
