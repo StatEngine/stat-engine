@@ -48,20 +48,20 @@
                     <div ng-if="vm.incident.address.location.parcel" class="row">
                       <div class="col-4">
                         <div class="text-center">
-                          <h4 > Land Use </h4>
+                          <h4><strong>Land Use</strong> </h4>
                           <h3> {{ vm.incident.address.location.parcel.land_use }}</h3>
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="text-center">
-                          <h4> Land Area </h4>
+                          <h4><strong>Land Area</strong></h4>
                           <h3> {{ vm.incident.address.location.parcel.land_area | number:0 }}</h3>
                           <h5>sq ft</h5>
                         </div>
                       </div>
                       <div class="col-4">
                         <div class="text-center">
-                          <h4> Dwelling Value </h4>
+                          <h4><strong>Dwelling Value</strong></h4>
                           <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 1000000"> $$$$ <h3>
                           <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 500000 && vm.incident.address.location.parcel.dwelling_value < 1000000"> $$$ <h3>
                           <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 250000 && vm.incident.address.location.parcel.dwelling_value < 500000"> $$ <h3>
@@ -86,13 +86,13 @@
                     <div ng-if="vm.incident.address.location.census" class="row">
                       <div class="col-3">
                         <div class="text-center">
-                          <h4> Year </h4>
+                          <h4><strong>Year</strong></h4>
                           <h3> 2010 </h3>
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="text-center">
-                          <h4> Density </h4>
+                          <h4><strong>Density</strong></h4>
                           <h3 ng-if="vm.incident.address.population_density === 'Urban'"><i class="fa fa-2x fa-building"></i></h3>
                           <h3 ng-if="vm.incident.address.population_density === 'Rural'"><i class="fa fa-2x fa-square-o"></i></h3>
                           <h5> {{ vm.incident.address.population_density }} </h5>
@@ -100,13 +100,13 @@
                       </div>
                       <div class="col-3">
                         <div class="text-center">
-                          <h4> Tract </h4>
+                          <h4><strong>Tract</strong></h4>
                           <h3> {{ vm.incident.address.location.census.census_2010.tract }}</h3>
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="text-center">
-                          <h4> Block </h4>
+                          <h4><strong>Block</strong></h4>
                           <h3> {{ vm.incident.address.location.census.census_2010.block }} </h3>
                         </div>
                       </div>
@@ -147,61 +147,45 @@
         </div>
       </div>
 
-
-      <div class="mt-5 row">
-        <div class="col-md-3">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Alarm</h5>
-            {{ vm.incident.description.durations.total_event }}
-            <h2 class="text-center">3</h2>
-            <div class="card-footer">
-              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Turnout</h5>
-            {{ vm.incident.description.durations.total_event }}
-            <h2 class="text-center">3</h2>
-            <div class="card-footer">
-              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Travel</h5>
-            {{ vm.incident.description.durations.total_event }}
-            <h2 class="text-center">3</h2>
-            <div class="card-footer">
-              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Total</h5>
-            {{ vm.incident.description.durations.total_event }}
-            <h2 class="text-center">3</h2>
-            <div class="card-footer">
-              <span class="pull-left text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-              <span class="pull-right text-success"> 3 <span>&nbsp<i class="small fa fa-long-arrow-up" ></i> 6%</span> </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="mt-5 row">
         <div class="col-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
             <blockquote>{{ vm.incidentSummaries.response }}</blockquote>
             <br>
+
             <div class="row">
+              <div class="col-lg-3 pt-2">
+                <div class="card light-border">
+                  <h5 class="card-header"><span><i class="fa fa-phone">&nbsp;</i></span>Alarm Answer</h5>
+                  <h5 class="text-center">Call answered in</h5>
+                  <h2 class="text-center">{{ vm.incident.durations.alarm_answer.seconds }} <subscript>secs</subscript></h2>
+                </div>
+              </div>
+              <div class="col-lg-3 pt-2">
+                <div class="card light-border">
+                  <h5 class="card-header"><span><i class="fa fa-location-arrow">&nbsp;</i></span>Dispatched</h5>
+                  <h5 class="text-center">First unit dispatched in</h5>
+                  <h2 class="text-center">{{ vm.incident.durations.alarm_handling.seconds }} <subscript>secs</subscript></h2>
+                </div>
+              </div>
+              <div class="col-lg-3 pt-2">
+                <div class="card light-border">
+                  <h5 class="card-header"><span><i class="fa fa-map-marker">&nbsp;</i></span>On Scene</h5>
+                  <h5 class="text-center">First unit on scene in</h5>
+                  <h2 class="text-center"> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>mins</subscript></h2>
+                </div>
+              </div>
+              <div class="col-lg-3 pt-2">
+                <div class="card light-border">
+                  <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Event</h5>
+                  <h5 class="text-center">Resolved in</h5>
+                  <h2 class="text-center"> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>mins</subscript></h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-5">
               <div class="col-lg-12">
                 <h4 class="text-center">Timeline of Events</h4>
                 <incident-timeline incident="vm.incident"></incident-timeline>
@@ -209,14 +193,24 @@
             </div>
             <div class="row pt-5">
               <div class="col-lg-6">
+                <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
+              </div>
+              <div class="col-lg-6">
                 <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
+              </div>
+            </div>
+            <div class="row pt-5">
+              <div class="col-lg-6">
+                <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
               </div>
               <div class="col-lg-6">
                 <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
               </div>
             </div>
             <div class="row pt-5 text-center">
-              <div id="response-comparison" class="unit-timeline responsive-plot"></div>
+              <div class="col-lg-12">
+                <div id="response-comparison" class="unit-timeline responsive-plot"></div>
+              </div>
             </div>
           </div>
         </div>

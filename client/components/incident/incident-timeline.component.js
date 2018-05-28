@@ -13,29 +13,123 @@ export default class IncidentTimelineComponent {
     this.$window = $window;
   }
 
-  turnoutClassName(duration) {
-    let fire = (_.get(this.incident, 'description.category') === 'FIRE');
-
-    let className = 'turnout-green';
-    if (fire && duration > 90) className = 'turnout-red';
-    if (!fire && duration > 60)  className = 'turnout-red';
-
-    return className;
-  }
-
   $onInit() {
     const items = [];
     const groups = [];
 
+    groups.push({
+      id: 'Event',
+      content: '<b>Event</b>'
+    });
+
+    const psapAnswer = _.get(this.incident, 'description.psap_answer_time');
+    const firstUnitDispatched = _.get(this.incident, 'description.first_unit_dispatched');
     const eventOpened = _.get(this.incident, 'description.event_opened');
     const eventClosed = _.get(this.incident, 'description.event_closed');
+
+    if (psapAnswer) items.push({
+      id: 'psapAnswer',
+      content: '',
+      type: 'point',
+      start: psapAnswer,
+      group: 'Event',
+      title: `PSAP Answer at ${psapAnswer}`,
+    });
+
+    if (eventOpened) items.push({
+      id: 'eventOpened',
+      content: '',
+      type: 'point',
+      start: eventOpened,
+      group: 'Event',
+      title: `Event Opened at ${eventOpened}`,
+    });
+
+    if (eventClosed) items.push({
+      id: 'eventClosed',
+      content: '',
+      type: 'point',
+      start: eventClosed,
+      group: 'Event',
+      title: `Event Closed at ${eventClosed}`,
+    });
+
+    if (eventOpened && eventClosed) items.push({
+      id: 'totalEvent',
+      content: '<b>Event</b>',
+      start: eventOpened,
+      align: 'center',
+      end: eventClosed,
+      type: 'background',
+      className: 'event-duration'
+    });
+
+    if (psapAnswer && eventOpened) {
+      const alarmAnswer = moment.duration(moment(eventOpened).diff(moment(psapAnswer))).as('seconds')
+      items.push({
+        id: 'alarmAnswering',
+        start: psapAnswer,
+        align: 'bottom',
+        end: eventOpened,
+        type: 'range',
+        group: 'Event',
+        className: 'alarm-answering-duration',
+        title: '<b>Alarm Answer in ' + alarmAnswer + 's</b>'
+      });
+    }
+
+    if (firstUnitDispatched && eventOpened) {
+      const alarmAnswer = moment.duration(moment(firstUnitDispatched).diff(moment(eventOpened))).as('seconds')
+      items.push({
+        id: 'alarmHandling',
+        start: eventOpened,
+        align: 'bottom',
+        end: firstUnitDispatched,
+        type: 'range',
+        group: 'Event',
+        className: 'alarm-handling-duration',
+        title: '<b>Alarm Handling in ' + alarmAnswer + 's</b>'
+      });
+    }
 
     _.each(this.incident.apparatus, (u) => {
       // define groupe
       groups.push({
         id: u.unit_id,
-        content: u.unit_id,
+        content: '<b>' + u.unit_id + '</b>',
       });
+
+      // define interesting timeframes
+      const dispatched = _.get(u, 'unit_status.dispatched.timestamp');
+      const enroute = _.get(u, 'unit_status.enroute.timestamp');
+      const arrived = _.get(u, 'unit_status.arrived.timestamp');
+
+      if (dispatched && enroute) {
+        const turnoutDuration = moment.duration(moment(enroute).diff(moment(dispatched))).as('seconds')
+        items.push({
+          id: u.unit_id + 'turnout',
+          start: dispatched,
+          align: 'bottom',
+          end: enroute,
+          type: 'range',
+          group: u.unit_id,
+          className: 'turnout-duration',
+          title: '<b>Turnout in ' + turnoutDuration + 's</b>'
+        });
+      }
+
+      if (enroute && arrived) {
+        const turnoutDuration = moment.duration(moment(arrived).diff(moment(enroute))).as('seconds')
+        items.push({
+          id: u.unit_id + 'travel',
+          start: enroute,
+          end: arrived,
+          type: 'range',
+          group: u.unit_id,
+          className: 'travel',
+          title: '<b>Travel in ' + turnoutDuration + 's</b>'
+        });
+      }
 
       // each timestamp
       _.forOwn(u.unit_status, (status, statusName) => {
@@ -49,46 +143,17 @@ export default class IncidentTimelineComponent {
           className: statusName,
         });
       });
-
-      // define interesting timeframes
-      const dispatched = _.get(u, 'unit_status.dispatched.timestamp');
-      const enroute = _.get(u, 'unit_status.enroute.timestamp');
-      const arrived = _.get(u, 'unit_status.arrived.timestamp');
-
-      if (dispatched && enroute) {
-        items.push({
-          id: u.unit_id + 'turnout',
-          content: '<b>Turnout</b>',
-          start: dispatched,
-          align: 'bottom',
-          end: enroute,
-          type: 'background',
-          group: u.unit_id,
-          className: this.turnoutClassName(moment.duration(moment(enroute).diff(dispatched)).asSeconds()),
-        });
-      }
-
-      if (enroute && arrived) {
-        items.push({
-          id: u.unit_id + 'travel',
-          content: '<b>Travel</b>',
-          start: enroute,
-          end: arrived,
-          type: 'background',
-          group: u.unit_id,
-          className: 'travel',
-        });
-      }
     });
 
     const options = {
       stack: false,
-      start: eventOpened,
-      end: eventClosed,
+      start: moment(eventOpened).subtract(2, 'minutes'),
+      end: moment(eventClosed).add(2, 'minutes'),
       // 1 day
       zoomMax: 86400000,
       // 1 minute
       zoomMin: 60000,
+      selectable: false,
     };
 
    this.element = angular.element(document.querySelector('#incident-timeline'));

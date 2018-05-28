@@ -34,4 +34,5 @@ export default class IncidentAnalysisController {
       width: '1000'
     });
   }
+
 }

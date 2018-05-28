@@ -4,9 +4,9 @@ import angular from 'angular';
 
 import Plotly from 'plotly.js'
 
-const ID = 'incident-unit-response-graph';
+const ID = 'incident-alarm-processing-graph';
 
-export default class IncidentUnitResponseGraphComponent {
+export default class IncidentAlarmProcessingGraphComponent {
   constructor($window) {
     'ngInject';
 
@@ -24,32 +24,21 @@ export default class IncidentUnitResponseGraphComponent {
   }
 
   $onInit() {
-    // Get turnout and travel durations
-    const unitTimelineData = [];
-    const turnoutDurations = {
-      x: [],
-      y: [],
+    // Get alarm durations
+    const alarmProcessingData = [];
+    const alarmAnsweringDurations = {
+      x: [_.get(this.incident, 'durations.alarm_answer.seconds')],
+      y: ['PSAP'],
     };
-    const travelDurations = {
-      x: [],
-      y: [],
+    const alarmHandlingDurations = {
+      x: [_.get(this.incident, 'durations.alarm_handling.seconds')],
+      y: ['PSAP'],
     };
 
-    _.forEach(this.incident.apparatus, u => {
-      if (u.extended_data.turnout_duration) {
-        turnoutDurations.x.push(u.extended_data.turnout_duration);
-        turnoutDurations.y.push(u.unit_id);
-      }
-      if (u.extended_data.travel_duration) {
-        travelDurations.x.push(u.extended_data.travel_duration);
-        travelDurations.y.push(u.unit_id);
-      }
-    });
-
-    unitTimelineData.push({
-      x: turnoutDurations.x,
-      y: turnoutDurations.y,
-      name: 'Turnout',
+    alarmProcessingData.push({
+      x: alarmAnsweringDurations.x,
+      y: alarmAnsweringDurations.y,
+      name: 'Answer',
       orientation: 'h',
       marker: {
         color: 'rgba(55,128,191,0.6)',
@@ -57,10 +46,10 @@ export default class IncidentUnitResponseGraphComponent {
       },
       type: 'bar'
     });
-    unitTimelineData.push({
-      x: travelDurations.x,
-      y: travelDurations.y,
-      name: 'Travel',
+    alarmProcessingData.push({
+      x: alarmHandlingDurations.x,
+      y: alarmHandlingDurations.y,
+      name: 'Handling',
       orientation: 'h',
       marker: {
         color: 'rgba(255,153,51,0.6)',
@@ -73,32 +62,32 @@ export default class IncidentUnitResponseGraphComponent {
     const shapes = [];
 
     let threshold = 60;
-    if (this.incident.description.category === 'FIRE') threshold = 90;
 
     shapes.push({
       type: 'line',
       x0: threshold,
       x1: threshold,
       y0: -1,
-      y1: this.incident.apparatus.length,
+      y1: 1,
+      xref: 'x',
+      yref: 'y',
       line: {
         color: 'red',
         width: 4,
         dash: 'dash',
       },
-      name: 'Suggested'
     });
 
     const layout = {
-      title: 'Response Durations',
+      title: 'Alarm Processing Durations',
       barmode: 'stack',
       shapes: shapes,
       xaxis: {
         title: 'seconds',
       },
       annotations: [{
-        x: threshold,
-        y: this.incident.apparatus.length,
+        x: 60,
+        y: 1,
         text: threshold + 's',
         showarrow: true,
         arrowhead: 9,
@@ -111,6 +100,6 @@ export default class IncidentUnitResponseGraphComponent {
       }]
     };
 
-    Plotly.newPlot(ID, unitTimelineData, layout);
+    Plotly.newPlot(ID, alarmProcessingData, layout);
   }
 }

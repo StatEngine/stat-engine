@@ -10,14 +10,18 @@
   border-color: green;
 }
 
-.vis-item.turnout-green {
+.vis-item.turnout-duration {
   background-color: #0f9b0f;
 }
 
-.vis-item.turnout-red {
-  background-color: #f05053;
+.vis-item.travel-duration {
+  border-color: green;
 }
 
-.vis-item.travel {
-  border-color: green;
+.vis-item.event-duration {
+  background-color: #FFEFD5;
+}
+
+.vis-item.alarm-handling-duration {
+  background-color: #f4c242;
 }

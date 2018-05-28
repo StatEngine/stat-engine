@@ -1,7 +1,9 @@
 import IncidentMapComponent from './incident-map.component';
 import IncidentTimelineComponent from './incident-timeline.component';
+import IncidentAlarmProcessingGraphComponent from './incident-alarm-processing-graph.component';
 import IncidentUnitResponseGraphComponent from './incident-unit-response-graph.component';
 import IncidentUnitTravelDurationGraphComponent from './incident-unit-travel-duration-graph.component';
+import IncidentUnitTravelDistanceGraphComponent from './incident-unit-travel-distance-graph.component';
 
 export default angular.module('incident', [])
   .component('incidentMap', {
@@ -35,6 +37,23 @@ export default angular.module('incident', [])
     bindings: {
       incident: '<',
       travelMatrix: '<',
+    },
+  })
+  .component('incidentUnitTravelDistanceGraph', {
+    template: require('./incident-unit-travel-distance-graph.html'),
+    controller: IncidentUnitTravelDistanceGraphComponent,
+    controllerAs: 'vm',
+    bindings: {
+      incident: '<',
+      travelMatrix: '<',
+    },
+  })
+  .component('incidentAlarmProcessingGraph', {
+    template: require('./incident-alarm-processing-graph.html'),
+    controller: IncidentAlarmProcessingGraphComponent,
+    controllerAs: 'vm',
+    bindings: {
+      incident: '<',
     },
   })
   .name;

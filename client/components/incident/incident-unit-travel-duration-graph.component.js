@@ -27,10 +27,9 @@ export default class IncidentUnitTravelDurationGraphComponent {
 
   $onInit() {
     const units = _.keys(this.travelMatrix);
-    const actualOver = [];
-    const actualUnder = [];
 
     const expected = [];
+    const actual = [];
 
     _.forEach(units, unit_id => {
       let actualUnit = _.find(this.incident.apparatus, u => u.unit_id === unit_id);
@@ -39,15 +38,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
       const actualDuration = _.get(actualUnit, 'extended_data.travel_duration');
       const expectedDuration = this.travelMatrix[unit_id].duration;
 
-      if (actualDuration && actualDuration > expectedDuration) {
-        actualOver.push(actualDuration);
-        actualUnder.push(null);
-      }
-      if (actualDuration && actualDuration <= expectedDuration) {
-        actualOver.push(null);
-        actualUnder.push(actualDuration);
-      }
-
+      actual.push(actualDuration);
       expected.push(expectedDuration);
     })
 
@@ -60,35 +51,19 @@ export default class IncidentUnitTravelDurationGraphComponent {
       width: [.1, .1, .1],
     };
 
-    const actualOverTrace = {
+    const actualTrace = {
       x: units,
-      y: actualOver,
-      name: 'Slower Than Expected',
+      y: actual,
+      name: 'Actual',
       type: 'bar',
       opacity: 0.5,
       width: [.2, .2, .2],
-      marker: {
-        color: new Array(units.length).fill('red')
-      }
-    };
-
-    const actualUnderTrace = {
-      x: units,
-      y: actualUnder,
-      name: 'Faster Than Expected',
-      type: 'bar',
-      opacity: 0.5,
-      width: [.2, .2, .2],
-      marker: {
-        color: new Array(units.length).fill('green')
-      }
     };
 
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
-    console.dir(firstArrived);
 
-    var data = [expectedTrace, actualOverTrace, actualUnderTrace];
+    var data = [expectedTrace, actualTrace];
     var layout = {
       title: 'Travel Durations',
       barmode: 'overlay',
