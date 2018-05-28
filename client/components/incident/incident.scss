@@ -1,0 +1,23 @@
+.vis-item.dispatched {
+  border-color: red;
+}
+
+.vis-item.enroute {
+  border-color: orange;
+}
+
+.vis-item.arrived {
+  border-color: green;
+}
+
+.vis-item.turnout-green {
+  background-color: #0f9b0f;
+}
+
+.vis-item.turnout-red {
+  background-color: #f05053;
+}
+
+.vis-item.travel {
+  border-color: green;
+}
