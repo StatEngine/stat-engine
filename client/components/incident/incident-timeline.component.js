@@ -79,16 +79,16 @@ export default class IncidentTimelineComponent {
     }
 
     if (firstUnitDispatched && eventOpened) {
-      const alarmAnswer = moment.duration(moment(firstUnitDispatched).diff(moment(eventOpened))).as('seconds')
+      const alarmProcessing = moment.duration(moment(firstUnitDispatched).diff(moment(eventOpened))).as('seconds')
       items.push({
-        id: 'alarmHandling',
+        id: 'alarmProcessing',
         start: eventOpened,
         align: 'bottom',
         end: firstUnitDispatched,
         type: 'range',
         group: 'Event',
-        className: 'alarm-handling-duration',
-        title: '<b>Alarm Handling in ' + alarmAnswer + 's</b>'
+        className: 'alarm-processing-duration',
+        title: '<b>Alarm Processing in ' + alarmProcessing + 's</b>'
       });
     }
 

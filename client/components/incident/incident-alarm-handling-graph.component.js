@@ -4,9 +4,9 @@ import angular from 'angular';
 
 import Plotly from 'plotly.js'
 
-const ID = 'incident-alarm-processing-graph';
+const ID = 'incident-alarm-handling-graph';
 
-export default class IncidentAlarmProcessingGraphComponent {
+export default class IncidentAlarmHandlingGraphComponent {
   constructor($window) {
     'ngInject';
 
@@ -25,17 +25,17 @@ export default class IncidentAlarmProcessingGraphComponent {
 
   $onInit() {
     // Get alarm durations
-    const alarmProcessingData = [];
+    const alarmHandlingData = [];
     const alarmAnsweringDurations = {
       x: [_.get(this.incident, 'durations.alarm_answer.seconds')],
-      y: ['PSAP'],
+      y: ['Alarm'],
     };
-    const alarmHandlingDurations = {
-      x: [_.get(this.incident, 'durations.alarm_handling.seconds')],
-      y: ['PSAP'],
+    const alarmProcessingDurations = {
+      x: [_.get(this.incident, 'durations.alarm_processing.seconds')],
+      y: ['Alarm'],
     };
 
-    alarmProcessingData.push({
+    alarmHandlingData.push({
       x: alarmAnsweringDurations.x,
       y: alarmAnsweringDurations.y,
       name: 'Answer',
@@ -46,10 +46,10 @@ export default class IncidentAlarmProcessingGraphComponent {
       },
       type: 'bar'
     });
-    alarmProcessingData.push({
-      x: alarmHandlingDurations.x,
-      y: alarmHandlingDurations.y,
-      name: 'Handling',
+    alarmHandlingData.push({
+      x: alarmProcessingDurations.x,
+      y: alarmProcessingDurations.y,
+      name: 'Processing',
       orientation: 'h',
       marker: {
         color: 'rgba(255,153,51,0.6)',
@@ -79,7 +79,7 @@ export default class IncidentAlarmProcessingGraphComponent {
     });
 
     const layout = {
-      title: 'Alarm Processing Durations',
+      title: 'Alarm Handling Durations',
       barmode: 'stack',
       shapes: shapes,
       xaxis: {
@@ -100,6 +100,6 @@ export default class IncidentAlarmProcessingGraphComponent {
       }]
     };
 
-    Plotly.newPlot(ID, alarmProcessingData, layout);
+    Plotly.newPlot(ID, alarmHandlingData, layout);
   }
 }
