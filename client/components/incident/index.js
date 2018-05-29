@@ -1,5 +1,6 @@
 import IncidentMapComponent from './incident-map.component';
 import IncidentTimelineComponent from './incident-timeline.component';
+import IncidentComparisonGraphComponent from './incident-comparison-graph.component';
 import IncidentAlarmHandlingGraphComponent from './incident-alarm-handling-graph.component';
 import IncidentUnitResponseGraphComponent from './incident-unit-response-graph.component';
 import IncidentUnitTravelDurationGraphComponent from './incident-unit-travel-duration-graph.component';
@@ -46,6 +47,15 @@ export default angular.module('incident', [])
     bindings: {
       incident: '<',
       travelMatrix: '<',
+    },
+  })
+  .component('incidentComparisonGraph', {
+    template: require('./incident-comparison-graph.html'),
+    controller: IncidentComparisonGraphComponent,
+    controllerAs: 'vm',
+    bindings: {
+      incident: '<',
+      comparison: '<',
     },
   })
   .component('incidentAlarmHandlingGraph', {

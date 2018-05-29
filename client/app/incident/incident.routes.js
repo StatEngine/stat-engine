@@ -29,7 +29,7 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity();
         },
-        incident(Incident, $stateParams) {
+        incidentData(Incident, $stateParams) {
           return Incident.get({ id: $stateParams.id }).$promise;
         },
       },

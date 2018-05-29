@@ -72,14 +72,14 @@ export default class IncidentUnitTravelDurationGraphComponent {
       },
       shapes: [{
         type: 'line',
-        x0: units[0],
-        x1: units[units.length-1],
+        x0: -1,
+        x1: units.length,
         y0: firstArrived.extended_data.travel_duration,
         y1: firstArrived.extended_data.travel_duration,
         line: {
-          color: 'black',
-          width: 2,
-          dash: 'dash'
+          color: 'red',
+          width: 4,
+          dash: 'dash',
         },
         name: 'Suggested'
       }],
@@ -96,6 +96,18 @@ export default class IncidentUnitTravelDurationGraphComponent {
           color: 'black'
         },
         ax: 30,
+        ay: -30
+      }, {
+        x: -0.75,
+        y: firstArrived.extended_data.travel_duration,
+        text: 'This Incident',
+        showarrow: true,
+        arrowhead: 9,
+        arrowcolor: 'black',
+        font: {
+          color: 'black'
+        },
+        ax: -10,
         ay: -30
       }]
     };

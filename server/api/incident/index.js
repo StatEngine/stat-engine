@@ -13,6 +13,7 @@ router.get(
   auth.hasRole('user'),
   auth.hasFireDepartment,
   controller.loadMatrix,
+  controller.loadComparison,
   controller.getIncident,
 );
 

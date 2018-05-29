@@ -19,6 +19,7 @@ export function getIncident(req, res) {
     textSummaries: generateTextualSummaries(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
     analysis: generateAnalysis(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
     travelMatrix: req.travelMatrix,
+    comparison: req.incidentComparison,
   });
 }
 
@@ -28,6 +29,57 @@ export function loadMatrix(req, res, next) {
     else req.travelMatrix = matrix;
     next();
   });
+}
+
+export function loadComparison(req, res, next) {
+  let responseZone = req.incident.address.response_zone;
+  let battalion = req.incident.address.battalion;
+  let firstDue = req.incident.address.first_due;
+  let census = req.incident.address.location.census.census_2010.tract;
+  let councilDistrict = req.incident.address.location.council_district;
+
+  const aggs = [
+    [`Response Zone ${responseZone}`, { term: {'address.response_zone': responseZone }}],
+    [`Battalion ${battalion}`, { term: {'address.battalion': battalion }}],
+    [`First Due ${firstDue}`, { term: {'address.first_due': firstDue }}],
+    [`Census ${census}`, { term: {'address.location.census.census_2010.tract': census }}],
+    [`Council District ${councilDistrict}`, { term: {'address.location.council_district': councilDistrict }}],
+  ].reduce((acc, val) => {
+    const [name, filter] = val;
+    acc[name] = {
+      filter,
+      aggs: {
+        response_duration_percentile_rank: {
+          percentiles: {
+            field: 'description.extended_data.response_duration',
+            percents: [90]
+          }
+        }
+      }
+    };
+    return acc;
+  }, {})
+
+  return connection.getClient().search({
+    index: '93345-va-richmond_fire_and_emergency_services-fire-incident*', //req.user.FireDepartment.get().es_indices['fire-incident'],
+    size: 0,
+    body: {
+      query: {
+        bool: {
+          must: [{
+            term: {
+              'description.suppressed': false
+            }
+          }],
+        },
+      },
+      aggs
+    }
+  }).then(res => {
+    req.incidentComparison = {};
+    req.incidentComparison = res.aggregations;
+    next();
+  })
 }
 
 export function loadIncident(req, res, next, id) {
