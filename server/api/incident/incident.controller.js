@@ -16,8 +16,8 @@ import {
 export function getIncident(req, res) {
   res.json({
     incident: req.incident,
-    textSummaries: generateTextualSummaries(req.incident, { travelMatrix: req.travelMatrix }),
-    analysis: generateAnalysis(req.incident, { travelMatrix: req.travelMatrix }),
+    textSummaries: generateTextualSummaries(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
+    analysis: generateAnalysis(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
     travelMatrix: req.travelMatrix,
   });
 }

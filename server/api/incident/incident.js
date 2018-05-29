@@ -125,4 +125,8 @@ export class Incident {
   get firstEngineTravelSeconds() {
     return _.get(this.incident, 'NFPA.first_engine_travel_duration_seconds');
   }
+
+  get travelMatrix() {
+    return _.get(this.incident, 'travelMatrix');
+  }
 }
