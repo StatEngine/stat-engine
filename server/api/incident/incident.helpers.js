@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment-timezone';
+import * as rules from './incident.stat-engine-rules';
 
-// TODO revisit all of this ---- maybe use nlp or something else to more intelligently construct sentences and grammer
-
+// TODO revisit textual summaries ---- maybe use nlp or some other lib to more intelligently construct sentences and grammer
 const compileIncidentSummary = _.template('\<%= departmentName %> responded to <%= incidentArticle %> <%= incidentType %> incident on <%= incidentDate %> at <%= incidentTime %>.\
   The response included <%= numOfUnits %> units from <%= numOfStations %> different stations.\
   The incident was resolved in <%= incidentDuration %> minutes.');
@@ -12,8 +12,8 @@ export function generateIncidentSummary(incident) {
   const eventOpened = _.get(incident, 'description.event_opened');
   const timezone = _.get(incident, 'fire_department.timezone');
   const duration = moment.duration(
-    moment(_.get(incident, 'description.event_opened'))
-    .diff(moment(_.get(incident, 'description.event_closed'))));
+    moment(_.get(incident, 'description.event_closed'))
+    .diff(moment(_.get(incident, 'description.event_opened'))));
 
   const stations = _.uniq(_.map(_.get(incident, 'apparatus'), 'station'));
   return compileIncidentSummary({
@@ -48,7 +48,7 @@ export function generateSituationalAwarnessSummary(incident) {
   return 'The weather was .....'
 }
 
-export function nfpaSummary(incident) {
+export function nfpaAnalysis(incident) {
   const ems = incident.description.category === 'EMS';
   const firstEngineArrival = {compliant: incident.NFPA.first_engine_travel_duration_seconds <= 240, description: 'First engine travel time within 4 minutes.'};
   const alarmProcessing = {compliant: incident.NFPA.alarm_processing_duration_seconds <= 64, description: 'Alarm processing time within 60 seconds.'};
@@ -58,4 +58,13 @@ export function nfpaSummary(incident) {
     turnoutDuration,
     firstEngineArrival,
   };
+}
+
+export function statEngineAnalysis(incident) {
+  const analysis = {};
+  _.forOwn(rules, Rule => {
+    let rule = new Rule(incident);
+    analysis[rule.name] = rule.grade();
+  });
+  return analysis;
 }

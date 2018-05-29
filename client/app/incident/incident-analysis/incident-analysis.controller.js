@@ -14,6 +14,8 @@ export default class IncidentAnalysisController {
     this.currentPrincipal = currentPrincipal;
     this.incident = incident.incident;
     this.incidentSummaries = incident.summaries;
+    this.analysis = incident.analysis;
+
     this.travelMatrix = incident.travelMatrix;
 
     const comparisons = ['This Incident', 'Response Zone 23423', 'First Due #14',

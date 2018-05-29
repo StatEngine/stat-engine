@@ -218,14 +218,24 @@
       <div class="mt-5 mb-4 row">
         <div class="col-md-12">
           <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>StatEngine&trade; Analysis</h5>
+            <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>Performance Analysis</h5>
             <div class="row">
-              <div class="col-6">
-                <h3> Findings </h3>
-                <ul>
-                  <li><i class="fa fa-warning text-warning"></i>&nbsp;First due unit did not arrive first</li>
-                  <li><i class="fa fa-exclamation text-danger"></i>&nbsp;Units had to travel further than 20 miles</li>
-                </ul>
+              <div class="col-12">
+                <h3> StatEngine&trade; Analysis </h3>
+                <div ng-repeat="(key, analysis) in vm.analysis.statEngine">
+                  <h5>
+                    <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
+                      <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
+                    </a>
+                  </h5>
+                  <div id="collapse-{{key}}" class="collapse">
+                    <ul ng-repeat="evidence in analysis.evidence">
+                      <li class="indent-1">
+                        <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
               <div class="col-6">
                 <h3> NFPA 1710/1720 Compliance </h3>
@@ -237,7 +247,7 @@
               </div>
             </div>
             <hr>
-            <div class="row">
+            <!--<div class="row">
               <div class="col-12">
                 <h3> Trending <sup>BETA</sup> </h3>
                 <ul>
@@ -248,6 +258,7 @@
                 </ul>
               </div>
             </div>
+          -->
           </div>
         </div>
       </div>
