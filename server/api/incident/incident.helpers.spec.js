@@ -1,7 +1,7 @@
 import {
-  generateIncidentSummary,
-  generateLocationSummary,
-  generateUnitSummary } from './incident.helpers';
+  generateTextualSummaries,
+  generateAnalysis,
+} from './incident.helpers';
 import 'chai/register-should';
 
 describe('generateSummary', () => {
@@ -340,11 +340,11 @@ describe('generateSummary', () => {
     }
   };
 
-  it('should generate incident summary', () => {
-    generateIncidentSummary(incident).should.equal('Richmond Fire and Emergency Services responded to a fire incident on Thursday, May 17th 2018 at 11:36:22 pm.  The response included 3 units from 3 different stations.  The incident was resolved in -16.5 minutes.');
+  it('should generate summaries', () => {
+    generateTextualSummaries(incident);
   });
 
-  it('should generate location summary', () => {
-    generateLocationSummary(incident).should.equal('This address is located in an Urban area within council district X, and Y neighborhood');
+  it('should generate analysis', () => {
+    generateAnalysis(incident);
   });
 });

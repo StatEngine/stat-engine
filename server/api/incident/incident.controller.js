@@ -4,13 +4,8 @@ import Promise from 'bluebird';
 import connection from '../../elasticsearch/connection';
 
 import {
-  generateIncidentSummary,
-  generateLocationSummary,
-  generateResponseSummary,
-  generateSituationalAwarnessSummary,
-  generateStationSummary,
-  nfpaAnalysis,
-  statEngineAnalysis,
+  generateTextualSummaries,
+  generateAnalysis,
 }
 from './incident.helpers';
 
@@ -21,16 +16,8 @@ import {
 export function getIncident(req, res) {
   res.json({
     incident: req.incident,
-    summaries: {
-      overview: generateIncidentSummary(req.incident),
-      location: generateLocationSummary(req.incident),
-      response: generateResponseSummary(req.incident),
-      situationalAwareness: generateSituationalAwarnessSummary(req.incident),
-    },
-    analysis: {
-      nfpa: nfpaAnalysis(req.incident),
-      statEngine: statEngineAnalysis(req.incident),
-    },
+    textSummaries: generateTextualSummaries(req.incident, { travelMatrix: req.travelMatrix }),
+    analysis: generateAnalysis(req.incident, { travelMatrix: req.travelMatrix }),
     travelMatrix: req.travelMatrix,
   });
 }

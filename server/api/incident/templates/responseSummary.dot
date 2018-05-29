@@ -1,0 +1,8 @@
+{{? it.firstDueStation }} Station {{= it.firstDueStation }} was first due on the scene.
+{{?}}
+
+{{? it.firstUnitDispatched }} {{= it.firstUnitDispatched.unit_id }} was dispatched within {{= it.callAlarmHandlingDurationSeconds }} seconds.
+{{?}}
+
+{{? it.firstUnitArrived }} {{= it.firstUnitArrived.unit_id }} was the first to arrive, {{= it.totalResponseDurationMinutes.toFixed(1) }} minutes after the call was received.
+{{?}}

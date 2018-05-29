@@ -1,0 +1,20 @@
+{{=it.departmentName }} responded to
+{{? it.isFireIncident() }} a fire
+{{?? it.isEmsIncident() }} an EMS
+{{??}} a
+{{?}}
+ incident on {{=it.formatDate(it.eventOpened) }}
+.
+
+  The response included {{=it.units.length }}
+{{? it.units.length == 1 }} unit
+{{??}} units
+{{?}}
+ from {{=it.stations.length }}
+{{? it.stations.length == 1 }} station
+{{??}} stations
+{{?}}
+.
+
+  The incident was resolved in {{=it.eventDuration.as('minutes').toFixed(1) }} minutes,
+  closing at {{=it.formatDate(it.eventClosed) }}

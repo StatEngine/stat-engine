@@ -1,0 +1,7 @@
+{{? it.populationDensity == 'Urban' }} The incident occurred in an urban area
+{{?? it.populationDensity == 'Rural' }} The incident occurred in an rural area
+{{?}}
+
+{{? it.censusBlock }}, within census block {{= it.censusBlock }}.
+{{?? }}.
+{{?}}

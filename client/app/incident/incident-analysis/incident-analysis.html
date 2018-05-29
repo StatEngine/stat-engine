@@ -12,7 +12,7 @@
               <logo department="vm.currentPrincipal.FireDepartment"></logo>
             </div>
             <div class="col-md-9">
-              <blockquote>{{ vm.incidentSummaries.overview }}</blockquote>
+              <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="row">
-                      <blockquote>{{ vm.incidentSummaries.location }}</blockquote>
+                      <blockquote>{{ vm.textSummaries.locationSummary }}</blockquote>
                     </div>
                     <hr>
                     <h3 class="text-center"><i class="fa fa-x fa-home"></i>&nbsp;Parcel</h3>
@@ -123,7 +123,7 @@
         <div class="col-md-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Situational Awareness</h5>
-            <blockquote>{{ vm.incidentSummaries.situationalAwareness }}</blockquote>
+            <blockquote>{{ vm.textSummaries.situationalAwarenessSummary }}</blockquote>
             <div class="row">
               <div class="col-md-6">
                 <h3 class="text-center"><i class="fa fa-x fa-sun-o"></i>&nbsp;Weather</h3>
@@ -151,7 +151,7 @@
         <div class="col-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
-            <blockquote>{{ vm.incidentSummaries.response }}</blockquote>
+            <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
             <br>
 
             <div class="row">
@@ -239,11 +239,20 @@
               </div>
               <div class="col-6">
                 <h3> NFPA 1710/1720 Compliance </h3>
-                <ul>
-                  <li ng-repeat="rule in vm.incidentSummaries.nfpaSummary">
-                    <i ng-class="{'fa-check text-success': rule.compliant, 'fa-times text-danger': !rule.compliant }" class="fa"></i>&nbsp;{{rule.description}}
-                  </li>
-                </ul>
+                <div ng-repeat="(key, analysis) in vm.analysis.nfpa">
+                  <h5>
+                    <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
+                      <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
+                    </a>
+                  </h5>
+                  <div id="collapse-{{key}}" class="collapse">
+                    <ul ng-repeat="evidence in analysis.evidence">
+                      <li class="indent-1">
+                        <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
             <hr>

@@ -13,7 +13,7 @@ export default class IncidentAnalysisController {
     this.SegmentService = SegmentService;
     this.currentPrincipal = currentPrincipal;
     this.incident = incident.incident;
-    this.incidentSummaries = incident.summaries;
+    this.textSummaries = incident.textSummaries;
     this.analysis = incident.analysis;
 
     this.travelMatrix = incident.travelMatrix;

@@ -1,0 +1,2 @@
+{{? it.weatherSummary }} {{= it.weatherSummary }}
+{{?}} Conditions at time of incident unknown. 
