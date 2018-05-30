@@ -13,6 +13,47 @@ import {
   getMatrix
 } from './mapbox.helpers';
 
+export function getRecentIncidents(req, res) {
+  const client = connection.getClient();
+
+  const params = {
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
+    size: 40,
+    body: {
+      _source: [
+        'description.incident_number',
+        'description.event_opened',
+        'description.event_closed',
+        'description.units',
+        'description.category',
+        'durations.total_event.minutes'],
+      sort: [{
+        "description.event_opened": {
+          "order": "desc"
+        }
+      }]
+    }
+  };
+
+  if (req.query.q) params.q = req.query.q;
+  else params.body.query = {
+    bool: {
+      must: {
+        term: {
+          'description.active': false,
+        }
+      }
+    }
+  };
+
+
+  client.search(params)
+    .then((searchResults) => {
+      res.json(searchResults.hits.hits);
+    })
+    .catch(err => res.status(500).send());
+}
+
 export function getIncident(req, res) {
   res.json({
     incident: req.incident,
@@ -61,7 +102,7 @@ export function loadComparison(req, res, next) {
   }, {})
 
   return connection.getClient().search({
-    index: '93345-va-richmond_fire_and_emergency_services-fire-incident*', //req.user.FireDepartment.get().es_indices['fire-incident'],
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
     size: 0,
     body: {
       query: {
@@ -76,7 +117,6 @@ export function loadComparison(req, res, next) {
       aggs
     }
   }).then(res => {
-    req.incidentComparison = {};
     req.incidentComparison = res.aggregations;
     next();
   })

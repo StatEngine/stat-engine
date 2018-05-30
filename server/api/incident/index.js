@@ -17,13 +17,13 @@ router.get(
   controller.getIncident,
 );
 
-/*router.get(
-  '/:id/analysis',
+router.get(
+  '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getIncident,
-);*/
+  controller.getRecentIncidents,
+);
 
 router.param('id', controller.loadIncident);
 
