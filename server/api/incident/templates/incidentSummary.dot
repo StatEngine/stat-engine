@@ -1,6 +1,6 @@
 {{=it.departmentName }} responded to
 {{? it.isFireIncident() }} a fire
-{{?? it.isEmsIncident() }} an EMS
+{{?? it.isEMSIncident() }} an EMS
 {{??}} a
 {{?}}
  incident on {{=it.formatDate(it.eventOpened) }}
