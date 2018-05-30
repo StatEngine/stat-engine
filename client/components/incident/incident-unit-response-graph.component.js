@@ -73,7 +73,7 @@ export default class IncidentUnitResponseGraphComponent {
     const shapes = [];
 
     let threshold = 60;
-    if (this.incident.description.category === 'FIRE') threshold = 90;
+    if (this.incident.description.category === 'FIRE') threshold = 80;
 
     shapes.push({
       type: 'line',
