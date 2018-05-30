@@ -1,4 +1,4 @@
-{{? it.firstDueStation }} Station {{= it.firstDueStation }} was first due on the scene.
+This incident is in Station {{? it.firstDueStation }}  {{= it.firstDueStation }}'s first due.
 {{?}}
 
 {{? it.firstUnitDispatched }} {{= it.firstUnitDispatched.unit_id }} was dispatched within {{= it.callAlarmHandlingDurationSeconds }} seconds.
