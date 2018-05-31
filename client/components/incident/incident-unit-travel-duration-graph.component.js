@@ -48,7 +48,6 @@ export default class IncidentUnitTravelDurationGraphComponent {
       name: 'Expected',
       type: 'bar',
       opacity: 0.5,
-      width: [.1, .1, .1],
     };
 
     const actualTrace = {
@@ -57,7 +56,6 @@ export default class IncidentUnitTravelDurationGraphComponent {
       name: 'Actual',
       type: 'bar',
       opacity: 0.5,
-      width: [.2, .2, .2],
     };
 
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);

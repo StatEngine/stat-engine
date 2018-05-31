@@ -25,7 +25,7 @@ export default class FirstEngineArrival extends IncidentRule {
     if (engineTravelTime > this.threshold) grade = GRADES.DANGER;
 
     evidence.push({
-      text: `First engine, ${firstEngineArrived.unit_id} arrived in ${engineTravelTime/60} minutes.`,
+      text: `First engine, ${firstEngineArrived.unit_id} arrived in ${(engineTravelTime/60).toFixed(2)} minutes.`,
       grade: grade
     });
 

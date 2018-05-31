@@ -18,6 +18,9 @@ export default class IncidentAnalysisController {
     this.analysis = incidentData.analysis;
     this.comparison = incidentData.comparison;
     this.travelMatrix = incidentData.travelMatrix;
+
+    this.streetView = `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${this.incident.address.address_line1},${this.incident.address.city},${this.incident.address.state}&key==;
+    console.dir(this.streetView);
   }
 
 }

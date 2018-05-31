@@ -118,8 +118,12 @@ export class Incident {
     return this.firstUnitArrived ? _.get(this.firstUnitArrived, 'unit_status.arrived.timestamp') : undefined;
   }
 
-  get alarmProcessingTimeSeconds() {
+  get alarmProcessingDurationSeconds() {
     return _.get(this.incident, 'NFPA.alarm_processing_duration_seconds');
+  }
+
+  get alarmAnsweringDurationSeconds() {
+    return _.get(this.incident, 'NFPA.alarm_answering_duration_seconds');
   }
 
   get firstEngineTravelSeconds() {

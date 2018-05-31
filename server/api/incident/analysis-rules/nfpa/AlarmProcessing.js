@@ -19,7 +19,7 @@ export default class AlarmProcessing extends IncidentRule {
   getEvidence() {
     const evidence = [];
 
-    const alarmProcessingTime = this.incident.alarmProcessingTimeSeconds;
+    const alarmProcessingTime = this.incident.alarmProcessingDurationSeconds;
     let grade = GRADES.SUCCESS;
     if (alarmProcessingTime > this.warningThreshold) grade = GRADES.WARNING;
     if (alarmProcessingTime > this.dangerThreshold) {

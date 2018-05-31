@@ -17,4 +17,4 @@
 .
 
   The incident was resolved in {{=it.eventDuration.as('minutes').toFixed(1) }} minutes,
-  closing at {{=it.formatDate(it.eventClosed) }}
+  closing on {{=it.formatDate(it.eventClosed) }}
