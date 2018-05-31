@@ -1,5 +1,8 @@
-{{? it.populationDensity == 'Urban' }} The incident occurred in an urban area
-{{?? it.populationDensity == 'Rural' }} The incident occurred in an rural area
+The incident occurred
+{{? it.distanceFromFireDepartment }} {{= it.distanceFromFireDepartment }} miles from the nearest fire department, 
+{{?}}
+{{? it.populationDensity == 'Urban' }} in an urban area
+{{?? it.populationDensity == 'Rural' }} in an rural area
 {{?}}
 
 {{? it.censusBlock }}, within census block {{= it.censusBlock }}.

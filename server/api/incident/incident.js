@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-const DATE_FORMAT = 'MMMM Do YYYY [at] hh:mm:ss';
+import humanizeDuration from 'humanize-duration';
+
+const DATE_FORMAT = 'hh:mm  on MMMM Do YYYY';
 
 export class Incident {
   constructor(incident) {
@@ -32,6 +34,30 @@ export class Incident {
     return this.category === 'OTHER'
   }
 
+  get address() {
+    return _.get(this.incident, 'address');
+  }
+
+  get fire_department() {
+    return _.get(this.incident, 'fire_department');
+  }
+
+  get description() {
+    return _.get(this.incident, 'description');
+  }
+
+  get durations() {
+    return _.get(this.incident, 'durations');
+  }
+
+  get NFPA() {
+    return _.get(this.incident, 'NFPA');
+  }
+
+  get weather() {
+    return _.get(this.incident, 'weather');
+  }
+
   get eventOpened() {
     return _.get(this.incident, 'description.event_opened');
   }
@@ -40,13 +66,7 @@ export class Incident {
     return _.get(this.incident, 'description.event_closed');
   }
 
-  get eventDuration() {
-    return moment.duration(
-      moment(_.get(this.incident, 'description.event_closed'))
-      .diff(moment(_.get(this.incident, 'description.event_opened'))));
-  }
-
-  get departmentName() {
+  get fireDepartmentName() {
     return _.get(this.incident, 'fire_department.name');
   }
 
@@ -82,12 +102,19 @@ export class Incident {
     return  _.get(this.incident, 'address.first_due');
   }
 
-  get callAlarmHandlingDurationSeconds() {
-    return  _.get(this.incident, 'durations.alarm_handling.seconds');
+  get callAlarmHandlingDurationHumanized() {
+    let seconds = _.get(this.incident, 'durations.alarm_handling.seconds')
+    return seconds ? humanizeDuration(seconds*1000) : undefined;
   }
 
-  get totalResponseDurationMinutes() {
-    return  _.get(this.incident, 'durations.total_response.minutes');
+  get totalResponseDurationHumanized() {
+    let seconds =  _.get(this.incident, 'durations.total_response.seconds');
+    return seconds ? humanizeDuration(seconds*1000) : undefined;
+  }
+
+  get totalEventDurationHumanized() {
+    let seconds =  _.get(this.incident, 'durations.total_event.seconds');
+    return seconds ? humanizeDuration(seconds*1000) : undefined;
   }
 
   get firstUnitDispatched() {
@@ -132,5 +159,9 @@ export class Incident {
 
   get travelMatrix() {
     return _.get(this.incident, 'travelMatrix');
+  }
+
+  get distanceFromFireDepartment() {
+    return _.get(this.incident, 'address.distance_from_fire_department');
   }
 }

@@ -8,11 +8,16 @@
         <div class="col-md-12">
           <div class="card light-border">
             <h5 class="card-header"><span><i class="fa fa-newspaper-o">&nbsp;</i></span>Summary</h5>
-            <div class="col-md-3">
-              <logo department="vm.currentPrincipal.FireDepartment"></logo>
-            </div>
-            <div class="col-md-9">
-              <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
+            <div class="row">
+              <div class="col-md-3">
+                <logo department="vm.currentPrincipal.FireDepartment"></logo>
+              </div>
+              <div class="col-md-9">
+                <h4><strong> {{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </strong> </h4>
+                <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
+                <h5 class="text-center"> <a role="button" data-toggle="collapse" data-target="#collapse-comments"> View Dispatch Comments </a></h5>
+                <pre id="collapse-comments"  class="collapse"> {{ vm.incident.description.comments }}</pre>
+              </div>
             </div>
           </div>
         </div>
@@ -24,9 +29,12 @@
             <h5 class="card-header"><span><i class="fa fa-map">&nbsp;</i></span>Location</h5>
             <div clas="row">
               <h2 class="text-center">
-                {{ vm.incident.address.address_line1 }} <br>
+                {{ vm.incident.address.address_line1 }} <span ng-if="vm.incident.address.common_place_name"> ({{vm.incident.address.common_place_name}}) </span><br>
                 {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
               </h2>
+            </div>
+            <div class="row">
+              <blockquote>{{ vm.textSummaries.locationSummary }}</blockquote>
             </div>
             <div class="row">
               <div class="col-md-7">
@@ -34,86 +42,84 @@
               </div>
               <div class="col-md-5">
                 <div class="row">
-                  <div class="col-12">
-                    <div class="row">
-                      <blockquote>{{ vm.textSummaries.locationSummary }}</blockquote>
+                  <div class="col-md-6">
+                    <div class="text-center">
+                      <h4><strong>Battalion</strong> </h4>
+                      <h3> {{ vm.incident.address.battalion }}</h3>
                     </div>
-                    <hr>
-                    <h3 class="text-center"><i class="fa fa-x fa-home"></i>&nbsp;Parcel</h3>
-                    <div>
-                      <img ng-src="{{vm.streetView}}"></img>
-                    </div>
-                    <div ng-if="!vm.incident.address.location.parcel" class="text-center">
-                      <span class="text-warning"> No parcel data available</span>
-                    </div>
-
-                    <div ng-if="vm.incident.address.location.parcel" class="row">
-                      <div class="col-4">
-                        <div class="text-center">
-                          <h4><strong>Land Use</strong> </h4>
-                          <h3> {{ vm.incident.address.location.parcel.land_use }}</h3>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="text-center">
-                          <h4><strong>Land Area</strong></h4>
-                          <h3> {{ vm.incident.address.location.parcel.land_area | number:0 }}</h3>
-                          <h5>sq ft</h5>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="text-center">
-                          <h4><strong>Dwelling Value</strong></h4>
-                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 1000000"> $$$$ <h3>
-                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 500000 && vm.incident.address.location.parcel.dwelling_value < 1000000"> $$$ <h3>
-                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 250000 && vm.incident.address.location.parcel.dwelling_value < 500000"> $$ <h3>
-                          <h3 ng-if="vm.incident.address.location.parcel.dwelling_value < 250000"> $ <h3>
-                          <h4> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h4>
-                        </div>
-                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="text-center">
+                      <h4><strong>Response Zone</strong> </h4>
+                      <h3> {{ vm.incident.address.response_zone }}</h3>
                     </div>
                   </div>
                 </div>
-
                 <hr>
+                <h3 class="text-center"><i class="fa fa-x fa-home"></i>&nbsp;Parcel</h3>
 
-                <div class="row mt-2">
-                  <div class="col-12">
-                    <h3 class="text-center"><i class="fa fa-x fa-users"></i>&nbsp;Census</h3>
+                <div ng-if="!vm.incident.address.location.parcel" class="text-center">
+                  <span class="text-warning"> No parcel data available</span>
+                </div>
 
-                    <div ng-if="!vm.incident.address.location.census" class="text-center">
-                      <span class="text-warning"> No census data available.  <a href="#" ui-sref="site.marketplace.home"> Request </a> to add now </span>
+                <div ng-if="vm.incident.address.location.parcel" class="row">
+                  <div class="col-4">
+                    <div class="text-center">
+                      <h4><strong>Land Use</strong> </h4>
+                      <h3> {{ vm.incident.address.location.parcel.land_use }}</h3>
                     </div>
-
-                    <div ng-if="vm.incident.address.location.census" class="row">
-                      <div class="col-3">
-                        <div class="text-center">
-                          <h4><strong>Year</strong></h4>
-                          <h3> 2010 </h3>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="text-center">
-                          <h4><strong>Density</strong></h4>
-                          <h3 ng-if="vm.incident.address.population_density === 'Urban'"><i class="fa fa-2x fa-building"></i></h3>
-                          <h3 ng-if="vm.incident.address.population_density === 'Rural'"><i class="fa fa-2x fa-square-o"></i></h3>
-                          <h5> {{ vm.incident.address.population_density }} </h5>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="text-center">
-                          <h4><strong>Tract</strong></h4>
-                          <h3> {{ vm.incident.address.location.census.census_2010.tract }}</h3>
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="text-center">
-                          <h4><strong>Block</strong></h4>
-                          <h3> {{ vm.incident.address.location.census.census_2010.block }} </h3>
-                        </div>
-                      </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-center">
+                      <h4><strong>Land Area</strong></h4>
+                      <h3> <span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{ vm.incident.address.location.parcel.land_area | number:0 }} </h3>
+                      <h5>sq ft</h5>
                     </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-center">
+                      <h4><strong>Dwelling Value</strong></h4>
+                      <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 1000000"> $$$$ <h3>
+                      <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 500000 && vm.incident.address.location.parcel.dwelling_value < 1000000"> $$$ <h3>
+                      <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 250000 && vm.incident.address.location.parcel.dwelling_value < 500000"> $$ <h3>
+                      <h3 ng-if="vm.incident.address.location.parcel.dwelling_value < 250000"> $ <h3>
+                      <h4> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h4>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <h3 class="text-center"><i class="fa fa-x fa-users"></i>&nbsp;Census</h3>
 
+                <div ng-if="!vm.incident.address.location.census" class="text-center">
+                  <span class="text-warning"> No census data available.  <a href="#" ui-sref="site.marketplace.home"> Request </a> to add now </span>
+                </div>
+
+                <div ng-if="vm.incident.address.location.census" class="row">
+                  <div class="col-3">
+                    <div class="text-center">
+                      <h4><strong>Year</strong></h4>
+                      <h3> 2010 </h3>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="text-center">
+                      <h4><strong>Density</strong></h4>
+                      <h3 ng-if="vm.incident.address.population_density === 'Urban'"><i class="fa fa-2x fa-building"></i></h3>
+                      <h3 ng-if="vm.incident.address.population_density === 'Rural'"><i class="fa fa-2x fa-square-o"></i></h3>
+                      <h5> {{ vm.incident.address.population_density }} </h5>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="text-center">
+                      <h4><strong>Tract</strong></h4>
+                      <h3> {{ vm.incident.address.location.census.census_2010.tract }}</h3>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="text-center">
+                      <h4><strong>Block</strong></h4>
+                      <h3> {{ vm.incident.address.location.census.census_2010.block }} </h3>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -190,7 +196,7 @@
             <div class="row pt-5">
               <div class="col-lg-12">
                 <h4 class="text-center">Timeline of Events</h4>
-                <incident-timeline incident="vm.incident"></incident-timeline>
+                <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
               </div>
             </div>
             <div class="row pt-5">

@@ -11,7 +11,7 @@ export function getMatrix(incident, cb) {
     const latitude = _.get(u, 'unit_status.dispatched.latitude');
     if (latitude && longitude) pairs.push({ unit_id, longitude, latitude });
   })
-  if (pairs.length === 0) return cb(new Error('No units dispatch coordinates'));
+  if (pairs.length === 0) return cb(null);
 
   let longitude =  _.get(incident, 'address.longitude');
   let latitude =  _.get(incident, 'address.latitude');

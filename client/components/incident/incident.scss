@@ -1,27 +1,46 @@
-.vis-item.dispatched {
-  border-color: red;
+.vis-item.point {
+  border-color: black;
 }
 
-.vis-item.enroute {
-  border-color: orange;
+.vis-item.unit-turnout-duration {
+  background-color: #DFE14E;
+  border-color: #DFE14E;
 }
 
-.vis-item.arrived {
-  border-color: green;
+.vis-item.unit-travel-duration {
+  background-color: #F36B25;
+  border-color: #F36B25;
 }
 
-.vis-item.turnout-duration {
-  background-color: #0f9b0f;
-}
-
-.vis-item.travel-duration {
-  border-color: green;
+.vis-item.unit-event-duration {
+  background-color: #5BC7E2;
+  border-color: #5BC7E2;
 }
 
 .vis-item.event-duration {
-  background-color: #FFEFD5;
+  background-color: #E0E0D9;
+  background-color: #E0E0D9;
 }
 
 .vis-item.alarm-processing-duration {
-  background-color: #f4c242;
+  background-color: #A491D3;
+}
+
+.vis.timeline .item.dot {
+border: 0;
+background: transparent;
+}
+
+.vis.timeline .item.point .content {
+    margin-left: 0px !important;
+}
+.vis.timeline .item.point .content .fa {
+    margin-right: 5px;
+}
+.vis.timeline .item.dot {
+    display: none;
+}
+
+.vis-item-content  {
+  text-align: center;
 }

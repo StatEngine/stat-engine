@@ -12,7 +12,7 @@ export default class FirstEngineArrival extends IncidentRule {
   }
 
   applicable() {
-    return true;
+    return this.incident.isFireIncident();
   }
 
   getEvidence() {
@@ -22,13 +22,18 @@ export default class FirstEngineArrival extends IncidentRule {
     const firstEngineArrived = this.incident.firstEngineUnitArrived;
 
     let grade = GRADES.SUCCESS;
-    if (engineTravelTime > this.threshold) grade = GRADES.DANGER;
-
-    evidence.push({
-      text: `First engine, ${firstEngineArrived.unit_id} arrived in ${(engineTravelTime/60).toFixed(2)} minutes.`,
-      grade: grade
-    });
-
+    if (!firstEngineArrived) {
+      evidence.push({
+        text: `No engine arrived on scene.`,
+        grade: GRADES.DANGER
+      });
+    } else {
+      if (engineTravelTime > this.threshold) grade = GRADES.DANGER;
+      evidence.push({
+        text: `First engine, ${firstEngineArrived.unit_id} arrived in ${(engineTravelTime/60).toFixed(2)} minutes.`,
+        grade: grade
+      });
+    }
     return evidence;
   }
 }

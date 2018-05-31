@@ -1,8 +1,8 @@
-This incident is in Station {{? it.firstDueStation }}  {{= it.firstDueStation }}'s first due.
+{{? it.firstDueStation }} Station {{= it.firstDueStation }} was assigned first due.
 {{?}}
 
-{{? it.firstUnitDispatched }} {{= it.firstUnitDispatched.unit_id }} was dispatched within {{= it.callAlarmHandlingDurationSeconds }} seconds.
+{{? it.firstUnitDispatched }} {{= it.firstUnitDispatched.unit_id }} was dispatched within {{= it.callAlarmHandlingDurationHumanized }}.
 {{?}}
 
-{{? it.firstUnitArrived }} {{= it.firstUnitArrived.unit_id }} was the first to arrive, {{= it.totalResponseDurationMinutes.toFixed(1) }} minutes after the call was received.
+{{? it.firstUnitArrived }} {{= it.firstUnitArrived.unit_id }} was the first to arrive, {{= it.totalResponseDurationHumanized }} after the call was received.
 {{?}}

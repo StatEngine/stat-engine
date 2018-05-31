@@ -1,11 +1,12 @@
-{{=it.departmentName }} responded to
+{{=it.fireDepartmentName }} responded to
 {{? it.isFireIncident() }} a fire
 {{?? it.isEMSIncident() }} an EMS
-{{??}} a
+{{??}} an
 {{?}}
- incident on {{=it.formatDate(it.eventOpened) }}
+ incident at {{=it.formatDate(it.eventOpened) }}
 .
 
+{{? it.units && it.units.length > 1 }}
   The response included {{=it.units.length }}
 {{? it.units.length == 1 }} unit
 {{??}} units
@@ -15,6 +16,19 @@
 {{??}} stations
 {{?}}
 .
+{{?}}
 
-  The incident was resolved in {{=it.eventDuration.as('minutes').toFixed(1) }} minutes,
-  closing on {{=it.formatDate(it.eventClosed) }}
+
+{{? it.firstDueStation }} Station {{= it.firstDueStation }} was assigned first due.
+{{?}}
+
+{{? it.firstUnitDispatched }} {{= it.firstUnitDispatched.unit_id }} was dispatched within {{= it.callAlarmHandlingDurationHumanized }}.
+{{?}}
+
+{{? it.firstUnitArrived }} {{= it.firstUnitArrived.unit_id }} was the first to arrive, {{= it.totalResponseDurationHumanized }} after the call was received.
+{{?}}
+
+
+
+  The incident was resolved in {{=it.totalEventDurationHumanized }},
+  closing at {{=it.formatDate(it.eventClosed) }}.

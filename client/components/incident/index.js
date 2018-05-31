@@ -21,6 +21,7 @@ export default angular.module('incident', [])
     controllerAs: 'vm',
     bindings: {
       incident: '<',
+      timezone: '<',
     },
   })
   .component('incidentUnitResponseGraph', {
