@@ -98,7 +98,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
       }, {
         x: -0.75,
         y: firstArrived.extended_data.travel_duration,
-        text: 'This Incident',
+        text: this.incident.description.incident_number || 'This Incident',
         showarrow: true,
         arrowhead: 9,
         arrowcolor: 'black',

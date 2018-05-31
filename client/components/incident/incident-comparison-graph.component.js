@@ -47,7 +47,7 @@ export default class IncidentComparisonGraphComponent {
         width: 4,
         dash: 'dash',
       },
-      name: 'This Incident'
+      name: this.incident.description.incident_number || 'This incident'
     });
 
 
@@ -66,7 +66,7 @@ export default class IncidentComparisonGraphComponent {
       annotations: [{
         x: -0.75,
         y: this.incident.description.extended_data.response_duration,
-        text: 'This Incident',
+        text: this.incident.description.incident_number || 'This incident',
         showarrow: true,
         arrowhead: 9,
         arrowcolor: 'black',
