@@ -79,27 +79,33 @@ export function loadComparison(req, res, next) {
   let census = req.incident.address.location.census.census_2010.tract;
   let councilDistrict = req.incident.address.location.council_district;
 
+  const pulsePoint = !_.isEmpty(req.incident.description.extended_data.AgencyIncidentCallTypeDescription);
+  const incidentType = pulsePoint ? req.incident.description.extended_data.AgencyIncidentCallTypeDescription : req.incident.description.type;
+  const incidentTypeFilter = pulsePoint ? { term: {'description.extended_data.AgencyIncidentCallTypeDescription.keyword': incidentType }} : { term: {'description.type': incidentType }};
+
   const aggs = [
-    [`Response Zone ${responseZone}`, { term: {'address.response_zone': responseZone }}],
-    [`Battalion ${battalion}`, { term: {'address.battalion': battalion }}],
-    [`First Due ${firstDue}`, { term: {'address.first_due': firstDue }}],
-    [`Census ${census}`, { term: {'address.location.census.census_2010.tract': census }}],
-    [`Council District ${councilDistrict}`, { term: {'address.location.council_district': councilDistrict }}],
-  ].reduce((acc, val) => {
-    const [name, filter] = val;
-    acc[name] = {
-      filter,
-      aggs: {
-        response_duration_percentile_rank: {
-          percentiles: {
-            field: 'description.extended_data.response_duration',
-            percents: [90]
+    [`Response Zone: ${responseZone}`, { term: {'address.response_zone': responseZone }}],
+    [`Battalion: ${battalion}`, { term: {'address.battalion': battalion }}],
+    [`First Due: ${firstDue}`, { term: {'address.first_due': firstDue }}],
+    [`Census: ${census}`, { term: {'address.location.census.census_2010.tract': census }}],
+    [`Council District: ${councilDistrict}`, { term: {'address.location.council_district': councilDistrict }}],
+    [`Incident Type: ${incidentType}`, incidentTypeFilter],
+  ].filter(rule => rule[0].indexOf('undefined') < 0)
+    .reduce((acc, val) => {
+      const [name, filter] = val;
+      acc[name] = {
+        filter,
+        aggs: {
+          response_duration_percentile_rank: {
+            percentiles: {
+              field: 'description.extended_data.response_duration',
+              percents: [90]
+            }
           }
         }
-      }
-    };
-    return acc;
-  }, {})
+      };
+      return acc;
+    }, {});
 
   return connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],

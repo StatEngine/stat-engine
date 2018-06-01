@@ -61,7 +61,7 @@ export default class IncidentComparisonGraphComponent {
       },
       type: 'bar'
     }], {
-      title: '90th Percentile Response Time Comparisons',
+      title: 'Response Time Comparisons<br><span style="font-size: 14px">Dispatch to the first arriving unit.</span>',
       shapes: shapes,
       annotations: [{
         x: -0.75,
@@ -75,7 +75,10 @@ export default class IncidentComparisonGraphComponent {
         },
         ax: -10,
         ay: -30
-      }]
+      }],
+      yaxis: {
+        title: '90th Percentile Response Time (sec)'
+      }
     });
   }
 }
