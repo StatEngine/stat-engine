@@ -1,5 +1,5 @@
 The incident occurred
-{{? it.distanceFromFireDepartment }} {{= it.distanceFromFireDepartment }} miles from the nearest fire department, 
+{{? it.distanceFromFireDepartment }} {{= it.distanceFromFireDepartment }} miles from the nearest unit, 
 {{?}}
 {{? it.populationDensity == 'Urban' }} in an urban area
 {{?? it.populationDensity == 'Rural' }} in an rural area
