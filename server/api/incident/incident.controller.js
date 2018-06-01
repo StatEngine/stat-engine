@@ -29,8 +29,8 @@ export function getRecentIncidents(req, res) {
         'description.category',
         'durations.total_event.minutes'],
       sort: [{
-        "description.event_opened": {
-          "order": "desc"
+        'description.event_opened': {
+          order: 'desc'
         }
       }]
     }
@@ -39,11 +39,15 @@ export function getRecentIncidents(req, res) {
   if (req.query.q) params.q = req.query.q;
   else params.body.query = {
     bool: {
-      must: {
+      must: [{
         term: {
           'description.active': false,
         }
-      }
+      }, {
+        term: {
+          'description.suppressed': false,
+        }
+      }]
     }
   };
 
