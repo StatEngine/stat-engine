@@ -84,6 +84,9 @@ export function loadComparison(req, res, next) {
   let addressLine1 = req.incident.address.address_line1;
   let census = req.incident.address.location.census.census_2010.tract;
   let councilDistrict = req.incident.address.location.council_district;
+  let precinct = req.incident.address.location.precinct;
+  let ward = req.incident.address.location.precinct_ward;
+  let neighborhood = req.incident.address.location.neighborhood;
 
   const pulsePoint = !_.isEmpty(req.incident.description.extended_data.AgencyIncidentCallTypeDescription);
   const incidentType = pulsePoint ? req.incident.description.extended_data.AgencyIncidentCallTypeDescription : req.incident.description.type;
@@ -97,6 +100,9 @@ export function loadComparison(req, res, next) {
     [`Census: ${census}`, { term: {'address.location.census.census_2010.tract': census }}],
     [`Council District: ${councilDistrict}`, { term: {'address.location.council_district': councilDistrict }}],
     [`Incident Type: ${incidentType}`, incidentTypeFilter],
+    [`Precinct: ${precinct}`, { term: {'address.location.precinct': precinct }}],
+    [`Ward: ${ward}`, { term: {'address.location.precinct_ward': ward }}],
+    [`Neighborhood: ${neighborhood}`, { term: {'address.location.neighborhood': neighborhood }}],
   ].filter(rule => rule[0].indexOf('undefined') < 0)
     .reduce((acc, val) => {
       const [name, filter] = val;
