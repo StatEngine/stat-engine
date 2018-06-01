@@ -21,16 +21,16 @@ export default class IncidentSearchController {
         field: 'description.event_closed',
         displayName: 'Event Closed'
       }, {
-        field: 'durations.total_event.minutes',
-        displayName: 'Event Duration (min)',
-        cellFilter: 'number: 2',
+        field: 'durations.total_event.seconds',
+        displayName: 'Event Duration',
+        cellFilter: 'humanizeDuration',
       }, {
         field: 'description.units.length',
         displayName: '# Units',
         width: 100,
       }, {
         field: 'description.category',
-        displayName: 'Type',
+        displayName: 'Category',
         width: 100,
       }]
     }

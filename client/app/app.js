@@ -83,13 +83,15 @@ import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
 import incidentComponents from '../components/incident';
+import humanizeComponents from '../components/humanize/humanize-duration.filter';
+
 
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
   'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
   spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
-  /*socket,*/ util, angulartics, gtm
+  /*socket,*/ util, angulartics, gtm, humanizeComponents
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {

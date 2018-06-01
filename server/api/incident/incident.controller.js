@@ -27,7 +27,7 @@ export function getRecentIncidents(req, res) {
         'description.event_closed',
         'description.units',
         'description.category',
-        'durations.total_event.minutes'],
+        'durations.total_event.seconds'],
       sort: [{
         'description.event_opened': {
           order: 'desc'
