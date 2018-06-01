@@ -15,6 +15,9 @@ export default class IncidentSearchController {
         displayName: 'Incident Number',
         cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col )}}</a></div>'
       }, {
+        field: 'address.address_line1',
+        displayName: 'Address'
+      }, {
         field: 'description.event_closed',
         displayName: 'Event Closed'
       }, {

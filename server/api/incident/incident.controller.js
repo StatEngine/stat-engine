@@ -22,6 +22,7 @@ export function getRecentIncidents(req, res) {
     body: {
       _source: [
         'description.incident_number',
+        'address.address_line1',
         'description.event_opened',
         'description.event_closed',
         'description.units',
@@ -76,6 +77,7 @@ export function loadComparison(req, res, next) {
   let responseZone = req.incident.address.response_zone;
   let battalion = req.incident.address.battalion;
   let firstDue = req.incident.address.first_due;
+  let addressLine1 = req.incident.address.address_line1;
   let census = req.incident.address.location.census.census_2010.tract;
   let councilDistrict = req.incident.address.location.council_district;
 
@@ -87,6 +89,7 @@ export function loadComparison(req, res, next) {
     [`Response Zone: ${responseZone}`, { term: {'address.response_zone': responseZone }}],
     [`Battalion: ${battalion}`, { term: {'address.battalion': battalion }}],
     [`First Due: ${firstDue}`, { term: {'address.first_due': firstDue }}],
+    [`Address: ${addressLine1}`, { term: {'address.address_line1': addressLine1 }}],
     [`Census: ${census}`, { term: {'address.location.census.census_2010.tract': census }}],
     [`Council District: ${councilDistrict}`, { term: {'address.location.council_district': councilDistrict }}],
     [`Incident Type: ${incidentType}`, incidentTypeFilter],
