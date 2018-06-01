@@ -20,10 +20,12 @@
                   </div>
                   <hr>
                 </div>
-                <h4><strong> {{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </strong> </h4>
+                <h4><strong> {{ vm.incident.incidentType }} <span ng-if="vm.incident.description.subtype">- {{ vm.incident.description.subtype }}</span> </strong> </h4>
                 <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
-                <h5 class="text-center"> <a role="button" data-toggle="collapse" data-target="#collapse-comments"> View Dispatch Comments </a></h5>
-                <pre id="collapse-comments"  class="collapse"> {{ vm.incident.description.comments }}</pre>
+                <div ng-if="vm.incident.description.comments">
+                  <h5 class="text-center"> <a role="button" data-toggle="collapse" data-target="#collapse-comments"> View Dispatch Comments </a></h5>
+                  <pre id="collapse-comments"  class="collapse"> {{ vm.incident.description.comments }}</pre>
+                </div>
               </div>
             </div>
           </div>

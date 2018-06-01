@@ -137,6 +137,11 @@ export class Incident {
     return _.find(this.apparatus, u => _.get(u, 'first_due'));
   }
 
+  get incidentType() {
+    // AgencyIncidentCallTypeDescription are for PulsePoint agencies.
+    return this.description.extended_data.AgencyIncidentCallTypeDescription || this.description.type;
+  }
+
   get firstUnitDueArrivalTime() {
     return this.firstUnitDue ? _.get(this.firstUnitDue, 'unit_status.arrived.timestamp') : undefined;
   }
