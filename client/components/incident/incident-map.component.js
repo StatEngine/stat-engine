@@ -16,6 +16,7 @@ export default class IncidentMapComponent {
       style: 'mapbox://styles/mapbox/light-v9',
       center: incidentLocation,
       zoom: 13,
+      pitch: 60,
     });
 
     const address = `<h4>\
