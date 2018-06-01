@@ -5,10 +5,12 @@ import config from '../../config/environment';
 
 export function getMatrix(incident, cb) {
   let pairs = [];
+  let distances = {};
   _.map(incident.apparatus, u => {
     const unit_id = _.get(u, 'unit_id');
     const longitude = _.get(u, 'unit_status.dispatched.longitude');
     const latitude = _.get(u, 'unit_status.dispatched.latitude');
+    distances[unit_id] = _.get(u, 'distance');
     if (latitude && longitude) pairs.push({ unit_id, longitude, latitude });
   })
   if (pairs.length === 0) return cb(null);
@@ -34,7 +36,6 @@ export function getMatrix(incident, cb) {
     if (err) return cb(err);
 
     /* Body looks like
-
     { distances:
       [ [ 0, 2032, 2982.3, 1928.6 ],
         [ 2065.4, 0, 4650.1, 2453.3 ],
@@ -60,10 +61,10 @@ export function getMatrix(incident, cb) {
     let results = {};
     for (let i = 0; i < destinationIndex; i += 1) {
       let unit = pairs[i].unit_id;
-      console.dir(unit);
       results[unit] = {
         // convert to miles
-        distance: body.distances[i][destinationIndex] * 0.000621371,
+        // use actual distance with fallback to mapbox
+        distance: distances[unit] || body.distances[i][destinationIndex] * 0.000621371,
         duration: body.durations[i][destinationIndex],
       }
     }

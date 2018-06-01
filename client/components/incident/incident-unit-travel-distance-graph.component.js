@@ -51,7 +51,7 @@ export default class IncidentUnitTravelDistanceGraphComponent {
 
     var data = [estimatedTrace];
     var layout = {
-      title: 'Estimated Travel Distances',
+      title: 'Travel Distances',
       yaxis: {
         title: 'miles',
       },

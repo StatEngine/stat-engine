@@ -13,6 +13,13 @@
                 <logo department="vm.currentPrincipal.FireDepartment"></logo>
               </div>
               <div class="col-md-9">
+                <div ng-if="vm.incident.description.suppressed">
+                  <div class="alert alert-danger text-center mx-5 my-2" role="alert">
+                    <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText"> because {{ vm.incident.description.suppressionText }} </span>.
+                    <br>If you think this has occurred in error, please let us know.
+                  </div>
+                  <hr>
+                </div>
                 <h4><strong> {{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </strong> </h4>
                 <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
                 <h5 class="text-center"> <a role="button" data-toggle="collapse" data-target="#collapse-comments"> View Dispatch Comments </a></h5>
@@ -155,138 +162,126 @@
         </div>
       </div>
 
-      <div class="mt-5 row">
-        <div class="col-12">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
-            <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
-            <br>
+      <section ng-if="vm.incident.description.suppressed">
+        &nbsp;
+      </section>
+      <section ng-if="!vm.incident.description.suppressed">
+        <div class="mt-5 row">
+          <div class="col-12">
+            <div class="card light-border">
+              <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
+              <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
+              <br>
 
-            <div class="row">
-              <div class="col-lg-3 pt-2">
-                <div class="card light-border">
-                  <h5 class="card-header"><span><i class="fa fa-phone">&nbsp;</i></span>Alarm Answer</h5>
-                  <h5 class="text-center">Call answered in</h5>
-                  <h2 class="text-center">{{ vm.incident.durations.alarm_answer.seconds }} <subscript>secs</subscript></h2>
+              <div class="row">
+                <div class="col-lg-3 pt-2">
+                  <div class="card light-border">
+                    <h5 class="card-header"><span><i class="fa fa-phone">&nbsp;</i></span>Alarm Answer</h5>
+                    <h5 class="text-center">Call answered in</h5>
+                    <h2 class="text-center">{{ vm.incident.durations.alarm_answer.seconds }} <subscript>secs</subscript></h2>
+                  </div>
+                </div>
+                <div class="col-lg-3 pt-2">
+                  <div class="card light-border">
+                    <h5 class="card-header"><span><i class="fa fa-location-arrow">&nbsp;</i></span>Dispatched</h5>
+                    <h5 class="text-center">First unit dispatched in</h5>
+                    <h2 class="text-center">{{ vm.incident.durations.alarm_handling.seconds }} <subscript>secs</subscript></h2>
+                  </div>
+                </div>
+                <div class="col-lg-3 pt-2">
+                  <div class="card light-border">
+                    <h5 class="card-header"><span><i class="fa fa-map-marker">&nbsp;</i></span>On Scene</h5>
+                    <h5 class="text-center">First unit on scene in</h5>
+                    <h2 class="text-center"> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>mins</subscript></h2>
+                  </div>
+                </div>
+                <div class="col-lg-3 pt-2">
+                  <div class="card light-border">
+                    <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Event</h5>
+                    <h5 class="text-center">Resolved in</h5>
+                    <h2 class="text-center"> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>mins</subscript></h2>
+                  </div>
                 </div>
               </div>
-              <div class="col-lg-3 pt-2">
-                <div class="card light-border">
-                  <h5 class="card-header"><span><i class="fa fa-location-arrow">&nbsp;</i></span>Dispatched</h5>
-                  <h5 class="text-center">First unit dispatched in</h5>
-                  <h2 class="text-center">{{ vm.incident.durations.alarm_handling.seconds }} <subscript>secs</subscript></h2>
-                </div>
-              </div>
-              <div class="col-lg-3 pt-2">
-                <div class="card light-border">
-                  <h5 class="card-header"><span><i class="fa fa-map-marker">&nbsp;</i></span>On Scene</h5>
-                  <h5 class="text-center">First unit on scene in</h5>
-                  <h2 class="text-center"> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>mins</subscript></h2>
-                </div>
-              </div>
-              <div class="col-lg-3 pt-2">
-                <div class="card light-border">
-                  <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Event</h5>
-                  <h5 class="text-center">Resolved in</h5>
-                  <h2 class="text-center"> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>mins</subscript></h2>
-                </div>
-              </div>
-            </div>
 
-            <div class="row pt-5">
-              <div class="col-lg-12">
-                <h4 class="text-center">Timeline of Events</h4>
-                <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
+              <div class="row pt-5">
+                <div class="col-lg-12">
+                  <h4 class="text-center">Timeline of Events</h4>
+                  <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
+                </div>
               </div>
-            </div>
-            <div class="row pt-5">
-              <div class="col-lg-6">
-                <incident-alarm-handling-graph incident="vm.incident"></incident-alarm-handling-graph>
+              <div class="row pt-5">
+                <div class="col-lg-4">
+                  <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
+                </div>
+                <div class="col-lg-4">
+                  <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
+                </div>
+                <div class="col-lg-4">
+                  <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
+                </div>
               </div>
-              <div class="col-lg-6">
-                <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
+              <div class="row pt-5">
+                <div class="col-lg-6">
+                  <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
+                </div>
+                <div class="col-lg-6">
+                  <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
+                </div>
               </div>
-            </div>
-            <div class="row pt-5">
-              <div class="col-lg-6">
-                <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
-              </div>
-              <div class="col-lg-6">
-                <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
-              </div>
-            </div>
-            <div class="row pt-5 text-center">
-              <div class="col-lg-12">
-                <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+              <div class="row pt-5 text-center">
+                <div class="col-lg-12">
+                  <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="mt-5 mb-4 row">
-        <div class="col-md-12">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>Performance Analysis</h5>
-            <div class="row">
-              <div class="col-12">
-                <h3> StatEngine&trade; Analysis </h3>
-                <div ng-repeat="(key, analysis) in vm.analysis.statEngine">
-                  <h5>
-                    <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
-                      <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
-                    </a>
-                  </h5>
-                  <div id="collapse-{{key}}" class="collapse">
-                    <ul ng-repeat="evidence in analysis.evidence">
-                      <li class="indent-1">
-                        <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
-                      </li>
-                    </ul>
+        <div class="mb-5 mt-5 row">
+          <div class="col-md-12">
+            <div class="card light-border">
+              <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>Performance Analysis</h5>
+              <div class="row">
+                <div class="col-12">
+                  <h3> StatEngine&trade; Analysis </h3>
+                  <div ng-repeat="(key, analysis) in vm.analysis.statEngine">
+                    <h5>
+                      <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
+                        <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
+                      </a>
+                    </h5>
+                    <div id="collapse-{{key}}" class="collapse">
+                      <ul ng-repeat="evidence in analysis.evidence">
+                        <li class="indent-1">
+                          <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <h3> NFPA 1710/1720 Compliance </h3>
+                  <div ng-repeat="(key, analysis) in vm.analysis.nfpa">
+                    <h5>
+                      <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
+                        <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
+                      </a>
+                    </h5>
+                    <div id="collapse-{{key}}" class="collapse">
+                      <ul ng-repeat="evidence in analysis.evidence">
+                        <li class="indent-1">
+                          <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-6">
-                <h3> NFPA 1710/1720 Compliance </h3>
-                <div ng-repeat="(key, analysis) in vm.analysis.nfpa">
-                  <h5>
-                    <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
-                      <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
-                    </a>
-                  </h5>
-                  <div id="collapse-{{key}}" class="collapse">
-                    <ul ng-repeat="evidence in analysis.evidence">
-                      <li class="indent-1">
-                        <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+              <hr>
             </div>
-            <hr>
-            <!--<div class="row">
-              <div class="col-12">
-                <h3> Trending <sup>BETA</sup> </h3>
-                <ul>
-                  <li><i class="fa fa-check text-success"></i>&nbsp;Responding shift (A) is currently leading turnout performance</li>
-                  <li><i class="fa fa-warning text-warning"></i>&nbsp;This address has been called to 5 times in the past year</li>
-                  <li><i class="fa fa-warning text-warning"></i>&nbsp;On rainy days, travel times are 2x slower on average</li>
-                  <li><i class="fa fa-exclamation text-danger"></i>&nbsp;Incidents between 12:00AM and 3:00AM have 3% slower turnout times</li>
-                </ul>
-              </div>
-            </div>
-          -->
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </section>
 </div>
-
-<!--
-Summary of analysis
-
-calls this year
-time of day
-shift day
--->

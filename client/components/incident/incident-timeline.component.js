@@ -124,7 +124,7 @@ export default class IncidentTimelineComponent {
       if (arrived && cleared) {
         const eventDuration = moment.duration(moment(cleared).diff(moment(arrived)))
         items.push({
-          id: u.unit_id + 'R',
+          id: u.unit_id + 'intervention',
           start: arrived,
           end: cleared,
           type: 'range',
@@ -132,6 +132,24 @@ export default class IncidentTimelineComponent {
           className: 'unit-event-duration',
           title: '<b> Intervention for ' + humanizeDuration(eventDuration) + '</b>',
           content: this.incident.isFireIncident() ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
+        });
+      }
+
+      if (!arrived && (dispatched || enroute)) {
+        let start;
+        if (enroute) start = enroute;
+        else start = dispatched;
+
+        const cancelledDuration = moment.duration(moment(cleared).diff(moment(start)))
+        items.push({
+          id: u.unit_id + 'Cancelled',
+          start: start,
+          end: cleared,
+          type: 'range',
+          group: u.unit_id,
+          className: 'unit-cancelled-duration',
+          title: '<b> Out-of-service (cancelled) for ' + humanizeDuration(cancelledDuration) + '</b>',
+          content: '<i class="fa fa-ban"></i>'
         });
       }
 
