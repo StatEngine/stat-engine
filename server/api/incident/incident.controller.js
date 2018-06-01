@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import fs from 'fs';
+import path from 'path';
 
 import Promise from 'bluebird';
 import connection from '../../elasticsearch/connection';
@@ -14,6 +16,10 @@ import {
 } from './mapbox.helpers';
 
 export function getRecentIncidents(req, res) {
+  const incidents = fs.readFileSync(path.join(__dirname, './data/incidents.json'));
+
+  res.json(JSON.parse(incidents));
+  /*
   const client = connection.getClient();
 
   const params = {
@@ -51,17 +57,19 @@ export function getRecentIncidents(req, res) {
     .then((searchResults) => {
       res.json(searchResults.hits.hits);
     })
-    .catch(err => res.status(500).send());
+    .catch(err => res.status(500).send());*/
 }
 
 export function getIncident(req, res) {
-  res.json({
+  const incident = fs.readFileSync(path.join(__dirname, './data/incident.json'));
+  res.json(JSON.parse(incident))
+/*  res.json({
     incident: req.incident,
     textSummaries: generateTextualSummaries(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
     analysis: generateAnalysis(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
     travelMatrix: req.travelMatrix,
     comparison: req.incidentComparison,
-  });
+  });*/
 }
 
 export function loadMatrix(req, res, next) {
@@ -123,7 +131,9 @@ export function loadComparison(req, res, next) {
 }
 
 export function loadIncident(req, res, next, id) {
-  const client = connection.getClient();
+  next();
+  // TEMPORARY wire up so bingles can test
+  /*const client = connection.getClient();
 
   client.search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
@@ -149,5 +159,5 @@ export function loadIncident(req, res, next, id) {
       req.incident = hits[0]._source;
       next();
     })
-    .catch(err => next(err));
+    .catch(err => next(err));*/
 }
