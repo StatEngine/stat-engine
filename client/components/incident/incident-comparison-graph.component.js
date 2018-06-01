@@ -26,12 +26,14 @@ export default class IncidentComparisonGraphComponent {
   $onInit() {
     const x = [];
     const y = [];
+    const text = [];
 
     _.forOwn(this.comparison, (data, key) => {
       let value = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']')
       if (value) {
         x.push(key);
-        y.push(value)
+        y.push(value);
+        text.push(`Total incidents: <b>${data.doc_count}</b>`);
       }
     });
 
@@ -52,8 +54,9 @@ export default class IncidentComparisonGraphComponent {
 
 
     Plotly.newPlot(ID, [{
-      x: x,
-      y: y,
+      x,
+      y,
+      text,
       orientation: 'v',
       marker: {
         color: 'rgba(55,128,191,0.6)',
@@ -62,7 +65,7 @@ export default class IncidentComparisonGraphComponent {
       type: 'bar'
     }], {
       title: 'Response Time Comparisons<br><span style="font-size: 14px">Dispatch to the first arriving unit.</span>',
-      shapes: shapes,
+      shapes,
       annotations: [{
         x: -0.75,
         y: this.incident.description.extended_data.response_duration,
