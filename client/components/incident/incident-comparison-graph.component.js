@@ -28,9 +28,11 @@ export default class IncidentComparisonGraphComponent {
     const y = [];
     const text = [];
 
-    _.forOwn(this.comparison, (data, key) => {
-      let value = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']')
-      if (value) {
+
+    _.sortBy(_.toPairs(this.comparison), comp => comp[0]).forEach(comp => {
+      let [key, data] = comp;
+      let value = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']');
+      if(value) {
         x.push(key);
         y.push(value);
         text.push(`Total incidents: <b>${data.doc_count}</b>`);
