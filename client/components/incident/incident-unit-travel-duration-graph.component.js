@@ -26,21 +26,19 @@ export default class IncidentUnitTravelDurationGraphComponent {
   }
 
   $onInit() {
-    const units = _.keys(this.travelMatrix);
-
     const expected = [];
     const actual = [];
 
-    _.forEach(units, unit_id => {
-      let actualUnit = _.find(this.incident.apparatus, u => u.unit_id === unit_id);
-      if (!actualUnit) throw new Error('Could not find unit in apparatus data');
-
-      const actualDuration = _.get(actualUnit, 'extended_data.travel_duration');
-      const expectedDuration = this.travelMatrix[unit_id].duration;
-
+    let units = [];
+    _.forEach(this.incident.apparatus, u => {
+      units.push(u.unit_id);
+      const actualDuration = _.get(u, 'extended_data.travel_duration');
       actual.push(actualDuration);
-      expected.push(expectedDuration);
+
+      const expectedDuration = _.get(this.travelMatrix, `${u.unit_id}.duration`);
+      if (expectedDuration) expected.push(expectedDuration);
     })
+
 
     const expectedTrace = {
       x: units,
@@ -61,27 +59,11 @@ export default class IncidentUnitTravelDurationGraphComponent {
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
 
-    var data = [expectedTrace, actualTrace];
-    var layout = {
-      title: 'Travel Durations',
-      barmode: 'overlay',
-      yaxis: {
-        title: 'seconds',
-      },
-      shapes: [{
-        type: 'line',
-        x0: -1,
-        x1: units.length,
-        y0: firstArrived.extended_data.travel_duration,
-        y1: firstArrived.extended_data.travel_duration,
-        line: {
-          color: 'red',
-          width: 4,
-          dash: 'dash',
-        },
-        name: 'Suggested'
-      }],
-      annotations: [{
+    let shapes = [];
+    let annotations = [];
+
+    if (firstDue) {
+      annotations.push({
         x: firstDue.unit_id,
         y: firstDue.extended_data.travel_duration,
         xref: 'x',
@@ -95,10 +77,26 @@ export default class IncidentUnitTravelDurationGraphComponent {
         },
         ax: 30,
         ay: -30
-      }, {
+      });
+    }
+    if (firstArrived) {
+      shapes.push({
+        type: 'line',
+        x0: -1,
+        x1: units.length,
+        y0: firstArrived.extended_data.travel_duration,
+        y1: firstArrived.extended_data.travel_duration,
+        line: {
+          color: 'red',
+          width: 4,
+          dash: 'dash',
+        },
+        name: 'Suggested'
+      });
+      annotations.push({
         x: -0.75,
         y: firstArrived.extended_data.travel_duration,
-        text: (this.incident.description.incident_number || 'This Incident') + ' First Arrival',
+        text: (this.incident.description.incident_number || 'This Incident'),
         showarrow: true,
         arrowhead: 9,
         arrowcolor: 'black',
@@ -107,7 +105,17 @@ export default class IncidentUnitTravelDurationGraphComponent {
         },
         ax: -10,
         ay: -30
-      }]
+      });
+    }
+    var data = [expectedTrace, actualTrace];
+    var layout = {
+      title: 'Travel Durations',
+      barmode: 'overlay',
+      yaxis: {
+        title: 'seconds',
+      },
+      shapes: shapes,
+      annotations: annotations,
     };
     Plotly.newPlot(ID, data, layout);
   }

@@ -110,6 +110,17 @@ export default class IncidentTimelineComponent {
       const dispatched = _.get(u, 'unit_status.dispatched.timestamp');
       const enroute = _.get(u, 'unit_status.enroute.timestamp');
       const arrived = _.get(u, 'unit_status.arrived.timestamp');
+      const transportStarted = _.get(u, 'unit_status.transport_started.timestamp');
+      const transportArrived = _.get(u, 'unit_status.transport_arrived.timestamp');
+
+      const leftSceneTimestamps = [];
+      _.forEach(['transport_started','available','in_quarters','available_radio','avaiable_mobile','cleared'],
+        prop => {
+          let t = _.get(u, `unit_status.${prop}.timestamp`);
+          if (t) leftSceneTimestamps.push(t);
+        }
+      );
+      let leftScene = _.minBy(leftSceneTimestamps, t => moment(t.timestamp).valueOf());
 
       const clearedTimestamps = [];
       _.forEach(['available','in_quarters','available_radio','avaiable_mobile','cleared'],
@@ -121,17 +132,46 @@ export default class IncidentTimelineComponent {
 
       let cleared = _.minBy(clearedTimestamps, t => moment(t.timestamp).valueOf());
 
-      if (arrived && cleared) {
-        const eventDuration = moment.duration(moment(cleared).diff(moment(arrived)))
+
+      if (arrived && leftScene) {
+        const onSceneDuration = moment.duration(moment(leftScene).diff(moment(arrived)))
         items.push({
-          id: u.unit_id + 'intervention',
+          id: u.unit_id + 'onscene',
           start: arrived,
+          end: leftScene,
+          type: 'range',
+          group: u.unit_id,
+          className: 'unit-on-scene-duration',
+          title: '<b> On scene for ' + humanizeDuration(onSceneDuration) + '</b>',
+          content: this.incident.isFireIncident() ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
+        });
+      }
+
+      if (transportStarted && transportArrived) {
+        const transportDuration = moment.duration(moment(transportArrived).diff(moment(arrived)))
+        items.push({
+          id: u.unit_id + 'transport',
+          start: transportStarted,
+          end: transportArrived,
+          type: 'range',
+          group: u.unit_id,
+          className: 'unit-transport-duration',
+          title: '<b> Transport for ' + humanizeDuration(transportDuration) + '</b>',
+          content: '<i class="fa fa-ambulance"></i>'
+        });
+      }
+
+      if (transportArrived && cleared) {
+        const postTransportDuration = moment.duration(moment(cleared).diff(moment(transportArrived)))
+        items.push({
+          id: u.unit_id + 'post-transport',
+          start: transportArrived,
           end: cleared,
           type: 'range',
           group: u.unit_id,
-          className: 'unit-event-duration',
-          title: '<b> Intervention for ' + humanizeDuration(eventDuration) + '</b>',
-          content: this.incident.isFireIncident() ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
+          className: 'unit-post-transport-duration',
+          title: '<b> Post Transport for ' + humanizeDuration(postTransportDuration) + '</b>',
+          content: '<i class="fa fa-wrench"></i>'
         });
       }
 
@@ -140,11 +180,11 @@ export default class IncidentTimelineComponent {
         if (enroute) start = enroute;
         else start = dispatched;
 
-        const cancelledDuration = moment.duration(moment(cleared).diff(moment(start)))
+        const cancelledDuration = moment.duration(moment(leftScene).diff(moment(start)))
         items.push({
           id: u.unit_id + 'Cancelled',
           start: start,
-          end: cleared,
+          end: leftScene,
           type: 'range',
           group: u.unit_id,
           className: 'unit-cancelled-duration',

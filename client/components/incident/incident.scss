@@ -17,9 +17,19 @@
   border-color: #FF0000;
 }
 
-.vis-item.unit-event-duration {
+.vis-item.unit-on-scene-duration {
   background-color: #5BC7E2;
   border-color: #5BC7E2;
+}
+
+.vis-item.unit-transport-duration {
+  background-color: #59CD90;
+  border-color: #59CD90;
+}
+
+.vis-item.unit-post-transport-duration {
+  background-color: #FAC05E;
+  border-color: #FAC05E;
 }
 
 .vis-item.event-duration {
