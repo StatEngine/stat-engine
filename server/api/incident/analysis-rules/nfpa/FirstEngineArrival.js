@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { IncidentRule, GRADES } from '../../incident-rule';
+import humanizeDuration from 'humanize-duration';
 
 export default class FirstEngineArrival extends IncidentRule {
   constructor(incident) {
@@ -8,7 +9,7 @@ export default class FirstEngineArrival extends IncidentRule {
 
     this.threshold = 240;
 
-    this.description = `First engine should arrive on within 4 minutes`;
+    this.description = 'First engine should have a 4 minute travel time or less.';
   }
 
   applicable() {
@@ -30,7 +31,7 @@ export default class FirstEngineArrival extends IncidentRule {
     } else {
       if (engineTravelTime > this.threshold) grade = GRADES.DANGER;
       evidence.push({
-        text: `First engine, ${firstEngineArrived.unit_id} arrived in ${(engineTravelTime/60).toFixed(2)} minutes.`,
+        text: `First engine, ${firstEngineArrived.unit_id} had a travel time of ${humanizeDuration(engineTravelTime * 1000, {delimiter: ' and '})}.`,
         grade: grade
       });
     }

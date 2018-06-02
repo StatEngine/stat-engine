@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { IncidentRule, GRADES } from '../../incident-rule';
+import humanizeDuration from 'humanize-duration';
 
 export default class FirstUnitDueShouldArriveFirst extends IncidentRule {
   constructor(incident) {
@@ -38,9 +39,8 @@ export default class FirstUnitDueShouldArriveFirst extends IncidentRule {
       });
     } else if (firstDue.unit_id !== firstArrived.unit_id) {
       const difference = moment.duration(moment(firstDueArrivalTime).diff(moment(firstUnitArrivedArrivalTime)));
-      const diffText = difference.as('seconds') > 60 ? `${difference.as('minutes').toFixed(2)} minutes` : `${difference.as('seconds')} seconds`
       evidence.push({
-        text: `First due, ${firstDue.unit_id}, arrived ${diffText} later than ${firstArrived.unit_id}`,
+        text: `First due, ${firstDue.unit_id}, arrived ${humanizeDuration(difference.as('milliseconds'), {delimiter: ' and '})} later than ${firstArrived.unit_id}`,
         grade: GRADES.DANGER,
       });
     } else {
