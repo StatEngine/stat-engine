@@ -21,7 +21,8 @@ export default class IncidentTimelineComponent {
 
     groups.push({
       id: 'Alarm',
-      content: '<b>Alarm</b>'
+      content: '<b>Alarm</b>',
+      order: 1,
     });
 
     const psapAnswer = _.get(this.incident, 'description.psap_answer_time');
@@ -99,11 +100,17 @@ export default class IncidentTimelineComponent {
       className: 'point',
     });
 
-    _.each(this.incident.apparatus, (u) => {
+    const apparatus = _.orderBy(this.incident.apparatus, u => {
+      let dispatched = _.get(u, 'unit_status.dispatched.timestamp');
+      if (dispatched) return moment(dispatched).valueOf()
+    });
+    let order = 2;
+    _.each(apparatus, (u) => {
       // define groupe
       groups.push({
         id: u.unit_id,
         content: '<b>' + u.unit_id + '</b>',
+        order: order++,
       });
 
       // define interesting timeframes

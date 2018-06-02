@@ -13,7 +13,7 @@ export default class IncidentSearchController {
       columnDefs: [{
         field: 'description.incident_number',
         displayName: 'Incident Number',
-        cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col )}}</a></div>'
+        cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col )}}</a></div>',
       }, {
         field: 'address.address_line1',
         displayName: 'Address'
@@ -32,6 +32,9 @@ export default class IncidentSearchController {
         field: 'description.category',
         displayName: 'Category',
         width: 100,
+      }, {
+        field: 'description.type',
+        displayName: 'Type',
       }]
     }
 
