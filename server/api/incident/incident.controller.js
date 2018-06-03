@@ -37,21 +37,23 @@ export function getRecentIncidents(req, res) {
     }
   };
 
-  if (req.query.q) params.q = req.query.q;
+  if (req.query.q) {
+    params.q = req.query.q;
+    params.body.sort = ["_score"]
+  }
   else params.body.query = {
-    bool: {
-      must: [{
-        term: {
-          'description.active': false,
-        }
-      }, {
-        term: {
-          'description.suppressed': false,
-        }
-      }]
-    }
+      bool: {
+        must: [{
+          term: {
+            'description.active': false,
+          }
+        }, {
+          term: {
+            'description.suppressed': false,
+          }
+        }]
+      }
   };
-
 
   client.search(params)
     .then((searchResults) => {
