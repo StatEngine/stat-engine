@@ -129,7 +129,7 @@ export class Incident {
     let arrivedEngines = _.filter(this.apparatus, u => u.unit_type === 'Engine' && _.get(u, 'unit_status.arrived.timestamp'));
 
     if (arrivedEngines.length === 0) return;
-    const sorted = _.sortBy(arrivedEngines, [(e) => moment(e.unit_status.arrived.timestamp)]);
+    const sorted = _.sortBy(arrivedEngines, [(e) => moment(e.unit_status.arrived.timestamp).valueOf()]);
     return sorted[0];
   }
 

@@ -191,6 +191,18 @@
               <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
               <br>
 
+              <div class="row mb-2" ng-if="vm.suppressedUnits.length > 0">
+                <div class="col-12">
+                  <div class="alert alert-danger text-center mx-5 my-2" role="alert">
+                    <p>Some unit data has been suppressed from analysis for the following reasons:</p>
+                    <ul ng-repeat="u in vm.suppressedUnits">
+                      <li>{{u.suppressedText}}</li>
+                    </ul>
+                    <br>If you think this has occurred in error, please let us know.
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="col-lg-3 pt-2">
                   <div class="card light-border">

@@ -15,8 +15,13 @@ export default class IncidentAnalysisController {
     this.SegmentService = SegmentService;
     this.currentPrincipal = currentPrincipal;
 
+    this.groupedUnits = _.groupBy(incidentData.incident.apparatus, u => u.suppressed);
+
+    this.suppressedUnits = this.groupedUnits.true;
+    incidentData.incident.apparatus = this.groupedUnits.false;
+
     this.incident = new Incident(incidentData.incident);
-    
+
     this.textSummaries = incidentData.textSummaries;
     this.analysis = incidentData.analysis;
     this.comparison = incidentData.comparison;

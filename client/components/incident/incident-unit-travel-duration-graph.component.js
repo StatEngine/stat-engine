@@ -39,7 +39,6 @@ export default class IncidentUnitTravelDurationGraphComponent {
       if (expectedDuration) expected.push(expectedDuration);
     })
 
-
     const expectedTrace = {
       x: units,
       y: expected,

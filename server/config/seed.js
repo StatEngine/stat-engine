@@ -538,6 +538,7 @@ if(process.env.NODE_ENV === 'development') {
       timezone: 'US/Eastern',
       latitude: 38.8462,
       longitude: -77.3064,
+      integration_complete: true,
       Users: [{
         provider: 'local',
         role: 'user',
