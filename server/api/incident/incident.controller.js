@@ -1,13 +1,11 @@
 import _ from 'lodash';
 
-import Promise from 'bluebird';
 import connection from '../../elasticsearch/connection';
 
 import {
   generateTextualSummaries,
   generateAnalysis,
-}
-from './incident.helpers';
+} from './incident.helpers';
 
 import {
   getMatrix
@@ -37,11 +35,11 @@ export function getRecentIncidents(req, res) {
     }
   };
 
-  if (req.query.q) {
+  if(req.query.q) {
     params.q = req.query.q;
-    params.body.sort = ["_score"]
-  }
-  else params.body.query = {
+    params.body.sort = ['_score'];
+  } else {
+    params.body.query = {
       bool: {
         must: [{
           term: {
@@ -53,13 +51,14 @@ export function getRecentIncidents(req, res) {
           }
         }]
       }
-  };
+    };
+  }
 
   client.search(params)
-    .then((searchResults) => {
+    .then(searchResults => {
       res.json(searchResults.hits.hits);
     })
-    .catch(err => res.status(500).send());
+    .catch(() => res.status(500).send());
 }
 
 export function getIncident(req, res) {
@@ -74,7 +73,7 @@ export function getIncident(req, res) {
 
 export function loadMatrix(req, res, next) {
   getMatrix(req.incident, (err, matrix) => {
-    if (err) return next(err);
+    if(err) return next(err);
     else req.travelMatrix = matrix;
     next();
   });
@@ -138,10 +137,11 @@ export function loadComparison(req, res, next) {
       },
       aggs
     }
-  }).then(res => {
-    req.incidentComparison = res.aggregations;
-    next();
   })
+    .then(response => {
+      req.incidentComparison = response.aggregations;
+      next();
+    });
 }
 
 export function loadIncident(req, res, next, id) {
@@ -161,12 +161,10 @@ export function loadIncident(req, res, next, id) {
       }
     }
   })
-    .then((searchResult) => {
+    .then(searchResult => {
       const hits = _.get(searchResult, 'hits.hits');
-      console.dir(hits)
-      console.dir(hits.length)
 
-      if (!hits || hits.length === 0) return res.status(404).send();
+      if(!hits || hits.length === 0) return res.status(404).send();
 
       req.incident = hits[0]._source;
       next();

@@ -3,22 +3,18 @@
 import angular from 'angular';
 
 import _ from 'lodash';
-
-import Plotly from 'plotly.js'
-
-const ID = 'incident-unit-travel-duration-graph';
+import Plotly from 'plotly.js';
 
 export default class IncidentUnitTravelDurationGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-unit-travel-duration-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -26,6 +22,8 @@ export default class IncidentUnitTravelDurationGraphComponent {
   }
 
   $onInit() {
+    angular.element(this.$window).on('resize', this.onResize);
+
     const expected = [];
     const actual = [];
 
@@ -36,8 +34,8 @@ export default class IncidentUnitTravelDurationGraphComponent {
       actual.push(actualDuration);
 
       const expectedDuration = _.get(this.travelMatrix, `${u.unit_id}.duration`);
-      if (expectedDuration) expected.push(expectedDuration);
-    })
+      if(expectedDuration) expected.push(expectedDuration);
+    });
 
     const expectedTrace = {
       x: units,
@@ -61,7 +59,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
     let shapes = [];
     let annotations = [];
 
-    if (firstDue) {
+    if(firstDue) {
       annotations.push({
         x: firstDue.unit_id,
         y: firstDue.extended_data.travel_duration,
@@ -78,7 +76,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
         ay: -30
       });
     }
-    if (firstArrived) {
+    if(firstArrived) {
       shapes.push({
         type: 'line',
         x0: -1,
@@ -95,7 +93,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
       annotations.push({
         x: -0.75,
         y: firstArrived.extended_data.travel_duration,
-        text: (this.incident.description.incident_number || 'This Incident'),
+        text: this.incident.description.incident_number || 'This Incident',
         showarrow: true,
         arrowhead: 9,
         arrowcolor: 'black',
@@ -113,9 +111,9 @@ export default class IncidentUnitTravelDurationGraphComponent {
       yaxis: {
         title: 'seconds',
       },
-      shapes: shapes,
-      annotations: annotations,
+      shapes,
+      annotations,
     };
-    Plotly.newPlot(ID, data, layout);
+    Plotly.newPlot(this.id, data, layout);
   }
 }

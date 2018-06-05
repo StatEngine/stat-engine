@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment';
 import { IncidentRule, GRADES } from '../../incident-rule';
 
 export default class Turnout extends IncidentRule {
@@ -19,9 +18,9 @@ export default class Turnout extends IncidentRule {
 
     _.forEach(this.incident.apparatus, u => {
       const turnout = _.get(u, 'extended_data.turnout_duration');
-      if (turnout) {
+      if(turnout) {
         let grade = GRADES.SUCCESS;
-        if (turnout > this.threshold) grade = GRADES.DANGER;
+        if(turnout > this.threshold) grade = GRADES.DANGER;
         evidence.push({
           text: `${u.unit_id} turnout time was ${turnout} seconds.`,
           grade

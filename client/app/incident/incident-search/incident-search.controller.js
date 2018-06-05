@@ -2,6 +2,7 @@
 
 'use strict';
 
+import _ from 'lodash';
 
 export default class IncidentSearchController {
   /*@ngInject*/
@@ -36,7 +37,7 @@ export default class IncidentSearchController {
         field: 'description.type',
         displayName: 'Type',
       }]
-    }
+    };
 
     this.formatSearchResults(recentIncidents);
   }
@@ -46,11 +47,11 @@ export default class IncidentSearchController {
 
     _.forEach(results, r => searchResults.push(r._source));
 
-    this.searchResultsTableOptions.data =  searchResults;
+    this.searchResultsTableOptions.data = searchResults;
   }
 
   search() {
     this.IncidentService.search({ q: this.query }).$promise
-      .then((results) => this.formatSearchResults(results))
+      .then(results => this.formatSearchResults(results));
   }
 }

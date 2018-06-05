@@ -9,29 +9,31 @@ export const GRADES = {
 };
 
 function topLevelGrade(evidence) {
-  let grade = GRADES.success;
-
-  if (_.filter(evidence, e => e.grade === GRADES.DANGER).length > 0) return GRADES.DANGER;
-  else if (_.filter(evidence, e => e.grade === GRADES.WARNING).length > 0) return GRADES.WARNING;
-
+  if(_.filter(evidence, e => e.grade === GRADES.DANGER).length > 0) return GRADES.DANGER;
+  else if(_.filter(evidence, e => e.grade === GRADES.WARNING).length > 0) return GRADES.WARNING;
   else return GRADES.SUCCESS;
 }
 
 export class IncidentRule {
   constructor(incident) {
-    this.name = this.constructor.name
+    this.name = this.constructor.name;
     this.incident = new Incident(incident);
   }
 
+  // eslint-disable-next-line
+  applicable() {
+    return true;
+  }
+
   grade() {
-    if (!this.applicable()) return;
+    if(!this.applicable()) return;
 
     const evidence = this.getEvidence();
     return {
       name: this.name,
       description: this.description,
       grade: topLevelGrade(evidence),
-      evidence: evidence,
-    }
+      evidence,
+    };
   }
 }

@@ -2,21 +2,19 @@
 
 import angular from 'angular';
 
-import Plotly from 'plotly.js'
-
-const ID = 'incident-comparison-graph';
+import _ from 'lodash';
+import Plotly from 'plotly.js';
 
 export default class IncidentComparisonGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-comparison-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -24,10 +22,10 @@ export default class IncidentComparisonGraphComponent {
   }
 
   $onInit() {
+    angular.element(this.$window).on('resize', this.onResize);
     const x = [];
     const y = [];
     const text = [];
-
 
     _.sortBy(_.toPairs(this.comparison), comp => comp[0]).forEach(comp => {
       let [key, data] = comp;
@@ -55,7 +53,7 @@ export default class IncidentComparisonGraphComponent {
     });
 
 
-    Plotly.newPlot(ID, [{
+    Plotly.newPlot(this.id, [{
       x,
       y,
       text,

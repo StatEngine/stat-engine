@@ -1,7 +1,6 @@
-import _ from 'lodash';
-import moment from 'moment';
-import { IncidentRule, GRADES } from '../../incident-rule';
 import humanizeDuration from 'humanize-duration';
+
+import { IncidentRule, GRADES } from '../../incident-rule';
 
 export default class FirstEngineArrival extends IncidentRule {
   constructor(incident) {
@@ -23,16 +22,16 @@ export default class FirstEngineArrival extends IncidentRule {
     const firstEngineArrived = this.incident.firstEngineUnitArrived;
 
     let grade = GRADES.SUCCESS;
-    if (!firstEngineArrived) {
+    if(!firstEngineArrived) {
       evidence.push({
-        text: `No engine arrived on scene.`,
+        text: 'No engine arrived on scene.',
         grade: GRADES.DANGER
       });
     } else {
-      if (engineTravelTime > this.threshold) grade = GRADES.DANGER;
+      if(engineTravelTime > this.threshold) grade = GRADES.DANGER;
       evidence.push({
         text: `First engine, ${firstEngineArrived.unit_id} had a travel time of ${humanizeDuration(engineTravelTime * 1000, {delimiter: ' and '})}.`,
-        grade: grade
+        grade
       });
     }
     return evidence;

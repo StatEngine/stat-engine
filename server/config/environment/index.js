@@ -15,7 +15,7 @@ process.env.AMQP_PASSWORD = process.env.AMQP_PASSWORD || 'guest';
 process.env.ELASTICSEARCH_USER = process.env.ELASTICSEARCH_USER ? process.env.ELASTICSEARCH_USER : 'kibana';
 process.env.ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD ? process.env.ELASTICSEARCH_PASSWORD : 'kibana';
 
- process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');

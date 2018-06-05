@@ -2,21 +2,19 @@
 
 import angular from 'angular';
 
-import Plotly from 'plotly.js'
-
-const ID = 'incident-unit-response-graph';
+import _ from 'lodash';
+import Plotly from 'plotly.js';
 
 export default class IncidentUnitResponseGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-unit-response-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -24,6 +22,8 @@ export default class IncidentUnitResponseGraphComponent {
   }
 
   $onInit() {
+    angular.element(this.$window).on('resize', this.onResize);
+
     // Get turnout and travel durations
     const unitTimelineData = [];
     const turnoutDurations = {
@@ -36,11 +36,11 @@ export default class IncidentUnitResponseGraphComponent {
     };
 
     _.forEach(this.incident.apparatus, u => {
-      if (u.extended_data.turnout_duration) {
+      if(u.extended_data.turnout_duration) {
         turnoutDurations.x.push(u.extended_data.turnout_duration);
         turnoutDurations.y.push(u.unit_id);
       }
-      if (u.extended_data.travel_duration) {
+      if(u.extended_data.travel_duration) {
         travelDurations.x.push(u.extended_data.travel_duration);
         travelDurations.y.push(u.unit_id);
       }
@@ -73,7 +73,7 @@ export default class IncidentUnitResponseGraphComponent {
     const shapes = [];
 
     let threshold = 60;
-    if (this.incident.description.category === 'FIRE') threshold = 80;
+    if(this.incident.description.category === 'FIRE') threshold = 80;
 
     shapes.push({
       type: 'line',
@@ -92,14 +92,14 @@ export default class IncidentUnitResponseGraphComponent {
     const layout = {
       title: 'Response Durations',
       barmode: 'stack',
-      shapes: shapes,
+      shapes,
       xaxis: {
         title: 'seconds',
       },
       annotations: [{
         x: threshold,
         y: this.incident.apparatus.length,
-        text: threshold + 's',
+        text: `${threshold} s`,
         showarrow: true,
         arrowhead: 9,
         arrowcolor: 'black',
@@ -111,6 +111,6 @@ export default class IncidentUnitResponseGraphComponent {
       }]
     };
 
-    Plotly.newPlot(ID, unitTimelineData, layout);
+    Plotly.newPlot(this.id, unitTimelineData, layout);
   }
 }

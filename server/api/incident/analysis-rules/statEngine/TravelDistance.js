@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment';
 import { IncidentRule, GRADES } from '../../incident-rule';
 
 export default class TravelDistance extends IncidentRule {
@@ -18,7 +17,7 @@ export default class TravelDistance extends IncidentRule {
     _.forOwn(this.incident.travelMatrix, (data, unitId) => {
       let grade = GRADES.SUCCESS;
 
-      if (data.distance > 4) grade = GRADES.DANGER;
+      if(data.distance > 4) grade = GRADES.DANGER;
       evidence.push({
         text: `${unitId} travel distance was ${data.distance.toFixed(2)} miles.`,
         grade

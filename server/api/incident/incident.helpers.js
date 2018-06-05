@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment-timezone';
 import path from 'path';
 
 import { Incident } from './incident';
@@ -11,7 +10,9 @@ export function generateTextualSummaries(incident) {
   const i = new Incident(incident);
 
   const summaries = {};
-  _.forOwn(templates, (t, key) => summaries[key] = templates[key](i));
+  _.forOwn(templates, (t, key) => {
+    summaries[key] = templates[key](i);
+  });
 
   return summaries;
 }
@@ -25,7 +26,7 @@ export function generateAnalysis(incident) {
     _.forEach(rules, Rule => {
       let rule = new Rule.default(incident);
       analysis[category][rule.name] = rule.grade();
-    })
+    });
   });
 
   return analysis;

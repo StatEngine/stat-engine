@@ -3,22 +3,18 @@
 import angular from 'angular';
 
 import _ from 'lodash';
-
-import Plotly from 'plotly.js'
-
-const ID = 'incident-unit-travel-distance-graph';
+import Plotly from 'plotly.js';
 
 export default class IncidentUnitTravelDistanceGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-unit-travel-distance-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -26,7 +22,9 @@ export default class IncidentUnitTravelDistanceGraphComponent {
   }
 
   $onInit() {
-    if (this.travelMatrix) {
+    angular.element(this.$window).on('resize', this.onResize);
+
+    if(this.travelMatrix) {
       const units = _.keys(this.travelMatrix);
 
       const estimated = [];
@@ -34,7 +32,7 @@ export default class IncidentUnitTravelDistanceGraphComponent {
         const estimatedDistance = this.travelMatrix[unit_id].distance;
 
         estimated.push(estimatedDistance);
-      })
+      });
 
       const estimatedTrace = {
         x: units,
@@ -71,7 +69,7 @@ export default class IncidentUnitTravelDistanceGraphComponent {
           ay: -30
         }]
       };
-      Plotly.newPlot(ID, data, layout);
+      Plotly.newPlot(this.id, data, layout);
     }
   }
 }

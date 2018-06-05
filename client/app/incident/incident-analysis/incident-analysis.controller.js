@@ -2,10 +2,7 @@
 
 'use strict';
 
-import mapboxgl from 'mapbox-gl';
-import Plotly from 'plotly.js'
 import _ from 'lodash';
-import moment from 'moment';
 
 import { Incident } from '../../../../server/api/incident/incident';
 
@@ -27,5 +24,4 @@ export default class IncidentAnalysisController {
     this.comparison = incidentData.comparison;
     this.travelMatrix = incidentData.travelMatrix;
   }
-
 }
