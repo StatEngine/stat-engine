@@ -3,7 +3,7 @@
 import angular from 'angular';
 
 import _ from 'lodash';
-import Plotly from 'plotly.js';
+import Plotly from 'plotly.js/dist/plotly-cartesian.js';
 
 export default class IncidentAlarmAnsweringGraphComponent {
   constructor($window) {

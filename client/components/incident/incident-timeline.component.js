@@ -4,7 +4,7 @@ import angular from 'angular';
 import _ from 'lodash';
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import * as vis from 'vis/dist/vis.js';
+import { Timeline } from 'vis/dist/vis.js';
 
 const TIME_FORMAT = 'HH:mm:ss';
 
@@ -172,7 +172,7 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-on-scene-duration',
           title: `<b>On scene for ${humanizeDuration(onSceneDuration)}</b>`,
-          content: this.incident.isFireIncident() ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
+          content: _.get(this.incident, 'description.category') === 'FIRE' ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
         });
       }
 
@@ -297,6 +297,6 @@ export default class IncidentTimelineComponent {
 
     this.element = angular.element(document.querySelector('#incident-timeline'));
     // eslint-disable-next-line
-    let timeline = new vis.Timeline(this.element[0], items, groups, options);
+    let timeline = new Timeline(this.element[0], items, groups, options);
   }
 }

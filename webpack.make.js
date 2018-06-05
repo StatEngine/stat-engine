@@ -52,10 +52,6 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
                 'lodash',
-<<<<<<< HEAD
-                'skycons'
-=======
->>>>>>> master
             ],
         };
     }
@@ -105,7 +101,7 @@ module.exports = function makeWebpackConfig(options) {
     if(TEST) {
         config.devtool = 'inline-source-map';
     } else if(BUILD || DEV) {
-        config.devtool = 'source-map';
+        config.devtool = 'cheap-module-source-map';
     } else {
         config.devtool = 'eval';
     }
@@ -218,16 +214,10 @@ module.exports = function makeWebpackConfig(options) {
           'jQuery': 'jquery',
           'window.jQuery': 'jquery',
           'window.$': 'jquery',
-<<<<<<< HEAD
-          'Skycons': 'skycons',
-          'window.Skycons': 'skycons',
-=======
->>>>>>> master
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'
         }),
-        new BundleAnalyzerPlugin(),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ];
@@ -269,7 +259,7 @@ module.exports = function makeWebpackConfig(options) {
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
             // Minify all javascript, switch loaders to minimizing mode
             new webpack.optimize.UglifyJsPlugin({
-                mangle: false,
+                mangle: true,
                 output: {
                     comments: false
                 },
@@ -278,13 +268,15 @@ module.exports = function makeWebpackConfig(options) {
                 }
             }),
 
+
             // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
             // Define free global variables
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: '"production"'
                 }
-            })
+            }),
+            new BundleAnalyzerPlugin(),
         );
     }
 

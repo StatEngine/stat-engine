@@ -4,8 +4,6 @@
 
 import _ from 'lodash';
 
-import { Incident } from '../../../../server/api/incident/incident';
-
 export default class IncidentAnalysisController {
   /*@ngInject*/
   constructor(SegmentService, currentPrincipal, incidentData) {
@@ -17,11 +15,16 @@ export default class IncidentAnalysisController {
     this.suppressedUnits = this.groupedUnits.true;
     incidentData.incident.apparatus = this.groupedUnits.false;
 
-    this.incident = new Incident(incidentData.incident);
+    this.incident = incidentData.incident;
 
     this.textSummaries = incidentData.textSummaries;
     this.analysis = incidentData.analysis;
     this.comparison = incidentData.comparison;
     this.travelMatrix = incidentData.travelMatrix;
+
+    this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+      app: 'Incident Analysis',
+      action: 'view',
+    });
   }
 }

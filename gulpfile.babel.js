@@ -47,6 +47,7 @@ const paths = {
           `!${serverPath}/config/local.env.sample.js`
         ],
         json: [`${serverPath}/**/*.json`],
+        templates: [`${serverPath}/api/incident/templates`],
         test: {
           integration: [`${serverPath}/**/*.integration.js`, 'mocha.global.js'],
           unit: [`${serverPath}/**/*.spec.js`, 'mocha.global.js']
@@ -655,10 +656,12 @@ gulp.task('copy:assets', () => {
 
 gulp.task('copy:server', () => {
     return gulp.src([
-        'package.json'
+        'package.json',
+        'server/api/incident/templates/*'
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });
+
 
 /********************
  * Grunt ported tasks

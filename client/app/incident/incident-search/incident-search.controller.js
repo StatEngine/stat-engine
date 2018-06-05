@@ -8,7 +8,7 @@ export default class IncidentSearchController {
   /*@ngInject*/
   constructor(SegmentService, Incident, currentPrincipal, recentIncidents) {
     this.IncidentService = Incident;
-
+    this.SegmentService = SegmentService;
     this.searchResultsTableOptions = {
       data: [],
       columnDefs: [{
@@ -51,6 +51,11 @@ export default class IncidentSearchController {
   }
 
   search() {
+    this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+      app: 'Incident Analysis',
+      action: 'search',
+    });
+
     this.IncidentService.search({ q: this.query }).$promise
       .then(results => this.formatSearchResults(results));
   }
