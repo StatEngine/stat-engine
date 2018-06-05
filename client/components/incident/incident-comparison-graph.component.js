@@ -3,7 +3,7 @@
 import angular from 'angular';
 
 import _ from 'lodash';
-import Plotly from 'plotly.js/dist/plotly-cartesian.js';
+import Plotly from 'plotly.js/dist/plotly-basic.js';
 
 export default class IncidentComparisonGraphComponent {
   constructor($window) {
