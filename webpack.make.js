@@ -8,6 +8,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var fs = require('fs');
 var path = require('path');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -38,6 +39,7 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
+            app: './client/app/app.js',
             polyfills: './client/polyfills.js',
             vendor: [
                 'angular',
@@ -50,9 +52,7 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
                 'lodash',
-                'skycons',
             ],
-            app: './client/app/app.js',
         };
     }
 
@@ -214,12 +214,13 @@ module.exports = function makeWebpackConfig(options) {
           'jQuery': 'jquery',
           'window.jQuery': 'jquery',
           'window.$': 'jquery',
-          'Skycons': 'skycons',
-          'window.Skycons': 'skycons'
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'
-        })
+        }),
+        new BundleAnalyzerPlugin(),
+        // Ignore all locale files of moment.js
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ];
 
 

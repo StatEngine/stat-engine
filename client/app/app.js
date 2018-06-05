@@ -16,23 +16,16 @@ import gtm from 'angulartics-google-tag-manager';
 import angularLoadingBar from 'angular-loading-bar';
 import ngSegment from 'angular-segment-analytics';
 
-// eslint-disable-next-line
-import pdfMake from 'pdfmake/build/pdfmake';
-// eslint-disable-next-line
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-// eslint-disable-next-line
-import html2canvas from 'html2canvas';
-
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
-import 'angular-summernote/dist/angular-summernote.min.js';
+import 'angular-summernote/dist/angular-summernote.js';
 import 'angular-timeline/dist/angular-timeline.js';
 import angularCalendar from 'angular-bootstrap-calendar';
 
-import 'summernote';
-import 'bootstrap/dist/js/bootstrap.js';
+import 'summernote/dist/summernote';
+import 'bootstrap/dist/js/bootstrap';
 import 'angular-moment';
-import 'angular-ui-grid';
+import 'angular-ui-grid/ui-grid.min';
 
 import {
   routeConfig,
@@ -106,7 +99,7 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
       });
     });
   })
-  .constant('moment', require('moment-timezone/builds/moment-timezone-with-data-2012-2022'));
+  .constant('moment', require('moment-timezone/builds/moment-timezone-with-data-2012-2022.min'));
 
 angular.element(document)
   .ready(() => {
