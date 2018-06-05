@@ -2,9 +2,6 @@
 
 import moment from 'moment';
 
-import pdfMake from 'pdfmake/build/pdfmake';
-import html2canvas from 'html2canvas';
-
 export default class ReportsViewController {
   /*@ngInject*/
   constructor($state, $stateParams, SegmentService, Modal, Report, currentPrincipal, report, reportMetrics) {
@@ -91,20 +88,6 @@ export default class ReportsViewController {
     }, {}).$promise
       .then(() => {
         this.notifyModal();
-      });
-  }
-
-  download() {
-    html2canvas(document.getElementById('export'))
-      .then(canvas => {
-        var data = canvas.toDataURL();
-        var docDefinition = {
-          content: [{
-            image: data,
-            width: [550],
-          }]
-        };
-        pdfMake.createPdf(docDefinition).download(`${this.$stateParams.name}.pdf`);
       });
   }
 

@@ -230,7 +230,7 @@ export function getDailyStats(req, res) {
         data.unit.push({
           name: u.key,
           totalCount: checkIfZero(_.get(u, 'doc_count')),
-          transports: checkIfZero(_.get(u, 'transports.value_count')),
+          transports: checkIfZero(_.get(u, 'transports.value')),
           utilization: checkIfZero(_.get(u, 'utilization.value') ? _.get(u, 'utilization.value') / 60 : undefined),
           distance: checkIfZero(_.get(u, 'total_distance.value')),
           turnoutDuration90: checkIfZero(_.get(u, 'turnout_percentile_buckets.values[\'90.0\']')),

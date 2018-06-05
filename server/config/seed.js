@@ -490,8 +490,10 @@ if(process.env.NODE_ENV === 'development') {
       fd_id: '11223',
       firecares_id: '97477',
       name: 'Tucson Fire Department',
+      integration_complete: true,
+      integration_verified: true,
       state: 'AZ',
-      timezone: 'US/Eastern',
+      timezone: 'US/Arizona',
       latitude: 32.2226,
       longitude: -110.9747,
       Users: [{

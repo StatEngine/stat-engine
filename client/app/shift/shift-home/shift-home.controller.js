@@ -14,6 +14,8 @@ export default class ShiftHomeController {
     this.calendarView = 'month';
     this.stats = stats;
 
+    this.timezone = currentPrincipal.FireDepartment.timezone;
+
     this.statsTableOptions = {
       data: this.stats.shifts,
       minRowsToShow: this.stats.shifts.length,
@@ -44,7 +46,7 @@ export default class ShiftHomeController {
     const ShiftConfiguration = FirecaresLookup[currentPrincipal.FireDepartment.firecares_id];
     this.shiftly = new ShiftConfiguration();
 
-    const uniqueShifts = _.uniq(this.shiftly.pattern.split(''));
+    const uniqueShifts = _.uniq(this.shiftly.pattern.split('')).sort();
     this.shiftClasses = {};
 
     let i = 0;
@@ -59,31 +61,35 @@ export default class ShiftHomeController {
 
     this.events = [];
 
-    this.today = moment().tz(currentPrincipal.FireDepartment.timezone);
+    this.today = moment().tz(this.timezone);
     this.today.set('hour', this.shiftly.shiftStart.substring(0, 2));
     this.today.set('minutes', this.shiftly.shiftStart.substring(2, 4));
     this.todaysShift = {
       date: this.today.format('ddd, MM-DD'),
-      shift: this.shiftly.calculateShift(this.today).toUpperCase(),
+      shift: this._calculateShift(this.today),
     };
 
     this.upcomingShifts = [];
-    let start = moment(this.today);
+    let start = moment(this.today).tz(this.timezone);
     for(let j = 0; j < 10; j += 1) {
       start = start.add(1, 'days');
       this.upcomingShifts.push({
         date: start.format('ddd, MM-DD'),
-        shift: this.shiftly.calculateShift(start).toUpperCase(),
+        shift: this._calculateShift(start),
       });
     }
   }
 
+  _calculateShift(date) {
+    return this.shiftly.calculateShift(date.format()).toUpperCase();
+  }
+
   cellModifier(cell) {
-    const thisDate = moment(cell.date);
+    const thisDate = moment(cell.date).tz(this.timezone);
     thisDate.set('hour', this.shiftly.shiftStart.substring(0, 2));
     thisDate.set('minutes', this.shiftly.shiftStart.substring(2, 4));
 
-    let shift = this.shiftly.calculateShift(thisDate).toUpperCase();
+    let shift = this._calculateShift(thisDate);
 
     cell.cssClass = this.shiftClasses[shift].cellClass;
   }

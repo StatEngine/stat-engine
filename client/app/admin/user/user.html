@@ -75,11 +75,11 @@
             <h3>Fire Department</h3>
             <div class="form-group">
               <label>Requested</label>
-              <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.requestedFireDepartment" class="form-control select-md"></select>
+              <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.requestedFireDepartment" class="form-control select-md"></select>
             </div>
             <div class="form-group">
               <label>Assigned</label>
-              <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
+              <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy: 'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
             </div>
 
             <hr>

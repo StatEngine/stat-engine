@@ -113,7 +113,7 @@
                   </p>
                 </div>
                 <label>Select Fire Department</label>
-                <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
+                <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
               </div>
               <div>
                 <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
