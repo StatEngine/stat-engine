@@ -117,6 +117,7 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.7",
     "del": "^3.0.0",
     "eslint": "^4.10.0",

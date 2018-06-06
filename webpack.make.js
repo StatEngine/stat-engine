@@ -9,6 +9,7 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var fs = require('fs');
 var path = require('path');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -206,6 +207,7 @@ module.exports = function makeWebpackConfig(options) {
         // Reference: https://github.com/webpack/extract-text-webpack-plugin
         // Extract css files
         // Disabled when in test mode or not in build mode
+        new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin('[name].[hash].css', {
             disable: !BUILD || TEST
         }),
@@ -276,7 +278,7 @@ module.exports = function makeWebpackConfig(options) {
                     NODE_ENV: '"production"'
                 }
             }),
-            new BundleAnalyzerPlugin(),
+            //new BundleAnalyzerPlugin(),
         );
     }
 
