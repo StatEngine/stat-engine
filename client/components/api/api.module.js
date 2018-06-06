@@ -11,6 +11,7 @@ import SafetyResource from './safety.service';
 import StatsResource from './stats.service';
 import TwitterResource from './twitter.service';
 import UserResource from './user.service';
+import IncidentResource from './incident.service';
 
 export default angular.module('statEngineApp.api', [])
   .factory('Extension', ExtensionResource)
@@ -22,4 +23,5 @@ export default angular.module('statEngineApp.api', [])
   .factory('Weather', WeatherResource)
   .factory('Stats', StatsResource)
   .factory('Safety', SafetyResource)
+  .factory('Incident', IncidentResource)
   .name;

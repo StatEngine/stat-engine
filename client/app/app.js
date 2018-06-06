@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import mapboxgl from 'mapbox-gl';
 import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
@@ -16,23 +17,16 @@ import gtm from 'angulartics-google-tag-manager';
 import angularLoadingBar from 'angular-loading-bar';
 import ngSegment from 'angular-segment-analytics';
 
-// eslint-disable-next-line
-import pdfMake from 'pdfmake/build/pdfmake';
-// eslint-disable-next-line
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-// eslint-disable-next-line
-import html2canvas from 'html2canvas';
-
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
-import 'angular-summernote/dist/angular-summernote.min.js';
+import 'angular-summernote/dist/angular-summernote.js';
 import 'angular-timeline/dist/angular-timeline.js';
 import angularCalendar from 'angular-bootstrap-calendar';
 
-import 'summernote';
-import 'bootstrap/dist/js/bootstrap.js';
+import 'summernote/dist/summernote';
+import 'bootstrap/dist/js/bootstrap';
 import 'angular-moment';
-import 'angular-ui-grid';
+import 'angular-ui-grid/ui-grid.min';
 
 import {
   routeConfig,
@@ -55,6 +49,7 @@ import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import nfpa from './nfpa';
 import report from './report';
+import incident from './incident';
 
 import marketplace from './marketplace';
 
@@ -66,6 +61,8 @@ import modal from '../components/modal/modal.service';
 import statsTable from '../components/tables/stats-table.component';
 import safety from '../components/safety/safety.component';
 import weather from '../components/weather/weather.component';
+import currentWeather from '../components/weather/current-weather.component';
+
 import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
 
@@ -78,12 +75,17 @@ import segmentEventConstants from './segment-event.constants';
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
 
+import incidentComponents from '../components/incident';
+import humanizeComponents from '../components/humanize/humanize-duration.filter';
+
+
 import './app.scss';
 
 angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, safety, 'summernote', 'angular-timeline', account, admin, api, guides, navbar, report,
-  spade, marketplace, statEngine, user, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main, segmentEventConstants, constants, segmentService,
-  /*socket,*/ util, angulartics, gtm
+  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin,
+  api, guides, navbar, report, spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main,
+  segmentEventConstants, constants, segmentService,
+  /*socket,*/ util, angulartics, gtm, humanizeComponents
 ])
   .config(routeConfig)
   .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
@@ -96,6 +98,9 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
+  .run(mapboxConfig => {
+    mapboxgl.accessToken = mapboxConfig.token;
+  })
   .run(($transitions, SegmentService) => {
     'ngInject';
 
@@ -106,7 +111,7 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
       });
     });
   })
-  .constant('moment', require('moment-timezone/builds/moment-timezone-with-data-2012-2022'));
+  .constant('moment', require('moment-timezone/builds/moment-timezone-with-data-2012-2022.min'));
 
 angular.element(document)
   .ready(() => {

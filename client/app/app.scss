@@ -14,6 +14,9 @@ $fa-font-path: '/assets/fonts/statengine/';
 @import "../assets/sass/se-font-styles";
 @import '~angular-ui-grid/ui-grid.css';
 @import "~angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css";
+@import "~angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css";
+@import "~mapbox-gl/dist/mapbox-gl.css";
+@import "~vis/dist/vis.css";
 
 /////////////////////////////////
 // VARIABLES //
@@ -459,6 +462,11 @@ input[type="radio"]:focus {
     margin: 0 0 2.5rem;
     padding: .25rem 0 1.5rem;
   }
+  .card-footer {
+    border-top: 1px solid $color-geyser;
+    margin: 2.5rem 0 0;
+    padding: 1.5rem 0 .25rem;
+  }
   &.light-border {
     border-color: $color-geyser;
   }
@@ -857,8 +865,9 @@ li.nested:before {
 @import '../app/twitter/twitter-home/twitter-home';
 @import '../app/admin/admin-home/admin-home';
 @import '../app/nfpa/nfpa';
+@import '../app/incident/incident';
 @import '../app/report/report';
 @import '../app/shift/shift';
-
+@import '../components/incident/incident';
 @import '../components/oauth-buttons/oauth-buttons';
 // endinject //

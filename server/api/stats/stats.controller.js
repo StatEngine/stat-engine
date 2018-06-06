@@ -17,8 +17,6 @@ function checkIfZero(val) {
 }
 
 export function getDailyStats(req, res) {
-  const client = connection.getClient();
-
   const timeFilter = buildTimeFilter(FirecaresLookup[req.user.FireDepartment.firecares_id], 'daily', req.query.date);
 
   const queries = [{

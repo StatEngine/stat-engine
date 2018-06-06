@@ -1,0 +1,10 @@
+The incident occurred
+{{? it.distanceFromFireDepartment }} {{= it.distanceFromFireDepartment }} miles from the nearest unit, 
+{{?}}
+{{? it.populationDensity == 'Urban' }} in an urban area
+{{?? it.populationDensity == 'Rural' }} in an rural area
+{{?}}
+
+{{? it.censusBlock }}, within census block {{= it.censusBlock }}.
+{{?? }}.
+{{?}}

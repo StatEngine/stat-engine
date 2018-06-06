@@ -1,0 +1,62 @@
+.vis-item.point {
+  border-color: black;
+}
+
+.vis-item.unit-turnout-duration {
+  background-color: #DFE14E;
+  border-color: #DFE14E;
+}
+
+.vis-item.unit-travel-duration {
+  background-color: #F36B25;
+  border-color: #F36B25;
+}
+
+.vis-item.unit-cancelled-duration {
+  background-color: #FF0000;
+  border-color: #FF0000;
+}
+
+.vis-item.unit-on-scene-duration {
+  background-color: #5BC7E2;
+  border-color: #5BC7E2;
+}
+
+.vis-item.unit-transport-duration {
+  background-color: #59CD90;
+  border-color: #59CD90;
+}
+
+.vis-item.unit-post-incident-duration {
+  background-color: #FAC05E;
+  border-color: #FAC05E;
+}
+
+.vis-item.event-duration {
+  background-color: #E0E0D9;
+  border-color: #E0E0D9;
+}
+
+.vis-item.alarm-processing-duration {
+  background-color: #A491D3;
+  border-color: #A491D3;
+}
+
+.vis.timeline .item.dot {
+  border: 0;
+  background: transparent;
+}
+
+.vis.timeline .item.point .content {
+    margin-left: 0px !important;
+}
+.vis.timeline .item.point .content .fa {
+    margin-right: 5px;
+}
+.vis.timeline .item.dot {
+    display: none;
+}
+
+.vis-item-content  {
+  text-align: center;
+}
