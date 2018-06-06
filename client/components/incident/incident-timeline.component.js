@@ -133,7 +133,7 @@ export default class IncidentTimelineComponent {
 
       const leftSceneTimestamps = [];
       _.forEach(
-        ['transport_started', 'available', 'in_quarters', 'available_radio', 'avaiable_mobile', 'cleared'],
+        ['transport_started', 'available', 'in_quarters', 'available_radio', 'available_mobile', 'cleared'],
         prop => {
           let t = _.get(u, `unit_status.${prop}.timestamp`);
           if(t) leftSceneTimestamps.push(t);
@@ -143,7 +143,7 @@ export default class IncidentTimelineComponent {
 
       const clearedTimestamps = [];
       _.forEach(
-        ['available', 'in_quarters', 'available_radio', 'avaiable_mobile', 'cleared'],
+        ['available', 'in_quarters', 'available_radio', 'available_mobile', 'cleared'],
         prop => {
           let t = _.get(u, `unit_status.${prop}.timestamp`);
           if(t) clearedTimestamps.push(t);
@@ -152,7 +152,7 @@ export default class IncidentTimelineComponent {
 
       const avilableTimestamps = [];
       _.forEach(
-        ['available', 'in_quarters', 'available_radio', 'avaiable_mobile'],
+        ['available', 'in_quarters', 'available_radio', 'available_mobile'],
         prop => {
           let t = _.get(u, `unit_status.${prop}.timestamp`);
           if(t) avilableTimestamps.push(t);

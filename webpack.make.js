@@ -108,6 +108,7 @@ module.exports = function makeWebpackConfig(options) {
 
     // Initialize module
     config.module = {
+        noParse: /(mapbox-gl)\.js$/,
         loaders: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader

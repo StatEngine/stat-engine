@@ -10,6 +10,7 @@ export default class IncidentMapComponent {
   $onInit() {
     const incidentLocation = [this.incident.address.longitude, this.incident.address.latitude];
 
+    console.dir(mapboxgl)
     const map = new mapboxgl.Map({
       container: 'incident-map',
       style: 'mapbox://styles/mapbox/light-v9',
@@ -20,7 +21,7 @@ export default class IncidentMapComponent {
 
     const address = `<h4>\
       ${this.incident.address.address_line1}<br>\
-      ${this.incident.address.city}, ${this.incident.address.state}<\\h4>`;
+      ${this.incident.address.city}, ${this.incident.address.state}<\h4>`;
     const popup = new mapboxgl.Popup({ offset: 25 })
       .setHTML(address);
 
