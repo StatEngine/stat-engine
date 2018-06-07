@@ -533,6 +533,29 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: 'DD122',
+      firecares_id: '77936',
+      name: 'City Of Wheaton Fire Department',
+      state: 'IL',
+      timezone: 'US/Centra',
+      latitude: 41.87,
+      longitude: -88.11,
+      integration_complete: true,
+      integration_verified: true,
+      Users: [{
+        provider: 'local',
+        role: 'user,kibana_admin',
+        username: 'wheaton',
+        first_name: 'wheaton',
+        last_name: 'User',
+        email: 'wheaton@prominentedge.com',
+        password: 'password',
+        api_key: 'wheaton',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '60000',
       firecares_id: '81154',
       name: 'City of Fairfax Fire Department',

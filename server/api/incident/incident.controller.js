@@ -80,15 +80,15 @@ export function loadMatrix(req, res, next) {
 }
 
 export function loadComparison(req, res, next) {
-  let responseZone = req.incident.address.response_zone;
-  let battalion = req.incident.address.battalion;
-  let firstDue = req.incident.address.first_due;
-  let addressLine1 = req.incident.address.address_line1;
-  let census = req.incident.address.location.census.census_2010.tract;
-  let councilDistrict = req.incident.address.location.council_district;
-  let precinct = req.incident.address.location.precinct;
-  let ward = req.incident.address.location.precinct_ward;
-  let neighborhood = req.incident.address.location.neighborhood;
+  let responseZone = _.get(req.incident, 'address.response_zone');
+  let battalion = _.get(req.incident, 'address.battalion');
+  let firstDue = _.get(req.incident, 'address.first_due');
+  let addressLine1 = _.get(req.incident, 'address.address_line1');
+  let census = _.get(req.incident, 'address.location.census.census_2010.tract');
+  let councilDistrict = _.get(req.incident, 'address.location.council_district');
+  let precinct = _.get(req.incident, 'address.location.precinct');
+  let ward = _.get(req.incident, 'address.location.precinct_ward');
+  let neighborhood = _.get(req.incident, 'address.location.neighborhood');
 
   const pulsePoint = !_.isEmpty(req.incident.description.extended_data.AgencyIncidentCallTypeDescription);
   const incidentType = pulsePoint ? req.incident.description.extended_data.AgencyIncidentCallTypeDescription : req.incident.description.type;
