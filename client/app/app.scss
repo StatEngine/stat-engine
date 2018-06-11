@@ -359,6 +359,35 @@ label.disabled {
   }
 }
 
+// Description List
+dl {
+  text-align: left;
+  margin-bottom: 0;
+  dt {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    opacity: .4;
+  }
+  dd {
+    margin-bottom: 3rem;
+  }
+}
+
+.inline-description-list {
+  dl {
+    dt {
+      display: inline-block;
+      min-width: 12rem;
+      text-align: right;
+    }
+    dd {
+      display: inline-block;
+      margin: 0 0 1.5rem 2rem;
+    }
+  }
+}
+
 // Checkboxes
 .checkbox {
   padding-left: 20px;
@@ -518,6 +547,12 @@ input[type="radio"]:focus {
   }
   &.light-border {
     border-color: $color-geyser;
+  }
+  &.no-border {
+    border: 0;
+  }
+  &.no-bg {
+    background-color: transparent;
   }
 }
 

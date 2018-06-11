@@ -7,7 +7,7 @@
         <ul class="breadcrumb col-md-7">
             <li><a href="#">Control Center</a></li>
             <li><a href="#">Incidents</a></li>
-            <li class="active">F01805310009</li>
+            <li class="active">{{ vm.incident.description.incident_number }}</li>
         </ul>
         <ul class="col-md-5 incident-switcher">
             <li class="previous"><a href="#">Previous Incident</a></li>
@@ -42,13 +42,13 @@
 
             <!-- Overview -->
             <div role="tabpanel" class="tab-pane active" id="overview">
-              <div class="card light-border">
-                <h5 class="card-header"><span><i class="fa fa-newspaper-o">&nbsp;</i></span>Summary</h5>
+              <div class="card no-border no-bg px-0">
+
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-2 fd-logo">
                     <logo department="vm.currentPrincipal.FireDepartment"></logo>
                   </div>
-                  <div class="col-md-9">
+                  <div class="col-md-8 intro-summary">
                     <div ng-if="vm.incident.description.suppressed">
                       <div class="alert alert-danger text-center mx-5 my-2" role="alert">
                         <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText"> because {{ vm.incident.description.suppressionText }} </span>.
@@ -56,10 +56,54 @@
                       </div>
                       <hr>
                     </div>
-                    <h4><strong> {{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </strong> </h4>
-                    <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
-                    <h5 class="text-center"> <a role="button" data-toggle="collapse" data-target="#collapse-comments"> View Dispatch Comments </a></h5>
-                    <pre id="collapse-comments"  class="collapse"> {{ vm.incident.description.comments }}</pre>
+                    <h4 class="heavyheader">{{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </h4>
+                    <p>{{ vm.textSummaries.incidentSummary }}</p>
+                  </div>
+                </div>
+
+                <div class="row pt-5">
+                  <div class="col-md-6">
+                    <div class="card light-border">
+                      <h5 class="card-header">Incident Summary</h5>
+                      <dl class="row">
+                        <div class="col inline-description-list">
+                          <dl>
+                            <dt>Incident Number:</dt>
+                            <dd>{{ vm.incident.description.incident_number }}</dd>
+                          </dl>
+                          <dl>
+                            <dt>Event Type:</dt>
+                            <dd>{{ vm.incident.description.type }}</dd>
+                          </dl>
+                          <dl>
+                            <dt>Event Sub-Type:</dt>
+                            <dd>{{ vm.incident.description.subtype }}</dd>
+                          </dl>
+                          <dl>
+                            <dt>Date:</dt>
+                            <dd>May 30th 2018</dd>
+                          </dl>
+                          <dl>
+                            <dt>Dispatch Time:</dt>
+                            <dd>09:30</dd>
+                          </dl>
+                          <dl>
+                            <dt>Location:</dt>
+                            <dd>{{ vm.incident.address.address_line1 }}</dd>
+                          </dl>
+                          <dl>
+                            <dt>Event Duration:</dt>
+                            <dd>0h 17m 24s</dd>
+                          </dl>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                  <div class="col-md-6 dispatch-comments">
+                    <div class="card light-border">
+                      <h5 class="card-header">Dispatch Comments</h5>
+                      <p>{{ vm.incident.description.comments }}</p>
+                    </div>
                   </div>
                 </div>
               </div>
