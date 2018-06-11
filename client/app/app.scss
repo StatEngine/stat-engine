@@ -310,6 +310,56 @@ label.disabled {
   cursor: not-allowed;
 }
 
+// Utility Nav
+.utility-nav {
+  background: white;
+  border-bottom: 1px solid $color-geyser;
+  font-size: 14px;
+  a {
+    color: $color-pale-sky;
+    &:hover {
+      color: $color-pacific-blue;
+    }
+  }
+}
+
+// Incident Switcher
+.incident-switcher {
+  padding: 12px 15px 14px;
+  margin-bottom: 0;
+  list-style: none;
+  text-align: right;
+  li {
+    display: inline-block;
+    &.next:before {
+      content: "|";
+      padding: 0 7px;
+      color: #ccc;
+    }
+  }
+  a:focus {
+    text-decoration: none;
+  }
+  a::before, a::after {
+    color: $color-pacific-blue;
+    font-family: "FontAwesome";
+    font-weight: bold;
+    position: relative;
+  }
+  .previous a::before {
+    content: "\f104";
+    margin-right: 8px;
+  }
+  .next a::after {
+    content: "\f105";
+    margin-left: 8px;
+  }
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+}
+
 // Checkboxes
 .checkbox {
   padding-left: 20px;
@@ -857,6 +907,7 @@ li.nested:before {
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
+@import '../components/breadcrumbs/breadcrumbs';
 @import '../components/tables/stats-table';
 @import '../app/account/login/login';
 @import '../app/account/signup/signup';

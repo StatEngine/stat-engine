@@ -1,0 +1,21 @@
+/////////////////////////////////
+// BREADCRUMBS //
+////////////////////////////////
+
+// Inherits base styling from Bootstrap
+
+.breadcrumb {
+  background: white;
+  margin-bottom: 0;
+  padding: 12px 15px 14px;
+  > li > a {
+    color: $color-pale-sky;
+    &:hover {
+      color: $color-pacific-blue;
+    }
+  }
+  > .active {
+    color: $color-pickled-bluewood;
+    font-weight: 600;
+  }
+}
