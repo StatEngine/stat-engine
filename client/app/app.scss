@@ -314,7 +314,7 @@ label.disabled {
 .utility-nav {
   background: white;
   border-bottom: 1px solid $color-geyser;
-  font-size: 14px;
+  font-size: 13px;
   a {
     color: $color-pale-sky;
     &:hover {
@@ -357,7 +357,6 @@ label.disabled {
   @media (max-width: 768px) {
     display: none;
   }
-
 }
 
 // Checkboxes
