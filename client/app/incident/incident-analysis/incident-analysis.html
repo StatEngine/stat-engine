@@ -16,34 +16,27 @@
       </div>
     </div>
   </div>
-
-  <section class="incident-header">
-    <div class="container">
-      <h3 class="heavyheader">Incident Detail</h3>
-
-      <!-- Tabs -->
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#overview" aria-controls="overview" role="tab" data-toggle="tab">Overview</a></li>
-        <li role="presentation"><a href="#location" aria-controls="location" role="tab" data-toggle="tab">Location</a></li>
-        <li role="presentation"><a href="#situational-awareness" aria-controls="situational-awareness" role="tab" data-toggle="tab">Situational Awareness</a></li>
-        <li role="presentation"><a href="#response" aria-controls="response" role="tab" data-toggle="tab">Response</a></li>
-        <li role="presentation"><a href="#performance" aria-controls="performance" role="tab" data-toggle="tab">Performance</a></li>
-      </ul>
-
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="my-5 row">
-        <div class="col-md-12">
-          <!-- BEGIN: Tab Panes/Content -->
-          <div class="tab-content">
+    <section class="incident-header">
+      <div class="container">
+        <h3 class="heavyheader">Incident Detail</h3>
+        <!-- Tabs -->
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#overview">Overview</a></li>
+          <li><a href="#location">Location</a></li>
+          <li><a href="#situational-awareness">Situational Awareness</a></li>
+          <li><a href="#response">Response</a></li>
+          <li><a href="#performance">Performance</a></li>
+        </ul>
+      </div>
+    </section>
+    <section class="data-spy" data-spy="scroll" data-target="#navbar-example">
+      <div class="container">
+        <div class="my-5 row">
+          <div class="col-md-12">   <!-- BEGIN: Tab Panes/Content -->
 
             <!-- Overview -->
-            <div role="tabpanel" class="tab-pane active" id="overview">
-              <div class="card no-border no-bg px-0">
-
+            <div id="overview">
+              <div class="card no-border no-bg p-0">
                 <div class="row">
                   <div class="col-md-2 fd-logo">
                     <logo department="vm.currentPrincipal.FireDepartment"></logo>
@@ -56,7 +49,7 @@
                       </div>
                       <hr>
                     </div>
-                    <h4 class="heavyheader">{{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </h4>
+                    <h4 class="heavyheader">{{ vm.title }} </h4>
                     <p>{{ vm.textSummaries.incidentSummary }}</p>
                   </div>
                 </div>
@@ -85,7 +78,7 @@
                           </dl>
                           <dl>
                             <dt>Dispatch Time:</dt>
-                            <dd>09:30</dd>
+                            <dd>{{ vm.incident.description.first_unit_dispatched | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'hh:mm' }}</dd>
                           </dl>
                           <dl>
                             <dt>Location:</dt>
@@ -110,10 +103,10 @@
             </div>
 
             <!-- Location -->
-            <div role="tabpanel" class="tab-pane" id="location">
-              <div class="card light-border">
-                <h5 class="card-header"><span><i class="fa fa-map">&nbsp;</i></span>Location</h5>
-                <div clas="row">
+            <div id="location" class="mt-5">
+              <div class="card light-border p-0">
+                <!-- <h5 class="card-header"><span><i class="fa fa-map">&nbsp;</i></span>Location</h5> -->
+                <!-- <div clas="row">
                   <h2 class="text-center">
                     {{ vm.incident.address.address_line1 }} <span ng-if="vm.incident.address.common_place_name"> ({{vm.incident.address.common_place_name}}) </span><br>
                     {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
@@ -121,12 +114,41 @@
                 </div>
                 <div class="row">
                   <blockquote>{{ vm.textSummaries.locationSummary }}</blockquote>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-md-7">
                     <incident-map class="incident-map" incident="vm.incident"></incident-map>
                   </div>
-                  <div class="col-md-5">
+                  <div class="col-md-5 location-summary">
+                    <div class="row">
+                      <dl>
+                        <dt>Overview</dt>
+                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                      </dl>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <dl>
+                        <dt>Address</dt>
+                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                      </dl>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <dl>
+                        <dt>Response Zone</dt>
+                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                      </dl>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <dl>
+                        <dt>Battalion</dt>
+                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-5 pl-0">
                     <div class="row">
                       <div class="col-md-6">
                         <div class="text-center">
@@ -208,13 +230,13 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
 
             <!-- Situational Awareness -->
-            <div role="tabpanel" class="tab-pane" id="situational-awareness">
+            <div id="situational-awareness" class="mt-5">
               <div class="card light-border">
                 <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Situational Awareness</h5>
                 <blockquote>{{ vm.textSummaries.situationalAwarenessSummary }}</blockquote>
@@ -241,7 +263,7 @@
             </div>
 
             <!-- Response -->
-            <div role="tabpanel" class="tab-pane" id="response">
+            <div id="response" class="mt-5">
               <div class="card light-border" ng-if="!vm.incident.description.suppressed">
                 <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
                 <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
@@ -314,7 +336,7 @@
             </div>
 
             <!-- Performance -->
-            <div role="tabpanel" class="tab-pane" id="performance">
+            <div id="performance" class="mt-5">
               <div class="card light-border" ng-if="!vm.incident.description.suppressed">
                 <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>Performance Analysis</h5>
                 <div class="row">
@@ -358,9 +380,9 @@
                 <h3 class="heavyheader text-center extension-attribution mb-3 embossed">No Data Available</h3>
               </div>
             </div>
-          </div>
-          <!-- END: Tab Panes/Content -->
+
+          </div> <!-- END: Tab Panes/Content -->
         </div>
       </div>
-  </section>
+    </section>
 </div>
