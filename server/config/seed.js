@@ -488,7 +488,7 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',
-      firecares_id: '97477',
+      firecares_id: '00000',
       name: 'Tucson Fire Department',
       integration_complete: true,
       integration_verified: true,
@@ -498,7 +498,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -110.9747,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,ingest',
         username: 'tucson',
         first_name: 'tucson',
         last_name: 'User',
