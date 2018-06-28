@@ -578,6 +578,28 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '05900',
+      firecares_id: '81147',
+      name: 'Fairfax County Fire and Rescue Department',
+      state: 'VA',
+      timezone: 'US/Eastern',
+      latitude: 38.8462,
+      longitude: -77.3064,
+      integration_complete: true,
+      Users: [{
+        provider: 'local',
+        role: 'user',
+        username: 'ffx',
+        first_name: 'ffx',
+        last_name: 'User',
+        email: 'ffx@prominentedge.com',
+        password: 'password',
+        api_key: 'ffx',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '04600',
       firecares_id: '93717',
       name: 'Rogers Fire Department',
