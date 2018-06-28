@@ -5,7 +5,8 @@ function httpAuthenticate(User, username, password, done) {
   User.find({
     where: {
       username: username.toLowerCase()
-    }
+    },
+    include: [FireDepartment]
   }).nodeify((err, user) => {
     if(err) {
       return done(err);

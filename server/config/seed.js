@@ -488,7 +488,7 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',
-      firecares_id: '97477',
+      firecares_id: '00000',
       name: 'Tucson Fire Department',
       integration_complete: true,
       integration_verified: true,
@@ -498,7 +498,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -110.9747,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,ingest',
         username: 'tucson',
         first_name: 'tucson',
         last_name: 'User',
@@ -573,6 +573,28 @@ if(process.env.NODE_ENV === 'development') {
         email: 'ffxcity@prominentedge.com',
         password: 'password',
         api_key: 'ffxcity',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '05900',
+      firecares_id: '81147',
+      name: 'Fairfax County Fire and Rescue Department',
+      state: 'VA',
+      timezone: 'US/Eastern',
+      latitude: 38.8462,
+      longitude: -77.3064,
+      integration_complete: true,
+      Users: [{
+        provider: 'local',
+        role: 'user',
+        username: 'ffx',
+        first_name: 'ffx',
+        last_name: 'User',
+        email: 'ffx@prominentedge.com',
+        password: 'password',
+        api_key: 'ffx',
       }]
     }, {
       include: [FireDepartment.Users]
