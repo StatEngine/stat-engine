@@ -81,6 +81,6 @@ export default class IncidentAnalysisController {
     _.forEach(results, r => searchResults.push(r._source));
 
     this.concurrentIncidentTableOptions.data = searchResults;
-    this.concurrentIncidentTableOptions.minRowsToShow = searchResults.length;
+    this.concurrentIncidentTableOptions.minRowsToShow = searchResults.length || 5;
   }
 }
