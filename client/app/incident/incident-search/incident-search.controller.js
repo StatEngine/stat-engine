@@ -26,10 +26,6 @@ export default class IncidentSearchController {
         displayName: 'Event Duration',
         cellFilter: 'humanizeDuration',
       }, {
-        field: 'description.units.length',
-        displayName: '# Units',
-        width: 100,
-      }, {
         field: 'description.category',
         displayName: 'Category',
         width: 100,

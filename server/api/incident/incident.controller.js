@@ -68,6 +68,7 @@ export function getIncident(req, res) {
     analysis: generateAnalysis(_.merge(req.incident, { travelMatrix: req.travelMatrix })),
     travelMatrix: req.travelMatrix,
     comparison: req.incidentComparison,
+    concurrent: req.concurrentIncidents,
   });
 }
 
@@ -77,6 +78,95 @@ export function loadMatrix(req, res, next) {
     else req.travelMatrix = matrix;
     next();
   });
+}
+
+export function loadConcurrent(req, res, next) {
+  let eventOpened = _.get(req.incident, 'description.event_opened');
+  let eventClosed = _.get(req.incident, 'description.event_closed');
+
+  return connection.getClient().search({
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
+    body: {
+      size: 100,
+      _source: [
+        'description.incident_number',
+        'address.address_line1',
+        'description.event_opened',
+        'description.event_closed',
+        'description.type',
+        'description.units',
+        'description.category',
+        'address.battalion',
+        'address.response_zone',
+        'durations.total_event.seconds'],
+      sort: [{
+        'description.event_opened': {
+          order: 'desc'
+        }
+      }],
+      query: {
+        constant_score: {
+          filter: {
+            bool: {
+              must: [{
+                term: {
+                  'description.suppressed': false
+                },
+              }, {
+                term: {
+                  'description.active': false
+                }
+              }],
+              must_not: [{
+                  term: {
+                  'description.incident_number': req.incident.description.incident_number,
+                }
+              }],
+              should: [{
+                range: {
+                  'description.event_opened': {
+                    gte: eventOpened,
+                    lte: eventClosed,
+                  }
+                },
+              }, {
+                range: {
+                  'description.event_closed': {
+                    gte: eventOpened,
+                    lte: eventClosed,
+                  }
+                },
+              }, {
+                bool: {
+                  filter: [{
+                    term: {
+                      'description.active': false
+                    },
+                  }, {
+                    range: {
+                      'description.event_opened': {
+                        lte: eventOpened,
+                      }
+                    }
+                  }, {
+                    range: {
+                      'description.event_closed': {
+                        gte: eventClosed,
+                      }
+                    }
+                  }]
+                }
+              }],
+            },
+          },
+        },
+      }
+    }
+  })
+    .then(response => {
+      req.concurrentIncidents = response.hits.hits;
+      next();
+    });
 }
 
 export function loadComparison(req, res, next) {
