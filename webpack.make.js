@@ -221,6 +221,9 @@ module.exports = function makeWebpackConfig(options) {
         }),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.ProvidePlugin({
+          Promise: 'es6-promise-promise', // works as expected
+        }),
     ];
 
 

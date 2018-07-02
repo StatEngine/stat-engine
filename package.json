@@ -51,6 +51,7 @@
     "ejs": "^2.3.3",
     "elasticsearch": "^14.0.0",
     "errorhandler": "^1.4.2",
+    "es6-promise-promise": "^1.0.0",
     "express": "^4.16.2",
     "express-sequelize-session": "0.4.0",
     "express-session": "^1.11.3",
