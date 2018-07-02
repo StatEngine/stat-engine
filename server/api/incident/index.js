@@ -14,6 +14,7 @@ router.get(
   auth.hasFireDepartment,
   controller.loadMatrix,
   controller.loadComparison,
+  controller.loadConcurrent,
   controller.getIncident,
 );
 
