@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="91" height="89" viewBox="0 0 91 89">
+  <defs>
+    <linearGradient id="actions-reporting-b" x1="82.525%" x2="38.869%" y1="-17.213%" y2="94.274%">
+      <stop offset="0%" stop-color="#15ADC6"/>
+      <stop offset="100%" stop-color="#009BC3"/>
+    </linearGradient>
+    <path id="actions-reporting-a" d="M45.3655172,89 C70.4202006,89 90.7310345,69.0766714 90.7310345,44.5 C90.7310345,19.9233286 70.4202006,0 45.3655172,0 C20.3108339,0 0,19.9233286 0,44.5 C0,69.0766714 20.3108339,89 45.3655172,89 Z"/>
+    <linearGradient id="actions-reporting-c" x1="40.055%" x2="55.522%" y1="46.055%" y2="14.255%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="actions-reporting-e" x1="46.722%" x2="29.686%" y1="-39.647%" y2="83.873%">
+      <stop offset="0%" stop-color="#FFF"/>
+      <stop offset="72.467%" stop-color="#FFF"/>
+      <stop offset="100%" stop-color="#DFDFDF"/>
+    </linearGradient>
+    <path id="actions-reporting-g" d="M35.2393162,30.3128834 L17.3760684,34.6196319"/>
+    <filter id="actions-reporting-f" width="204.5%" height="509.7%" x="-52.2%" y="-247.9%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1" result="shadowSpreadOuter1"/>
+      <feOffset dy="-2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feMorphology in="SourceAlpha" radius="1" result="shadowInner"/>
+      <feOffset dy="-2" in="shadowInner" result="shadowInner"/>
+      <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2.5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <path id="actions-reporting-i" d="M15.9145299,34.1226994 L1.63605959,14.3284794"/>
+    <filter id="actions-reporting-h" width="233.1%" height="196%" x="-66.5%" y="-58.1%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1" result="shadowSpreadOuter1"/>
+      <feOffset dy="-2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feMorphology in="SourceAlpha" radius="1" result="shadowInner"/>
+      <feOffset dy="-2" in="shadowInner" result="shadowInner"/>
+      <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2.5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <linearGradient id="actions-reporting-j" x1="50%" y1="36.813%" y2="74.577%">
+      <stop offset="0%" stop-color="#F3F3F3"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+    <filter id="actions-reporting-k" width="326.2%" height="499.2%" x="-113.1%" y="-199.6%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.102"/>
+    </filter>
+    <linearGradient id="actions-reporting-l" x1="224.045%" x2="0%" y1="53.473%" y2="61.799%">
+      <stop offset="0%" stop-color="#ECECEC"/>
+      <stop offset="100%" stop-color="#B6B6B6"/>
+    </linearGradient>
+    <linearGradient id="actions-reporting-m" x1="75.661%" x2="66.344%" y1="83.306%" y2="30.322%">
+      <stop offset="0%" stop-color="#EDEDED"/>
+      <stop offset="100%" stop-color="#FFF"/>
+    </linearGradient>
+    <filter id="actions-reporting-n" width="159.3%" height="146.5%" x="-29.6%" y="-23.2%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation=".837"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="actions-reporting-d" fill="#fff">
+      <use xlink:href="#actions-reporting-a"/>
+    </mask>
+    <use fill="url(#actions-reporting-b)" xlink:href="#actions-reporting-a"/>
+    <polygon fill="url(#actions-reporting-c)" points="20.116 93.674 -21 78.544 26.694 53.874 65.179 70.32" mask="url(#actions-reporting-d)" opacity=".109" style="mix-blend-mode:multiply"/>
+    <g transform="translate(26 18)">
+      <polygon fill="url(#actions-reporting-e)" points="1.624 14.577 1.624 7.951 11.043 1.325 36.376 14.577 36.376 29.485 16.889 35.117"/>
+      <polygon fill="#8A8A8A" points="9.419 12.258 9.419 13.41 18.838 18.221 19.065 17.169"/>
+      <polygon fill="#8A8A8A" points="9.419 17.227 9.419 18.379 17.863 22.528 18.09 21.476"/>
+      <polygon fill="#8A8A8A" points="9.419 22.196 9.419 23.349 16.889 26.834 17.116 25.783"/>
+      <polygon fill="#8A8A8A" points="9.419 26.834 9.419 27.987 28.029 37.104 28.256 36.053"/>
+      <g stroke-linecap="square" opacity=".436">
+        <use fill="#000" filter="url(#actions-reporting-f)" xlink:href="#actions-reporting-g"/>
+        <use stroke="#D9D9D9" stroke-width="2" xlink:href="#actions-reporting-g"/>
+      </g>
+      <g stroke-linecap="square" opacity=".436">
+        <use fill="#000" filter="url(#actions-reporting-h)" xlink:href="#actions-reporting-i"/>
+        <use stroke="#D9D9D9" stroke-width="2" xlink:href="#actions-reporting-i"/>
+      </g>
+      <polygon fill="#464646" points="38 28.16 36.051 25.509 36.051 29.153"/>
+      <polygon fill="url(#actions-reporting-j)" points="0 36.11 35.077 54 35.077 29.485 16.889 34.123 0 11.926"/>
+      <polygon fill="#AAA" points="35.077 14.908 35.077 29.82 36.376 29.485 36.376 14.562"/>
+      <path fill="#6C440B" fill-rule="nonzero" d="M37.6752137,27.8282209 L38,28.1595092 L35.0769231,29.4846626 L35.4017094,29.1533742 L37.6752137,27.8282209 Z" filter="url(#actions-reporting-k)"/>
+      <polygon fill="url(#actions-reporting-l)" points="35.077 29.485 38 28.16 38 52.675 35.077 54"/>
+      <polygon fill="#6A6A69" points="0 11.926 1.624 10.933 1.624 14.245"/>
+      <polygon fill="url(#actions-reporting-m)" points="35.077 14.908 10.068 1.988 11.368 1.656 36.376 14.577"/>
+      <polygon fill="#A0A0A0" points="9.225 11.495 2.165 8.162 10.638 .686" filter="url(#actions-reporting-n)" transform="rotate(7 6.401 6.09)"/>
+      <polygon fill="#FFF" points="7.741 10.461 1.944 8.517 10.7 .673" transform="rotate(7 6.322 5.567)"/>
+      <path fill="#878787" d="M26.5978985,20.2908911 L24.6837607,24.8466258 L27.9316239,27.4969325 C28.0589728,27.2681467 28.177158,27.0471907 28.2861795,26.8340644 C27.6839722,28.7767812 26.2252501,30.1472393 24.5213675,30.1472393 C22.2791858,30.1472393 20.4615385,27.7740738 20.4615385,24.8466258 C20.4615385,21.9191778 22.2791858,19.5460123 24.5213675,19.5460123 C25.2801633,19.5460123 25.9903385,19.817804 26.5978985,20.2908911 Z"/>
+      <path fill="#B7B7B7" d="M26.3076923,24.5542507 L28.7049247,26.5030675 C29.9112739,23.9922875 29.5961109,22.2320771 27.7594356,21.2224365 L26.3076923,24.1840491 L26.3076923,24.5542507 Z"/>
+    </g>
+  </g>
+</svg>
