@@ -117,34 +117,42 @@
                 </div> -->
                 <div class="row">
                   <div class="col-md-7">
-                    <incident-map class="incident-map" incident="vm.incident"></incident-map>
+                    <incident-map incident="vm.incident"></incident-map>
                   </div>
-                  <div class="col-md-5 location-summary">
-                    <div class="row">
+                  <div class="col-md-5 p-4 location-summary">
+                    <div class="row mr-4">
                       <dl>
                         <dt>Overview</dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                        <dd>{{ vm.textSummaries.locationSummary }}</dd>
                       </dl>
                     </div>
                     <hr>
-                    <div class="row">
+                    <div class="row mr-4">
                       <dl>
                         <dt>Address</dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                        <dd>
+                          <h3>{{ vm.incident.address.address_line1 }} <br>
+                            {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
+                          </h3>
+                        </dd>
                       </dl>
                     </div>
                     <hr>
-                    <div class="row">
+                    <div class="row mr-4">
                       <dl>
                         <dt>Response Zone</dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                        <dd>
+                          <h3>{{ vm.incident.address.response_zone }}</h3>
+                        </dd>
                       </dl>
                     </div>
                     <hr>
-                    <div class="row">
+                    <div class="row mr-4">
                       <dl>
                         <dt>Battalion</dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium culpa quo quasi quae assumenda eos iusto ea, officia esse dignissimos cum tempore eum excepturi eaque sunt id deserunt ad reprehenderit.</dd>
+                        <dd>
+                          <h3>{{ vm.incident.address.battalion }}</h3>
+                        </dd>
                       </dl>
                     </div>
                   </div>
