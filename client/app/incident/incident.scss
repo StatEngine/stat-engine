@@ -53,6 +53,30 @@
   }
 }
 
+// Baseline style for statistical units found in the card layout
+.stat {
+  align-items: center;
+  display: flex;
+  padding: 0 1.5rem 6rem;
+  h2,h4 {
+    margin: 0;
+    padding: 0;
+  }
+  h2 {
+    color: $color-pacific-blue;
+  }
+  h4 {
+    color: lighten($color-pale-sky,5%);
+    font-size: 17px;
+  }
+  i {
+    margin-right: 2.35rem;
+  }
+  @media (max-width: 768px) {
+    padding-bottom: 4rem;
+  }
+}
+
 #overview {
   .intro-summary {
     display: flex;
@@ -71,8 +95,8 @@
     }
   }
   .dispatch-comments {
-    @media (max-width: 768px) {
-      margin-top: 4rem;
+    @media (max-width: 976px) {
+      margin-top: 3rem;
     }
     p {
       font-family: monospace;
@@ -110,6 +134,20 @@
     .location-summary > .row {
       margin: 1.5rem;
     }
+  }
+}
+
+// Census Data
+.census-data {
+  i.se-icon-census-tract {
+    font-size: 3.2em;
+  }
+}
+
+// Parcel Data
+.parcel-data {
+  @media (max-width: 976px) {
+    margin-top: 3rem;
   }
 }
 
