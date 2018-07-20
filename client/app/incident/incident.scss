@@ -151,6 +151,65 @@
   }
 }
 
+// Weather Conditions
+.weather-conditions {
+  // ==========
+  // TODO: Dynamically change background color based on weather summary type
+  // ==========
+  .weather-cube {
+    background: rgb(53,144,231);
+    background: linear-gradient(149deg, rgba(53,144,231,1) 0%, rgba(54,187,214,1) 100%);
+    // background: rgb(236,115,99);
+    // background: linear-gradient(149deg, rgba(236,115,99,1) 0%, rgba(239,200,69,1) 100%);
+    // background: rgb(38,46,89);
+    // background: linear-gradient(149deg, rgba(38,46,89,1) 0%, rgba(76,78,153,1) 100%);
+    // background: rgb(172,99,93);
+    // background: linear-gradient(149deg, rgba(172,99,93,1) 0%, rgba(230,186,141,1) 100%);
+    border-radius: 3px;
+    color: white;
+    text-align: center;
+    min-width: 18.3rem;
+    padding: 1rem 2rem 3rem;
+    h3 {
+      margin: 1rem 0 0 0;
+    }
+  }
+  .weather-summary {
+    @media (min-width: 992px) and (max-width: 1199px) {
+      padding-left: 4.5rem;
+    }
+    @media (max-width: 768px) {
+      padding-top: 2rem;
+    }
+  }
+}
+
+// Traffic Conditions
+.traffic-conditions {
+  @media (max-width: 976px) {
+    margin-top: 3rem;
+  }
+}
+
+current-weather {
+  h1.heavyheader {
+    font-family: 'Open Sans';
+    font-size: 4rem;
+    margin-top: 0;
+  }
+  h4 {
+    color: lighten($color-pale-sky,15%);
+    font-weight: 400;
+  }
+  hr {
+    border-top-color: #d7dee3;
+    width: 50%;
+  }
+  p {
+    margin: 0;
+  }
+}
+
 .incident-map {
   border-right: 1px solid $color-geyser;
   height: 100%;

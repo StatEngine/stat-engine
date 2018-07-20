@@ -46,7 +46,7 @@ export default angular.module('statEngineApp.skycon', [])
 
         // set default color if 'color' attribute not present
         var config = {
-          color: scope.color || 'black'
+          color: scope.color || 'white'
         };
 
         const skycons = new Skycons(config);

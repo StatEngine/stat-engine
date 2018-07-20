@@ -151,7 +151,6 @@
               </div>
             </div>
             <div class="row mt-5">
-
               <!-- Census Data -->
               <div class="col-lg-6 census-data">
                 <div class="card light-border">
@@ -202,7 +201,6 @@
                   </div>
                 </div>
               </div>
-
               <!-- Parcel Data -->
               <div class="col-lg-6 parcel-data">
                 <div class="card light-border">
@@ -247,25 +245,31 @@
 
             <!-- Situational Awareness -->
             <div id="situational-awareness" class="mt-5">
-              <div class="card light-border">
-                <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Situational Awareness</h5>
-                <blockquote>{{ vm.textSummaries.situationalAwarenessSummary }}</blockquote>
-                <div class="row">
-                  <div class="col-md-6">
-                    <h3 class="text-center"><i class="fa fa-x fa-sun-o"></i>&nbsp;Weather</h3>
+              <div class="row mt-5">
+                <!-- Weather Conditions -->
+                <div class="col-lg-6 weather-conditions">
+                  <div class="card light-border">
+                    <h5 class="card-header">Weather Conditions</h5>
 
                     <div ng-if="vm.incident.weather.currently">
-                      <h5 class="text-center"> At {{ vm.incident.weather.currently.time | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} </h5>
-                      <current-weather weather="vm.incident.weather.currently"></current-weather>
+                      <div class="row">
+                        <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} the following weather conditions were observed:</p>
+                        <div class="col-md-12">
+                          <current-weather weather="vm.incident.weather.currently"></current-weather>
+                          <!-- <h3>{{ vm.textSummaries.situationalAwarenessSummary }}</h3> -->
+                        </div>
+                      </div>
                     </div>
 
                     <div ng-if="!vm.incident.weather.currently" class="text-center">
                       <span class="text-warning">No weather data available.</span><br> <a href="#" ui-sref="site.marketplace.home">Request</a> to add now.
                     </div>
                   </div>
-
-                  <div class="col-md-6 text-center">
-                    <h3><i class="fa fa-x fa-car"></i>&nbsp;Traffic</h3>
+                </div>
+                <!-- Traffic Conditions -->
+                <div class="col-lg-6 traffic-conditions">
+                  <div class="card light-border">
+                    <h5 class="card-header">Traffic Conditions</h5>
                     <span class="text-warning">No traffic data available.</span><br> <a href="#" ui-sref="site.marketplace.home">Request</a> to add now.
                   </div>
                 </div>
