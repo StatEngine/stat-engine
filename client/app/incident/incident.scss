@@ -77,6 +77,15 @@
   }
 }
 
+.no-data-available {
+  align-items: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 0 5rem;
+  height: 60%;
+}
+
 #overview {
   .intro-summary {
     display: flex;
