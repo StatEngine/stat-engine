@@ -53,6 +53,13 @@
   }
 }
 
+.sectionheader {
+  color: lighten($color-pale-sky,10%);
+  font-weight: 500;
+  margin: 6rem 0 3rem;
+  text-transform: uppercase;
+}
+
 // Baseline style for statistical units found in the card layout
 .stat {
   align-items: center;

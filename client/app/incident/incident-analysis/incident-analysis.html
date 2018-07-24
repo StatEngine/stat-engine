@@ -31,14 +31,15 @@
     </section>
     <section class="data-spy" data-spy="scroll" data-target="#navbar-example">
       <div class="container">
-        <div class="my-5 row">
+        <div class="mb-5 row">
 
           <!-- BEGIN: Tab Panes/Content -->
           <div class="col-md-12">
 
             <!-- Overview -->
             <div id="overview">
-              <div class="card no-border no-bg p-0">
+              <h6 class="sectionheader">Overview</h6>
+              <div class="card">
                 <div class="row">
                   <div class="col-md-2 fd-logo">
                     <logo department="vm.currentPrincipal.FireDepartment"></logo>
@@ -51,53 +52,53 @@
                       </div>
                       <hr>
                     </div>
-                    <h4 class="heavyheader">{{ vm.title }} </h4>
+                    <h4 class="heavyheader"> {{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </h4>
                     <p>{{ vm.textSummaries.incidentSummary }}</p>
                   </div>
                 </div>
-                <div class="row pt-5">
-                  <div class="col-lg-6">
-                    <div class="card light-border">
-                      <h5 class="card-header">Incident Summary</h5>
-                      <dl class="row">
-                        <div class="col inline-description-list">
-                          <dl>
-                            <dt>Incident Number:</dt>
-                            <dd>{{ vm.incident.description.incident_number }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Event Type:</dt>
-                            <dd>{{ vm.incident.description.type }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Event Sub-Type:</dt>
-                            <dd>{{ vm.incident.description.subtype }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Date:</dt>
-                            <dd>May 30th 2018</dd>
-                          </dl>
-                          <dl>
-                            <dt>Dispatch Time:</dt>
-                            <dd>{{ vm.incident.description.first_unit_dispatched | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'hh:mm' }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Location:</dt>
-                            <dd>{{ vm.incident.address.address_line1 }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Event Duration:</dt>
-                            <dd>0h 17m 24s</dd>
-                          </dl>
-                        </div>
-                      </dl>
-                    </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-lg-6">
+                  <div class="card light-border">
+                    <h5 class="card-header">Incident Summary</h5>
+                    <dl class="row">
+                      <div class="col inline-description-list">
+                        <dl>
+                          <dt>Incident Number:</dt>
+                          <dd>{{ vm.incident.description.incident_number }}</dd>
+                        </dl>
+                        <dl>
+                          <dt>Event Type:</dt>
+                          <dd>{{ vm.incident.description.type }}</dd>
+                        </dl>
+                        <dl>
+                          <dt>Event Sub-Type:</dt>
+                          <dd>{{ vm.incident.description.subtype }}</dd>
+                        </dl>
+                        <dl>
+                          <dt>Date:</dt>
+                          <dd>May 30th 2018</dd>
+                        </dl>
+                        <dl>
+                          <dt>Dispatch Time:</dt>
+                          <dd>{{ vm.incident.description.first_unit_dispatched | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'hh:mm' }}</dd>
+                        </dl>
+                        <dl>
+                          <dt>Location:</dt>
+                          <dd>{{ vm.incident.address.address_line1 }}</dd>
+                        </dl>
+                        <dl>
+                          <dt>Event Duration:</dt>
+                          <dd>0h 17m 24s</dd>
+                        </dl>
+                      </div>
+                    </dl>
                   </div>
-                  <div class="col-lg-6 dispatch-comments">
-                    <div class="card light-border">
-                      <h5 class="card-header">Dispatch Comments</h5>
-                      <p>{{ vm.incident.description.comments }}</p>
-                    </div>
+                </div>
+                <div class="col-lg-6 dispatch-comments">
+                  <div class="card light-border">
+                    <h5 class="card-header">Dispatch Comments</h5>
+                    <p>{{ vm.incident.description.comments }}</p>
                   </div>
                 </div>
               </div>
@@ -105,6 +106,7 @@
 
             <!-- Location -->
             <div id="location" class="mt-5">
+              <h6 class="sectionheader">Location</h6>
               <div class="card light-border p-0">
                 <div class="row">
                   <div class="col-md-8">
@@ -247,6 +249,7 @@
 
             <!-- Situational Awareness -->
             <div id="situational-awareness" class="mt-5">
+              <h6 class="sectionheader">Situational Awareness</h6>
               <div class="row mt-5">
                 <!-- Weather Conditions -->
                 <div class="col-lg-6 weather-conditions">
@@ -282,10 +285,11 @@
 
             <!-- Response -->
             <div id="response" class="mt-5">
+              <h6 class="sectionheader">Response</h6>
               <div class="card light-border">
-                <h5 class="card-header">Response</h5>
+                <!-- <h5 class="card-header">Response</h5> -->
                 <div ng-if="!vm.incident.description.suppressed">
-                  <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
+                  <p>{{ vm.textSummaries.responseSummary }}</p>
                   <div class="row">
                     <div class="col-lg-3 pt-2">
                       <div class="card light-border">
@@ -356,8 +360,9 @@
 
             <!-- Performance -->
             <div id="performance" class="mt-5">
+              <h6 class="sectionheader">Performance</h6>
               <div class="card light-border">
-                <h5 class="card-header">Performance Analysis</h5>
+                <!-- <h5 class="card-header">Performance Analysis</h5> -->
                 <div ng-if="!vm.incident.description.suppressed">
                   <div class="row">
                     <div class="col-12">
