@@ -29,6 +29,8 @@ import {
   nfpa1710,
 } from './fire-department-nfpa.controller';
 
+import { process } from '@statengine/se-ingest-router';
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -269,40 +271,11 @@ export function queueIngest(req, res) {
     return res.status(400).send('Request body cannot be empty');
   }
 
-  const queueName = req.fireDepartment.firecares_id;
-
-  let connection;
-  let channel;
-
-  async.series([
-    // Open connection
-    cb => amqp.connect(config.amqp.uri, (err, openConnection) => {
-      connection = openConnection;
-      cb(err);
-    }),
-    // Open channel
-    cb => connection.createConfirmChannel((err, openChannel) => {
-      channel = openChannel;
-      cb(err);
-    }),
-    // Assert queue
-    cb => channel.assertQueue(queueName, { deadLetterExchange: 'dlx.direct', deadLetterRoutingKey: 'uncaught-error' }, cb),
-    // Write data
-    cb => channel.sendToQueue(queueName, Buffer.from(JSON.stringify(req.body)), {}, cb),
-    // Cleanup
-    cb => channel.close(cb),
-    cb => connection.close(cb),
-  ], err => {
-    // HTTP return
-    if(err) {
-      // force cleanup channel + connection
-      if(channel) channel.close();
-      if(connection) connection.close();
-
-      return res.send(500);
-    }
-    return res.send(204);
-  });
+  console.log('Queing ingest');
+  console.log(req.body);
+  process(req.body)
+    .then(() => res.status(204).send())
+    .catch(() => res.status(500));
 }
 
 export function hasAdminPermission(req, res, next) {

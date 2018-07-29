@@ -44,39 +44,42 @@ export default class ShiftHomeController {
     };
 
     const ShiftConfiguration = FirecaresLookup[currentPrincipal.FireDepartment.firecares_id];
-    this.shiftly = new ShiftConfiguration();
 
-    const uniqueShifts = _.uniq(this.shiftly.pattern.split('')).sort();
-    this.shiftClasses = {};
+    if (ShiftConfiguration) {
+      this.shiftly = new ShiftConfiguration();
 
-    let i = 0;
-    uniqueShifts.forEach(shift => {
-      this.shiftClasses[shift.toUpperCase()] = {
-        name: shift.toUpperCase(),
-        cellClass: `shift-${i}`,
-        legendClass: `legend-${i}`,
-      };
-      ++i;
-    });
+      const uniqueShifts = _.uniq(this.shiftly.pattern.split('')).sort();
+      this.shiftClasses = {};
 
-    this.events = [];
-
-    this.today = moment().tz(this.timezone);
-    this.today.set('hour', this.shiftly.shiftStart.substring(0, 2));
-    this.today.set('minutes', this.shiftly.shiftStart.substring(2, 4));
-    this.todaysShift = {
-      date: this.today.format('ddd, MM-DD'),
-      shift: this._calculateShift(this.today),
-    };
-
-    this.upcomingShifts = [];
-    let start = moment(this.today).tz(this.timezone);
-    for(let j = 0; j < 10; j += 1) {
-      start = start.add(1, 'days');
-      this.upcomingShifts.push({
-        date: start.format('ddd, MM-DD'),
-        shift: this._calculateShift(start),
+      let i = 0;
+      uniqueShifts.forEach(shift => {
+        this.shiftClasses[shift.toUpperCase()] = {
+          name: shift.toUpperCase(),
+          cellClass: `shift-${i}`,
+          legendClass: `legend-${i}`,
+        };
+        ++i;
       });
+
+      this.events = [];
+
+      this.today = moment().tz(this.timezone);
+      this.today.set('hour', this.shiftly.shiftStart.substring(0, 2));
+      this.today.set('minutes', this.shiftly.shiftStart.substring(2, 4));
+      this.todaysShift = {
+        date: this.today.format('ddd, MM-DD'),
+        shift: this._calculateShift(this.today),
+      };
+
+      this.upcomingShifts = [];
+      let start = moment(this.today).tz(this.timezone);
+      for(let j = 0; j < 10; j += 1) {
+        start = start.add(1, 'days');
+        this.upcomingShifts.push({
+          date: start.format('ddd, MM-DD'),
+          shift: this._calculateShift(start),
+        });
+      }  
     }
   }
 
