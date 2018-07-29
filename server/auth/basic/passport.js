@@ -1,6 +1,8 @@
 import passport from 'passport';
 import {BasicStrategy} from 'passport-http';
 
+import {FireDepartment, User} from '../../sqldb';
+
 function httpAuthenticate(User, username, password, done) {
   User.find({
     where: {

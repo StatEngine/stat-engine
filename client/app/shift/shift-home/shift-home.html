@@ -1,7 +1,12 @@
 <div class="site-content light-bg">
   <header class="naked mb-2"></header>
 
-  <div class="container">
+  <div ng-if="!vm.shiftly" class="container">
+    <div class="alert alert-danger text-center mx-5 my-2" role="alert">
+      No shift information available for this department.
+    </div>
+  </div>
+  <div ng-if="vm.shiftly" class="container">
     <div class="row">
       <div class="col-sm-7 col-md-7 pt-2">
         <div class="shift-calendar">

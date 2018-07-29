@@ -728,7 +728,7 @@ if(process.env.NODE_ENV === 'development') {
         role: 'ingest',
         username: 'sfAdmin',
         first_name: 'Demo',
-        last_name: 'User',
+        last_name: 'Admin',
         email: 'sfAdmin@example.com',
         password: 'password',
         api_key: 'sfAdmin',
@@ -737,10 +737,12 @@ if(process.env.NODE_ENV === 'development') {
         role: 'ingest',
         username: 'sfIngest',
         first_name: 'Demo',
-        last_name: 'User',
+        last_name: 'Ingest',
         email: 'sfIngest@example.com',
         password: 'password',
-        api_key: 'sfDemo',
+        api_key: 'sfIngest',
+        aws_access_key_id: '',
+        aws_secret_access_key: '',
       }]
     }, {
       include: [FireDepartment.Users]
@@ -785,10 +787,12 @@ if(process.env.NODE_ENV === 'development') {
         role: 'ingest',
         username: 'sfIngest',
         first_name: 'Demo',
-        last_name: 'INgest',
+        last_name: 'Ingest',
         email: 'sfIngest@example.com',
         password: 'password',
         api_key: 'sfIngest',
+        aws_access_key_id: '',
+        aws_secret_access_key: '',
       }]
     }, {
       include: [FireDepartment.Users]
