@@ -203,7 +203,7 @@ export function loadComparison(req, res, next) {
         aggs: {
           response_duration_percentile_rank: {
             percentiles: {
-              field: 'durations.durations.response.minutes',
+              field: 'durations.response.minutes',
               percents: [90]
             }
           }

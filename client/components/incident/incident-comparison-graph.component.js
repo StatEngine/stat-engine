@@ -37,12 +37,13 @@ export default class IncidentComparisonGraphComponent {
       }
     });
 
+    console.dir(this.incident.durations)
     const shapes = [];
     shapes.push({
       type: 'line',
       x0: -1,
       x1: x.length,
-      y0: this.incident.durations.repsonse.minutes,
+      y0: this.incident.durations.response.minutes,
       y1: this.incident.durations.response.minutes,
       line: {
         color: 'red',
@@ -64,11 +65,11 @@ export default class IncidentComparisonGraphComponent {
       },
       type: 'bar'
     }], {
-      title: 'Response Time Comparisons<br><span style="font-size: 14px">Dispatch to the first arriving unit.</span>',
+      title: 'Total Response Time Comparisons<br><span style="font-size: 14px">Dispatch to the first arriving unit.</span>',
       shapes,
       annotations: [{
         x: -0.75,
-        y: this.incident.durations.response.minutes,,
+        y: this.incident.durations.response.minutes,
         text: this.incident.description.incident_number || 'This incident',
         showarrow: true,
         arrowhead: 9,
