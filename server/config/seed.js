@@ -725,7 +725,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'sfUser',
       }, {
         provider: 'local',
-        role: 'ingest',
+        role: 'admin',
         username: 'sfAdmin',
         first_name: 'Demo',
         last_name: 'Admin',
@@ -775,7 +775,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'sfUser',
       }, {
         provider: 'local',
-        role: 'ingest',
+        role: 'admin',
         username: 'sfAdmin',
         first_name: 'Demo',
         last_name: 'Admin',

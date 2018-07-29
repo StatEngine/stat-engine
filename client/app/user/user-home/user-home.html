@@ -20,7 +20,7 @@
             </p>
           </div>
           <div ng-if="vm.setupComplete">
-            <p>
+            <p ng-if="!vm.appConfig.on_premise">
               Welcome back! Check out our new <a href="#" ui-sref="site.marketplace.home">Marketplace!</a><br>
               Your shift calendar and stats are available <a href="#" ui-sref="site.shift.home">here.</a><br>
             </p>
@@ -45,7 +45,7 @@
                 <img src="/assets/images/actions-incident-analysis.svg"/>
                 <span>Incident Analysis</span>
               </a>
-              <a href="" ng-click="vm.goto('site.twitter.home','Twitter')" >
+              <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.twitter.home','Twitter')" >
                 <img src="/assets/images/actions-twitter.svg"/>
                 <span>Twitter</span>
               </a>

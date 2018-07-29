@@ -35,14 +35,14 @@
                  <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
                    <ul>
                      <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
-                     <li><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
+                     <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
                      <li><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>
                      <li><a href="#" ng-click="vm.goto('site.incident.search','Incident Analysis')">Incident Analysis</a></li>
                    </ul>
                    <!-- <div class="footer"> An optional footer </div> -->
                  </div>
                </li>
-               <li><a href="/marketplace/home">Marketplace</a></li>
+               <li ng-if="!vm.appConfig.on_premise"><a href="/marketplace/home">Marketplace</a></li>
                <!--<li><a href="/data-quality">Installation</a></li>-->
                <li ng-if="vm.currentPrincipal.isAdmin"><a href="/admin">Admin</a></li>
                <li ng-if="vm.currentPrincipal.isDepartmentAdmin && !vm.currentPrincipal.isAdmin"><a href="/departmentAdmin">Admin</a></li>
@@ -110,10 +110,10 @@
            </li>
           -->
             <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
-            <li><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
+            <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
             <li><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>
             <li><a href="#" ng-click="vm.goto('site.incident.search','Incident Analysis')">Incident Analysis</a></li>
-            <li><a href="/marketplace/home">App Marketplace</a></li>
+            <li ng-if="!vm.appConfig.on_premise"><a href="/marketplace/home">App Marketplace</a></li>
             <li><a class="btn btn-outline btn-sm" ng-click="vm.logout()">Sign Out</a></li>
         </ul>
       </div>

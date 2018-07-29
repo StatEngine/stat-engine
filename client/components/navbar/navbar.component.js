@@ -5,14 +5,15 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($state, $scope, $window, Principal, SegmentService) {
+  constructor($state, $scope, $window, Principal, SegmentService, appConfig) {
     'ngInject';
 
     this.$state = $state;
     this.$window = $window;
     this.PrincipalService = Principal;
     this.SegmentService = SegmentService;
-
+    this.appConfig = appConfig;
+    
     this.userDropDownActive = false;
 
     this.currentPrincipal = undefined;

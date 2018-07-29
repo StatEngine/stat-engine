@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "server/index.js",
   "dependencies": {
-    "@statengine/se-fixtures": "~0.0.15",
+    "@statengine/se-fixtures": "~0.0.17",
     "@statengine/se-ingest-router": ">0.0.2",
     "@statengine/shiftly": "~0.0.15",
     "@statengine/siamese-san-francisco-demo": "0.0.4",
