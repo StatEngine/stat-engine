@@ -42,8 +42,8 @@ export default class IncidentComparisonGraphComponent {
       type: 'line',
       x0: -1,
       x1: x.length,
-      y0: this.incident.description.extended_data.response_duration,
-      y1: this.incident.description.extended_data.response_duration,
+      y0: this.incident.durations.repsonse.minutes,
+      y1: this.incident.durations.response.minutes,
       line: {
         color: 'red',
         width: 4,
@@ -68,7 +68,7 @@ export default class IncidentComparisonGraphComponent {
       shapes,
       annotations: [{
         x: -0.75,
-        y: this.incident.description.extended_data.response_duration,
+        y: this.incident.durations.response.minutes,,
         text: this.incident.description.incident_number || 'This incident',
         showarrow: true,
         arrowhead: 9,
