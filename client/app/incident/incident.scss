@@ -238,6 +238,21 @@ current-weather {
   }
 }
 
+// Response Overview
+.response-overview {
+  .row .card {
+    // border-right: 1px solid $color-geyser;
+    padding: 1rem;
+    h2 {
+      color: $color-pacific-blue;
+      margin: 0;
+    }
+    span {
+      opacity: .4;
+    }
+  }
+}
+
 .incident-timeline {
   padding-left: 25px;
   padding-right: 25px;

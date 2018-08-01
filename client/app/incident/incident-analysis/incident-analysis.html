@@ -286,75 +286,77 @@
             <!-- Response -->
             <div id="response" class="mt-5">
               <h6 class="sectionheader">Response</h6>
-              <div class="card light-border">
-                <!-- <h5 class="card-header">Response</h5> -->
-                <div ng-if="!vm.incident.description.suppressed">
-                  <p>{{ vm.textSummaries.responseSummary }}</p>
+              <div ng-if="!vm.incident.description.suppressed">
+                <div class="card light-border response-overview">
+                  <h5 class="card-header">Overview</h5>
                   <div class="row">
-                    <div class="col-lg-3 pt-2">
-                      <div class="card light-border">
-                        <h5 class="card-header"><span><i class="fa fa-phone">&nbsp;</i></span>Alarm Answer</h5>
-                        <h5 class="text-center">Call answered in</h5>
-                        <h2 class="text-center">{{ vm.incident.durations.alarm_answer.seconds }} <subscript>secs</subscript></h2>
+                    <div class="col-lg-4">
+                      <p>{{ vm.textSummaries.responseSummary }}</p>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="card no-border text-center">
+                        <h2>{{ vm.incident.durations.alarm_answer.seconds }} <subscript>s</subscript></h2>
+                        <span>Call answered</span>
                       </div>
                     </div>
-                    <div class="col-lg-3 pt-2">
-                      <div class="card light-border">
-                        <h5 class="card-header"><span><i class="fa fa-location-arrow">&nbsp;</i></span>Dispatched</h5>
-                        <h5 class="text-center">First unit dispatched in</h5>
-                        <h2 class="text-center">{{ vm.incident.durations.alarm_handling.seconds }} <subscript>secs</subscript></h2>
+                    <div class="col-lg-2">
+                      <div class="card no-border text-center">
+                        <h2>{{ vm.incident.durations.alarm_handling.seconds }} <subscript>s</subscript></h2>
+                        <span>First unit dispatched</span>
                       </div>
                     </div>
-                    <div class="col-lg-3 pt-2">
-                      <div class="card light-border">
-                        <h5 class="card-header"><span><i class="fa fa-map-marker">&nbsp;</i></span>On Scene</h5>
-                        <h5 class="text-center">First unit on scene in</h5>
-                        <h2 class="text-center"> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>mins</subscript></h2>
+                    <div class="col-lg-2">
+                      <div class="card no-border text-center">
+                        <h2> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>m</subscript></h2>
+                        <span>First unit on scene</span>
                       </div>
                     </div>
-                    <div class="col-lg-3 pt-2">
-                      <div class="card light-border">
-                        <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Event</h5>
-                        <h5 class="text-center">Resolved in</h5>
-                        <h2 class="text-center"> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>mins</subscript></h2>
+                    <div class="col-lg-2">
+                      <div class="card no-border text-center">
+                        <h2> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>m</subscript></h2>
+                        <span>Resolved</span>
                       </div>
                     </div>
                   </div>
-
+                </div>
+                <div class="card light-border mt-5">
+                  <h5 class="card-header">Events Timeline</h5>
                   <div class="row pt-5">
                     <div class="col-lg-12">
                       <h4 class="text-center">Timeline of Events</h4>
                       <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
                     </div>
                   </div>
-                  <div class="row pt-5">
-                    <div class="col-lg-4">
-                      <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
-                    </div>
-                    <div class="col-lg-4">
-                      <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
-                    </div>
-                    <div class="col-lg-4">
-                      <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
-                    </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-lg-4">
+                    <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
                   </div>
-                  <div class="row pt-5">
-                    <div class="col-lg-6">
-                      <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
-                    </div>
-                    <div class="col-lg-6">
-                      <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
-                    </div>
+                  <div class="col-lg-4">
+                    <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
                   </div>
-                  <div class="row pt-5 text-center">
-                    <div class="col-lg-12">
-                      <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
-                    </div>
+                  <div class="col-lg-4">
+                    <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
                   </div>
                 </div>
-                <div ng-if="vm.incident.description.suppressed" class="no-data-available">
-                  <h5>No response data available.</h5>
+                <div class="row mt-5">
+                  <div class="col-lg-6">
+                    <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
+                  </div>
+                  <div class="col-lg-6">
+                    <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
+                  </div>
                 </div>
+                <div class="row mt-5 text-center">
+                  <div class="col-lg-12">
+                    <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+                  </div>
+                </div>
+              </div>
+
+
+              <div ng-if="vm.incident.description.suppressed" class="no-data-available">
+                <h5>No response data available.</h5>
               </div>
             </div>
 
