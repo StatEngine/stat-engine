@@ -1,35 +1,93 @@
+.vis-timeline {
+  border: 0;
+}
+
+.vis-labelset .vis-label {
+  border-bottom: 0;
+  text-align: right;
+  .vis-inner {
+    padding: 1rem 1.5rem;
+    b {
+      color: $color-pickled-bluewood;
+      font-weight: normal;
+    }
+  }
+}
+
+.vis-panel.vis-left {
+  border-bottom: 0;
+}
+
+.vis-panel.vis-center,
+.vis-panel.vis-left,
+.vis-panel.vis-right,
+.vis-panel.vis-top,
+.vis-panel.vis-bottom,
+.vis-foreground .vis-group {
+  border-color: $color-geyser;
+  border-right: 1px solid #D7DEE3;
+}
+
+.vis-foreground .vis-group:first-child {
+  border-top: 1px solid $color-geyser;
+}
+
 .vis-item.point {
-  border-color: black;
+  border-color: #2E3E47;
+}
+
+.vis-item.vis-range {
+  border-radius: 0;
+}
+
+.vis-item .vis-item-content {
+  padding: 0;
+}
+
+.vis-time-axis.vis-foreground {
+  border-bottom: 1px solid $color-geyser;
+  border-right: 1px solid $color-geyser;
+}
+
+.vis-time-axis .vis-grid.vis-major {
+  border-color: $color-geyser;
+}
+
+.vis-time-axis .vis-text {
+  color: $color-pickled-bluewood;
+}
+
+.vis-item.vis-background .vis-item-content b  {
+  display: none;
 }
 
 .vis-item.unit-turnout-duration {
-  background-color: #DFE14E;
-  border-color: #DFE14E;
+  background-color: $color-tulip-tree;
+  border-color: darken($color-tulip-tree,25%);
 }
 
 .vis-item.unit-travel-duration {
-  background-color: #F36B25;
-  border-color: #F36B25;
+  background-color: $color-di-serria;
+  border-color: darken($color-di-serria,25%);
 }
 
 .vis-item.unit-cancelled-duration {
-  background-color: #FF0000;
-  border-color: #FF0000;
+  background-color: $color-cranberry;
+  border-color: darken($color-cranberry,25%);
 }
 
 .vis-item.unit-event-duration {
-  background-color: #5BC7E2;
-  border-color: #5BC7E2;
+  background-color: $color-pelorous;
+  border-color: darken($color-pelorous,25%);
 }
 
 .vis-item.event-duration {
-  background-color: #E0E0D9;
-  border-color: #E0E0D9;
+  background-color: rgba(205, 218, 224, 0.3);
 }
 
 .vis-item.alarm-processing-duration {
-  background-color: #A491D3;
-  border-color: #A491D3;
+  background-color: $color-wisteria;
+  border-color: darken($color-wisteria,25%);
 }
 
 .vis.timeline .item.dot {
@@ -45,8 +103,4 @@
 }
 .vis.timeline .item.dot {
     display: none;
-}
-
-.vis-item-content  {
-  text-align: center;
 }

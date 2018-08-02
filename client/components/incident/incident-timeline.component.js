@@ -60,7 +60,7 @@ export default class IncidentTimelineComponent {
         group: 'Alarm',
         className: 'alarm-answering-duration',
         title: '<b>Alarm Answer in ' + humanizeDuration(alarmAnswer) + 's</b>',
-        content: '<i class="fa fa-phone"></i>'
+        // content: '<i class="fa fa-phone"></i>'
       });
     }
 
@@ -75,7 +75,7 @@ export default class IncidentTimelineComponent {
         group: 'Alarm',
         className: 'alarm-processing-duration',
         title: '<b>Alarm Processing in ' + humanizeDuration(alarmProcessing) + 's</b>',
-        content: '<i class="fa fa-exchange"></i>'
+        // content: '<i class="fa fa-exchange"></i>'
       });
     }
 
@@ -131,7 +131,7 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-event-duration',
           title: '<b> Intervention for ' + humanizeDuration(eventDuration) + '</b>',
-          content: this.incident.isFireIncident() ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
+          // content: this.incident.isFireIncident() ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
         });
       }
 
@@ -149,7 +149,7 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-cancelled-duration',
           title: '<b> Out-of-service (cancelled) for ' + humanizeDuration(cancelledDuration) + '</b>',
-          content: '<i class="fa fa-ban"></i>'
+          // content: '<i class="fa fa-ban"></i>'
         });
       }
 
@@ -164,7 +164,7 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-turnout-duration',
           title: '<b>Turnout in ' + humanizeDuration(turnoutDuration) + '</b>',
-          content: '<i class="fa fa-spinner text-center"></i>'
+          // content: '<i class="fa fa-spinner text-center"></i>'
         });
       }
 
@@ -178,7 +178,7 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-travel-duration',
           title: '<b>Travel in ' + humanizeDuration(turnoutDuration) + '</b>',
-          content: '<i class="fa fa-map-o"></i>'
+          // content: '<i class="fa fa-map-o"></i>'
         });
       }
 
