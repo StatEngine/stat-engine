@@ -38,5 +38,26 @@ export default function routes($stateProvider) {
           return User.query().$promise;
         },
       },
+    })
+    .state('site.departmentAdmin.email', {
+      url: '/departmentAdmin/email',
+      views: {
+        'content@': {
+          template: require('./department-admin-email/department-admin-email.html'),
+          controller: 'DepartmentAdminEmailController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['department_admin']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+        departmentUsers(User) {
+          return User.query().$promise;
+        },
+      },
     });
 }

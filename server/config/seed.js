@@ -704,6 +704,16 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(() => User.create({
+      provider: 'local',
+      role: 'admin',
+      username: 'svcAccount',
+      first_name: 'SVC',
+      last_name: 'Account',
+      email: 'svcAccount@example.com',
+      password: 'password',
+      api_key: 'svcAccount',
+    }))
     .then(() => FireDepartment.create({
       fd_id: '38005',
       firecares_id: '94264',
