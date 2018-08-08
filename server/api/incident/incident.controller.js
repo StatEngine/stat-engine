@@ -118,7 +118,7 @@ export function loadConcurrent(req, res, next) {
                 }
               }],
               must_not: [{
-                  term: {
+                term: {
                   'description.incident_number': req.incident.description.incident_number,
                 }
               }],

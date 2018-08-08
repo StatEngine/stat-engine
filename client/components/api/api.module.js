@@ -2,6 +2,7 @@
 
 import angular from 'angular';
 
+import EmailResource from './email.service';
 import ExtensionConfigurationResource from './extension-configuration.service';
 import ExtensionResource from './extension.service';
 import FireDepartmentResource from './fire-department.service';
@@ -14,6 +15,7 @@ import UserResource from './user.service';
 import IncidentResource from './incident.service';
 
 export default angular.module('statEngineApp.api', [])
+  .factory('Email', EmailResource)
   .factory('Extension', ExtensionResource)
   .factory('ExtensionConfiguration', ExtensionConfigurationResource)
   .factory('FireDepartment', FireDepartmentResource)

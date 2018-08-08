@@ -1,0 +1,37 @@
+<div class="site-content department-admin-email">
+  <header class="naked"></header>
+  <section class="container site-content">
+    <h4> Time Range Summary Email</h4>
+    <p> Start and end times will be calculated based on Shift </p>
+    <form name="myForm">
+      <label>
+        <input type="radio" ng-model="vm.timeUnit" value="DAY">
+        Day
+      </label><br/>
+      <label>
+        <input type="radio" ng-model="vm.timeUnit" value="WEEK">
+        Week
+      </label><br/>
+      <label>
+        <input type="radio" ng-model="vm.timeUnit" value="MONTH">
+        Month
+      </label><br/>
+      <label>
+        <input type="radio" ng-model="vm.timeUnit" value="YEAR">
+        Year
+      </label><br/>
+
+      <label>Start Date: </label>
+      <input type="date"
+       ng-model="vm.startDate"><br/>
+
+      <label>
+         <input type="checkbox" ng-model="vm.test">
+         Test?
+      </label><br/>
+   </form>
+
+    <button class="btn btn-primary" ng-click="vm.send()">Send</button>
+
+  </section>
+</div>

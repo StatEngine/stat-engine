@@ -87,6 +87,7 @@ var all = {
     newUserTemplate: 'getting-started-statengine',
     newReportTemplate: 'new-report',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
+    mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
   },
 
   mailchimp: {

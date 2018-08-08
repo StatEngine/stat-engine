@@ -12,6 +12,7 @@ import config from './config/environment';
 
 export default function(app) {
   // Insert API routes below
+  app.use('/api/email', require('./api/email'));
   app.use('/api/extensions', require('./api/extension'));
   app.use('/api/extension-configurations', require('./api/extension-configuration'));
   app.use('/api/fire-departments', require('./api/fire-department'));

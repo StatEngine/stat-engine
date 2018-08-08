@@ -1,6 +1,5 @@
 'use strict';
 
-import amqp from 'amqplib/callback_api';
 import async from 'async';
 import _ from 'lodash';
 import Promise from 'bluebird';
@@ -11,8 +10,8 @@ import {
   seedKibanaIndexPatterns,
   seedKibanaVisualizations,
 } from '@statengine/se-fixtures';
+import { process } from '@statengine/se-ingest-router';
 
-import config from '../../config/environment';
 import {
   FireDepartment,
   User,
@@ -28,8 +27,6 @@ import {
   runNFPA,
   nfpa1710,
 } from './fire-department-nfpa.controller';
-
-import { process } from '@statengine/se-ingest-router';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;

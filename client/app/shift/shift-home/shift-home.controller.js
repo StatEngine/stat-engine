@@ -45,7 +45,7 @@ export default class ShiftHomeController {
 
     const ShiftConfiguration = FirecaresLookup[currentPrincipal.FireDepartment.firecares_id];
 
-    if (ShiftConfiguration) {
+    if(ShiftConfiguration) {
       this.shiftly = new ShiftConfiguration();
 
       const uniqueShifts = _.uniq(this.shiftly.pattern.split('')).sort();
@@ -79,7 +79,7 @@ export default class ShiftHomeController {
           date: start.format('ddd, MM-DD'),
           shift: this._calculateShift(start),
         });
-      }  
+      }
     }
   }
 
