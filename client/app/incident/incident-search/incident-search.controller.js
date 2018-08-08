@@ -29,7 +29,7 @@ export default class IncidentSearchController {
         field: 'description.units.length',
         displayName: '# Units',
         width: 100,
-       }, {
+      }, {
         field: 'description.category',
         displayName: 'Category',
         width: 100,

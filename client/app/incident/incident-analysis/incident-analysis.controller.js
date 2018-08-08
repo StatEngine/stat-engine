@@ -48,8 +48,8 @@ export default class IncidentAnalysisController {
       }, {
         field: 'address.battalion',
         displayName: 'Battalion',
-        cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-          if (grid.getCellValue(row,col) == incident.address.battalion) {
+        cellClass: (grid, row, col) => {
+          if(grid.getCellValue(row, col) == incident.address.battalion) {
             return 'text-danger';
           }
         },
@@ -57,8 +57,8 @@ export default class IncidentAnalysisController {
       }, {
         field: 'address.response_zone',
         displayName: 'Response Zone',
-        cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-          if (grid.getCellValue(row,col) == incident.address.response_zone) {
+        cellClass: (grid, row, col) => {
+          if(grid.getCellValue(row, col) == incident.address.response_zone) {
             return 'text-danger';
           }
         },

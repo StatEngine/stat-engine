@@ -1,8 +1,8 @@
-import { setMergeVars } from './email.controller';
+import { calculateTimeRange, setMergeVars } from './email.controller';
 import 'chai/register-should';
 
 describe('setMergeVars()', () => {
-  it('should set merge vars', (done) => {
+  it('should set merge vars', () => {
     const req = {
       analysis: {
         fireDepartment: {
@@ -34,11 +34,35 @@ describe('setMergeVars()', () => {
       body: {
         timeRange: {
           start: '2018-05-16T08:00:00-04:00',
-          end: '2018-05-17T08:00:00-04:00',
+          end: '2018-05-19T02:00:00-10:00',
         }
       }
     }
 
     setMergeVars(req);
+  });
+
+  it('should calculate time range', () => {
+    const tr = calculateTimeRange({ startDate: '2018-05-16T08:00:00-04:00', endDate: '2018-05-17T08:00:00-04:00'});
+    tr.start.should.equal('2018-05-16T08:00:00-04:00');
+    tr.end.should.equal('2018-05-17T08:00:00-04:00');
+  });
+
+  it('should calculate time range with no end date provided (DAY)', () => {
+    const tr = calculateTimeRange({ startDate: '2018-05-16T10:00:00-04:00', timeUnit: 'DAY', firecaresId: '93345'});
+    tr.start.should.equal('2018-05-16T08:00:00-04:00');
+    tr.end.should.equal('2018-05-17T08:00:00-04:00');
+  });
+
+  it.skip('should calculate time range with no end date provided (WEEK)', () => {
+    const tr = calculateTimeRange({ startDate: '2018-05-16T10:00:00-04:00', timeUnit: 'WEEK', firecaresId: '93345'});
+    tr.start.should.equal('2018-05-12T08:00:00-04:00');
+    tr.end.should.equal('2018-05-19T08:00:00-04:00');
+  });
+
+  it.skip('should calculate time range with no end date provided (MONTH)', () => {
+    const tr = calculateTimeRange({ startDate: '2018-05-16T10:00:00-04:00', timeUnit: 'MONTH', firecaresId: '93345'});
+    tr.start.should.equal('2018-04-30T08:00:00-04:00');
+    tr.end.should.equal('2018-05-30T08:00:00-04:00');
   });
 });

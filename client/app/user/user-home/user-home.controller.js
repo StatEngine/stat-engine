@@ -14,7 +14,7 @@ export default class UserHomeController {
     this.PrincipalService = Principal;
     this.SegmentService = SegmentService;
     this.appConfig = appConfig;
-    
+
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.requestedFireDepartment = requestedFireDepartment;
 

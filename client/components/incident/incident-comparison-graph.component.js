@@ -37,7 +37,6 @@ export default class IncidentComparisonGraphComponent {
       }
     });
 
-    console.dir(this.incident.durations)
     const shapes = [];
     shapes.push({
       type: 'line',

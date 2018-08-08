@@ -1,7 +1,7 @@
 import passport from 'passport';
-import {Strategy as LocalAPIKeyStrategy} from 'passport-localapikey';
+import { Strategy as LocalAPIKeyStrategy } from 'passport-localapikey';
 
-import {FireDepartment, User} from '../../sqldb';
+import { FireDepartment } from '../../sqldb';
 
 function apiAuthenticate(User, apiKey, done) {
   User.find({

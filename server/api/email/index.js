@@ -14,8 +14,12 @@ router.post(
   auth.hasRole('department_admin'),
   bodyParser.json(),
   auth.hasFireDepartment,
-  controller.runAnalysis,
-  //controller.sendEmail,
+  controller.runComparison,
+  controller.runRuleAnalysis,
+  controller.setEmailOptions,
+  controller.setEmailRecipients,
+  controller.setEmailMergeVars,
+  controller.send,
 );
 
 module.exports = router;

@@ -13,7 +13,7 @@ export class NavbarComponent {
     this.PrincipalService = Principal;
     this.SegmentService = SegmentService;
     this.appConfig = appConfig;
-    
+
     this.userDropDownActive = false;
 
     this.currentPrincipal = undefined;

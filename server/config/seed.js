@@ -17,6 +17,7 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
+let rogers;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -52,6 +53,24 @@ if(process.env.NODE_ENV === 'development') {
     .then(() => Extension.create({
       name: 'Daily Report',
       short_description: 'Daily reports delivered straight to your inbox',
+      description: 'Get summary reports delivered straight to your inbox',
+      features: [
+        'Configurable on shiftly, daily, weekly, or monthly basis',
+        'Completely customizable report',
+        'Ability to deliver to multiple email accounts',
+      ],
+      type: 'PERIODIC',
+      categories: 'Reporting',
+      featured: true,
+      image: 'extension-reports.svg',
+      config_options: []
+    }))
+    .then(extension => {
+      emailReportEnrichment = extension;
+    })
+    .then(() => Extension.create({
+      name: 'Email Report',
+      short_description: 'Reports delivered straight to your inbox',
       description: 'Get summary reports delivered straight to your inbox',
       features: [
         'Configurable on shiftly, daily, weekly, or monthly basis',
@@ -131,303 +150,15 @@ if(process.env.NODE_ENV === 'development') {
       fire_department__id: richmond._id,
       extension__id: emailReportEnrichment._id,
       config_json: {
-        tasks: [{
-          name: 'richmond-current-shift',
-          schedule: {
-            later: 'every 5 seconds'
-          },
-          preprocessors: [{
-            type: 'shiftly',
-            options: {
-              name: 'richmondVA',
-              timezone: 'US/Eastern',
-            }
-          }],
-          queryTemplates: [{
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must: [{
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }],
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must: [{
-                      term: {
-                        'description.type': 'EMS-1STRESP'
-                      }
-                    }, {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }],
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must_not: {
-                      term: {
-                        'description.type': 'EMS-1STRESP'
-                      }
-                    },
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    },
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'search',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                size: 0,
-                query: {
-                  bool: {
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    },
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                },
-                aggs: {
-                  total_responses: {
-                    sum: {
-                      script: {
-                        lang: 'painless',
-                        inline: 'doc[\'description.units.keyword\'].length'
-                      }
-                    }
-                  },
-                  response_time_percentile_rank: {
-                    percentile_ranks: {
-                      field: 'description.extended_data.response_duration',
-                      values: [360]
-                    }
-                  },
-                  apparatus: {
-                    nested: {
-                      path: 'apparatus'
-                    },
-                    aggs: {
-                      distance_percentile_rank: {
-                        percentiles: {
-                          field: 'apparatus.distance',
-                          percents: [90]
-                        }
-                      },
-                      unit_responses: {
-                        terms: {
-                          field: 'apparatus.unit_id',
-                          size: 50,
-                          order: {
-                            utilization: 'desc'
-                          }
-                        },
-                        aggs: {
-                          total_distance: {
-                            sum: {
-                              field: 'apparatus.distance'
-                            }
-                          },
-                          turnout_percentile_rank: {
-                            percentiles: {
-                              field: 'apparatus.extended_data.turnout_duration',
-                              percents: [90]
-                            }
-                          },
-                          utilization: {
-                            sum: {
-                              field: 'apparatus.extended_data.event_duration'
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  address_battalions: {
-                    terms: {
-                      field: 'address.battalion',
-                      size: 50,
-                      order: {
-                        _term: 'asc'
-                      }
-                    }
-                  },
-                  event_duration_time_percentile_rank: {
-                    percentiles: {
-                      field: 'description.extended_data.event_duration',
-                      percents: [25, 50, 75, 90, 100]
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'search',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                size: 100,
-                _source: ['address.latitude', 'address.longitude'],
-                query: {
-                  bool: {
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }],
-          transforms: [{
-            type: 'set',
-            path: 'shiftlyDisplay',
-            value: 'preprocessors.shiftly.display'
-          }, {
-            type: 'set',
-            path: 'totalIncidentCount',
-            value: 'queryResults[0].count'
-          }, {
-            type: 'set',
-            path: 'emsIncidentCount',
-            value: 'queryResults[1].count'
-          }, {
-            type: 'set',
-            path: 'fireIncidentCount',
-            value: 'queryResults[2].count'
-          }, {
-            type: 'set',
-            path: 'totalResponses',
-            value: 'queryResults[3].aggregations.total_responses.value'
-          }, {
-            type: 'set',
-            path: 'sixMinuteResponses',
-            value: 'queryResults[3].aggregations.response_time_percentile_rank.values[\'360.0\']'
-          }, {
-            type: 'set',
-            path: 'apparatusDistancePercentile90',
-            value: 'queryResults[3].aggregations.apparatus.distance_percentile_rank.values[\'90.0\']'
-          }, {
-            type: 'set',
-            path: 'apparatusTurnoutPercentile90',
-            value: 'queryResults[3].aggregations.apparatus.turnout_percentile_rank.values[\'90.0\']'
-          }, {
-            type: 'set',
-            path: 'eventDurationPercentile90',
-            value: 'queryResults[3].aggregations.event_duration_time_percentile_rank.values[\'90.0\']'
-          }, {
-            type: 'set',
-            path: 'unitResponseBuckets',
-            value: 'queryResults[3].aggregations.apparatus.unit_responses.buckets'
-          }, {
-            type: 'set',
-            path: 'addressBattalionBuckets',
-            value: 'queryResults[3].aggregations.address_battalions.buckets'
-          }, {
-            type: 'set',
-            path: 'locations',
-            value: 'queryResults[4]'
-          }],
-          actions: [{
-            type: 'console',
-            options: {}
-          }, {
-            type: 'email',
-            options: {
-              template: 'shift',
-              message: {
-                from: 'noreply@statengine.io',
-                to: 'joe.chop@prominentedge.com'
-              },
-              locals: {
-                name: 'Richmond Current Shift',
-                ga: {
-                  uid: 'joechop'
-                },
-                sections: {
-                  battalionSummary: true,
-                  unitSummary: true,
-                  incidentSummary: false
-                }
-              }
-            }
-          }, {
-            type: 'email',
-            options: {
-              template: 'shift',
-              message: {
-                from: 'noreply@statengine.io',
-                to: 'garnertb@prominentedge.com'
-              },
-              locals: {
-                name: 'Richmond Current Shift',
-                ga: {
-                  uid: 'garnertb'
-                }
-              }
-            }
-          }]
-        }]
+        sections: {
+          showAlertSummary: false,
+          showBattalionSummary: true,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: false,
+        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
       }
     }))
     .then(() => FireDepartment.create({
@@ -611,7 +342,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,department_admin',
         username: 'rogers',
         first_name: 'dev',
         last_name: 'user',
@@ -621,6 +352,26 @@ if(process.env.NODE_ENV === 'development') {
       }]
     }, {
       include: [FireDepartment.Users]
+    }))
+    .then(dbRogers => {
+      rogers = dbRogers;
+    })
+    .then(() => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: rogers._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        sections: {
+          showAlertSummary: true,
+          showBattalionSummary: false,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: true,
+        },
+        showDistances: false,
+        showTransports: true,
+        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93717.png',
+      }
     }))
     .then(() => User.create({
       provider: 'local',

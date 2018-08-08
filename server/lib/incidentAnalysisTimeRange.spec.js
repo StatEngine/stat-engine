@@ -60,6 +60,20 @@ describe('Incident Analysis Time Range', () => {
     analysis.run()
       .then(results => {
         console.log(util.inspect(results, {showHidden: false, depth: null}))
+        done();
+      });
+  });
+
+  it('should run analysis', (done) => {
+    let analysis = new IncidentAnalysisTimeRange({
+      index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
+      timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' }
+    })
+
+    analysis.analyze()
+      .then(results => {
+        console.log(util.inspect(results, {showHidden: false, depth: null}))
+        done();
       });
   });
 
