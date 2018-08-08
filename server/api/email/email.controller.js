@@ -169,6 +169,8 @@ function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
     mergeVar.content.push(obj);
   });
 
+  mergeVar.content = _.sortBy(mergeVar.content, [o => _.get(o, 'incidentCount.val')]).reverse();
+
   return mergeVar;
 }
 

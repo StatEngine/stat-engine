@@ -184,6 +184,28 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '03050',
+      firecares_id: '77989',
+      name: 'Clark County Fire Department',
+      state: 'NV',
+      timezone: 'US/Pacific',
+      integration_complete: true,
+      latitude: 37.7772,
+      longitude: -77.5161,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'clarkcounty',
+        first_name: 'clarkcounty',
+        last_name: 'User',
+        email: 'clarkcounty@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '05936',
       firecares_id: '81205',
       name: 'Fairmount Fire Protection District',
