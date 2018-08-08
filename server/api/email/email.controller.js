@@ -305,7 +305,12 @@ export function setEmailMergeVars(req, res, next) {
 export function send(req, res) {
   req.to = 'joe.chop@prominentedge.com';
 
-  sendEmail(req.to, req.subject, 'timerange', req.mergeVars, req.query.test)
+  const metadata = {
+    firecaresId: req.fireDepartment.firecares_id,
+    fireDepartmentName: req.fireDepartment.name,
+  };
+
+  sendEmail(req.to, req.subject, 'timerange', req.mergeVars, req.query.test, metadata)
     .then(() => res.status(204).send())
     .catch(e => {
       console.error(e);

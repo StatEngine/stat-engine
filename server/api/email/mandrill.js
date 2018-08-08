@@ -4,7 +4,7 @@ import util from 'util';
 
 import config from '../../config/environment';
 
-export function sendEmail(to, subject, templateName, merge_vars, test) {
+export function sendEmail(to, subject, templateName, merge_vars, test, metadata) {
   let apiKey;
 
   if(test) apiKey = config.mailSettings.mandrillTestAPIKey;
@@ -31,6 +31,7 @@ export function sendEmail(to, subject, templateName, merge_vars, test) {
       merge: true,
       merge_language: 'handlebars',
       global_merge_vars: merge_vars,
+      metadata
     }
   };
 
