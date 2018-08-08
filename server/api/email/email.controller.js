@@ -312,7 +312,12 @@ export function send(req, res) {
     fireDepartmentName: req.fireDepartment.name,
   };
 
-  sendEmail(req.to, req.subject, 'timerange', req.mergeVars, req.query.test, metadata)
+  let test = true;
+  if(req.query.test && req.query.test.toLowerCase() === 'false') test = false;
+
+  console.dir(test);
+
+  sendEmail(req.to, req.subject, 'timerange', req.mergeVars, test, metadata)
     .then(() => res.status(204).send())
     .catch(e => {
       console.error(e);
