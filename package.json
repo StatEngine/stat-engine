@@ -5,7 +5,7 @@
   "dependencies": {
     "@statengine/se-fixtures": "~0.0.17",
     "@statengine/se-ingest-router": ">0.0.2",
-    "@statengine/shiftly": "~0.0.15",
+    "@statengine/shiftly": ">0.0.17",
     "@statengine/siamese-san-francisco-demo": "0.0.4",
     "@uirouter/angularjs": "^1.0.13",
     "amqplib": "^0.5.2",

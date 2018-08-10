@@ -477,6 +477,28 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(() => FireDepartment.create({
+      fd_id: '05909',
+      firecares_id: '99082',
+      name: 'West Metro Fire Rescue',
+      state: 'CO',
+      timezone: 'US/Mountain',
+      integration_complete: true,
+      latitude: 19.6400,
+      longitude: 155.9969,
+      Users: [{
+        provider: 'local',
+        role: 'user',
+        username: 'westMetro',
+        first_name: 'Demo',
+        last_name: 'User',
+        email: 'westmetro@prominentedge.com',
+        password: 'password',
+        api_key: 'icomplete',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
     .then(() => User.create({
       provider: 'local',
       role: 'admin',
