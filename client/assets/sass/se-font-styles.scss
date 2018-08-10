@@ -80,3 +80,8 @@
     content: unicode($se-icon-land-use);
   }
 }
+.se-icon-info{
+  &:before {
+    content: unicode($se-icon-info);
+  }
+}

@@ -43,25 +43,26 @@ export default class IncidentComparisonGraphComponent {
       y0: this.incident.description.extended_data.response_duration,
       y1: this.incident.description.extended_data.response_duration,
       line: {
-        color: 'red',
-        width: 4,
+        color: '#e91276',
+        width: 3,
         dash: 'dash',
       },
       name: this.incident.description.incident_number || 'This incident'
     });
-
 
     Plotly.newPlot(ID, [{
       x: x,
       y: y,
       orientation: 'v',
       marker: {
-        color: 'rgba(55,128,191,0.6)',
-        width: 1
+        color: '#44a0c1',
+        line: {
+          color: '#005364',
+          width: 1
+        }
       },
       type: 'bar'
     }], {
-      title: '90th Percentile Response Time Comparisons',
       shapes: shapes,
       annotations: [{
         x: -0.75,
@@ -69,13 +70,30 @@ export default class IncidentComparisonGraphComponent {
         text: this.incident.description.incident_number || 'This incident',
         showarrow: true,
         arrowhead: 9,
-        arrowcolor: 'black',
+        arrowcolor: '#e91276',
         font: {
-          color: 'black'
+          color: '#e91276'
         },
         ax: -10,
         ay: -30
-      }]
-    });
+      }],
+      height: 290,
+      margin: {
+        l: 50,
+        r: 2,
+        b: 100,
+        t: 0,
+      },
+      xaxis: {
+        linecolor: '#d7dee3',
+        zerolinecolor: '#d7dee3',
+      },
+      yaxis: {
+        title: 'Seconds',
+        linecolor: '#d7dee3',
+      },
+    },
+    {displayModeBar: false}
+  );
   }
 }

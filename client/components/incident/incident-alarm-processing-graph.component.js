@@ -33,10 +33,21 @@ export default class IncidentAlarmProcessingGraphComponent {
       name: 'Processing',
       orientation: 'h',
       marker: {
-        color: 'rgba(55,128,191,0.6)',
-        width: 1
+        color: '#44a0c1',
+        line: {
+          color: '#005364',
+          width: 1
+        }
       },
       type: 'bar',
+      text: [_.get(this.incident, 'durations.alarm_processing.seconds')],
+      textposition: 'outside',
+      outsidetextfont: {
+        color: '#44a0c1',
+        family: 'Open Sans',
+        size: 30
+      },
+      hoverinfo: 'none',
     });
 
     const shapes = [];
@@ -49,8 +60,8 @@ export default class IncidentAlarmProcessingGraphComponent {
       xref: 'x',
       yref: 'y',
       line: {
-        color: 'yellow',
-        width: 4,
+        color: '#ed8c5a',
+        width: 3,
         dash: 'dash',
       },
     }, {
@@ -62,46 +73,56 @@ export default class IncidentAlarmProcessingGraphComponent {
       xref: 'x',
       yref: 'y',
       line: {
-        color: 'red',
-        width: 4,
+        color: '#e91276',
+        width: 3,
         dash: 'dash',
       },
     });
 
     const layout = {
-      title: 'Alarm Processing Duration',
       barmode: 'overlay',
       shapes: shapes,
+      height: 290,
+      margin: {
+        l: 5,
+        r: 5,
+        b: 55,
+        t: 3,
+        pad: 4
+      },
       xaxis: {
-        title: 'seconds',
+        title: 'Seconds',
+        linecolor: '#d7dee3',
+        zerolinecolor: '#d7dee3',
+      },
+      yaxis: {
+         autorange: true,
+         showgrid: false,
+         zeroline: false,
+         showline: false,
+         autotick: true,
+         ticks: '',
+         showticklabels: false
       },
       annotations: [{
         x: 64,
-        y: 1,
+        y: 1.1,
         text: '64s',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#ed8c5a',
         },
-        ax: 40,
-        ay: -10
       }, {
         x: 106,
-        y: 1,
+        y: 1.1,
         text: '106s',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#e91276'
         },
-        ax: 40,
-        ay: -10
       }]
     };
 
-    Plotly.newPlot(ID, data, layout);
+    Plotly.newPlot(ID, data, layout, {displayModeBar: false});
   }
 }

@@ -41,9 +41,13 @@ export default class IncidentUnitTravelDistanceGraphComponent {
       y: estimated,
       name: 'Estimated',
       type: 'bar',
+      // TODO: THERE HAS TO BE A BETTER WAY TO HAVE A UNIQUE COLOR BAR FOR FIRST DUE
       marker: {
-        color: 'rgba(55,128,191,0.6)',
-        width: 1
+        color: ['#3eceb0','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1'],
+        line: {
+          color: ['#25a88e','#005364','#005364','#005364','#005364','#005364','#005364','#005364','#005364'],
+          width: 1
+        }
       },
     };
 
@@ -51,26 +55,32 @@ export default class IncidentUnitTravelDistanceGraphComponent {
 
     var data = [estimatedTrace];
     var layout = {
-      title: 'Travel Distances',
+      height: 290,
+      margin: {
+        l: 40,
+        r: 1,
+        b: 30,
+        t: 0,
+      },
       yaxis: {
-        title: 'miles',
+        title: 'Miles',
+        linecolor: '#d7dee3',
+      },
+      xaxis: {
+        linecolor: '#d7dee3',
       },
       annotations: [{
         x: firstDue.unit_id,
-        y: this.travelMatrix[firstDue.unit_id].distance,
+        y: this.travelMatrix[firstDue.unit_id].distance + 0.2,
         xref: 'x',
         yref: 'y',
         text: 'First Due',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#26a88e'
         },
-        ax: 30,
-        ay: -30
       }]
     };
-    Plotly.newPlot(ID, data, layout);
+    Plotly.newPlot(ID, data, layout, {displayModeBar: false});
   }
 }

@@ -257,8 +257,12 @@ current-weather {
   li {
     margin-bottom: .65rem;
     &::before {
-      content: '\2B24';
+      content: '\25A0';
+      font-size: 29px;
+      line-height: 0;
       margin-right: 1rem;
+      position: relative;
+      top: 4px;
     }
     &.alarm-answer::before {
       color: $color-celery;
@@ -332,4 +336,24 @@ circle.blue-dot {
 
 .search-grid {
   height: 65vh;
+}
+
+// Override Plot.ly JS
+.bartext.bartext-outside {
+  font-weight: 600;
+}
+.cartesianlayer .xaxislayer-above text,
+.cartesianlayer .yaxislayer-above text {
+  fill: #334A56 !important;
+}
+
+.infolayer .g-xtitle text,
+.infolayer .legend .legendtext,
+.infolayer .g-ytitle text {
+  fill: #334A56 !important;
+}
+
+.main-svg .annotation-text {
+  font-size: 14px !important;
+  font-weight: 600;
 }

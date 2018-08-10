@@ -52,8 +52,11 @@ export default class IncidentUnitResponseGraphComponent {
       name: 'Turnout',
       orientation: 'h',
       marker: {
-        color: 'rgba(55,128,191,0.6)',
-        width: 1
+        color: '#44a0c1',
+        line: {
+          color: '#005364',
+          width: 1
+        }
       },
       type: 'bar'
     });
@@ -63,8 +66,11 @@ export default class IncidentUnitResponseGraphComponent {
       name: 'Travel',
       orientation: 'h',
       marker: {
-        color: 'rgba(255,153,51,0.6)',
-        width: 1
+        color: '#3eceb0',
+        line: {
+          color: '#25a88e',
+          width: 1
+        }
       },
       type: 'bar'
     });
@@ -82,35 +88,40 @@ export default class IncidentUnitResponseGraphComponent {
       y0: -1,
       y1: this.incident.apparatus.length,
       line: {
-        color: 'red',
-        width: 4,
+        color: '#e91276',
+        width: 3,
         dash: 'dash',
       },
       name: 'Suggested'
     });
 
     const layout = {
-      title: 'Response Durations',
       barmode: 'stack',
       shapes: shapes,
+      height: 290,
+      margin: {
+        l: 55,
+        r: 5,
+        b: 55,
+        t: 10,
+        pad: 4
+      },
       xaxis: {
-        title: 'seconds',
+        title: 'Seconds',
+        linecolor: '#d7dee3',
+        zerolinecolor: '#d7dee3',
       },
       annotations: [{
         x: threshold,
-        y: this.incident.apparatus.length,
+        y: this.incident.apparatus.length + .5,
         text: threshold + 's',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#e91276'
         },
-        ax: 40,
-        ay: -10
       }]
     };
 
-    Plotly.newPlot(ID, unitTimelineData, layout);
+    Plotly.newPlot(ID, unitTimelineData, layout, {displayModeBar: false});
   }
 }

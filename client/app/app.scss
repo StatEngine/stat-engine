@@ -546,6 +546,19 @@ input[type="radio"]:focus {
     font-weight: 500;
     margin: 0 0 2.5rem;
     padding: .25rem 0 1.5rem;
+    .se-icon-info {
+      &::before {
+        color: lighten($color-pale-sky,20%);
+        font-size: 22px;
+        position: absolute;
+        right: 3.5rem;
+        top: 2rem;
+        transition: all ease-in-out 0.2s;
+      }
+      &:hover::before {
+        color: $color-pale-sky;
+      }
+    }
   }
   .card-footer {
     border-top: 1px solid $color-geyser;

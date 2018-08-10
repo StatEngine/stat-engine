@@ -47,7 +47,13 @@ export default class IncidentUnitTravelDurationGraphComponent {
       y: expected,
       name: 'Expected',
       type: 'bar',
-      opacity: 0.5,
+      marker: {
+        color: '#3eceb0',
+        line: {
+          color: '#25a88e',
+          width: 1
+        }
+      },
     };
 
     const actualTrace = {
@@ -55,7 +61,13 @@ export default class IncidentUnitTravelDurationGraphComponent {
       y: actual,
       name: 'Actual',
       type: 'bar',
-      opacity: 0.5,
+      marker: {
+        color: '#44a0c1',
+        line: {
+          color: '#005364',
+          width: 1
+        }
+      },
     };
 
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);
@@ -63,10 +75,24 @@ export default class IncidentUnitTravelDurationGraphComponent {
 
     var data = [expectedTrace, actualTrace];
     var layout = {
-      title: 'Travel Durations',
-      barmode: 'overlay',
+      barmode: 'group',
+      bargap: 0.3,
+      bargroupgap: 0,
+      height: 290,
+      margin: {
+        l: 52,
+        r: 1,
+        b: 30,
+        t: 0,
+      },
       yaxis: {
-        title: 'seconds',
+        title: 'Seconds',
+        zerolinecolor: '#d7dee3',
+        linecolor: '#d7dee3',
+      },
+      xaxis: {
+        // zerolinecolor: '#d7dee3',
+        linecolor: '#d7dee3',
       },
       shapes: [{
         type: 'line',
@@ -75,8 +101,8 @@ export default class IncidentUnitTravelDurationGraphComponent {
         y0: firstArrived.extended_data.travel_duration,
         y1: firstArrived.extended_data.travel_duration,
         line: {
-          color: 'red',
-          width: 4,
+          color: '#e91276',
+          width: 3,
           dash: 'dash',
         },
         name: 'Suggested'
@@ -87,28 +113,27 @@ export default class IncidentUnitTravelDurationGraphComponent {
         xref: 'x',
         yref: 'y',
         text: 'First Due',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#26a88e'
         },
-        ax: 30,
-        ay: -30
-      }, {
-        x: -0.75,
-        y: firstArrived.extended_data.travel_duration,
-        text: (this.incident.description.incident_number || 'This Incident') + ' First Arrival',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
-        font: {
-          color: 'black'
-        },
-        ax: -10,
-        ay: -30
+
+      // TODO: CAN WE MOVE THIS INFO INTO THE LEGEND AS OPPOSED TO IT BEING AN ANNOTATION?
+
+      // }, {
+      //   x: 0.15,
+      //   y: firstArrived.extended_data.travel_duration,
+      //   text: (this.incident.description.incident_number || 'This Incident') + ' First Arrival',
+      //   showarrow: true,
+      //   arrowhead: 9,
+      //   arrowcolor: '#e91276',
+      //   font: {
+      //     color: '#e91276'
+      //   },
+      //   ax: 0,
+      //   ay: -130
       }]
     };
-    Plotly.newPlot(ID, data, layout);
+    Plotly.newPlot(ID, data, layout, {displayModeBar: false});
   }
 }
