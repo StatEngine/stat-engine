@@ -308,8 +308,6 @@ export function setEmailMergeVars(req, res, next) {
 
 
 export function send(req, res) {
-  req.to = 'joe.chop@prominentedge.com';
-
   const metadata = {
     firecaresId: req.fireDepartment.firecares_id,
     fireDepartmentName: req.fireDepartment.name,

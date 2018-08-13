@@ -160,6 +160,14 @@ if(process.env.NODE_ENV === 'development') {
         showDistances: true,
         showTransports: false,
         logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+        schedulerOptions: {
+          qs: {
+            timeUnit: 'DAY'
+          },
+          later: {
+            text: 'every 5 seconds'
+          }
+        }
       }
     }))
     .then(() => FireDepartment.create({
@@ -334,23 +342,6 @@ if(process.env.NODE_ENV === 'development') {
     .then(dbFfxCity => {
       ffxCity = dbFfxCity;
     })
-    .then(() => ExtensionConfiguration.create({
-      enabled: true,
-      requested: false,
-      fire_department__id: ffxCity._id,
-      extension__id: emailReportEnrichment._id,
-      config_json: {
-        sections: {
-          showAlertSummary: false,
-          showBattalionSummary: false,
-          showIncidentTypeSummary: true,
-          showAgencyIncidentTypeSummary: false,
-        },
-        showDistances: false,
-        showTransports: false,
-        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/81154.png',
-      }
-    }))
     .then(() => FireDepartment.create({
       fd_id: '05900',
       firecares_id: '81147',
@@ -399,23 +390,6 @@ if(process.env.NODE_ENV === 'development') {
     .then(dbRogers => {
       rogers = dbRogers;
     })
-    .then(() => ExtensionConfiguration.create({
-      enabled: true,
-      requested: false,
-      fire_department__id: rogers._id,
-      extension__id: emailReportEnrichment._id,
-      config_json: {
-        sections: {
-          showAlertSummary: true,
-          showBattalionSummary: false,
-          showIncidentTypeSummary: false,
-          showAgencyIncidentTypeSummary: true,
-        },
-        showDistances: false,
-        showTransports: true,
-        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93717.png',
-      }
-    }))
     .then(() => User.create({
       provider: 'local',
       role: 'admin',
