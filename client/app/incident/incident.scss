@@ -124,7 +124,7 @@
 .performance-analysis {
   .card {
     background-color: $color-porcelain;
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem 2rem;
     text-align: center;
     transition: all 0.2s ease-in-out;
     span:first-child {
@@ -137,7 +137,18 @@
       font-size: 13px;
       line-height: 18px;
       font-weight: 400;
-      margin: 1.5rem 0 0 0;
+      margin: 1rem 0 0 0;
+    }
+    &.nfpa-standard::before {
+      content: 'NFPA';
+      font-family: 'Montserrat';
+      font-size: 12px;
+      font-weight: 600;
+      opacity: .3;
+      position: absolute;
+      right: 25px;
+      text-transform: uppercase;
+      top: 8px;
     }
   }
   .pass {
@@ -149,6 +160,7 @@
   .caution {
     color: #ff9f00;
   }
+
   @media (max-width: 976px) {
     > .row > div {
       margin-bottom: 2rem;
