@@ -18,6 +18,7 @@ const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
 let rogers;
+let ffxCity;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -319,7 +320,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_complete: true,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,department_admin',
         username: 'ffxcity',
         first_name: 'ffxcity',
         last_name: 'User',
@@ -329,6 +330,26 @@ if(process.env.NODE_ENV === 'development') {
       }]
     }, {
       include: [FireDepartment.Users]
+    }))
+    .then(dbFfxCity => {
+      ffxCity = dbFfxCity;
+    })
+    .then(() => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: ffxCity._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        sections: {
+          showAlertSummary: false,
+          showBattalionSummary: false,
+          showIncidentTypeSummary: true,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: false,
+        showTransports: false,
+        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/81154.png',
+      }
     }))
     .then(() => FireDepartment.create({
       fd_id: '05900',

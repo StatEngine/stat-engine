@@ -31,7 +31,8 @@ export function computePercentChange(newVal, oldVal) {
 export function buildFireIncidentQuery(timeFilter) {
   return bodybuilder()
     .filter('term', 'description.suppressed', false)
-    .aggregation('terms', 'description.category', { size: 3, order: { _term: 'asc' }})
+    .aggregation('terms', 'description.category', { size: 3, order: { _term: 'asc' }}, categoryAgg => categoryAgg
+      .aggregation('percentiles', 'durations.turnout.seconds', { percents: 90 }))
     .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }})
     .aggregation('terms', 'description.type', { size: 50, order: { _term: 'asc' }})
     .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription.keyword', { size: 50, order: { _term: 'asc' }})
@@ -70,8 +71,11 @@ const fireDepartmentMetrics = [{
   getter: res => _.get(res, 'aggregations["agg_percentile_ranks_durations.response.seconds"]values["360.0"]'),
   setter: (obj, res) => _.set(obj, 'fireDepartment.responseDurationPercentileRank360', res),
 }, {
-  getter: res => _.get(res, 'aggregations.["agg_percentiles_durations.turnout.seconds"]values["90.0"]'),
-  setter: (obj, res) => _.set(obj, 'fireDepartment.turnoutDurationPercentile90', res),
+  getter: res => _.get(categoryBucket(res, 'EMS'), '["agg_percentiles_durations.turnout.seconds"]values["90.0"]'),
+  setter: (obj, res) => _.set(obj, 'fireDepartment.emsTurnoutDurationPercentile90', res),
+},  {
+  getter: res => _.get(categoryBucket(res, 'FIRE'), '["agg_percentiles_durations.turnout.seconds"]values["90.0"]'),
+  setter: (obj, res) => _.set(obj, 'fireDepartment.fireTurnoutDurationPercentile90', res),
 }, {
   getter: res => _.get(res, 'aggregations.apparatus.["agg_percentiles_apparatus.distance"]values["90.0"]'),
   setter: (obj, res) => _.set(obj, 'fireDepartment.distanceToIncidentPercentile90', res),

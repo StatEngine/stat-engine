@@ -33,7 +33,7 @@ function _getShiftTimeFrame(firecaresId, date) {
   }
 }
 
-function _formatDescription(fireDepartment, timeRange, timeUnit) {
+function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, timeUnit) {
   let title;
   let subtitle;
 
@@ -51,6 +51,7 @@ function _formatDescription(fireDepartment, timeRange, timeUnit) {
     content: {
       departmentName: fireDepartment.name,
       timeRange: `${moment.parseZone(timeRange.start).format('lll')} - ${moment.parseZone(timeRange.end).format('lll')}`,
+      comparisonTimeRange: `${moment.parseZone(comparisonTimeRange.start).format('lll')} - ${moment.parseZone(comparisonTimeRange.end).format('lll')}`,
       runTime: moment()
         .tz(fireDepartment.timezone)
         .format('lll'),
@@ -81,7 +82,8 @@ function _formatFireDepartmentMetrics(comparison, options) {
     ['Total Responses', 'responses'],
     ['Six Minute Response Percentage', 'responseDurationPercentileRank360'],
     ['90% Distance to Incident (mi)', 'distanceToIncidentPercentile90', 'showDistances'],
-    ['90% Turnout Duration (sec)', 'turnoutDurationPercentile90'],
+    ['90% EMS Turnout Duration (sec)', 'emsTurnoutDurationPercentile90'],
+    ['90% Fire Turnout Duration (sec)', 'fireTurnoutDurationPercentile90'],
     ['90% Event Duration (min)', 'eventDurationPercentile90']
   ];
 
@@ -170,6 +172,7 @@ function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
   });
 
   mergeVar.content = _.sortBy(mergeVar.content, [o => _.get(o, 'incidentCount.val')]).reverse();
+  mergeVar.content = _.filter(mergeVar.content, o => _.get(o, 'incidentCount.val') !== 0);
 
   return mergeVar;
 }
@@ -217,7 +220,7 @@ export function runComparison(req, res, next) {
   Analysis.compare()
     .then(results => {
       req.comparison = results;
-
+      req.comparisonTimeRange = Analysis.previousTimeFilter;
 
       next();
     })
@@ -285,7 +288,7 @@ export function setEmailRecipients(req, res, next) {
 }
 
 export function setEmailMergeVars(req, res, next) {
-  let description = _formatDescription(req.fireDepartment.get(), req.timeRange, req.query.timeUnit, req.reportOptions);
+  let description = _formatDescription(req.fireDepartment.get(), req.timeRange, req.comparisonTimeRange, req.query.timeUnit, req.reportOptions);
   req.mergeVars = [
     description,
     _formatOptions(req.reportOptions),
@@ -314,8 +317,6 @@ export function send(req, res) {
 
   let test = true;
   if(req.query.test && req.query.test.toLowerCase() === 'false') test = false;
-
-  console.dir(test);
 
   sendEmail(req.to, req.subject, 'timerange', req.mergeVars, test, metadata)
     .then(() => res.status(204).send())
