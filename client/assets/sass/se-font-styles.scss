@@ -85,3 +85,18 @@
     content: unicode($se-icon-info);
   }
 }
+.se-icon-circle-checkmark {
+  &:before {
+    content: unicode($se-icon-circle-checkmark);
+  }
+}
+.se-icon-circle-exclamation {
+  &:before {
+    content: unicode($se-icon-circle-exclamation);
+  }
+}
+.se-icon-circle-x {
+  &:before {
+    content: unicode($se-icon-circle-x);
+  }
+}
