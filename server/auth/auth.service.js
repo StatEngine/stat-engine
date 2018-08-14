@@ -93,6 +93,7 @@ export function hasFireDepartment(req, res, next) {
         return next();
       });
   } else if (req.user.isAdmin) {
+    req.fireDepartment = req.user.FireDepartment;
     return next();
   } else if(!req.user || !req.user.FireDepartment || !req.user.FireDepartment._id) {
     return res.status(403).send('User is not assigned to Fire Department with id');
