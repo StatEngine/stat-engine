@@ -261,11 +261,6 @@ export function setEmailOptions(req, res, next) {
 }
 
 export function setEmailRecipients(req, res, next) {
-  if(req.query.to) {
-    req.to = req.query.to;
-    return next();
-  }
-
   FireDepartment.find({
     where: {
       _id: req.fireDepartment._id
@@ -275,13 +270,12 @@ export function setEmailRecipients(req, res, next) {
     ],
     include: [{
       model: User,
-      attributes: ['first_name', 'last_name', 'email']
+      attributes: ['_id', 'first_name', 'last_name', 'email']
     }]
   }).then(fd => {
     req.to = [];
-    fd.Users.forEach(u => req.to.push(u.email));
+    fd.Users.forEach(u => req.to.push(u.get()));
 
-    req.to = req.to.join(',');
     next();
   })
     .catch(err => next(err));
@@ -308,15 +302,26 @@ export function setEmailMergeVars(req, res, next) {
 
 
 export function send(req, res) {
-  const metadata = {
-    firecaresId: req.fireDepartment.firecares_id,
-    fireDepartmentName: req.fireDepartment.name,
-  };
+
+  let promises = [];
+
+  if (_.isEmpty(req.to)) return res.status(200).send();
 
   let test = true;
   if(req.query.test && req.query.test.toLowerCase() === 'false') test = false;
+  req.to.forEach((user) => {
+    const metadata = {
+      firecaresId: req.fireDepartment.firecares_id,
+      fireDepartmentName: req.fireDepartment.name,
+      userIsAdmin: user.isAdmin,
+      userId: user._id,
+      timeUnit: req.query.timeUnit,
+    };
 
-  sendEmail(req.to, req.subject, 'timerange', req.mergeVars, test, metadata)
+    promises.push(sendEmail(user.email, req.subject, 'timerange', req.mergeVars, test, metadata));
+  })
+
+  Promise.all(promises)
     .then(() => res.status(204).send())
     .catch(e => {
       console.error(e);
