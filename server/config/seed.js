@@ -218,12 +218,21 @@ if(process.env.NODE_ENV === 'development') {
       fd_id: '05936',
       firecares_id: '81205',
       name: 'Fairmount Fire Protection District',
-      state: 'VA',
+      state: 'CO',
       timezone: '81205',
       integration_complete: true,
       latitude: 39.7881,
       longitude: -105.1851,
-      Users: [],
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'fairmount',
+        first_name: 'fairmount',
+        last_name: 'User',
+        email: 'fairmount@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
     }, {
       include: [FireDepartment.Users]
     }))

@@ -261,6 +261,7 @@ export function setEmailOptions(req, res, next) {
 }
 
 export function setEmailRecipients(req, res, next) {
+
   FireDepartment.find({
     where: {
       _id: req.fireDepartment._id
@@ -274,7 +275,19 @@ export function setEmailRecipients(req, res, next) {
     }]
   }).then(fd => {
     req.to = [];
-    fd.Users.forEach(u => req.to.push(u.get()));
+
+    if (_.isNil(req.reportOptions.emailAllUsers) || req.reportOptions.emailAllUsers) {
+      fd.Users.forEach(u => req.to.push(u.get()));
+    }
+
+    // add additional to
+    if (req.reportOptions.to) {
+      req.reportOptions.to.forEach(u => req.to.push({
+        isAdmin: false,
+        _id: u.email,
+        email: u.email,
+      }));
+    }
 
     next();
   })
