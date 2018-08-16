@@ -4,14 +4,16 @@
     <div class="container">
       <div class="row">
         <ul class="breadcrumb col-md-7">
-            <li><a href="#">Control Center</a></li>
-            <li><a href="#">Incidents</a></li>
-            <li class="active">{{ vm.incident.description.incident_number }}</li>
+          <li><a href="#" ui-sref="site.user.home">Control Center</a></li>
+          <li><a href="#" ui-sref="site.incident.search">Incidents</a></li>
+          <li class="active">{{ vm.incident.description.incident_number }}</li>
         </ul>
+        <!--
         <ul class="col-md-5 incident-switcher">
             <li class="previous"><a href="#">Previous Incident</a></li>
             <li class="next"><a href="#">Next Incident</a></li>
         </ul>
+        -->
       </div>
     </div>
   </div>
@@ -22,10 +24,9 @@
         <!-- Tabs -->
         <ul class="nav nav-tabs">
           <li class="active"><a href="#overview">Overview</a></li>
-          <li><a href="#location">Location</a></li>
-          <li><a href="#situational-awareness">Situational Awareness</a></li>
-          <li><a href="#response">Response</a></li>
-          <!-- <li><a href="#performance">Performance</a></li> -->
+          <li><a href="#" ng-click="vm.scrollTo('#location')">Location</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#situationalAwareness')">Situational Awareness</a></li>
+          <li><a href="#" ng-click="vm.scrollTo('#response')">Response</a></li>
         </ul>
       </div>
     </section>
@@ -52,7 +53,7 @@
                       </div>
                       <hr>
                     </div>
-                    <h4 class="heavyheader"> {{ vm.incident.description.type }} - {{ vm.incident.description.subtype }} </h4>
+                    <h4 class="heavyheader"> {{ vm.type }} <span ng-if="vm.subtype"> - {{ vm.subtype }} </span> </h4>
                     <p>{{ vm.textSummaries.incidentSummary }}</p>
                   </div>
                 </div>
@@ -71,17 +72,17 @@
                           <dt>Event Type:</dt>
                           <dd>{{ vm.incident.description.type }}</dd>
                         </dl>
-                        <dl>
+                        <dl ng-if="vm.subtype">
                           <dt>Event Sub-Type:</dt>
                           <dd>{{ vm.incident.description.subtype }}</dd>
                         </dl>
                         <dl>
                           <dt>Date:</dt>
-                          <dd>May 30th 2018</dd>
+                          <dd>{{ vm.incident.description.event_opened | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM Do YYYY' }}</dd>
                         </dl>
                         <dl>
                           <dt>Dispatch Time:</dt>
-                          <dd>{{ vm.incident.description.first_unit_dispatched | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'hh:mm' }}</dd>
+                          <dd>{{ vm.incident.description.first_unit_dispatched | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'HH:mm' }}</dd>
                         </dl>
                         <dl>
                           <dt>Location:</dt>
@@ -98,7 +99,10 @@
                 <div class="col-lg-6 dispatch-comments">
                   <div class="card light-border">
                     <h5 class="card-header">Dispatch Comments</h5>
-                    <p>{{ vm.incident.description.comments }}</p>
+                    <p>{{ vm.commentsTruncated }}</p>
+                    <div class="text-center">
+                      <span ng-if="vm.isCommentsTruncated"><a href="#">View More</a></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -222,6 +226,15 @@
                     <hr>
                     <div class="row mr-4">
                       <dl>
+                        <dt>First Due</dt>
+                        <dd>
+                          <h3>{{ vm.incident.address.first_due }}</h3>
+                        </dd>
+                      </dl>
+                    </div>
+                    <hr>
+                    <div class="row mr-4">
+                      <dl>
                         <dt>Battalion</dt>
                         <dd>
                           <h3>{{ vm.incident.address.battalion }}</h3>
@@ -328,7 +341,7 @@
             </div>
 
             <!-- Situational Awareness -->
-            <div id="situational-awareness" class="mt-5">
+            <div id="situationalAwareness" class="mt-5">
               <h6 class="sectionheader">Situational Awareness</h6>
               <div class="row mt-5">
                 <!-- Weather Conditions -->
@@ -340,13 +353,11 @@
                         <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} the following weather conditions were observed:</p>
                         <div class="col-md-12">
                           <current-weather weather="vm.incident.weather.currently"></current-weather>
-                          <!-- <h3>{{ vm.textSummaries.situationalAwarenessSummary }}</h3> -->
                         </div>
                       </div>
                     </div>
                     <div ng-if="!vm.incident.weather.currently" class="text-center no-data-available">
-                      <h5>No weather data available.</h5>
-                      <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
+                      <h5>No weather data available at this time.</h5>
                     </div>
                   </div>
                 </div>
@@ -355,8 +366,7 @@
                   <div class="card light-border">
                     <h5 class="card-header">Traffic Conditions</h5>
                     <div class="no-data-available">
-                      <h5>No traffic data available.</h5>
-                      <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
+                      <h5>No traffic data available at this time.</h5>
                     </div>
                   </div>
                 </div>

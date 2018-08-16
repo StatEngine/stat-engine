@@ -122,6 +122,6 @@ export default class IncidentUnitResponseGraphComponent {
       }]
     };
 
-    Plotly.newPlot(ID, unitTimelineData, layout, {displayModeBar: false});
+    Plotly.newPlot(this.id, unitTimelineData, layout, {displayModeBar: false});
   }
 }

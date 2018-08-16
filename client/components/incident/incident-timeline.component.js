@@ -66,7 +66,6 @@ export default class IncidentTimelineComponent {
         group: 'Alarm',
         className: 'alarm-answering-duration',
         title: `<b>Alarm Answer in ${humanizeDuration(alarmAnswer)}</b>`,
-        content: '<i class="fa fa-phone"></i>'
       });
     }
 
@@ -81,7 +80,6 @@ export default class IncidentTimelineComponent {
         group: 'Alarm',
         className: 'alarm-processing-duration',
         title: `<b>Alarm Processing in ${humanizeDuration(alarmProcessing)}</b>`,
-        content: '<i class="fa fa-exchange"></i>'
       });
     }
 
@@ -172,7 +170,6 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-on-scene-duration',
           title: `<b>On scene for ${humanizeDuration(onSceneDuration)}</b>`,
-          content: _.get(this.incident, 'description.category') === 'FIRE' ? '<i class="fa fa-free-code-camp"></i>' : '<i class="fa fa-medkit"></i>'
         });
       }
 
@@ -186,7 +183,6 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-transport-duration',
           title: `<b> Transport for ${humanizeDuration(transportDuration)}</b>`,
-          content: '<i class="fa fa-ambulance"></i>'
         });
       }
 
@@ -200,7 +196,6 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-post-incident-duration',
           title: `<b> Post Transport for ${humanizeDuration(postTransportDuration)}</b>`,
-          content: '<i class="fa fa-wrench"></i>'
         });
       } else if(cleared && available) {
         const postClearedDuration = moment.duration(moment(cleared).diff(moment(available)));
@@ -213,7 +208,6 @@ export default class IncidentTimelineComponent {
             group: u.unit_id,
             className: 'unit-post-incident-duration',
             title: `<b> Post Incident for ${humanizeDuration(postClearedDuration)}</b>`,
-            content: '<i class="fa fa-wrench"></i>'
           });
         }
       }
@@ -232,7 +226,6 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-cancelled-duration',
           title: `<b> Out-of-service (cancelled) for ${humanizeDuration(cancelledDuration)}</b>`,
-          content: '<i class="fa fa-ban"></i>'
         });
       }
 
@@ -247,7 +240,6 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-turnout-duration',
           title: `<b>Turnout in ${humanizeDuration(turnoutDuration)}</b>`,
-          content: '<i class="fa fa-spinner text-center"></i>'
         });
       }
 
@@ -261,7 +253,6 @@ export default class IncidentTimelineComponent {
           group: u.unit_id,
           className: 'unit-travel-duration',
           title: `<b>Travel in ${humanizeDuration(turnoutDuration)}</b>`,
-          content: '<i class="fa fa-map-o"></i>'
         });
       }
 

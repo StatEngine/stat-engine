@@ -123,6 +123,6 @@ export default class IncidentAlarmProcessingGraphComponent {
       }]
     };
 
-    Plotly.newPlot(ID, data, layout, {displayModeBar: false});
+    Plotly.newPlot(this.id, data, layout, {displayModeBar: false});
   }
 }

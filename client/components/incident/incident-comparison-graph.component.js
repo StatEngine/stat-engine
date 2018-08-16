@@ -48,7 +48,7 @@ export default class IncidentComparisonGraphComponent {
       name: this.incident.description.incident_number || 'This incident'
     });
 
-    Plotly.newPlot(ID, [{
+    Plotly.newPlot(this.id, [{
       x: x,
       y: y,
       orientation: 'v',

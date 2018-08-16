@@ -27,6 +27,8 @@ export default class IncidentUnitTravelDurationGraphComponent {
     const expected = [];
     const actual = [];
 
+    const units = _.keys(this.travelMatrix);
+
     _.forEach(units, unit_id => {
       let actualUnit = _.find(this.incident.apparatus, u => u.unit_id === unit_id);
       if (!actualUnit) throw new Error('Could not find unit in apparatus data');

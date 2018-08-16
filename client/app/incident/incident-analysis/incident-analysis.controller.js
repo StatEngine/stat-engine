@@ -17,6 +17,18 @@ export default class IncidentAnalysisController {
 
     this.incident = incidentData.incident;
 
+    // displays
+    this.type = this.incident.description.extended_data.AgencyIncidentCallTypeDescription || this.incident.description.type;
+    this.subtype = this.incident.description.subtype;
+    this.firstUnitDispatched = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
+    this.firstUnitArrived = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
+    let comments = _.get(this.incident, 'description.comments');
+    if (comments) {
+      let limit = 500;
+      this.commentsTruncated = comments.substring(0, limit);
+      this.isCommentsTruncated = comments.length > limit;
+    }
+
     this.textSummaries = incidentData.textSummaries;
     this.analysis = incidentData.analysis;
     this.comparison = incidentData.comparison;
@@ -83,4 +95,9 @@ export default class IncidentAnalysisController {
     this.concurrentIncidentTableOptions.data = searchResults;
     this.concurrentIncidentTableOptions.minRowsToShow = searchResults.length || 5;
   }
+
+
+  scrollTo(location) {
+    $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+  };
 }

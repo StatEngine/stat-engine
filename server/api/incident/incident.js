@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import humanizeDuration from 'humanize-duration';
 
-const DATE_FORMAT = 'hh:mm  on MMMM Do YYYY';
+const DATE_FORMAT = 'HH:mm  on MMMM Do YYYY';
 
 export class Incident {
   constructor(incident) {
