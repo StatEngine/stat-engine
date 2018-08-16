@@ -1,5 +1,4 @@
 <div class="site-content light-bg">
-<<<<<<< HEAD
   <header class="naked mb-0"></header>
   <div class="utility-nav">
     <div class="container">
@@ -179,122 +178,10 @@
                             </div>
                           </div>
                         </div> -->
-=======
-  <header class="naked mb-2"></header>
-  <h4 class="heavyheader text-center extension-attribution mb-3 embossed"><i class="fa fa-file-o mr-4"></i>Incident</h4>
-
-  <section>
-    <div class="container">
-      <div class="mt-5 row">
-        <div class="col-md-12">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-newspaper-o">&nbsp;</i></span>Summary</h5>
-            <div class="row">
-              <div class="col-md-3">
-                <logo department="vm.currentPrincipal.FireDepartment"></logo>
-              </div>
-              <div class="col-md-9">
-                <div ng-if="vm.incident.description.suppressed">
-                  <div class="alert alert-danger text-center mx-5 my-2" role="alert">
-                    <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText"> because {{ vm.incident.description.suppressionText }} </span>.
-                    <br>If you think this has occurred in error, please let us know.
-                  </div>
-                  <hr>
-                </div>
-                <h4><strong> {{ vm.incident.description.type }} <span ng-if="vm.incident.description.subtype">- {{ vm.incident.description.subtype }}</span> </strong> </h4>
-                <blockquote>{{ vm.textSummaries.incidentSummary }}</blockquote>
-                <div ng-if="vm.incident.description.comments">
-                  <h5 class="text-center"> <a role="button" data-toggle="collapse" data-target="#collapse-comments"> View Dispatch Comments </a></h5>
-                  <pre id="collapse-comments"  class="collapse"> {{ vm.incident.description.comments }}</pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-5 row">
-        <div class="col-md-12">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-map">&nbsp;</i></span>Location</h5>
-            <div clas="row">
-              <h2 class="text-center">
-                {{ vm.incident.address.address_line1 }} <span ng-if="vm.incident.address.common_place_name"> ({{vm.incident.address.common_place_name}}) </span><br>
-                {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
-              </h2>
-            </div>
-            <div class="row">
-              <blockquote>{{ vm.textSummaries.locationSummary }}</blockquote>
-            </div>
-            <div class="row">
-              <div class="col-md-7">
-                <incident-map class="incident-map" incident="vm.incident"></incident-map>
-              </div>
-              <div class="col-md-5">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="text-center">
-                      <h4><strong>Battalion</strong> </h4>
-                      <h3> {{ vm.incident.address.battalion || 'N/A' }}</h3>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="text-center">
-                      <h4><strong>Response Zone</strong> </h4>
-                      <h3> {{ vm.incident.address.response_zone || 'N/A' }}</h3>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <h3 class="text-center"><i class="fa fa-x fa-home"></i>&nbsp;Parcel</h3>
-
-                <div ng-if="!vm.incident.address.location.parcel" class="text-center">
-                  <span class="text-warning"> No parcel data available</span>
-                </div>
-
-                <div ng-if="vm.incident.address.location.parcel" class="row">
-                  <div class="col-4">
-                    <div class="text-center">
-                      <h4><strong>Land Use</strong> </h4>
-                      <div ng-if="vm.incident.address.location.parcel.land_use">
-                        <h3> {{ vm.incident.address.location.parcel.land_use }}</h3>
-                      </div>
-                      <div ng-if="!vm.incident.address.location.parcel.land_use">
-                        <h3>N/A</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="text-center">
-                      <h4><strong>Land Area</strong></h4>
-                      <div ng-if="vm.incident.address.location.parcel.land_area">
-                        <h3> {{ vm.incident.address.location.parcel.land_area | number:0 }} </h3>
-                        <h5>sq ft</h5>
-                      </div>
-
-                      <div ng-if="!vm.incident.address.location.parcel.land_area">
-                        <h3>N/A</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="text-center">
-                      <h4><strong>Dwelling Value</strong></h4>
-                      <div ng-if="vm.incident.address.location.parcel.dwelling_value">
-                        <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 1000000"> $$$$ <h3>
-                        <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 500000 && vm.incident.address.location.parcel.dwelling_value < 1000000"> $$$ <h3>
-                        <h3 ng-if="vm.incident.address.location.parcel.dwelling_value > 250000 && vm.incident.address.location.parcel.dwelling_value < 500000"> $$ <h3>
-                        <h3 ng-if="vm.incident.address.location.parcel.dwelling_value < 250000"> $ <h3>
-                        <h4> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h4>
-                      </div>
-                      <div ng-if="!vm.incident.address.location.parcel.dwelling_value">
-                        <h3>N/A<h3>
->>>>>>> master
                       </div>
                     </div>
                   </div>
                 </div>
-<<<<<<< HEAD
               </div>
 
             <!-- Location -->
@@ -340,46 +227,11 @@
                           <h3>{{ vm.incident.address.battalion }}</h3>
                         </dd>
                       </dl>
-=======
-                <hr>
-                <h3 class="text-center"><i class="fa fa-x fa-users"></i>&nbsp;Census</h3>
-
-                <div ng-if="!vm.incident.address.location.census" class="text-center">
-                  <span class="text-warning"> No census data available.  <a href="#" ui-sref="site.marketplace.home"> Request </a> to add now </span>
-                </div>
-
-                <div ng-if="vm.incident.address.location.census" class="row">
-                  <div class="col-3">
-                    <div class="text-center">
-                      <h4><strong>Year</strong></h4>
-                      <h3> 2010 </h3>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="text-center">
-                      <h4><strong>Density</strong></h4>
-                      <h3 ng-if="vm.incident.address.population_density === 'Urban'"><i class="fa fa-2x fa-building"></i></h3>
-                      <h3 ng-if="vm.incident.address.population_density === 'Rural'"><i class="fa fa-2x fa-square-o"></i></h3>
-                      <h5> {{ vm.incident.address.population_density }} </h5>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="text-center">
-                      <h4><strong>Tract</strong></h4>
-                      <h3> {{ vm.incident.address.location.census.census_2010.tract }}</h3>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="text-center">
-                      <h4><strong>Block</strong></h4>
-                      <h3> {{ vm.incident.address.location.census.census_2010.block }} </h3>
->>>>>>> master
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
             <div class="row mt-5">
               <!-- Census Data -->
               <div class="col-lg-6 census-data">
@@ -605,179 +457,10 @@
                     <div class="card light-border">
                       <h5 class="card-header">90th Percentile Response Time Comparisons <a href="" class="se-icon-info">&nbsp;</a></h5>
                         <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
-=======
-          </div>
-        </div>
-      </div>
-      <div class="mt-5 row">
-        <div class="col-md-12">
-          <div class="card light-border">
-            <h5 class="card-header"><span><i class="fa fa-info-circle">&nbsp;</i></span>Situational Awareness</h5>
-            <blockquote>{{ vm.textSummaries.situationalAwarenessSummary }}</blockquote>
-            <div class="row">
-              <div class="col-md-6">
-                <h3 class="text-center"><i class="fa fa-x fa-sun-o"></i>&nbsp;Weather</h3>
-
-                <div ng-if="vm.incident.weather.currently">
-                  <h5 class="text-center"> At {{ vm.incident.weather.currently.time | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} </h5>
-                  <current-weather weather="vm.incident.weather.currently"></current-weather>
-                </div>
-
-                <div ng-if="!vm.incident.weather.currently" class="text-center">
-                  <span class="text-warning">No weather data available.</span><br> <a href="#" ui-sref="site.marketplace.home">Request</a> to add now.
-                </div>
-              </div>
-
-              <div class="col-md-6 text-center">
-                <h3><i class="fa fa-x fa-car"></i>&nbsp;Traffic</h3>
-                <span class="text-warning">No traffic data available.</span><br> <a href="#" ui-sref="site.marketplace.home">Request</a> to add now.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <section ng-if="vm.incident.description.suppressed">
-        &nbsp;
-      </section>
-      <section ng-if="!vm.incident.description.suppressed">
-        <div class="mt-5 row">
-          <div class="col-12">
-            <div class="card light-border">
-              <h5 class="card-header"><span><i class="fa fa-fire">&nbsp;</i></span>Response</h5>
-              <blockquote>{{ vm.textSummaries.responseSummary }}</blockquote>
-              <br>
-
-              <div class="row mb-2" ng-if="vm.suppressedUnits.length > 0">
-                <div class="col-12">
-                  <div class="alert alert-danger text-center mx-5 my-2" role="alert">
-                    <p>Some unit data has been suppressed from analysis for the following reasons:</p>
-                    <ul ng-repeat="u in vm.suppressedUnits">
-                      <li>{{u.suppressedText}}</li>
-                    </ul>
-                    <br>If you think this has occurred in error, please let us know.
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-lg-3 pt-2">
-                  <div class="card light-border">
-                    <h5 class="card-header"><span><i class="fa fa-phone">&nbsp;</i></span>Alarm Answer</h5>
-                    <h5 class="text-center">Call answered in</h5>
-                    <h2 class="text-center">{{ vm.incident.durations.alarm_answer.seconds }} <subscript>secs</subscript></h2>
-                  </div>
-                </div>
-                <div class="col-lg-3 pt-2">
-                  <div class="card light-border">
-                    <h5 class="card-header"><span><i class="fa fa-location-arrow">&nbsp;</i></span>Dispatched</h5>
-                    <h5 class="text-center">First unit dispatched in</h5>
-                    <h2 class="text-center">{{ vm.incident.durations.alarm_handling.seconds }} <subscript>secs</subscript></h2>
-                  </div>
-                </div>
-                <div class="col-lg-3 pt-2">
-                  <div class="card light-border">
-                    <h5 class="card-header"><span><i class="fa fa-map-marker">&nbsp;</i></span>On Scene</h5>
-                    <h5 class="text-center">First unit on scene in</h5>
-                    <h2 class="text-center"> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>mins</subscript></h2>
-                  </div>
-                </div>
-                <div class="col-lg-3 pt-2">
-                  <div class="card light-border">
-                    <h5 class="card-header"><span><i class="fa fa-clock-o">&nbsp;</i></span>Event</h5>
-                    <h5 class="text-center">Resolved in</h5>
-                    <h2 class="text-center"> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>mins</subscript></h2>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row pt-5">
-                <div class="col-lg-12">
-                  <h4 class="text-center">Timeline of Events</h4>
-                  <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
-                </div>
-              </div>
-
-              <div class="row pt-5">
-                <div class="col-lg-12">
-                  <h4 class="text-center">Concurrent Incidents</h4>
-                  <blockquote> There were <span class="badge"> {{ vm.concurrentIncidents.length }}</span> incidents also in progress during this timeframe</blockquote>
-
-                  <div ui-grid="vm.concurrentIncidentTableOptions">
-                    <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">No concurrent incidents</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="row pt-5">
-                <div class="col-lg-4">
-                  <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
-                </div>
-                <div class="col-lg-4">
-                  <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
-                </div>
-                <div class="col-lg-4">
-                  <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
-                </div>
-              </div>
-              <div class="row pt-5">
-                <div class="col-lg-6">
-                  <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
-                </div>
-                <div class="col-lg-6">
-                  <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
-                </div>
-              </div>
-              <div class="row pt-5 text-center">
-                <div class="col-lg-12">
-                  <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mb-5 mt-5 row">
-          <div class="col-md-12">
-            <div class="card light-border">
-              <h5 class="card-header"><span><i class="fa fa-industry">&nbsp;</i></span>Performance Analysis</h5>
-              <div class="row">
-                <div class="col-12">
-                  <h3> StatEngine&trade; Analysis </h3>
-                  <div ng-repeat="(key, analysis) in vm.analysis.statEngine">
-                    <h5>
-                      <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
-                        <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
-                      </a>
-                    </h5>
-                    <div id="collapse-{{key}}" class="collapse">
-                      <ul ng-repeat="evidence in analysis.evidence">
-                        <li class="indent-1">
-                          <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <h3> NFPA 1710/1720 Compliance </h3>
-                  <div ng-repeat="(key, analysis) in vm.analysis.nfpa">
-                    <h5>
-                      <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
-                        <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
-                      </a>
-                    </h5>
-                    <div id="collapse-{{key}}" class="collapse">
-                      <ul ng-repeat="evidence in analysis.evidence">
-                        <li class="indent-1">
-                          <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
-                        </li>
-                      </ul>
->>>>>>> master
                     </div>
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
               <div ng-if="vm.incident.description.suppressed" class="no-data-available">
                 <h5>No response data available.</h5>
               </div>
@@ -786,13 +469,4 @@
         </div>
       </div>
     </section>
-=======
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </section>
->>>>>>> master
 </div>
