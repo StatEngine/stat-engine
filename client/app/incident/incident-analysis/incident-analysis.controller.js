@@ -17,7 +17,6 @@ export default class IncidentAnalysisController {
 
     this.incident = incidentData.incident;
 
-    // displays
     this.type = this.incident.description.extended_data.AgencyIncidentCallTypeDescription || this.incident.description.type;
     this.subtype = this.incident.description.subtype;
     this.firstUnitDispatched = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
@@ -25,6 +24,7 @@ export default class IncidentAnalysisController {
     let comments = _.get(this.incident, 'description.comments');
     if (comments) {
       let limit = 500;
+      this.showFullComments = false;
       this.commentsTruncated = comments.substring(0, limit);
       this.isCommentsTruncated = comments.length > limit;
     }
@@ -100,4 +100,10 @@ export default class IncidentAnalysisController {
   scrollTo(location) {
     $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
   };
+
+  toggleComments() {
+    if (this.showFullComments) $('#fullComments').collapse('show')
+    else $('#fullComments').collapse('hide')
+    this.showFullComments = !this.showFullComments;
+  }
 }

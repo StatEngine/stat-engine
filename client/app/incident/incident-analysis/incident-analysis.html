@@ -99,9 +99,11 @@
                 <div class="col-lg-6 dispatch-comments">
                   <div class="card light-border">
                     <h5 class="card-header">Dispatch Comments</h5>
-                    <p>{{ vm.commentsTruncated }}</p>
+                    <p ng-if="!vm.showFullComments">{{ vm.commentsTruncated }}</p>
+                    <p ng-if="vm.showFullComments">{{ vm.incident.description.comments }}</p>
                     <div class="text-center">
-                      <span ng-if="vm.isCommentsTruncated"><a href="#">View More</a></span>
+                      <span ng-if="vm.isCommentsTruncated && !vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Show All</a></span>
+                      <span ng-if="vm.isCommentsTruncated && vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Hide</a></span>
                     </div>
                   </div>
                 </div>
