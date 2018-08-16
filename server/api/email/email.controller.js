@@ -270,7 +270,7 @@ export function setEmailRecipients(req, res, next) {
     ],
     include: [{
       model: User,
-      attributes: ['_id', 'first_name', 'last_name', 'email']
+      attributes: ['_id', 'first_name', 'last_name', 'email', 'role']
     }]
   }).then(fd => {
     req.to = [];

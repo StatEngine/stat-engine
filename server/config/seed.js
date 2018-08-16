@@ -283,11 +283,11 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,department_admin',
         username: 'boston',
         first_name: 'boston',
         last_name: 'User',
-        email: 'boston@prominentedge.com',
+        email: 'joe.chop+boston@prominentedge.com',
         password: 'password',
         api_key: 'boston',
       }]
@@ -332,7 +332,7 @@ if(process.env.NODE_ENV === 'development') {
         username: 'ffxcity',
         first_name: 'ffxcity',
         last_name: 'User',
-        email: 'ffxcity@prominentedge.com',
+        email: 'joe.chop+ffxCity@prominentedge.com',
         password: 'password',
         api_key: 'ffxcity',
       }]
@@ -353,13 +353,35 @@ if(process.env.NODE_ENV === 'development') {
       integration_complete: true,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,department_admin',
         username: 'ffx',
         first_name: 'ffx',
         last_name: 'User',
-        email: 'ffx@prominentedge.com',
+        email: 'joe.chop+ffx@prominentedge.com',
         password: 'password',
         api_key: 'ffx',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '07252',
+      firecares_id: '91106',
+      name: 'Orange County Fire Rescue Department',
+      state: 'FL',
+      timezone: 'US/Eastern',
+      latitude: 38.8462,
+      longitude: -77.3064,
+      integration_complete: true,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'orangecounty',
+        first_name: 'ffx',
+        last_name: 'User',
+        email: 'joe.chop+orangecounty@prominentedge.com',
+        password: 'password',
+        api_key: 'orangecounty',
       }]
     }, {
       include: [FireDepartment.Users]
