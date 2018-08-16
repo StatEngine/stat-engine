@@ -1,7 +1,5 @@
 'use strict';
 
-import moment from 'moment';
-
 export default function routes($stateProvider) {
   'ngInject';
 

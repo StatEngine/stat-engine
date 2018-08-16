@@ -2,21 +2,19 @@
 
 import angular from 'angular';
 
-import Plotly from 'plotly.js'
-
-const ID = 'incident-comparison-graph';
+import _ from 'lodash';
+import Plotly from 'plotly.js/dist/plotly-basic.js';
 
 export default class IncidentComparisonGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-comparison-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {

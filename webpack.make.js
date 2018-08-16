@@ -8,6 +8,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var fs = require('fs');
 var path = require('path');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -38,6 +39,7 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
+            app: './client/app/app.js',
             polyfills: './client/polyfills.js',
             vendor: [
                 'angular',
@@ -50,9 +52,7 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
                 'lodash',
-                'skycons'
             ],
-            app: './client/app/app.js',
         };
     }
 
@@ -101,13 +101,14 @@ module.exports = function makeWebpackConfig(options) {
     if(TEST) {
         config.devtool = 'inline-source-map';
     } else if(BUILD || DEV) {
-        config.devtool = 'source-map';
+        config.devtool = 'cheap-module-source-map';
     } else {
         config.devtool = 'eval';
     }
 
     // Initialize module
     config.module = {
+        noParse: /(mapbox-gl)\.js$/,
         loaders: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
@@ -214,12 +215,15 @@ module.exports = function makeWebpackConfig(options) {
           'jQuery': 'jquery',
           'window.jQuery': 'jquery',
           'window.$': 'jquery',
-          'Skycons': 'skycons',
-          'window.Skycons': 'skycons',
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'
-        })
+        }),
+        // Ignore all locale files of moment.js
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.ProvidePlugin({
+          Promise: 'es6-promise-promise', // works as expected
+        }),
     ];
 
 
@@ -259,7 +263,7 @@ module.exports = function makeWebpackConfig(options) {
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
             // Minify all javascript, switch loaders to minimizing mode
             new webpack.optimize.UglifyJsPlugin({
-                mangle: false,
+                mangle: true,
                 output: {
                     comments: false
                 },
@@ -268,13 +272,15 @@ module.exports = function makeWebpackConfig(options) {
                 }
             }),
 
+
             // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
             // Define free global variables
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: '"production"'
                 }
-            })
+            }),
+            //new BundleAnalyzerPlugin(),
         );
     }
 

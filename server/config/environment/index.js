@@ -15,7 +15,7 @@ process.env.AMQP_PASSWORD = process.env.AMQP_PASSWORD || 'guest';
 process.env.ELASTICSEARCH_USER = process.env.ELASTICSEARCH_USER ? process.env.ELASTICSEARCH_USER : 'kibana';
 process.env.ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD ? process.env.ELASTICSEARCH_PASSWORD : 'kibana';
 
- process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
@@ -87,6 +87,7 @@ var all = {
     newUserTemplate: 'getting-started-statengine',
     newReportTemplate: 'new-report',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
+    mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
   },
 
   mailchimp: {
@@ -104,6 +105,7 @@ var all = {
     token: process.env.MAPBOX_TOKEN,
   }
 };
+
 
 // Export the config object based on the NODE_ENV
 // ==============================================

@@ -8,7 +8,8 @@ import mongooseError from '../../components/mongoose-error/mongoose-error.direct
 
 // modules
 import departmentAdminHome from './department-admin-home';
+import departmentAdminEmail from './department-admin-email';
 
-export default angular.module('statEngineApp.departmentAdmin', [uiRouter, departmentAdminHome, mongooseError])
+export default angular.module('statEngineApp.departmentAdmin', [uiRouter, departmentAdminHome, departmentAdminEmail, mongooseError])
   .config(routing)
   .name;

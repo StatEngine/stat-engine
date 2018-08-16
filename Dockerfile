@@ -4,6 +4,9 @@ FROM node:6
 ARG SEGMENT_KEY
 RUN echo $SEGMENT_KEY
 
+ARG MAPBOX_TOKEN
+RUN echo $MAPBOX_TOKEN
+
 RUN apt-get update && apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
 
 # Global dependencies
@@ -24,7 +27,7 @@ COPY . /usr/src/stat-engine
 
 # Build dist
 ARG ON_PREMISE
-RUN if [ "x$ON_PREMISE" = "x" ] ; then SEGMENT_KEY=${SEGMENT_KEY} /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
+RUN if [ "x$ON_PREMISE" = "x" ] ; then SEGMENT_KEY=${SEGMENT_KEY} MAPBOX_TOKEN=${MAPBOX_TOKEN} /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
 
 # Run
 ENV NODE_ENV=production

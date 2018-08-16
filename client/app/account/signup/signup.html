@@ -56,7 +56,7 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.requested_fire_department_id.$valid && vm.submitted,'has-error': form.requested_fire_department_id.$invalid && vm.submitted }">
           <label>Department</label>
-          <select ng-options="fd as fd.name for fd in vm.fireDepartments track by fd._id" ng-model="vm.user.requested_fire_department_id" class="form-control select-md">
+          <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy: 'name' track by fd._id" ng-model="vm.user.requested_fire_department_id" class="form-control select-md">
             <option value="">-- New Department --</option>
           </select>
           <p class="help-block" ng-show="form.requested_fire_department_id.$error.mongoose">

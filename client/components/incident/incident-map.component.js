@@ -1,6 +1,5 @@
 'use strict';
 
-import angular from 'angular';
 import mapboxgl from 'mapbox-gl';
 
 export default class IncidentMapComponent {
@@ -16,6 +15,7 @@ export default class IncidentMapComponent {
       style: 'mapbox://styles/mapbox/light-v9',
       center: incidentLocation,
       zoom: 13,
+      pitch: 60,
     });
 
     const address = `<h4>\

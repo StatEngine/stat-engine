@@ -3,22 +3,18 @@
 import angular from 'angular';
 
 import _ from 'lodash';
-
-import Plotly from 'plotly.js'
-
-const ID = 'incident-unit-travel-duration-graph';
+import Plotly from 'plotly.js/dist/plotly-basic.js';
 
 export default class IncidentUnitTravelDurationGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-unit-travel-duration-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -26,7 +22,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
   }
 
   $onInit() {
-    const units = _.keys(this.travelMatrix);
+    angular.element(this.$window).on('resize', this.onResize);
 
     const expected = [];
     const actual = [];
@@ -134,6 +130,6 @@ export default class IncidentUnitTravelDurationGraphComponent {
       //   ay: -130
       }]
     };
-    Plotly.newPlot(ID, data, layout, {displayModeBar: false});
+    Plotly.newPlot(this.id, data, layout, {displayModeBar: false});
   }
 }

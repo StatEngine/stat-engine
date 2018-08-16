@@ -2,21 +2,19 @@
 
 import angular from 'angular';
 
-import Plotly from 'plotly.js'
-
-const ID = 'incident-unit-response-graph';
+import _ from 'lodash';
+import Plotly from 'plotly.js/dist/plotly-basic.js';
 
 export default class IncidentUnitResponseGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-unit-response-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -24,6 +22,8 @@ export default class IncidentUnitResponseGraphComponent {
   }
 
   $onInit() {
+    angular.element(this.$window).on('resize', this.onResize);
+
     // Get turnout and travel durations
     const unitTimelineData = [];
     const turnoutDurations = {

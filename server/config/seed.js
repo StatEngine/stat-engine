@@ -17,6 +17,8 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
+let rogers;
+let ffxCity;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -52,6 +54,24 @@ if(process.env.NODE_ENV === 'development') {
     .then(() => Extension.create({
       name: 'Daily Report',
       short_description: 'Daily reports delivered straight to your inbox',
+      description: 'Get summary reports delivered straight to your inbox',
+      features: [
+        'Configurable on shiftly, daily, weekly, or monthly basis',
+        'Completely customizable report',
+        'Ability to deliver to multiple email accounts',
+      ],
+      type: 'PERIODIC',
+      categories: 'Reporting',
+      featured: true,
+      image: 'extension-reports.svg',
+      config_options: []
+    }))
+    .then(extension => {
+      emailReportEnrichment = extension;
+    })
+    .then(() => Extension.create({
+      name: 'Email Report',
+      short_description: 'Reports delivered straight to your inbox',
       description: 'Get summary reports delivered straight to your inbox',
       features: [
         'Configurable on shiftly, daily, weekly, or monthly basis',
@@ -131,303 +151,23 @@ if(process.env.NODE_ENV === 'development') {
       fire_department__id: richmond._id,
       extension__id: emailReportEnrichment._id,
       config_json: {
-        tasks: [{
-          name: 'richmond-current-shift',
-          schedule: {
-            later: 'every 5 seconds'
+        sections: {
+          showAlertSummary: false,
+          showBattalionSummary: true,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: false,
+        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+        schedulerOptions: {
+          qs: {
+            timeUnit: 'DAY'
           },
-          preprocessors: [{
-            type: 'shiftly',
-            options: {
-              name: 'richmondVA',
-              timezone: 'US/Eastern',
-            }
-          }],
-          queryTemplates: [{
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must: [{
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }],
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must: [{
-                      term: {
-                        'description.type': 'EMS-1STRESP'
-                      }
-                    }, {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }],
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'count',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                query: {
-                  bool: {
-                    must_not: {
-                      term: {
-                        'description.type': 'EMS-1STRESP'
-                      }
-                    },
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    },
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'search',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                size: 0,
-                query: {
-                  bool: {
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    },
-                    filter: {
-                      range: {
-                        'description.event_opened': {
-                          gte: '{{shiftly.shiftTimeFrame.start}}',
-                          lt: '{{shiftly.shiftTimeFrame.end}}'
-                        }
-                      }
-                    }
-                  }
-                },
-                aggs: {
-                  total_responses: {
-                    sum: {
-                      script: {
-                        lang: 'painless',
-                        inline: 'doc[\'description.units.keyword\'].length'
-                      }
-                    }
-                  },
-                  response_time_percentile_rank: {
-                    percentile_ranks: {
-                      field: 'description.extended_data.response_duration',
-                      values: [360]
-                    }
-                  },
-                  apparatus: {
-                    nested: {
-                      path: 'apparatus'
-                    },
-                    aggs: {
-                      distance_percentile_rank: {
-                        percentiles: {
-                          field: 'apparatus.distance',
-                          percents: [90]
-                        }
-                      },
-                      unit_responses: {
-                        terms: {
-                          field: 'apparatus.unit_id',
-                          size: 50,
-                          order: {
-                            utilization: 'desc'
-                          }
-                        },
-                        aggs: {
-                          total_distance: {
-                            sum: {
-                              field: 'apparatus.distance'
-                            }
-                          },
-                          turnout_percentile_rank: {
-                            percentiles: {
-                              field: 'apparatus.extended_data.turnout_duration',
-                              percents: [90]
-                            }
-                          },
-                          utilization: {
-                            sum: {
-                              field: 'apparatus.extended_data.event_duration'
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  address_battalions: {
-                    terms: {
-                      field: 'address.battalion',
-                      size: 50,
-                      order: {
-                        _term: 'asc'
-                      }
-                    }
-                  },
-                  event_duration_time_percentile_rank: {
-                    percentiles: {
-                      field: 'description.extended_data.event_duration',
-                      percents: [25, 50, 75, 90, 100]
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            type: 'search',
-            request: {
-              index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-              body: {
-                size: 100,
-                _source: ['address.latitude', 'address.longitude'],
-                query: {
-                  bool: {
-                    must: {
-                      term: {
-                        'description.suppressed': false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }],
-          transforms: [{
-            type: 'set',
-            path: 'shiftlyDisplay',
-            value: 'preprocessors.shiftly.display'
-          }, {
-            type: 'set',
-            path: 'totalIncidentCount',
-            value: 'queryResults[0].count'
-          }, {
-            type: 'set',
-            path: 'emsIncidentCount',
-            value: 'queryResults[1].count'
-          }, {
-            type: 'set',
-            path: 'fireIncidentCount',
-            value: 'queryResults[2].count'
-          }, {
-            type: 'set',
-            path: 'totalResponses',
-            value: 'queryResults[3].aggregations.total_responses.value'
-          }, {
-            type: 'set',
-            path: 'sixMinuteResponses',
-            value: 'queryResults[3].aggregations.response_time_percentile_rank.values[\'360.0\']'
-          }, {
-            type: 'set',
-            path: 'apparatusDistancePercentile90',
-            value: 'queryResults[3].aggregations.apparatus.distance_percentile_rank.values[\'90.0\']'
-          }, {
-            type: 'set',
-            path: 'apparatusTurnoutPercentile90',
-            value: 'queryResults[3].aggregations.apparatus.turnout_percentile_rank.values[\'90.0\']'
-          }, {
-            type: 'set',
-            path: 'eventDurationPercentile90',
-            value: 'queryResults[3].aggregations.event_duration_time_percentile_rank.values[\'90.0\']'
-          }, {
-            type: 'set',
-            path: 'unitResponseBuckets',
-            value: 'queryResults[3].aggregations.apparatus.unit_responses.buckets'
-          }, {
-            type: 'set',
-            path: 'addressBattalionBuckets',
-            value: 'queryResults[3].aggregations.address_battalions.buckets'
-          }, {
-            type: 'set',
-            path: 'locations',
-            value: 'queryResults[4]'
-          }],
-          actions: [{
-            type: 'console',
-            options: {}
-          }, {
-            type: 'email',
-            options: {
-              template: 'shift',
-              message: {
-                from: 'noreply@statengine.io',
-                to: 'joe.chop@prominentedge.com'
-              },
-              locals: {
-                name: 'Richmond Current Shift',
-                ga: {
-                  uid: 'joechop'
-                },
-                sections: {
-                  battalionSummary: true,
-                  unitSummary: true,
-                  incidentSummary: false
-                }
-              }
-            }
-          }, {
-            type: 'email',
-            options: {
-              template: 'shift',
-              message: {
-                from: 'noreply@statengine.io',
-                to: 'garnertb@prominentedge.com'
-              },
-              locals: {
-                name: 'Richmond Current Shift',
-                ga: {
-                  uid: 'garnertb'
-                }
-              }
-            }
-          }]
-        }]
+          later: {
+            text: 'every 5 seconds'
+          }
+        }
       }
     }))
     .then(() => FireDepartment.create({
@@ -446,6 +186,28 @@ if(process.env.NODE_ENV === 'development') {
         first_name: 'Hanover',
         last_name: 'User',
         email: 'hanover@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '03050',
+      firecares_id: '77989',
+      name: 'Clark County Fire Department',
+      state: 'NV',
+      timezone: 'US/Pacific',
+      integration_complete: true,
+      latitude: 37.7772,
+      longitude: -77.5161,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'clarkcounty',
+        first_name: 'clarkcounty',
+        last_name: 'User',
+        email: 'clarkcounty@prominentedge.com',
         password: 'password',
         api_key: uuidv4(),
       }],
@@ -488,15 +250,17 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',
-      firecares_id: '97477',
+      firecares_id: '00000',
       name: 'Tucson Fire Department',
+      integration_complete: true,
+      integration_verified: true,
       state: 'AZ',
-      timezone: 'US/Eastern',
+      timezone: 'US/Arizona',
       latitude: 32.2226,
       longitude: -110.9747,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,ingest',
         username: 'tucson',
         first_name: 'tucson',
         last_name: 'User',
@@ -519,13 +283,36 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,department_admin',
         username: 'boston',
         first_name: 'boston',
         last_name: 'User',
-        email: 'boston@prominentedge.com',
+        email: 'joe.chop+boston@prominentedge.com',
         password: 'password',
         api_key: 'boston',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: 'DD122',
+      firecares_id: '77936',
+      name: 'City Of Wheaton Fire Department',
+      state: 'IL',
+      timezone: 'US/Centra',
+      latitude: 41.87,
+      longitude: -88.11,
+      integration_complete: true,
+      integration_verified: true,
+      Users: [{
+        provider: 'local',
+        role: 'user,kibana_admin',
+        username: 'wheaton',
+        first_name: 'wheaton',
+        last_name: 'User',
+        email: 'wheaton@prominentedge.com',
+        password: 'password',
+        api_key: 'wheaton',
       }]
     }, {
       include: [FireDepartment.Users]
@@ -538,15 +325,63 @@ if(process.env.NODE_ENV === 'development') {
       timezone: 'US/Eastern',
       latitude: 38.8462,
       longitude: -77.3064,
+      integration_complete: true,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,department_admin',
         username: 'ffxcity',
         first_name: 'ffxcity',
         last_name: 'User',
-        email: 'ffxcity@prominentedge.com',
+        email: 'joe.chop+ffxCity@prominentedge.com',
         password: 'password',
         api_key: 'ffxcity',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(dbFfxCity => {
+      ffxCity = dbFfxCity;
+    })
+    .then(() => FireDepartment.create({
+      fd_id: '05900',
+      firecares_id: '81147',
+      name: 'Fairfax County Fire and Rescue Department',
+      state: 'VA',
+      timezone: 'US/Eastern',
+      latitude: 38.8462,
+      longitude: -77.3064,
+      integration_complete: true,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'ffx',
+        first_name: 'ffx',
+        last_name: 'User',
+        email: 'joe.chop+ffx@prominentedge.com',
+        password: 'password',
+        api_key: 'ffx',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '07252',
+      firecares_id: '91106',
+      name: 'Orange County Fire Rescue Department',
+      state: 'FL',
+      timezone: 'US/Eastern',
+      latitude: 38.8462,
+      longitude: -77.3064,
+      integration_complete: true,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'orangecounty',
+        first_name: 'ffx',
+        last_name: 'User',
+        email: 'joe.chop+orangecounty@prominentedge.com',
+        password: 'password',
+        api_key: 'orangecounty',
       }]
     }, {
       include: [FireDepartment.Users]
@@ -563,7 +398,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,department_admin',
         username: 'rogers',
         first_name: 'dev',
         last_name: 'user',
@@ -574,6 +409,9 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(dbRogers => {
+      rogers = dbRogers;
+    })
     .then(() => User.create({
       provider: 'local',
       role: 'admin',
@@ -657,6 +495,38 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '05909',
+      firecares_id: '99082',
+      name: 'West Metro Fire Rescue',
+      state: 'CO',
+      timezone: 'US/Mountain',
+      integration_complete: true,
+      latitude: 19.6400,
+      longitude: 155.9969,
+      Users: [{
+        provider: 'local',
+        role: 'user',
+        username: 'westMetro',
+        first_name: 'Demo',
+        last_name: 'User',
+        email: 'westmetro@prominentedge.com',
+        password: 'password',
+        api_key: 'icomplete',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => User.create({
+      provider: 'local',
+      role: 'admin',
+      username: 'svcAccount',
+      first_name: 'SVC',
+      last_name: 'Account',
+      email: 'svcAccount@example.com',
+      password: 'password',
+      api_key: 'svcAccount',
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '38005',
       firecares_id: '94264',
       name: 'San Francisco Fire Department',
@@ -677,10 +547,10 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'sfUser',
       }, {
         provider: 'local',
-        role: 'ingest',
+        role: 'admin',
         username: 'sfAdmin',
         first_name: 'Demo',
-        last_name: 'User',
+        last_name: 'Admin',
         email: 'sfAdmin@example.com',
         password: 'password',
         api_key: 'sfAdmin',
@@ -689,10 +559,12 @@ if(process.env.NODE_ENV === 'development') {
         role: 'ingest',
         username: 'sfIngest',
         first_name: 'Demo',
-        last_name: 'User',
+        last_name: 'Ingest',
         email: 'sfIngest@example.com',
         password: 'password',
-        api_key: 'sfDemo',
+        api_key: 'sfIngest',
+        aws_access_key_id: '',
+        aws_secret_access_key: '',
       }]
     }, {
       include: [FireDepartment.Users]
@@ -725,7 +597,7 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'sfUser',
       }, {
         provider: 'local',
-        role: 'ingest',
+        role: 'admin',
         username: 'sfAdmin',
         first_name: 'Demo',
         last_name: 'Admin',
@@ -737,10 +609,12 @@ if(process.env.NODE_ENV === 'development') {
         role: 'ingest',
         username: 'sfIngest',
         first_name: 'Demo',
-        last_name: 'INgest',
+        last_name: 'Ingest',
         email: 'sfIngest@example.com',
         password: 'password',
         api_key: 'sfIngest',
+        aws_access_key_id: '',
+        aws_secret_access_key: '',
       }]
     }, {
       include: [FireDepartment.Users]

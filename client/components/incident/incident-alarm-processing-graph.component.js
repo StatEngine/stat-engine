@@ -2,21 +2,19 @@
 
 import angular from 'angular';
 
-import Plotly from 'plotly.js'
-
-const ID = 'incident-alarm-processing-graph';
+import _ from 'lodash';
+import Plotly from 'plotly.js/dist/plotly-basic.js';
 
 export default class IncidentAlarmProcessingGraphComponent {
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
-
-    angular.element(this.$window).on('resize', this.onResize);
+    this.id = 'incident-alarm-processing-graph';
   }
 
   onResize() {
-    Plotly.Plots.resize(ID);
+    Plotly.Plots.resize(this.id);
   }
 
   $onDestroy() {
@@ -24,6 +22,8 @@ export default class IncidentAlarmProcessingGraphComponent {
   }
 
   $onInit() {
+    angular.element(this.$window).on('resize', this.onResize);
+
     // Get alarm durations
     const data = [];
 

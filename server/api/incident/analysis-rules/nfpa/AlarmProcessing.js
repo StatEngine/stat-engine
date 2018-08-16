@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import moment from 'moment';
 import { IncidentRule, GRADES } from '../../incident-rule';
 
 export default class AlarmProcessing extends IncidentRule {
@@ -12,24 +10,20 @@ export default class AlarmProcessing extends IncidentRule {
     this.description = `Alarm processing should be less than ${this.warningThreshold} seconds, 90% of time`;
   }
 
-  applicable() {
-    return true;
-  }
-
   getEvidence() {
     const evidence = [];
 
     const alarmProcessingTime = this.incident.alarmProcessingDurationSeconds;
     let grade = GRADES.SUCCESS;
-    if (alarmProcessingTime > this.warningThreshold) grade = GRADES.WARNING;
-    if (alarmProcessingTime > this.dangerThreshold) {
+    if(alarmProcessingTime > this.warningThreshold) grade = GRADES.WARNING;
+    if(alarmProcessingTime > this.dangerThreshold) {
       grade = GRADES.DANGER;
       this.description = `Alarm processing should be less than ${this.dangerThreshold} seconds, 95% of time`;
     }
 
     evidence.push({
       text: `Alarm processing time was ${alarmProcessingTime} seconds.`,
-      grade: grade
+      grade
     });
 
     return evidence;

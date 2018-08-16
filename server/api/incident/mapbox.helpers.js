@@ -11,13 +11,13 @@ export function getMatrix(incident, cb) {
     const longitude = _.get(u, 'unit_status.dispatched.longitude');
     const latitude = _.get(u, 'unit_status.dispatched.latitude');
     distances[unit_id] = _.get(u, 'distance');
-    if (latitude && longitude) pairs.push({ unit_id, longitude, latitude });
-  })
-  if (pairs.length === 0) return cb(null);
+    if(latitude && longitude) pairs.push({ unit_id, longitude, latitude });
+  });
+  if(pairs.length === 0) return cb(null);
 
-  let longitude =  _.get(incident, 'address.longitude');
-  let latitude =  _.get(incident, 'address.latitude');
-  if (!longitude || !latitude) return cb(new Error('No incident coordinates'));
+  let longitude = _.get(incident, 'address.longitude');
+  let latitude = _.get(incident, 'address.latitude');
+  if(!longitude || !latitude) return cb(new Error('No incident coordinates'));
   pairs.push({ longitude, latitude });
 
 
@@ -29,11 +29,11 @@ export function getMatrix(incident, cb) {
       annotations: 'distance,duration'
     },
     json: true,
-  }
+  };
 
-  let destinationIndex = pairs.length-1;
+  let destinationIndex = pairs.length - 1;
   request(options, (err, res, body) => {
-    if (err) return cb(err);
+    if(err) return cb(err);
 
     /* Body looks like
     { distances:
@@ -59,15 +59,17 @@ export function getMatrix(incident, cb) {
       code: 'Ok' }
     */
     let results = {};
-    for (let i = 0; i < destinationIndex; i += 1) {
+    for(let i = 0; i < destinationIndex; i += 1) {
       let unit = pairs[i].unit_id;
       results[unit] = {
         // convert to miles
         // use actual distance with fallback to mapbox
         distance: distances[unit] || body.distances[i][destinationIndex] * 0.000621371,
         duration: body.durations[i][destinationIndex],
-      }
+      };
     }
-    cb(null, results)
+    cb(null, results);
   });
 }
+
+export default getMatrix;

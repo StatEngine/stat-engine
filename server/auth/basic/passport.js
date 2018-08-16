@@ -1,11 +1,14 @@
 import passport from 'passport';
-import {BasicStrategy} from 'passport-http';
+import { BasicStrategy } from 'passport-http';
+
+import { FireDepartment } from '../../sqldb';
 
 function httpAuthenticate(User, username, password, done) {
   User.find({
     where: {
       username: username.toLowerCase()
-    }
+    },
+    include: [FireDepartment]
   }).nodeify((err, user) => {
     if(err) {
       return done(err);

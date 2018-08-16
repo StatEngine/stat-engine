@@ -17,21 +17,22 @@ function handleError(res, statusCode) {
 }
 
 export function search(req, res) {
-  return ExtensionConfiguration.find({
-    where: {
+  let where = {};
+  if (req.user.fire_department__id) {
+    where = {
       fire_department__id: req.user.fire_department__id,
-    },
+    };
+  }
+
+  return ExtensionConfiguration.findAll({
+    where,
     include: [{
       model: Extension,
       where: { name: req.query.name }
     }]
   })
-    .then(extensionConfiguration => {
-      if(req.query.limit === 1 && extensionConfiguration.length > 0) {
-        extensionConfiguration = extensionConfiguration[0];
-      }
-
-      return res.json(extensionConfiguration);
+    .then(extensionConfigurations => {
+      return res.json(extensionConfigurations);
     })
     .catch(handleError(res));
 }

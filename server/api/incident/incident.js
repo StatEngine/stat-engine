@@ -19,7 +19,7 @@ export class Incident {
   }
 
   isFireIncident() {
-    return this.category === 'FIRE'
+    return this.category === 'FIRE';
   }
 
   hasApparatus() {
@@ -27,11 +27,11 @@ export class Incident {
   }
 
   isEMSIncident() {
-    return this.category === 'EMS'
+    return this.category === 'EMS';
   }
 
   isOtherIncident() {
-    return this.category === 'OTHER'
+    return this.category === 'OTHER';
   }
 
   get address() {
@@ -83,38 +83,40 @@ export class Incident {
   }
 
   get populationDensity() {
-    return  _.get(this.incident, 'address.population_density');
+    return _.get(this.incident, 'address.population_density');
   }
 
   formatDate(date) {
-    return moment(date).tz(this.timezone).format(DATE_FORMAT);
+    return moment(date)
+      .tz(this.timezone)
+      .format(DATE_FORMAT);
   }
 
   get censusBlock() {
-    return  _.get(this.incident, 'address.location.census.census_2010.block');
+    return _.get(this.incident, 'address.location.census.census_2010.block');
   }
 
   get weatherSummary() {
-    return  _.get(this.incident, 'weather.currently.summary');
+    return _.get(this.incident, 'weather.currently.summary');
   }
 
   get firstDueStation() {
-    return  _.get(this.incident, 'address.first_due');
+    return _.get(this.incident, 'address.first_due');
   }
 
   get callAlarmHandlingDurationHumanized() {
-    let seconds = _.get(this.incident, 'durations.alarm_handling.seconds')
-    return seconds ? humanizeDuration(seconds*1000) : undefined;
+    let seconds = _.get(this.incident, 'durations.alarm_handling.seconds');
+    return seconds ? humanizeDuration(seconds * 1000) : undefined;
   }
 
   get totalResponseDurationHumanized() {
-    let seconds =  _.get(this.incident, 'durations.total_response.seconds');
-    return seconds ? humanizeDuration(seconds*1000) : undefined;
+    let seconds = _.get(this.incident, 'durations.total_response.seconds');
+    return seconds ? humanizeDuration(seconds * 1000) : undefined;
   }
 
   get totalEventDurationHumanized() {
-    let seconds =  _.get(this.incident, 'durations.total_event.seconds');
-    return seconds ? humanizeDuration(seconds*1000) : undefined;
+    let seconds = _.get(this.incident, 'durations.total_event.seconds');
+    return seconds ? humanizeDuration(seconds * 1000) : undefined;
   }
 
   get firstUnitDispatched() {
@@ -128,13 +130,18 @@ export class Incident {
   get firstEngineUnitArrived() {
     let arrivedEngines = _.filter(this.apparatus, u => u.unit_type === 'Engine' && _.get(u, 'unit_status.arrived.timestamp'));
 
-    if (arrivedEngines.length === 0) return;
-    const sorted = _.sortBy(arrivedEngines, [(e) => moment(e.unit_status.arrived.timestamp)]);
+    if(arrivedEngines.length === 0) return;
+    const sorted = _.sortBy(arrivedEngines, [e => moment(e.unit_status.arrived.timestamp).valueOf()]);
     return sorted[0];
   }
 
   get firstUnitDue() {
     return _.find(this.apparatus, u => _.get(u, 'first_due'));
+  }
+
+  get incidentType() {
+    // AgencyIncidentCallTypeDescription are for PulsePoint agencies.
+    return this.description.extended_data.AgencyIncidentCallTypeDescription || this.description.type;
   }
 
   get firstUnitDueArrivalTime() {
@@ -165,3 +172,5 @@ export class Incident {
     return _.get(this.incident, 'address.distance_from_fire_department');
   }
 }
+
+export default Incident;

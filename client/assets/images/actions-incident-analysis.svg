@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="91" height="89" viewBox="0 0 91 89">
+  <defs>
+    <linearGradient id="actions-incident-analysis-b" x1="82.525%" x2="38.869%" y1="-17.213%" y2="94.274%">
+      <stop offset="0%" stop-color="#15ADC6"/>
+      <stop offset="100%" stop-color="#009BC3"/>
+    </linearGradient>
+    <path id="actions-incident-analysis-a" d="M45.3655172,89 C70.4202006,89 90.7310345,69.0766714 90.7310345,44.5 C90.7310345,19.9233286 70.4202006,0 45.3655172,0 C20.3108339,0 0,19.9233286 0,44.5 C0,69.0766714 20.3108339,89 45.3655172,89 Z"/>
+    <linearGradient id="actions-incident-analysis-d" x1="40.731%" x2="85.015%" y1="17.029%" y2="93.664%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%"/>
+    </linearGradient>
+    <linearGradient id="actions-incident-analysis-e" x1="50%" x2="50%" y1="121.526%" y2="16.252%">
+      <stop offset="0%" stop-color="#B3B3B3"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+    <linearGradient id="actions-incident-analysis-f" x1="50%" x2="9.116%" y1="35.471%" y2="90.631%">
+      <stop offset="0%" stop-color="#F3F3F3"/>
+      <stop offset="100%" stop-color="#D8D8D8"/>
+    </linearGradient>
+    <linearGradient id="actions-incident-analysis-g" x1="115.721%" x2="4.899%" y1="50%" y2="10.815%">
+      <stop offset="0%" stop-color="#EEE"/>
+      <stop offset="100%" stop-color="#B1B1B1"/>
+    </linearGradient>
+    <linearGradient id="actions-incident-analysis-h" x1="100%" x2="-15.969%" y1="17.005%" y2="148.009%">
+      <stop offset="0%" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#B3B3B3"/>
+    </linearGradient>
+    <linearGradient id="actions-incident-analysis-i" x1="50%" x2="50%" y1="32.594%" y2="98.224%">
+      <stop offset="0%" stop-color="#ECECEC"/>
+      <stop offset="100%" stop-color="#606060"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="actions-incident-analysis-c" fill="#fff">
+      <use xlink:href="#actions-incident-analysis-a"/>
+    </mask>
+    <use fill="url(#actions-incident-analysis-b)" xlink:href="#actions-incident-analysis-a"/>
+    <g mask="url(#actions-incident-analysis-c)">
+      <g transform="translate(9 16)">
+        <polygon fill="url(#actions-incident-analysis-d)" points="25.12 58 0 33.229 23.259 21 49 43.047" opacity=".273" style="mix-blend-mode:multiply"/>
+        <g transform="translate(22)">
+          <polygon fill="url(#actions-incident-analysis-e)" points="1.875 14.344 4 15 4 58 1.875 56.753"/>
+          <polygon fill="url(#actions-incident-analysis-f)" points="17.126 22.423 11 -5.064 12.109 -6.211 18.821 20.944" transform="rotate(73 14.91 8.106)"/>
+          <polygon fill="url(#actions-incident-analysis-f)" points="3.438 15.182 27.813 .935 27.813 43.208 4 58"/>
+          <polygon fill="#DADADA" fill-rule="nonzero" points="5.625 38.667 5.625 24.323 25.313 12.785 25.313 27.129"/>
+          <polygon fill="#CFCFCF" fill-rule="nonzero" points="15.625 47.71 15.625 35.548 25.625 29.624 25.625 42.097"/>
+          <g transform="rotate(8 -126.593 76.57)">
+            <path stroke="#636363" d="M4.85870171,6.12185189 L4.41353731,5.78481484 L4.7153474,5.38617883 L5.1166996,5.68436737 L5.05686161,5.75633498 L4.85870171,6.12185189 Z M2.19966776,10.6217795 L1.93582709,10.4257565 L2.23763718,10.0271205 L2.49968154,10.2255161 L2.19966776,10.6217795 Z M10.0951508,8.05188627 L9.62214049,7.89569621 L9.72572262,7.58200521 L10.2005081,7.73878143 L10.0951508,8.05188627 Z M5.27843221,6.07536582 L4.96798906,5.93468555 L4.81261586,5.88240372 L4.97207627,5.40851304 L5.44686171,5.56528925 L5.27843221,6.07536582 Z M10.4496123,7.04474483 L10.6186491,7.07823485 L10.6507686,6.91611576 L11.9845692,2.23051111 L12.026213,2.02883654 L11.5357464,1.93166402 L11.5355111,1.93282915 L11.3664743,1.89933913 L11.3343548,2.06145821 L10.0005543,6.74706287 L9.99102993,6.78661835 L9.95891047,6.94873743 L10.4493771,7.04590996 L10.4496123,7.04474483 Z"/>
+            <ellipse cx="1.331" cy="11.228" fill="#8D8D8D" rx="1.331" ry="1.811"/>
+            <ellipse cx="4.719" cy="5.916" fill="#8D8D8D" rx="1" ry="1.328"/>
+            <ellipse cx="9.921" cy="7.364" fill="#8D8D8D" rx="1.21" ry="1.569"/>
+            <ellipse cx="11.857" cy="1.569" fill="#8D8D8D" rx="1.21" ry="1.569"/>
+          </g>
+          <polygon fill="url(#actions-incident-analysis-g)" fill-rule="nonzero" points="5.625 19.371 5.625 18.124 25.002 6.86 25 7.97"/>
+          <polygon fill="url(#actions-incident-analysis-g)" fill-rule="nonzero" points="5.625 21.866 5.625 20.618 25.002 9.355 25 10.465"/>
+          <polygon fill="url(#actions-incident-analysis-h)" fill-rule="nonzero" points="5.625 47.398 5.625 41.161 13.438 36.796 13.438 39.602 13.438 43.032"/>
+          <polyline stroke="#E6E6E6" stroke-linecap="square" points="5.781 46.306 6.719 43.5 7.188 44.591 8.438 44.903 8.75 41.161 10.313 42.409 11.563 41.473 11.875 39.914 12.813 40.849 13.438 38.978"/>
+          <path fill="#C4C4C4" fill-rule="nonzero" d="M13.4375,44.5913978 L13.4375,45.78868 L5.625,50.3079257 L5.625,49.0606139 L13.4375,44.5913978 Z M13.4375,47.0860215 L13.4375,48.2833036 L5.625,52.8025494 L5.625,51.5552376 L13.4375,47.0860215 Z"/>
+          <g fill="url(#actions-incident-analysis-i)" transform="translate(15.938 31.806)">
+            <polygon points="6.875 11.867 5 12.785 5 1.247 6.875 0"/>
+            <polygon points="9.375 10.308 7.5 11.226 7.5 2.806 9.375 1.559"/>
+            <polygon points="4.375 13.426 2.5 14.344 2.5 5.925 4.375 4.677"/>
+            <polygon points="1.875 14.985 0 15.903 0 12.473 1.875 11.226" opacity=".842"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

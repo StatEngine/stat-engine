@@ -1,5 +1,8 @@
 {
     "presets": ["es2015"],
+    "ignore": [
+     "node_modules/@statengine/se-ingest-router/**/*.js",
+   ],
     "plugins": [
       "transform-class-properties",
       "angularjs-annotate",

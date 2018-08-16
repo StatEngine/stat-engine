@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import IncidentMapComponent from './incident-map.component';
 import IncidentTimelineComponent from './incident-timeline.component';
 import IncidentComparisonGraphComponent from './incident-comparison-graph.component';

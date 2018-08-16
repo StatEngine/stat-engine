@@ -1,11 +1,14 @@
 import passport from 'passport';
-import {Strategy as LocalAPIKeyStrategy} from 'passport-localapikey';
+import { Strategy as LocalAPIKeyStrategy } from 'passport-localapikey';
+
+import { FireDepartment } from '../../sqldb';
 
 function apiAuthenticate(User, apiKey, done) {
   User.find({
     where: {
       api_key: apiKey
-    }
+    },
+    include: [FireDepartment]
   }).nodeify((err, user) => {
     if(err) {
       return done(err);

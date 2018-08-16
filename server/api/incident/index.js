@@ -12,8 +12,9 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  //controller.loadMatrix,
-  //controller.loadComparison,
+  controller.loadMatrix,
+  controller.loadComparison,
+  controller.loadConcurrent,
   controller.getIncident,
 );
 
