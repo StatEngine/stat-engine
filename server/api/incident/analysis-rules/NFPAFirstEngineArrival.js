@@ -1,12 +1,13 @@
 import humanizeDuration from 'humanize-duration';
 
-import { IncidentRule, GRADES } from '../../incident-rule';
+import { IncidentRule, GRADES } from '../incident-rule';
 
 export default class FirstEngineArrival extends IncidentRule {
   constructor(incident) {
     super(incident);
 
     this.threshold = 240;
+    this.category = 'NFPA';
 
     this.description = 'First engine should have a 4 minute travel time or less.';
   }

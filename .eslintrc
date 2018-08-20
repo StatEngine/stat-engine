@@ -251,6 +251,10 @@
         "rest-spread-spacing": ["error", "never"],                  //enforce spacing between rest and spread operators and their expressions
         "template-curly-spacing": 2,                                //enforce spacing around embedded expressions of template strings
         "yield-star-spacing": [2, "after"],                          //enforce spacing around the * in yield* expressions,
-        "prefer-destructuring": ["error", {"object": false, "array": false}]
+        "prefer-destructuring": ["error", {"object": false, "array": false}],
+
+        // Import
+        "import/no-named-as-default": 0,
+        "import/no-named-as-default-member": 0,
     }
 }

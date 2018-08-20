@@ -1,4 +1,4 @@
-import { IncidentRule, GRADES } from '../../incident-rule';
+import { IncidentRule, GRADES } from '../incident-rule';
 
 export default class AlarmAnswering extends IncidentRule {
   constructor(incident) {
@@ -6,6 +6,7 @@ export default class AlarmAnswering extends IncidentRule {
 
     this.warningThreshold = 15;
     this.dangerThreshold = 40;
+    this.category = 'NFPA';
 
     this.description = `Alarm answering should be less than ${this.warningThreshold} seconds, 95% of time`;
   }

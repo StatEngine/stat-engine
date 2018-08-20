@@ -1,45 +1,113 @@
+.vis-timeline {
+  border: 0;
+}
+
+.vis-labelset .vis-label {
+  border-bottom: 0;
+  text-align: right;
+  .vis-inner {
+    padding: 1rem 1.5rem;
+    b {
+      color: $color-pickled-bluewood;
+      font-weight: normal;
+    }
+  }
+}
+
+.vis-panel.vis-left {
+  border-bottom: 0;
+}
+
+.vis-panel.vis-center,
+.vis-panel.vis-left,
+.vis-panel.vis-right,
+.vis-panel.vis-top,
+.vis-panel.vis-bottom,
+.vis-foreground .vis-group {
+  border-color: $color-geyser;
+  border-right: 1px solid #D7DEE3;
+}
+
+.vis-foreground .vis-group:first-child {
+  border-top: 1px solid $color-geyser;
+}
+
 .vis-item.point {
-  border-color: black;
+  border-color: #2E3E47;
 }
 
-.vis-item.unit-turnout-duration {
-  background-color: #DFE14E;
-  border-color: #DFE14E;
+.vis-item.vis-range {
+  border-radius: 0;
 }
 
-.vis-item.unit-travel-duration {
-  background-color: #F36B25;
-  border-color: #F36B25;
+.vis-item .vis-item-content {
+  padding: 0;
 }
 
-.vis-item.unit-cancelled-duration {
-  background-color: #FF0000;
-  border-color: #FF0000;
+.vis-time-axis.vis-foreground {
+  border-bottom: 1px solid $color-geyser;
+  border-right: 1px solid $color-geyser;
 }
 
-.vis-item.unit-on-scene-duration {
-  background-color: #5BC7E2;
-  border-color: #5BC7E2;
+.vis-time-axis .vis-grid.vis-major {
+  border-color: $color-geyser;
 }
 
-.vis-item.unit-transport-duration {
-  background-color: #59CD90;
-  border-color: #59CD90;
+.vis-time-axis .vis-text {
+  color: $color-pickled-bluewood;
 }
 
-.vis-item.unit-post-incident-duration {
-  background-color: #FAC05E;
-  border-color: #FAC05E;
+.vis-item.vis-background .vis-item-content b  {
+  display: none;
 }
 
-.vis-item.event-duration {
-  background-color: #E0E0D9;
-  border-color: #E0E0D9;
+.vis-item.alarm-answering-duration {
+  background-color: $color-celery;
+  border-color: darken($color-celery,25%);
 }
 
 .vis-item.alarm-processing-duration {
-  background-color: #A491D3;
-  border-color: #A491D3;
+  background-color: $color-wisteria;
+  border-color: darken($color-wisteria,25%);
+}
+
+.vis-item.unit-turnout-duration {
+  background-color: $color-tulip-tree;
+  border-color: darken($color-tulip-tree,25%);
+}
+
+.vis-item.unit-travel-duration {
+  background-color: $color-di-serria;
+  border-color: darken($color-di-serria,25%);
+}
+
+.vis-item.unit-transport-duration {
+  background-color: $color-pickled-bluewood;
+  border-color: darken($color-pickled-bluewood,25%);
+}
+
+.vis-item.unit-post-transport-duration {
+  background-color: $color-pale-sky;
+  border-color: darken($color-pale-sky,25%);
+}
+
+.vis-item.unit-cancelled-duration {
+  background-color: $color-cranberry;
+  border-color: darken($color-cranberry,25%);
+}
+
+.vis-item.unit-intervention-duration {
+  background-color: $color-pelorous;
+  border-color: darken($color-pelorous,25%);
+}
+
+.vis-item.unit-event-duration {
+  background-color: $color-pelorous;
+  border-color: darken($color-pelorous,25%);
+}
+
+.vis-item.event-duration {
+  background-color: rgba(205, 218, 224, 0.3);
 }
 
 .vis.timeline .item.dot {
@@ -55,8 +123,4 @@
 }
 .vis.timeline .item.dot {
     display: none;
-}
-
-.vis-item-content  {
-  text-align: center;
 }

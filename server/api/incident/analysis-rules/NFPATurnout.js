@@ -1,11 +1,13 @@
 import _ from 'lodash';
-import { IncidentRule, GRADES } from '../../incident-rule';
+import { IncidentRule, GRADES } from '../incident-rule';
 
 export default class Turnout extends IncidentRule {
   constructor(incident) {
     super(incident);
 
     this.threshold = this.incident.isFireIncident() ? 80 : 60;
+    this.category = 'NFPA';
+
     this.description = `Unit turnout should be less than ${this.threshold} seconds`;
   }
 

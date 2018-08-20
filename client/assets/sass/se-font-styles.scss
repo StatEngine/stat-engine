@@ -45,3 +45,58 @@
     content: unicode($se-icon-user);
   }
 }
+.se-icon-buildings {
+  &:before {
+    content: unicode($se-icon-buildings);
+  }
+}
+.se-icon-year {
+  &:before {
+    content: unicode($se-icon-year);
+  }
+}
+.se-icon-dwelling-value {
+  &:before {
+    content: unicode($se-icon-dwelling-value);
+  }
+}
+.se-icon-land-area {
+  &:before {
+    content: unicode($se-icon-land-area);
+  }
+}
+.se-icon-census-tract {
+  &:before {
+    content: unicode($se-icon-census-tract);
+  }
+}
+.se-icon-census-block {
+  &:before {
+    content: unicode($se-icon-census-block);
+  }
+}
+.se-icon-land-use {
+  &:before {
+    content: unicode($se-icon-land-use);
+  }
+}
+.se-icon-info{
+  &:before {
+    content: unicode($se-icon-info);
+  }
+}
+.se-icon-circle-checkmark {
+  &:before {
+    content: unicode($se-icon-circle-checkmark);
+  }
+}
+.se-icon-circle-exclamation {
+  &:before {
+    content: unicode($se-icon-circle-exclamation);
+  }
+}
+.se-icon-circle-x {
+  &:before {
+    content: unicode($se-icon-circle-x);
+  }
+}

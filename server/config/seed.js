@@ -17,8 +17,6 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
-let rogers;
-let ffxCity;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -348,9 +346,6 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then(dbFfxCity => {
-      ffxCity = dbFfxCity;
-    })
     .then(() => FireDepartment.create({
       fd_id: '05900',
       firecares_id: '81147',
@@ -418,9 +413,6 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then(dbRogers => {
-      rogers = dbRogers;
-    })
     .then(() => User.create({
       provider: 'local',
       role: 'admin',

@@ -18,16 +18,12 @@ export function generateTextualSummaries(incident) {
 }
 
 export function generateAnalysis(incident) {
-  let analysis = {};
+  let analysis = [];
 
-  _.forOwn(analysisRules, (rules, category) => {
-    analysis[category] = {};
-
-    _.forEach(rules, Rule => {
-      let rule = new Rule.default(incident);
-      analysis[category][rule.name] = rule.grade();
-    });
+  _.forOwn(analysisRules, Rule => {
+    let rule = new Rule.default(incident);
+    analysis.push(rule.grade());
   });
 
-  return analysis;
+  return _.filter(analysis, a => !_.isNil(a));
 }

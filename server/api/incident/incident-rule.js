@@ -3,9 +3,9 @@ import _ from 'lodash';
 import { Incident } from './incident';
 
 export const GRADES = {
-  SUCCESS: 'success',
-  WARNING: 'warning',
-  DANGER: 'danger',
+  SUCCESS: 'SUCCESS',
+  WARNING: 'WARNING',
+  DANGER: 'DANGER',
 };
 
 function topLevelGrade(evidence) {
@@ -31,6 +31,7 @@ export class IncidentRule {
     const evidence = this.getEvidence();
     return {
       name: this.name,
+      category: this.category,
       description: this.description,
       grade: topLevelGrade(evidence),
       evidence,

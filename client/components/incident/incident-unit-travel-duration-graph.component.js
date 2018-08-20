@@ -27,14 +27,19 @@ export default class IncidentUnitTravelDurationGraphComponent {
     const expected = [];
     const actual = [];
 
-    let units = [];
+    const units = [];
+
     _.forEach(this.incident.apparatus, u => {
-      units.push(u.unit_id);
+      let unitId = u.unit_id;
+      units.push(unitId);
+
       const actualDuration = _.get(u, 'extended_data.travel_duration');
       actual.push(actualDuration);
 
-      const expectedDuration = _.get(this.travelMatrix, `${u.unit_id}.duration`);
-      if(expectedDuration) expected.push(expectedDuration);
+      if(this.travelMatrix) {
+        const expectedDuration = this.travelMatrix[unitId].duration;
+        expected.push(expectedDuration);
+      }
     });
 
     const expectedTrace = {
@@ -42,7 +47,12 @@ export default class IncidentUnitTravelDurationGraphComponent {
       y: expected,
       name: 'Expected',
       type: 'bar',
-      opacity: 0.5,
+      marker: {
+        color: '#3eceb0',
+        line: {
+          color: '#25a88e',
+        }
+      },
     };
 
     const actualTrace = {
@@ -50,70 +60,69 @@ export default class IncidentUnitTravelDurationGraphComponent {
       y: actual,
       name: 'Actual',
       type: 'bar',
-      opacity: 0.5,
+      marker: {
+        color: '#44a0c1',
+        line: {
+          color: '#005364',
+        }
+      },
     };
 
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
 
-    let shapes = [];
-    let annotations = [];
+    const firstArrivalTrace = {
+      x: [units[0], units[units.length - 1]],
+      y: [firstArrived.extended_data.travel_duration, firstArrived.extended_data.travel_duration],
+      type: 'scatter',
+      name: 'First Arrival',
+      mode: 'lines',
+      line: {
+        color: '#e91276',
+        width: 3,
+        dash: 'dash',
+      }
+    };
 
-    if(firstDue) {
-      annotations.push({
+    const data = [];
+
+    if(this.travelMatrix) data.push(expectedTrace);
+    data.push(actualTrace);
+    data.push(firstArrivalTrace);
+
+    var layout = {
+      barmode: 'group',
+      bargap: 0.3,
+      bargroupgap: 0,
+      height: 290,
+      margin: {
+        l: 52,
+        r: 1,
+        b: 30,
+        t: 0,
+      },
+      yaxis: {
+        title: 'Seconds',
+        zerolinecolor: '#d7dee3',
+        linecolor: '#d7dee3',
+      },
+      xaxis: {
+        // zerolinecolor: '#d7dee3',
+        linecolor: '#d7dee3',
+      },
+      annotations: [{
         x: firstDue.unit_id,
-        y: firstDue.extended_data.travel_duration,
+        y: this.travelMatrix
+          ? _.max([firstDue.extended_data.travel_duration, this.travelMatrix[firstDue.unit_id].duration]) + 20 : firstDue.extended_data.travel_duration,
         xref: 'x',
         yref: 'y',
         text: 'First Due',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#26a88e'
         },
-        ax: 30,
-        ay: -30
-      });
-    }
-    if(firstArrived) {
-      shapes.push({
-        type: 'line',
-        x0: -1,
-        x1: units.length,
-        y0: firstArrived.extended_data.travel_duration,
-        y1: firstArrived.extended_data.travel_duration,
-        line: {
-          color: 'red',
-          width: 4,
-          dash: 'dash',
-        },
-        name: 'Suggested'
-      });
-      annotations.push({
-        x: -0.75,
-        y: firstArrived.extended_data.travel_duration,
-        text: this.incident.description.incident_number || 'This Incident',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
-        font: {
-          color: 'black'
-        },
-        ax: -10,
-        ay: -30
-      });
-    }
-    var data = [expectedTrace, actualTrace];
-    var layout = {
-      title: 'Travel Durations',
-      barmode: 'overlay',
-      yaxis: {
-        title: 'seconds',
-      },
-      shapes,
-      annotations,
+      }]
     };
-    Plotly.newPlot(this.id, data, layout);
+    Plotly.newPlot(this.id, data, layout, {displayModeBar: false});
   }
 }

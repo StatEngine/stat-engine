@@ -184,27 +184,29 @@ export function loadComparison(req, res, next) {
   const incidentType = pulsePoint ? req.incident.description.extended_data.AgencyIncidentCallTypeDescription : req.incident.description.type;
   const incidentTypeFilter = pulsePoint ? { term: {'description.extended_data.AgencyIncidentCallTypeDescription.keyword': incidentType }} : { term: {'description.type': incidentType }};
 
+  const compValues = {};
   const aggs = [
-    [`Response Zone: ${responseZone}`, { term: {'address.response_zone': responseZone }}],
-    [`Battalion: ${battalion}`, { term: {'address.battalion': battalion }}],
-    [`First Due: ${firstDue}`, { term: {'address.first_due': firstDue }}],
-    [`Address: ${addressLine1}`, { term: {'address.address_line1': addressLine1 }}],
-    [`Census: ${census}`, { term: {'address.location.census.census_2010.tract': census }}],
-    [`Council District: ${councilDistrict}`, { term: {'address.location.council_district': councilDistrict }}],
-    [`Incident Type: ${incidentType}`, incidentTypeFilter],
-    [`Precinct: ${precinct}`, { term: {'address.location.precinct': precinct }}],
-    [`Ward: ${ward}`, { term: {'address.location.precinct_ward': ward }}],
-    [`Neighborhood: ${neighborhood}`, { term: {'address.location.neighborhood': neighborhood }}],
-  ].filter(rule => rule[0].indexOf('undefined') < 0)
+    ['Response Zone', responseZone, { term: {'address.response_zone': responseZone }}],
+    ['Battalion', battalion, { term: {'address.battalion': battalion }}],
+    ['First Due', firstDue, { term: {'address.first_due': firstDue }}],
+    ['Address', addressLine1, { term: {'address.address_line1': addressLine1 }}],
+    ['Census', census, { term: {'address.location.census.census_2010.tract': census }}],
+    ['Council District', councilDistrict, { term: {'address.location.council_district': councilDistrict }}],
+    ['Incident Type', incidentType, incidentTypeFilter],
+    ['Precinct', precinct, { term: {'address.location.precinct': precinct }}],
+    ['Ward', ward, { term: {'address.location.precinct_ward': ward }}],
+    ['Neighborhood', neighborhood, { term: {'address.location.neighborhood': neighborhood }}],
+  ].filter(rule => !_.isNil(rule[1]))
     .reduce((acc, val) => {
-      const [name, filter] = val;
-      acc[name] = {
+      const [label, compValue, filter] = val;
+      compValues[label] = compValue;
+      acc[label] = {
         filter,
         aggs: {
           response_duration_percentile_rank: {
             percentiles: {
-              field: 'durations.response.minutes',
-              percents: [90]
+              field: 'durations.response.seconds',
+              percents: [75, 90]
             }
           }
         }
@@ -230,6 +232,9 @@ export function loadComparison(req, res, next) {
   })
     .then(response => {
       req.incidentComparison = response.aggregations;
+      _.forOwn(req.incidentComparison, (value, label) => {
+        req.incidentComparison[label].comparison_value = compValues[label];
+      });
       next();
     });
 }

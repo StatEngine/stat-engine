@@ -22,66 +22,98 @@ export default class IncidentComparisonGraphComponent {
   }
 
   $onInit() {
-    angular.element(this.$window).on('resize', this.onResize);
-    const x = [];
     const y = [];
-    const text = [];
+    const ninetyPercent = [];
+    const ninetyPercentText = [];
+    const seventyFivePercent = [];
+    const seventyFivePercentText = [];
 
-    _.sortBy(_.toPairs(this.comparison), comp => comp[0]).forEach(comp => {
-      let [key, data] = comp;
-      let value = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']');
-      if(value) {
-        x.push(key);
-        y.push(value);
-        text.push(`Total incidents: <b>${data.doc_count}</b>`);
+    const responseDuration = _.get(this.incident, 'durations.response.seconds');
+    _.forOwn(this.comparison, (data, key) => {
+      let value90 = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']');
+      let value75 = _.get(data, 'response_duration_percentile_rank.values[\'75.0\']');
+      if(value90 && value75) {
+        y.push(key);
+        ninetyPercent.push(value90);
+        ninetyPercentText.push(`${key}: ${data.comparison_value}<br>${value90.toFixed(2)}`);
+        seventyFivePercent.push(value75);
+        seventyFivePercentText.push(`${key}: ${data.comparison_value}<br>${value75.toFixed(2)}`);
       }
     });
 
     const shapes = [];
     shapes.push({
       type: 'line',
-      x0: -1,
-      x1: x.length,
-      y0: this.incident.durations.response.minutes,
-      y1: this.incident.durations.response.minutes,
+      x0: responseDuration,
+      x1: responseDuration,
+      y0: -1,
+      y1: y.length,
       line: {
-        color: 'red',
-        width: 4,
+        color: '#e91276',
+        width: 3,
         dash: 'dash',
       },
       name: this.incident.description.incident_number || 'This incident'
     });
 
-
     Plotly.newPlot(this.id, [{
-      x,
+      x: seventyFivePercent,
       y,
-      text,
-      orientation: 'v',
+      text: seventyFivePercentText,
+      mode: 'markers',
       marker: {
-        color: 'rgba(55,128,191,0.6)',
-        width: 1
+        color: '#3eceb0',
+        line: {
+          color: 'rgba(156, 165, 196, 1.0)',
+          width: 1,
+        },
+        symbol: 'circle',
+        size: 16
       },
-      type: 'bar'
+      name: '75% Percentile'
+    }, {
+      x: ninetyPercent,
+      y,
+      text: ninetyPercentText,
+      mode: 'markers',
+      marker: {
+        color: '#44a0c1',
+        line: {
+          color: 'rgba(156, 165, 196, 1.0)',
+          width: 1,
+        },
+        symbol: 'circle',
+        size: 16
+      },
+      name: '90% Percentile'
     }], {
-      title: 'Total Response Time Comparisons<br><span style="font-size: 14px">Dispatch to the first arriving unit.</span>',
       shapes,
       annotations: [{
-        x: -0.75,
-        y: this.incident.durations.response.minutes,
+        x: responseDuration,
+        y: y.length + 0.2,
         text: this.incident.description.incident_number || 'This incident',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: 'black',
+        showarrow: false,
         font: {
-          color: 'black'
+          color: '#e91276'
         },
-        ax: -10,
-        ay: -30
       }],
+      height: 290,
+      margin: {
+        l: 100,
+        r: 2,
+        b: 55,
+        t: 0,
+      },
+      xaxis: {
+        title: 'Seconds',
+        linecolor: '#d7dee3',
+        zerolinecolor: '#d7dee3',
+      },
       yaxis: {
-        title: '90th Percentile Response Time (sec)'
-      }
+        linecolor: '#d7dee3',
+      },
+    }, {
+      displayModeBar: false
     });
   }
 }
