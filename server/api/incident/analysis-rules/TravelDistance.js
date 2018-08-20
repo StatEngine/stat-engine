@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { IncidentRule, GRADES } from '../../incident-rule';
+import { IncidentRule, GRADES } from '../incident-rule';
 
 export default class TravelDistance extends IncidentRule {
   constructor(incident) {
     super(incident);
     this.description = 'Travel distance should be less than 4 miles';
+    this.category = 'StatEngine';
   }
 
   applicable() {

@@ -18,7 +18,7 @@ function handleError(res, statusCode) {
 
 export function search(req, res) {
   let where = {};
-  if (req.user.fire_department__id) {
+  if(req.user.fire_department__id) {
     where = {
       fire_department__id: req.user.fire_department__id,
     };
@@ -31,9 +31,7 @@ export function search(req, res) {
       where: { name: req.query.name }
     }]
   })
-    .then(extensionConfigurations => {
-      return res.json(extensionConfigurations);
-    })
+    .then(extensionConfigurations => res.json(extensionConfigurations))
     .catch(handleError(res));
 }
 

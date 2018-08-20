@@ -28,26 +28,43 @@ export default class IncidentUnitTravelDistanceGraphComponent {
 
     _.forEach(units, unit_id => {
       const estimatedDistance = this.travelMatrix[unit_id].distance;
-
       estimated.push(estimatedDistance);
-    })
+    });
 
+    // '#3eceb0','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1']
+    // ['#25a88e','#005364','#005364','#005364','#005364','#005364','#005364','#005364','#005364'],
     const estimatedTrace = {
       x: units,
       y: estimated,
       name: 'Estimated',
       type: 'bar',
-      // TODO: THERE HAS TO BE A BETTER WAY TO HAVE A UNIQUE COLOR BAR FOR FIRST DUE
       marker: {
-        color: ['#3eceb0','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1','#44a0c1'],
+        color: _.fill(Array(units.length), '#44a0c1'),
         line: {
-          color: ['#25a88e','#005364','#005364','#005364','#005364','#005364','#005364','#005364','#005364'],
+          color: _.fill(Array(units.length), '#005364'),
           width: 1
         }
       },
     };
 
-    const firstDue = _.find(this.incident.apparatus, u => u.first_due);
+    const annotations = [];
+    const firstDueIndex = _.findIndex(this.incident.apparatus, u => u.first_due);
+    if(firstDueIndex > -1) {
+      let unitId = this.incident.apparatus[firstDueIndex].unit_id;
+      estimatedTrace.marker.color[firstDueIndex] = '#3eceb0';
+      estimatedTrace.marker.line.color[firstDueIndex] = '#25a88e';
+      annotations.push({
+        x: unitId,
+        y: this.travelMatrix[unitId].distance + 0.2,
+        xref: 'x',
+        yref: 'y',
+        text: 'First Due',
+        showarrow: false,
+        font: {
+          color: '#26a88e'
+        },
+      });
+    }
 
     var data = [estimatedTrace];
     var layout = {
@@ -65,17 +82,7 @@ export default class IncidentUnitTravelDistanceGraphComponent {
       xaxis: {
         linecolor: '#d7dee3',
       },
-      annotations: [{
-        x: firstDue.unit_id,
-        y: this.travelMatrix[firstDue.unit_id].distance + 0.2,
-        xref: 'x',
-        yref: 'y',
-        text: 'First Due',
-        showarrow: false,
-        font: {
-          color: '#26a88e'
-        },
-      }]
+      annotations,
     };
     Plotly.newPlot(this.id, data, layout, {displayModeBar: false});
   }

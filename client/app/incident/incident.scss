@@ -329,6 +329,12 @@ current-weather {
     &.cancelled::before {
       color: $color-cranberry;
     }
+    &.transport::before {
+      color: $color-pickled-bluewood;
+    }
+    &.post-transport::before {
+      color: $color-pale-sky;
+    }
   }
   @media (max-width: 991px) {
     margin: 3rem 0 0 9rem;

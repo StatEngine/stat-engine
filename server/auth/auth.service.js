@@ -83,16 +83,16 @@ export function hasFireDepartment(req, res, next) {
       return next();
     });
   } else if(req.user.isAdmin && req.query.fireDepartmentId) {
-      FireDepartment.find({
-        where: {
-          _id: req.query.fireDepartmentId
-        },
-      }).then(fireDepartment => {
-        if(!fireDepartment) return res.status(403).send('FireDepartment not found');
-        req.fireDepartment = fireDepartment;
-        return next();
-      });
-  } else if (req.user.isAdmin) {
+    FireDepartment.find({
+      where: {
+        _id: req.query.fireDepartmentId
+      },
+    }).then(fireDepartment => {
+      if(!fireDepartment) return res.status(403).send('FireDepartment not found');
+      req.fireDepartment = fireDepartment;
+      return next();
+    });
+  } else if(req.user.isAdmin) {
     req.fireDepartment = req.user.FireDepartment;
     return next();
   } else if(!req.user || !req.user.FireDepartment || !req.user.FireDepartment._id) {

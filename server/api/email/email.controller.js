@@ -302,14 +302,13 @@ export function setEmailMergeVars(req, res, next) {
 
 
 export function send(req, res) {
-
   let promises = [];
 
-  if (_.isEmpty(req.to)) return res.status(200).send();
+  if(_.isEmpty(req.to)) return res.status(200).send();
 
   let test = true;
   if(req.query.test && req.query.test.toLowerCase() === 'false') test = false;
-  req.to.forEach((user) => {
+  req.to.forEach(user => {
     const metadata = {
       firecaresId: req.fireDepartment.firecares_id,
       fireDepartmentName: req.fireDepartment.name,
@@ -319,7 +318,7 @@ export function send(req, res) {
     };
 
     promises.push(sendEmail(user.email, req.subject, 'timerange', req.mergeVars, test, metadata));
-  })
+  });
 
   Promise.all(promises)
     .then(() => res.status(204).send())

@@ -61,6 +61,16 @@
   display: none;
 }
 
+.vis-item.alarm-answering-duration {
+  background-color: $color-celery;
+  border-color: darken($color-celery,25%);
+}
+
+.vis-item.alarm-processing-duration {
+  background-color: $color-wisteria;
+  border-color: darken($color-wisteria,25%);
+}
+
 .vis-item.unit-turnout-duration {
   background-color: $color-tulip-tree;
   border-color: darken($color-tulip-tree,25%);
@@ -71,9 +81,24 @@
   border-color: darken($color-di-serria,25%);
 }
 
+.vis-item.unit-transport-duration {
+  background-color: $color-pickled-bluewood;
+  border-color: darken($color-pickled-bluewood,25%);
+}
+
+.vis-item.unit-post-transport-duration {
+  background-color: $color-pale-sky;
+  border-color: darken($color-pale-sky,25%);
+}
+
 .vis-item.unit-cancelled-duration {
   background-color: $color-cranberry;
   border-color: darken($color-cranberry,25%);
+}
+
+.vis-item.unit-intervention-duration {
+  background-color: $color-pelorous;
+  border-color: darken($color-pelorous,25%);
 }
 
 .vis-item.unit-event-duration {
@@ -83,11 +108,6 @@
 
 .vis-item.event-duration {
   background-color: rgba(205, 218, 224, 0.3);
-}
-
-.vis-item.alarm-processing-duration {
-  background-color: $color-wisteria;
-  border-color: darken($color-wisteria,25%);
 }
 
 .vis.timeline .item.dot {

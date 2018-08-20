@@ -27,9 +27,13 @@ export default class IncidentAlarmAnsweringGraphComponent {
     // Get alarm durations
     const data = [];
 
+    const alarmAnswer = _.get(this.incident, 'durations.alarm_answer.seconds');
+    const warningThreshold = 15;
+    const dangerThreshold = 40;
+
     data.push({
-      x: [_.get(this.incident, 'durations.alarm_answer.seconds')],
-      y: ['Answering'],
+      x: [alarmAnswer],
+      y: [1],
       orientation: 'h',
       marker: {
         color: '#44a0c1',
@@ -52,10 +56,10 @@ export default class IncidentAlarmAnsweringGraphComponent {
     const shapes = [];
     shapes.push({
       type: 'line',
-      x0: 15,
-      x1: 15,
-      y0: -1,
-      y1: 1,
+      x0: warningThreshold,
+      x1: warningThreshold,
+      y0: 0,
+      y1: 2,
       xref: 'x',
       yref: 'y',
       line: {
@@ -65,10 +69,10 @@ export default class IncidentAlarmAnsweringGraphComponent {
       },
     }, {
       type: 'line',
-      x0: 40,
-      x1: 40,
-      y0: -1,
-      y1: 1,
+      x0: dangerThreshold,
+      x1: dangerThreshold,
+      y0: 0,
+      y1: 2,
       xref: 'x',
       yref: 'y',
       line: {
@@ -78,9 +82,11 @@ export default class IncidentAlarmAnsweringGraphComponent {
       },
     });
 
+    let xMax = _.max([dangerThreshold, alarmAnswer]) + 5;
+
     const layout = {
       barmode: 'overlay',
-      shapes: shapes,
+      shapes,
       height: 290,
       margin: {
         l: 5,
@@ -93,27 +99,28 @@ export default class IncidentAlarmAnsweringGraphComponent {
         title: 'Seconds',
         linecolor: '#d7dee3',
         zerolinecolor: '#d7dee3',
+        range: [0, xMax]
       },
       yaxis: {
-         autorange: true,
-         showgrid: false,
-         zeroline: false,
-         showline: false,
-         autotick: true,
-         ticks: '',
-         showticklabels: false
+        autorange: true,
+        showgrid: false,
+        zeroline: false,
+        showline: false,
+        autotick: true,
+        ticks: '',
+        showticklabels: false
       },
       annotations: [{
-        x: 15,
-        y: 1.1,
+        x: warningThreshold,
+        y: 2.1,
         text: '15s',
         showarrow: false,
         font: {
           color: '#ed8c5a',
         },
       }, {
-        x: 40,
-        y: 1.1,
+        x: dangerThreshold,
+        y: 2.1,
         text: '40s',
         showarrow: false,
         font: {

@@ -4,6 +4,25 @@
 
 import _ from 'lodash';
 
+import tippy from 'tippy.js';
+import humanizeDuration from 'humanize-duration';
+
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+  language: 'shortEn',
+  languages: {
+    shortEn: {
+      y: () => 'y',
+      mo: () => 'mo',
+      w: () => 'w',
+      d: () => 'd',
+      h: () => 'h',
+      m: () => 'm',
+      s: () => 's',
+      ms: () => 'ms',
+    }
+  }
+});
+
 export default class IncidentAnalysisController {
   /*@ngInject*/
   constructor(SegmentService, currentPrincipal, incidentData) {
@@ -22,7 +41,7 @@ export default class IncidentAnalysisController {
     this.firstUnitDispatched = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
     this.firstUnitArrived = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
     let comments = _.get(this.incident, 'description.comments');
-    if (comments) {
+    if(comments) {
       let limit = 500;
       this.showFullComments = false;
       this.commentsTruncated = comments.substring(0, limit);
@@ -87,6 +106,61 @@ export default class IncidentAnalysisController {
     this.formatSearchResults(this.concurrentIncidents);
   }
 
+  $onInit() {
+    this.initTippy();
+  }
+
+  initTippy() {
+    tippy('.tippy', {
+      allowTitleHTML: true,
+      interactive: true,
+      delay: 100,
+      arrow: false,
+      arrowType: 'round',
+      size: 'large',
+      duration: 500,
+      animation: 'scale',
+      maxWidth: '300px',
+    });
+
+    // dynamic content
+    tippy('.ruletippy', {
+      allowTitleHTML: true,
+      interactive: true,
+      delay: 100,
+      arrow: false,
+      arrowType: 'round',
+      size: 'large',
+      duration: 500,
+      animation: 'scale',
+      maxWidth: '350px',
+      dynamicTitle: true,
+    });
+  }
+
+  formatEvidence(evidence) {
+    let html = '<ul>';
+    _.forEach(evidence, e => {
+      switch (e.grade) {
+      case 'SUCCESS':
+        html += `<li class="text-success">${e.text}</li>`;
+        break;
+
+      case 'WARNING':
+        html += `<li class="text-warning">${e.text}</li>`;
+        break;
+
+      case 'DANGER':
+        html += `<li class="text-danger">${e.text}</li>`;
+        break;
+      }
+    });
+
+    html += '</ul>';
+
+    return html;
+  }
+
   formatSearchResults(results) {
     const searchResults = [];
 
@@ -99,11 +173,15 @@ export default class IncidentAnalysisController {
 
   scrollTo(location) {
     $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
-  };
+  }
 
   toggleComments() {
-    if (this.showFullComments) $('#fullComments').collapse('show')
-    else $('#fullComments').collapse('hide')
+    if(this.showFullComments) $('#fullComments').collapse('show');
+    else $('#fullComments').collapse('hide');
     this.showFullComments = !this.showFullComments;
+  }
+
+  humanizeDuration(ms) {
+    return shortEnglishHumanizer(ms, { round: true });
   }
 }

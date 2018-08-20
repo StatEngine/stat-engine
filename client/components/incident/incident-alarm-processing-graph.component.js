@@ -27,9 +27,13 @@ export default class IncidentAlarmProcessingGraphComponent {
     // Get alarm durations
     const data = [];
 
+    const alarmProcessing = _.get(this.incident, 'durations.alarm_processing.seconds');
+    const warningThreshold = 64;
+    const dangerThreshold = 106;
+
     data.push({
-      x: [_.get(this.incident, 'durations.alarm_processing.seconds')],
-      y: ['Processing'],
+      x: [alarmProcessing],
+      y: [1],
       name: 'Processing',
       orientation: 'h',
       marker: {
@@ -53,10 +57,10 @@ export default class IncidentAlarmProcessingGraphComponent {
     const shapes = [];
     shapes.push({
       type: 'line',
-      x0: 64,
-      x1: 64,
-      y0: -1,
-      y1: 1,
+      x0: warningThreshold,
+      x1: warningThreshold,
+      y0: 0,
+      y1: 2,
       xref: 'x',
       yref: 'y',
       line: {
@@ -66,10 +70,10 @@ export default class IncidentAlarmProcessingGraphComponent {
       },
     }, {
       type: 'line',
-      x0: 106,
-      x1: 106,
-      y0: -1,
-      y1: 1,
+      x0: dangerThreshold,
+      x1: dangerThreshold,
+      y0: 0,
+      y1: 2,
       xref: 'x',
       yref: 'y',
       line: {
@@ -79,9 +83,11 @@ export default class IncidentAlarmProcessingGraphComponent {
       },
     });
 
+    let xMax = _.max([dangerThreshold, alarmProcessing]) + 5;
+
     const layout = {
       barmode: 'overlay',
-      shapes: shapes,
+      shapes,
       height: 290,
       margin: {
         l: 5,
@@ -94,27 +100,28 @@ export default class IncidentAlarmProcessingGraphComponent {
         title: 'Seconds',
         linecolor: '#d7dee3',
         zerolinecolor: '#d7dee3',
+        range: [0, xMax],
       },
       yaxis: {
-         autorange: true,
-         showgrid: false,
-         zeroline: false,
-         showline: false,
-         autotick: true,
-         ticks: '',
-         showticklabels: false
+        autorange: true,
+        showgrid: false,
+        zeroline: false,
+        showline: false,
+        autotick: true,
+        ticks: '',
+        showticklabels: false
       },
       annotations: [{
-        x: 64,
-        y: 1.1,
+        x: warningThreshold,
+        y: 2.1,
         text: '64s',
         showarrow: false,
         font: {
           color: '#ed8c5a',
         },
       }, {
-        x: 106,
-        y: 1.1,
+        x: dangerThreshold,
+        y: 2.1,
         text: '106s',
         showarrow: false,
         font: {

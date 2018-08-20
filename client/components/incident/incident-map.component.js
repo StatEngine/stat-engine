@@ -20,11 +20,11 @@ export default class IncidentMapComponent {
 
     const address = `<h4>\
       ${this.incident.address.address_line1}<br>\
-      ${this.incident.address.city}, ${this.incident.address.state}<\h4>`;
+      ${this.incident.address.city}, ${this.incident.address.state}<\\h4>`;
     const popup = new mapboxgl.Popup({ offset: 25 })
       .setHTML(address);
 
-    const marker = new mapboxgl.Marker()
+    new mapboxgl.Marker()
       .setLngLat(incidentLocation)
       .setPopup(popup)
       .addTo(map);

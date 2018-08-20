@@ -73,7 +73,7 @@ const fireDepartmentMetrics = [{
 }, {
   getter: res => _.get(categoryBucket(res, 'EMS'), '["agg_percentiles_durations.turnout.seconds"]values["90.0"]'),
   setter: (obj, res) => _.set(obj, 'fireDepartment.emsTurnoutDurationPercentile90', res),
-},  {
+}, {
   getter: res => _.get(categoryBucket(res, 'FIRE'), '["agg_percentiles_durations.turnout.seconds"]values["90.0"]'),
   setter: (obj, res) => _.set(obj, 'fireDepartment.fireTurnoutDurationPercentile90', res),
 }, {

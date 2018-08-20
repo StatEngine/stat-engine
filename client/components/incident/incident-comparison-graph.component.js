@@ -22,24 +22,32 @@ export default class IncidentComparisonGraphComponent {
   }
 
   $onInit() {
-    const x = [];
     const y = [];
+    const ninetyPercent = [];
+    const ninetyPercentText = [];
+    const seventyFivePercent = [];
+    const seventyFivePercentText = [];
 
+    const responseDuration = _.get(this.incident, 'durations.response.seconds');
     _.forOwn(this.comparison, (data, key) => {
-      let value = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']')
-      if (value) {
-        x.push(key);
-        y.push(value)
+      let value90 = _.get(data, 'response_duration_percentile_rank.values[\'90.0\']');
+      let value75 = _.get(data, 'response_duration_percentile_rank.values[\'75.0\']');
+      if(value90 && value75) {
+        y.push(key);
+        ninetyPercent.push(value90);
+        ninetyPercentText.push(`${key}: ${data.comparison_value}<br>${value90.toFixed(2)}`);
+        seventyFivePercent.push(value75);
+        seventyFivePercentText.push(`${key}: ${data.comparison_value}<br>${value75.toFixed(2)}`);
       }
     });
 
     const shapes = [];
     shapes.push({
       type: 'line',
-      x0: -1,
-      x1: x.length,
-      y0: this.incident.description.extended_data.response_duration,
-      y1: this.incident.description.extended_data.response_duration,
+      x0: responseDuration,
+      x1: responseDuration,
+      y0: -1,
+      y1: y.length,
       line: {
         color: '#e91276',
         width: 3,
@@ -49,49 +57,63 @@ export default class IncidentComparisonGraphComponent {
     });
 
     Plotly.newPlot(this.id, [{
-      x: x,
-      y: y,
-      orientation: 'v',
+      x: seventyFivePercent,
+      y,
+      text: seventyFivePercentText,
+      mode: 'markers',
+      marker: {
+        color: '#3eceb0',
+        line: {
+          color: 'rgba(156, 165, 196, 1.0)',
+          width: 1,
+        },
+        symbol: 'circle',
+        size: 16
+      },
+      name: '75% Percentile'
+    }, {
+      x: ninetyPercent,
+      y,
+      text: ninetyPercentText,
+      mode: 'markers',
       marker: {
         color: '#44a0c1',
         line: {
-          color: '#005364',
-          width: 1
-        }
+          color: 'rgba(156, 165, 196, 1.0)',
+          width: 1,
+        },
+        symbol: 'circle',
+        size: 16
       },
-      type: 'bar'
+      name: '90% Percentile'
     }], {
-      shapes: shapes,
+      shapes,
       annotations: [{
-        x: -0.75,
-        y: this.incident.description.extended_data.response_duration,
+        x: responseDuration,
+        y: y.length + 0.2,
         text: this.incident.description.incident_number || 'This incident',
-        showarrow: true,
-        arrowhead: 9,
-        arrowcolor: '#e91276',
+        showarrow: false,
         font: {
           color: '#e91276'
         },
-        ax: -10,
-        ay: -30
       }],
       height: 290,
       margin: {
-        l: 50,
+        l: 100,
         r: 2,
-        b: 100,
+        b: 55,
         t: 0,
       },
       xaxis: {
+        title: 'Seconds',
         linecolor: '#d7dee3',
         zerolinecolor: '#d7dee3',
       },
       yaxis: {
-        title: 'Seconds',
         linecolor: '#d7dee3',
       },
-    },
-    {displayModeBar: false}
-  );
+    }, {
+      displayModeBar: false
+    });
   }
 }

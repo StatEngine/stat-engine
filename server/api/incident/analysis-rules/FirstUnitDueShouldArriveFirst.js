@@ -1,12 +1,13 @@
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
 
-import { IncidentRule, GRADES } from '../../incident-rule';
+import { IncidentRule, GRADES } from '../incident-rule';
 
 export default class FirstUnitDueShouldArriveFirst extends IncidentRule {
   constructor(incident) {
     super(incident);
     this.description = 'First due unit should arrive on-scene first';
+    this.category = 'StatEngine';
   }
 
   applicable() {

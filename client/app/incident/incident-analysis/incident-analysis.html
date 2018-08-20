@@ -99,6 +99,9 @@
                 <div class="col-lg-6 dispatch-comments">
                   <div class="card light-border">
                     <h5 class="card-header">Dispatch Comments</h5>
+                    <div ng-if="!vm.incident.description.comments" class="no-data-available">
+                      <h5>No dispatch comments available</h5>
+                    </div>
                     <p ng-if="!vm.showFullComments">{{ vm.commentsTruncated }}</p>
                     <p ng-if="vm.showFullComments">{{ vm.incident.description.comments }}</p>
                     <div class="text-center">
@@ -112,78 +115,16 @@
                 <div class="col-lg-12">
                   <div class="card light-border">
                     <h5 class="card-header">StatEngine&trade; Performance Analysis</h5>
-                    <div ng-if="!vm.incident.description.suppressed" class="performance-analysis">
+                    <div ng-show="!vm.incident.description.suppressed" class="performance-analysis">
                       <div class="row">
-                        <div class="col-lg-2">
-                          <div class="card light-border">
-                              <span class="se-icon-circle-checkmark pass"></span>
-                              <h6>First due unit should arrive on-scene first</h6>
+                        <div ng-repeat="analysis in vm.analysis" class="col-lg-2" ng-init="$last && vm.initTippy()">
+                          <div class="card light-border ruletippy" ng-attr-title="{{vm.formatEvidence(analysis.evidence)}}" ng-class="{ 'nfpa-standard': analysis.category === 'NFPA'}">
+                              <span ng-class="{ 'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
+                                                'se-icon-circle-exclamation caution': analysis.grade === 'WARNING',
+                                                'se-icon-circle-x fail': analysis.grade === 'DANGER'}"></span>
+                              <h6>{{analysis.description}}</h6>
                           </div>
                         </div>
-                        <div class="col-lg-2">
-                          <div class="card light-border">
-                              <span class="se-icon-circle-checkmark pass"></span>
-                              <h6>Travel distance should be less than 4 miles</h6>
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="card light-border nfpa-standard">
-                              <span class="se-icon-circle-exclamation caution"></span>
-                              <h6>Alarm answering should be less than 15 seconds, 95% of time</h6>
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="card light-border nfpa-standard">
-                              <span class="se-icon-circle-checkmark pass"></span>
-                              <h6>Alarm processing should be less than 64 seconds, 90% of time</h6>
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="card light-border nfpa-standard">
-                              <span class="se-icon-circle-x fail"></span>
-                              <h6>First engine should arrive on within 4 minutes</h6>
-                          </div>
-                        </div>
-                        <div class="col-lg-2">
-                          <div class="card light-border nfpa-standard">
-                              <span class="se-icon-circle-x fail"></span>
-                              <h6>Unit turnout should be less than 80 seconds</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- <div class="row">
-                        <div class="col-6">
-                          <div ng-repeat="(key, analysis) in vm.analysis.statEngine">
-                            <h5>
-                              <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
-                                <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
-                              </a>
-                            </h5>
-                            <div id="collapse-{{key}}" class="collapse">
-                              <ul ng-repeat="evidence in analysis.evidence">
-                                <li class="indent-1">
-                                  <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div ng-repeat="(key, analysis) in vm.analysis.nfpa">
-                            <h5>
-                              <a role="button" data-toggle="collapse" data-target="#collapse-{{key}}">
-                                <i ng-class="{'fa-check text-success': analysis.grade === 'success', 'fa-warning text-warning': analysis.grade === 'warning', 'fa-times text-danger': analysis.grade === 'danger' }" class="fa"></i>&nbsp;{{ analysis.description }}</span>
-                              </a>
-                            </h5>
-                            <div id="collapse-{{key}}" class="collapse">
-                              <ul ng-repeat="evidence in analysis.evidence">
-                                <li class="indent-1">
-                                  <i ng-class="{'fa-check text-success': evidence.grade === 'success', 'fa-warning text-warning': evidence.grade === 'warning', 'fa-times text-danger': evidence.grade === 'danger' }" class="fa"></i>&nbsp;{{ evidence.text }}</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div> -->
                       </div>
                     </div>
                   </div>
@@ -234,8 +175,9 @@
                         </dd>
                       </dl>
                     </div>
-                    <hr>
-                    <div class="row mr-4">
+                    <hr ng-if="vm.incident.address.battalion">
+
+                    <div class="row mr-4" ng-if="vm.incident.address.battalion">
                       <dl>
                         <dt>Battalion</dt>
                         <dd>
@@ -256,7 +198,7 @@
                     <h5>No census data available.</h5>
                     <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
                   </div>
-                  <div ng-if="vm.incident.address.location.parcel">
+                  <div ng-if="vm.incident.address.location.census">
                     <div class="row">
                       <div class="col-sm-6 stat d-flex">
                         <i class="se-icon-year fa-3x"></i>
@@ -305,7 +247,6 @@
                   <h5 class="card-header">Parcel Data</h5>
                   <div ng-if="!vm.incident.address.location.parcel" class="no-data-available">
                     <h5>No parcel data available.</h5>
-                    <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
                   </div>
                   <div ng-if="vm.incident.address.location.parcel">
                     <div class="row">
@@ -328,10 +269,6 @@
                       <div class="col-sm-7 stat d-flex pb-5">
                         <i class="se-icon-dwelling-value fa-3x"></i>
                         <span>
-                          <!-- <h2 ng-if="vm.incident.address.location.parcel.dwelling_value > 1000000"> $$$$ <h2>
-                          <h2 ng-if="vm.incident.address.location.parcel.dwelling_value > 500000 && vm.incident.address.location.parcel.dwelling_value < 1000000"> $$$ <h2>
-                          <h2 ng-if="vm.incident.address.location.parcel.dwelling_value > 250000 && vm.incident.address.location.parcel.dwelling_value < 500000"> $$ <h2>
-                          <h2 ng-if="vm.incident.address.location.parcel.dwelling_value < 250000"> $ <h2> -->
                           <h2> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h2>
                           <h4>Dwelling Value</h4>
                         </span>
@@ -368,7 +305,7 @@
                   <div class="card light-border">
                     <h5 class="card-header">Traffic Conditions</h5>
                     <div class="no-data-available">
-                      <h5>No traffic data available at this time.</h5>
+                      <h5>No traffic data available</h5>
                     </div>
                   </div>
                 </div>
@@ -378,7 +315,7 @@
             <!-- Response -->
             <div id="response" class="mt-5">
               <h6 class="sectionheader">Response</h6>
-              <div ng-if="!vm.incident.description.suppressed">
+              <div ng-show="!vm.incident.description.suppressed">
                 <div class="card light-border response-overview">
                   <h5 class="card-header">Overview</h5>
                   <div class="row">
@@ -388,25 +325,25 @@
                     <div class="col-lg-2">
                       <div class="card no-border text-center">
                         <span>Call answered in</span>
-                        <h2>{{ vm.incident.durations.alarm_answer.seconds }} <subscript>s</subscript></h2>
+                        <h2>{{ vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}</h2>
                       </div>
                     </div>
                     <div class="col-lg-2">
                       <div class="card no-border text-center">
                         <span>First unit dispatched</span>
-                        <h2>{{ vm.incident.durations.alarm_handling.seconds }} <subscript>s</subscript></h2>
+                        <h2>{{ vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h2>
                       </div>
                     </div>
                     <div class="col-lg-2">
                       <div class="card no-border text-center">
                         <span>First unit on scene</span>
-                        <h2> {{ vm.incident.durations.total_response.minutes | number: 1 }} <subscript>m</subscript></h2>
+                        <h2> {{ vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h2>
                       </div>
                     </div>
                     <div class="col-lg-2">
                       <div class="card no-border text-center">
                         <span>Resolved in</span>
-                        <h2> {{ vm.incident.durations.total_event.minutes | number: 1 }} <subscript>m</subscript></h2>
+                        <h2> {{ vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}</h2>
                       </div>
                     </div>
                   </div>
@@ -424,6 +361,8 @@
                         <li class="turnout-time">Turnout Time</li>
                         <li class="travel-time">Travel Time</li>
                         <li class="intervention-time">Intervention Time</li>
+                        <li class="transport">Transport</li>
+                        <li class="post-transport">Post Transport</li>
                         <li class="cancelled">Out-of-Service/Cancelled</li>
                       </ul>
                     </div>
@@ -433,13 +372,13 @@
                 <div class="row">
                   <div class="col-lg-6 mt-5">
                     <div class="card light-border">
-                      <h5 class="card-header">Alarm Answering Duration <a href="" class="se-icon-info">&nbsp;</a></h5>
+                      <h5 class="card-header">Alarm Answering Duration <a href="" data-tippy-html='#alarmAnswerTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
                       <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
                     </div>
                   </div>
                   <div class="col-lg-6 mt-5">
                     <div class="card light-border">
-                      <h5 class="card-header">Alarm Processing Duration <a href="" class="se-icon-info">&nbsp;</a></h5>
+                      <h5 class="card-header">Alarm Processing Duration <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
                       <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
                     </div>
                   </div>
@@ -447,13 +386,13 @@
                 <div class="row">
                   <div class="col-lg-6 mt-5">
                     <div class="card light-border">
-                      <h5 class="card-header">Travel Distances <a href="" class="se-icon-info">&nbsp;</a></h5>
+                      <h5 class="card-header">Travel Distances <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
                         <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
                     </div>
                   </div>
                   <div class="col-lg-6 mt-5">
                     <div class="card light-border">
-                      <h5 class="card-header">Travel Durations <a href="" class="se-icon-info">&nbsp;</a></h5>
+                      <h5 class="card-header">Travel Durations <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
                       <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
                     </div>
                   </div>
@@ -461,14 +400,27 @@
                 <div class="row">
                   <div class="col-lg-6 mt-5">
                     <div class="card light-border">
-                      <h5 class="card-header">Response Duration <a href="" class="se-icon-info">&nbsp;</a></h5>
+                      <h5 class="card-header">Response Duration <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
                       <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
                     </div>
                   </div>
                   <div class="col-lg-6 mt-5">
                     <div class="card light-border">
-                      <h5 class="card-header">90th Percentile Response Time Comparisons <a href="" class="se-icon-info">&nbsp;</a></h5>
+                      <h5 class="card-header">Response Duration Comparisons <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
                         <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 mt-5">
+                    <div class="card light-border">
+                      <h5 class="card-header">Concurrent Incidents </h5>
+
+                      <p> There were <span class="badge"> {{ vm.concurrentIncidents.length }}</span> incidents also in progress during this timeframe</p>
+
+                      <div ui-grid="vm.concurrentIncidentTableOptions">
+                        <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">No concurrent incidents</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -481,4 +433,78 @@
         </div>
       </div>
     </section>
+</div>
+
+<!--- tooltips -->
+<div id="analysisRuleTippy" style="display: none;">
+  <h5>
+    <ul>
+      <li class="text-warning">15s 95% </li>
+      <li class="text-danger">40s 99%</li>
+    </ul>
+ </h5>
+</div>
+
+<div id="alarmAnswerTippy" style="display: none;">
+  <h5>
+    <strong>Alarm Answering</strong> is the time interval that begins when the alarm is received at the communication center and ends when the alarm is acknowledged at the communication center.
+    <hr>
+    NFPA 1710 recommendation:
+    <ul>
+      <li class="text-warning">15s 95% </li>
+      <li class="text-danger">40s 99%</li>
+    </ul>
+ </h5>
+</div>
+
+<div id="alarmProcessingTippy" style="display: none;">
+  <h5>
+    <strong>Alarm Processing</strong> is the time interval from when the alarm is acknowledged at the communication center until response information begins to be transmitted via voice or electronic means to emergency response facilities (ERFs) or the emergency response units (ERUs).
+    <hr>
+    NFPA 1710 recommendation:
+    <ul>
+      <li class="text-warning">64s 90%</li>
+      <li class="text-danger">106s 95%</li>
+    </ul>
+  </h5>
+</div>
+
+<div id="travelDistanceTippy" style="display: none;">
+  <h5>
+    <strong>Travel Distances</strong> are supplied by CAD data or estimated based on AVL.
+  </h5>
+</div>
+
+<div id="travelDurationTippy" style="display: none;">
+  <h5>
+    <strong>Travel Duration</strong> is the time interval that begins when the unit is enroute and ends when the unit is on-scene.
+    <hr>
+    NFPA 1710 recommendation:
+    <ul>
+      <li class="text-warning">240s (4m) First Engine</li>
+      <li class="text-danger">480s (8m) Low/Medium Initial Full Alarm</li>
+      <li class="text-danger">610s (10m, 10s) High Hazard Full Alarm</li>
+    </ul>
+  </h5>
+</div>
+
+<div id="responseDurationTippy" style="display: none;">
+  <h5>
+    <strong>Response Duration</strong> is the time interval that begins when the unit is dispatched and ends when the unit is on-scene.
+    <strong>Turnout</strong> is the time interval that begins when the unit is dispatched and ends when the unit is enroute.
+
+    <hr>
+    NFPA 1710 Turnout recommendation:<br>
+    <ul>
+      <li class="text-danger">60s for EMS Incidents</li>
+      <li class="text-danger">80s for Fire Incidents</li>
+
+    </ul>
+  </h5>
+</div>
+
+<div id="responseDurationComparisonTippy" style="display: none;">
+  <h5>
+    <strong>Response Duration</strong> is the time interval that begins when the unit is dispatched and ends when the unit is on-scene.
+  </h5>
 </div>

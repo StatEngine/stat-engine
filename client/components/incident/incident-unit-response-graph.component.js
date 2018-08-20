@@ -36,11 +36,11 @@ export default class IncidentUnitResponseGraphComponent {
     };
 
     _.forEach(this.incident.apparatus, u => {
-      if (u.extended_data.turnout_duration) {
+      if(u.extended_data.turnout_duration) {
         turnoutDurations.x.push(u.extended_data.turnout_duration);
         turnoutDurations.y.push(u.unit_id);
       }
-      if (u.extended_data.travel_duration) {
+      if(u.extended_data.travel_duration) {
         travelDurations.x.push(u.extended_data.travel_duration);
         travelDurations.y.push(u.unit_id);
       }
@@ -79,7 +79,7 @@ export default class IncidentUnitResponseGraphComponent {
     const shapes = [];
 
     let threshold = 60;
-    if (this.incident.description.category === 'FIRE') threshold = 80;
+    if(this.incident.description.category === 'FIRE') threshold = 80;
 
     shapes.push({
       type: 'line',
@@ -97,7 +97,7 @@ export default class IncidentUnitResponseGraphComponent {
 
     const layout = {
       barmode: 'stack',
-      shapes: shapes,
+      shapes,
       height: 290,
       margin: {
         l: 55,
@@ -113,8 +113,8 @@ export default class IncidentUnitResponseGraphComponent {
       },
       annotations: [{
         x: threshold,
-        y: this.incident.apparatus.length + .5,
-        text: threshold + 's',
+        y: this.incident.apparatus.length + .2,
+        text: `${threshold}s`,
         showarrow: false,
         font: {
           color: '#e91276'

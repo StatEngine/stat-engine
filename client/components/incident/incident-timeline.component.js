@@ -168,7 +168,7 @@ export default class IncidentTimelineComponent {
           end: leftScene,
           type: 'range',
           group: u.unit_id,
-          className: 'unit-on-scene-duration',
+          className: 'unit-intervention-duration',
           title: `<b>On scene for ${humanizeDuration(onSceneDuration)}</b>`,
         });
       }
@@ -194,7 +194,7 @@ export default class IncidentTimelineComponent {
           end: cleared,
           type: 'range',
           group: u.unit_id,
-          className: 'unit-post-incident-duration',
+          className: 'unit-post-transport-duration',
           title: `<b> Post Transport for ${humanizeDuration(postTransportDuration)}</b>`,
         });
       } else if(cleared && available) {
