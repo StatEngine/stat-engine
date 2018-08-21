@@ -25,8 +25,10 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class IncidentAnalysisController {
   /*@ngInject*/
-  constructor(SegmentService, currentPrincipal, incidentData) {
-    this.SegmentService = SegmentService;
+  constructor(AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData) {
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
+
     this.currentPrincipal = currentPrincipal;
 
     this.groupedUnits = _.groupBy(incidentData.incident.apparatus, u => u.suppressed);
@@ -54,7 +56,7 @@ export default class IncidentAnalysisController {
     this.travelMatrix = incidentData.travelMatrix;
     this.concurrentIncidents = incidentData.concurrent;
 
-    this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
       app: 'Incident Analysis',
       action: 'view',
     });

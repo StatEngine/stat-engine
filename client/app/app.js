@@ -15,7 +15,7 @@ import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
-import ngSegment from 'angular-segment-analytics';
+import amplitude from 'amplitude-js';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
@@ -34,7 +34,7 @@ import {
 
 import _Auth from '../components/auth/auth.module';
 import api from '../components/api/api.module';
-import segmentService from '../components/segment/segment.module';
+import amplitudeService from '../components/amplitude/amplitude.module';
 
 // modules
 import account from './account';
@@ -70,7 +70,7 @@ import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
 
 import constants from './app.constants';
-import segmentEventConstants from './segment-event.constants';
+import analyticEventConstants from './analytic-event.constants';
 
 import util from '../components/util/util.module';
 //import socket from '../components/socket/socket.service';
@@ -81,19 +81,17 @@ import humanizeComponents from '../components/humanize/humanize-duration.filter'
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
+angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
   'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin,
   api, guides, navbar, report, spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main,
-  segmentEventConstants, constants, segmentService,
+  analyticEventConstants, constants, amplitudeService,
   /*socket,*/ util, angulartics, gtm, humanizeComponents
 ])
   .config(routeConfig)
-  .config((appConfig, segmentConfig, segmentProvider, SegmentEvents) => {
-    if(segmentConfig.key) {
-      segmentProvider.setKey(segmentConfig.key);
+  .config((appConfig, amplitudeConfig) => {
+    if(amplitudeConfig.key) {
+      amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
     }
-    segmentProvider.setEvents(SegmentEvents);
-    segmentProvider.setDebug(true);
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
@@ -101,12 +99,12 @@ angular.module('statEngineApp', [ngCookies, ngSegment, ngResource, ngSanitize, n
   .run(mapboxConfig => {
     mapboxgl.accessToken = mapboxConfig.token;
   })
-  .run(($transitions, SegmentService) => {
+  .run(($transitions, AmplitudeService) => {
     'ngInject';
 
     $transitions.onSuccess({}, transition => {
       $('html, body').animate({ scrollTop: 0 }, 200);
-      SegmentService.page({
+      AmplitudeService.page({
         path: transition.to().url
       });
     });

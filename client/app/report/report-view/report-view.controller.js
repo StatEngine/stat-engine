@@ -4,11 +4,10 @@ import moment from 'moment';
 
 export default class ReportsViewController {
   /*@ngInject*/
-  constructor($state, $stateParams, SegmentService, Modal, Report, currentPrincipal, report, reportMetrics) {
+  constructor($state, $stateParams, Modal, Report, currentPrincipal, report, reportMetrics) {
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.ReportService = Report;
-    this.SegmentService = SegmentService;
     this.ModalService = Modal;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.currentPrincipal = currentPrincipal;

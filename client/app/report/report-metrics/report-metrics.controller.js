@@ -5,11 +5,10 @@ import _ from 'lodash';
 
 export default class ReportMetricsController {
   /*@ngInject*/
-  constructor($state, $stateParams, SegmentService, currentPrincipal, report, reportMetrics, fireDepartmentUsers) {
+  constructor($state, $stateParams, currentPrincipal, report, reportMetrics, fireDepartmentUsers) {
     this.$state = $state;
     this.$stateParams = $stateParams;
 
-    this.SegmentService = SegmentService;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.report = report;
     this.reportMetrics = reportMetrics;

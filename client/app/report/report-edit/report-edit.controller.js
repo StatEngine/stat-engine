@@ -4,14 +4,15 @@ import moment from 'moment';
 
 export default class ReportEditController {
   /*@ngInject*/
-  constructor($stateParams, $state, currentPrincipal, Report, Safety, report, weatherForecast, safetyMessage, stats, SegmentService) {
+  constructor($stateParams, $state, currentPrincipal, Report, Safety, report, weatherForecast, safetyMessage, stats, AmplitudeService, AnalyticEventNames) {
     this.$stateParams = $stateParams;
     this.$state = $state;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.timezone = this.FireDepartment.timezone;
     this.ReportService = Report;
     this.SafetyService = Safety;
-    this.SegmentService = SegmentService;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
 
     this.report = report;
     if(!this.report) {
@@ -115,7 +116,7 @@ export default class ReportEditController {
   }
 
   save() {
-    this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
       app: 'REPORT',
       action: 'save',
     });

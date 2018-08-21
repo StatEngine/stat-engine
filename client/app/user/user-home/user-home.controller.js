@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, SegmentService, appConfig) {
+  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
@@ -12,7 +12,8 @@ export default class UserHomeController {
     this.principal = currentPrincipal;
     this.UserService = User;
     this.PrincipalService = Principal;
-    this.SegmentService = SegmentService;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
     this.appConfig = appConfig;
 
     this.fireDepartment = currentPrincipal.FireDepartment;
@@ -70,7 +71,7 @@ export default class UserHomeController {
     };
 
     this.dashboard = function() {
-      this.SegmentService.track(this.SegmentService.events.APP_ACCESS, {
+      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
         app: 'Dashboard',
         location: 'user-home'
       });
@@ -81,7 +82,7 @@ export default class UserHomeController {
       this.userDropDownActive = false;
 
       if(appName) {
-        this.SegmentService.track(this.SegmentService.events.APP_ACCESS, {
+        this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
           app: appName,
           location: 'user-home'
         });

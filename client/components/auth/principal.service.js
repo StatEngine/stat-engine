@@ -2,13 +2,14 @@
 
 import _ from 'lodash';
 import angular from 'angular';
+import amplitude from 'amplitude-js';
 
-export default function PrincipalService($http, $q, $cookies, $window, User, segment) {
+export default function PrincipalService($http, $q, $cookies, $window, User) {
   'ngInject';
 
   var _identity = {};
   var _authenticated = false;
-  var _segmentIdentify = false;
+  var _amplitudeIdentify = false;
 
   return {
     isIdentityResolved() {
@@ -40,9 +41,10 @@ export default function PrincipalService($http, $q, $cookies, $window, User, seg
       _identity = identity;
       _authenticated = !_.isEmpty(identity);
 
-      if(_authenticated && !_segmentIdentify) {
-        segment.identify(_identity._id, _identity);
-        _segmentIdentify = true;
+      if(_authenticated && !_amplitudeIdentify) {
+        amplitude.getInstance().setUserId(_identity._id);
+        amplitude.getInstance().setUserProperties(_identity);
+        _amplitudeIdentify = true;
       }
     },
 
@@ -65,8 +67,9 @@ export default function PrincipalService($http, $q, $cookies, $window, User, seg
           angular.forEach(cookies, (v, k) => {
             $cookies.remove(k);
           });
-          segment.identify(null);
-          segment.reset();
+          amplitude.getInstance().setUserId(null); // not string 'null'
+          amplitude.getInstance().regenerateDeviceId();
+          _amplitudeIdentify = false;
 
           // invalidate server session in case kibana doesn't callback
           return $http.get('/auth/local/logout/_callback');
