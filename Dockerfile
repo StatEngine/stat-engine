@@ -1,8 +1,8 @@
 # Based on https://github.com/angular-fullstack/angular-fullstack-dockerfile
 FROM node:6
 
-ARG SEGMENT_KEY
-RUN echo $SEGMENT_KEY
+ARG AMPLITUDE_API_KEY
+RUN echo $AMPLITUDE_API_KEY
 
 ARG MAPBOX_TOKEN
 RUN echo $MAPBOX_TOKEN
@@ -27,7 +27,7 @@ COPY . /usr/src/stat-engine
 
 # Build dist
 ARG ON_PREMISE
-RUN if [ "x$ON_PREMISE" = "x" ] ; then SEGMENT_KEY=${SEGMENT_KEY} MAPBOX_TOKEN=${MAPBOX_TOKEN} /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
+RUN if [ "x$ON_PREMISE" = "x" ] ; then AMPLITUDE_API_KEY=${AMPLITUDE_API_KEY} MAPBOX_TOKEN=${MAPBOX_TOKEN} /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
 
 # Run
 ENV NODE_ENV=production

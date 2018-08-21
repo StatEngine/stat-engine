@@ -4,8 +4,8 @@
 
 export default class NFPAHomeController {
   /*@ngInject*/
-  constructor(SegmentService, nfpaResults) {
-    this.SegmentService = SegmentService;
+  constructor(AmplitudeService, nfpaResults) {
+    this.AmplitudeService = AmplitudeService;
 
     this.nfpaResults = nfpaResults;
     this.nfpa1710 = nfpaResults.length > 0 ? nfpaResults[0] : undefined;

@@ -5,13 +5,15 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($state, $scope, $window, Principal, SegmentService, appConfig) {
+  constructor($state, $scope, $window, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
     'ngInject';
 
     this.$state = $state;
     this.$window = $window;
     this.PrincipalService = Principal;
-    this.SegmentService = SegmentService;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
+
     this.appConfig = appConfig;
 
     this.userDropDownActive = false;
@@ -32,7 +34,7 @@ export class NavbarComponent {
     };
 
     this.dashboard = function(location) {
-      this.SegmentService.track(this.SegmentService.events.APP_ACCESS, {
+      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
         app: 'Dashboard',
         location
       });
@@ -43,7 +45,7 @@ export class NavbarComponent {
       this.userDropDownActive = false;
 
       if(appName) {
-        this.SegmentService.track(this.SegmentService.events.APP_ACCESS, {
+        this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
           app: appName,
           location: 'navbar-dropdown'
         });

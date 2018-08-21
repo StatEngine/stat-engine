@@ -8,8 +8,8 @@ import _ from 'lodash';
 
 export default class ShiftHomeController {
   /*@ngInject*/
-  constructor(SegmentService, currentPrincipal, stats) {
-    this.SegmentService = SegmentService;
+  constructor(AmplitudeService, currentPrincipal, stats) {
+    this.AmplitudeService = AmplitudeService;
 
     this.calendarView = 'month';
     this.stats = stats;

@@ -6,9 +6,11 @@ import _ from 'lodash';
 
 export default class IncidentSearchController {
   /*@ngInject*/
-  constructor(SegmentService, Incident, currentPrincipal, recentIncidents) {
+  constructor(AmplitudeService, AnalyticEventNames, Incident, currentPrincipal, recentIncidents) {
     this.IncidentService = Incident;
-    this.SegmentService = SegmentService;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
+
     this.searchResultsTableOptions = {
       data: [],
       columnDefs: [{
@@ -51,7 +53,7 @@ export default class IncidentSearchController {
   }
 
   search() {
-    this.SegmentService.track(this.SegmentService.events.APP_ACTION, {
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
       app: 'Incident Analysis',
       action: 'search',
     });

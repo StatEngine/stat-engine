@@ -414,8 +414,8 @@ gulp.task('ngConfig:dev', cb => {
          environment: ['dev'],
          templateFilePath: `${clientPath}/app.constants.template`,
          constants: {
-           segmentConfig: {
-             key: process.env.SEGMENT_KEY || ''
+           amplitudeConfig: {
+             key: process.env.AMPLITUDE_API_KEY || ''
            },
            mapboxConfig: {
              token: process.env.MAPBOX_TOKEN || ''
@@ -431,8 +431,8 @@ gulp.task('ngConfig:cloud', cb => {
          environment: ['cloud'],
          templateFilePath: `${clientPath}/app.constants.template`,
          constants: {
-           segmentConfig: {
-             key: process.env.SEGMENT_KEY || ''
+           amplitudeConfig: {
+             key: process.env.AMPLITUDE_API_KEY || ''
            },
            mapboxConfig: {
              token: process.env.MAPBOX_TOKEN || ''
@@ -448,8 +448,8 @@ gulp.task('ngConfig:onPremise', cb => {
          environment: ['onPremise'],
          templateFilePath: `${clientPath}/app.constants.template`,
          constants: {
-           segmentConfig: {
-             key: process.env.SEGMENT_KEY || ''
+           amplitudeConfig: {
+             key: process.env.AMPLITUDE_API_KEY || ''
            },
            mapboxConfig: {
              token: process.env.MAPBOX_TOKEN || ''
