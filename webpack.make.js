@@ -1,14 +1,12 @@
 'use strict';
-/*eslint-env node*/
-var webpack = require('webpack');
-var autoprefixer = require('autoprefixer');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
-var fs = require('fs');
-var path = require('path');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
+
+// Plugins
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -28,6 +26,12 @@ module.exports = function makeWebpackConfig(options) {
      */
     var config = {};
 
+    config.mode = 'production';
+    if (DEV) config.mode = 'development';
+
+    //config.mode = 'production';
+    //if (DEV)  config.mode = 'development';
+    //console.dir(config.mode);
 
     /**
      * Entry
@@ -109,7 +113,7 @@ module.exports = function makeWebpackConfig(options) {
     // Initialize module
     config.module = {
         noParse: /(mapbox-gl)\.js$/,
-        loaders: [{
+        rules: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
             // Transpile .js files using babel-loader
@@ -149,23 +153,13 @@ module.exports = function makeWebpackConfig(options) {
             test: /\.html$/,
             loader: 'raw-loader'
         }, {
-            // CSS LOADER
-            // Reference: https://github.com/webpack/css-loader
-            // Allow loading css through js
-            //
-            // Reference: https://github.com/postcss/postcss-loader
-            // Postprocess your css with PostCSS plugins
             test: /\.css$/,
-            loader: !TEST
-                // Reference: https://github.com/webpack/extract-text-webpack-plugin
-                // Extract css files in production builds
-                //
-                // Reference: https://github.com/webpack/style-loader
-                // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style-loader', 'css?sourceMap!postcss')
-                // Reference: https://github.com/webpack/null-loader
-                // Skip loading css in test mode
-                : 'null'
+            use: [
+              BUILD ? 'style-loader' : MiniCssExtractPlugin.loader,
+              'css-loader',
+              'postcss-loader',
+              'sass-loader',
+            ],
         }, {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
@@ -207,8 +201,14 @@ module.exports = function makeWebpackConfig(options) {
         // Reference: https://github.com/webpack/extract-text-webpack-plugin
         // Extract css files
         // Disabled when in test mode or not in build mode
-        new ExtractTextPlugin('[name].[hash].css', {
-            disable: !BUILD || TEST
+        //new ExtractTextPlugin('[name].[hash].css', {
+        //    disable: !BUILD || TEST
+        //}),
+        new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: BUILD ? '[name].css' : '[name].[hash].css',
+          chunkFilename: BUILD ? '[id].css' : '[id].[hash].css',
         }),
         new webpack.ProvidePlugin({
           $: 'jquery',
@@ -222,23 +222,9 @@ module.exports = function makeWebpackConfig(options) {
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.ProvidePlugin({
-          Promise: 'es6-promise-promise', // works as expected
+          Promise: 'es6-promise-promise', // works as expected, <- huh?
         }),
     ];
-
-
-    if(!TEST) {
-        config.plugins.push(new CommonsChunkPlugin({
-            name: 'vendor',
-
-            // filename: "vendor.js"
-            // (Give the chunk a different name)
-
-            minChunks: Infinity
-            // (with more entries, this ensures that no other module
-            //  goes into the vendor chunk)
-        }));
-    }
 
     // Skip rendering index.html in test mode
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
@@ -250,51 +236,7 @@ module.exports = function makeWebpackConfig(options) {
     }
     config.plugins.push(
       new HtmlWebpackPlugin(htmlConfig),
-      new HtmlWebpackHarddiskPlugin()
     );
-
-    // Add build specific plugins
-    if(BUILD) {
-        config.plugins.push(
-            // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
-            // Only emit files when there are no errors
-            new webpack.NoEmitOnErrorsPlugin(),
-
-            // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-            // Minify all javascript, switch loaders to minimizing mode
-            new webpack.optimize.UglifyJsPlugin({
-                mangle: true,
-                output: {
-                    comments: false
-                },
-                compress: {
-                    warnings: false
-                }
-            }),
-
-
-            // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            // Define free global variables
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: '"production"'
-                }
-            }),
-            //new BundleAnalyzerPlugin(),
-        );
-    }
-
-    if(DEV) {
-        config.plugins.push(
-            // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            // Define free global variables
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: '"development"'
-                }
-            })
-        );
-    }
 
     config.cache = DEV;
 
