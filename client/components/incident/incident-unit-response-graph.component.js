@@ -1,9 +1,11 @@
 'use strict';
 
 import angular from 'angular';
+import 'babel-polyfill';
 
 import _ from 'lodash';
-import Plotly from 'plotly.js/dist/plotly-basic.js';
+
+let PlotlyBasic;
 
 export default class IncidentUnitResponseGraphComponent {
   constructor($window) {
@@ -13,15 +15,21 @@ export default class IncidentUnitResponseGraphComponent {
     this.id = 'incident-unit-response-graph';
   }
 
+  async loadModules() {
+    PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
+  }
+
   onResize() {
-    Plotly.Plots.resize(this.id);
+    PlotlyBasic.Plots.resize(this.id);
   }
 
   $onDestroy() {
     angular.element(this.$window).off('resize', this.onResize);
   }
 
-  $onInit() {
+  async $onInit() {
+    await this.loadModules();
+
     angular.element(this.$window).on('resize', this.onResize);
 
     // Get turnout and travel durations
@@ -122,6 +130,6 @@ export default class IncidentUnitResponseGraphComponent {
       }]
     };
 
-    Plotly.newPlot(this.id, unitTimelineData, layout, {displayModeBar: false});
+    PlotlyBasic.newPlot(this.id, unitTimelineData, layout, {displayModeBar: false});
   }
 }

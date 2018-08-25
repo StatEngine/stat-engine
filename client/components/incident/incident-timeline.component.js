@@ -4,7 +4,9 @@ import angular from 'angular';
 import _ from 'lodash';
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import { Timeline } from 'vis/dist/vis.js';
+import 'babel-polyfill';
+
+let Timeline;
 
 const TIME_FORMAT = 'HH:mm:ss';
 
@@ -15,7 +17,13 @@ export default class IncidentTimelineComponent {
     this.$window = $window;
   }
 
-  $onInit() {
+  async loadModules() {
+    Timeline = await import(/* webpackChunkName: "vis" */ 'vis/dist/vis.js').Timeline;
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
     const items = [];
     const groups = [];
 

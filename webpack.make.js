@@ -7,6 +7,8 @@ const path = require('path');
 // Plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -27,11 +29,11 @@ module.exports = function makeWebpackConfig(options) {
     var config = {};
 
     config.mode = 'production';
-    if (DEV) config.mode = 'development';
-
-    //config.mode = 'production';
-    //if (DEV)  config.mode = 'development';
-    //console.dir(config.mode);
+    config.devtool = 'source-map'
+    if (DEV) {
+      config.mode = 'development';
+      config.devtool = 'inline-source-map'
+    }
 
     /**
      * Entry
@@ -52,12 +54,27 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-cookies',
                 'angular-resource',
                 'angular-sanitize',
-                'angular-socket-io',
                 'angular-ui-bootstrap',
                 '@uirouter/angularjs',
-                'lodash',
             ],
         };
+    }
+
+    config.optimization = {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: 'initial',
+            name: 'vendor',
+            test: 'vendor',
+            enforce: true
+          },
+        }
+      },
+      runtimeChunk: false,
+      minimizer: [
+        new UglifyJsPlugin()
+      ]
     }
 
     /**
@@ -84,7 +101,7 @@ module.exports = function makeWebpackConfig(options) {
 
             // Filename for non-entry points
             // Only adds hash in build mode
-            chunkFilename: BUILD ? '[name].[hash].js' : '[name].bundle.js'
+            chunkFilename: '[name].bundle.js'//BUILD ? '[name].[hash].js' : '[name].bundle.js'
         };
     }
 
@@ -224,6 +241,7 @@ module.exports = function makeWebpackConfig(options) {
         new webpack.ProvidePlugin({
           Promise: 'es6-promise-promise', // works as expected, <- huh?
         }),
+        new BundleAnalyzerPlugin(),
     ];
 
     // Skip rendering index.html in test mode

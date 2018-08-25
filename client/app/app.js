@@ -1,15 +1,13 @@
 'use strict';
 
 import angular from 'angular';
-import mapboxgl from 'mapbox-gl';
 import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
-import 'angular-socket-io';
 import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
-// import ngMessages from 'angular-messages';
+
 import ngValidationMatch from 'angular-validation-match';
 import angulartics from 'angulartics';
 import gtm from 'angulartics-google-tag-manager';
@@ -19,11 +17,9 @@ import amplitude from 'amplitude-js';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 
-import 'angular-summernote/dist/angular-summernote.js';
 import 'angular-timeline/dist/angular-timeline.js';
 import angularCalendar from 'angular-bootstrap-calendar';
 
-import 'summernote/dist/summernote';
 import 'bootstrap/dist/js/bootstrap';
 import 'angular-moment';
 import 'angular-ui-grid/ui-grid.min';
@@ -73,7 +69,6 @@ import constants from './app.constants';
 import analyticEventConstants from './analytic-event.constants';
 
 import util from '../components/util/util.module';
-//import socket from '../components/socket/socket.service';
 
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
@@ -81,11 +76,11 @@ import humanizeComponents from '../components/humanize/humanize-duration.filter'
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin,
+angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, uiRouter, uiBootstrap, 'angular-loading-bar',
+  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'angular-timeline', account, admin,
   api, guides, navbar, report, spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main,
   analyticEventConstants, constants, amplitudeService,
-  /*socket,*/ util, angulartics, gtm, humanizeComponents
+  util, angulartics, gtm, humanizeComponents
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {
@@ -96,9 +91,6 @@ angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidation
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
-  .run(mapboxConfig => {
-    mapboxgl.accessToken = mapboxConfig.token;
-  })
   .run(($transitions, AmplitudeService) => {
     'ngInject';
 

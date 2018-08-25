@@ -7,7 +7,6 @@
 import express from 'express';
 import favicon from 'serve-favicon';
 import morgan from 'morgan';
-import shrinkRay from 'shrink-ray-current';
 import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import errorHandler from 'errorhandler';
@@ -17,6 +16,7 @@ import passport from 'passport';
 import session from 'express-session';
 import connectSessionSequelize from 'connect-session-sequelize';
 import helmet from 'helmet';
+import compression from 'compression';
 
 import config from './environment';
 import sqldb from '../sqldb';
@@ -27,6 +27,7 @@ export default function(app) {
   var env = app.get('env');
 
   app.use(helmet());
+  app.use(compression());
 
   if(env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));
@@ -45,7 +46,6 @@ export default function(app) {
   app.set('views', `${config.root}/server/views`);
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
-  app.use(shrinkRay());
   app.use(methodOverride());
   app.use(cookieParser());
 

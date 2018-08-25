@@ -1,10 +1,11 @@
 {
-    "presets": ["es2015"],
+    "presets": ["env"],
     "ignore": [
      "node_modules/@statengine/se-ingest-router/**/*.js",
    ],
     "plugins": [
       "transform-class-properties",
       "angularjs-annotate",
+      "syntax-dynamic-import"
     ]
 }

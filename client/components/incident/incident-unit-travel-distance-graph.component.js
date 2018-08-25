@@ -1,9 +1,11 @@
 'use strict';
 
 import angular from 'angular';
+import 'babel-polyfill';
 
 import _ from 'lodash';
-import Plotly from 'plotly.js/dist/plotly-basic.js';
+
+let PlotlyBasic;
 
 export default class IncidentUnitTravelDistanceGraphComponent {
   constructor($window) {
@@ -13,15 +15,21 @@ export default class IncidentUnitTravelDistanceGraphComponent {
     this.id = 'incident-unit-travel-distance-graph';
   }
 
+  async loadModules() {
+    PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
+  }
+
   onResize() {
-    Plotly.Plots.resize(this.id);
+    PlotlyBasic.Plots.resize(this.id);
   }
 
   $onDestroy() {
     angular.element(this.$window).off('resize', this.onResize);
   }
 
-  $onInit() {
+  async $onInit() {
+    await this.loadModules();
+
     const units = _.keys(this.travelMatrix);
 
     const estimated = [];
@@ -84,6 +92,6 @@ export default class IncidentUnitTravelDistanceGraphComponent {
       },
       annotations,
     };
-    Plotly.newPlot(this.id, data, layout, {displayModeBar: false});
+    PlotlyBasic.newPlot(this.id, data, layout, {displayModeBar: false});
   }
 }

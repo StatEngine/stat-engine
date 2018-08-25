@@ -1,6 +1,7 @@
 'use strict';
 
 import moment from 'moment';
+import 'babel-polyfill';
 
 export default class ReportEditController {
   /*@ngInject*/
@@ -77,6 +78,17 @@ export default class ReportEditController {
         displayName: '90% Turnout Duration (s)'
       }]
     };
+
+    this.initialized = false;
+  }
+
+  async loadModules() {
+    await import(/* webpackChunkName: "summernote" */ 'summernote/dist/summernote');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+    this.initialized = true;
   }
 
   reset() {
