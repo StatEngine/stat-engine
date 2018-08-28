@@ -32,6 +32,7 @@ export default class SignupController {
         last_name: this.user.last_name,
         email: this.user.email,
         password: this.user.password,
+        nfors: true,
         requested_fire_department_id: this.user.requested_fire_department_id ? this.user.requested_fire_department_id._id : undefined,
       }).$promise
         .then(() => {
