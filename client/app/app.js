@@ -1,28 +1,33 @@
 'use strict';
 
+import 'babel-polyfill';
+
+// core angular
 import angular from 'angular';
-import ngAnimate from 'angular-animate';
+import ngAria from 'angular-aria';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
+
+// routing
 import uiRouter from '@uirouter/angularjs';
+
+// ui framework
 import uiBootstrap from 'angular-ui-bootstrap';
 
+// utils
 import ngValidationMatch from 'angular-validation-match';
-import angulartics from 'angulartics';
-import gtm from 'angulartics-google-tag-manager';
-// eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
+import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
+import 'angular-moment';
+
+// analytics
 import amplitude from 'amplitude-js';
 
-import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
-
-import 'angular-timeline/dist/angular-timeline.js';
-import angularCalendar from 'angular-bootstrap-calendar';
-
-import 'bootstrap/dist/js/bootstrap';
-import 'angular-moment';
-import 'angular-ui-grid/ui-grid.min';
+// TODO
+//import 'angular-timeline/dist/angular-timeline.js';
+// import angularCalendar from 'angular-bootstrap-calendar';
+//import 'angular-ui-grid/ui-grid';
 
 import {
   routeConfig,
@@ -73,14 +78,59 @@ import util from '../components/util/util.module';
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
+import ocLazyLoad from 'oclazyLoad';
 
 import './app.scss';
 
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'angular-timeline', account, admin,
-  api, guides, navbar, report, spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main,
-  analyticEventConstants, constants, amplitudeService,
-  util, angulartics, gtm, humanizeComponents
+angular.module('statEngineApp', [
+  ngAria,
+  ngCookies,
+  ngResource,
+  ngSanitize,
+  uiRouter,
+  uiBootstrap,
+  ngValidationMatch,
+  'oc.lazyLoad',
+  'angular-loading-bar',
+  'ngCountTo',
+  'angularMoment',
+   _Auth,
+   //angularCalendar,
+   //'ui.grid',
+
+   // se modules
+   trusted,
+   statsTable,
+   logo,
+   skycon,
+   weather,
+   currentWeather,
+   safety,
+   account,
+   admin,
+   api,
+   guides,
+   navbar,
+   report,
+   spade,
+   marketplace,
+   statEngine,
+   user,
+   incident,
+   incidentComponents,
+   orderObjectBy,
+   shift,
+   departmentAdmin,
+   twitter,
+   nfpa,
+   modal,
+   footer,
+   main,
+   analyticEventConstants,
+   constants,
+   amplitudeService,
+   util,
+   humanizeComponents
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {
@@ -88,7 +138,7 @@ angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidation
       amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
     }
   })
-  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+  .config(['cfpLoadingBarProvider', (cfpLoadingBarProvider) => {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
   .run(($transitions, AmplitudeService) => {

@@ -2,7 +2,9 @@
 
 'use strict';
 
-import _ from 'lodash';
+import 'babel-polyfill';
+
+let _;
 
 export default class IncidentSearchController {
   /*@ngInject*/
@@ -42,6 +44,15 @@ export default class IncidentSearchController {
     };
 
     this.formatSearchResults(recentIncidents);
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+    tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
+  }
+
+  async $onInit() {
+    await this.loadModules();
   }
 
   formatSearchResults(results) {

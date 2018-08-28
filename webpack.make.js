@@ -49,13 +49,21 @@ module.exports = function makeWebpackConfig(options) {
             polyfills: './client/polyfills.js',
             vendor: [
                 'angular',
-                'angular-animate',
                 'angular-aria',
                 'angular-cookies',
                 'angular-resource',
                 'angular-sanitize',
-                'angular-ui-bootstrap',
                 '@uirouter/angularjs',
+                'angular-ui-bootstrap',
+                'bootstrap/dist/js/bootstrap',
+
+
+                'angular-validation-match',
+                'angular-loading-bar',
+                'angular-filter-count-to/dist/angular-filter-count-to.min.js',
+                'angular-moment',
+                'amplitude-js',
+                'oclazyLoad',
             ],
         };
     }

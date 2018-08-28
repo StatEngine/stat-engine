@@ -24,6 +24,12 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        deps($ocLazyLoad) {
+          return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
+            .then(mod => {
+              $ocLazyLoad.inject('ui.grid');
+            });
+        },
         currentPrincipal(Principal) {
           return Principal.identity();
         },
@@ -48,6 +54,12 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        deps($ocLazyLoad) {
+          return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
+            .then(mod => {
+              $ocLazyLoad.inject('ui.grid');
+            });
+        },
         currentPrincipal(Principal) {
           return Principal.identity();
         },

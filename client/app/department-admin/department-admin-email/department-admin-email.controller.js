@@ -1,13 +1,15 @@
 'use strict';
 
-import _ from 'lodash';
+import 'babel-polyfill';
+
+let _;
 
 export default class DepartmentAdminEmailController {
   /*@ngInject*/
   constructor(currentPrincipal, departmentUsers, User, Email) {
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
-    this.users = _.filter(departmentUsers, u => !u.isAdmin);
+    this.departmentUsers = departmentUsers;
     this.UserService = User;
     this.EmailService = Email;
 
@@ -16,6 +18,16 @@ export default class DepartmentAdminEmailController {
     this.test = true;
     this.startDate = new Date();
     this.startDate.setDate(this.startDate.getDate() - 1);
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    this.users = _.filter(this.departmentUsers, u => !u.isAdmin);
   }
 
   send() {

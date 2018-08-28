@@ -3,7 +3,9 @@
 'use strict';
 
 import angular from 'angular';
-import _ from 'lodash';
+import 'babel-polyfill';
+
+let _;
 
 function importAll(r) {
   let images = {};

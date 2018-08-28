@@ -1,6 +1,8 @@
 'use strict';
 
-import _ from 'lodash';
+import 'babel-polyfill';
+
+let _;
 
 export default class DepartmentAdminHomeController {
   /*@ngInject*/
@@ -8,8 +10,17 @@ export default class DepartmentAdminHomeController {
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.dataQuality = dataQuality;
-    this.users = _.filter(departmentUsers, u => !u.isAdmin);
     this.UserService = User;
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    this.users = _.filter(departmentUsers, u => !u.isAdmin);
   }
 
   refreshUsers() {

@@ -2,10 +2,11 @@
 
 'use strict';
 
-import _ from 'lodash';
-
-import tippy from 'tippy.js';
+import 'babel-polyfill';
 import humanizeDuration from 'humanize-duration';
+
+let _;
+let tippy;
 
 const shortEnglishHumanizer = humanizeDuration.humanizer({
   language: 'shortEn',
@@ -28,15 +29,24 @@ export default class IncidentAnalysisController {
   constructor(AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData) {
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
-
     this.currentPrincipal = currentPrincipal;
+    this.incidentData = incidentData;
+  }
 
-    this.groupedUnits = _.groupBy(incidentData.incident.apparatus, u => u.suppressed);
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+    tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    this.groupedUnits = _.groupBy(this.incidentData.incident.apparatus, u => u.suppressed);
 
     this.suppressedUnits = this.groupedUnits.true;
-    incidentData.incident.apparatus = this.groupedUnits.false;
+    this.incidentData.incident.apparatus = this.groupedUnits.false;
 
-    this.incident = incidentData.incident;
+    this.incident = this.incidentData.incident;
 
     this.type = this.incident.description.extended_data.AgencyIncidentCallTypeDescription || this.incident.description.type;
     this.subtype = this.incident.description.subtype;
@@ -50,11 +60,11 @@ export default class IncidentAnalysisController {
       this.isCommentsTruncated = comments.length > limit;
     }
 
-    this.textSummaries = incidentData.textSummaries;
-    this.analysis = incidentData.analysis;
-    this.comparison = incidentData.comparison;
-    this.travelMatrix = incidentData.travelMatrix;
-    this.concurrentIncidents = incidentData.concurrent;
+    this.textSummaries = this.incidentData.textSummaries;
+    this.analysis = this.incidentData.analysis;
+    this.comparison = this.incidentData.comparison;
+    this.travelMatrix = this.incidentData.travelMatrix;
+    this.concurrentIncidents = this.incidentData.concurrent;
 
     this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
       app: 'Incident Analysis',
@@ -106,9 +116,7 @@ export default class IncidentAnalysisController {
       }]
     };
     this.formatSearchResults(this.concurrentIncidents);
-  }
 
-  $onInit() {
     this.initTippy();
   }
 
