@@ -124,7 +124,6 @@ angular.module('statEngineApp', [
     if(amplitudeConfig.key) {
       import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
         .then(amplitude => {
-          console.log('Amplitude initialized')
           amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
         })
     }

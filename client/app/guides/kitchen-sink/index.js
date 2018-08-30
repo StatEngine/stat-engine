@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import ngAria from 'angular-aria';
 
 import KitchenSinkController from './kitchen-sink.controller';
 

@@ -72,9 +72,15 @@ module.exports = function makeWebpackConfig(options) {
       splitChunks: {
         cacheGroups: {
           vendor: {
-            chunks: 'initial',
+            chunks: 'all',
             name: 'vendor',
             test: 'vendor',
+            enforce: true
+          },
+          polyfills: {
+            chunks: 'all',
+            name: 'polyfills',
+            test: 'polyfills',
             enforce: true
           },
           styles: {
@@ -85,7 +91,7 @@ module.exports = function makeWebpackConfig(options) {
           }
         }
       },
-      runtimeChunk: false,
+      runtimeChunk: 'single',
       minimizer: [
         new UglifyJsPlugin(),
         new OptimizeCSSAssetsPlugin({})
@@ -112,11 +118,11 @@ module.exports = function makeWebpackConfig(options) {
 
             // Filename for entry points
             // Only adds hash in build mode
-            filename: BUILD ? '[name].[hash].js' : '[name].bundle.js',
+            filename: BUILD ? '[name].[contenthash].js' : '[name].bundle.js',
 
             // Filename for non-entry points
             // Only adds hash in build mode
-            chunkFilename: '[name].bundle.js'//BUILD ? '[name].[hash].js' : '[name].bundle.js'
+            chunkFilename: BUILD ? '[name].[contenthash].js' : '[name].bundle.js'
         };
     }
 
@@ -224,6 +230,7 @@ module.exports = function makeWebpackConfig(options) {
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new BundleAnalyzerPlugin(),
+        new webpack.HashedModuleIdsPlugin()
     ];
 
     // Render index.html
@@ -232,7 +239,6 @@ module.exports = function makeWebpackConfig(options) {
         filename: '../client/app.html',
         alwaysWriteToDisk: true,
         chunksSortMode: 'dependency',
-      //  chunks: ['polyfills', 'app', 'vendor']
     }
     config.plugins.push(
       new HtmlWebpackPlugin(htmlConfig),
