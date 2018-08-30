@@ -1,7 +1,6 @@
 'use strict';
 
 import angular from 'angular';
-import 'babel-polyfill';
 
 let _;
 

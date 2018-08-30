@@ -1,7 +1,5 @@
 'use strict';
 
-import 'babel-polyfill';
-
 let _;
 
 export default class AdminHomeController {

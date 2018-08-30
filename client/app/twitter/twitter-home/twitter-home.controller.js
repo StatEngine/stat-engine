@@ -3,7 +3,8 @@
 'use strict';
 
 import angular from 'angular';
-import _ from 'lodash';
+
+let _;
 
 function importAll(r) {
   let images = {};
@@ -63,7 +64,16 @@ export default class TwitterHomeController {
     this.profileUrl = this.profileUrl ? `${this.profileUrl.slice(0, -10)}bigger.jpg` : undefined;
     this.recommendedTweets = recommendedTweets;
     this.recentTweets = recentTweets;
-    this.authorized = !_.isEmpty(twitterProfile);
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    this.authorized = !_.isEmpty(this.twitterProfile);
   }
 
   authorize() {

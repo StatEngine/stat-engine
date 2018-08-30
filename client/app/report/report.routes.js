@@ -1,6 +1,6 @@
 'use strict';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export default function routes($stateProvider) {
   'ngInject';
@@ -26,6 +26,12 @@ export default function routes($stateProvider) {
         roles: ['department_admin']
       },
       resolve: {
+        deps($ocLazyLoad) {
+          return Promise.all([
+            import(/* webpackChunkName: "angular-timeline" */ 'angular-timeline/dist/angular-timeline.js'),
+            import(/* webpackChunkName: "bootstrap-js" */ 'bootstrap/dist/js/bootstrap')
+          ])
+        },
         currentPrincipal(Principal) {
           return Principal.identity();
         },
@@ -149,6 +155,11 @@ export default function routes($stateProvider) {
         roles: ['department_admin']
       },
       resolve: {
+        deps($ocLazyLoad) {
+          return Promise.all([
+            import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(mod => $ocLazyLoad.inject('ui.grid'))
+          ])
+        },
         currentPrincipal(Principal) {
           return Principal.identity();
         },

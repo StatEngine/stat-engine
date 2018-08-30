@@ -1,7 +1,6 @@
 'use strict';
 
-import moment from 'moment';
-import 'babel-polyfill';
+import moment from 'moment-timezone';
 
 export default class ReportEditController {
   /*@ngInject*/

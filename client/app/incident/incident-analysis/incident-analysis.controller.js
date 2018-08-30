@@ -2,7 +2,6 @@
 
 'use strict';
 
-import 'babel-polyfill';
 import humanizeDuration from 'humanize-duration';
 
 let _;
@@ -36,6 +35,7 @@ export default class IncidentAnalysisController {
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
     tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
+    tippy = tippy.default;
   }
 
   async $onInit() {
@@ -117,10 +117,13 @@ export default class IncidentAnalysisController {
     };
     this.formatSearchResults(this.concurrentIncidents);
 
+    this.initialized = true;
     this.initTippy();
   }
 
   initTippy() {
+    console.dir(tippy);
+
     tippy('.tippy', {
       allowTitleHTML: true,
       interactive: true,

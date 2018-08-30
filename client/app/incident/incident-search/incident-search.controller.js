@@ -2,9 +2,8 @@
 
 'use strict';
 
-import 'babel-polyfill';
-
 let _;
+let tippy;
 
 export default class IncidentSearchController {
   /*@ngInject*/
@@ -43,7 +42,7 @@ export default class IncidentSearchController {
       }]
     };
 
-    this.formatSearchResults(recentIncidents);
+    this.recentIncidents = recentIncidents;
   }
 
   async loadModules() {
@@ -53,6 +52,8 @@ export default class IncidentSearchController {
 
   async $onInit() {
     await this.loadModules();
+
+    this.formatSearchResults(this.recentIncidents);
   }
 
   formatSearchResults(results) {

@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+let _;
 
 export default function routes($stateProvider) {
   'ngInject';
@@ -26,6 +26,11 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        deps($ocLazyLoad) {
+          return Promise.all([
+            import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(mod => $ocLazyLoad.inject('ui.grid'))
+          ])
+        },
         twitterProfile($q, Twitter) {
           var deferred = $q.defer();
 

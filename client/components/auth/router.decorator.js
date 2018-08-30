@@ -7,13 +7,12 @@ export default function routerDecorator($transitions, $rootScope, Authorization,
     $rootScope.toState = trans.to();
     $rootScope.fromState = trans.from();
 
-    if(Principal.isIdentityResolved()) {
-      Authorization.authorize();
+    return Principal.init()
+      .then(() => {
+        if(Principal.isIdentityResolved()) {
+          Authorization.authorize();
+        }
+      })
     }
-
-    // Future spinner service
-    // var SpinnerService = trans.injector().get('SpinnerService');
-    //SpinnerService.transitionStart();
-    //trans.promise.finally(SpinnerService.transitionEnd);
-  });
+  );
 }

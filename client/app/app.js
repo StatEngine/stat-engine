@@ -1,34 +1,28 @@
 'use strict';
 
-import 'babel-polyfill';
+import '../polyfills';
+import './app.scss';
 
-// core angular
+// these third-party vendors will be bundled in its own vendor js file by webpack
+// all of these imports are loaded at initialize load (so lets keep it small and async lazyload heavy hitters)
+// vendor core
 import angular from 'angular';
 import ngAria from 'angular-aria';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
-
-// routing
 import uiRouter from '@uirouter/angularjs';
-
-// ui framework
 import uiBootstrap from 'angular-ui-bootstrap';
 
-// utils
+// vendor utils
+import ocLazyLoad from 'oclazyLoad';
 import ngValidationMatch from 'angular-validation-match';
 import angularLoadingBar from 'angular-loading-bar';
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
+import MapBoxGL from 'mapbox-gl';
 
-// analytics
-import amplitude from 'amplitude-js';
-
-// TODO
-//import 'angular-timeline/dist/angular-timeline.js';
-// import angularCalendar from 'angular-bootstrap-calendar';
-//import 'angular-ui-grid/ui-grid';
-
+// StatEngine modules
 import {
   routeConfig,
 } from './app.config';
@@ -78,10 +72,6 @@ import util from '../components/util/util.module';
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
-import ocLazyLoad from 'oclazyLoad';
-
-import './app.scss';
-
 angular.module('statEngineApp', [
   ngAria,
   ngCookies,
@@ -95,9 +85,6 @@ angular.module('statEngineApp', [
   'ngCountTo',
   'angularMoment',
    _Auth,
-   //angularCalendar,
-   //'ui.grid',
-
    // se modules
    trusted,
    statsTable,
@@ -135,12 +122,19 @@ angular.module('statEngineApp', [
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {
     if(amplitudeConfig.key) {
-      amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
+      import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
+        .then(amplitude => {
+          console.log('Amplitude initialized')
+          amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
+        })
     }
   })
   .config(['cfpLoadingBarProvider', (cfpLoadingBarProvider) => {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
+  .run(mapboxConfig => {
+    MapBoxGL.accessToken = mapboxConfig.token;
+  })
   .run(($transitions, AmplitudeService) => {
     'ngInject';
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import amplitude from 'amplitude-js';
+let amplitude;
 
 export default function AmplitudeService(AnalyticEventNames, appConfig) {
   'ngInject';
@@ -8,12 +8,19 @@ export default function AmplitudeService(AnalyticEventNames, appConfig) {
   return {
     track(name, obj) {
       obj.env = appConfig.env;
-      amplitude.getInstance().logEvent(name, obj);
+
+      import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
+        .then((amplitude) => {
+          amplitude.getInstance().logEvent(name, obj);
+        })
     },
 
     page(obj) {
       obj.env = appConfig.env;
-      amplitude.getInstance().logEvent(AnalyticEventNames.PAGE_LOAD, obj);
+      import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
+        .then((amplitude) => {
+          amplitude.getInstance().logEvent(AnalyticEventNames.PAGE_LOAD, obj);
+        });
     }
   };
 }

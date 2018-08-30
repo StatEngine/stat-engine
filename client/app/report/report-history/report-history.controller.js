@@ -1,14 +1,23 @@
 'use strict';
 
-import moment from 'moment';
-import _ from 'lodash';
+import moment from 'moment-timezone';
+let _;
 
 export default class ReportHistoryController {
   /*@ngInject*/
   constructor($state, savedReports) {
     this.$state = $state;
+    this.savedReports = savedReports;
+  }
 
-    var reports = savedReports || [];
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    let reports = this.savedReports || [];
 
     reports.forEach(report => {
       report.timestamp = moment(report.name).valueOf();
@@ -17,18 +26,18 @@ export default class ReportHistoryController {
     reports = _.orderBy(reports, ['timestamp'], ['desc']);
 
     this.timelineReports = [];
-    reports.forEach(report => {
-      this.timelineReports.push({
-        title: `${report.name} ${_.capitalize(report.type)}`,
-        badgeClass: 'info',
-        badgeIconClass: 'glyphicon-check',
-        type: report.type,
-        name: report.name,
-        lastUpdated: report.updated_at,
-        lastUpdatedBy: report.User.name,
-        totalViews: _.sumBy(report.ReportMetrics, rm => rm.views),
-        uniqueUsers: report.ReportMetrics.length,
-      });
+      reports.forEach(report => {
+        this.timelineReports.push({
+          title: `${report.name} ${_.capitalize(report.type)}`,
+          badgeClass: 'info',
+          badgeIconClass: 'glyphicon-check',
+          type: report.type,
+          name: report.name,
+          lastUpdated: report.updated_at,
+          lastUpdatedBy: report.User.name,
+          totalViews: _.sumBy(report.ReportMetrics, rm => rm.views),
+          uniqueUsers: report.ReportMetrics.length,
+        });
     });
   }
 

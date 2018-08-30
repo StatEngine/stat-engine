@@ -1,10 +1,8 @@
 'use strict';
 
 import angular from 'angular';
-import 'babel-polyfill';
 
-import _ from 'lodash';
-
+let _;
 let PlotlyBasic;
 
 export default class IncidentAlarmAnsweringGraphComponent {
@@ -17,6 +15,7 @@ export default class IncidentAlarmAnsweringGraphComponent {
 
   async loadModules() {
     PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
   onResize() {

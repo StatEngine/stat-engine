@@ -1,11 +1,11 @@
 'use strict';
 
 import angular from 'angular';
-import _ from 'lodash';
-import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import 'babel-polyfill';
+import moment from 'moment-timezone';
 
+let _;
+let PlotlyBasic;
 let Timeline;
 
 const TIME_FORMAT = 'HH:mm:ss';
@@ -18,7 +18,9 @@ export default class IncidentTimelineComponent {
   }
 
   async loadModules() {
-    Timeline = await import(/* webpackChunkName: "vis" */ 'vis/dist/vis.js').Timeline;
+    const mod = await import(/* webpackChunkName: "vis" */ 'vis/dist/vis.js');
+    Timeline = mod.Timeline;
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
   async $onInit() {

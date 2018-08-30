@@ -1,7 +1,5 @@
 'use strict';
 
-import 'babel-polyfill';
-
 let _;
 
 export default class DepartmentAdminHomeController {
@@ -9,6 +7,7 @@ export default class DepartmentAdminHomeController {
   constructor(currentPrincipal, dataQuality, departmentUsers, User) {
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
+    this.departmentUsers = departmentUsers;
     this.dataQuality = dataQuality;
     this.UserService = User;
   }
@@ -20,7 +19,7 @@ export default class DepartmentAdminHomeController {
   async $onInit() {
     await this.loadModules();
 
-    this.users = _.filter(departmentUsers, u => !u.isAdmin);
+    this.users = _.filter(this.departmentUsers, u => !u.isAdmin);
   }
 
   refreshUsers() {

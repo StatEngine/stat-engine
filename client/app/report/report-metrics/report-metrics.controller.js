@@ -1,21 +1,30 @@
 'use strict';
 
-import moment from 'moment';
-import _ from 'lodash';
+import moment from 'moment-timezone';
+
+let _;
 
 export default class ReportMetricsController {
   /*@ngInject*/
   constructor($state, $stateParams, currentPrincipal, report, reportMetrics, fireDepartmentUsers) {
     this.$state = $state;
     this.$stateParams = $stateParams;
-
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.report = report;
     this.reportMetrics = reportMetrics;
+    this.fireDepartmentUsers = fireDepartmentUsers;
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
 
     const allUsers = [];
     const viewers = [];
-    fireDepartmentUsers.Users.forEach(u => allUsers.push(u.name));
+    this.fireDepartmentUsers.Users.forEach(u => allUsers.push(u.name));
 
     if(this.reportMetrics) {
       const viewerTableData = [];
@@ -36,6 +45,8 @@ export default class ReportMetricsController {
       this.unviewedTableOptions = {
         data: unviewedTableData
       };
+
+      this.initialized = true;
     }
   }
 

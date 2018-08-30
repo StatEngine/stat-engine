@@ -1,8 +1,6 @@
 'use strict';
 
-import 'babel-polyfill';
-
-let MapBoxGL;
+import MapBoxGL from 'mapbox-gl';
 
 export default class IncidentMapComponent {
   constructor(mapboxConfig) {
@@ -10,13 +8,8 @@ export default class IncidentMapComponent {
     this.mapboxConfig = mapboxConfig;
   }
 
-  async loadModules() {
-    MapBoxGL = await import(/* webpackChunkName: "mapbox-gl" */ 'mapbox-gl');
-    MapBoxGL.accessToken = this.mapboxConfig.token;
-  }
-
-  async $onInit() {
-    await loadModules;
+  $onInit() {
+    this.initialized = true;
 
     const incidentLocation = [this.incident.address.longitude, this.incident.address.latitude];
 

@@ -1,10 +1,11 @@
 /* eslint  class-methods-use-this: 0 */
-
 'use strict';
 
+import moment from 'moment-timezone';
+
+let _;
+
 import { FirecaresLookup } from '@statengine/shiftly';
-import moment from 'moment';
-import _ from 'lodash';
 
 export default class ShiftHomeController {
   /*@ngInject*/
@@ -14,6 +15,7 @@ export default class ShiftHomeController {
     this.calendarView = 'month';
     this.stats = stats;
 
+    this.currentPrincipal = currentPrincipal;
     this.timezone = currentPrincipal.FireDepartment.timezone;
 
     this.statsTableOptions = {
@@ -42,8 +44,16 @@ export default class ShiftHomeController {
         displayName: 'Year'
       }]
     };
+  }
 
-    const ShiftConfiguration = FirecaresLookup[currentPrincipal.FireDepartment.firecares_id];
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    const ShiftConfiguration = FirecaresLookup[this.currentPrincipal.FireDepartment.firecares_id];
 
     if(ShiftConfiguration) {
       this.shiftly = new ShiftConfiguration();
