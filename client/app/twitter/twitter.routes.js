@@ -28,8 +28,8 @@ export default function routes($stateProvider) {
       resolve: {
         deps($ocLazyLoad) {
           return Promise.all([
-            import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(mod => $ocLazyLoad.inject('ui.grid'))
-          ])
+            import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(() => $ocLazyLoad.inject('ui.grid'))
+          ]);
         },
         twitterProfile($q, Twitter) {
           var deferred = $q.defer();

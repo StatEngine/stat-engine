@@ -1,11 +1,11 @@
 /* eslint  class-methods-use-this: 0 */
+
 'use strict';
 
 import moment from 'moment-timezone';
+import { FirecaresLookup } from '@statengine/shiftly';
 
 let _;
-
-import { FirecaresLookup } from '@statengine/shiftly';
 
 export default class ShiftHomeController {
   /*@ngInject*/

@@ -5,7 +5,6 @@ import humanizeDuration from 'humanize-duration';
 import moment from 'moment-timezone';
 
 let _;
-let PlotlyBasic;
 let Timeline;
 
 const TIME_FORMAT = 'HH:mm:ss';

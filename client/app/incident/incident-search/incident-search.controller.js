@@ -3,7 +3,6 @@
 'use strict';
 
 let _;
-let tippy;
 
 export default class IncidentSearchController {
   /*@ngInject*/
@@ -47,7 +46,6 @@ export default class IncidentSearchController {
 
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-    tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
   }
 
   async $onInit() {

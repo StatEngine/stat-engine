@@ -5,6 +5,7 @@ import MapBoxGL from 'mapbox-gl';
 export default class IncidentMapComponent {
   constructor(mapboxConfig) {
     'ngInject';
+
     this.mapboxConfig = mapboxConfig;
   }
 

@@ -26,7 +26,7 @@ export default function routes($stateProvider) {
       resolve: {
         deps($ocLazyLoad) {
           return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
-            .then(mod => {
+            .then(() => {
               $ocLazyLoad.inject('ui.grid');
             });
         },
@@ -58,7 +58,7 @@ export default function routes($stateProvider) {
           return Promise.all([
             import(/* webpackChunkName: "bootstrap-js" */ 'bootstrap/dist/js/bootstrap'),
             import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(() => $ocLazyLoad.inject('ui.grid')),
-          ])
+          ]);
         },
         currentPrincipal(Principal) {
           return Principal.identity();

@@ -16,9 +16,9 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
   return {
     init() {
       return import(/* webpackChunkName: "lodash" */ 'lodash')
-        .then(mod => _ = mod)
+        .then(mod => { _ = mod; })
         .then(() => import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js'))
-        .then(ampMod => amplitude = ampMod)
+        .then(ampMod => { amplitude = ampMod; });
     },
 
     isIdentityResolved() {

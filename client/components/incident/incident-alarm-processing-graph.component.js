@@ -19,7 +19,7 @@ export default class IncidentAlarmProcessingGraphComponent {
   }
 
   onResize() {
-    Plotly.Plots.resize(this.id);
+    PlotlyBasic.Plots.resize(this.id);
   }
 
   $onDestroy() {

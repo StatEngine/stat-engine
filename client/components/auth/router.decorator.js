@@ -3,7 +3,7 @@
 export default function routerDecorator($transitions, $rootScope, Authorization, Principal) {
   'ngInject';
 
-  $transitions.onStart({ }, function(trans) {
+  $transitions.onStart({}, function(trans) {
     $rootScope.toState = trans.to();
     $rootScope.fromState = trans.from();
 
@@ -12,7 +12,6 @@ export default function routerDecorator($transitions, $rootScope, Authorization,
         if(Principal.isIdentityResolved()) {
           Authorization.authorize();
         }
-      })
-    }
-  );
+      });
+  });
 }

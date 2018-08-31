@@ -1,8 +1,5 @@
 'use strict';
 
-import '../polyfills';
-import './app.scss';
-
 // these third-party vendors will be bundled in its own vendor js file by webpack
 // all of these imports are loaded at initialize load (so lets keep it small and async lazyload heavy hitters)
 // vendor core
@@ -15,12 +12,20 @@ import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
 
 // vendor utils
+
+// These two aren't angular modules but still need to be loaded
+// eslint-disable-next-line
 import ocLazyLoad from 'oclazyLoad';
-import ngValidationMatch from 'angular-validation-match';
+// eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
+
+import ngValidationMatch from 'angular-validation-match';
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
 import MapBoxGL from 'mapbox-gl';
+
+import '../polyfills';
+import './app.scss';
 
 // StatEngine modules
 import {
@@ -84,40 +89,40 @@ angular.module('statEngineApp', [
   'angular-loading-bar',
   'ngCountTo',
   'angularMoment',
-   _Auth,
-   // se modules
-   trusted,
-   statsTable,
-   logo,
-   skycon,
-   weather,
-   currentWeather,
-   safety,
-   account,
-   admin,
-   api,
-   guides,
-   navbar,
-   report,
-   spade,
-   marketplace,
-   statEngine,
-   user,
-   incident,
-   incidentComponents,
-   orderObjectBy,
-   shift,
-   departmentAdmin,
-   twitter,
-   nfpa,
-   modal,
-   footer,
-   main,
-   analyticEventConstants,
-   constants,
-   amplitudeService,
-   util,
-   humanizeComponents
+  _Auth,
+  // se modules
+  trusted,
+  statsTable,
+  logo,
+  skycon,
+  weather,
+  currentWeather,
+  safety,
+  account,
+  admin,
+  api,
+  guides,
+  navbar,
+  report,
+  spade,
+  marketplace,
+  statEngine,
+  user,
+  incident,
+  incidentComponents,
+  orderObjectBy,
+  shift,
+  departmentAdmin,
+  twitter,
+  nfpa,
+  modal,
+  footer,
+  main,
+  analyticEventConstants,
+  constants,
+  amplitudeService,
+  util,
+  humanizeComponents
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {
@@ -125,10 +130,10 @@ angular.module('statEngineApp', [
       import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
         .then(amplitude => {
           amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
-        })
+        });
     }
   })
-  .config(['cfpLoadingBarProvider', (cfpLoadingBarProvider) => {
+  .config(['cfpLoadingBarProvider', cfpLoadingBarProvider => {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
   .run(mapboxConfig => {

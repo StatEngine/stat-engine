@@ -1,7 +1,5 @@
 'use strict';
 
-let _;
-
 import angular from 'angular';
 import MarketplaceHomeController from './marketplace-home.controller';
 

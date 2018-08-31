@@ -1,6 +1,7 @@
 'use strict';
 
 import moment from 'moment-timezone';
+
 let _;
 
 export default class ReportHistoryController {
@@ -26,18 +27,18 @@ export default class ReportHistoryController {
     reports = _.orderBy(reports, ['timestamp'], ['desc']);
 
     this.timelineReports = [];
-      reports.forEach(report => {
-        this.timelineReports.push({
-          title: `${report.name} ${_.capitalize(report.type)}`,
-          badgeClass: 'info',
-          badgeIconClass: 'glyphicon-check',
-          type: report.type,
-          name: report.name,
-          lastUpdated: report.updated_at,
-          lastUpdatedBy: report.User.name,
-          totalViews: _.sumBy(report.ReportMetrics, rm => rm.views),
-          uniqueUsers: report.ReportMetrics.length,
-        });
+    reports.forEach(report => {
+      this.timelineReports.push({
+        title: `${report.name} ${_.capitalize(report.type)}`,
+        badgeClass: 'info',
+        badgeIconClass: 'glyphicon-check',
+        type: report.type,
+        name: report.name,
+        lastUpdated: report.updated_at,
+        lastUpdatedBy: report.User.name,
+        totalViews: _.sumBy(report.ReportMetrics, rm => rm.views),
+        uniqueUsers: report.ReportMetrics.length,
+      });
     });
   }
 

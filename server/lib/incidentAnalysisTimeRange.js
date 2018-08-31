@@ -2,7 +2,6 @@ import moment from 'moment-timezone';
 import bodybuilder from 'bodybuilder';
 import Promise from 'bluebird';
 import _ from 'lodash';
-import util from 'util';
 
 import connection from '../elasticsearch/connection';
 
@@ -195,7 +194,6 @@ export class IncidentAnalysisTimeRange {
       { index: this.options.index, size: 0, body: buildFireIncidentQuery(this.previousTimeFilter) }
     ], query => connection.getClient().search(query))
       .then(results => {
-
         // fireDepartment
         let comparison = {
           fireDepartment: {},

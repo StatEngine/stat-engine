@@ -1,7 +1,5 @@
 'use strict';
 
-let amplitude;
-
 export default function AmplitudeService(AnalyticEventNames, appConfig) {
   'ngInject';
 
@@ -10,15 +8,15 @@ export default function AmplitudeService(AnalyticEventNames, appConfig) {
       obj.env = appConfig.env;
 
       import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
-        .then((amplitude) => {
+        .then(amplitude => {
           amplitude.getInstance().logEvent(name, obj);
-        })
+        });
     },
 
     page(obj) {
       obj.env = appConfig.env;
       import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
-        .then((amplitude) => {
+        .then(amplitude => {
           amplitude.getInstance().logEvent(AnalyticEventNames.PAGE_LOAD, obj);
         });
     }

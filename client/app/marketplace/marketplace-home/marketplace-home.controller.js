@@ -19,7 +19,6 @@ const images = importAll(require.context('../../../assets/images/extensions/', f
 export default class MarketplaceHomeController {
   /*@ngInject*/
   constructor(extensions) {
-
     this.allExtensions = extensions;
   }
 

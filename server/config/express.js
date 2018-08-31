@@ -17,7 +17,6 @@ import session from 'express-session';
 import connectSessionSequelize from 'connect-session-sequelize';
 import helmet from 'helmet';
 import compression from 'compression';
-import cacheControl from 'express-cache-controller';
 
 import config from './environment';
 import sqldb from '../sqldb';
@@ -99,13 +98,6 @@ export default function(app) {
       xssProtection: true
     }));
   }
-
-  let maxAge = 31536000;
-  if (env === 'development') maxAge = 0;
-
-  app.use(cacheControl({
-    maxAge
-  }));
 
   if(env === 'development') {
     const webpackDevMiddleware = require('webpack-dev-middleware');
