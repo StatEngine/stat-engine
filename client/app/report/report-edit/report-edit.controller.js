@@ -77,8 +77,6 @@ export default class ReportEditController {
         displayName: '90% Turnout Duration (s)'
       }]
     };
-
-    this.initialized = false;
   }
 
   async loadModules() {
