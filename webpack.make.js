@@ -57,7 +57,7 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-sanitize',
                 '@uirouter/angularjs',
                 'angular-ui-bootstrap',
-                'oclazyLoad',
+                'oclazyload',
                 'angular-validation-match',
                 'angular-loading-bar',
                 'angular-filter-count-to/dist/angular-filter-count-to.min.js',
@@ -229,7 +229,7 @@ module.exports = function makeWebpackConfig(options) {
         }),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new BundleAnalyzerPlugin(),
+      //  new BundleAnalyzerPlugin(),
         new webpack.HashedModuleIdsPlugin()
     ];
 

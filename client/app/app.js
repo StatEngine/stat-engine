@@ -15,7 +15,7 @@ import uiBootstrap from 'angular-ui-bootstrap';
 
 // These two aren't angular modules but still need to be loaded
 // eslint-disable-next-line
-import ocLazyLoad from 'oclazyLoad';
+import oclazyload from 'oclazyload';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
 
