@@ -1,14 +1,16 @@
 'use strict';
-/*eslint-env node*/
-var webpack = require('webpack');
-var autoprefixer = require('autoprefixer');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
-var fs = require('fs');
-var path = require('path');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
+
+// Plugins
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -28,6 +30,12 @@ module.exports = function makeWebpackConfig(options) {
      */
     var config = {};
 
+    config.mode = 'production';
+    config.devtool = 'source-map'
+    if (DEV) {
+      config.mode = 'development';
+      config.devtool = 'inline-source-map'
+    }
 
     /**
      * Entry
@@ -43,17 +51,51 @@ module.exports = function makeWebpackConfig(options) {
             polyfills: './client/polyfills.js',
             vendor: [
                 'angular',
-                'angular-animate',
                 'angular-aria',
                 'angular-cookies',
                 'angular-resource',
                 'angular-sanitize',
-                'angular-socket-io',
-                'angular-ui-bootstrap',
                 '@uirouter/angularjs',
-                'lodash',
+                'angular-ui-bootstrap',
+                'oclazyLoad',
+                'angular-validation-match',
+                'angular-loading-bar',
+                'angular-filter-count-to/dist/angular-filter-count-to.min.js',
+                'angular-moment',
+                'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+                'mapbox-gl'
             ],
         };
+    }
+
+    config.optimization = {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: 'all',
+            name: 'vendor',
+            test: 'vendor',
+            enforce: true
+          },
+          polyfills: {
+            chunks: 'all',
+            name: 'polyfills',
+            test: 'polyfills',
+            enforce: true
+          },
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      },
+      runtimeChunk: 'single',
+      minimizer: [
+        new UglifyJsPlugin(),
+        new OptimizeCSSAssetsPlugin({})
+      ]
     }
 
     /**
@@ -76,11 +118,11 @@ module.exports = function makeWebpackConfig(options) {
 
             // Filename for entry points
             // Only adds hash in build mode
-            filename: BUILD ? '[name].[hash].js' : '[name].bundle.js',
+            filename: BUILD ? '[name].[contenthash].js' : '[name].bundle.js',
 
             // Filename for non-entry points
             // Only adds hash in build mode
-            chunkFilename: BUILD ? '[name].[hash].js' : '[name].bundle.js'
+            chunkFilename: BUILD ? '[name].[contenthash].js' : '[name].bundle.js'
         };
     }
 
@@ -109,7 +151,7 @@ module.exports = function makeWebpackConfig(options) {
     // Initialize module
     config.module = {
         noParse: /(mapbox-gl)\.js$/,
-        loaders: [{
+        rules: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
             // Transpile .js files using babel-loader
@@ -149,54 +191,20 @@ module.exports = function makeWebpackConfig(options) {
             test: /\.html$/,
             loader: 'raw-loader'
         }, {
-            // CSS LOADER
-            // Reference: https://github.com/webpack/css-loader
-            // Allow loading css through js
-            //
-            // Reference: https://github.com/postcss/postcss-loader
-            // Postprocess your css with PostCSS plugins
-            test: /\.css$/,
-            loader: !TEST
-                // Reference: https://github.com/webpack/extract-text-webpack-plugin
-                // Extract css files in production builds
-                //
-                // Reference: https://github.com/webpack/style-loader
-                // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style-loader', 'css?sourceMap!postcss')
-                // Reference: https://github.com/webpack/null-loader
-                // Skip loading css in test mode
-                : 'null'
-        }, {
-            // SASS LOADER
-            // Reference: https://github.com/jtangelder/sass-loader
-            test: /\.(scss|sass)$/,
-            loaders: ['style-loader', 'css-loader', 'sass-loader'],
+            test: /\.scss$/,
+            use: [
+                // fallback to style-loader in development
+                !BUILD ? 'style-loader' :
+                MiniCssExtractPlugin.loader,
+                "css-loader",
+                "sass-loader"
+            ],
             include: [
                 path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
                 path.resolve(__dirname, 'client/app/app.scss')
             ]
-
-
         }]
     };
-
-    // ISPARTA INSTRUMENTER LOADER
-    // Reference: https://github.com/ColCh/isparta-instrumenter-loader
-    // Instrument JS files with Isparta for subsequent code coverage reporting
-    // Skips node_modules and spec files
-    if(TEST) {
-        config.module.preLoaders.push({
-            //delays coverage til after tests are run, fixing transpiled source coverage error
-            test: /\.js$/,
-            exclude: /(node_modules|spec\.js|mock\.js)/,
-            loader: 'isparta-instrumenter',
-            query: {
-                babel: {
-                    // optional: ['runtime', 'es7.classProperties', 'es7.decorators']
-                }
-            }
-        });
-    }
 
     /**
      * Plugins
@@ -204,11 +212,11 @@ module.exports = function makeWebpackConfig(options) {
      * List: http://webpack.github.io/docs/list-of-plugins.html
      */
     config.plugins = [
-        // Reference: https://github.com/webpack/extract-text-webpack-plugin
-        // Extract css files
-        // Disabled when in test mode or not in build mode
-        new ExtractTextPlugin('[name].[hash].css', {
-            disable: !BUILD || TEST
+        new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: BUILD ? '[name].[hash].css' : '[name].bundle.css',
+          chunkFilename: BUILD ? '[id].[hash].css' : '[id].css',
         }),
         new webpack.ProvidePlugin({
           $: 'jquery',
@@ -221,80 +229,23 @@ module.exports = function makeWebpackConfig(options) {
         }),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new webpack.ProvidePlugin({
-          Promise: 'es6-promise-promise', // works as expected
-        }),
+        new BundleAnalyzerPlugin(),
+        new webpack.HashedModuleIdsPlugin()
     ];
 
-
-    if(!TEST) {
-        config.plugins.push(new CommonsChunkPlugin({
-            name: 'vendor',
-
-            // filename: "vendor.js"
-            // (Give the chunk a different name)
-
-            minChunks: Infinity
-            // (with more entries, this ensures that no other module
-            //  goes into the vendor chunk)
-        }));
-    }
-
-    // Skip rendering index.html in test mode
-    // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
     let htmlConfig = {
         template: 'client/app.template.html',
         filename: '../client/app.html',
-        alwaysWriteToDisk: true
+        alwaysWriteToDisk: true,
+        chunksSortMode: 'dependency',
     }
     config.plugins.push(
       new HtmlWebpackPlugin(htmlConfig),
+    );
+    config.plugins.push(
       new HtmlWebpackHarddiskPlugin()
     );
-
-    // Add build specific plugins
-    if(BUILD) {
-        config.plugins.push(
-            // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
-            // Only emit files when there are no errors
-            new webpack.NoEmitOnErrorsPlugin(),
-
-            // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-            // Minify all javascript, switch loaders to minimizing mode
-            new webpack.optimize.UglifyJsPlugin({
-                mangle: true,
-                output: {
-                    comments: false
-                },
-                compress: {
-                    warnings: false
-                }
-            }),
-
-
-            // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            // Define free global variables
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: '"production"'
-                }
-            }),
-            //new BundleAnalyzerPlugin(),
-        );
-    }
-
-    if(DEV) {
-        config.plugins.push(
-            // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            // Define free global variables
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: '"development"'
-                }
-            })
-        );
-    }
 
     config.cache = DEV;
 

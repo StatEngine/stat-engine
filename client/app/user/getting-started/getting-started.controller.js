@@ -1,13 +1,19 @@
 'use strict';
 
-import _ from 'lodash';
+let _;
 
 export default class GettingStartedController {
   /*@ngInject*/
   constructor(currentPrincipal) {
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
+  }
 
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
     this.gettingStarted = [
       // { step: 'Assigned Fire Department',
       //   status: _.isNumber(this.principal.fire_department__id),

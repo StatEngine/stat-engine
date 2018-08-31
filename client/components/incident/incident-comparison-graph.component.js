@@ -2,8 +2,8 @@
 
 import angular from 'angular';
 
-import _ from 'lodash';
-import Plotly from 'plotly.js/dist/plotly-basic.js';
+let _;
+let PlotlyBasic;
 
 export default class IncidentComparisonGraphComponent {
   constructor($window) {
@@ -13,15 +13,22 @@ export default class IncidentComparisonGraphComponent {
     this.id = 'incident-comparison-graph';
   }
 
+  async loadModules() {
+    PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
   onResize() {
-    Plotly.Plots.resize(this.id);
+    PlotlyBasic.Plots.resize(this.id);
   }
 
   $onDestroy() {
     angular.element(this.$window).off('resize', this.onResize);
   }
 
-  $onInit() {
+  async $onInit() {
+    await this.loadModules();
+
     const y = [];
     const ninetyPercent = [];
     const ninetyPercentText = [];
@@ -56,7 +63,7 @@ export default class IncidentComparisonGraphComponent {
       name: this.incident.description.incident_number || 'This incident'
     });
 
-    Plotly.newPlot(this.id, [{
+    PlotlyBasic.newPlot(this.id, [{
       x: seventyFivePercent,
       y,
       text: seventyFivePercentText,

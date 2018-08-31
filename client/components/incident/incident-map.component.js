@@ -1,16 +1,20 @@
 'use strict';
 
-import mapboxgl from 'mapbox-gl';
+import MapBoxGL from 'mapbox-gl';
 
 export default class IncidentMapComponent {
-  constructor() {
+  constructor(mapboxConfig) {
     'ngInject';
+
+    this.mapboxConfig = mapboxConfig;
   }
 
   $onInit() {
+    this.initialized = true;
+
     const incidentLocation = [this.incident.address.longitude, this.incident.address.latitude];
 
-    const map = new mapboxgl.Map({
+    const map = new MapBoxGL.Map({
       container: 'incident-map',
       style: 'mapbox://styles/mapbox/light-v9',
       center: incidentLocation,
@@ -21,10 +25,10 @@ export default class IncidentMapComponent {
     const address = `<h4>\
       ${this.incident.address.address_line1}<br>\
       ${this.incident.address.city}, ${this.incident.address.state}<\\h4>`;
-    const popup = new mapboxgl.Popup({ offset: 25 })
+    const popup = new MapBoxGL.Popup({ offset: 25 })
       .setHTML(address);
 
-    new mapboxgl.Marker()
+    new MapBoxGL.Marker()
       .setLngLat(incidentLocation)
       .setPopup(popup)
       .addTo(map);

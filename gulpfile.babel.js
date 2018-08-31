@@ -17,7 +17,8 @@ import {Server as KarmaServer} from 'karma';
 import runSequence from 'run-sequence';
 import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
-import webpack from 'webpack-stream';
+import webpack from 'webpack';
+import gulpWebpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
 import b2v from 'buffer-to-vinyl';
 
@@ -229,14 +230,14 @@ gulp.task('webpack:dev', function() {
     const webpackDevConfig = makeWebpackConfig({ DEV: true });
     return gulp.src(webpackDevConfig.entry.app)
         .pipe(plugins.plumber())
-        .pipe(webpack(webpackDevConfig))
+        .pipe(gulpWebpack(webpackDevConfig, webpack))
         .pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('webpack:dist', function() {
     const webpackDistConfig = makeWebpackConfig({ BUILD: true });
     return gulp.src(webpackDistConfig.entry.app)
-        .pipe(webpack(webpackDistConfig))
+        .pipe(gulpWebpack(webpackDistConfig, webpack))
         .on('error', (err) => {
           this.emit('end'); // Recover from errors
         })
@@ -246,14 +247,14 @@ gulp.task('webpack:dist', function() {
 gulp.task('webpack:test', function() {
     const webpackTestConfig = makeWebpackConfig({ TEST: true });
     return gulp.src(webpackTestConfig.entry.app)
-        .pipe(webpack(webpackTestConfig))
+        .pipe(gulpWebpack(webpackTestConfig, webpack))
         .pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('webpack:e2e', function() {
     const webpackE2eConfig = makeWebpackConfig({ E2E: true });
     return gulp.src(webpackE2eConfig.entry.app)
-        .pipe(webpack(webpackE2eConfig))
+        .pipe(gulpWebpack(webpackE2eConfig, webpack))
         .pipe(gulp.dest('.tmp'));
 });
 

@@ -1,7 +1,8 @@
 'use strict';
 
-import _ from 'lodash';
 import angular from 'angular';
+
+let _;
 
 export default class UserController {
   user = {};
@@ -21,6 +22,14 @@ export default class UserController {
       department_admin: this.user.isDepartmentAdmin,
       admin: this.user.isAdmin,
     };
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
 
     this.requestedFireDepartment = _.find(this.fireDepartments, f => f._id === this.user.requested_fire_department_id);
     this.assignedFireDepartment = _.find(this.fireDepartments, f => f._id === this.user.fire_department__id);

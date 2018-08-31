@@ -2,8 +2,8 @@
 
 import angular from 'angular';
 
-import _ from 'lodash';
-import Plotly from 'plotly.js/dist/plotly-basic.js';
+let _;
+let PlotlyBasic;
 
 export default class IncidentAlarmProcessingGraphComponent {
   constructor($window) {
@@ -13,15 +13,22 @@ export default class IncidentAlarmProcessingGraphComponent {
     this.id = 'incident-alarm-processing-graph';
   }
 
+  async loadModules() {
+    PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
   onResize() {
-    Plotly.Plots.resize(this.id);
+    PlotlyBasic.Plots.resize(this.id);
   }
 
   $onDestroy() {
     angular.element(this.$window).off('resize', this.onResize);
   }
 
-  $onInit() {
+  async $onInit() {
+    await this.loadModules();
+
     angular.element(this.$window).on('resize', this.onResize);
 
     // Get alarm durations
@@ -130,6 +137,6 @@ export default class IncidentAlarmProcessingGraphComponent {
       }]
     };
 
-    Plotly.newPlot(this.id, data, layout, {displayModeBar: false});
+    PlotlyBasic.newPlot(this.id, data, layout, {displayModeBar: false});
   }
 }

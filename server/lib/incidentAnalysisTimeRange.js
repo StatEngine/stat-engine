@@ -2,7 +2,6 @@ import moment from 'moment-timezone';
 import bodybuilder from 'bodybuilder';
 import Promise from 'bluebird';
 import _ from 'lodash';
-import util from 'util';
 
 import connection from '../elasticsearch/connection';
 
@@ -185,7 +184,6 @@ export class IncidentAnalysisTimeRange {
           analysis[rule.constructor.name] = rule.analyze();
         });
 
-        console.log(util.inspect(analysis, {showHidden: false, depth: null}));
         return Promise.resolve(analysis);
       });
   }
@@ -196,8 +194,6 @@ export class IncidentAnalysisTimeRange {
       { index: this.options.index, size: 0, body: buildFireIncidentQuery(this.previousTimeFilter) }
     ], query => connection.getClient().search(query))
       .then(results => {
-        console.log(util.inspect(results, {showHidden: false, depth: null}));
-
         // fireDepartment
         let comparison = {
           fireDepartment: {},

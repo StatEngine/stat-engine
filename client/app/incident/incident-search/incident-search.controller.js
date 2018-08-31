@@ -2,7 +2,7 @@
 
 'use strict';
 
-import _ from 'lodash';
+let _;
 
 export default class IncidentSearchController {
   /*@ngInject*/
@@ -41,7 +41,17 @@ export default class IncidentSearchController {
       }]
     };
 
-    this.formatSearchResults(recentIncidents);
+    this.recentIncidents = recentIncidents;
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    this.formatSearchResults(this.recentIncidents);
   }
 
   formatSearchResults(results) {

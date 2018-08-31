@@ -1,8 +1,9 @@
 'use strict';
 
-import _ from 'lodash';
 import angular from 'angular';
-import amplitude from 'amplitude-js';
+
+let _;
+let amplitude;
 
 export default function PrincipalService($http, $q, $cookies, $window, User) {
   'ngInject';
@@ -11,7 +12,15 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
   var _authenticated = false;
   var _amplitudeIdentify = false;
 
+
   return {
+    init() {
+      return import(/* webpackChunkName: "lodash" */ 'lodash')
+        .then(mod => { _ = mod; })
+        .then(() => import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js'))
+        .then(ampMod => { amplitude = ampMod; });
+    },
+
     isIdentityResolved() {
       return !_.isEmpty(_identity);
     },

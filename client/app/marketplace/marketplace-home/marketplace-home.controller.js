@@ -3,7 +3,8 @@
 'use strict';
 
 import angular from 'angular';
-import _ from 'lodash';
+
+let _;
 
 function importAll(r) {
   let images = {};
@@ -18,14 +19,23 @@ const images = importAll(require.context('../../../assets/images/extensions/', f
 export default class MarketplaceHomeController {
   /*@ngInject*/
   constructor(extensions) {
-    this.allExtensions = _.sortBy(extensions, o => o.name);
+    this.allExtensions = extensions;
+  }
 
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    this.allExtensions = _.sortBy(this.allExtensions, o => o.name);
     this.filteredExtensions = this.allExtensions;
     this.filteredFeaturedExtensions = _.filter(this.allExtensions, f => f.featured);
 
     // build categories
     let categories = ['All'];
-    angular.forEach(extensions, value => {
+    angular.forEach(this.allExtensions, value => {
       categories = categories.concat(value.categories.split(','));
     });
     this.categories = _.orderBy(_.uniq(categories), 'desc');

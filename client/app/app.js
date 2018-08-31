@@ -1,33 +1,33 @@
 'use strict';
 
+// these third-party vendors will be bundled in its own vendor js file by webpack
+// all of these imports are loaded at initialize load (so lets keep it small and async lazyload heavy hitters)
+// vendor core
 import angular from 'angular';
-import mapboxgl from 'mapbox-gl';
-import ngAnimate from 'angular-animate';
+import ngAria from 'angular-aria';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
-import 'angular-socket-io';
 import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
-// import ngMessages from 'angular-messages';
-import ngValidationMatch from 'angular-validation-match';
-import angulartics from 'angulartics';
-import gtm from 'angulartics-google-tag-manager';
+
+// vendor utils
+
+// These two aren't angular modules but still need to be loaded
+// eslint-disable-next-line
+import ocLazyLoad from 'oclazyLoad';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
-import amplitude from 'amplitude-js';
 
+import ngValidationMatch from 'angular-validation-match';
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
-
-import 'angular-summernote/dist/angular-summernote.js';
-import 'angular-timeline/dist/angular-timeline.js';
-import angularCalendar from 'angular-bootstrap-calendar';
-
-import 'summernote/dist/summernote';
-import 'bootstrap/dist/js/bootstrap';
 import 'angular-moment';
-import 'angular-ui-grid/ui-grid.min';
+import MapBoxGL from 'mapbox-gl';
 
+import '../polyfills';
+import './app.scss';
+
+// StatEngine modules
 import {
   routeConfig,
 } from './app.config';
@@ -73,31 +73,71 @@ import constants from './app.constants';
 import analyticEventConstants from './analytic-event.constants';
 
 import util from '../components/util/util.module';
-//import socket from '../components/socket/socket.service';
 
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
-
-import './app.scss';
-
-angular.module('statEngineApp', [ngCookies, ngResource, ngSanitize, ngValidationMatch, ngAnimate, /*'btford.socket-io',*/ uiRouter, uiBootstrap, 'angular-loading-bar',
-  'ngCountTo', 'angularMoment', _Auth, angularCalendar, 'ui.grid', trusted, statsTable, logo, skycon, weather, currentWeather, safety, 'summernote', 'angular-timeline', account, admin,
-  api, guides, navbar, report, spade, marketplace, statEngine, user, incident, incidentComponents, orderObjectBy, shift, departmentAdmin, twitter, nfpa, modal, footer, main,
-  analyticEventConstants, constants, amplitudeService,
-  /*socket,*/ util, angulartics, gtm, humanizeComponents
+angular.module('statEngineApp', [
+  ngAria,
+  ngCookies,
+  ngResource,
+  ngSanitize,
+  uiRouter,
+  uiBootstrap,
+  ngValidationMatch,
+  'oc.lazyLoad',
+  'angular-loading-bar',
+  'ngCountTo',
+  'angularMoment',
+  _Auth,
+  // se modules
+  trusted,
+  statsTable,
+  logo,
+  skycon,
+  weather,
+  currentWeather,
+  safety,
+  account,
+  admin,
+  api,
+  guides,
+  navbar,
+  report,
+  spade,
+  marketplace,
+  statEngine,
+  user,
+  incident,
+  incidentComponents,
+  orderObjectBy,
+  shift,
+  departmentAdmin,
+  twitter,
+  nfpa,
+  modal,
+  footer,
+  main,
+  analyticEventConstants,
+  constants,
+  amplitudeService,
+  util,
+  humanizeComponents
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {
     if(amplitudeConfig.key) {
-      amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
+      import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
+        .then(amplitude => {
+          amplitude.getInstance().init(amplitudeConfig.key, null, { logLevel: 'INFO'});
+        });
     }
   })
-  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+  .config(['cfpLoadingBarProvider', cfpLoadingBarProvider => {
     cfpLoadingBarProvider.latencyThreshold = 100;
   }])
   .run(mapboxConfig => {
-    mapboxgl.accessToken = mapboxConfig.token;
+    MapBoxGL.accessToken = mapboxConfig.token;
   })
   .run(($transitions, AmplitudeService) => {
     'ngInject';

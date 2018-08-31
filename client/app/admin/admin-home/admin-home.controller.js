@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+let _;
 
 export default class AdminHomeController {
   /*@ngInject*/
@@ -8,14 +8,20 @@ export default class AdminHomeController {
     this.UserService = User;
     this.FireDepartmentService = FireDepartment;
     this.ModalService = Modal;
-
     this.fireDepartments = fireDepartments;
+    this.users = users;
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
 
     this.onboardedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_verified);
     this.integratedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_complete && !fd.integration_verified);
     this.notStartedFireDepartments = _.filter(this.fireDepartments, fd => !fd.integration_complete);
-
-    this.users = users;
 
     this.buildData();
   }

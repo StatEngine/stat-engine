@@ -1,14 +1,24 @@
 'use strict';
 
-import moment from 'moment';
-import _ from 'lodash';
+import moment from 'moment-timezone';
+
+let _;
 
 export default class ReportHistoryController {
   /*@ngInject*/
   constructor($state, savedReports) {
     this.$state = $state;
+    this.savedReports = savedReports;
+  }
 
-    var reports = savedReports || [];
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    let reports = this.savedReports || [];
 
     reports.forEach(report => {
       report.timestamp = moment(report.name).valueOf();

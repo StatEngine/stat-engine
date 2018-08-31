@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+let _;
 
 export default class UserHomeController {
   /*@ngInject*/
@@ -10,17 +10,28 @@ export default class UserHomeController {
     this.$state = $state;
 
     this.principal = currentPrincipal;
+    this.fireDepartment = currentPrincipal.FireDepartment;
+    this.requestedFireDepartment = requestedFireDepartment;
+
     this.UserService = User;
     this.PrincipalService = Principal;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
     this.appConfig = appConfig;
 
-    this.fireDepartment = currentPrincipal.FireDepartment;
-    this.requestedFireDepartment = requestedFireDepartment;
-
-    if(currentPrincipal.isAdmin) {
+    if(this.principal.isAdmin) {
       this.fireDepartments = fireDepartments;
+    }
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    if(this.principal.isAdmin) {
       this.assignedFireDepartment = _.find(this.fireDepartments, f => f._id === this.principal.fire_department__id);
     }
 
@@ -87,7 +98,7 @@ export default class UserHomeController {
           location: 'user-home'
         });
       }
-      $state.go(state);
+      this.$state.go(state);
     };
   }
 }

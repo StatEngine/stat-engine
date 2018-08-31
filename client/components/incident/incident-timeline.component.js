@@ -1,10 +1,11 @@
 'use strict';
 
 import angular from 'angular';
-import _ from 'lodash';
-import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import { Timeline } from 'vis/dist/vis.js';
+import moment from 'moment-timezone';
+
+let _;
+let Timeline;
 
 const TIME_FORMAT = 'HH:mm:ss';
 
@@ -15,7 +16,15 @@ export default class IncidentTimelineComponent {
     this.$window = $window;
   }
 
-  $onInit() {
+  async loadModules() {
+    const mod = await import(/* webpackChunkName: "vis" */ 'vis/dist/vis.js');
+    Timeline = mod.Timeline;
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
     const items = [];
     const groups = [];
 

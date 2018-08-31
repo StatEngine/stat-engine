@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+let _;
 
 export default class ExtensionController {
   submitted = false;
@@ -14,6 +14,14 @@ export default class ExtensionController {
     this.buildOptions();
 
     this.extensionSrc = require(`../../../assets/images/extensions/${currentExtension.image}`);
+  }
+
+  async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+  }
+
+  async $onInit() {
+    await this.loadModules();
   }
 
   buildOptions() {
