@@ -75,11 +75,9 @@ export function recommendations(req, res) {
     }
 
     let recTweets = [];
-    tweets.forEach(text => recTweets.push({
+    tweets.forEach(tweet => recTweets.push({
       fire_department__id: req.user.FireDepartment._id,
-      tweet_json: {
-        status: text,
-      },
+      tweet_json: tweet,
     }));
 
     return res.json(recTweets);

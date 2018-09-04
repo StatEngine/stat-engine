@@ -73,6 +73,10 @@
     margin: 0 0.15rem 0 0.35rem;
   }
 
+  .tweet-card-yellow {
+    background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    }
+
   .tweet-card {
     display: flex;
     flex-flow: column wrap;
