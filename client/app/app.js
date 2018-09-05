@@ -55,6 +55,7 @@ import marketplace from './marketplace';
 
 // global components
 import navbar from '../components/navbar/navbar.component';
+import sidebar from '../components/sidebar/sidebar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 
@@ -103,6 +104,7 @@ angular.module('statEngineApp', [
   api,
   guides,
   navbar,
+  sidebar,
   report,
   spade,
   marketplace,

@@ -1,0 +1,205 @@
+/* ----------------------------------------- */
+/* ############### 3.8 Forms ############### */
+/* ----------------------------------------- */
+
+/* #################### VALIDATION #################### */
+
+.is-valid,
+.is-invalid {
+  &:focus,
+  &:active { box-shadow: none !important; }
+}
+
+.is-warning {
+  &,&:focus,&:active {
+    border-color: theme-color('warning');
+  }
+}
+
+
+/* #################### INPUT FORM STYLES #################### */
+
+.fc-outline,
+.fc-outline-dark {
+  &,&:focus,&:active { background-color: transparent; }
+}
+
+.fc-outline {
+  &:focus,
+  &:active { border-color: $gray-500; }
+}
+
+.fc-outline-dark {
+  border-color: rgba(#fff,0.3);
+  color: #fff;
+
+  &:focus,
+  &:active {
+    border-color: rgba(#fff,0.75);
+    color: rgba(#fff,0.75);
+  }
+}
+
+.fc-focus-primary { &:focus,&:active { border-color: theme-color('primary'); }}
+.fc-focus-success { &:focus,&:active { border-color: theme-color('success'); }}
+.fc-focus-warning { &:focus,&:active { border-color: theme-color('warning'); }}
+.fc-focus-danger { &:focus,&:active { border-color: theme-color('danger'); }}
+.fc-focus-info { &:focus,&:active { border-color: theme-color('info'); }}
+.fc-focus-indigo { &:focus,&:active { border-color: $indigo; }}
+.fc-focus-purple { &:focus,&:active { border-color: $purple; }}
+.fc-focus-teal { &:focus,&:active { border-color: $teal; }}
+.fc-focus-pink { &:focus,&:active { border-color: $pink; }}
+.fc-focus-orange { &:focus,&:active { border-color: $orange; }}
+
+
+/* #################### INPUT FILE BROWSER #################### */
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+
+  + label {
+    margin-bottom: 0;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 8px 20px;
+    @include border-radius();
+    @include transition($transition-base);
+
+    i {
+      vertical-align: middle;
+      margin-top: -0.25em;
+      margin-right: 10px;
+      line-height: 0;
+    }
+
+    &.bg-primary:hover { background-color: darken(theme-color('primary'), 5%) !important; }
+    &.bg-success:hover { background-color: darken(theme-color('success'), 5%) !important; }
+    &.bg-warning:hover { background-color: darken(theme-color('warning'), 5%) !important; }
+    &.bg-danger:hover { background-color: darken(theme-color('danger'), 5%) !important; }
+    &.bg-info:hover { background-color: darken(theme-color('info'), 5%) !important; }
+    &.bg-indigo:hover { background-color: darken($indigo, 5%); }
+    &.bg-purple:hover { background-color: darken($purple, 5%); }
+    &.bg-pink:hover { background-color: darken($pink, 5%); }
+    &.bg-orange:hover { background-color: darken($orange, 5%); }
+    &.bg-teal:hover { background-color: darken($teal, 5%); }
+    &.bg-dark:hover { background-color: darken($gray-800, 5%); }
+
+    &.if-outline { padding: 6px 18px; }
+
+    &.if-outline-primary { @include input-file-bd-variant(theme-color('primary')); }
+    &.if-outline-success { @include input-file-bd-variant(theme-color('success')); }
+    &.if-outline-warning { @include input-file-bd-variant(theme-color('warning')); }
+    &.if-outline-danger { @include input-file-bd-variant(theme-color('danger')); }
+    &.if-outline-info { @include input-file-bd-variant(theme-color('info')); }
+    &.if-outline-indigo { @include input-file-bd-variant($indigo); }
+    &.if-outline-purple { @include input-file-bd-variant($purple); }
+    &.if-outline-pink { @include input-file-bd-variant($pink); }
+    &.if-outline-orange { @include input-file-bd-variant($orange); }
+    &.if-outline-teal { @include input-file-bd-variant($teal); }
+    &.if-outline-dark { @include input-file-bd-variant($gray-800); }
+  }
+
+  + .if-style-1 {
+    text-align: center;
+    color: theme-color('info');
+
+    .icon-wrapper {
+      width: 100px;
+      height: 100px;
+      background-color: theme-color('info');
+      color: #fff;
+      @include border-radius(100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      margin: 0 auto 10px;
+
+      > i {
+        height: 50px;
+        margin-right: 0;
+        line-height: 0;
+      }
+    }
+
+    &.if-primary { @include if-color-variant(theme-color('primary')); }
+    &.if-success { @include if-color-variant(theme-color('success')); }
+    &.if-warning { @include if-color-variant(theme-color('warning')); }
+    &.if-danger { @include if-color-variant(theme-color('danger')); }
+    &.if-info { @include if-color-variant(theme-color('info')); }
+    &.if-indigo { @include if-color-variant($indigo); }
+    &.if-purple { @include if-color-variant($purple); }
+    &.if-teal { @include if-color-variant($teal); }
+    &.if-pink { @include if-color-variant($pink); }
+    &.if-orange { @include if-color-variant($orange); }
+    &.if-dark { @include if-color-variant($gray-800); }
+    &.if-light { @include if-color-variant(rgba(#fff,0.6)); }
+  }
+}
+
+/* #################### RTL SUPPORT #################### */
+.rtl {
+  .input-group {
+    .input-group-addon,
+    .form-control {
+      &:not(:last-child) {
+        border-left-width: 0;
+        border-right: 1px solid $input-border-color;
+      }
+
+      &:first-child {
+        @include border-right-radius(3px);
+        @include border-left-radius(0);
+      }
+
+      &:last-child {
+        border-left: 1px solid $input-border-color;
+        @include border-left-radius(3px);
+        @include border-right-radius(0);
+      }
+    }
+
+    .input-group-btn {
+      &:not(:last-child) .btn {
+        border-left: 0;
+        border-right: 1px solid $input-border-color;
+      }
+
+      &:first-child .btn {
+        @include border-right-radius(3px);
+        @include border-left-radius(0);
+      }
+
+      &:last-child .btn {
+        @include border-left-radius(3px);
+        @include border-right-radius(0);
+      }
+    }
+
+    .form-control:focus { border-color: $gray-400; }
+  }
+
+  .inputfile {
+    + label {
+      i {
+        margin-left: 10px;
+        margin-right: 0;
+      }
+    }
+
+    + .if-style-1 {
+      .icon-wrapper {
+        > i { margin-left: 0; }
+      }
+    }
+  }
+
+}

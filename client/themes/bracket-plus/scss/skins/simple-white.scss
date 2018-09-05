@@ -1,0 +1,248 @@
+/*!
+ * Bracket Plus Skin - Simple White
+ * Version: 1.1.0
+ * Author: ThemePixels (@themepixels)
+ * URL: http://themepixels.me/bracketplus
+**/
+
+// Bootstrap variable overrides
+@import "../bootstrap/variables";
+
+// Bootstrap functions, mixins and variables
+@import "../../bower_components/bootstrap/scss/functions";
+@import "../../bower_components/bootstrap/scss/variables";
+@import "../../bower_components/bootstrap/scss/mixins";
+
+body { background-color: $gray-100; }
+
+.br-sideleft {
+  background-color: #fff;
+
+  @include media-breakpoint-up(lg) {
+    border-right: 1px solid $gray-400;
+  }
+}
+
+.br-logo { box-shadow: 0 1px 4px 0px rgba(#000, 0.16); }
+
+.sidebar-label {
+   color: $gray-500;
+   opacity: 1;
+
+   &.tx-info { color: theme-color('info'); }
+}
+
+.br-menu-link {
+  color: $gray-600;
+
+  &.with-sub {
+    &::after { color: $gray-500; }
+  }
+
+  &:hover,
+  &:focus {
+    color: $gray-700;
+    background-color: $gray-200;
+  }
+
+  &:focus,
+  &:active { outline: none; }
+
+  &.show-sub {
+    background-color: $gray-200;
+    color: $gray-700;
+  }
+
+  &.active {
+    color: #fff;
+    &::after { color: #fff; }
+  }
+}
+
+.br-menu-sub {
+  background-color: $gray-100;
+
+  .sub-link {
+    color: $gray-600;
+    &::before { background-color: $gray-600; }
+  }
+}
+
+.info-list {
+  .info-list-label { color: $gray-600; }
+  .info-list-amount {
+    color: $gray-800;
+    font-weight: 700;
+  }
+}
+
+.br-pageheader { background-color: $gray-200; }
+
+.br-sideright {
+  background-color: #fff;
+
+  .more {
+    color: $gray-400;
+    opacity: 1;
+    &:hover,
+    &:focus { color: theme-color('info'); }
+  }
+
+  .switch-button-background {
+    background-color: $gray-500;
+    &.checked { background-color: $teal; }
+  }
+}
+
+//sidebar tabs
+.sidebar-tabs {
+  background-color: $gray-200;
+
+  .nav-link {
+    color: $gray-600;
+    border: 0;
+    padding: 13px 24px;
+    @include border-radius(0);
+
+    &.active {
+      background-color: #fff;
+      color: $teal;
+    }
+  }
+
+  .nav-item:first-child {
+    .nav-link { border-left: 0; }
+  }
+}
+
+.contact-list-link {
+  color: $gray-700;
+
+  &.new { background-color: $gray-100; }
+
+  &:hover,
+  &:focus {
+    color: $gray-800;
+    background-color: $gray-200;
+  }
+}
+
+.contact-status-indicator {
+  border-color: #fff;
+}
+
+.media-file-list {
+  .media-body {
+    color: $gray-800;
+  }
+}
+
+.br-time { color: $gray-800; }
+.br-date { color: $gray-600; }
+
+.sidebar-datepicker {
+  .ui-datepicker-inline {
+    border: 1px solid $gray-300;
+
+    .ui-datepicker-title { color: theme-color('info'); }
+  }
+
+  .ui-datepicker-header {
+     color: $gray-600;
+
+     .ui-datepicker-next,
+     .ui-datepicker-prev {
+       &:hover,
+       &:focus {
+         &::before { color: theme-color('info'); }
+       }
+     }
+   }
+
+  .ui-datepicker-calendar {
+    thead th { color: $gray-800; }
+
+    .ui-state-default {
+      color: $gray-600;
+
+      &:hover,
+      &:focus {
+        background-color: $gray-200;
+        color: theme-color('info')
+      }
+    }
+
+    .ui-datepicker-today .ui-state-default {
+      color: theme-color('info');
+      border-color: theme-color('info');
+    }
+  }
+}
+
+.sidebar-event-list {
+  .list-group-item {
+    border-color: $gray-300;
+
+    h6 { color: $gray-800; }
+    p { color: $gray-600; }
+  }
+}
+
+.sidebar-settings-item {
+  color: $gray-800;
+
+  .form-control {
+    background-color: #fff;
+    border-color: $input-border-color;
+    color: $gray-700;
+  }
+}
+
+.br-subleft {
+  background-color: $gray-100;
+  border-right: 1px solid $gray-300;
+}
+
+.br-nav-mailbox {
+  .nav-link {
+    color: $gray-600;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-200;
+      color: theme-color('info');
+    }
+
+    &.active {
+      background-color: $gray-200;
+      color: theme-color('info');
+    }
+  }
+}
+
+
+/********** RTL SUPPORT **********/
+/*********************************/
+
+.rtl {
+  .br-sideleft {
+    border-right: 0;
+    @include media-breakpoint-up(lg) {
+      border-left: 1px solid $gray-400;
+    }
+  }
+
+  //sidebar tabs
+  .sidebar-tabs {
+    .nav-link {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .br-subleft {
+    background-color: $gray-100;
+    border-left: 1px solid $gray-300;
+    border-right: 0;
+  }
+}

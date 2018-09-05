@@ -1,0 +1,20 @@
+/* ----------------------------------------- */
+/* ############### 7.4 Hover ############### */
+/* ----------------------------------------- */
+
+// Hover for colored anchor
+a.tx-success { @include hover-color(darken(theme-color('success'), 5%)); }
+a.tx-warning { @include hover-color(darken(theme-color('warning'), 5%)); }
+a.tx-danger { @include hover-color(darken(theme-color('danger'), 5%)); }
+a.tx-info { @include hover-color(darken(theme-color('info'), 5%)); }
+
+// Hover property to anchor
+a.hover-gray-700 { @include hover-color($gray-700); }
+a.hover-primary { @include hover-color(theme-color('primary')); }
+a.hover-success { @include hover-color(theme-color('success')); }
+a.hover-info { @include hover-color(theme-color('info')); }
+a.hover-white { @include hover-color(#fff); }
+a.hover-dark { @include hover-color($gray-900); }
+
+// white half transparency
+a.hover-white-8 { @include hover-color(rgba(#fff, .8)); }

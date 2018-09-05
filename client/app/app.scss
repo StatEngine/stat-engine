@@ -1,10 +1,8 @@
 /////////////////////////////////
 // IMPORTS //
 ////////////////////////////////
-$icon-font-path: '/assets/fonts/bootstrap/';
-@import '~bootstrap-sass/assets/stylesheets/_bootstrap';
-@import '~bootstrap-social/bootstrap-social.scss';
-@import '~bootstrap-4-grid/css/grid.min.css';
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap-grid';
 @import '~hover.css/css/hover.css';
 @import '~animate.css/animate.css';
 $fa-font-path: '/assets/fonts/font-awesome/';
@@ -18,6 +16,9 @@ $fa-font-path: '/assets/fonts/statengine/';
 @import "~mapbox-gl/dist/mapbox-gl.css";
 @import "~vis/dist/vis.css";
 @import "~tippy.js/dist/tippy.css";
+
+// Theme import
+@import "../themes/bracket-plus/scss/bracket";
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Montserrat:Extra-Light,Light,Regular,Medium,Semi-Bold,Bold,Extra-Bold,Black");
@@ -753,8 +754,8 @@ button {
 }
 
 .btn-primary {
-  @include gradient-horizontal($start-color: $color-java,
-   $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);
+/*  @include gradient-horizontal($start-color: $color-java,
+   $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);*/
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
   border: none;
 }
@@ -782,13 +783,13 @@ button {
 }
 
 .btn-alt-3 {
-  background: $brand-danger;
+  background: $color-brand-danger;
   color: white;
   &:disabled:hover {
-    background: $brand-danger;
+    background: $color-brand-danger;
   }
   &:hover {
-    background: darken($brand-danger,5%);
+    background: darken($color-brand-danger,5%);
   }
 }
 

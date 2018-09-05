@@ -1,0 +1,67 @@
+
+$body-bg:                       #E9ECEF;
+$body-color:                    #868ba1;
+
+// Border
+$border-radius:                 3px;
+
+// Color
+$orange:                        #f27510;
+$teal:                          #1CAF9A;
+
+$blue:                          #0866C6;  // primary
+$green:                         #23bf08;  // success
+$yellow:                        #f49917;  // warning
+$red:                           #DC3545;  // danger
+$cyan:                          #17A2B8;  // info
+
+// Forms elements
+$input-btn-padding-y:           0.65rem;
+
+// Custom Forms
+$ckbox-size:                    16px;
+$rdiobox-size:                  16px;
+
+// Form states and alerts
+$state-success-bg:              lighten($green, 40%);
+$state-success-border:          lighten($green, 35%);
+
+$state-info-bg:                 lighten($blue, 40%);
+$state-info-border:             lighten($blue, 35px);
+
+$state-warning-bg:              lighten($yellow, 30%);
+$state-warning-border:          lighten($yellow, 25%);
+
+$state-danger-bg:               lighten($red, 25%);
+$state-danger-border:           lighten($red, 20%);
+
+// Fonts
+$font-family-hind:              'Hind', 'Helvetica Neue', Arial, sans-serif;
+$font-family-firasans:          'Fira Sans', 'Helvetica Neue', Arial, sans-serif;
+$font-family-roboto:            'Roboto', 'Helvetica Neue', Arial, sans-serif;
+$font-family-poppins:           'Poppins', 'Helvetica Neue', Arial, sans-serif;
+$font-family-source:            'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+$font-family-montserrat:        'Montserrat', 'Fira Sans', 'Helvetica Neue', Arial, sans-serif;
+$font-family-lato:              'Lato', 'Helvetica Neue', Arial, sans-serif;
+$font-family-barcode:           'Libre Barcode 39 Extended Text', cursive;
+
+$font-family-base:              $font-family-firasans;
+$font-size-base:                .875rem;
+
+// Links
+$link-hover-decoration:         none;
+
+// Table
+$table-border-color:            #dee2e6;
+
+// CUSTOM VARIABLES NOT BELONG TO BOOTSTRAP //
+$br-header-height:              60px;
+$br-header-bg:                  #fff;
+$br-sideleft-width:             230px;
+$br-subleft-width:              230px;
+$br-sideright-width:            280px;
+
+$br-primary:                    #1D2939;
+$blue:                          #0866C6;
+$green:                         #23BF08;
+$yellow:                        #F49917;
