@@ -156,15 +156,15 @@ export default class IncidentAnalysisController {
     _.forEach(evidence, e => {
       switch (e.grade) {
       case 'SUCCESS':
-        html += `<li class="text-success">${e.text}</li>`;
+        html += `<li class="text-success tippy-text">${e.text}</li>`;
         break;
 
       case 'WARNING':
-        html += `<li class="text-warning">${e.text}</li>`;
+        html += `<li class="text-warning tippy-text">${e.text}</li>`;
         break;
 
       case 'DANGER':
-        html += `<li class="text-danger">${e.text}</li>`;
+        html += `<li class="text-danger tippy-text">${e.text}</li>`;
         break;
       }
     });

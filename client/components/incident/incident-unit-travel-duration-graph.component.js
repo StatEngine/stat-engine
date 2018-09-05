@@ -50,8 +50,9 @@ export default class IncidentUnitTravelDurationGraphComponent {
     });
 
     const expectedTrace = {
-      x: units,
-      y: expected,
+      y: units,
+      x: expected,
+      orientation: 'h',
       name: 'Expected',
       type: 'bar',
       marker: {
@@ -63,8 +64,9 @@ export default class IncidentUnitTravelDurationGraphComponent {
     };
 
     const actualTrace = {
-      x: units,
-      y: actual,
+      y: units,
+      x: actual,
+      orientation: 'h',
       name: 'Actual',
       type: 'bar',
       marker: {
@@ -78,30 +80,44 @@ export default class IncidentUnitTravelDurationGraphComponent {
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
 
-    const firstArrivalTrace = {
-      x: [units[0], units[units.length - 1]],
-      y: [firstArrived.extended_data.travel_duration, firstArrived.extended_data.travel_duration],
-      type: 'scatter',
-      name: 'First Arrival',
-      mode: 'lines',
-      line: {
-        color: '#e91276',
-        width: 3,
-        dash: 'dash',
-      }
-    };
+    let shapes = [];
+    let annotations = [];
+
+    if (firstArrived) {
+      shapes.push({
+        type: 'line',
+        x0: firstArrived.extended_data.travel_duration,
+        x1: firstArrived.extended_data.travel_duration,
+        y0: -1,
+        y1: units.length,
+        line: {
+          color: '#e91276',
+          width: 3,
+          dash: 'dash',
+        },
+        name: 'First Arrival'
+      });
+
+      annotations.push({
+        x: firstArrived.extended_data.travel_duration,
+        y: units.length + 0.2,
+        text: 'First Arrival',
+        showarrow: false,
+        font: {
+          color: '#e91276'
+        },
+      });
+    }
 
     const data = [];
 
     if(this.travelMatrix) data.push(expectedTrace);
     data.push(actualTrace);
-    data.push(firstArrivalTrace);
 
     var layout = {
-      barmode: 'group',
-      bargap: 0.3,
-      bargroupgap: 0,
       height: 290,
+      shapes,
+      annotations,
       margin: {
         l: 52,
         r: 1,
@@ -109,26 +125,15 @@ export default class IncidentUnitTravelDurationGraphComponent {
         t: 0,
       },
       yaxis: {
-        title: 'Seconds',
         zerolinecolor: '#d7dee3',
         linecolor: '#d7dee3',
       },
       xaxis: {
         // zerolinecolor: '#d7dee3',
+        title: 'Seconds',
         linecolor: '#d7dee3',
       },
-      annotations: [{
-        x: firstDue.unit_id,
-        y: this.travelMatrix
-          ? _.max([firstDue.extended_data.travel_duration, this.travelMatrix[firstDue.unit_id].duration]) + 20 : firstDue.extended_data.travel_duration,
-        xref: 'x',
-        yref: 'y',
-        text: 'First Due',
-        showarrow: false,
-        font: {
-          color: '#26a88e'
-        },
-      }]
+
     };
     PlotlyBasic.newPlot(this.id, data, layout, {displayModeBar: false});
   }
