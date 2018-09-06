@@ -152,7 +152,9 @@ if(process.env.NODE_ENV === 'development') {
         name: 'Daily',
         timeUnit: 'DAY',
         sections: {
-          showAlertSummary: false,
+          showAlertSummary: {
+            FireIncidentEventDurationRule30: false
+          },
           showBattalionSummary: true,
           showIncidentTypeSummary: false,
           showAgencyIncidentTypeSummary: false,

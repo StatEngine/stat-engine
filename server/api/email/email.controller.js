@@ -121,7 +121,7 @@ const agencyIncidentTypeMetricConfigs = [
   ['incidentCount'],
 ];
 
-function _formatAlerts(ruleAnalysis) {
+function _formatAlerts(ruleAnalysis, reportOptions) {
   let mergeVar = {
     name: 'alerts',
     content: []
@@ -132,7 +132,11 @@ function _formatAlerts(ruleAnalysis) {
       if(violation.level === 'DANGER') violation.rowColor = '#f2dede';
       else if(violation.level === 'WARNING') violation.rowColor = '#fcf8e3';
 
-      mergeVar.content.push(violation);
+      console.dir(violation)
+      console.dir(reportOptions);
+      let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
+      console.dir(showAlert);
+      if (_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
     });
   });
 
