@@ -2,24 +2,16 @@
   <header class="naked"></header>
   <section class="container site-content">
     <h4> Time Range Summary Email</h4>
-    <p> Start and end times will be calculated based on Shift </p>
     <form name="myForm">
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="DAY">
-        Day
-      </label><br/>
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="WEEK">
-        Week
-      </label><br/>
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="MONTH">
-        Month
-      </label><br/>
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="YEAR">
-        Year
-      </label><br/>
+      <strong>Select Configuration</strong>
+      <br>
+
+      <label ng-repeat="config in vm.reportConfigurations">
+        <input type="radio" ng-model="vm.configurationId" ng-value="config._id">
+        {{ config.config_json.name }}
+        <br>
+      </label>
+      <br>
 
       <label>Start Date: </label>
       <input type="date"
@@ -28,6 +20,11 @@
       <label>
          <input type="checkbox" ng-model="vm.test">
          Test?
+      </label><br/>
+
+      <label>
+         <input type="checkbox" ng-model="vm.previous">
+         Previous? (data will be reported on the previous time period instead of active one - this is usually what you want!))
       </label><br/>
    </form>
 
