@@ -6,14 +6,15 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.incident', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<sidebar></sidebar>'
+        },
+      },
     })
     .state('site.incident.search', {
       url: '/incidents/search',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./incident-search/incident-search.html'),
           controller: 'IncidentSearchController',
@@ -41,9 +42,6 @@ export default function routes($stateProvider) {
     .state('site.incident.analysis', {
       url: '/incidents/:id',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./incident-analysis/incident-analysis.html'),
           controller: 'IncidentAnalysisController',

@@ -8,14 +8,15 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.twitter', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<sidebar></sidebar>'
+        },
+      },
     })
     .state('site.twitter.home', {
       url: '/twitter',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./twitter-home/twitter-home.html'),
           controller: 'TwitterHomeController',
