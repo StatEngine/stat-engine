@@ -555,7 +555,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: 155.9969,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,department_admin',
         username: 'westMetro',
         first_name: 'Demo',
         last_name: 'User',

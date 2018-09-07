@@ -28,6 +28,7 @@ export default class DepartmentAdminEmailController {
   }
 
   send() {
+    console.dir(this.startDate);
     if (this.configurationId) {
       this.EmailService.send({
         id: 'timeRangeAnalysis',

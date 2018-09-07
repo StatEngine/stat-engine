@@ -1,7 +1,18 @@
 <div class="site-content department-admin-email">
   <header class="naked"></header>
+
   <section class="container site-content">
-    <h4> Time Range Summary Email</h4>
+    <h4> Current Schedule</h4>
+
+    <ul>
+    <li ng-repeat="config in vm.reportConfigurations">
+      <strong> {{ config.config_json.schedulerOptions.later.text }} </strong>
+      <strong> timeUnit={{ config.config_json.timeUnit  }} </strong>
+      <pre> {{ config.config_json.sections  | json }} </pre>
+
+      <hr>
+    </ul>
+    <h4> Time Range Summary Test</h4>
     <form name="myForm">
       <strong>Select Configuration</strong>
       <br>
@@ -14,7 +25,7 @@
       <br>
 
       <label>Start Date: </label>
-      <input type="date"
+      <input type="datetime-local"
        ng-model="vm.startDate"><br/>
 
       <label>
