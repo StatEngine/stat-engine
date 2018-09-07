@@ -4,18 +4,19 @@ let _;
 
 export default class DepartmentAdminEmailController {
   /*@ngInject*/
-  constructor(currentPrincipal, departmentUsers, User, Email) {
+  constructor(currentPrincipal, reportConfigurations, User, Email) {
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
-    this.departmentUsers = departmentUsers;
-    this.UserService = User;
+    this.reportConfigurations = reportConfigurations;
+
     this.EmailService = Email;
 
     // defaults
-    this.timeUnit = 'DAY';
     this.test = true;
     this.startDate = new Date();
-    this.startDate.setDate(this.startDate.getDate() - 1);
+    this.startDate.setDate(this.startDate.getDate());
+    this.previous = true;
+    this.configurationId = this.reportConfigurations.length > 0 ? this.reportConfigurations[0]._id : undefined;
   }
 
   async loadModules() {
@@ -24,20 +25,22 @@ export default class DepartmentAdminEmailController {
 
   async $onInit() {
     await this.loadModules();
-
-    this.users = _.filter(this.departmentUsers, u => !u.isAdmin);
   }
 
   send() {
-    this.EmailService.send({
-      id: 'timeRangeAnalysis',
-      test: this.test,
-      startDate: this.startDate,
-      timeUnit: this.timeUnit,
-    }, {})
-      .$promise
-      .then(() => {
-        console.info('Alert sent');
-      });
+    console.dir(this.startDate);
+    if (this.configurationId) {
+      this.EmailService.send({
+        id: 'timeRangeAnalysis',
+        test: this.test,
+        previous: this.previous,
+        startDate: this.startDate,
+        configurationId: this.configurationId,
+      }, {})
+        .$promise
+        .then(() => {
+          console.info('Alert sent');
+        });
+      }
   }
 }

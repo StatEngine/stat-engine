@@ -5,7 +5,9 @@ import _ from 'lodash';
 
 import connection from '../elasticsearch/connection';
 
-import { FireIncidentEventDurationRule } from './rules/fireIncidentEventDurationRule';
+import { FireIncidentEventDurationRule30 } from './rules/fireIncidentEventDurationRule30';
+import { FireIncidentEventDurationRule60 } from './rules/fireIncidentEventDurationRule60';
+import { OvernightEventsRule } from './rules/overnightEventsRule';
 import { EventDurationSumRule } from './rules/eventDurationSumRule';
 
 export function previousTimeRange(timeRange) {
@@ -158,7 +160,9 @@ export class IncidentAnalysisTimeRange {
   ruleAnalysis() {
     let ruleConfig = [
       EventDurationSumRule,
-      FireIncidentEventDurationRule,
+      OvernightEventsRule,
+      FireIncidentEventDurationRule30,
+      FireIncidentEventDurationRule60,
     ];
 
     let rules = [];

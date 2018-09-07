@@ -1,33 +1,41 @@
 <div class="site-content department-admin-email">
   <header class="naked"></header>
+
   <section class="container site-content">
-    <h4> Time Range Summary Email</h4>
-    <p> Start and end times will be calculated based on Shift </p>
+    <h4> Current Schedule</h4>
+
+    <ul>
+    <li ng-repeat="config in vm.reportConfigurations">
+      <strong> {{ config.config_json.schedulerOptions.later.text }} </strong>
+      <strong> timeUnit={{ config.config_json.timeUnit  }} </strong>
+      <pre> {{ config.config_json.sections  | json }} </pre>
+
+      <hr>
+    </ul>
+    <h4> Time Range Summary Test</h4>
     <form name="myForm">
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="DAY">
-        Day
-      </label><br/>
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="WEEK">
-        Week
-      </label><br/>
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="MONTH">
-        Month
-      </label><br/>
-      <label>
-        <input type="radio" ng-model="vm.timeUnit" value="YEAR">
-        Year
-      </label><br/>
+      <strong>Select Configuration</strong>
+      <br>
+
+      <label ng-repeat="config in vm.reportConfigurations">
+        <input type="radio" ng-model="vm.configurationId" ng-value="config._id">
+        {{ config.config_json.name }}
+        <br>
+      </label>
+      <br>
 
       <label>Start Date: </label>
-      <input type="date"
+      <input type="datetime-local"
        ng-model="vm.startDate"><br/>
 
       <label>
          <input type="checkbox" ng-model="vm.test">
          Test?
+      </label><br/>
+
+      <label>
+         <input type="checkbox" ng-model="vm.previous">
+         Previous? (data will be reported on the previous time period instead of active one - this is usually what you want!))
       </label><br/>
    </form>
 
