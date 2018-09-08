@@ -12,7 +12,6 @@ import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
 
 // vendor utils
-
 // These two aren't angular modules but still need to be loaded
 // eslint-disable-next-line
 import oclazyload from 'oclazyload';
@@ -26,6 +25,8 @@ import MapBoxGL from 'mapbox-gl';
 
 import '../polyfills';
 import './app.scss';
+
+import { Store } from '../state/store';
 
 // StatEngine modules
 import {
@@ -45,6 +46,7 @@ import spade from './spade';
 import shift from './shift';
 import statEngine from './statEngine';
 import user from './user';
+import reporting from './reporting';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import nfpa from './nfpa';
@@ -76,6 +78,8 @@ import util from '../components/util/util.module';
 
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
+
+import api2 from '../api/index';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -122,7 +126,9 @@ angular.module('statEngineApp', [
   constants,
   amplitudeService,
   util,
-  humanizeComponents
+  humanizeComponents,
+  reporting,
+  api2,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

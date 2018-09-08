@@ -63,9 +63,19 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-filter-count-to/dist/angular-filter-count-to.min.js',
                 'angular-moment',
                 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
-                'mapbox-gl'
+                'mapbox-gl',
+                'mobx',
+                //'mobx-angularjs',
+                'mobx-state-tree',
+                'axios',
             ],
         };
+    }
+
+    config.resolve = {
+      alias: {
+         mobx: path.resolve(__dirname, 'node_modules/mobx')
+      }
     }
 
     config.optimization = {
@@ -229,7 +239,7 @@ module.exports = function makeWebpackConfig(options) {
         }),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      //  new BundleAnalyzerPlugin(),
+        new BundleAnalyzerPlugin(),
         new webpack.HashedModuleIdsPlugin()
     ];
 
