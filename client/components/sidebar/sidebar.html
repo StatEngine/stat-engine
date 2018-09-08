@@ -23,53 +23,78 @@
 </div><!-- br-header -->
 
 <!-- ########## START: LEFT PANEL ########## -->
-<div class="br-logo"><a href=""><span>[</span>bracket <i>plus</i><span>]</span></a></div>
+<div class="br-logo">
+  <a href="">
+    <img src="/assets/images/se-branding-mark.svg" class="se-logo-mark" alt="statengine logo mark">
+    <img src="/assets/images/se-branding-text.svg" class="se-logo-text" alt="statengine logo text">
+  </a>
+</div>
 <div class="br-sideleft overflow-y-auto">
-  <label class="sidebar-label pd-x-10 mg-t-20 op-3">Navigation</label>
+  <label class="sidebar-label pd-x-25 mg-t-20 op-3">Navigation</label>
   <ul class="br-sideleft-menu">
     <li class="br-menu-item">
       <a href="#" ui-sref="site.user.home" class="br-menu-link">
         <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-home"></i>
-        <span class="menu-item-label">Dashboard</span>
+        <span class="menu-item-label text-truncate">Control Center</span>
       </a><!-- br-menu-link -->
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
       <a href="#" ui-sref="site.incident.search" class="br-menu-link">
         <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-search"></i>
-        <span class="menu-item-label">Incident Analysis</span>
-      </a><!-- br-menu-link -->
-    </li><!-- br-menu-item -->
-    <li class="br-menu-item">
-      <a href="#" ui-sref="site.twitter.home" class="br-menu-link">
-        <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-twitter"></i>
-        <span class="menu-item-label">Twitter</span>
-      </a><!-- br-menu-link -->
-    </li><!-- br-menu-item -->
-    <li class="br-menu-item">
-      <a href="#" ui-sref="site.user.settings" class="br-menu-link">
-        <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-user"></i>
-        <span class="menu-item-label">Profile</span>
-      </a><!-- br-menu-link -->
-    </li><!-- br-menu-item -->
-    <li class="br-menu-item">
-      <a href="#" ui-sref="site.marketplace.home" class="br-menu-link">
-        <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-superpowers"></i>
-        <span class="menu-item-label">Marketplace</span>
+        <span class="menu-item-label text-truncate">Dashboard</span>
       </a><!-- br-menu-link -->
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
-        <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
-        <span class="menu-item-label">Apps</span>
+        <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-twitter"></i>
+        <span class="menu-item-label text-truncate">Reports</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="#" ui-sref="site.twitter.home" class="sub-link">Twitter</a></li>
+        <li class="sub-item"><a href="#" ui-sref="site.incident.search" class="sub-link">Incidents</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Apparatusr</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Stations</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Batallions</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Addressess</a></li>
+      </ul>
+    </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+      <a href="#" class="br-menu-link with-sub">
+        <i class="menu-item-icon icon ion-ios-photos-outline tx-20 se-icon-dashboard"></i>
+        <span class="menu-item-label text-truncate">Apps</span>
+      </a><!-- br-menu-link -->
+      <ul class="br-menu-sub">
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Twitter</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Weather</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Reporting</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Another App</a></li>
       </ul>
     </li>
-    ...
+    <li class="br-menu-item">
+      <a href="#" ui-sref="site.marketplace.home" class="br-menu-link">
+        <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-superpowers"></i>
+        <span class="menu-item-label text-truncate">Marketplace</span>
+      </a><!-- br-menu-link -->
+    </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+      <a href="#" class="br-menu-link">
+        <i class="menu-item-icon icon ion-ios-photos-outline tx-20 se-icon-dashboard"></i>
+        <span class="menu-item-label text-truncate">Support</span>
+      </a><!-- br-menu-link -->
+    </li>
+    </li><!-- br-menu-item -->
+    <label class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
+    <ul class="br-sideleft-menu">
+      <li class="br-menu-item">
+        <a href="#" ui-sref="site.user.home" class="br-menu-link">
+          <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-home"></i>
+          <span class="menu-item-label text-truncate">Fire Departments</span>
+        </a><!-- br-menu-link -->
+      </li><!-- br-menu-item -->
+      <li class="br-menu-item">
+        <a href="#" ui-sref="site.user.settings" class="br-menu-link">
+          <i class="menu-item-icon icon ion-ios-home-outline tx-24 fa fa-user"></i>
+          <span class="menu-item-label text-truncate">Users</span>
+        </a><!-- br-menu-link -->
   </ul><!-- br-sideleft-menu -->
-
-  ...
-
 </div><!-- br-sideleft -->
 <!-- ########## END: LEFT PANEL ########## -->
