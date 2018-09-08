@@ -94,6 +94,7 @@
     "sequelize": "^3.23.6",
     "serve-favicon": "^2.3.0",
     "skycons": "^1.0.0",
+    "slideout": "^1.0.1",
     "sprint-js": "~0.1.0",
     "summernote": "^0.8.10",
     "tippy.js": "^2.5.4",

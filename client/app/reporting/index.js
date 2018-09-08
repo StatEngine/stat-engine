@@ -6,8 +6,8 @@ import uiRouter from '@uirouter/angularjs';
 import routing from './reporting.routes';
 
 // modules
-import reportingHome from './reporting-home';
+import unit from './reporting-unit';
 
-export default angular.module('statEngineApp.reporting', [uiRouter, reportingHome])
+export default angular.module('statEngineApp.reporting', [uiRouter, unit])
   .config(routing)
   .name;

@@ -15,6 +15,14 @@ router.get(
   controller.getUnits,
 );
 
+router.get(
+  '/stats',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getUnitStats,
+);
+
 module.exports = router;
 
 export default router;

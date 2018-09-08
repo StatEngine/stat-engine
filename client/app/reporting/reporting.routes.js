@@ -10,12 +10,12 @@ export default function routes($stateProvider) {
       abstract: true,
       template: '<div ui-view />'
     })
-    .state('site.reporting.home', {
-      url: '/reporting',
+    .state('site.reporting.unit', {
+      url: '/reporting/unit',
       views: {
         'content@': {
-          template: require('./reporting-home/reporting-home.html'),
-          controller: 'ReportingHomeController',
+          template: require('./reporting-unit/reporting-unit.html'),
+          controller: 'ReportingUnitController',
           controllerAs: 'vm'
         },
       },

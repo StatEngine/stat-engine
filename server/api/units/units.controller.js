@@ -5,3 +5,9 @@ export function getUnits(req, res) {
     unitId: 'E2',
   }])
 }
+
+export function getUnitStats(req, res) {
+  res.json({
+    reponseTime: Math.random()
+  })
+}

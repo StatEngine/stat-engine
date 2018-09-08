@@ -79,6 +79,8 @@ import util from '../components/util/util.module';
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
+import reportingItemList from '../components/reporting-item-list/reporting-item-list.component';
+
 import api2 from '../api/index';
 
 angular.module('statEngineApp', [
@@ -129,6 +131,7 @@ angular.module('statEngineApp', [
   humanizeComponents,
   reporting,
   api2,
+  reportingItemList,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {
