@@ -4,6 +4,7 @@
 $fa-font-path: '/assets/fonts/font-awesome/';
 $fa-font-path: '/assets/fonts/statengine/';
 $fa-font-path: '/assets/fonts/inter-ui/';
+$fa-font-path: '/assets/fonts/ionicons/';
 @import '~angular-loading-bar/build/loading-bar.css';
 @import '~angular-ui-grid/ui-grid.css';
 @import '~animate.css/animate.css';
@@ -12,10 +13,12 @@ $fa-font-path: '/assets/fonts/inter-ui/';
 @import '~font-awesome/scss/font-awesome';
 @import '~hover.css/css/hover.css';
 @import "../assets/sass/se-font-styles";
+@import "../assets/sass/ionicons.css";
 @import "~angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css";
 @import "~mapbox-gl/dist/mapbox-gl.css";
 @import "~tippy.js/dist/tippy.css";
 @import "~vis/dist/vis.css";
+
 
 // Theme import
 @import "../themes/bracket-plus/scss/bracket";
@@ -88,8 +91,6 @@ body {
   background-color: white;
   color: $color-pickled-bluewood;
   font-family: 'Inter UI';
-  // font-weight: 400;
-  // font-size: 1.5rem;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -1001,6 +1002,7 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 ////////////////////////////////
 
 .br-logo {
+  border: 0;
   background-color: #152637;
   padding: 0 25px;
   img {
@@ -1019,6 +1021,10 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   padding: 0;
 }
 
+.navicon-left a {
+  color: $color-cloudy-sky;
+}
+
 .br-menu-link {
   color: $color-cloudy-sky;
   font-size: 15px;
@@ -1027,22 +1033,28 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   padding: 0 25px;
   &.show-sub {
     background-color: rgba(0,0,0,0.2);
-    box-shadow: inset #37eecb 3px 0px 0px 0px;
+    box-shadow: inset $color-bondi-blue 3px 0px 0px 0px;
     border-radius: 0;
   }
   &:hover, &:focus {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.15);
   }
   &.with-sub::after {
     font-size: 20px;
-    color: $color-cloudy-sky;
+    color: $color-pale-sky;
   }
 }
 
 .br-menu-sub {
-  background-color: rgba(0,0,0,0.2);
-  box-shadow: inset #37eecb 3px 0px 0px 0px;
+  background-color: rgba(0,0,0,0.15);
+  box-shadow: inset $color-bondi-blue 3px 0px 0px 0px;
   border-radius: 0;
+  padding: 0 0 15px 46px;
+
+  .sub-link {
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 .collapsed-menu {
@@ -1062,6 +1074,16 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     .br-menu-link {
       padding: 0 21px;
     }
+    .br-sideleft .sidebar-label {
+      visibility: visible;
+      &::before {
+        content: '...';
+        margin-right: 400px;
+      }
+    }
+  }
+  .navicon-left a {
+    transform: rotate(180deg);
   }
 }
 
@@ -1072,6 +1094,9 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     }
     .br-logo img.se-logo-text {
       left: 55px;
+    }
+    .br-sideleft .sidebar-label::before {
+      display: none;
     }
   }
 }
