@@ -322,6 +322,7 @@ export function send(req, res) {
 
   let test = true;
   if(req.query.test && req.query.test.toLowerCase() === 'false') test = false;
+
   req.to.forEach(user => {
     const metadata = {
       firecaresId: req.fireDepartment.firecares_id,

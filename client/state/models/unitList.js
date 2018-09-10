@@ -3,8 +3,8 @@ import { types, flow } from 'mobx-state-tree';
 import axios from 'axios'
 
 export const Unit = types.model({
-  unitId: types.identifier,
-  station: ''
+  id: types.identifier,
+  incidentCount: types.number,
 })
 
 export const UnitList = types.model({

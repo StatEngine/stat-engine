@@ -1,6 +1,6 @@
 <input type="text" ng-model="allKeyword" />
 <ul class="list-group">
   <li ng-repeat="item in vm.items | filter: allKeyword">
-    <a ng-click="vm.select(item.unitId)" href="#"> {{ item.unitId }} </a>
+    <a ng-click="vm.select(item.id)" href="#"> {{ item.id }} </a>
   </li>
 </ul>

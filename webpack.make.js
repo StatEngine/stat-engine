@@ -65,7 +65,6 @@ module.exports = function makeWebpackConfig(options) {
                 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
                 'mapbox-gl',
                 'mobx',
-                //'mobx-angularjs',
                 'mobx-state-tree',
                 'axios',
             ],
@@ -77,7 +76,7 @@ module.exports = function makeWebpackConfig(options) {
          mobx: path.resolve(__dirname, 'node_modules/mobx')
       }
     }
-
+    
     config.optimization = {
       splitChunks: {
         cacheGroups: {
@@ -233,6 +232,7 @@ module.exports = function makeWebpackConfig(options) {
           'jQuery': 'jquery',
           'window.jQuery': 'jquery',
           'window.$': 'jquery',
+          'window.mobx': 'mobx',
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'

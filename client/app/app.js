@@ -107,6 +107,7 @@ angular.module('statEngineApp', [
   account,
   admin,
   api,
+  //mobxAngular,
   guides,
   navbar,
   report,
