@@ -63,8 +63,7 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-filter-count-to/dist/angular-filter-count-to.min.js',
                 'angular-moment',
                 'moment',
-                'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
-                './client/themes/bracket-plus/js/bracket',
+                'moment-timezone/builds/moment-timezone-with-data-2012-2022.min'
             ],
         };
     }

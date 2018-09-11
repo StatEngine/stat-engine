@@ -1,6 +1,6 @@
 <div class="br-header">
   <div class="br-header-left">
-    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="se-icon-collapse-sidebar tx-14"></i></a></div>
+    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="#"><i class="se-icon-collapse-sidebar tx-14"></i></a></div>
     <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
     <!-- <div class="input-group hidden-xs-down wd-170 transition">
       <input id="searchbox" type="text" class="form-control" placeholder="Search">
@@ -22,7 +22,7 @@
 </div><!-- br-header -->
 
 <!-- ########## START: LEFT PANEL ########## -->
-<div class="br-logo">
+<div class="br-logo" tw-click-outside="vm.clickOutside()">
   <a href="">
     <img src="/assets/images/se-branding-mark.svg" class="se-logo-mark" alt="statengine logo mark">
     <img src="/assets/images/se-branding-text.svg" class="se-logo-text" alt="statengine logo text">
@@ -32,24 +32,24 @@
   <label class="sidebar-label pd-x-25 mg-t-20 op-3">Navigation</label>
   <ul class="br-sideleft-menu">
     <li class="br-menu-item">
-      <a href="#" ui-sref="site.user.home" class="br-menu-link">
+      <a href="#" ui-sref='site.user.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.home' }">
         <i class="menu-item-icon se-icon-control-center tx-20"></i>
         <span class="menu-item-label text-truncate">Control Center</span>
-      </a><!-- br-menu-link -->
+        </a><!-- br-menu-link -->
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
-      <a href="#" ui-sref="site.incident.search" class="br-menu-link">
+      <a href="#" ui-sref='site.incident.search' class="br-menu-link">
         <i class="menu-item-icon se-icon-dashboard-alt tx-20"></i>
         <span class="menu-item-label text-truncate">Dashboard</span>
       </a><!-- br-menu-link -->
     </li><!-- br-menu-item -->
     <li class="br-menu-item">
-      <a href="#" class="br-menu-link with-sub">
+      <a href="#" class="br-menu-link with-sub" ng-class="{ active: vm.$state.current.name.startsWith('site.incident') }">
         <i class="menu-item-icon se-icon-reports tx-20"></i>
         <span class="menu-item-label text-truncate">Reports</span>
       </a><!-- br-menu-link -->
       <ul class="br-menu-sub">
-        <li class="sub-item"><a href="#" ui-sref="site.incident.search" class="sub-link">Incidents</a></li>
+        <li class="sub-item"><a href="#" ui-sref='site.incident.search' class="sub-link">Incidents</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Apparatusr</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Stations</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Batallions</a></li>
@@ -69,7 +69,7 @@
       </ul>
     </li>
     <li class="br-menu-item">
-      <a href="#" ui-sref="site.marketplace.home" class="br-menu-link">
+      <a href="#" ui-sref='site.marketplace.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.marketplace.home' }">
         <i class="menu-item-icon se-icon-marketplace tx-20"></i>
         <span class="menu-item-label text-truncate">Marketplace</span>
       </a><!-- br-menu-link -->
@@ -84,13 +84,13 @@
     <label class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
     <ul class="br-sideleft-menu">
       <li class="br-menu-item">
-        <a href="#" ui-sref="site.user.home" class="br-menu-link">
+        <a href="#" class="br-menu-link">
           <i class="menu-item-icon se-icon-fire-departments tx-22"></i>
           <span class="menu-item-label text-truncate">Fire Departments</span>
         </a><!-- br-menu-link -->
       </li><!-- br-menu-item -->
       <li class="br-menu-item">
-        <a href="#" ui-sref="site.user.settings" class="br-menu-link">
+        <a href="#" class="br-menu-link">
           <i class="menu-item-icon se-icon-users tx-16"></i>
           <span class="menu-item-label text-truncate">Users</span>
         </a><!-- br-menu-link -->
