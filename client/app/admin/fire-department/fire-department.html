@@ -73,6 +73,14 @@
               </p>
             </div>
 
+            <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
+              <label>Logo Link</label>
+              <input type="text" name="logo_link" class="form-control input-md" ng-model="vm.fireDepartment.logo_link"/>
+              <p class="help-block" ng-show="fdForm.logo_link.$error.mongoose">
+                {{ vm.errors.logo_link }}
+              </p>
+            </div>
+
             <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
               <label>Timezone</label>
               <input type="text" name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required="required"/>

@@ -523,6 +523,29 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '06172',
+      firecares_id: '79592',
+      name: 'Delray Beach Fire-Rescue Department',
+      state: 'FL',
+      timezone: 'US/Eastern',
+      integration_complete: true,
+      latitude: 26.4615,
+      longitude: -80.0728,
+      logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/79592.jpg',
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'delray',
+        first_name: 'Delray',
+        last_name: 'Beach',
+        email: 'delray@prominentedge.com',
+        password: 'password',
+        api_key: 'delray',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '0001',
       firecares_id: '0001',
       name: 'Integration Complete Department',

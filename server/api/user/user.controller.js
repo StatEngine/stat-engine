@@ -373,6 +373,7 @@ export function me(req, res, next) {
           'state',
           'firecares_id',
           'timezone',
+          'logo_link',
         ]
       })
         .then(fire_department => res.json({ user, fire_department}))
