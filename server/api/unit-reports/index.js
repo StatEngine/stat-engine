@@ -12,7 +12,8 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-//  controller.generateUnitReport,
+  controller.buildQuery,
+  controller.getUnitStats,
 );
 
 router.get(
