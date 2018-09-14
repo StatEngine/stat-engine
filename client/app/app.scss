@@ -8,7 +8,7 @@ $fa-font-path: '/assets/fonts/ionicons/';
 @import '~angular-loading-bar/build/loading-bar.css';
 @import '~angular-ui-grid/ui-grid.css';
 @import '~animate.css/animate.css';
-@import '~bootstrap/scss/bootstrap-grid';
+// @import '~bootstrap/scss/bootstrap-grid';
 @import '~bootstrap/scss/bootstrap';
 @import '~font-awesome/scss/font-awesome';
 @import '~hover.css/css/hover.css';
@@ -49,7 +49,7 @@ $color-pelorous:                #46a0c1;
 $color-cranberry:               #d6527e;
 $color-celery:                  #99c550;
 
-// Bracket Variables
+// Bracket Theme Variables
 $br-header-height:              60px;
 $br-header-bg:                  #fff;
 $br-sideleft-width:             260px;
@@ -309,12 +309,21 @@ ol.statengine li::before{
     min-width: auto;
   }
 }
-.form-control:focus {
-  border-color: $color-java;
+.form-control {
+  &:focus {
+    border-color: $color-bondi-blue;
+    box-shadow: 0 0 9px 0.2rem rgba(24, 162, 178, 0.2);
+  }
+  &.ng-invalid:focus {
+    border-color: $color-brand-danger;
+    box-shadow: 0 0 9px 0.2rem rgba(213, 25, 69, 0.2);
+  }
 }
+
 .form-group {
 	margin-bottom: 2rem;
 }
+
 .form-extras {
   border-top: 1px solid $color-geyser;
   margin-top: 2rem;
@@ -324,6 +333,12 @@ ol.statengine li::before{
   }
 }
 
+.form-control-label {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0;
+}
+
 label {
   font-weight: 600;
 }
@@ -331,6 +346,14 @@ label {
 label.disabled {
   opacity: .5;
   cursor: not-allowed;
+}
+
+input.ng-invalid {
+  color: $color-brand-danger;
+  border-color: $color-brand-danger;
+  &::placeholder {
+    color: $color-brand-danger;
+  }
 }
 
 // Utility Nav
@@ -393,7 +416,7 @@ dl {
     opacity: .4;
   }
   dd {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 }
 
@@ -549,53 +572,54 @@ input[type="radio"]:focus {
 }
 
 // Cards
-// .card {
-//   background-color: white;
-//   border: 1px solid #ced2d6;
-//   border-radius: 5px;
-//   padding: 2rem;
-//   height: 100%;
-//   overflow: hidden;
-//   .card-header {
-//     border-bottom: 1px solid $color-geyser;
-//     font-size: 16px;
-//     font-weight: 500;
-//     margin: 0 0 2.5rem;
-//     padding: .25rem 0 1.5rem;
-//     .se-icon-info {
-//       &::before {
-//         color: lighten($color-pale-sky,20%);
-//         font-size: 22px;
-//         position: absolute;
-//         right: 3.5rem;
-//         top: 2rem;
-//         transition: all ease-in-out 0.2s;
-//       }
-//       &:hover::before {
-//         color: $color-pale-sky;
-//       }
-//     }
-//   }
-//   .card-footer {
-//     border-top: 1px solid $color-geyser;
-//     margin: 2.5rem 0 0;
-//     padding: 1.5rem 0 .25rem;
-//   }
-//   .card-footer {
-//     border-top: 1px solid $color-geyser;
-//     margin: 2.5rem 0 0;
-//     padding: 1.5rem 0 .25rem;
-//   }
-//   &.light-border {
-//     border-color: $color-geyser;
-//   }
-//   &.no-border {
-//     border: 0;
-//   }
-//   &.no-bg {
-//     background-color: transparent;
-//   }
-// }
+.card {
+  height: 100%;
+  .card-header {
+    background: transparent;
+    border-bottom: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 20px 20px 25px;
+    .se-icon-info {
+      &::before {
+        color: lighten($color-pale-sky,20%);
+        font-size: 22px;
+        position: absolute;
+        right: 3.5rem;
+        top: 2rem;
+        transition: all ease-in-out 0.2s;
+      }
+      &:hover::before {
+        color: $color-pale-sky;
+      }
+    }
+    > a {
+      color: lighten($color-pale-sky,20%);
+      &:hover,&:focus {
+        color: $color-pale-sky;
+      }
+    }
+  }
+  .card-footer {
+    border-top: 1px solid $color-geyser;
+    margin: 2.5rem 0 0;
+    padding: 1.5rem 0 .25rem;
+  }
+  .card-footer {
+    border-top: 1px solid $color-geyser;
+    margin: 2.5rem 0 0;
+    padding: 1.5rem 0 .25rem;
+  }
+  &.light-border {
+    border-color: $color-geyser;
+  }
+  &.no-border {
+    border: 0;
+  }
+  &.no-bg {
+    background-color: transparent;
+  }
+}
 
 .card-selected {
   border: 4px solid $color-bondi-blue;
@@ -655,6 +679,10 @@ input[type="radio"]:focus {
   width: 100px;
 }
 
+.mw-500 {
+  max-width: 500px;
+}
+
 .bg-light-gray {
   background-color: #f3f6f9;
 }
@@ -708,8 +736,6 @@ input[type="radio"]:focus {
   color: $color-brand-danger;
 }
 
-
-
 // Hover.css Overrides
 .hvr-float-shadow:active,
 .hvr-float-shadow:focus,
@@ -738,8 +764,8 @@ button {
 .btn {
   border-radius: 999px;
   font-family: 'Montserrat';
-  font-weight: 500;
   font-size: 15px;
+  font-weight: 500;
   letter-spacing: 0.015em;
   outline: none;
   transition: all 0.15s ease;
@@ -764,8 +790,7 @@ button {
 }
 
 .btn-primary {
-/*  @include gradient-horizontal($start-color: $color-java,
-   $end-color: $color-cerulean, $start-percent: 0%, $end-percent: 100%);*/
+  @include gradient-y($color-java , $color-cerulean);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
   border: none;
 }
@@ -869,7 +894,7 @@ button {
 
 // Button Sizes
 .btn {
-  padding: 14px 26px;
+  padding: 10px 26px;
 }
 
 .btn-sm {
@@ -1021,8 +1046,41 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   padding: 0;
 }
 
-.navicon-left a {
-  color: $color-cloudy-sky;
+.navicon-left {
+  border-right: 1px solid lighten($input-border-color,5%);
+}
+
+.navicon-left a,
+.br-header-right a {
+  color: lighten($color-pale-sky,10%);
+}
+
+.br-header {
+  box-shadow: none;
+  border-bottom: 1px solid lighten($input-border-color,5%);
+}
+
+.br-header-right .nav > div {
+  line-height: 0;
+}
+
+.br-pageheader {
+  background-color: lighten($color-geyser,8%);
+  border-bottom: 1px solid lighten($input-border-color,5%);
+}
+
+.nav {
+  align-items: center;
+}
+
+.logged-name {
+  font-weight: 500;
+  margin-left: 5px;
+  position: relative;
+}
+
+span + .logged-name {
+  top: -2px;
 }
 
 .br-menu-link {
@@ -1031,8 +1089,10 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   font-weight: 500;
   height: 50px;
   padding: 0 25px;
-  &.show-sub {
+  &.active, &.show-sub {
+    color: white;
     background-color: rgba(0,0,0,0.2);
+    background-image: none;
     box-shadow: inset $color-bondi-blue 3px 0px 0px 0px;
     border-radius: 0;
   }
@@ -1111,7 +1171,25 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   letter-spacing: 0.5px;
 }
 
+  @include media-breakpoint-up(sm) {
+    .br-pageheader {
+      padding: 15px 25px;
+    }
+    .br-pagetitle {
+      display: block;
+      padding: 25px 25px 0 25px;
+    }
+    .br-pagetitle > div {
+      padding-left: 0;
+    }
+    .br-pagebody {
+      padding: 0 25px;
+    }
+  }
 
+.br-mainpanel {
+  height: 100vh;
+}
 
 /////////////////////////////////
 // IMPORT COMPONENTS //
