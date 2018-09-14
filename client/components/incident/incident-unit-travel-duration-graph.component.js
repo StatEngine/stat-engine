@@ -36,22 +36,9 @@ export default class IncidentUnitTravelDurationGraphComponent {
 
     const units = [];
 
-    _.forEach(this.incident.apparatus, u => {
-      let unitId = u.unit_id;
-      units.push(unitId);
-
-      const actualDuration = _.get(u, 'extended_data.travel_duration');
-      actual.push(actualDuration);
-
-      if(this.travelMatrix) {
-        const expectedDuration = this.travelMatrix[unitId].duration;
-        expected.push(expectedDuration);
-      }
-    });
-
     const expectedTrace = {
-      y: units,
-      x: expected,
+      y: [],
+      x: [],
       orientation: 'h',
       name: 'Expected',
       type: 'bar',
@@ -64,8 +51,8 @@ export default class IncidentUnitTravelDurationGraphComponent {
     };
 
     const actualTrace = {
-      y: units,
-      x: actual,
+      y: [],
+      x: [],
       orientation: 'h',
       name: 'Actual',
       type: 'bar',
@@ -76,6 +63,23 @@ export default class IncidentUnitTravelDurationGraphComponent {
         }
       },
     };
+
+    _.forEach(this.incident.apparatus, u => {
+      let unitId = u.unit_id;
+      units.push(unitId);
+
+      const actualDuration = _.get(u, 'extended_data.travel_duration');
+      if(actualDuration) {
+        actualTrace.y.push(unitId);
+        actualTrace.x.push(actualDuration);
+      }
+
+      const expectedDuration = _.get(this.travelMatrix[unitId], 'duration');
+      if(expectedDuration) {
+        expectedTrace.y.push(unitId);
+        expectedTrace.x.push(expectedDuration);
+      }
+    });
 
     const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
@@ -89,7 +93,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
         x0: firstArrived.extended_data.travel_duration,
         x1: firstArrived.extended_data.travel_duration,
         y0: -1,
-        y1: units.length,
+        y1: actualTrace.y.length,
         line: {
           color: '#e91276',
           width: 3,
@@ -100,7 +104,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
 
       annotations.push({
         x: firstArrived.extended_data.travel_duration,
-        y: units.length + 0.2,
+        y: actualTrace.y.length + 0.2,
         text: 'First Arrival',
         showarrow: false,
         font: {
