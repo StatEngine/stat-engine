@@ -24,7 +24,10 @@
                   Ingest
                 </div>
                 <div class="cell">
-                  Dashboard
+                  Dashboard Admin
+                </div>
+                <div class="cell">
+                  Dashboard Readonly
                 </div>
                 <div class="cell">
                   Status
@@ -53,13 +56,17 @@
                 <div class="cell" data-title="Kibana Admin">
                   <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
                 </div>
+                <div class="cell" data-title="Kibana Admin">
+                  <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
+                </div>
                 <div class="cell" data-title="Status">
                   <span class="text-success" ng-if="user.FireDepartment">Approved</span>
                   <span class="text-warning" ng-if="!user.FireDepartment">Pending</span>
                 </div>
                 <div class="cell" data-title="Action">
-                  <button class="btn-link" ng-click="vm.approveAccess(user)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i></button>
-                  <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin || user.isIngest }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i></button>
+                  <button class="btn-link" ng-click="vm.approveAccess(user)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Dashboard Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i>Dashboard Admin</button><br>
+                  <button class="btn-link" ng-click="vm.approveAccess(user, true)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Readonly Dashboard Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i>Dashboard Readonly</button><br>
+                  <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin || user.isIngest }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i>Revoke</button>
                 </div>
               </div>
             </div>

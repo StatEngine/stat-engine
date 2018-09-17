@@ -15,7 +15,7 @@ router.use(
   '*',
   ensureLoggedIn('/login'),
   auth.isAuthenticated,
-  auth.hasRole('kibana_admin'),
+  auth.hasRole('kibana_ro_strict'),
   auth.hasFireDepartment,
   proxy(settings)
 );

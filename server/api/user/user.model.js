@@ -114,6 +114,12 @@ export default function(sequelize, DataTypes) {
                || this.roles.indexOf('department_admin') >= 0
                || this.roles.indexOf('admin') >= 0;
       },
+      isKibanaReadOnlyStrict() {
+        return this.roles.indexOf('kibana_ro_strict') >= 0
+               || this.roles.indexOf('kibana_admin') >= 0
+               || this.roles.indexOf('department_admin') >= 0
+               || this.roles.indexOf('admin') >= 0;
+      },
     },
 
     /**

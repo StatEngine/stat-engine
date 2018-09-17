@@ -260,7 +260,10 @@
                     Ingest
                   </div>
                   <div class="cell">
-                    Dashboard
+                    Dashboard Admin
+                  </div>
+                  <div class="cell">
+                    Dashboard RO
                   </div>
                   <div class="cell">
                     NFORS
@@ -285,6 +288,9 @@
                   </div>
                   <div class="cell" data-title="Kibana Admin">
                     <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
+                  </div>
+                  <div class="cell" data-title="Kibana RO">
+                    <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
                   </div>
                   <div class="cell" data-title="NFORS">
                     <span ng-if="user.nfors"><span class="fa fa-check text-success"></span></span>

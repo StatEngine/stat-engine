@@ -19,6 +19,7 @@ export default class UserController {
     this.userRoles = {
       ingest: this.user.isIngest,
       kibana_admin: this.user.isKibanaAdmin,
+      kibana_ro_strict: this.user.isKibanaReadOnlyStrict,
       department_admin: this.user.isDepartmentAdmin,
       admin: this.user.isAdmin,
     };
@@ -45,6 +46,7 @@ export default class UserController {
 
       if(this.userRoles.ingest) roles.push('ingest');
       if(this.userRoles.kibana_admin) roles.push('kibana_admin');
+      if(this.userRoles.kibana_ro_strict) roles.push('kibana_ro_strict');
       if(this.userRoles.department_admin) roles.push('department_admin');
       if(this.userRoles.admin) roles.push('admin');
       this.user.role = roles.join(',');

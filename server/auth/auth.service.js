@@ -60,6 +60,8 @@ export function hasRole(roleRequired) {
         return next();
       } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
         return next();
+      } else if(roleRequired === 'kibana_ro_strict' && req.user.roles.indexOf('kibana_admin') >= 0) {
+        return next();
       } else if(req.user.roles.indexOf(roleRequired) >= 0) {
         return next();
       } else {

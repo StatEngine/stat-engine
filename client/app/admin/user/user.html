@@ -94,6 +94,11 @@
               <input type="checkbox" name="kibana_admin" class="form-control input-md" ng-model="vm.userRoles.kibana_admin"/>
             </div>
 
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.kibana_ro_strict.$valid && vm.submitted,'has-error': form.userRoles.kibana_ro_strict.$invalid && vm.submitted }">
+              <label>Kibana ReadOnly</label>
+              <input type="checkbox" name="kibana_ro_strict" class="form-control input-md" ng-model="vm.userRoles.kibana_ro_strict"/>
+            </div>
+
             <div class="form-group " ng-class="{ 'has-success': form.userRoles.department_admin.$valid && vm.submitted,'has-error': form.userRoles.department_admin.$invalid && vm.submitted }">
               <label>Department Admin</label>
               <input type="checkbox" name="department_admin" class="form-control input-md" ng-model="vm.userRoles.department_admin"/>

@@ -114,7 +114,7 @@ if(process.env.NODE_ENV === 'development') {
         aws_secret_access_key: 'awsSecret',
       }, {
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,kibana_ro_strict',
         username: 'richmond2',
         first_name: 'Richmond2',
         last_name: 'User',

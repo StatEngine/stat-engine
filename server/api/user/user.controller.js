@@ -190,6 +190,7 @@ export function revokeAccess(req, res) {
   user.requested_fire_department_id = null;
   let roles = user.role.split(',');
   _.pull(roles, 'kibana_admin');
+  _.pull(roles, 'kibana_ro_strict');
   user.role = roles.join(',');
   user.save()
     .then(usersaved => {
@@ -205,7 +206,8 @@ export function approveAccess(req, res) {
   const user = req.loadedUser;
 
   user.fire_department__id = user.requested_fire_department_id;
-  user.role = `${user.role},kibana_admin`;
+  if (req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
+  else user.role = `${user.role},kibana_admin`;
   user.requested_fire_department_id = null;
 
   user.save()

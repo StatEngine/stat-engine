@@ -29,8 +29,8 @@ export default class DepartmentAdminHomeController {
       });
   }
 
-  approveAccess(user) {
-    this.UserService.approveAccess({ id: user._id}, {}).$promise
+  approveAccess(user, readonly) {
+    this.UserService.approveAccess({ id: user._id, readonly }, {}).$promise
       .finally(() => {
         this.refreshUsers();
       });
