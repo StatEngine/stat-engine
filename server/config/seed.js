@@ -500,6 +500,20 @@ if(process.env.NODE_ENV === 'development') {
       aws_secret_access_key: 'awsSecret',
       requested_fire_department_id: richmond._id,
     }))
+    .then(() => User.create({
+      provider: 'local',
+      role: 'user',
+      first_name: 'Requested2',
+      last_name: 'User',
+      username: 'requested2',
+      email: 'requested2@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'user',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
+      requested_fire_department_id: richmond._id,
+    }))
     .then(() => FireDepartment.create({
       fd_id: '0000',
       firecares_id: '00000',

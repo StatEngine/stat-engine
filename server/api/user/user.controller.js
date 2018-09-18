@@ -205,10 +205,13 @@ export function revokeAccess(req, res) {
 export function approveAccess(req, res) {
   const user = req.loadedUser;
 
-  user.fire_department__id = user.requested_fire_department_id;
+  if (user.requested_fire_department_id) {
+    user.fire_department__id = user.requested_fire_department_id;
+    user.requested_fire_department_id = null;
+  }
+
   if (req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
   else user.role = `${user.role},kibana_admin`;
-  user.requested_fire_department_id = null;
 
   user.save()
     .then(usersaved => {
