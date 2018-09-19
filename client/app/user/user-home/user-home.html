@@ -1,45 +1,44 @@
-<div class="br-mainpanel light-bg user-home">
-  <div class="br-pageheader">
+<div class="br-mainpanel user-home">
+  <!-- <div class="br-pageheader">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="index.html">Bracket</a>
-      <a class="breadcrumb-item" href="#">Menu</a>
-      <span class="breadcrumb-item active">Sub Menu</span>
+      <a class="breadcrumb-item" href="index.html">Home</a>
+      <span class="breadcrumb-item active">Control Center</span>
     </nav>
-  </div>
-  <div class="br-pagetitle mg-t-20">
-    <section class="welcome">
+  </div> -->
+  <div class="br-pagetitle">
+    <section class="welcome mg-t-20">
       <div class="row">
-        <div class="col-lg">
+        <div class="col-lg welcome-message">
           <h4>{{vm.greeting }},
           {{ vm.principal.first_name }}
           {{ vm.principal.last_name }}
           !</h4>
-          <p class="mg-b-0 mg-t-5">
+          <p class="mg-b-0 mg-t-10">
             <div ng-if="vm.homeless">
-              <p>
-                Thanks for signing up! Looks like you haven't requested access to a Fire Department yet.
-                <a href="#" ui-sref="site.user.requestAccess">Request now</a>
+              <p class="tx-15">
+                Thanks for signing up! Looks like you haven't requested access to a Fire Department yet.<br />
+                <a href="#" ui-sref="site.user.requestAccess" class="btn btn-primary hvr-float mg-t-10">Request Now</a>
                 <br>
               </p>
             </div>
             <div ng-if="vm.pending">
-              <p>
+              <p class="tx-15">
                 Thanks for signing up!
                 <br>
                 Your're pending approval from
-                {{vm.requestedFireDepartment.name }}.
+                <strong>{{vm.requestedFireDepartment.name }}</strong>.
                 <br>
                 Please follow up with your local adminstrator to receive approval.
               </p>
             </div>
             <div ng-if="vm.onboarding">
-              <p>
+              <p class="tx-15">
                 We're still in the onboarding process. Check your status
                 <a href="#" ui-sref="site.user.gettingStarted">here.</a><br>
               </p>
             </div>
             <div ng-if="vm.setupComplete">
-              <p ng-if="!vm.appConfig.on_premise" class="tx-16">
+              <p ng-if="!vm.appConfig.on_premise" class="tx-15">
                 Welcome back, check out our new
                 <a href="#" ui-sref="site.marketplace.home">Marketplace</a> to extend and enrich your data.
                 If your looking for shift calendar and stats, you can find them
@@ -48,26 +47,24 @@
             </div>
           </p>
         </div>
-        <div class="col-lg">
-          <div ng-if="vm.appAccess" class="actions">
-            <a href="" ng-click="vm.dashboard()">
-              <img src="/assets/images/actions-dashboard.svg"/>
-              <span>Dashboard</span>
-            </a>
-            <!--<a href="" ng-if="vm.principal.isAdmin" ng-click="vm.goto('site.nfpa.home','NFPA')" > <img src="/assets/images/actions-big-board.svg"/> <span>NFPA Compliance</span> </a>-->
-            <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.report.today','Reporting')">
-              <img src="/assets/images/actions-reporting.svg"/>
-              <span>Reporting</span>
-            </a>
-            <a href="" ng-click="vm.goto('site.incident.search','Incident Analysis')">
-              <img src="/assets/images/actions-incident-analysis.svg"/>
-              <span>Incident Analysis</span>
-            </a>
-            <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.twitter.home','Twitter')">
-              <img src="/assets/images/actions-twitter.svg"/>
-              <span>Twitter</span>
-            </a>
-          </div>
+        <div class="col-lg actions" ng-if="vm.appAccess">
+          <a href="" ng-click="vm.dashboard()">
+            <img src="/assets/images/actions-dashboard.svg"/>
+            <span>Dashboard</span>
+          </a>
+          <!--<a href="" ng-if="vm.principal.isAdmin" ng-click="vm.goto('site.nfpa.home','NFPA')" > <img src="/assets/images/actions-big-board.svg"/> <span>NFPA Compliance</span> </a>-->
+          <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.report.today','Reporting')">
+            <img src="/assets/images/actions-reporting.svg"/>
+            <span>Reporting</span>
+          </a>
+          <a href="" ng-click="vm.goto('site.incident.search','Incident Analysis')">
+            <img src="/assets/images/actions-incident-analysis.svg"/>
+            <span>Incident Analysis</span>
+          </a>
+          <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.twitter.home','Twitter')">
+            <img src="/assets/images/actions-twitter.svg"/>
+            <span>Twitter</span>
+          </a>
         </div>
       </div>
     </section>
