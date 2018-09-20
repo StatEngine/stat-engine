@@ -50,13 +50,6 @@ $color-pelorous:                #46a0c1;
 $color-cranberry:               #d6527e;
 $color-celery:                  #99c550;
 
-// Bracket Theme Variables
-$br-header-height:              60px;
-$br-header-bg:                  #fff;
-$br-sideleft-width:             260px;
-$br-subleft-width:              260px;
-$br-sideright-width:            280px;
-
 
 /////////////////////////////////
 // BROWSER //
@@ -82,7 +75,8 @@ $br-sideright-width:            280px;
 }
 
 body {
-  background-color: $color-porcelain;
+  background-color: white;
+  box-sizing: border-box;
   color: $color-pickled-bluewood;
   font-family: 'Inter UI', Verdana, Tahoma, Sans-Serif;
   margin: 0;
@@ -679,8 +673,8 @@ input[type="radio"]:focus {
   max-width: 500px;
 }
 
-.bg-light-gray {
-  background-color: #f3f6f9;
+.bg-porcelain {
+  background-color: $color-porcelain;
 }
 
 // Helpers
@@ -786,8 +780,9 @@ button {
 }
 
 .btn-primary {
-  background: linear-gradient(120deg, $color-java 0%, $color-cerulean 100%);
-  text-shadow: 0 1px 3px rgba(0, 151, 175, 0.85);
+  background:$color-cerulean;
+  background: linear-gradient(343deg, $color-cerulean 0%, $color-java 100%);
+  text-shadow: 0 1px 3px rgba(0, 151, 175, 0.5);
   border: none;
 }
 
@@ -1022,6 +1017,14 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 // THEME (BRACKETS) OVERRIDES //
 ////////////////////////////////
 
+.br-mainpanel {
+  margin-top: 0;
+  padding-top: $br-header-height;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .br-logo {
   border: 0;
   background-color: #152637;
@@ -1137,6 +1140,11 @@ span + .logged-name {
         margin-right: 400px;
       }
     }
+  }
+  // hide the active sub-menu styling to avoid confusion
+  .br-menu-link.show-sub {
+    background-color: transparent;
+    box-shadow: 0;
   }
   .navicon-left a {
     transform: rotate(180deg);

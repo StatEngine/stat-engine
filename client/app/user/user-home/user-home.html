@@ -1,18 +1,15 @@
-<div class="br-mainpanel user-home">
-  <!-- <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="index.html">Home</a>
-      <span class="breadcrumb-item active">Control Center</span>
-    </nav>
-  </div> -->
+<div class="br-mainpanel user-home bg-porcelain">
   <div class="br-pagetitle">
     <section class="welcome mg-t-20">
       <div class="row">
         <div class="col-lg welcome-message">
-          <h4>{{vm.greeting }},
-          {{ vm.principal.first_name }}
-          {{ vm.principal.last_name }}
-          !</h4>
+          <h3>
+            {{vm.greeting }},
+            <span>
+              {{ vm.principal.first_name }}
+              {{ vm.principal.last_name }} !
+            </span>
+          </h3>
           <p class="mg-b-0 mg-t-10">
             <div ng-if="vm.homeless">
               <p class="tx-15">
@@ -95,7 +92,6 @@
           </div>
         </div>
         <div class="col-md-6 summary-department">
-          <!-- <span class="avatar glyphicon glyphicon-user" aria-hidden="true"></span> -->
           <div class="card light-border">
             <h5 class="card-header">My Department Summary<a ng-if="vm.principal.isDepartmentAdmin" href="#" ui-sref="site.departmentAdmin.home">
                 <span class="fa fa-pencil pull-right"></span></a>
@@ -144,23 +140,3 @@
     </section>
   </div>
 </div>
-
-      <!-- <section class="fluid-container py-5 bg-light-gray integrations-container"> <div class="container"> <h3 class="mb-5">Installed Integrations</h3> <div class="row"> <div class="col d-flex flex-wrap text-center"> <div class="card col"
-      ng-class="{'disabled' : toggle }"> <div class="switch"> <input type="checkbox" id="toggle" ng-click="toggle = ! toggle" checked> <label for="toggle"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle2 }"> <div class="switch"> <input type="checkbox" id="toggle-2" ng-click="toggle2 = ! toggle2" checked> <label for="toggle-2"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle3 }"> <div class="switch"> <input type="checkbox" id="toggle-3" ng-click="toggle3 = ! toggle3" checked> <label for="toggle-3"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle4 }"> <div class="switch"> <input type="checkbox" id="toggle-4" ng-click="toggle4 = ! toggle4" checked> <label for="toggle-4"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle5 }"> <div class="switch"> <input type="checkbox" id="toggle-5" ng-click="toggle5 = ! toggle5" checked> <label for="toggle-5"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle6 }"> <div class="switch"> <input type="checkbox" id="toggle-6" ng-click="toggle6 = ! toggle6" checked> <label for="toggle-6"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle7 }"> <div class="switch"> <input type="checkbox" id="toggle-7" ng-click="toggle7 = ! toggle7" checked> <label for="toggle-7"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> <div class="card
-      col" ng-class="{'disabled' : toggle8 }"> <div class="switch"> <input type="checkbox" id="toggle-8" ng-click="toggle8 = ! toggle8" checked> <label for="toggle-8"></label> </div> <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> <h5
-      class="heavyheader">Some Header Here</h5> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere mollitia repellat modi a hic. Natus maiores dolores similique sit, eius quas veritatis distinctio voluptatem.</p> </div> </div> </div> <div
-      class="py-5 text-center cta"> <h4 class="pb-5">Our extensible plugin architecture allows you to easily boost the StatEngine platform to meet all your needs.</h4> <button class="btn btn-outline-inverse mb-4 hvr-float">View All Integrations on the
-      Marketplace</button> </div> </div> </section> -->
