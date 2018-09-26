@@ -1,15 +1,15 @@
-<div class="br-mainpanel user-home bg-porcelain">
+<div class="br-mainpanel user-home medium-bg">
   <div class="br-pagetitle">
-    <section class="welcome mg-t-20">
+    <section class="welcome">
       <div class="row">
         <div class="col-lg welcome-message">
-          <h3>
+          <h2>
             {{vm.greeting }},
             <span>
               {{ vm.principal.first_name }}
               {{ vm.principal.last_name }} !
             </span>
-          </h3>
+          </h2>
           <p class="mg-b-0 mg-t-10">
             <div ng-if="vm.homeless">
               <p class="tx-15">
@@ -44,7 +44,7 @@
             </div>
           </p>
         </div>
-        <div class="col-lg actions" ng-if="vm.appAccess">
+        <div class="col-lg actions mg-t-5" ng-if="vm.appAccess">
           <a href="" ng-click="vm.dashboard()">
             <img src="/assets/images/actions-dashboard.svg"/>
             <span>Dashboard</span>
@@ -58,10 +58,10 @@
             <img src="/assets/images/actions-incident-analysis.svg"/>
             <span>Incident Analysis</span>
           </a>
-          <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.twitter.home','Twitter')">
+          <!-- <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.twitter.home','Twitter')">
             <img src="/assets/images/actions-twitter.svg"/>
             <span>Twitter</span>
-          </a>
+          </a> -->
         </div>
       </div>
     </section>
@@ -70,66 +70,75 @@
     <section class="overview">
       <div class="row">
         <div class="col-md-6 summary-profile">
-          <div class="card light-border">
-            <h5 class="card-header">My Profile Summary
-              <a href="#" ui-sref="site.user.settings">
-                <span class="fa fa-pencil pull-right"></span></a>
-            </h5>
-            <dl class="row pd-l-20 pd-r-20 pd-b-20">
-              <div class="col">
-                <dt>First Name</dt>
-                <dd>{{ vm.principal.first_name }}</dd>
-                <dt>Last Name</dt>
-                <dd>{{ vm.principal.last_name }}</dd>
-              </div>
-              <div class="col">
-                <dt>Email</dt>
-                <dd>{{ vm.principal.email }}</dd>
-                <dt>Roles</dt>
-                <dd>{{ vm.principal.roles.join(", ") }}</dd>
-              </div>
-            </dl>
+          <div class="card shadow-base bd-0 h-100">
+            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-20 pd-b-15">
+              <h6 class="card-title tx-medium mg-b-0">My Profile</h6>
+              <div class="card-option">
+                <a href="" ui-sref="site.user.settings"><i class="fa fa-pencil lh-0 tx-20"></i></a>
+              </div><!-- card-option -->
+            </div><!-- card-header -->
+            <div class="card-body">
+              <dl class="row">
+                <div class="col">
+                  <dt>First Name</dt>
+                  <dd>{{ vm.principal.first_name }}</dd>
+                  <dt>Last Name</dt>
+                  <dd>{{ vm.principal.last_name }}</dd>
+                </div>
+                <div class="col">
+                  <dt>Email</dt>
+                  <dd>{{ vm.principal.email }}</dd>
+                  <dt>Roles</dt>
+                  <dd>{{ vm.principal.roles.join(", ") }}</dd>
+                </div>
+              </dl>
+            </div><!-- card-body -->
           </div>
         </div>
         <div class="col-md-6 summary-department">
-          <div class="card light-border">
-            <h5 class="card-header">My Department Summary<a ng-if="vm.principal.isDepartmentAdmin" href="#" ui-sref="site.departmentAdmin.home">
-                <span class="fa fa-pencil pull-right"></span></a>
-            </h5>
-            <dl class="row pd-l-20 pd-r-20 pd-b-20">
-              <div class="col-8">
-                <dt>FDID</dt>
-                <dd>{{ vm.fireDepartment.fd_id }}</dd>
+          <div class="card shadow-base bd-0">
+            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-20 pd-b-15">
+              <h6 class="card-title tx-medium mg-b-0">My Department Summary</h6>
+              <div class="card-option">
+                <a ng-if="vm.principal.isDepartmentAdmin" href="#" ui-sref="site.departmentAdmin.home"><i class="fa fa-pencil lh-0 tx-20"></i></a>
+              </div><!-- card-option -->
+            </div><!-- card-header -->
+            <div class="card-body">
+              <dl class="row">
+                <div class="col-8">
+                  <dt>FDID</dt>
+                  <dd>{{ vm.fireDepartment.fd_id }}</dd>
 
-                <dt>Name</dt>
-                <dd>{{ vm.fireDepartment.name }}</dd>
+                  <dt>Name</dt>
+                  <dd>{{ vm.fireDepartment.name }}</dd>
 
-                <dt>Timezone</dt>
-                <dd>{{ vm.fireDepartment.timezone }}</dd>
-              </div>
-              <div class="col">
-                <dt>Firecares ID</dt>
-                <dd>{{ vm.fireDepartment.firecares_id }}</dd>
-
-                <dt>State</dt>
-                <dd>{{ vm.fireDepartment.state }}</dd>
-              </div>
-            </dl>
-            <div ng-if="vm.principal.isAdmin">
-              <div class="row justify-content-md-center">
+                  <dt>Timezone</dt>
+                  <dd>{{ vm.fireDepartment.timezone }}</dd>
+                </div>
                 <div class="col">
-                  <div class="form-group">
-                    <div ng-if="!vm.assignedFireDepartment">
-                      <p class='text-danger text-center'>
-                        Not currently assigned to a department.
-                        <br>
-                      </p>
+                  <dt>Firecares ID</dt>
+                  <dd>{{ vm.fireDepartment.firecares_id }}</dd>
+
+                  <dt>State</dt>
+                  <dd>{{ vm.fireDepartment.state }}</dd>
+                </div>
+              </dl>
+              <div ng-if="vm.principal.isAdmin">
+                <div class="row">
+                  <div class="col col-xl-7">
+                    <div class="form-group">
+                      <div ng-if="!vm.assignedFireDepartment">
+                        <p class='text-danger text-center'>
+                          Not currently assigned to a department.
+                          <br>
+                        </p>
+                      </div>
+                      <label>Select Fire Department</label>
+                      <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
                     </div>
-                    <label>Select Fire Department</label>
-                    <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
-                  </div>
-                  <div>
-                    <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
+                    <div>
+                      <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
+                    </div>
                   </div>
                 </div>
               </div>

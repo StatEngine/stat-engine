@@ -101,25 +101,27 @@
   </a>
 </div>
 <div class="br-sideleft overflow-y-auto">
-  <label class="sidebar-label pd-x-25 mg-t-20 op-3">Navigation</label>
+
+  <!-- APP SECTION  -->
+  <label class="sidebar-label pd-x-25 mg-t-20 op-3">App</label>
   <ul class="br-sideleft-menu">
     <li class="br-menu-item">
       <a href="#" ui-sref='site.user.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.home' }">
         <i class="menu-item-icon se-icon-control-center tx-20"></i>
         <span class="menu-item-label text-truncate">Control Center</span>
-        </a><!-- br-menu-link -->
-    </li><!-- br-menu-item -->
+        </a>
+    </li>
     <li class="br-menu-item">
       <a href="#" ui-sref='site.incident.search' class="br-menu-link">
         <i class="menu-item-icon se-icon-dashboard-alt tx-20"></i>
         <span class="menu-item-label text-truncate">Dashboard</span>
-      </a><!-- br-menu-link -->
-    </li><!-- br-menu-item -->
+      </a>
+    </li>
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub" ng-class="{ active: vm.$state.current.name.startsWith('site.incident') }">
         <i class="menu-item-icon se-icon-reports tx-20"></i>
         <span class="menu-item-label text-truncate">Reports</span>
-      </a><!-- br-menu-link -->
+      </a>
       <ul class="br-menu-sub">
         <li class="sub-item"><a href="#" ui-sref='site.incident.search' class="sub-link">Incidents</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Apparatus</a></li>
@@ -127,12 +129,12 @@
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Batallions</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Addressess</a></li>
       </ul>
-    </li><!-- br-menu-item -->
+    </li>
     <li class="br-menu-item">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon se-icon-apps tx-20"></i>
-        <span class="menu-item-label text-truncate">Apps</span>
-      </a><!-- br-menu-link -->
+        <span class="menu-item-label text-truncate">Applications</span>
+      </a>
       <ul class="br-menu-sub">
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Twitter</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Weather</a></li>
@@ -144,28 +146,47 @@
       <a href="#" ui-sref='site.marketplace.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.marketplace.home' }">
         <i class="menu-item-icon se-icon-marketplace tx-20"></i>
         <span class="menu-item-label text-truncate">Marketplace</span>
-      </a><!-- br-menu-link -->
-    </li><!-- br-menu-item -->
-    <li class="br-menu-item">
-      <a href="#" class="br-menu-link">
-        <i class="menu-item-icon se-icon-help tx-20"></i>
-        <span class="menu-item-label text-truncate">Support</span>
-      </a><!-- br-menu-link -->
+      </a>
     </li>
-    </li><!-- br-menu-item -->
+    <li class="br-menu-item">
+      <a href="" ui-sref='site.user.settings' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.settings' }">
+        <i class="menu-item-icon fa fa-gear tx-22"></i>
+        <span class="menu-item-label text-truncate">Settings</span>
+      </a>
+    </li>
+    </li>
+
+    <!-- ADMIN SECTION  -->
     <label class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
     <ul class="br-sideleft-menu">
       <li class="br-menu-item">
         <a href="#" class="br-menu-link">
           <i class="menu-item-icon se-icon-fire-departments tx-22"></i>
           <span class="menu-item-label text-truncate">Fire Departments</span>
-        </a><!-- br-menu-link -->
-      </li><!-- br-menu-item -->
+        </a>
+      </li>
       <li class="br-menu-item">
         <a href="#" class="br-menu-link">
           <i class="menu-item-icon se-icon-users tx-16"></i>
           <span class="menu-item-label text-truncate">Users</span>
-        </a><!-- br-menu-link -->
-  </ul><!-- br-sideleft-menu -->
+        </a>
+    </ul>
+
+    <!-- SUPPORT SECTION  -->
+    <label class="sidebar-label pd-x-25 mg-t-20 op-3">Support</label>
+    <ul class="br-sideleft-menu">
+      <li class="br-menu-item">
+        <a href="https://statengine.github.io/se-documentation/" target="_blank" class="br-menu-link">
+          <i class="menu-item-icon icon ion-ios-paper tx-24"></i>
+          <span class="menu-item-label text-truncate">Docs</span>
+        </a>
+      </li>
+      <li class="br-menu-item">
+        <a href="#" class="br-menu-link">
+          <i class="menu-item-icon se-icon-help tx-20"></i>
+          <span class="menu-item-label text-truncate">Help</span>
+        </a>
+      </li>
+    </ul>
 </div><!-- br-sideleft -->
 <!-- ########## END: LEFT PANEL ########## -->
