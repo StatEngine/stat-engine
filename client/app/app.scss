@@ -134,7 +134,6 @@ h2 {
 
 .bottom-line {
   height: 1px;
-  margin-top: 50px;
   background-color: #818b93;
   opacity: 0.27;
 }
@@ -622,41 +621,6 @@ input[type="radio"]:focus {
 }
 
 // Utilities
-.pt-3,
-.py-3 {
-  padding-top: 3rem !important;
-}
-
-.pr-3 {
-  right: 3rem !important;
-}
-
-.pt-5,
-.py-5 {
-  padding-top: 5rem !important;
-}
-
-.py-6 {
-  padding-top: 6rem !important;
-  padding-bottom: 6rem !important;
-}
-
-.mt-3 {
-  margin-top: 3rem !important;
-}
-
-.mb-2 {
-    margin-bottom: 2rem !important;
-}
-
-.mb-3 {
-    margin-bottom: 3rem !important;
-}
-
-.mb-5 {
-  margin-bottom: 5rem !important;
-}
-
 .w180 {
   width: 180px;
 }
@@ -888,6 +852,11 @@ button {
   padding: 10px 26px;
 }
 
+.btn-lg {
+  font-size: 16px;
+  padding: 15px 35px;
+}
+
 .btn-sm {
   padding: 6px 12px;
   font-size: 13px;
@@ -1088,7 +1057,7 @@ span + .logged-name {
   font-weight: 500;
   height: 50px;
   padding: 0 25px;
-  &.active, &.show-sub {
+  &.active {
     color: white;
     background-color: rgba(0,0,0,0.2);
     background-image: none;
@@ -1098,6 +1067,10 @@ span + .logged-name {
   &:hover, &:focus {
     background-color: rgba(0,0,0,0.15);
   }
+  &.show-sub,  &.with-sub:active, &.with-sub:focus {
+    background-color: rgba(0,0,0,0.15);
+    color: $color-cloudy-sky;
+  }
   &.with-sub::after {
     font-size: 20px;
     color: $color-pale-sky;
@@ -1106,13 +1079,14 @@ span + .logged-name {
 
 .br-menu-sub {
   background-color: rgba(0,0,0,0.15);
-  box-shadow: inset $color-bondi-blue 3px 0px 0px 0px;
   border-radius: 0;
   padding: 0 0 15px 46px;
-
   .sub-link {
     font-size: 14px;
     font-weight: 500;
+    &:hover {
+      color: white;
+    }
   }
 }
 
@@ -1144,7 +1118,7 @@ span + .logged-name {
   // hide the active sub-menu styling to avoid confusion
   .br-menu-link.show-sub {
     background-color: transparent;
-    box-shadow: 0;
+    color: $color-cloudy-sky;
   }
   .navicon-left a {
     transform: rotate(180deg);

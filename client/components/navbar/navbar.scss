@@ -162,14 +162,12 @@ navbar {
       padding: 1rem 1.6rem;
       width: 100%;
       border-bottom: 1px solid #e4e9eb;
-      line-height: 2.2rem;
       text-decoration: none;
       transition: all 0.2s ease-in-out;
 
       &:hover {
         background: #eff2f4;
         color: #067a98;
-        // color: $color-bondi-blue;
       }
     }
 
@@ -215,6 +213,10 @@ navbar {
     }
   }
   @media (max-width: 991px) {
+    .container {
+      max-width: 950px;
+    }
+
     #navbar-button,
     #navbar-links {
       display: none;
@@ -230,8 +232,8 @@ navbar {
     }
   }
 }
-// Secondary and Utility Nav
 
+// Secondary and Utility Nav
 .secondary-nav {
   margin-bottom: 0;
 
@@ -239,13 +241,12 @@ navbar {
     margin-right: 1rem;
 
     > a {
-      font-size: 2rem;
+      font-size: 1.4rem;
     }
 
     &:last-child {
       margin-right: 0;
-
-      a {
+      > a {
         padding-right: 0;
       }
     }
@@ -253,15 +254,14 @@ navbar {
 
   .with-dropdown {
     .dropdown {
-      left: -13rem;
-      top: 3.25rem;
+      left: -15rem;
+      top: 2.75rem;
 
       &::before {
         left: initial;
-        right: 3.5625rem;
+        right: 3.3rem;
       }
     }
-
     a::after {
       font-size: initial;
       position: relative;
@@ -269,6 +269,7 @@ navbar {
     }
   }
 }
+
 // Naked Variant
 navbar.naked {
   .branding {
@@ -324,6 +325,10 @@ navbar.naked {
 // Hamburger Menu
 .hamburger {
   display: none;
+  position: absolute;
+  right: 0;
+  top: 2rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .hamburger .line {
@@ -344,29 +349,14 @@ navbar.naked {
   }
 }
 
-.hamburger {
-  position: absolute;
-  right: 1rem;
-  top: 1.65rem;
-  -webkit-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-
 // Mobile Nav Menu
 .mobile-nav {
-  background: #222;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 300px;
-  height: 100%;
   margin: 0 -300px 0 0;
-//  -moz-transition: all 200ms ease-in;
-//  -webkit-transition: all 200ms ease-in;
-//  -o-transition: all 200ms ease-in;
-//  transition: all 200ms ease-in;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  transition: all 200ms ease-in;
 }
 
 .noScroll {
@@ -374,11 +364,9 @@ navbar.naked {
 }
 
 .mobile-nav ul {
-  background: #222;
   height: 100vh;
   line-height: 3rem;
   list-style: none;
-  margin: 7rem 0 0;
   overflow: auto;
   padding: 0 0 8rem;
   width: 300px;
@@ -396,28 +384,15 @@ navbar.naked {
   padding: 1rem 2rem;
 
   &.btn {
-    width: 87%;
-    margin: 2rem 2rem 0;
+    width: 100%;
+    margin: 1rem 0;
     transition: all 0.2s ease-in-out;
-
-    &.btn-primary {
-      color: #fff;
-      background-color: #286090;
-      border-color: #204d74;
-    }
   }
 }
 
-.mobile-nav a:hover {
-  background: rgba(0,0,0,0.2);
-}
 
 .mobile-nav.open {
   margin: 0;
-//  -webkit-transform: translate3d(300px, 0, 0);
-//  -moz-transform: translate3d(300px, 0, 0);
-//  -o-transform: translate3d(300px, 0, 0);
-//  transform: translate3d(300px, 0, 0);
 }
 
 // Wrapper for "push" effect on mobile menu
