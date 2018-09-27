@@ -7,8 +7,8 @@
   <div class="br-pagetitle bg-white">
     <h2>Settings</h2>
   </div>
-  <div class="ht-md-60 pd-x-25 bd bd-t-0 bd-r-0 bd-l-0 d-flex align-items-center justify-content-start bg-white">
-      <ul class="nav nav-outline active-info align-items-center flex-column flex-md-row" role="tablist">
+  <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
+      <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
         <li class="nav-item tx-medium"><a class="nav-link active" data-toggle="tab" href="#" role="tab">My Profile</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Department Info</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Notifications</a></li>
@@ -20,8 +20,7 @@
       <!-- My Profile -->
       <div class="card shadow-base bd-0 mg-b-25">
         <div class="card-body">
-          <h6 class="card-title tx-medium">My Profile</h6>
-          <p class="card-subtitle">Edit your name, avatar, etc.</p>
+          <h6 class="card-title tx-medium mg-b-35">My Profile</h6>
           <form name="form" ng-submit="vm.edituser(form)" novalidate="">
             <div class="form-layout">
               <div class="row mg-t-30 mg-b-15" ng-class="{ 'has-success': form.first_name.$valid && vm.submitted,'has-error': form.first_name.$invalid && vm.submitted }">
@@ -57,10 +56,9 @@
           </form>
         </div>
       </div>
-      <div class="card shadow-base bd-0 mg-b-25 ">
+      <div class="card shadow-base bd-0 mg-b-25">
         <div class="card-body">
-          <h6 class="card-title tx-medium">Department Info</h6>
-          <p class="card-subtitle">Edit your department details here</p>
+          <h6 class="card-title tx-medium mg-b-35">Department Info</h6>
           <form name="form" novalidate="">
             <div class="form-layout">
               <div class="row mg-t-30 mg-b-15">
@@ -72,13 +70,25 @@
                   </div>
                 </div>
                 <!-- col-4 -->
-                <div class="col-lg-8">
+                <div class="col-lg-4">
                   <div class="form-group mg-b-10-force">
                     <label class="form-control-label">Mail Address: <span class="tx-danger">*</span></label>
                     <input class="form-control" type="text" name="address" value="Market St. San Francisco" placeholder="Enter address">
                   </div>
                 </div>
-                <!-- col-8 -->
+                <!-- col-4 -->
+                <div class="col-lg-4">
+                  <div class="form-group mg-b-10-force">
+                    <label class="form-control-label">Country: <span class="tx-danger">*</span></label>
+                    <select class="form-control select2 select2-hidden-accessible" data-placeholder="Choose country" tabindex="-1" aria-hidden="true">
+                      <option label="Choose country"></option>
+                      <option value="USA">United States of America</option>
+                      <option value="UK">United Kingdom</option>
+                      <option value="China">China</option>
+                      <option value="Japan">Japan</option>
+                    </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 407px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-s8rp-container"><span class="select2-selection__rendered" id="select2-s8rp-container">
+                  </div>
+                </div>
               </div>
               <!-- row -->
               <div class="form-layout-footer">

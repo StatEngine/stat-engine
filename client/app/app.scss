@@ -316,11 +316,6 @@ ol.statengine li::before{
   margin-bottom: 2rem;
 }
 
-label {
-  color: lighten($color-pale-sky,18%);
-  font-weight: 600;
-}
-
 label.disabled {
   opacity: .5;
   cursor: not-allowed;
