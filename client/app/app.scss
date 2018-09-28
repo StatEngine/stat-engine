@@ -645,12 +645,6 @@ button {
   transition: all 0.15s ease;
 }
 
-.btn.focus,
-.btn:focus,
-.btn:hover {
-  color: white;
-}
-
 // Button Types
 .btn-default {
   background-color: lighten($color-geyser,10%);
@@ -668,6 +662,17 @@ button {
   background: linear-gradient(343deg, $color-cerulean 0%, $color-java 100%);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.5);
   border: none;
+}
+
+.btn-secondary {
+  background: lighten($color-pickled-bluewood,12%);
+  color: white;
+  &:disabled:hover {
+    background: lighten($color-pickled-bluewood,12%);
+  }
+  &:hover {
+    background: $color-pickled-bluewood;
+  }
 }
 
 .btn-alt {
