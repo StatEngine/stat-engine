@@ -64,8 +64,8 @@
 
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
-        <button id='navbar-links-sign-in' class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
-        <button id='navbar-links-sign-up' class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
+        <button id='navbar-links-sign-in' class="btn btn-link btn-sm btn-oblong" ui-sref="site.account.login">Sign In</button>
+        <button id='navbar-links-sign-up' class="btn btn-outline btn-sm btn-oblong hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
       </div>
 
       <!-- Authenticated -->
@@ -90,8 +90,8 @@
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="px-3 pt-5 bg-black-9">
-          <li><a class="btn btn-primary hvr-float" ui-sref="site.account.login">Sign In</a></li>
-          <li><a class="btn btn-outline hvr-float" ui-sref="site.account.signup">Sign Up</a></li>
+          <li><a class="btn btn-primary btn-oblong hvr-float" ui-sref="site.account.login">Sign In</a></li>
+          <li><a class="btn btn-outline btn-oblong hvr-float" ui-sref="site.account.signup">Sign Up</a></li>
         </ul>
       </div>
 
