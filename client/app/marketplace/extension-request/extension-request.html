@@ -30,13 +30,11 @@
       </header>
       <section class="br-section-wrapper pd-md-40">
         <div class="row">
-          <div class="col-md-7 mg-b-60">
+          <div class="col-md-7 mg-b-60 br-sitemap-section">
             <h5 class="heavyheader mb-3 mb-md-4">Overview</h5>
             <p>{{vm.extension.description}}</p>
-            <ul class="list-group mg-b-35">
-              <li class="list-group-item bd-0 pd-l-20 pd-b-5" ng-repeat="feature in vm.extension.features">
-                <p class="mg-b-0"><i class="fa fa-check tx-success mg-r-8"></i><strong>{{feature}}</strong></p>
-                </li>
+            <ul class="mg-b-30">
+              <li class="pd-y-4" ng-repeat="feature in vm.extension.features">{{feature}}</li>
             </ul>
             <button class="btn btn-info" ng-show="!vm.requested" ng-click="vm.request()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Request to add</button><br>
             <div ng-show="vm.requested" class="alert alert-success" role="alert">Thanks for the request! We'll let you know as soon as the app is available.</div>

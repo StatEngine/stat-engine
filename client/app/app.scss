@@ -959,8 +959,10 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 
 }
 
-.nav-outline .nav-item:first-child {
-  padding-left: 0;
+.nav-outline.flex-md-row .nav-item {
+  @include media-breakpoint-down(sm) {
+    padding-left: 0;
+  }
 }
 
 .br-header {

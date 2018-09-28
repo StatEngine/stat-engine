@@ -1,7 +1,7 @@
 <!-- TODO:
     - Add logic to enable save buttons when a setting is changed OR automatically save on change
     - Ensure that "All changes saved" confirmation message appears when a change is saved or automatically made
-    - Remove "fake" setting sections with real ones! 
+    - Remove "fake" setting sections with real ones!
 -->
 
 <div class="br-mainpanel medium-bg">
@@ -10,7 +10,7 @@
   </div>
   <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
       <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
-        <li class="nav-item tx-medium"><a class="nav-link active" data-toggle="tab" href="#" role="tab">My Profile</a></li>
+        <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#" role="tab">My Profile</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Department Info</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Notifications</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Billing</a></li>
@@ -20,7 +20,7 @@
     <div class="site-content settings">
       <!-- My Profile -->
       <div class="card shadow-base bd-0 mg-b-25">
-        <div class="card-body">
+        <div class="card-body pd-30">
           <h6 class="card-title tx-medium mg-b-35">My Profile</h6>
           <form name="form" ng-submit="vm.edituser(form)" novalidate="">
             <div class="form-layout">
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="card shadow-base bd-0 mg-b-25">
-        <div class="card-body">
+        <div class="card-body pd-30">
           <h6 class="card-title tx-medium mg-b-35">Department Info</h6>
           <form name="form" novalidate="">
             <div class="form-layout">
