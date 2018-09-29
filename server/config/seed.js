@@ -339,7 +339,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,department_admin',
+        role: 'user,kibana_admin,department_admin',
         username: 'boston',
         first_name: 'boston',
         last_name: 'User',
