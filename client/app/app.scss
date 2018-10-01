@@ -2,15 +2,12 @@
 // IMPORTS //
 ////////////////////////////////
 $fa-font-path: '/assets/fonts/font-awesome/';
-$fa-font-path: '/assets/fonts/statengine/';
-// $fa-font-path: '/assets/fonts/inter-ui/';
-$fa-font-path: '/assets/fonts/ionicons/';
+@import '~font-awesome/scss/font-awesome';
+
 @import '~angular-loading-bar/build/loading-bar.css';
 @import '~angular-ui-grid/ui-grid.css';
 @import '~animate.css/animate.css';
-// @import '~bootstrap/scss/bootstrap-grid';
 @import '~bootstrap/scss/bootstrap';
-@import '~font-awesome/scss/font-awesome';
 @import '~hover.css/css/hover.css';
 @import "../assets/sass/se-font-styles";
 @import "../assets/sass/ionicons.css";
@@ -18,7 +15,6 @@ $fa-font-path: '/assets/fonts/ionicons/';
 @import "~mapbox-gl/dist/mapbox-gl.css";
 @import "~tippy.js/dist/tippy.css";
 @import "~vis/dist/vis.css";
-
 
 // Theme import
 @import "../themes/bracket-plus/scss/bracket";

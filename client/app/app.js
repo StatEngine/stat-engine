@@ -12,14 +12,15 @@ import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'angular-ui-bootstrap';
 
 // vendor utils
-
 // These two aren't angular modules but still need to be loaded
 // eslint-disable-next-line
 import oclazyload from 'oclazyload';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
+import parsleyjs from 'parsleyjs';
 
-import ngValidationMatch from 'angular-validation-match';
+console.dir(parsleyjs);
+
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
 import MapBoxGL from 'mapbox-gl';
@@ -85,7 +86,6 @@ angular.module('statEngineApp', [
   ngSanitize,
   uiRouter,
   uiBootstrap,
-  ngValidationMatch,
   'oc.lazyLoad',
   'angular-loading-bar',
   'ngCountTo',

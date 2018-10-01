@@ -14,7 +14,7 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(User, $state, fireDepartments, AmplitudeService, AnalyticEventNames) {
+  constructor(User, $state, fireDepartments, AmplitudeService, AnalyticEventNames, $scope) {
     this.UserService = User;
     this.$state = $state;
     this.fireDepartments = fireDepartments;
