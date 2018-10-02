@@ -12,12 +12,12 @@
   <div class="br-header-right">
     <nav class="nav">
       <div class="search mg-r-15">
-        <a href="" class="nav-link pd-x-7 pos-relative">
+        <a href="" ui-sref="site.incident.search" class="nav-link pd-x-7 pos-relative">
           <i class="fa fa-search tx-20"></i>
           <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
         </a>
       </div><!-- Search -->
-      <div class="dropdown notifications mg-r-15">
+      <!--<div class="dropdown notifications mg-r-15">
         <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
           <i class="fa fa-bell tx-20"></i>
           <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
@@ -29,26 +29,26 @@
           </div>
 
           <div class="media-list">
-            <!-- loop starts here -->
-            <a href="" class="media-list-link read">
+          --><!--loop starts here -->
+            <!--<a href="" class="media-list-link read">
               <div class="media">
                 <img src="../img/img8.jpg" alt="">
                 <div class="media-body">
                   <p class="noti-text"><strong>Suzzeth Bungaos</strong> tagged you and 18 others in a post.</p>
                   <span>October 03, 2017 8:45am</span>
                 </div>
-              </div><!-- media -->
-            </a>
+              </div>--><!-- media -->
+            <!--</a>-->
             <!-- loop ends here -->
-            <a href="" class="media-list-link read">
+            <!-- <a href="" class="media-list-link read">
               <div class="media">
                 <img src="../img/img9.jpg" alt="">
                 <div class="media-body">
                   <p class="noti-text"><strong>Mellisa Brown</strong> appreciated your work <strong>The Social Network</strong></p>
                   <span>October 02, 2017 12:44am</span>
-                </div>
-              </div><!-- media -->
-            </a>
+                </div>-->
+              <!--</div><!-- media -->
+            <!--</a>
             <a href="" class="media-list-link read">
               <div class="media">
                 <img src="../img/img10.jpg" alt="">
@@ -56,8 +56,8 @@
                   <p class="noti-text">20+ new items added are for sale in your <strong>Sale Group</strong></p>
                   <span>October 01, 2017 10:20pm</span>
                 </div>
-              </div><!-- media -->
-            </a>
+              </div>--><!-- media -->
+            <!--</a>
             <a href="" class="media-list-link read">
               <div class="media">
                 <img src="../img/img5.jpg" alt="">
@@ -65,14 +65,14 @@
                   <p class="noti-text"><strong>Julius Erving</strong> wants to connect with you on your conversation with <strong>Ronnie Mara</strong></p>
                   <span>October 01, 2017 6:08pm</span>
                 </div>
-              </div><!-- media -->
-            </a>
-            <div class="dropdown-footer">
+              </div>--><!-- media -->
+            <!--</a>-->
+            <!--<div class="dropdown-footer">
               <a href=""><i class="fa fa-angle-down"></i> Show All Notifications</a>
             </div>
-          </div><!-- media-list -->
-        </div><!-- dropdown-menu -->
-      </div><!-- dropdown -->
+          </div>--><!-- media-list -->
+        <!--</div>--><!-- dropdown-menu -->
+      <!--</div>--><!-- dropdown -->
       <div class="dropdown apps mg-r-5">
         <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
           <i class="se-icon-apps tx-20"></i>
@@ -80,14 +80,39 @@
           <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
           <!-- end: if statement -->
         </a>
+        <div class="dropdown-menu dropdown-menu-header wd-250">
+          <ul class="list-unstyled user-profile-nav">
+            <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>-->
+            <li><a href="" ui-sref="site.twitter.home"><i class="fa fa-twitter"></i> Twitter</a></li>
+          </ul>
+        </div><!-- dropdown-menu -->
       </div><!-- dropdown -->
       <div class="dropdown user mg-r-10">
         <a href="" class="nav-link nav-link-profile" data-toggle="dropdown" aria-expanded="false">
           <!-- TODO: Hookup functionality to pull avatar image. If no avatar exists, render generic user icon. -->
           <!-- <img src="../assets/images/icon-open-source.svg" class="wd-32 rounded-circle" alt=""> -->
           <span class="d-inline-block rounded-circle bg-gray-300 ht-40 wd-40"><i class="fa fa-user tx-22 pd-l-13 pd-t-8"></i></span>
-          <span class="logged-name hidden-sm-down">Katherine</span>
+          <span class="logged-name hidden-sm-down"> {{ vm.user.first_name }}</span>
         </a>
+        <div class="dropdown-menu dropdown-menu-header wd-250">
+          <div class="tx-center">
+            <a href=""><img src="http://via.placeholder.com/500x500" class="wd-80 rounded-circle" alt=""></a>
+            <h6 class="logged-fullname">{{ vm.user.first_name }} {{ vm.user.last_name }}</h6>
+            <p>{{ vm.user.email }}</p>
+          </div>
+            <!--<hr>
+          <div class="tx-center">
+            <span class="profile-earning-label">Earnings After Taxes</span>
+            <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
+            <span class="profile-earning-text">Based on list price.</span>
+          </div>-->
+          <hr>
+          <ul class="list-unstyled user-profile-nav">
+            <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>-->
+            <li><a href="" ui-sref="site.user.settings"><i class="icon ion-ios-gear"></i> Settings</a></li>
+            <li><a href="" ng-click="vm.signout()"><i class="icon ion-power"></i> Sign Out</a></li>
+          </ul>
+        </div><!-- dropdown-menu -->
       </div><!-- dropdown -->
     </nav>
   </div>
@@ -112,7 +137,7 @@
         </a>
     </li>
     <li class="br-menu-item">
-      <a href="#" ui-sref='site.incident.search' class="br-menu-link">
+      <a href="#" ng-click='vm.dashboard()' class="br-menu-link">
         <i class="menu-item-icon se-icon-dashboard-alt tx-20"></i>
         <span class="menu-item-label text-truncate">Dashboard</span>
       </a>
@@ -137,9 +162,9 @@
       </a>
       <ul class="br-menu-sub">
         <li class="sub-item"><a href="#" ui-sref='site.twitter.home' class="sub-link">Twitter</a></li>
-        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Weather</a></li>
+        <!--<li class="sub-item"><a href="#" ui-sref="" class="sub-link">Weather</a></li>
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Reporting</a></li>
-        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Another App</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Another App</a></li>-->
       </ul>
     </li>
     <li class="br-menu-item">
@@ -182,7 +207,7 @@
         </a>
       </li>
       <li class="br-menu-item">
-        <a href="#" class="br-menu-link">
+        <a href="#" ui-sref="site.user.help" class="br-menu-link">
           <i class="menu-item-icon se-icon-help tx-20"></i>
           <span class="menu-item-label text-truncate">Help</span>
         </a>

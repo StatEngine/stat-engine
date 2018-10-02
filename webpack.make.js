@@ -56,14 +56,14 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-resource',
                 'angular-sanitize',
                 '@uirouter/angularjs',
-                'angular-ui-bootstrap',
                 'oclazyload',
                 'angular-loading-bar',
                 'angular-filter-count-to/dist/angular-filter-count-to.min.js',
                 'angular-moment',
                 'moment',
                 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
-                'parsleyjs'
+                'parsleyjs',
+                'bootstrap',
             ],
         };
     }

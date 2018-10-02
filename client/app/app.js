@@ -9,7 +9,9 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from '@uirouter/angularjs';
-import uiBootstrap from 'angular-ui-bootstrap';
+import bootstrap from 'bootstrap';
+
+console.dir(bootstrap);
 
 // vendor utils
 // These two aren't angular modules but still need to be loaded
@@ -43,7 +45,7 @@ import admin from './admin';
 import guides from './guides';
 import main from './main';
 import spade from './spade';
-import shift from './shift';
+//import shift from './shift';
 import statEngine from './statEngine';
 import user from './user';
 import departmentAdmin from './department-admin';
@@ -85,7 +87,6 @@ angular.module('statEngineApp', [
   ngResource,
   ngSanitize,
   uiRouter,
-  uiBootstrap,
   'oc.lazyLoad',
   'angular-loading-bar',
   'ngCountTo',
@@ -113,7 +114,7 @@ angular.module('statEngineApp', [
   incident,
   incidentComponents,
   orderObjectBy,
-  shift,
+  //shift,
   departmentAdmin,
   twitter,
   nfpa,

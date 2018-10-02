@@ -11,7 +11,8 @@ import userSettings from './user-settings';
 import changePassword from './change-password';
 import requestAccess from './request-access';
 import gettingStarted from './getting-started';
+import help from './help';
 
-export default angular.module('statEngineApp.user', [uiRouter, userHome, userSettings, changePassword, requestAccess, gettingStarted])
+export default angular.module('statEngineApp.user', [uiRouter, userHome, userSettings, changePassword, requestAccess, gettingStarted, help])
   .config(routing)
   .name;

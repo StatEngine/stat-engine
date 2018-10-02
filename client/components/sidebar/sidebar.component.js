@@ -5,11 +5,33 @@
 import angular from 'angular';
 
 export class SidebarComponent {
-  constructor($state) {
+  constructor($state, $window, AmplitudeService, AnalyticEventNames, Principal) {
     'ngInject';
 
     this.$state = $state;
+    this.$window = $window;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
+    Principal.identity(true).then((user) => {
+      this.user = user;
+    })
+    this.PrincipalService = Principal;
   }
+
+  signout() {
+    this.PrincipalService.logout()
+      .finally(() => {
+        this.$state.go('site.main.main');
+      })
+  };
+
+  dashboard() {
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
+      app: 'Dashboard',
+      location: 'sidebar',
+    });
+    this.$window.location.href = '/dashboard';
+  };
 
   $onInit() {
     $(document).ready(function(){
@@ -125,8 +147,8 @@ export class SidebarComponent {
          }
        }
      });
-  })
-}
+   });
+  }
 }
 
 export default angular.module('directives.sidebar', [])

@@ -80,6 +80,24 @@ export default function routes($stateProvider) {
         },
       },
     })
+    .state('site.user.help', {
+      url: '/help',
+      views: {
+        'content@': {
+          controller: 'HelpHomeController',
+          controllerAs: 'vm',
+          template: require('./help/help-home.html'),
+        }
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+      },
+    })
     .state('site.user.home', {
       url: '/home',
       views: {
