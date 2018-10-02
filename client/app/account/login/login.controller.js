@@ -1,5 +1,7 @@
 'use strict';
 
+import parsleyjs from 'parsleyjs';
+
 export default class LoginController {
   user = {
     username: '',
@@ -18,10 +20,14 @@ export default class LoginController {
     this.AnalyticEventNames = AnalyticEventNames;
   }
 
+  $onInit() {
+    this.form = $('#login-form').parsley();
+  }
+
   login(form) {
     this.submitted = true;
 
-    if(form.$valid) {
+    if(this.form.isValid()) {
       this.Principal.login({
         username: this.user.username,
         password: this.user.password
@@ -35,7 +41,7 @@ export default class LoginController {
           this.$state.go('site.user.home');
         })
         .catch(err => {
-          this.errors.login = err.data.message;
+          this.errors = [{ message: err.data.message }];
         });
     }
   }

@@ -8,15 +8,11 @@
     <div class="col-md-auto align-self-center">
       <h1 class="text-center">Sign Up</h1>
 
-      <form class="form form-wrapper" name="form" ng-submit="vm.register(form)" data-parsley-validate>
+      <form class="form form-wrapper" name="form" ng-submit="vm.register(form)" id="signup-form" novalidate>
 
         <div class="form-group">
           <label>Username</label>
-          <input type="text" id="username" name="username" class="form-control" ng-model="vm.user.username" required minlength='3' maxlength='20' mongoose-error="mongoose-error" ng-change="vm.validate('username')"/>
-
-          <p class="help-block text-danger" ng-show="form.username.$error.mongoose">
-            {{ vm.errors.username }}
-          </p>
+          <input type="text" id="username" name="username" class="form-control" ng-model="vm.user.username" required minlength='3' maxlength='20' mongoose-error="mongoose-error"/>
         </div>
 
         <div class="form-group">
@@ -24,7 +20,7 @@
           <input type="text" name="first_name" class="form-control" ng-model="vm.user.first_name" required/>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-success': form.last_name.$valid && vm.submitted,'has-error': form.last_name.$invalid && vm.submitted }">
+        <div class="form-group">
           <label>Last Name</label>
           <input type="text" name="last_name" class="form-control" ng-model="vm.user.last_name" required/>
         </div>
@@ -32,9 +28,6 @@
         <div class="form-group">
           <label>Email</label>
           <input type="email" name="email" class="form-control" ng-model="vm.user.email" required mongoose-error="mongoose-error"/>
-          <p class="help-block text-danger" ng-show="form.email.$error.mongoose">
-            {{ vm.errors.email }}
-          </p>
         </div>
 
         <div class="form-group">
@@ -42,25 +35,26 @@
           <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy: 'name' track by fd._id" ng-model="vm.user.requested_fire_department_id" class="form-control select-md">
             <option value="">-- New Department --</option>
           </select>
-          <p class="help-block text-danger" ng-show="form.requested_fire_department_id.$error.mongoose">
-            {{ vm.errors.requested_fire_department_id }}
-          </p>
         </div>
 
         <div class="form-group">
           <label>Password</label>
           <input type="password" id="password1" name="password1" data-parsley-minlength="8" data-parsley-uppercase="1" data-parsley-lowercase="1" data-parsley-number="1" required class="form-control" ng-model="vm.user.password" mongoose-error="mongoose-error"/>
-          <p class="help-block text-danger" ng-show="form.password.$error.mongoose">
-            {{ vm.errors.password }}
-          </p>
         </div>
 
         <div class="form-group">
           <label>Confirm Password</label>
-          <input type="password" id="password2" name="password2" parsley-equalto="#password1" required class="form-control" data-parsley-trigger="keyup" ng-model="vm.user.confirmPassword"/>
+          <input type="password" id="password2" name="password2" data-parsley-equalto="#password1" required class="form-control" data-parsley-trigger="keyup" ng-model="vm.user.confirmPassword"/>
         </div>
 
         <div>
+          <p class="help-block" ng-show="this.errors">
+            <ul>
+              <li ng-repeat="error in vm.errors">
+                <p class="text-danger">{{ error.message }}</p>
+              </li>
+            </ul>
+          </p>
           <button id='signup-sign-up' class="btn btn-primary btn-lg btn-oblong hvr-float w180 signup" type="submit">
             Sign up
           </button>

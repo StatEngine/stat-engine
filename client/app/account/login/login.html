@@ -8,7 +8,7 @@
     <div class="col-md-auto align-self-center">
       <h1 class="text-center">Sign In</h1>
 
-      <form class="form form-wrapper" name="form" ng-submit="vm.login(form)" data-parsley-validate>
+      <form class="form form-wrapper" name="login-form" id="login-form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
           <label>Username</label>
@@ -22,9 +22,13 @@
           <input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
         </div>
 
-        <div class="form-group has-error">
-          <p class="help-block text-danger">{{ vm.errors.login }}</p>
-        </div>
+        <p class="help-block" ng-show="this.errors">
+          <ul>
+            <li ng-repeat="error in vm.errors">
+              <p class="text-danger">{{ error.message }}</p>
+            </li>
+          </ul>
+        </p>
 
         <div>
           <button id='sign-in-login' class="btn btn-lg btn-primary btn-oblong hvr-float w180 login" type="submit">
