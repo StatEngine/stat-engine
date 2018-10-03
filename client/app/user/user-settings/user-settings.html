@@ -9,88 +9,138 @@
     <h2>Settings</h2>
   </div>
   <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
-    <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
-      <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#" role="tab">My Profile</a></li>
-      <!--<li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Department Info</a></li>
-      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Notifications</a></li>
-      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab">Billing</a></li>-->
+    <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist" id="nav-tab">
+      <li class="nav-item tx-medium pl-0">
+        <a class="nav-link active" data-toggle="tab" href="#nav-profile" role="tab" id="nav-profile-tab" aria-controls="nav-profile" aria-selected="true">My Profile</a>
+      </li>
+      <li class="nav-item tx-medium">
+        <a class="nav-link" data-toggle="tab" href="#nav-password" role="tab" id="nav-password-tab" aria-controls="nav-password" aria-selected="false">Password</a>
+      </li>
     </ul>
   </div>
   <div class="br-pagebody">
-    <div class="site-content settings">
+    <div class="tab-content" id="nav-tabContent">
       <!-- My Profile -->
-      <div class="card shadow-base bd-0 mg-b-25">
-        <div class="card-body pd-30">
-          <h6 class="card-title tx-medium mg-b-35">My Profile</h6>
-          <form name="profileForm" id="profileForm" ng-submit="vm.edituser(profileForm)" novalidate>
-            <div class="form-layout">
-              <div class="row mg-t-30 mg-b-15">
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">First Name:
-                      <span class="tx-danger">*</span></label>
-                    <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" ng-model="vm.user.first_name" required>
+       <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="card shadow-base bd-0 mg-b-25">
+          <div class="card-body pd-30">
+            <h6 class="card-title tx-medium mg-b-35">My Profile</h6>
+            <form name="profileForm" id="profileForm" ng-submit="vm.edituser(profileForm)" novalidate>
+              <div class="form-layout">
+                <div class="row mg-t-30 mg-b-15">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">First Name:
+                        <span class="tx-danger">*</span></label>
+                      <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" ng-model="vm.user.first_name" required>
+                    </div>
                   </div>
-                </div>
-                <!-- col-4 -->
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">Last Name:
-                      <span class="tx-danger">*</span></label>
-                    <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" ng-model="vm.user.last_name" required>
+                  <!-- col-4 -->
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Last Name:
+                        <span class="tx-danger">*</span></label>
+                      <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" ng-model="vm.user.last_name" required>
+                    </div>
                   </div>
+                  <!-- col-4 -->
                 </div>
-                <!-- col-4 -->
+                <!-- row -->
+                <div class="form-layout-footer d-flex align-items-center">
+                  <button id='save_user_profile_btn' type="submit" class="btn btn-info">Save Changes</button>
+                  <p ng-show="vm.saved && !profileForm.$dirty" class="mg-b-0 mg-l-20"><i class="fa fa-check tx-success mg-r-5"></i> All Changes Saved!</p>
+                </div>
               </div>
-              <!-- row -->
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade " id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+        <div class="card shadow-base bd-0 mg-b-25 tab-pane" id="nav-password" role="tabpanel">
+          <div class="card-body pd-30">
+            <h6 class="card-title tx-medium mg-b-35">Password</h6>
+            <form name="passwordForm" id="passwordForm" ng-submit="vm.changePassword(passwordForm)" novalidate>
+              <div class="form-layout">
+                <div class="row mg-t-30 mg-b-15">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Current Password:
+                        <span class="tx-danger">*</span></label>
+                      <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword" required mongoose-error/>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-control-label">New Password:
+                          <span class="tx-danger">*</span></label>
+                      <input type="password" id="password1" name="password1" data-parsley-minlength="8" data-parsley-uppercase="1" data-parsley-lowercase="1" data-parsley-number="1" required class="form-control" ng-model="vm.user.newPassword" mongoose-error="mongoose-error"/>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-control-label">Confirm Password:
+                          <span class="tx-danger">*</span></label>
+                      <input type="password" id="password2" name="password2" data-parsley-equalto="#password1" required class="form-control" ng-model="vm.user.confirmPassword" mongoose-error="mongoose-error"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p class="help-block" ng-show="vm.passwordErrors">
+                  <ul>
+                    <li ng-repeat="error in vm.passwordErrors">
+                      <p class="text-danger">{{ error.message }}</p>
+                    </li>
+                  </ul>
+                </p>
+              </div>
               <div class="form-layout-footer d-flex align-items-center">
-                <button id='save_user_profile_btn' type="submit" class="btn btn-info">Save Changes</button>
-                <p ng-show="vm.saved && !profileForm.$dirty" class="mg-b-0 mg-l-20"><i class="fa fa-check tx-success mg-r-5"></i> All Changes Saved!</p>
+                <button id='save_user_password_btn' type="submit" class="btn btn-info">Save Password</button>
+                <p ng-show="vm.savedPassword && !passwordForm.$dirty" class="mg-b-0 mg-l-20"><i class="fa fa-check tx-success mg-r-5"></i>Password Saved!</p>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-      <!--
-      <div class="card shadow-base bd-0 mg-b-25">
-        <div class="card-body pd-30">
-          <h6 class="card-title tx-medium mg-b-35">Department Info</h6>
-          <form name="form" novalidate="">
-            <div class="form-layout">
-              <div class="row mg-t-30 mg-b-15">
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">Department Name:
-                      <span class="tx-danger">*</span></label>
-                      <input type="text" class="form-control" value="Super Duper Department" placeholder="Department Name" required="required">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group mg-b-10-force">
-                    <label class="form-control-label">Mail Address: <span class="tx-danger">*</span></label>
-                    <input class="form-control" type="text" name="address" value="Market St. San Francisco" placeholder="Enter address">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group mg-b-10-force">
-                    <label class="form-control-label">Country: <span class="tx-danger">*</span></label>
-                    <select class="form-control select2 select2-hidden-accessible" data-placeholder="Choose country" tabindex="-1" aria-hidden="true">
-                      <option label="Choose country"></option>
-                      <option value="USA">United States of America</option>
-                      <option value="UK">United Kingdom</option>
-                      <option value="China">China</option>
-                      <option value="Japan">Japan</option>
-                    </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 407px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-s8rp-container"><span class="select2-selection__rendered" id="select2-s8rp-container">
-                  </div>
-                </div>
-              </div>
-              <div class="form-layout-footer">
-                <button id='save_user_profile_btn' type="submit" class="btn btn-info disabled" disabled>Save Changes</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    -->
     </div>
   </div>
+</div>
+
+<!--
+<div class="card shadow-base bd-0 mg-b-25">
+  <div class="card-body pd-30">
+    <h6 class="card-title tx-medium mg-b-35">Department Info</h6>
+    <form name="form" novalidate="">
+      <div class="form-layout">
+        <div class="row mg-t-30 mg-b-15">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">Department Name:
+                <span class="tx-danger">*</span></label>
+                <input type="text" class="form-control" value="Super Duper Department" placeholder="Department Name" required="required">
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group mg-b-10-force">
+              <label class="form-control-label">Mail Address: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="text" name="address" value="Market St. San Francisco" placeholder="Enter address">
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group mg-b-10-force">
+              <label class="form-control-label">Country: <span class="tx-danger">*</span></label>
+              <select class="form-control select2 select2-hidden-accessible" data-placeholder="Choose country" tabindex="-1" aria-hidden="true">
+                <option label="Choose country"></option>
+                <option value="USA">United States of America</option>
+                <option value="UK">United Kingdom</option>
+                <option value="China">China</option>
+                <option value="Japan">Japan</option>
+              </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 407px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-s8rp-container"><span class="select2-selection__rendered" id="select2-s8rp-container">
+            </div>
+          </div>
+        </div>
+        <div class="form-layout-footer">
+          <button id='save_user_profile_btn' type="submit" class="btn btn-info disabled" disabled>Save Changes</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+-->
