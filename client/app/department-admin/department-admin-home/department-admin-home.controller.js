@@ -19,13 +19,13 @@ export default class DepartmentAdminHomeController {
   async $onInit() {
     await this.loadModules();
 
-    this.users = _.filter(this.departmentUsers, u => !u.isAdmin);
+    this.users = _.filter(this.departmentUsers, u => !u.isAdmin && !u.isGlobal);
   }
 
   refreshUsers() {
     this.UserService.query().$promise
       .then(departmentUsers => {
-        this.users = _.filter(departmentUsers, u => !u.isAdmin);
+        this.users = _.filter(departmentUsers, u => !u.Admin && !u.isGlobal);
       });
   }
 

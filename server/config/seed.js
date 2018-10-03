@@ -475,6 +475,17 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => User.create({
       provider: 'local',
+      role: 'user,global,kibana_admin',
+      username: 'global',
+      email: 'global@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'global',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
+    }))
+    .then(() => User.create({
+      provider: 'local',
       role: 'user',
       first_name: 'New',
       last_name: 'User',

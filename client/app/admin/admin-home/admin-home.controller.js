@@ -29,6 +29,7 @@ export default class AdminHomeController {
   buildData() {
     this.fireDepartmentLookup = _.keyBy(this.fireDepartments, '_id');
     this.adminUsers = _.filter(this.users, u => u.isAdmin);
+    this.globalUsers = _.filter(this.users, u => u.isGlobal);
     this.ingestUsers = _.filter(this.users, u => u.isIngest);
     this.homelessUsers = _.filter(this.users, u => !u.requested_fire_department_id && !u.FireDepartment && !u.isAdmin);
     this.pendingUsers = _.filter(this.users, u => u.requested_fire_department_id);

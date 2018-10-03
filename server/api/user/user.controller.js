@@ -153,9 +153,12 @@ export function edit(req, res) {
   // protected fields
   if(req.user.isAdmin) {
     user.role = req.body.role;
-    user.fire_department__id = req.body.fire_department__id;
     user.requested_fire_department_id = req.body.requested_fire_department_id;
     user.nfors = req.body.nfors;
+  }
+
+  if(req.user.isGlobal) {
+    user.fire_department__id = req.body.fire_department__id;
   }
 
   user.save()

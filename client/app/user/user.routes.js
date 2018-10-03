@@ -107,7 +107,7 @@ export default function routes($stateProvider) {
           }
         },
         fireDepartments(currentPrincipal, FireDepartment) {
-          if(currentPrincipal.isAdmin) {
+          if(currentPrincipal.isGlobal) {
             return FireDepartment.query().$promise;
           } else {
             return undefined;

@@ -19,7 +19,7 @@ export default class UserHomeController {
     this.AnalyticEventNames = AnalyticEventNames;
     this.appConfig = appConfig;
 
-    if(this.principal.isAdmin) {
+    if(this.principal.isGlobal) {
       this.fireDepartments = fireDepartments;
     }
   }
@@ -31,7 +31,7 @@ export default class UserHomeController {
   async $onInit() {
     await this.loadModules();
 
-    if(this.principal.isAdmin) {
+    if(this.principal.isGlobal) {
       this.assignedFireDepartment = _.find(this.fireDepartments, f => f._id === this.principal.fire_department__id);
     }
 
@@ -63,7 +63,7 @@ export default class UserHomeController {
     this.onboarding = this.fireDepartment && !this.setupComplete;
     this.appAccess = this.fireDepartment && this.fireDepartment.integration_complete;
 
-    if(this.principal.isAdmin) {
+    if(this.principal.isGlobal) {
       this.homeless = false;
       this.pending = false;
     }

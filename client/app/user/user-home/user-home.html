@@ -32,10 +32,6 @@
               <img src="/assets/images/actions-dashboard.svg"/>
               <span>Dashboard</span>
             </a>
-            <!--<a href="" ng-if="vm.principal.isAdmin" ng-click="vm.goto('site.nfpa.home','NFPA')" >
-              <img src="/assets/images/actions-big-board.svg"/>
-              <span>NFPA Compliance</span>
-            </a>-->
             <div class="actions premium">
               <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.report.today','Reporting')" >
                 <img src="/assets/images/actions-reporting.svg"/>
@@ -106,7 +102,7 @@
               <dd>{{ vm.fireDepartment.state }}</dd>
             </div>
           </dl>
-          <div ng-if="vm.principal.isAdmin">
+          <div ng-if="vm.principal.isGlobal">
           <div class="row justify-content-md-center">
             <div class="col">
               <div class="form-group">

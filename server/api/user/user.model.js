@@ -105,6 +105,10 @@ export default function(sequelize, DataTypes) {
       isAdmin() {
         return this.roles.indexOf('admin') >= 0;
       },
+      isGlobal() {
+        return this.roles.indexOf('global') >= 0
+               || this.roles.indexOf('admin') >= 0;
+      },
       isDepartmentAdmin() {
         return this.roles.indexOf('department_admin') >= 0
                || this.roles.indexOf('admin') >= 0;
