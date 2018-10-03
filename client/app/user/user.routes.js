@@ -12,24 +12,6 @@ export default function routes($stateProvider) {
         },
       },
     })
-    .state('site.user.changePassword', {
-      url: '/changePassword',
-      views: {
-        'content@': {
-          controller: 'ChangePasswordController',
-          controllerAs: 'vm',
-          template: require('./change-password/change-password.html'),
-        }
-      },
-      data: {
-        roles: ['user']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity();
-        }
-      },
-    })
     .state('site.user.requestAccess', {
       url: '/requestAccess',
       views: {
