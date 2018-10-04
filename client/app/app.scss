@@ -973,6 +973,11 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   line-height: 0;
 }
 
+.logged-fullname {
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
 .br-pageheader {
   background-color: darken($color-porcelain,5%);
   border-bottom: 1px solid darken($color-porcelain,10%);
@@ -982,6 +987,7 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   align-items: center;
 }
 
+// Header Dropdowns
 .logged-name {
   font-weight: 500;
   margin-left: 5px;
@@ -991,6 +997,14 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 span + .logged-name {
   top: -2px;
 }
+
+.br-header-right .dropdown:last-child .dropdown-menu {
+  margin-top: 5px;
+  @include media-breakpoint-down(sm) {
+    transform: none !important;
+  }
+}
+
 
 .br-menu-link {
   color: $color-cloudy-sky;
