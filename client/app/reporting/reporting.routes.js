@@ -8,10 +8,14 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.reporting', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<sidebar></sidebar>'
+        },
+      },
     })
     .state('site.reporting.unit', {
-      url: '/reporting/unit',
+      url: '/reporting/units',
       views: {
         'content@': {
           template: require('./reporting-unit/reporting-unit.html'),

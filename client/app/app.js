@@ -19,8 +19,6 @@ import oclazyload from 'oclazyload';
 import angularLoadingBar from 'angular-loading-bar';
 import parsleyjs from 'parsleyjs';
 
-console.dir(parsleyjs);
-
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
 import MapBoxGL from 'mapbox-gl';
@@ -82,7 +80,7 @@ import util from '../components/util/util.module';
 import incidentComponents from '../components/incident';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
-import reportingItemList from '../components/reporting-item-list/reporting-item-list.component';
+import reportingUnitList from '../components/reporting-unit-list/reporting-unit-list.component';
 
 import api2 from '../api/index';
 
@@ -108,7 +106,6 @@ angular.module('statEngineApp', [
   account,
   admin,
   api,
-  //mobxAngular,
   guides,
   navbar,
   sidebar,
@@ -134,7 +131,7 @@ angular.module('statEngineApp', [
   humanizeComponents,
   reporting,
   api2,
-  reportingItemList,
+  reportingUnitList,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

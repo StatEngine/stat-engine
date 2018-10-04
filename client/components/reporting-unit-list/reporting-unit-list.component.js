@@ -6,7 +6,7 @@ import angular from 'angular';
 
 import { autorun } from "mobx"
 
-export class ReportingItemListComponent {
+export class ReportingUnitListComponent {
   constructor($timeout) {
     'ngInject';
 
@@ -15,17 +15,13 @@ export class ReportingItemListComponent {
 
   $onInit() {
     autorun(() => {
-      console.dir(this.store)
       this.selected = this.store.selected;
-
-      console.dir('this selected = ' + this.selected);
-
       this.$timeout(() => {});
     })
   }
 
   $onDestroy() {
-    console.dir('destory the autorunner')
+    console.dir('destroy the autorunner!')
   }
 
   select(id) {
@@ -34,13 +30,13 @@ export class ReportingItemListComponent {
   }
 }
 
-export default angular.module('reportingItemLIst', [])
-  .component('reportingItemList', {
-    template: require('./reporting-item-list.html'),
-    controller: ReportingItemListComponent,
+export default angular.module('reportingUnitList', [])
+  .component('reportingUnitList', {
+    template: require('./reporting-unit-list.html'),
+    controller: ReportingUnitListComponent,
     controllerAs: 'vm',
     bindings: {
-      items: '<',
+      units: '<',
       store: '<',
     },
   })
