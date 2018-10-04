@@ -10,10 +10,9 @@ export const Unit = types.model({
 export const UnitList = types.model({
   units: types.optional(types.array(Unit), []),
   selected: types.maybe(types.reference(Unit)),
-  currentTotalStats: types.frozen(),
-  currentGranularStats: types.frozen(),
-  previousStats: types.frozen(),
-  totalStats: types.frozen(),
+  currentMetrics: types.frozen(),
+  comparitiveMetrics: types.frozen(),
+  allTimeMetrics: types.frozen(),
 })
 .actions(self => {
   const fetchUnits = flow(function*() {
@@ -33,22 +32,20 @@ export const UnitList = types.model({
     self.selected = id;
   }
 
-  const fetchCurrentStats = flow(function*(id, qs) {
+  const fetchMetrics = flow(function*(id, qs) {
     self.state = "pending"
     try {
-      let params = qs;
-      params.granularity = 'TOTAL';
-      const stats = yield axios.get(`/api/units/${id}/stats`, {
+      // TODO
+      let params = {};
+      const metrics = yield axios.get(`/api/units/${id}/metrics`, {
         params
       });
-      self.currentTotalStats = stats.data;
+      self.currentMetrics = metrics.data;
 
-      params.granularity = 'DAY';
-      console.dir(params)
-      const granularStats = yield axios.get(`/api/units/${id}/stats`, {
+      const comparitiveMetrics = yield axios.get(`/api/units/${id}/metrics`, {
         params
       });
-      self.currentGranularStats = granularStats.data;
+      self.comparitiveMetrics = comparitiveMetrics.data;
 
       self.state = "done"
       console.dir('done fetching stats')
@@ -61,8 +58,7 @@ export const UnitList = types.model({
 
   return {
     fetchUnits,
-    fetchCurrentStats,
-    //fetchPreviousStats,
+    fetchMetrics,
     select
   };
 })

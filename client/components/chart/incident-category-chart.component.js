@@ -10,7 +10,6 @@ export default class IncidentCategoryChartComponent {
     'ngInject';
 
     this.initialized = false;
-    console.dir('new')
   }
 
   async loadModules() {
@@ -24,8 +23,8 @@ export default class IncidentCategoryChartComponent {
 
     let categories = [];
 
-    _.forEach(this.data, d => {
-      _.forOwn(d.group_by_data.category, (stats, categoryName) => {
+    _.forOwn(this.data, (dateData, dateName)  => {
+      _.forOwn(dateData, (categoryData, categoryName) => {
         categories.push(categoryName);
       })
     });
@@ -38,17 +37,19 @@ export default class IncidentCategoryChartComponent {
         x: [],
         y: [],
       }
-      _.forEach(this.data, d => {
-        let count = _.get(d.group_by_data.category[categoryName], 'count');
+      _.forOwn(this.data, (dateData, dateName) => {
+        let count = _.get(dateData[categoryName], 'total_count');
         if (!_.isNil(count)) {
-          curTrace.x.push(d.id);
+          curTrace.x.push(dateName);
           curTrace.y.push(count);
         }
       });
       this.trace.push(curTrace);
     });
 
-    this.layout = { barmode: 'stack' };
+    this.layout = {
+      barmode: 'stack'
+    };
 
     this.initialized = true;
   }

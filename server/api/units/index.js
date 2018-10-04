@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
 import * as controller from './unit.controller';
-import * as statsController from './unit-stats.controller';
+import * as metricsController from './unit-metrics.controller';
 
 const router = new Router();
 
@@ -19,13 +19,13 @@ router.get(
 );
 
 router.get(
-  '/:id/stats',
+  '/:id/metrics',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  statsController.setIndex,
-  statsController.buildQuery,
-  statsController.getUnitStats,
+  metricsController.setIndex,
+  metricsController.buildQuery,
+  metricsController.runQuery,
 );
 
 module.exports = router;

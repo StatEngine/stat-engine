@@ -54,8 +54,8 @@ export default function routes($stateProvider) {
         select($stateParams) {
           return Store.unitStore.select($stateParams.id);
         },
-        fetchCurrentStats($stateParams) {
-          return Store.unitStore.fetchCurrentStats($stateParams.id, {
+        fetchMetrics($stateParams) {
+          return Store.unitStore.fetchMetrics($stateParams.id, {
             timeStart: 'todo'
           });
         }
