@@ -3,10 +3,10 @@ import _ from 'lodash';
 
 import { Rule } from '../rule';
 
-export class FireIncidentEventDurationRule extends Rule {
+export class FireIncidentEventDurationRule60 extends Rule {
   constructor(params) {
     super(params);
-    this.params.threshold = this.params.threshold || 1800;
+    this.params.threshold = this.params.threshold || 3600;
     this.params.level = 'WARNING';
 
     let apparatus = bodybuilder()
@@ -34,7 +34,7 @@ export class FireIncidentEventDurationRule extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: `Units on fire incident > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-        details: `Incident: ${incidentNumber}, Units: ${units.join(',')}`
+        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`
       });
     });
 
@@ -42,4 +42,4 @@ export class FireIncidentEventDurationRule extends Rule {
   }
 }
 
-export default { FireIncidentEventDurationRule };
+export default { FireIncidentEventDurationRule60 };

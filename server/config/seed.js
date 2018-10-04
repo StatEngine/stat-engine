@@ -149,6 +149,34 @@ if(process.env.NODE_ENV === 'development') {
       fire_department__id: richmond._id,
       extension__id: emailReportEnrichment._id,
       config_json: {
+        name: 'Daily',
+        timeUnit: 'DAY',
+        sections: {
+          showAlertSummary: {
+            FireIncidentEventDurationRule30: false
+          },
+          showBattalionSummary: true,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: false,
+        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+        schedulerOptions: {
+          later: {
+            text: 'every 5 seconds'
+          }
+        }
+      }
+    }))
+    .then(() => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: richmond._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        name: 'Weekly',
+        timeUnit: 'WEEK',
         sections: {
           showAlertSummary: false,
           showBattalionSummary: true,
@@ -159,11 +187,32 @@ if(process.env.NODE_ENV === 'development') {
         showTransports: false,
         logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
         schedulerOptions: {
-          qs: {
-            timeUnit: 'DAY'
-          },
           later: {
-            text: 'every 5 seconds'
+            text: 'every 10 seconds'
+          }
+        }
+      }
+    }))
+    .then(() => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: richmond._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        name: 'Monthly',
+        timeUnit: 'MONTH',
+        sections: {
+          showAlertSummary: false,
+          showBattalionSummary: true,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: false,
+        logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+        schedulerOptions: {
+          later: {
+            text: 'every 15 seconds'
           }
         }
       }
@@ -506,7 +555,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: 155.9969,
       Users: [{
         provider: 'local',
-        role: 'user',
+        role: 'user,department_admin',
         username: 'westMetro',
         first_name: 'Demo',
         last_name: 'User',

@@ -64,8 +64,18 @@ module.exports = function makeWebpackConfig(options) {
                 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
                 'parsleyjs',
                 'bootstrap',
+                'mapbox-gl',
+                'mobx',
+                'mobx-state-tree',
+                'axios',
             ],
         };
+    }
+
+    config.resolve = {
+      alias: {
+         mobx: path.resolve(__dirname, 'node_modules/mobx')
+      }
     }
 
     config.optimization = {
@@ -225,6 +235,7 @@ module.exports = function makeWebpackConfig(options) {
           'window.$': 'jquery',
           'moment': 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
           'window.moment': 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+          'window.mobx': 'mobx',
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'

@@ -33,17 +33,17 @@ function _getShiftTimeFrame(firecaresId, date) {
   }
 }
 
-function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, timeUnit) {
+function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
   let title;
   let subtitle;
+  let timeUnit = reportOptions.timeUnit;
 
   const timeStart = moment.parseZone(timeRange.start);
   if(timeUnit === 'DAY') {
     title = `Shift Report - ${timeStart.format('YYYY-MM-DD')}`;
     subtitle = `Shift ${_getShift(fireDepartment.firecares_id, timeRange.start)}`;
-  } else if(timeUnit === 'WEEK') title = `Weekly Report - W${timeStart.isoWeek()}`;
-  else if(timeUnit === 'MONTH') title = `Monthly Report - M${timeStart.month() + 1}`;
-  else if(timeUnit === 'QUARTER') title = `Quarterly Report - Q${timeStart.quarter()}`;
+  } else if(timeUnit === 'WEEK') title = `Weekly Report - W${timeStart.week()}`;
+  else if(timeUnit === 'MONTH') title = `Monthly Report - ${timeStart.format('MMMM')}`;
   else if(timeUnit === 'YEAR') title = `Yearly Report - ${timeStart.year()}`;
 
   return {
@@ -121,7 +121,7 @@ const agencyIncidentTypeMetricConfigs = [
   ['incidentCount'],
 ];
 
-function _formatAlerts(ruleAnalysis) {
+function _formatAlerts(ruleAnalysis, reportOptions) {
   let mergeVar = {
     name: 'alerts',
     content: []
@@ -132,7 +132,11 @@ function _formatAlerts(ruleAnalysis) {
       if(violation.level === 'DANGER') violation.rowColor = '#f2dede';
       else if(violation.level === 'WARNING') violation.rowColor = '#fcf8e3';
 
-      mergeVar.content.push(violation);
+      console.dir(violation)
+      console.dir(reportOptions);
+      let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
+      console.dir(showAlert);
+      if (_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
     });
   });
 
@@ -180,30 +184,26 @@ function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
 export function calculateTimeRange(options) {
   let startDate = options.startDate;
   let endDate = options.endDate;
+  let timeUnit = options.timeUnit.toLowerCase();
 
   if(!endDate && options.timeUnit && options.firecaresId) {
-    let shiftTimeFrame = _getShiftTimeFrame(options.firecaresId, options.startDate);
+    if (options.previous) {
+      startDate = moment.parseZone(startDate).subtract(1, timeUnit);
+    } else {
+      startDate = moment.parseZone(startDate);
+    }
 
-    let startingMoment = moment.parseZone(shiftTimeFrame.start);
-
-    if(options.timeUnit === 'DAY') {
+    if(timeUnit === 'day') {
+      let shiftTimeFrame = _getShiftTimeFrame(options.firecaresId, startDate.format());
       startDate = shiftTimeFrame.start;
       endDate = shiftTimeFrame.end;
     } else {
-      let startShift = _getShiftTimeFrame(
-        options.firecaresId,
-        moment(startingMoment)
-          .startOf(options.timeUnit)
-          .format()
-      );
-      startDate = startShift.start;
-      endDate = moment.parseZone(startDate)
-        .add(1, options.timeUnit)
-        .format();
+      endDate = moment.parseZone(startDate.format()).endOf(timeUnit).format();
+      startDate = moment.parseZone(startDate.format()).startOf(timeUnit).format();
     }
   }
-
   if(!endDate) throw new Error('Could not determine endDate');
+
   return {
     start: startDate,
     end: endDate,
@@ -211,7 +211,7 @@ export function calculateTimeRange(options) {
 }
 
 export function runComparison(req, res, next) {
-  req.timeRange = calculateTimeRange({ startDate: req.query.startDate, endDate: req.query.endDate, timeUnit: req.query.timeUnit, firecaresId: req.fireDepartment.get().firecares_id });
+  req.timeRange = calculateTimeRange({ startDate: req.query.startDate, endDate: req.query.endDate, timeUnit: req.reportOptions.timeUnit, firecaresId: req.fireDepartment.get().firecares_id, previous: req.query.previous });
   let Analysis = new IncidentAnalysisTimeRange({
     index: req.fireDepartment.get().es_indices['fire-incident'],
     timeRange: req.timeRange,
@@ -244,9 +244,12 @@ export function runRuleAnalysis(req, res, next) {
 }
 
 export function setEmailOptions(req, res, next) {
+  if (!req.query.configurationId) return next(new Error('configurationId is required'));
+
   ExtensionConfiguration.find({
     where: {
       fire_department__id: req.fireDepartment.get()._id,
+      _id: req.query.configurationId,
     },
     include: [{
       model: Extension,
@@ -255,7 +258,8 @@ export function setEmailOptions(req, res, next) {
   }).then(extensionConfiguration => {
     req.reportOptions = extensionConfiguration ? extensionConfiguration.config_json : undefined;
 
-    if(_.isNil(req.reportOptions)) req.reportOptions = {};
+    if(_.isNil(req.reportOptions)) return next(new Error('No report options found'));
+
     next();
   });
 }
@@ -294,7 +298,7 @@ export function setEmailRecipients(req, res, next) {
 }
 
 export function setEmailMergeVars(req, res, next) {
-  let description = _formatDescription(req.fireDepartment.get(), req.timeRange, req.comparisonTimeRange, req.query.timeUnit, req.reportOptions);
+  let description = _formatDescription(req.fireDepartment.get(), req.timeRange, req.comparisonTimeRange, req.reportOptions);
   req.mergeVars = [
     description,
     _formatOptions(req.reportOptions),
@@ -307,8 +311,6 @@ export function setEmailMergeVars(req, res, next) {
   ];
   req.subject = description.content.title;
 
-  console.log(util.inspect(req.mergeVars, {showHidden: false, depth: null}));
-
   next();
 }
 
@@ -320,13 +322,14 @@ export function send(req, res) {
 
   let test = true;
   if(req.query.test && req.query.test.toLowerCase() === 'false') test = false;
+
   req.to.forEach(user => {
     const metadata = {
       firecaresId: req.fireDepartment.firecares_id,
       fireDepartmentName: req.fireDepartment.name,
       userIsAdmin: user.isAdmin,
       userId: user._id,
-      timeUnit: req.query.timeUnit,
+      timeUnit: req.reportOptions.timeUnit,
     };
 
     promises.push(sendEmail(user.email, req.subject, 'timerange', req.mergeVars, test, metadata));

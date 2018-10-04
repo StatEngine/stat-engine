@@ -3,19 +3,17 @@
 import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
-import * as controller from './incident.controller';
+import * as controller from './unit-reports.controller';
 
 const router = new Router();
 
-router.get(
+/*router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.loadMatrix,
-  controller.loadComparison,
-  controller.loadConcurrent,
-  controller.getIncident,
+  controller.buildQuery,
+  controller.getUnitStats,
 );
 
 router.get(
@@ -23,10 +21,10 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getRecentIncidents,
-);
+  //controller.getRecentIncidents,
+);*/
 
-router.param('id', controller.loadIncident);
+router.param('id', controller.loadUnit);
 
 module.exports = router;
 
