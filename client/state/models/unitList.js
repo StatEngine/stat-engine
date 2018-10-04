@@ -10,15 +10,18 @@ export const Unit = types.model({
 export const UnitList = types.model({
   units: types.optional(types.array(Unit), []),
   selected: types.maybe(types.reference(Unit)),
-  selectedStats: types.frozen(),
+  currentTotalStats: types.frozen(),
+  currentGranularStats: types.frozen(),
+  previousStats: types.frozen(),
+  totalStats: types.frozen(),
 })
 .actions(self => {
   const fetchUnits = flow(function*() {
     self.state = "pending"
-   try {
+    try {
       const units = yield axios.get('/api/units');
       self.units = units.data;
-      self.state = "done"
+      self.state = "done";
     } catch (error)   {
       console.error("Failed to fetch units", error)
       self.state = "error"
@@ -30,22 +33,36 @@ export const UnitList = types.model({
     self.selected = id;
   }
 
-  const fetchStats = flow(function*(id) {
+  const fetchCurrentStats = flow(function*(id, qs) {
     self.state = "pending"
     try {
-        const stats = yield axios.get('/api/units/stats');
-        self.selectedStats = stats.data;
-        self.state = "done"
+      let params = qs;
+      params.granularity = 'TOTAL';
+      const stats = yield axios.get(`/api/units/${id}/stats`, {
+        params
+      });
+      self.currentTotalStats = stats.data;
+
+      params.granularity = 'DAY';
+      console.dir(params)
+      const granularStats = yield axios.get(`/api/units/${id}/stats`, {
+        params
+      });
+      self.currentGranularStats = granularStats.data;
+
+      self.state = "done"
+      console.dir('done fetching stats')
     } catch (error) {
-        console.error("Failed to fetch unit stats", error)
-        self.state = "error"
+      console.error("Failed to fetch unit stats", error)
+      self.state = "error";
     }
-    return self.selectedStats
+    return true;
   });
 
   return {
     fetchUnits,
-    fetchStats,
+    fetchCurrentStats,
+    //fetchPreviousStats,
     select
   };
 })

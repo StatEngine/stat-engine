@@ -34,5 +34,31 @@ export default function routes($stateProvider) {
           return Store.unitStore.fetchUnits();
         }
       },
+    })
+    .state('site.reporting.unit.detail', {
+      url: '/:id',
+      views: {
+        'content@': {
+          template: require('./reporting-unit/reporting-unit-detail.html'),
+          controller: 'ReportingUnitDetailController',
+          controllerAs: 'vm'
+        },
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+        select($stateParams) {
+          return Store.unitStore.select($stateParams.id);
+        },
+        fetchCurrentStats($stateParams) {
+          return Store.unitStore.fetchCurrentStats($stateParams.id, {
+            timeStart: 'todo'
+          });
+        }
+      },
     });
 }

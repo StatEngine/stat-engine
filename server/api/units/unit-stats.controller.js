@@ -3,8 +3,9 @@ import _ from 'lodash';
 
 import connection from '../../elasticsearch/connection';
 
-export function generateUnitReport(req, res) {
-  res.send({ sample: 'ere' });
+export function setIndex(req, res, next) {
+  req.index = req.user.FireDepartment.get().es_indices['fire-incident'],
+  next();
 }
 
 function setMetricGroups(agg) {
@@ -53,17 +54,78 @@ export function buildQuery(req, res, next) {
   next();
 }
 
-export function runQuery(req, res, next) {
-  return connection.getClient().search({
-    body: req.esQuery,
-    size: 0,
-    index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-  })
-    .then(res);
+function random() {
+  return Math.floor(Math.random() * 100);
 }
+export function getUnitStats(req, res, next) {
+  /*connection.getClient().search({
+    index: req.index,
+    body: req.searchBody,
+  }).then(esRes => {*/
 
-
-
-export function loadUnit(req, res, next) {
-  next()
+    if (req.query.granularity === 'TOTAL') {
+      res.json({
+        data: [{
+          id: 'total',
+          id_data: {
+            count: random(),
+            commit_time_sum: random(),
+          },
+          group_by_data: {
+            category: {
+              FIRE: {
+                count: random(),
+                commit_time: random(),
+              },
+              EMS: {
+                count: random(),
+                commit_time: random(),
+              }
+            }
+          }
+        }]
+      })
+    }
+    else {
+      res.json({
+        data: [{
+          id: 'Mon',
+          id_data: {
+            count: random(),
+            commit_time_sum: random(),
+          },
+          group_by_data: {
+            category: {
+              FIRE: {
+                count: 1,
+                commit_time: random(),
+              },
+              EMS: {
+                count: 2,
+                commit_time: random(),
+              }
+            }
+          }
+        }, {
+          id: 'Tuesday',
+          id_data: {
+            count: random(),
+            commit_time_sum: random(),
+          },
+          group_by_data: {
+            category: {
+              FIRE: {
+                count: random(),
+                commit_time: random(),
+              },
+              EMS: {
+                count: random(),
+                commit_time: random(),
+              }
+            }
+          }
+        }]
+      })
+    }
+  //});
 }

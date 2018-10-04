@@ -25,8 +25,6 @@ export default function(app) {
   app.use('/api/safety', require('./api/safety'));
   app.use('/api/stats', require('./api/stats'));
 
-  app.use('/api/unit-reports', require('./api/unit-reports'));
-
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
     angular: true,

@@ -1,6 +1,18 @@
-<input type="text" ng-model="allKeyword" />
-<ul class="list-group">
-  <li ng-repeat="item in vm.items | filter: allKeyword">
-    <a ng-click="vm.select(item.id)" href="#"> {{ item.id }} </a>
-  </li>
-</ul>
+<div class="br-mailbox-list">
+  <div class="br-mailbox-list-header">
+    <input id="searchbox" type="text" class="form-control" placeholder="Search" ng-model="allKeyword" />
+  </div><!-- br-mailbox-list-header -->
+  <div class="br-mailbox-list-body">
+    <div ng-repeat="unit in vm.units | filter: allKeyword">
+      <div class="br-mailbox-list-item" ng-click="vm.select(unit)">
+        <div class="d-flex justify-content-between mg-b-5">
+          <div>
+            <i class="icon ion-ios-star tx-warning"></i>
+          </div>
+          <span class="tx-12">10 hours ago</span>
+        </div><!-- d-flex -->
+        <h6 class="tx-14 mg-b-10 tx-gray-800"> {{ unit.id }}</h6>
+      </div>
+    </div><!-- br-mailbox-list-item -->
+  </div><!-- br-mailbox-list-body -->
+</div><!-- br-mailbox-list -->

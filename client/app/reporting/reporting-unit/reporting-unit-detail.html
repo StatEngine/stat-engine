@@ -28,7 +28,22 @@
   </div><!-- br-msg-header -->
   <div class="br-pagebody">
     <div class="br-section-wrapper">
-      Select a unit on the left
+
+      <!-- incident types -->
+      <h4 class="br-section-label">Incident Types</h4>
+      <div class="row">
+        <div class="col-8">
+          <incident-category-chart
+            data="vm.currentGranularStats.data">
+          </incident-category-chart>
+        </div>
+        <div class="col-4">
+          <h6>Total Incidents</h6>
+          {{ vm.currentTotalStats.data[0].id_data.count }}
+          <h6>Commit Time</h6>
+          {{ vm.currentTotalStats.data[0].id_data.commit_time_sum }}
+        </div>
+      </div>
     </div>
   </div>
 </div><!-- br-mailbox-body -->

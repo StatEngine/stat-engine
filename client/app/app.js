@@ -57,6 +57,7 @@ import marketplace from './marketplace';
 
 // global components
 import navbar from '../components/navbar/navbar.component';
+import plotlyWrapper from '../components/plotly-wrapper/plotly-wrapper.component';
 import sidebar from '../components/sidebar/sidebar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
@@ -78,11 +79,10 @@ import analyticEventConstants from './analytic-event.constants';
 import util from '../components/util/util.module';
 
 import incidentComponents from '../components/incident';
+import chartComponents from '../components/chart';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
 import reportingUnitList from '../components/reporting-unit-list/reporting-unit-list.component';
-
-import api2 from '../api/index';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -116,6 +116,7 @@ angular.module('statEngineApp', [
   user,
   incident,
   incidentComponents,
+  chartComponents,
   orderObjectBy,
   //shift,
   departmentAdmin,
@@ -130,8 +131,8 @@ angular.module('statEngineApp', [
   util,
   humanizeComponents,
   reporting,
-  api2,
   reportingUnitList,
+  plotlyWrapper,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

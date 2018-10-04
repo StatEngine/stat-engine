@@ -4,29 +4,13 @@
 
 import angular from 'angular';
 
-import { autorun } from "mobx"
-
 export class ReportingUnitListComponent {
-  constructor($timeout) {
+  constructor() {
     'ngInject';
-
-    this.$timeout = $timeout;
   }
 
-  $onInit() {
-    autorun(() => {
-      this.selected = this.store.selected;
-      this.$timeout(() => {});
-    })
-  }
-
-  $onDestroy() {
-    console.dir('destroy the autorunner!')
-  }
-
-  select(id) {
-    this.store.select(id);
-    this.store.fetchStats(id);
+  select(unit) {
+    this.onSelect({ selected: unit });
   }
 }
 
@@ -37,7 +21,7 @@ export default angular.module('reportingUnitList', [])
     controllerAs: 'vm',
     bindings: {
       units: '<',
-      store: '<',
+      onSelect: '&'
     },
   })
   .name;
