@@ -14,8 +14,7 @@ export default class ReportingUnitDetailController {
 
     autorun(() => {
       this.selected = this.store.selected;
-      this.currentTotalStats = this.store.currentTotalStats;
-      this.currentGranularStats = this.store.currentGranularStats;
+      this.currentMetrics = this.store.currentMetrics;
     })
   }
 

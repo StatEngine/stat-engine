@@ -5,12 +5,6 @@
   <div class="br-mailbox-list-body">
     <div ng-repeat="unit in vm.units | filter: allKeyword">
       <div class="br-mailbox-list-item" ng-click="vm.select(unit)">
-        <div class="d-flex justify-content-between mg-b-5">
-          <div>
-            <i class="icon ion-ios-star tx-warning"></i>
-          </div>
-          <span class="tx-12">10 hours ago</span>
-        </div><!-- d-flex -->
         <h6 class="tx-14 mg-b-10 tx-gray-800"> {{ unit.id }}</h6>
       </div>
     </div><!-- br-mailbox-list-item -->

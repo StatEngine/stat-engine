@@ -1,49 +1,158 @@
-<reporting-unit-list
-  units="vm.store.allUnits"
-  on-select="vm.selectUnit(selected)">
-</reporting-unit-list>
+<div class="br-mainpanel">
 
-<div class="br-mailbox-body">
-  <div class="br-msg-header d-flex justify-content-between">
-    <div class="media align-items-center">
-      <img src="../img/img4.jpg" class="wd-40 rounded-circle" alt="">
-      <div class="media-body mg-l-10">
-        <p class="tx-inverse tx-medium mg-b-0">{{ vm.selected.id }}</p>
-        <p class="tx-12 mg-b-0">
-          <span>Sep 20, 2017 8:45am</span>
-          <a href="" class="mg-l-5 tx-gray-500"><i class="icon ion-star"></i></a>
-          <a href="" class="mg-l-5 tx-gray-500"><i class="icon ion-android-attach"></i></a>
-        </p>
-      </div><!-- media-body -->
-    </div><!-- media -->
-    <nav class="nav nav-inline tx-size-24 mg-b-0 lh-0">
-      <a href="" class="nav-link tx-gray-light hover-inverse pd-x-5"><i class="icon ion-reply"></i></a>
-      <a href="" class="nav-link tx-gray-light hover-inverse pd-x-5"><i class="icon ion-reply-all"></i></a>
-      <a href="" class="nav-link tx-gray-light hover-inverse pd-x-5"><i class="icon ion-printer"></i></a>
-      <a href="" class="nav-link tx-gray-light hover-inverse pd-x-5"><i class="icon ion-android-more-horizontal"></i></a>
-      <a id="closeMail" href="" class="nav-link pd-x-5 mg-l-15 hidden-xl-up">
-        <i class="icon ion-close"></i>
-      </a>
-    </nav>
-  </div><!-- br-msg-header -->
-  <div class="br-pagebody">
-    <div class="br-section-wrapper">
+  <reporting-unit-list
+    units="vm.store.allUnits"
+    on-select="vm.selectUnit(selected)">
+  </reporting-unit-list>
 
+  <div class="br-mailbox-body">
+    <div class="br-msg-header d-flex justify-content-between">
+      <div class="media align-items-center">
+        <img src="../img/img4.jpg" class="wd-40 rounded-circle" alt="">
+        <div class="media-body mg-l-10">
+          <p class="tx-inverse tx-medium mg-b-0">{{ vm.selected.id }}</p>
+          <p class="tx-12 mg-b-0">
+            <span>Sep 20, 2017 8:45am</span>
+            <a href="" class="mg-l-5 tx-gray-500"><i class="icon ion-star"></i></a>
+            <a href="" class="mg-l-5 tx-gray-500"><i class="icon ion-android-attach"></i></a>
+          </p>
+        </div><!-- media-body -->
+      </div><!-- media -->
+      <nav class="nav nav-inline tx-size-24 mg-b-0 lh-0">
+        <a href="" class="nav-link tx-gray-light hover-inverse pd-x-5"><i class="icon ion-printer"></i></a>
+      </nav>
+    </div><!-- br-msg-header -->
+
+    <div class="br-pagebody">
       <!-- incident types -->
-      <h4 class="br-section-label">Incident Types</h4>
+      <h4 class="br-section-label">Summary</h4>
       <div class="row">
-        <div class="col-8">
-          <incident-category-chart
-            data="vm.currentGranularStats.data">
-          </incident-category-chart>
+        <div class="col-12">
+          <div class="row no-gutters tx-center">
+            <div class="col-6 col-sm-6 pd-y-20">
+              <p class="tx-12 mg-b-0">Incidents</p>
+              <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data.total_count }}</h5>
+            </div>
+            <div class="col-6 col-sm-6 pd-y-20 bd-l bd-color-gray-lighter">
+              <p class="tx-12 mg-b-0">Commit Time</p>
+              <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data.total_commitment_time_minutes }}</h5>
+            </div>
+          </div>
         </div>
-        <div class="col-4">
-          <h6>Total Incidents</h6>
-          {{ vm.currentTotalStats.data[0].id_data.count }}
-          <h6>Commit Time</h6>
-          {{ vm.currentTotalStats.data[0].id_data.commit_time_sum }}
+      </div>
+      <div class="row">
+        <incident-category-chart
+          data="vm.currentMetrics.time_series_data.grouped_data.category">
+        </incident-category-chart>
+      </div>
+
+      <div id="accordion" class="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card">
+          <div class="card-header" role="tab" id="headingOne">
+            <h6 class="mg-b-0">
+              <a data-toggle="collapse" data-parent="#accordion" href="#turnoutTime" aria-expanded="true" aria-controls="turnoutTime" class="tx-gray-800 transition">
+                Turnout Time
+              </a>
+            </h6>
+          </div><!-- card-header -->
+          <div id="turnoutTime" class="collapse show" role="tabpanel" aria-labelledby="turnoutTime">
+            <div class="card-block pd-20">
+              <div class="row">
+                <div class="col-6">
+                  <strong>Summary</strong>
+                  <div class="row no-gutters tx-center">
+                    <div class="col-4 col-sm-4 pd-y-20">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">1,343</h5>
+                      <p class="tx-12 mg-b-0">Travel Time</p>
+                    </div>
+                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">102</h5>
+                      <p class="tx-12 mg-b-0">First Due</p>
+                    </div>
+                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">343</h5>
+                      <p class="tx-12 mg-b-0">Urban</p>
+                    </div><!-- col-2 -->
+                  </div>
+                  <hr>
+                  <div class="row no-gutters tx-center">
+                    <div class="col-4 col-sm-4 pd-y-20">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">1,343</h5>
+                      <p class="tx-12 mg-b-0">Rank</p>
+                    </div>
+                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">102</h5>
+                      <p class="tx-12 mg-b-0">Non-Frist Due</p>
+                    </div>
+                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">343</h5>
+                      <p class="tx-12 mg-b-0">Rural</p>
+                    </div><!-- col-2 -->
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <strong>Insights</strong>
+                </div>
+              </div>
+
+              <div class="row">
+                <incident-first-due-travel-duration-chart
+                  data="vm.currentGranularStats.data">
+                </incident-first-due-travel-duration-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" role="tab" id="headingOne">
+            <h6 class="mg-b-0">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+                Travel Time
+              </a>
+            </h6>
+          </div><!-- card-header -->
+
+          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+            <div class="card-block pd-20">
+              Coming Soon
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" role="tab" id="headingOne">
+            <h6 class="mg-b-0">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+                Transports
+              </a>
+            </h6>
+          </div><!-- card-header -->
+
+          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+            <div class="card-block pd-20">
+              Coming Soon
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" role="tab" id="headingOne">
+            <h6 class="mg-b-0">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+                Incident Details
+              </a>
+            </h6>
+          </div><!-- card-header -->
+
+          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+            <div class="card-block pd-20">
+              Coming Soon
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div><!-- br-mailbox-body -->
+</div>
