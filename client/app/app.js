@@ -50,7 +50,6 @@ import user from './user';
 import reporting from './reporting';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
-import nfpa from './nfpa';
 import report from './report';
 import incident from './incident';
 
@@ -61,6 +60,7 @@ import navbar from '../components/navbar/navbar.component';
 import plotlyWrapper from '../components/plotly-wrapper/plotly-wrapper.component';
 import sidebar from '../components/sidebar/sidebar.component';
 import footer from '../components/footer/footer.component';
+import percentChange from '../components/percent-change/percent-change.component';
 import modal from '../components/modal/modal.service';
 
 import statsTable from '../components/tables/stats-table.component';
@@ -122,7 +122,6 @@ angular.module('statEngineApp', [
   //shift,
   departmentAdmin,
   twitter,
-  nfpa,
   'ui.bootstrap',
   footer,
   main,
@@ -135,6 +134,7 @@ angular.module('statEngineApp', [
   reportingUnitList,
   plotlyWrapper,
   modal,
+  percentChange,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

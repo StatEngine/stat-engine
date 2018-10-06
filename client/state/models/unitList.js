@@ -11,6 +11,8 @@ export const UnitList = types.model({
   units: types.optional(types.array(Unit), []),
   selected: types.maybe(types.reference(Unit)),
   currentMetrics: types.frozen(),
+  previousMetrics: types.frozen(),
+
   totalMetrics: types.frozen(),
 })
 .actions(self => {
@@ -40,6 +42,11 @@ export const UnitList = types.model({
         params
       });
       self.currentMetrics = metrics.data;
+
+      const previousMetrics = yield axios.get(`/api/units/${id}/metrics`, {
+        params
+      });
+      self.previousMetrics = previousMetrics.data;
 
       const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, {
         params

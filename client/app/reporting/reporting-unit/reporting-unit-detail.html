@@ -34,7 +34,10 @@
               <div class="row">
                 <div class="col-6">
                   <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data.total_count }}</h5>
-                  <span class="badge badge-pill badge-success">+4%</span>
+                  <percent-change
+                    old-value="vm.currentMetrics.total_data.total_count"
+                    new-value="vm.previousMetrics.total_data.total_count">
+                  </percent-change>
                 </div>
                 <div class="col-6">
                   All time <br>

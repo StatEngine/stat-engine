@@ -33,7 +33,9 @@ export default class ReportingUnitDetailController {
     autorun(() => {
       this.selected = this.store.selected;
       this.currentMetrics = this.store.currentMetrics;
+      this.previousMetrics = this.store.previousMetrics;
       this.totalMetrics = this.store.totalMetrics;
+
 
       // abstract this to component do this server side
       if (this.totalMetrics) {
