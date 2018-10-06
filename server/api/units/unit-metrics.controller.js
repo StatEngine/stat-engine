@@ -1,10 +1,16 @@
 import bodybuilder from 'bodybuilder';
 import _ from 'lodash';
+import util from 'util';
 
 import connection from '../../elasticsearch/connection';
 
-export function setIndex(req, res, next) {
+export function setIncidentIndex(req, res, next) {
   req.index = req.user.FireDepartment.get().es_indices['fire-incident'],
+  next();
+}
+
+export function setApparatusIndex(req, res, next) {
+  req.index = req.user.FireDepartment.get().es_indices['apparatus-fire-incident'],
   next();
 }
 
@@ -18,6 +24,23 @@ function setMetricGroups(agg) {
       .aggregation('sum', 'apparatus.extended_data.event_duration')
 }
 
+export function buildResponsesQuery(req, res, next) {
+  let base = bodybuilder()
+    .filter('term', 'description.suppressed', false)
+
+    //if (_.get(req, 'query.timeFilter')) {
+    //  base.filter('range', 'description.event_opened', { gte: timeFilter.start, lt: timeFilter.end })
+    //}
+
+    .filter('term', 'apparatus_data.unit_id', req.params.id)
+
+    req.esBody = base
+      .size(10)
+      .build();
+
+    next();
+}
+
 export function buildQuery(req, res, next) {
   let base = bodybuilder()
     .filter('term', 'description.suppressed', false)
@@ -28,6 +51,12 @@ export function buildQuery(req, res, next) {
       }))
 
     base.aggregation('terms', 'description.category', cagg => cagg
+      .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
+        .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
+          return setMetricGroups(unitAgg)
+        })))
+
+    base.aggregation('terms', 'address.population_density', cagg => cagg
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
           return setMetricGroups(unitAgg)
@@ -195,6 +224,26 @@ export function runQuery(req, res, next) {
         api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetrics(myCatBucket);
       });
     });
+
+    res.json(api_response);
+  });
+}
+
+export function runResponsesQuery(req, res, next) {
+  connection.getClient().search({
+    index: req.index,
+    body: req.esBody,
+  }).then(esRes => {
+    console.log(util.inspect(esRes, { showHidden: false, depth: null }))
+
+    const api_response = {
+      incidents: [],
+    };
+
+    const hits = _.get(esRes, 'hits.hits');
+    if (hits) {
+      api_response.incidents = _.map(hits, h => h._source);
+    }
 
     res.json(api_response);
   });

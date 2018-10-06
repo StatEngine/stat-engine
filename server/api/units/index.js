@@ -19,11 +19,21 @@ router.get(
 );
 
 router.get(
+  '/:id/responses',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  metricsController.setApparatusIndex,
+  metricsController.buildResponsesQuery,
+  metricsController.runResponsesQuery,
+);
+
+router.get(
   '/:id/metrics',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  metricsController.setIndex,
+  metricsController.setIncidentIndex,
   metricsController.buildQuery,
   metricsController.runQuery,
 );
@@ -33,7 +43,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  metricsController.setIndex,
+  metricsController.setIncidentIndex,
   metricsController.buildTotalQuery,
   metricsController.runTotalQuery,
 );

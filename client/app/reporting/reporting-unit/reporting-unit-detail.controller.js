@@ -30,12 +30,40 @@ export default class ReportingUnitDetailController {
     this.store = Store.unitStore;
     this.$state = $state;
 
+    this.responsesTableOptions = {
+      data: [],
+      columnDefs: [{
+        field: 'description.incident_number',
+        displayName: 'Incident Number',
+        cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col )}}</a></div>',
+      }, {
+        field: 'address.address_line1',
+        displayName: 'Address'
+      }, {
+        field: 'description.event_closed',
+        displayName: 'Event Closed'
+      }, {
+        field: 'durations.total_event.seconds',
+        displayName: 'Event Duration',
+        cellFilter: 'humanizeDuration',
+      }, {
+        field: 'description.category',
+        displayName: 'Category',
+        width: 100,
+      }, {
+        field: 'description.type',
+        displayName: 'Type',
+      }]
+    };
+
     autorun(() => {
       this.selected = this.store.selected;
+
+      this.responsesTableOptions.data = this.store.responses;
+
       this.currentMetrics = this.store.currentMetrics;
       this.previousMetrics = this.store.previousMetrics;
       this.totalMetrics = this.store.totalMetrics;
-
 
       // abstract this to component do this server side
       if (this.totalMetrics) {
