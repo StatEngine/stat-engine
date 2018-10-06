@@ -33,6 +33,12 @@ export function buildQuery(req, res, next) {
           return setMetricGroups(unitAgg)
         })))
 
+    base.aggregation('terms', 'address_first_due', cagg => cagg
+      .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
+        .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
+          return setMetricGroups(unitAgg)
+        })))
+
     base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'hour' }, dateAgg => dateAgg
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
@@ -60,10 +66,27 @@ export function buildQuery(req, res, next) {
   next();
 }
 
+export function buildTotalQuery(req, res, next) {
+  let base = bodybuilder()
+    .filter('term', 'description.suppressed', false)
+
+    base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'day' }, dateAgg => dateAgg
+      .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
+        .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
+          return setMetricGroups(unitAgg)
+        })))
+
+  req.esBody = base
+    .size(0)
+    .build();
+
+  next();
+}
+
 const metrics = [
   ['total_count', 'doc_count', { rank: true }],
   ['total_distance_to_incident_miles', '["agg_sum_apparatus.distance"].value'],
-  ['total_commitment_time_minutes', '["agg_sum_apparatus.extended_data.event_duration"].value'],
+  ['total_commitment_time_seconds', '["agg_sum_apparatus.extended_data.event_duration"].value'],
   ['90_percentile_turnout_duration_seconds', '["agg_percentiles_apparatus.extended_data.turnout_duration"].values["90.0"]', { rank: true }],
   ['90_percentile_travel_duration_seconds', '["agg_percentiles_apparatus.extended_data.travel_duration"].values["90.0"]'],
 ];
@@ -80,6 +103,39 @@ function getMetrics(bucket) {
   });
 
   return formatted;
+}
+
+export function runTotalQuery(req, res, next) {
+  const unitId = req.params.id;
+
+  connection.getClient().search({
+    index: req.index,
+    body: req.esBody,
+  }).then(esRes => {
+    // total data
+    const api_response = {
+      total_data: {},
+      grouped_data: {
+        category: {}
+      },
+      time_series_data: {
+        total_data: {},
+        grouped_data: {
+          category: {}
+        },
+      },
+    };
+
+    const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
+    _.forEach(timeSeriesBuckets, timeBucket => {
+      if (_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
+      const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
+      const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
+      api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(myTimeBucket);
+    });
+
+    res.json(api_response);
+  });
 }
 
 export function runQuery(req, res, next) {

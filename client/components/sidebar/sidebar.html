@@ -11,7 +11,7 @@
   </div><!-- br-header-left -->
   <div class="br-header-right">
     <nav class="nav">
-      <div class="search mg-r-15">
+      <div class="search mg-r-15" ng-if="vm.user.fire_department__id">
         <a href="" ui-sref="site.incident.search" class="nav-link pd-x-7 pos-relative">
           <i class="fa fa-search tx-20"></i>
           <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
@@ -73,7 +73,7 @@
           </div>--><!-- media-list -->
         <!--</div>--><!-- dropdown-menu -->
       <!--</div>--><!-- dropdown -->
-      <div class="dropdown apps mg-r-5">
+      <div class="dropdown apps mg-r-5" ng-if="vm.user.fire_department__id">
         <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
           <i class="se-icon-apps tx-20"></i>
           <!-- start: if statement -->
@@ -136,18 +136,18 @@
         <span class="menu-item-label text-truncate">Control Center</span>
         </a>
     </li>
-    <li class="br-menu-item">
+    <li class="br-menu-item" ng-if="vm.user.fire_department__id">
       <a href="#" ng-click='vm.dashboard()' class="br-menu-link">
         <i class="menu-item-icon se-icon-dashboard-alt tx-20"></i>
         <span class="menu-item-label text-truncate">Dashboard</span>
       </a>
     </li>
-    <li class="br-menu-item">
+    <li class="br-menu-item" ng-if="vm.user.fire_department__id">
       <a href="#" class="br-menu-link with-sub" ng-class="{ active: vm.$state.current.name.startsWith('site.incident') }">
         <i class="menu-item-icon se-icon-reports tx-20"></i>
         <span class="menu-item-label text-truncate">Reports</span>
       </a>
-      <ul class="br-menu-sub">
+      <ul class="br-menu-sub" ng-if="vm.user.fire_department__id">
         <!-- TODO change incidents to reporting -->
         <li class="sub-item"><a href="#" ui-sref='site.incident.search' class="sub-link">Incidents</a></li>
         <li class="sub-item"><a href="#" ui-sref="site.reporting.unit" class="sub-link">Units&nbsp;<span class="badge badge-info">Coming Soon</span></a></li>
@@ -156,7 +156,7 @@
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Addressess&nbsp;<span class="badge badge-info">Coming Soon</span></a></li>-->
       </ul>
     </li>
-    <li class="br-menu-item">
+    <li class="br-menu-item" ng-if="vm.user.fire_department__id">
       <a href="#" class="br-menu-link with-sub">
         <i class="menu-item-icon se-icon-apps tx-20"></i>
         <span class="menu-item-label text-truncate">Applications</span>
@@ -168,7 +168,7 @@
         <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Another App</a></li>-->
       </ul>
     </li>
-    <li class="br-menu-item">
+    <li class="br-menu-item" ng-if="vm.user.fire_department__id">
       <a href="#" ui-sref='site.marketplace.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.marketplace.home' }">
         <i class="menu-item-icon se-icon-marketplace tx-20"></i>
         <span class="menu-item-label text-truncate">Marketplace</span>
@@ -186,15 +186,15 @@
     <label class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
     <ul class="br-sideleft-menu">
       <li class="br-menu-item">
-        <a href="#" class="br-menu-link">
+        <a href="#" ui-sref="site.admin.home" class="br-menu-link" ng-if="vm.user.isAdmin">
           <i class="menu-item-icon se-icon-fire-departments tx-22"></i>
           <span class="menu-item-label text-truncate">Fire Departments</span>
         </a>
       </li>
-      <li class="br-menu-item">
-        <a href="#" class="br-menu-link">
+      <li class="br-menu-item" ng-if="vm.user.isDepartmentAdmin">
+        <a href="#" ui-sref="site.departmentAdmin.home" class="br-menu-link">
           <i class="menu-item-icon se-icon-users tx-16"></i>
-          <span class="menu-item-label text-truncate">Users</span>
+          <span class="menu-item-label text-truncate">My Department</span>
         </a>
     </ul>
 

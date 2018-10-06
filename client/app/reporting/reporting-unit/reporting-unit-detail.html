@@ -31,11 +31,23 @@
           <div class="row no-gutters tx-center">
             <div class="col-6 col-sm-6 pd-y-20">
               <p class="tx-12 mg-b-0">Incidents</p>
-              <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data.total_count }}</h5>
+              <div class="row">
+                <div class="col-6">
+                  <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data.total_count }}</h5>
+                  <span class="badge badge-pill badge-success">+4%</span>
+                </div>
+                <div class="col-6">
+                  All time <br>
+                  Min: {{ vm.totalIncidentMin.total_count }} <br>
+                  Max: {{ vm.totalIncidentMax.total_count }} <br>
+                  Avg: {{ vm.totalIncidentAvg }} <br>
+                  Today: {{ vm.currentMetrics.total_data.total_count }} <br>
+                </div>
+              </div>
             </div>
             <div class="col-6 col-sm-6 pd-y-20 bd-l bd-color-gray-lighter">
               <p class="tx-12 mg-b-0">Commit Time</p>
-              <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data.total_commitment_time_minutes }}</h5>
+              <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}</h5>
             </div>
           </div>
         </div>
@@ -62,32 +74,17 @@
                   <strong>Summary</strong>
                   <div class="row no-gutters tx-center">
                     <div class="col-4 col-sm-4 pd-y-20">
-                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">1,343</h5>
-                      <p class="tx-12 mg-b-0">Travel Time</p>
+                      <p class="tx-12 mg-b-0">Total</p>
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds'] | number: 0 }}</h5>
                     </div>
                     <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
-                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">102</h5>
-                      <p class="tx-12 mg-b-0">First Due</p>
+                      <p class="tx-12 mg-b-0">EMS</p>
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds'] | number: 0 }}</h5>
                     </div>
                     <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
-                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">343</h5>
-                      <p class="tx-12 mg-b-0">Urban</p>
-                    </div><!-- col-2 -->
-                  </div>
-                  <hr>
-                  <div class="row no-gutters tx-center">
-                    <div class="col-4 col-sm-4 pd-y-20">
-                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">1,343</h5>
-                      <p class="tx-12 mg-b-0">Rank</p>
+                      <p class="tx-12 mg-b-0">FIRE</p>
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds'] | number: 0 }}</h5>
                     </div>
-                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
-                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">102</h5>
-                      <p class="tx-12 mg-b-0">Non-Frist Due</p>
-                    </div>
-                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
-                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">343</h5>
-                      <p class="tx-12 mg-b-0">Rural</p>
-                    </div><!-- col-2 -->
                   </div>
                 </div>
 
@@ -97,24 +94,22 @@
               </div>
 
               <div class="row">
-                <incident-first-due-travel-duration-chart
-                  data="vm.currentGranularStats.data">
-                </incident-first-due-travel-duration-chart>
+
               </div>
             </div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-header" role="tab" id="headingOne">
+          <div class="card-header" role="tab">
             <h6 class="mg-b-0">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+              <a data-toggle="collapse" data-parent="#accordion" href="#travelTime" aria-expanded="true" aria-controls="travelTime" class="tx-gray-800 transition">
                 Travel Time
               </a>
             </h6>
           </div><!-- card-header -->
 
-          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+          <div id="travelTime" class="collapse show" role="tabpanel" aria-labelledby="travelTime">
             <div class="card-block pd-20">
               Coming Soon
             </div>
@@ -122,31 +117,15 @@
         </div>
 
         <div class="card">
-          <div class="card-header" role="tab" id="headingOne">
+          <div class="card-header" role="tab">
             <h6 class="mg-b-0">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
-                Transports
-              </a>
-            </h6>
-          </div><!-- card-header -->
-
-          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-            <div class="card-block pd-20">
-              Coming Soon
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header" role="tab" id="headingOne">
-            <h6 class="mg-b-0">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+              <a data-toggle="collapse" data-parent="#accordion" href="#incidentDetails" aria-expanded="true" aria-controls="incidentDetails" class="tx-gray-800 transition">
                 Incident Details
               </a>
             </h6>
           </div><!-- card-header -->
 
-          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+          <div id="incidentDetails" class="collapse show" role="tabpanel" aria-labelledby="incidentDetails">
             <div class="card-block pd-20">
               Coming Soon
             </div>

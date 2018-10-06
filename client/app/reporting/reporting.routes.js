@@ -32,6 +32,9 @@ export default function routes($stateProvider) {
         },
         units() {
           return Store.unitStore.fetchUnits();
+        },
+        redirectMe($state, units) {
+          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id})
         }
       },
     })

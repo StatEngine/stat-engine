@@ -28,6 +28,17 @@ router.get(
   metricsController.runQuery,
 );
 
+router.get(
+  '/:id/metrics/total',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  metricsController.setIndex,
+  metricsController.buildTotalQuery,
+  metricsController.runTotalQuery,
+);
+
+
 module.exports = router;
 
 export default router;

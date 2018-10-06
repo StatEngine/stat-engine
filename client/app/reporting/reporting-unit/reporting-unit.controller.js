@@ -12,12 +12,4 @@ export default class ReportingUnitController {
     this.store = Store.unitStore;
     this.$state = $state;
   }
-
-  $onDestory() {
-    console.dir('reminder: destroy autorunner')
-  }
-
-  selectUnit(selected) {
-    this.$state.go('site.reporting.unit.detail', { id: selected.id });
-  }
 }

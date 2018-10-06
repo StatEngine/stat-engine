@@ -9,6 +9,7 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from '@uirouter/angularjs';
+import uiBootstrap from 'ui-bootstrap4';
 import bootstrap from 'bootstrap';
 
 // vendor utils
@@ -122,7 +123,7 @@ angular.module('statEngineApp', [
   departmentAdmin,
   twitter,
   nfpa,
-  modal,
+  'ui.bootstrap',
   footer,
   main,
   analyticEventConstants,
@@ -133,6 +134,7 @@ angular.module('statEngineApp', [
   reporting,
   reportingUnitList,
   plotlyWrapper,
+  modal,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

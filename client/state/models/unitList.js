@@ -11,8 +11,7 @@ export const UnitList = types.model({
   units: types.optional(types.array(Unit), []),
   selected: types.maybe(types.reference(Unit)),
   currentMetrics: types.frozen(),
-  comparitiveMetrics: types.frozen(),
-  allTimeMetrics: types.frozen(),
+  totalMetrics: types.frozen(),
 })
 .actions(self => {
   const fetchUnits = flow(function*() {
@@ -42,10 +41,10 @@ export const UnitList = types.model({
       });
       self.currentMetrics = metrics.data;
 
-      const comparitiveMetrics = yield axios.get(`/api/units/${id}/metrics`, {
+      const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, {
         params
       });
-      self.comparitiveMetrics = comparitiveMetrics.data;
+      self.totalMetrics = totalMetrics.data;
 
       self.state = "done"
       console.dir('done fetching stats')
