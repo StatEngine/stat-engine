@@ -8,7 +8,7 @@ export default function routes($stateProvider) {
       abstract: true,
       views: {
         'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+          template: '<sidebar></sidebar>'
         },
         'content@': {
           template: '<div ui-view />'

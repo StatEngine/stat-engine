@@ -1,10 +1,10 @@
-import { buildQuery, runQuery } from './unit-metrics.controller';
+import { buildTotalQuery, runTotalQuery } from './unit-metrics.controller';
 import 'chai/register-should';
 import util from 'util';
 
 
 describe('buildQuery()', () => {
-  it('should buildQuery', (done) => {
+/*  it('should buildQuery', (done) => {
     let req = {};
     buildQuery(req, {}, () => {
       const util = require('util')
@@ -29,5 +29,24 @@ describe('buildQuery()', () => {
         console.log(util.inspect(res, {showHidden: false, depth: null}))
       })
     })
-  }).timeout(200000);
+  }).timeout(200000);*/
+
+    it('should runTotalQuery', (done) => {
+      let req = {
+        params: {
+          id: 'E5'
+        }
+      };
+      buildTotalQuery(req, {}, () => {
+        console.log(util.inspect(req, { showHidden: false, depth: null }))
+
+        runTotalQuery(req, {}, (res) => {
+          console.info();
+          console.info();
+          console.info();
+          console.info();
+          console.log(util.inspect(res, { showHidden: false, depth: null }))
+        })
+      })
+    }).timeout(200000);
 });

@@ -32,6 +32,9 @@ export default function routes($stateProvider) {
         },
         units() {
           return Store.unitStore.fetchUnits();
+        },
+        redirectMe($state, units) {
+          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id})
         }
       },
     })
@@ -48,14 +51,25 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        deps($ocLazyLoad) {
+          return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
+            .then(() => {
+              $ocLazyLoad.inject('ui.grid');
+            });
+        },
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
         select($stateParams) {
           return Store.unitStore.select($stateParams.id);
         },
+        fetchResponses($stateParams) {
+          return Store.unitStore.fetchSelectedResponses($stateParams.id, {
+            timeStart: 'todo'
+          });
+        },
         fetchMetrics($stateParams) {
-          return Store.unitStore.fetchMetrics($stateParams.id, {
+          return Store.unitStore.fetchSelectedMetrics($stateParams.id, {
             timeStart: 'todo'
           });
         }

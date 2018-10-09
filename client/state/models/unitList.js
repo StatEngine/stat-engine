@@ -11,8 +11,9 @@ export const UnitList = types.model({
   units: types.optional(types.array(Unit), []),
   selected: types.maybe(types.reference(Unit)),
   currentMetrics: types.frozen(),
-  comparitiveMetrics: types.frozen(),
-  allTimeMetrics: types.frozen(),
+  previousMetrics: types.frozen(),
+
+  totalMetrics: types.frozen(),
 })
 .actions(self => {
   const fetchUnits = flow(function*() {
@@ -32,7 +33,24 @@ export const UnitList = types.model({
     self.selected = id;
   }
 
-  const fetchMetrics = flow(function*(id, qs) {
+  const fetchSelectedResponses = flow(function*(id, qs) {
+    self.state = "pending"
+    try {
+      let params = {};
+      const metrics = yield axios.get(`/api/units/${id}/responses`, {
+        params
+      });
+      self.responses = metrics.data.incidents;
+      self.state = "done"
+    } catch (error) {
+      console.error("Failed to fetch unit stats", error)
+      self.state = "error";
+    }
+    return true;
+  });
+
+
+  const fetchSelectedMetrics = flow(function*(id, qs) {
     self.state = "pending"
     try {
       // TODO
@@ -42,13 +60,17 @@ export const UnitList = types.model({
       });
       self.currentMetrics = metrics.data;
 
-      const comparitiveMetrics = yield axios.get(`/api/units/${id}/metrics`, {
+      const previousMetrics = yield axios.get(`/api/units/${id}/metrics`, {
         params
       });
-      self.comparitiveMetrics = comparitiveMetrics.data;
+      self.previousMetrics = previousMetrics.data;
+
+      const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, {
+        params
+      });
+      self.totalMetrics = totalMetrics.data;
 
       self.state = "done"
-      console.dir('done fetching stats')
     } catch (error) {
       console.error("Failed to fetch unit stats", error)
       self.state = "error";
@@ -58,7 +80,8 @@ export const UnitList = types.model({
 
   return {
     fetchUnits,
-    fetchMetrics,
+    fetchSelectedResponses,
+    fetchSelectedMetrics,
     select
   };
 })
