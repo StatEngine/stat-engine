@@ -54,38 +54,38 @@
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Incident Summary</h6>
                     <div class="card-option">
-                      <a href="#" ><i class="icon ion-more lh-0 tx-20"></i></a>
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body pd-x-30">
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                      <span class="tx-medium">Incident Number:</span>
+                      <span class="tx-semibold">Incident Number:</span>
                       <span>{{ vm.incident.description.incident_number }}</span>
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                      <span class="tx-medium">Event Type:</span>
+                      <span class="tx-semibold">Event Type:</span>
                       <span>{{ vm.incident.description.type }}</span>
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                      <span class="tx-medium">Event Sub-Type:</span>
+                      <span class="tx-semibold">Event Sub-Type:</span>
                       <span>{{ vm.incident.description.subtype }}</span>
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                      <span class="tx-medium">Date:</span>
+                      <span class="tx-semibold">Date:</span>
                       <span>{{ vm.incident.description.event_opened |
                         amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM Do YYYY' }}</span>
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                      <span class="tx-medium">Dispatch Time:</span>
+                      <span class="tx-semibold">Dispatch Time:</span>
                       <span>{{ vm.incident.description.first_unit_dispatched |
                         amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'HH:mm' }}</span>
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                      <span class="tx-medium">Location:</span>
+                      <span class="tx-semibold">Location:</span>
                       <span>{{ vm.incident.address.address_line1 }}</span>
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 pd-y-5">
-                      <span class="tx-medium">Event Duration:</span>
+                      <span class="tx-semibold">Event Duration:</span>
                       <span>0h 17m 24s</span>
                     </p>
                   </div>
@@ -93,10 +93,10 @@
               </div>
               <div class="col-lg-6 dispatch-comments">
                 <div class="card shadow-base bd-0 h-100">
-                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Dispatch Comments</h6>
                     <div class="card-option">
-                      <a href="#" ><i class="icon ion-more lh-0 tx-20"></i></a>
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body pd-x-30">
@@ -117,26 +117,26 @@
             <div class="row mt-5">
               <div class="col-lg-12">
                 <div class="card shadow-base bd-0 h-100">
-                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">StatEngine&trade; Performance Analysis</h6>
                     <div class="card-option">
-                      <a href="#" ><i class="icon ion-more lh-0 tx-20"></i></a>
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body pd-x-30 pd-b-30">
                     <div ng-show="!vm.incident.description.suppressed" class="performance-analysis">
-                        <div class="row">
-                          <div ng-repeat="analysis in vm.analysis" class="col-lg-2" ng-init="$last && vm.initTippy()">
-                            <div class="card ruletippy h-100" ng-attr-title="{{vm.formatEvidence(analysis.evidence)}}"
-                              ng-class="{ 'nfpa-standard': analysis.category === 'NFPA'}">
-                              <span ng-class="{ 'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
+                      <div class="row">
+                        <div ng-repeat="analysis in vm.analysis" class="col-lg-2" ng-init="$last && vm.initTippy()">
+                          <div class="card ruletippy h-100" ng-attr-title="{{vm.formatEvidence(analysis.evidence)}}"
+                            ng-class="{ 'nfpa-standard': analysis.category === 'NFPA'}">
+                            <span ng-class="{ 'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
                                                       'se-icon-circle-exclamation caution': analysis.grade === 'WARNING',
                                                       'se-icon-circle-x fail': analysis.grade === 'DANGER'}"></span>
-                              <h6 class="tx-13 tx-medium mg-b-20">{{analysis.description}}</h6>
-                            </div>
+                            <h6 class="tx-13 tx-medium mg-b-20">{{analysis.description}}</h6>
                           </div>
                         </div>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -145,56 +145,48 @@
             <!-- Location -->
             <div id="location" class="mt-5">
               <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Location</h6>
-              <div class="card light-border p-0">
+              <div class="card shadow-base bd-0">
                 <div class="row">
                   <div class="col-md-8">
                     <incident-map incident="vm.incident"></incident-map>
                   </div>
-                  <div class="col-md-4 p-4 location-summary">
-                    <div class="row mr-4">
+                  <div class="col-md-4 pd-y-20 location-summary">
+                    <div class="row mr-3">
                       <dl>
                         <dt>Overview</dt>
                         <dd>{{ vm.textSummaries.locationSummary }}</dd>
                       </dl>
                     </div>
-                    <hr>
-                    <div class="row mr-4">
+                    <div class="row mr-3">
                       <dl>
                         <dt>Address</dt>
                         <dd>
-                          <h3>{{ vm.incident.address.address_line1 }} <br>
+                          {{ vm.incident.address.address_line1 }} <br>
                             {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
-                          </h3>
                         </dd>
                       </dl>
                     </div>
-                    <hr>
                     <div class="row mr-4">
                       <dl>
                         <dt>Response Zone</dt>
                         <dd>
-                          <h3>{{ vm.incident.address.response_zone }}</h3>
+                          {{ vm.incident.address.response_zone }}
                         </dd>
                       </dl>
                     </div>
-                    <hr>
-                    <div class="row mr-4">
+                    <div class="row mr-3">
                       <dl>
                         <dt>First Due</dt>
                         <dd>
-                          <h3>{{ vm.incident.address.first_due }}</h3>
+                          {{ vm.incident.address.first_due }}
                         </dd>
                       </dl>
                     </div>
-                    <hr ng-if="vm.incident.address.battalion">
-
-                    <div class="row mr-4" ng-if="vm.incident.address.battalion">
+                    <div class="row mr-3" ng-if="vm.incident.address.battalion">
                       <dl>
                         <dt>Battalion</dt>
                         <dd>
-                          <h3>{{ vm.incident.address.battalion }}</h3>
-                        </dd>
-                      </dl>
+                          {{ vm.incident.address.battalion }}
                     </div>
                   </div>
                 </div>
@@ -203,50 +195,57 @@
             <div class="row mt-5">
               <!-- Census Data -->
               <div class="col-lg-6 census-data">
-                <div class="card light-border">
-                  <h5 class="card-header">Census Data</h5>
-                  <div ng-if="!vm.incident.address.location.census" class="text-center no-data-available">
-                    <h5>No census data available.</h5>
-                    <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
-                  </div>
-                  <div ng-if="vm.incident.address.location.census">
-                    <div class="row">
-                      <div class="col-sm-6 stat d-flex">
-                        <i class="se-icon-year fa-3x"></i>
-                        <span>
-                          <h2>2010</h2>
-                          <h4>Year</h4>
-                        </span>
-                      </div>
-                      <div ng-if="vm.incident.address.population_density === 'Urban'" class="col-sm-6 stat d-flex">
-                        <i class="se-icon-buildings fa-3x"></i>
-                        <span>
-                          <h2>{{ vm.incident.address.population_density }}</h2>
-                          <h4>Density</h4>
-                        </span>
-                      </div>
-                      <div ng-if="vm.incident.address.population_density === 'Rural'" class="col-sm-6 stat d-flex">
-                        <i class="se-icon-census-tract fa-3x"></i>
-                        <span>
-                          <h2>{{ vm.incident.address.population_density }}</h2>
-                          <h4>Density</h4>
-                        </span>
-                      </div>
+                <div class="card shadow-base bd-0 h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Census Data</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body pd-x-30 pd-b-30">
+                    <div ng-if="!vm.incident.address.location.census" class="text-center no-data-available">
+                      <h5>No census data available.</h5>
+                      <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
                     </div>
-                    <div class="row">
-                      <div class="col-sm-6 stat d-flex pb-5">
-                        <i class="se-icon-census-tract fa-3x"></i>
-                        <span>
-                          <h2>{{ vm.incident.address.location.census.census_2010.tract }}</h2>
-                          <h4>Tract</h4>
-                        </span>
+                    <div ng-if="vm.incident.address.location.census">
+                      <div class="row">
+                        <div class="col-sm-6 stat d-flex">
+                          <i class="se-icon-year fa-3x"></i>
+                          <span>
+                            <h2>2010</h2>
+                            <h4>Year</h4>
+                          </span>
+                        </div>
+                        <div ng-if="vm.incident.address.population_density === 'Urban'" class="col-sm-6 stat d-flex">
+                          <i class="se-icon-buildings fa-3x"></i>
+                          <span>
+                            <h2>{{ vm.incident.address.population_density }}</h2>
+                            <h4>Density</h4>
+                          </span>
+                        </div>
+                        <div ng-if="vm.incident.address.population_density === 'Rural'" class="col-sm-6 stat d-flex">
+                          <i class="se-icon-census-tract fa-3x"></i>
+                          <span>
+                            <h2>{{ vm.incident.address.population_density }}</h2>
+                            <h4>Density</h4>
+                          </span>
+                        </div>
                       </div>
-                      <div class="col-sm-6 stat d-flex pb-5">
-                        <i class="se-icon-census-block fa-3x"></i>
-                        <span>
-                          <h2>{{ vm.incident.address.location.census.census_2010.block }}</h2>
-                          <h4>Block</h4>
-                        </span>
+                      <div class="row">
+                        <div class="col-sm-6 stat d-flex pb-5 pb-md-3">
+                          <i class="se-icon-census-tract fa-3x"></i>
+                          <span>
+                            <h2>{{ vm.incident.address.location.census.census_2010.tract }}</h2>
+                            <h4>Tract</h4>
+                          </span>
+                        </div>
+                        <div class="col-sm-6 stat d-flex pb-5 pb-md-3">
+                          <i class="se-icon-census-block fa-3x"></i>
+                          <span>
+                            <h2>{{ vm.incident.address.location.census.census_2010.block }}</h2>
+                            <h4>Block</h4>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -254,39 +253,47 @@
               </div>
               <!-- Parcel Data -->
               <div class="col-lg-6 parcel-data">
-                <div class="card light-border">
-                  <h5 class="card-header">Parcel Data</h5>
-                  <div ng-if="!vm.incident.address.location.parcel" class="no-data-available">
-                    <h5>No parcel data available.</h5>
-                  </div>
-                  <div ng-if="vm.incident.address.location.parcel">
-                    <div class="row">
-                      <div class="col-sm-7 stat d-flex">
-                        <i class="se-icon-land-use fa-3x"></i>
-                        <span>
-                          <h2>{{ vm.incident.address.location.parcel.land_use }}</h2>
-                          <h4>Land Use</h4>
-                        </span>
+                <div class="card shadow-base bd-0 h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Parcel Data</h6>
+                      <div class="card-option">
+                        <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body pd-x-30 pd-b-30">
+                      <div ng-if="!vm.incident.address.location.parcel" class="no-data-available">
+                          <h5>No parcel data available.</h5>
+                        </div>
+                        <div ng-if="vm.incident.address.location.parcel">
+                          <div class="row">
+                            <div class="col-sm-7 stat d-flex">
+                              <i class="se-icon-land-use fa-3x"></i>
+                              <span>
+                                <h2>{{ vm.incident.address.location.parcel.land_use }}</h2>
+                                <h4>Land Use</h4>
+                              </span>
+                            </div>
+                            <div class="col-sm-5 stat d-flex">
+                              <i class="se-icon-land-area fa-3x"></i>
+                              <span>
+                                <h2><span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{
+                                  vm.incident.address.location.parcel.land_area | number:0 }}</h2>
+                                <h4>Land Area (ft&sup2;)</h4>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-7 stat d-flex pb-3 pb-md-0">
+                              <i class="se-icon-dwelling-value fa-3x"></i>
+                              <span>
+                                <h2> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h2>
+                                <h4>Dwelling Value</h4>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col-sm-5 stat d-flex">
-                        <i class="se-icon-land-area fa-3x"></i>
-                        <span>
-                          <h2><span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{
-                            vm.incident.address.location.parcel.land_area | number:0 }}</h2>
-                          <h4>Land Area (ft&sup2;)</h4>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-7 stat d-flex pb-5">
-                        <i class="se-icon-dwelling-value fa-3x"></i>
-                        <span>
-                          <h2> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h2>
-                          <h4>Dwelling Value</h4>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                    </div>  
                 </div>
               </div>
             </div>
@@ -294,33 +301,45 @@
             <!-- Situational Awareness -->
             <div id="situationalAwareness" class="mt-5">
               <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Situational Awareness</h6>
-              <div class="row mt-5">
+              <div class="row">
                 <!-- Weather Conditions -->
                 <div class="col-lg-6 weather-conditions">
-                  <div class="card light-border">
-                    <h5 class="card-header">Weather Conditions</h5>
-                    <div ng-if="vm.incident.weather.currently">
-                      <div class="row">
-                        <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
-                          amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }}
-                          the following weather conditions were observed:</p>
-                        <div class="col-md-12">
-                          <current-weather weather="vm.incident.weather.currently"></current-weather>
+                  <div class="card shadow-base bd-0 h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+                        <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Weather Conditions</h6>
+                        <div class="card-option">
+                          <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                        </div><!-- card-option -->
+                      </div><!-- card-header -->
+                      <div class="card-body pd-x-30 pd-b-30">
+                        <div ng-if="vm.incident.weather.currently">
+                          <div class="row">
+                            <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
+                              amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }}
+                              the following weather conditions were observed:</p>
+                            <div class="col-md-12">
+                              <current-weather weather="vm.incident.weather.currently"></current-weather>
+                            </div>
+                          </div>
+                        </div>
+                        <div ng-if="!vm.incident.weather.currently" class="text-center no-data-available">
+                          <h5>No weather data available at this time.</h5>
                         </div>
                       </div>
-                    </div>
-                    <div ng-if="!vm.incident.weather.currently" class="text-center no-data-available">
-                      <h5>No weather data available at this time.</h5>
-                    </div>
                   </div>
                 </div>
                 <!-- Traffic Conditions -->
                 <div class="col-lg-6 traffic-conditions">
-                  <div class="card light-border">
-                    <h5 class="card-header">Traffic Conditions</h5>
-                    <div class="no-data-available">
-                      <h5>No traffic data available</h5>
-                    </div>
+                  <div class="card shadow-base bd-0 h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+                        <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Traffic Conditions</h6>
+                        <div class="card-option">
+                          <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                        </div><!-- card-option -->
+                      </div><!-- card-header -->
+                      <div class="card-body d-flex align-items-center align-self-center flex-grow-1">
+                        <h5 class="mb-4 tx-gray-500">No traffic data available</h5>
+                      </div>
                   </div>
                 </div>
               </div>

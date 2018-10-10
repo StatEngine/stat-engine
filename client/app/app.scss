@@ -400,23 +400,6 @@ label.disabled {
   }
 }
 
-// Description List
-dl {
-  text-align: left;
-  margin-bottom: 0;
-
-  dt {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: .25rem;
-    opacity: .45;
-  }
-
-  dd {
-    margin-bottom: 1.5rem;
-  }
-}
-
 .inline-description-list {
   dl {
     dt {
