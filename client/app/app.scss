@@ -44,8 +44,6 @@ $color-di-serria:               #e09061;
 $color-pelorous:                #46a0c1;
 $color-cranberry:               #d6527e;
 $color-celery:                  #99c550;
-
-
 /////////////////////////////////
 // BROWSER //
 ////////////////////////////////
@@ -87,8 +85,9 @@ body {
 a {
   color: $color-pacific-blue;
   transition: all 0.2s ease-in-out;
+
   &:hover {
-    color: darken($color-pacific-blue,20%);
+    color: darken($color-pacific-blue, 20%);
     text-decoration: none;
   }
 }
@@ -107,8 +106,18 @@ hr {
   font-weight: 400;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
   font-family: 'Montserrat';
   font-weight: 300;
 }
@@ -134,39 +143,46 @@ h2 {
 }
 
 // Tables
-table{
-    border-collapse:collapse;
-    border-spacing:0;
-    empty-cells:show;
-    border:1px solid darken($color-geyser,5%);
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  border: 1px solid darken($color-geyser, 5%);
 }
 
-table td,table th{
-    border-left:1px solid $color-geyser;
-    border-width:0 0 0 1px;
-    font-size:inherit;
-    margin:0;
-    overflow:visible;
-    padding:0.5em 1em
+table td,
+table th {
+  border-left: 1px solid $color-geyser;
+  border-width: 0 0 0 1px;
+  font-size: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0.5em 1em
 }
-table th{
-    font-family: 'Montserrat';
-    font-weight: 600;
-    border:1px solid darken($color-geyser,8%);
+
+table th {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  border: 1px solid darken($color-geyser, 8%);
 }
-table td:first-child,table th:first-child{
-    border-left-width:0
+
+table td:first-child,
+table th:first-child {
+  border-left-width: 0
 }
-table thead{
-    background: $color-geyser;
-    text-align:left;
-    vertical-align:bottom;
+
+table thead {
+  background: $color-geyser;
+  text-align: left;
+  vertical-align: bottom;
 }
-table tr:nth-child(2n-1) td{
-    background-color: lighten($color-geyser,10%);
+
+table tr:nth-child(2n-1) td {
+  background-color: lighten($color-geyser, 10%);
 }
-table td{
-    border-bottom:1px solid $color-geyser;
+
+table td {
+  border-bottom: 1px solid $color-geyser;
 }
 
 // Table Imposter Styles
@@ -183,7 +199,7 @@ table td{
     display: table-row;
 
     &:nth-of-type(even) {
-      background: lighten($color-geyser,10%);
+      background: lighten($color-geyser, 10%);
     }
 
     &.header {
@@ -202,6 +218,7 @@ table td{
       &.header {
         padding: 0;
         height: 6px;
+
         .cell {
           display: none;
         }
@@ -216,7 +233,7 @@ table td{
           line-height: 13px;
           font-weight: bold;
           text-transform: uppercase;
-          color: darken($color-geyser,15%);
+          color: darken($color-geyser, 15%);
           display: block;
         }
       }
@@ -242,55 +259,62 @@ table td{
 }
 
 // Lists
-ol,ul{
-  list-style:none;
+ol,
+ul {
+  list-style: none;
   margin: 0 0 2em 0;
   padding: 0;
 }
-ul.statengine li{
+
+ul.statengine li {
   padding: 1rem 0 0 2rem;
-  position:relative;
+  position: relative;
 }
-ul.statengine li::before{
-  content:'▶';
-  font-size:11px;
+
+ul.statengine li::before {
+  content: '▶';
+  font-size: 11px;
   top: 1.3rem;
   color: $color-bondi-blue;
-  position:absolute;
-  left:0;
+  position: absolute;
+  left: 0;
 }
+
 ol.statengine {
-  counter-reset:item;
+  counter-reset: item;
 }
-ol.statengine li{
+
+ol.statengine li {
   padding: 1rem 0 0 2rem;
-  position:relative;
+  position: relative;
 }
-ol.statengine li::before{
-  content:counters(item,".") ".";
-  counter-increment:item;
+
+ol.statengine li::before {
+  content: counters(item, ".") ".";
+  counter-increment: item;
   font-weight: bold;
   top: 1rem;
   color: $color-bondi-blue;
-  position:absolute;
-  left:0;
+  position: absolute;
+  left: 0;
 }
 
 // Forms & Form Elements
 .form-wrapper {
-	background: white;
+  background: white;
   color: $color-pickled-bluewood;
   border-radius: 4px;
-	padding: 3rem;
+  padding: 3rem;
   margin: 4rem 0;
-	box-shadow: 0px 20px 25px -10px rgba(0,0,0,0.2);
-	transition: opacity 300ms ease-in-out;
+  box-shadow: 0px 20px 25px -10px rgba(0, 0, 0, 0.2);
+  transition: opacity 300ms ease-in-out;
   min-width: 450px;
 
   @media (max-width: 575.99px) {
     min-width: auto;
   }
 }
+
 .form-control {
   &:focus {
     border-color: $color-bondi-blue;
@@ -302,6 +326,7 @@ ol.statengine li::before{
   border-top: 1px solid $color-geyser;
   margin-top: 2rem;
   padding: 2rem 0 0 0;
+
   i::before {
     font-size: 10px;
   }
@@ -321,8 +346,10 @@ label.disabled {
   background: white;
   border-bottom: 1px solid $color-geyser;
   font-size: 13px;
+
   a {
     color: $color-pale-sky;
+
     &:hover {
       color: $color-pacific-blue;
     }
@@ -335,31 +362,39 @@ label.disabled {
   margin-bottom: 0;
   list-style: none;
   text-align: right;
+
   li {
     display: inline-block;
+
     &.next:before {
       content: "|";
       padding: 0 7px;
       color: #ccc;
     }
   }
+
   a:focus {
     text-decoration: none;
   }
-  a::before, a::after {
+
+  a::before,
+  a::after {
     color: $color-pacific-blue;
     font-family: "FontAwesome";
     font-weight: bold;
     position: relative;
   }
+
   .previous a::before {
     content: "\f104";
     margin-right: 8px;
   }
+
   .next a::after {
     content: "\f105";
     margin-left: 8px;
   }
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -369,12 +404,14 @@ label.disabled {
 dl {
   text-align: left;
   margin-bottom: 0;
+
   dt {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: .25rem;
     opacity: .45;
   }
+
   dd {
     margin-bottom: 1.5rem;
   }
@@ -387,6 +424,7 @@ dl {
       min-width: 12rem;
       text-align: right;
     }
+
     dd {
       display: inline-block;
       margin: 0 0 1.5rem 2rem;
@@ -443,22 +481,22 @@ dl {
   z-index: 1;
 }
 
-.checkbox input[type="checkbox"]:focus + label::before {
+.checkbox input[type="checkbox"]:focus+label::before {
   outline: thin dotted;
   outline: 5px auto #1fc8a7;
   outline-offset: -2px;
 }
 
-.checkbox input[type="checkbox"]:checked + label::after {
+.checkbox input[type="checkbox"]:checked+label::after {
   font-family: 'FontAwesome';
   content: "\f00c";
 }
 
-.checkbox input[type="checkbox"]:disabled + label {
+.checkbox input[type="checkbox"]:disabled+label {
   opacity: 0.65;
 }
 
-.checkbox input[type="checkbox"]:disabled + label::before {
+.checkbox input[type="checkbox"]:disabled+label::before {
   background-color: #eeeeee;
   cursor: not-allowed;
 }
@@ -474,6 +512,7 @@ dl {
   overflow: hidden;
   text-align: left;
 }
+
 .switch label:before {
   content: '';
   width: 100%;
@@ -484,6 +523,7 @@ dl {
   border-radius: 100px;
   transition: all 0.2s ease-in-out;
 }
+
 .switch label:after {
   content: "";
   height: 20px;
@@ -503,16 +543,16 @@ dl {
   position: absolute;
 }
 
-.switch input:checked ~ label:after {
+.switch input:checked~label:after {
   margin-right: calc(40px - 20px);
 }
 
-.switch input:checked ~ label:before {
+.switch input:checked~label:before {
   opacity: 1;
 }
 
 // Radio Buttons
-input[type="radio"] + label {
+input[type="radio"]+label {
   margin-left: 5px;
 }
 
@@ -573,11 +613,12 @@ input[type="radio"]:focus {
 }
 
 .medium-bg {
-  background-color: darken($color-porcelain,3%);
+  background-color: darken($color-porcelain, 3%);
 }
 
 // Effects
-.embossed, .embossed ::before {
+.embossed,
+.embossed ::before {
   -moz-background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-stroke-color: rgba(69, 80, 99, 0.02);
@@ -588,7 +629,6 @@ input[type="radio"]:focus {
   text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.36);
 }
 
-
 // Bootstrap Overrides
 @media (min-width: 1230px) {
   .container {
@@ -598,11 +638,15 @@ input[type="radio"]:focus {
   }
 }
 
-.text-success, .tx-success, .alert-success {
+.text-success,
+.tx-success,
+.alert-success {
   color: $color-brand-success;
 }
 
-.text-danger, .tx-danger, .alert-danger {
+.text-danger,
+.tx-danger,
+.alert-danger {
   color: $color-brand-danger;
 }
 
@@ -642,29 +686,32 @@ button {
 
 // Button Types
 .btn-default {
-  background-color: lighten($color-geyser,10%);
-  color: lighten($color-pickled-bluewood,8%);
-  border-color: lighten($color-pickled-bluewood,8%);
+  background-color: lighten($color-geyser, 10%);
+  color: lighten($color-pickled-bluewood, 8%);
+  border-color: lighten($color-pickled-bluewood, 8%);
+
   &:hover {
-    background-color: lighten($color-geyser,8%);
+    background-color: lighten($color-geyser, 8%);
     color: darken($color-pickled-bluewood, 5%);
     border-color: darken($color-pickled-bluewood, 5%);
   }
 }
 
 .btn-primary {
-  background:$color-cerulean;
+  background: $color-cerulean;
   background: linear-gradient(343deg, $color-cerulean 0%, $color-java 100%);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.5);
   border: none;
 }
 
 .btn-secondary {
-  background: lighten($color-pickled-bluewood,12%);
+  background: lighten($color-pickled-bluewood, 12%);
   color: white;
+
   &:disabled:hover {
-    background: lighten($color-pickled-bluewood,12%);
+    background: lighten($color-pickled-bluewood, 12%);
   }
+
   &:hover {
     background: $color-pickled-bluewood;
   }
@@ -673,33 +720,39 @@ button {
 .btn-alt {
   background: $color-cerulean;
   color: white;
+
   &:disabled:hover {
     background: $color-cerulean;
   }
+
   &:hover {
-    background: darken($color-cerulean,5%);
+    background: darken($color-cerulean, 5%);
   }
 }
 
 .btn-alt-2 {
   background: $color-java;
   color: white;
+
   &:disabled:hover {
     background: $color-java;
   }
+
   &:hover {
-    background: darken($color-java,5%);
+    background: darken($color-java, 5%);
   }
 }
 
 .btn-alt-3 {
   background: $color-brand-danger;
   color: white;
+
   &:disabled:hover {
     background: $color-brand-danger;
   }
+
   &:hover {
-    background: darken($color-brand-danger,5%);
+    background: darken($color-brand-danger, 5%);
   }
 }
 
@@ -724,30 +777,32 @@ button {
 }
 
 .btn-outline-inverse:hover {
-  box-shadow: inset 0 0 0 2px darken($color-cerulean,10%);
-  color: darken($color-cerulean,10%);
+  box-shadow: inset 0 0 0 2px darken($color-cerulean, 10%);
+  color: darken($color-cerulean, 10%);
 }
 
 .btn-outline-inverse:disabled {
   box-shadow: inset 0 0 0 2px $color-cerulean;
+
   &:hover {
     color: $color-cerulean;
   }
 }
 
 .btn-outline-inverse-alt {
-  box-shadow: inset 0 0 0 2px lighten($color-oxford-blue,10%);
+  box-shadow: inset 0 0 0 2px lighten($color-oxford-blue, 10%);
   background: none;
   color: $color-oxford-blue;
 }
 
 .btn-outline-inverse-alt:hover {
-  box-shadow: inset 0 0 0 2px lighten($color-oxford-blue,10%);
-  color: lighten($color-oxford-blue,10%);
+  box-shadow: inset 0 0 0 2px lighten($color-oxford-blue, 10%);
+  color: lighten($color-oxford-blue, 10%);
 }
 
 .btn-outline-inverse-alt:disabled {
   box-shadow: inset 0 0 0 2px $color-oxford-blue;
+
   &:hover {
     color: $color-oxford-blue;
   }
@@ -760,14 +815,15 @@ button {
 }
 
 .btn-link:hover {
-  color: darken($color-cerulean,15%);
+  color: darken($color-cerulean, 15%);
   text-decoration: none;
 }
 
-.btn-danger  {
+.btn-danger {
   background-color: $color-brand-danger;
+
   &:hover {
-    background-color: darken($color-brand-danger,5%);
+    background-color: darken($color-brand-danger, 5%);
   }
 }
 
@@ -886,22 +942,133 @@ li.nested:before {
 /* MailChimp Form Embed Code - Horizontal Super Slim - 12/16/2015 v10.7
 Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 
-#mc_embed_signup form {text-align:center; padding:10px 0 10px 0;}
-.mc-field-group { display: inline-block; } /* positions input field horizontally */
-#mc_embed_signup input.email {font-family:"Open Sans","Helvetica Neue",Arial,Helvetica,Verdana,sans-serif; font-size: 15px; border: 1px solid #ABB0B2;  -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; color: #343434; background-color: #fff; box-sizing:border-box; height:32px; padding: 0px 0.4em; display: inline-block; margin: 0; width:350px; vertical-align:top;}
-#mc_embed_signup label {display:block; font-size:16px; padding-bottom:10px; font-weight:bold;}
-#mc_embed_signup .clear {display: inline-block;} /* positions button horizontally in line with input */
-#mc_embed_signup .button {font-size: 13px; border: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; letter-spacing: .03em; color: #fff; background-color: #aaa; box-sizing:border-box; height:32px; line-height:32px; padding:0 18px; display: inline-block; margin: 0; transition: all 0.23s ease-in-out 0s;}
-#mc_embed_signup .button:hover {background-color:#777; cursor:pointer;}
-#mc_embed_signup div#mce-responses {float:left; top:-1.4em; padding:0em .5em 0em .5em; overflow:hidden; width:90%;margin: 0 5%; clear: both;}
-#mc_embed_signup div.response {margin:1em 0; padding:1em .5em .5em 0; font-weight:bold; float:left; top:-1.5em; z-index:1; width:80%;}
-#mc_embed_signup #mce-error-response {display:none;}
-#mc_embed_signup #mce-success-response {color:#529214; display:none;}
-#mc_embed_signup label.error {display:block; float:none; width:auto; margin-left:1.05em; text-align:left; padding:.5em 0;}
+#mc_embed_signup form {
+  text-align: center;
+  padding: 10px 0 10px 0;
+}
+
+.mc-field-group {
+  display: inline-block;
+}
+
+/* positions input field horizontally */
+#mc_embed_signup input.email {
+  font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+  font-size: 15px;
+  border: 1px solid #ABB0B2;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #343434;
+  background-color: #fff;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0px 0.4em;
+  display: inline-block;
+  margin: 0;
+  width: 350px;
+  vertical-align: top;
+}
+
+#mc_embed_signup label {
+  display: block;
+  font-size: 16px;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+
+#mc_embed_signup .clear {
+  display: inline-block;
+}
+
+/* positions button horizontally in line with input */
+#mc_embed_signup .button {
+  font-size: 13px;
+  border: none;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  letter-spacing: .03em;
+  color: #fff;
+  background-color: #aaa;
+  box-sizing: border-box;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 18px;
+  display: inline-block;
+  margin: 0;
+  transition: all 0.23s ease-in-out 0s;
+}
+
+#mc_embed_signup .button:hover {
+  background-color: #777;
+  cursor: pointer;
+}
+
+#mc_embed_signup div#mce-responses {
+  float: left;
+  top: -1.4em;
+  padding: 0em .5em 0em .5em;
+  overflow: hidden;
+  width: 90%;
+  margin: 0 5%;
+  clear: both;
+}
+
+#mc_embed_signup div.response {
+  margin: 1em 0;
+  padding: 1em .5em .5em 0;
+  font-weight: bold;
+  float: left;
+  top: -1.5em;
+  z-index: 1;
+  width: 80%;
+}
+
+#mc_embed_signup #mce-error-response {
+  display: none;
+}
+
+#mc_embed_signup #mce-success-response {
+  color: #529214;
+  display: none;
+}
+
+#mc_embed_signup label.error {
+  display: block;
+  float: none;
+  width: auto;
+  margin-left: 1.05em;
+  text-align: left;
+  padding: .5em 0;
+}
+
 @media (max-width: 768px) {
-    #mc_embed_signup input.email {width:100%; margin-bottom:5px;}
-    #mc_embed_signup .clear {display: block; width: 100% }
-    #mc_embed_signup .button {width: 100%; margin:0; }
+  #mc_embed_signup input.email {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  #mc_embed_signup .clear {
+    display: block;
+    width: 100%
+  }
+
+  #mc_embed_signup .button {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+
+/////////////////////////////////
+// TIPPY THEME //
+////////////////////////////////
+.tippy-tooltip.statengine-theme .tippy-backdrop,
+.tippy-tooltip.statengine-theme {
+  background-color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+  font-size: 13px;
 }
 
 
@@ -925,10 +1092,12 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   border: 0;
   background-color: #152637;
   padding: 0 25px;
+
   img {
     max-height: 40px;
     position: absolute;
     top: 14px;
+
     &.se-logo-text {
       top: 22px;
       left: 55px;
@@ -942,18 +1111,22 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 }
 
 .navicon-left {
-  border-right: 1px solid lighten($input-border-color,5%);
+  border-right: 1px solid lighten($input-border-color, 5%);
 }
 
 .navicon-left a,
 .br-header-right a {
-  color: lighten($color-pale-sky,10%);
+  color: lighten($color-pale-sky, 10%);
 }
 
 .nav-outline.active-info .nav-link {
   color: $color-pale-sky;
-  &:hover, &:focus, &.active, &.active:hover {
-    color: darken($color-pickled-bluewood,10%);
+
+  &:hover,
+  &:focus,
+  &.active,
+  &.active:hover {
+    color: darken($color-pickled-bluewood, 10%);
   }
 
 }
@@ -966,10 +1139,10 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 
 .br-header {
   box-shadow: none;
-  border-bottom: 1px solid lighten($input-border-color,5%);
+  border-bottom: 1px solid lighten($input-border-color, 5%);
 }
 
-.br-header-right .nav > div {
+.br-header-right .nav>div {
   line-height: 0;
 }
 
@@ -979,8 +1152,8 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 }
 
 .br-pageheader {
-  background-color: darken($color-porcelain,5%);
-  border-bottom: 1px solid darken($color-porcelain,10%);
+  background-color: darken($color-porcelain, 5%);
+  border-bottom: 1px solid darken($color-porcelain, 10%);
 }
 
 .nav {
@@ -994,12 +1167,13 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   position: relative;
 }
 
-span + .logged-name {
+span+.logged-name {
   top: -2px;
 }
 
 .br-header-right .dropdown:last-child .dropdown-menu {
   margin-top: 5px;
+
   @include media-breakpoint-down(sm) {
     transform: none !important;
   }
@@ -1012,20 +1186,27 @@ span + .logged-name {
   font-weight: 500;
   height: 50px;
   padding: 0 25px;
+
   &.active {
     color: white;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     background-image: none;
     box-shadow: inset $color-bondi-blue 3px 0px 0px 0px;
     border-radius: 0;
   }
-  &:hover, &:focus {
-    background-color: rgba(0,0,0,0.15);
+
+  &:hover,
+  &:focus {
+    background-color: rgba(0, 0, 0, 0.15);
   }
-  &.show-sub,  &.with-sub:active, &.with-sub:focus {
-    background-color: rgba(0,0,0,0.15);
+
+  &.show-sub,
+  &.with-sub:active,
+  &.with-sub:focus {
+    background-color: rgba(0, 0, 0, 0.15);
     color: $color-cloudy-sky;
   }
+
   &.with-sub::after {
     font-size: 20px;
     color: $color-pale-sky;
@@ -1033,12 +1214,14 @@ span + .logged-name {
 }
 
 .br-menu-sub {
-  background-color: rgba(0,0,0,0.15);
+  background-color: rgba(0, 0, 0, 0.15);
   border-radius: 0;
   padding: 0 0 15px 46px;
+
   .sub-link {
     font-size: 14px;
     font-weight: 500;
+
     &:hover {
       color: white;
     }
@@ -1050,31 +1233,38 @@ span + .logged-name {
     .br-header {
       left: 65px;
     }
+
     .br-logo {
       left: 0;
       padding: 0 22px;
       width: 65px;
     }
+
     .br-logo img.se-logo-text {
       left: -270px;
 
     }
+
     .br-menu-link {
       padding: 0 21px;
     }
+
     .br-sideleft .sidebar-label {
       visibility: visible;
+
       &::before {
         content: '...';
         margin-right: 400px;
       }
     }
   }
+
   // hide the active sub-menu styling to avoid confusion
   .br-menu-link.show-sub {
     background-color: transparent;
     color: $color-cloudy-sky;
   }
+
   .navicon-left a {
     transform: rotate(180deg);
   }
@@ -1085,9 +1275,11 @@ span + .logged-name {
     .br-logo {
       width: $br-sideleft-width;
     }
+
     .br-logo img.se-logo-text {
       left: 55px;
     }
+
     .br-sideleft .sidebar-label::before {
       display: none;
     }
@@ -1104,32 +1296,35 @@ span + .logged-name {
   letter-spacing: 0.5px;
 }
 
-  @include media-breakpoint-up(sm) {
-    .br-pageheader {
-      padding: 15px 25px;
-    }
-    .br-pagetitle {
-      display: block;
-      padding: 25px 25px 0 25px;
-    }
-    .br-pagetitle > div {
-      padding-left: 0;
-    }
-    .br-pagebody {
-      padding: 0 25px;
-    }
+@include media-breakpoint-up(sm) {
+  .br-pageheader {
+    padding: 15px 25px;
   }
 
+  .br-pagetitle {
+    display: block;
+    padding: 25px 25px 0 25px;
+  }
+
+  .br-pagetitle>div {
+    padding-left: 0;
+  }
+
+  .br-pagebody {
+    padding: 0 25px;
+  }
+}
+
 // Cards
-  .card {
-    border-color: lighten($color-cloudy-sky,10%);
-    .card-option > a {
-      color: lighten($color-pale-sky,23%);
-      &:hover {
-        color: $color-pickled-bluewood;
-      }
+.card {
+  border-color: lighten($color-cloudy-sky, 10%);
+  .card-option>a {
+    color: lighten($color-pale-sky, 23%);
+    &:hover {
+      color: $color-pickled-bluewood;
     }
   }
+}
 
 /////////////////////////////////
 // IMPORT COMPONENTS //
