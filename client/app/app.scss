@@ -142,6 +142,18 @@ h2 {
   opacity: 0.27;
 }
 
+.light-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03rem;
+  color: lighten($color-pale-sky,15%);
+  margin-bottom: 0.35rem;
+  + dd {
+    margin-bottom: 2rem;
+  }
+}
+
 // Tables
 table {
   border-collapse: collapse;
@@ -543,15 +555,6 @@ input[type="radio"]:focus {
   outline: thin dotted;
   outline: 5px auto #1fc8a7;
   outline-offset: -2px;
-}
-
-// Badges
-.badge {
-  font-family: 'Open Sans';
-  font-weight: 700;
-  border-radius: 3px;
-  padding: 5px 7px;
-  line-height: 1.1;
 }
 
 // Utilities
@@ -1301,6 +1304,11 @@ span+.logged-name {
 // Cards
 .card {
   border-color: lighten($color-cloudy-sky, 10%);
+  .card-header {
+    padding: 1.25rem 0 0;
+    // border-bottom: 1px solid #cbd6df;
+    margin: 0 1.25rem;
+  }
   .card-option>a {
     color: lighten($color-pale-sky, 23%);
     &:hover {

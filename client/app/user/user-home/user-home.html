@@ -69,25 +69,25 @@
     <section class="overview">
       <div class="row">
         <div class="col-md-6 summary-profile">
-          <div class="card shadow-base bd-0 h-100">
-            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+          <div class="card h-100">
+            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
               <h6 class="card-title tx-spacing-1 tx-medium mg-b-0">My Profile</h6>
               <div class="card-option">
                 <a href="" ui-sref="site.user.settings"><i class="fa fa-pencil lh-0 tx-20"></i></a>
               </div><!-- card-option -->
             </div><!-- card-header -->
-            <div class="card-body pd-x-30">
+            <div class="card-body pd-t-30">
               <dl class="row">
                 <div class="col">
-                  <dt>First Name</dt>
+                  <dt class="light-label">First Name</dt>
                   <dd>{{ vm.principal.first_name }}</dd>
-                  <dt>Last Name</dt>
+                  <dt class="light-label">Last Name</dt>
                   <dd>{{ vm.principal.last_name }}</dd>
                 </div>
                 <div class="col">
-                  <dt>Email</dt>
+                  <dt class="light-label">Email</dt>
                   <dd>{{ vm.principal.email }}</dd>
-                  <dt>Roles</dt>
+                  <dt class="light-label">Roles</dt>
                   <dd>{{ vm.principal.roles.join(", ") }}</dd>
                 </div>
               </dl>
@@ -95,30 +95,30 @@
           </div>
         </div>
         <div class="col-md-6 summary-department">
-          <div class="card shadow-base bd-0">
-            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between pd-t-30 pd-x-30 pd-b-15">
+          <div class="card">
+            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
               <h6 class="card-title tx-spacing-1 tx-medium mg-b-0">My Department Summary</h6>
               <div class="card-option">
                 <a ng-if="vm.principal.isDepartmentAdmin" href="#" ui-sref="site.departmentAdmin.home"><i class="fa fa-pencil lh-0 tx-20"></i></a>
               </div><!-- card-option -->
             </div><!-- card-header -->
-            <div class="card-body pd-x-30">
+            <div class="card-body pd-t-30">
               <dl class="row">
                 <div class="col-8">
-                  <dt>FDID</dt>
+                  <dt class="light-label">FDID</dt>
                   <dd>{{ vm.fireDepartment.fd_id }}</dd>
 
-                  <dt>Name</dt>
+                  <dt class="light-label">Name</dt>
                   <dd>{{ vm.fireDepartment.name }}</dd>
 
-                  <dt>Timezone</dt>
+                  <dt class="light-label">Timezone</dt>
                   <dd>{{ vm.fireDepartment.timezone }}</dd>
                 </div>
                 <div class="col">
-                  <dt>Firecares ID</dt>
+                  <dt class="light-label">Firecares ID</dt>
                   <dd>{{ vm.fireDepartment.firecares_id }}</dd>
 
-                  <dt>State</dt>
+                  <dt class="light-label">State</dt>
                   <dd>{{ vm.fireDepartment.state }}</dd>
                 </div>
               </dl>

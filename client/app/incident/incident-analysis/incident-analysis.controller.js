@@ -133,7 +133,7 @@ export default class IncidentAnalysisController {
       theme: 'statengine',
       duration: 400,
       animation: 'scale',
-      maxWidth: '300px',
+      maxWidth: '350px',
       inertia: true,
       touch: true,
     });
