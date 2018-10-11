@@ -1114,12 +1114,28 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   &.active:hover {
     color: darken($color-pickled-bluewood, 10%);
   }
-
 }
 
-.nav-outline.flex-md-row .nav-item {
-  @include media-breakpoint-down(sm) {
+
+@include media-breakpoint-down(sm) {
+  .nav-outline.flex-md-row .nav-item {
     padding-left: 0;
+  }
+  .nav-outline.active-info .nav-link.active::before, 
+  .nav-outline.active-info .nav-link.active:hover::before, 
+  .nav-outline.active-info .nav-link.active:focus::before {
+    border-bottom: 0;
+    position: absolute;
+    left: -25px;
+    border-left: 3px solid $cyan;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .nav-outline.active-info .nav-link.active::before, 
+  .nav-outline.active-info .nav-link.active:hover::before, 
+  .nav-outline.active-info .nav-link.active:focus::before {
+    left: -15px;
   }
 }
 
