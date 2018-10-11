@@ -1,6 +1,5 @@
 <!-- BINGLES TODO: 
-  - Fix messages when no data is present - vertical and horizontal alignment 
-  - Responsiveness for visualizations, response voerview values, and census/parcel data cards
+  - Refine responsiveness for visualizations and census/parcel data cards
 -->
 
 <div class="br-mainpanel medium-bg" ng-if="vm.initialized">
@@ -105,9 +104,9 @@
                       <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
-                  <div class="card-body">
-                    <div ng-if="!vm.incident.description.comments" class="no-data-available">
-                      <h5>No dispatch comments available</h5>
+                  <div class="card-body h-100">
+                    <div ng-if="!vm.incident.description.comments" class="d-flex h-100">
+                      <h5 class="tx-gray-500 m-auto pd-b-20">No dispatch comments available</h5>
                     </div>
                     <p ng-if="!vm.showFullComments">{{ vm.commentsTruncated }}</p>
                     <p ng-if="vm.showFullComments">{{ vm.incident.description.comments }}</p>
@@ -208,10 +207,12 @@
                       <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
-                  <div class="card-body">
-                    <div ng-if="!vm.incident.address.location.census" class="text-center no-data-available">
-                      <h5>No census data available.</h5>
-                      <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
+                  <div class="card-body h-100">
+                    <div ng-if="!vm.incident.address.location.census" class="d-flex h-100">
+                      <div class="m-auto pd-b-20">
+                        <h5 class="tx-gray-500">No census data available.</h5>
+                        <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
+                      </div>
                     </div>
                     <div ng-if="vm.incident.address.location.census">
                       <div class="row">
@@ -259,17 +260,14 @@
               </div>
               <!-- Parcel Data -->
               <div class="col-lg-6 parcel-data">
-                <div class="card  h-100">
+                <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Parcel Data</h6>
                     <div class="card-option">
                       <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
-                  <div class="card-body">
-                    <div ng-if="!vm.incident.address.location.parcel" class="d-flex justify-content-center align-items-center">
-                      <h5 class="tx-gray-500">No parcel data available</h5>
-                    </div>
+                  <div class="card-body h-100">
                     <div ng-if="vm.incident.address.location.parcel">
                       <div class="row">
                         <div class="col-sm-7 stat d-flex">
@@ -298,6 +296,12 @@
                         </div>
                       </div>
                     </div>
+                    <div ng-if="!vm.incident.address.location.parcel" class="d-flex h-100 tx-center">
+                      <h5 class="tx-gray-500 m-auto pd-b-20">
+                        <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
+                        No parcel data available
+                      </h5>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -310,14 +314,14 @@
             <div class="row">
               <!-- Weather Conditions -->
               <div class="col-lg-6 weather-conditions">
-                <div class="card  h-100">
+                <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Weather Conditions</h6>
                     <div class="card-option">
                       <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
-                  <div class="card-body">
+                  <div class="card-body h-100">
                     <div ng-if="vm.incident.weather.currently">
                       <div class="row">
                         <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
@@ -328,8 +332,13 @@
                         </div>
                       </div>
                     </div>
-                    <div ng-if="!vm.incident.weather.currently" class="text-center no-data-available">
-                      <h5>No weather data available at this time.</h5>
+                    <div ng-if="!vm.incident.weather.currently" class="d-flex h-100">
+                      <div class="d-flex h-100 tx-center">
+                        <h5 class="tx-gray-500 m-auto pd-b-20">
+                          <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
+                          No weather data available at this time.
+                        </h5>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -343,9 +352,12 @@
                       <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
                     </div><!-- card-option -->
                   </div><!-- card-header -->
-                  <div class="card-body">
-                    <div class="row no-data-available">
-                      <h5 class="tx-gray-500">No traffic data available</h5>
+                  <div class="card-body h-100">
+                    <div class="d-flex h-100 tx-center">
+                      <h5 class="tx-gray-500 m-auto pd-b-20">
+                        <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
+                        No traffic data available
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -365,39 +377,31 @@
                   </div><!-- card-option -->
                 </div><!-- card-header -->
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <p>{{ vm.textSummaries.responseSummary }}</p>
-                    </div>
-                    <div class="col-lg-2">
-                      <div class="card bd-0 text-center">
-                        <span class="light-label">Call answered in</span>
-                        <h2 class="tx-info pd-b-30 pb-md-0">{{
-                          vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}</h2>
-                      </div>
-                    </div>
-                    <div class="col-lg-2">
-                      <div class="card bd-0 text-center">
-                        <span class="light-label">First unit dispatched</span>
-                        <h2 class="tx-info pd-b-30 pb-md-0">{{
-                          vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h2>
-                      </div>
-                    </div>
-                    <div class="col-lg-2">
-                      <div class="card bd-0 text-center">
-                        <span class="light-label">First unit on scene</span>
-                        <h2 class="tx-info pd-b-30 pb-md-0"> {{
-                          vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h2>
-                      </div>
-                    </div>
-                    <div class="col-lg-2">
-                      <div class="card bd-0 text-center">
-                        <span class="light-label">Resolved in</span>
-                        <h2 class="tx-info pd-b-30 pb-md-0"> {{
-                          vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}</h2>
-                      </div>
-                    </div>
-                  </div>
+                  <div class="row tx-center">
+                    <div class="col-12 col-md-4 pd-y-20 pd-md-y-0 tx-left">
+                      <p class="lh-8 mg-b-0">{{ vm.textSummaries.responseSummary }}</p>
+                    </div><!-- col-4 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0">
+                      <p class="light-label">Call answered in</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}</h4>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
+                      <p class="light-label">First unit dispatched</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h4>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-md-l-0 bd-color-gray-lighter">
+                      <p class="light-label">First unit on scene</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h4>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
+                      <p class="light-label">Resolved in</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}</h4>
+                    </div><!-- col-2 -->
+                  </div><!-- row -->
                 </div>
               </div>
               <div class="card mt-5">
@@ -447,7 +451,7 @@
                     <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                       <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Alarm Processing Duration</h6>
                       <div class="card-option">
-                          <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                        <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
                       </div><!-- card-option -->
                     </div><!-- card-header -->
                     <div class="card-body">
@@ -462,11 +466,11 @@
                     <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                       <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Travel Distances</h6>
                       <div class="card-option">
-                          <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                        <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
                       </div><!-- card-option -->
                     </div><!-- card-header -->
                     <div class="card-body">
-                        <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
+                      <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
                     </div>
                   </div>
                 </div>
@@ -475,11 +479,11 @@
                     <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                       <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Travel Durations</h6>
                       <div class="card-option">
-                          <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                        <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
                       </div><!-- card-option -->
                     </div><!-- card-header -->
                     <div class="card-body">
-                        <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
+                      <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
                     </div>
                   </div>
                 </div>
@@ -490,25 +494,24 @@
                     <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                       <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Response Duration</h6>
                       <div class="card-option">
-                          <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                        <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
                       </div><!-- card-option -->
                     </div><!-- card-header -->
                     <div class="card-body">
-                        <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
+                      <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-6 mt-5">
-
                   <div class="card h-100">
                     <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                       <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Response Duration Comparisons</h6>
                       <div class="card-option">
-                          <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                        <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
                       </div><!-- card-option -->
                     </div><!-- card-header -->
                     <div class="card-body">
-                        <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+                      <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
                     </div>
                   </div>
                 </div>
@@ -520,8 +523,9 @@
                       <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Concurrent Incidents</h6>
                     </div><!-- card-header -->
                     <div class="card-body">
-                      <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14"> {{ vm.concurrentIncidents.length }} </span> incidents also in
-                          progress during this timeframe</p>
+                      <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14">
+                          {{ vm.concurrentIncidents.length }} </span> incidents also in
+                        progress during this timeframe</p>
                       <div ui-grid="vm.concurrentIncidentTableOptions">
                         <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">No concurrent
                           incidents

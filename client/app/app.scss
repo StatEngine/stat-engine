@@ -574,19 +574,12 @@ input[type="radio"]:focus {
   max-width: 800px;
 }
 
-// Helpers
-.common-body-text {
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: $color-pale-sky;
+.bd-md-l-0 {
+  @include media-breakpoint-down(md){
+    border-left: none;
+  }
 }
 
-.text-truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 // Text Colors
 .tx-alt {
