@@ -12,8 +12,8 @@ export const UnitList = types.model({
   selected: types.maybe(types.reference(Unit)),
   currentMetrics: types.frozen(),
   previousMetrics: types.frozen(),
-
   totalMetrics: types.frozen(),
+  responses: types.frozen(),
 })
 .actions(self => {
   const fetchUnits = flow(function*() {
@@ -41,6 +41,7 @@ export const UnitList = types.model({
         params
       });
       self.responses = metrics.data.incidents;
+
       self.state = "done"
     } catch (error) {
       console.error("Failed to fetch unit stats", error)
@@ -54,7 +55,10 @@ export const UnitList = types.model({
     self.state = "pending"
     try {
       // TODO
-      let params = {};
+      let params = {
+        // This is a hack because we dont have an easy way of knowning unit station
+        station_id: _.get(self.responses, "[0].apparatus_data.unit_id")
+      };
       const metrics = yield axios.get(`/api/units/${id}/metrics`, {
         params
       });

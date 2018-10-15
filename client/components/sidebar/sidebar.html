@@ -183,7 +183,7 @@
     </li>
 
     <!-- ADMIN SECTION  -->
-    <label class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
+    <label ng-show="vm.user.isDepartmentAdmin || vm.user.isDepartmentAdmin" class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
     <ul class="br-sideleft-menu">
       <li class="br-menu-item">
         <a href="#" ui-sref="site.admin.home" class="br-menu-link" ng-show="vm.user.isAdmin">

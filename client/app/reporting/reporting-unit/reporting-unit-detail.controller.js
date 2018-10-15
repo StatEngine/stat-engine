@@ -5,6 +5,8 @@
 import { autorun } from "mobx"
 import _ from 'lodash';
 import humanizeDuration from 'humanize-duration';
+import moment from 'moment-timezone';
+import { FirecaresLookup } from '@statengine/shiftly';
 
 import { Store } from '../../../state/store';
 
@@ -26,8 +28,10 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class ReportingUnitDetailController {
   /*@ngInject*/
-  constructor($state) {
-    this.store = Store.unitStore;
+  constructor($state, currentPrincipal) {
+    this.unitStore = Store.unitStore;
+    this.uiStore = Store.uiStore;
+
     this.$state = $state;
 
     this.responsesTableOptions = {
@@ -57,14 +61,16 @@ export default class ReportingUnitDetailController {
     };
 
     autorun(() => {
-      this.selected = this.store.selected;
+      this.selected = this.unitStore.selected;
 
-      this.responsesTableOptions.data = this.store.responses;
+      this.responsesTableOptions.data = this.unitStore.responses;
 
-      this.currentMetrics = this.store.currentMetrics;
-      this.previousMetrics = this.store.previousMetrics;
-      this.totalMetrics = this.store.totalMetrics;
+      this.currentMetrics = this.unitStore.currentMetrics;
+      this.previousMetrics = this.unitStore.previousMetrics;
+      this.totalMetrics = this.unitStore.totalMetrics;
 
+      this.timeFilters = this.uiStore.timeFilters;
+      
       // abstract this to component do this server side
       if (this.totalMetrics) {
         let arr = _.values(this.totalMetrics.time_series_data.total_data);

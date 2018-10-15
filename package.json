@@ -22,6 +22,7 @@
     "angular-skycons": "github:projectweekend/angular-skycons",
     "angular-summernote": "^0.8.1",
     "angular-timeline": "^1.7.0",
+    "angular-ui-calendar": "^1.0.2",
     "angular-ui-grid": "^4.4.10",
     "animate.css": "^3.5.2",
     "async": "^2.6.0",

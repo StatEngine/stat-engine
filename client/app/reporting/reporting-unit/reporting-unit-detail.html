@@ -1,31 +1,37 @@
-<div class="br-mainpanel">
+<div class="br-mainpanel medium-bg">
 
   <reporting-unit-list
-    units="vm.store.allUnits"
+    units="vm.unitStore.allUnits"
     on-select="vm.selectUnit(selected)">
   </reporting-unit-list>
 
-  <div class="br-mailbox-body">
-    <div class="br-msg-header d-flex justify-content-between">
-      <div class="media align-items-center">
-        <img src="../img/img4.jpg" class="wd-40 rounded-circle" alt="">
-        <div class="media-body mg-l-10">
-          <p class="tx-inverse tx-medium mg-b-0">{{ vm.selected.id }}</p>
-          <p class="tx-12 mg-b-0">
-            <span>Sep 20, 2017 8:45am</span>
-            <a href="" class="mg-l-5 tx-gray-500"><i class="icon ion-star"></i></a>
-            <a href="" class="mg-l-5 tx-gray-500"><i class="icon ion-android-attach"></i></a>
-          </p>
-        </div><!-- media-body -->
-      </div><!-- media -->
-      <nav class="nav nav-inline tx-size-24 mg-b-0 lh-0">
-        <a href="" class="nav-link tx-gray-light hover-inverse pd-x-5"><i class="icon ion-printer"></i></a>
+  <div class="reporting-unit-body">
+    <div class="br-pageheader">
+      <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" href="index.html">Home</a>
+        <a class="breadcrumb-item" href="#">Reports</a>
+        <a class="breadcrumb-item" href="#">Units</a>
+        <span class="breadcrumb-item active">{{ vm.selected.id }}</span>
       </nav>
-    </div><!-- br-msg-header -->
+      &nbsp;&nbsp;<select ng-options="tf as tf.displayName for tf in vm.timeFilters" ng-model="vm.e" class="form-control-sm">
+      </select>
+    </div><!-- br-pageheader -->
+
+    <div class="br-pagetitle bg-white d-flex justify-content-between flex-wrap">
+      <h2 class="m-0">{{ vm.selected.id }} </h2>
+    </div>
+    <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
+      <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
+        <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a></li>
+        <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#location')">Turnout</a></li>
+        <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#situationalAwareness')">Travel</a></li>
+        <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#response')">Details</a></li>
+      </ul>
+    </div>
 
     <div class="br-pagebody">
       <!-- incident types -->
-      <h4 class="br-section-label">Summary</h4>
+      <h4 class="br-section-label">Overview</h4>
       <div class="row">
         <div class="col-12">
           <div class="row no-gutters tx-center">
@@ -114,7 +120,33 @@
 
           <div id="travelTime" class="collapse show" role="tabpanel" aria-labelledby="travelTime">
             <div class="card-block pd-20">
-              Coming Soon
+              <div class="row">
+                <div class="col-6">
+                  <strong>Summary</strong>
+                  <div class="row no-gutters tx-center">
+                    <div class="col-4 col-sm-4 pd-y-20">
+                      <p class="tx-12 mg-b-0">Total</p>
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.total_data['90_percentile_travel_duration_seconds'] | number: 0 }}</h5>
+                    </div>
+                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                      <p class="tx-12 mg-b-0">EMS</p>
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds'] | number: 0 }}</h5>
+                    </div>
+                    <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                      <p class="tx-12 mg-b-0">FIRE</p>
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">{{ vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds'] | number: 0 }}</h5>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <strong>Insights</strong>
+                </div>
+              </div>
+
+              <div class="row">
+
+              </div>
             </div>
           </div>
         </div>

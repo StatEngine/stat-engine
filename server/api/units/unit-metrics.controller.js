@@ -62,12 +62,6 @@ export function buildQuery(req, res, next) {
           return setMetricGroups(unitAgg)
         })))
 
-    base.aggregation('terms', 'address_first_due', cagg => cagg
-      .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
-        .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
-          return setMetricGroups(unitAgg)
-        })))
-
     base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'hour' }, dateAgg => dateAgg
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
@@ -169,6 +163,9 @@ export function runTotalQuery(req, res, next) {
 
 export function runQuery(req, res, next) {
   const unitId = req.params.id;
+  const stationId = req.params.station_id;
+
+  console.dir(stationId);
 
   connection.getClient().search({
     index: req.index,
@@ -177,7 +174,8 @@ export function runQuery(req, res, next) {
     const api_response = {
       total_data: {},
       grouped_data: {
-        category: {}
+        category: {},
+        population_density: {}
       },
       time_series_data: {
         total_data: {},
@@ -191,6 +189,12 @@ export function runQuery(req, res, next) {
 
     // total data
     const apparatusBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
+    let totalMetrics = {}
+    _.forEach(apparatusBuckets, b => {
+      totalMetrics[b.key] = getMetrics(b);
+    });
+    console.dir(totalMetrics);
+    //rankBuckets(metrics);
     const myBucket = _.find(apparatusBuckets, b => b.key === unitId);
     api_response.total_data = getMetrics(myBucket);
 

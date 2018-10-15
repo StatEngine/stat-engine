@@ -33,7 +33,14 @@ export default function routes($stateProvider) {
         units() {
           return Store.unitStore.fetchUnits();
         },
+        buildFilters(currentPrincipal) {
+          return Store.uiStore.buildFilters(currentPrincipal.FireDepartment);
+        },
+        setFilters(buildFilters) {
+          return Store.uiStore.setFilters();
+        },
         redirectMe($state, units) {
+          console.dir('redirecting');
           return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id})
         }
       },
@@ -68,7 +75,7 @@ export default function routes($stateProvider) {
             timeStart: 'todo'
           });
         },
-        fetchMetrics($stateParams) {
+        fetchMetrics(fetchResponses, $stateParams) {
           return Store.unitStore.fetchSelectedMetrics($stateParams.id, {
             timeStart: 'todo'
           });
