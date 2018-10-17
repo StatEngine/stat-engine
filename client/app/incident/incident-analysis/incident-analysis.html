@@ -1,6 +1,5 @@
-<!-- TODO:
-    - Breadcrumbs needs to be hooked up
-    - Clean up cards and remaining interior styling (Bingles)
+<!-- BINGLES TODO: 
+  - Refine responsiveness for visualizations and census/parcel data cards
 -->
 
 <div class="br-mainpanel medium-bg" ng-if="vm.initialized">
@@ -15,179 +14,205 @@
   <div class="br-pagetitle bg-white d-flex justify-content-between flex-wrap">
     <h2 class="m-0">Incident Detail</h2>
   </div>
-  <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
+  <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-15 pd-sm-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
     <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
       <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a></li>
       <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#location')">Location</a></li>
-      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#situationalAwareness')">Situational Awareness</a></li>
+      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#situationalAwareness')">Situational
+          Awareness</a></li>
       <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#response')">Response</a></li>
     </ul>
   </div>
-<div class="br-pagebody">
-      <section class="data-spy" data-spy="scroll" data-target="#navbar-example">
-          <div class="mb-5 row">
-            <!-- BEGIN: Tab Panes/Content -->
-            <div class="col-md-12">
-              <!-- Overview -->
-              <div id="overview">
-                <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Overview</h6>
-                <div class="card">
-                  <div class="row">
-                    <div class="col-md-2 fd-logo">
-                      <logo department="vm.currentPrincipal.FireDepartment"></logo>
-                    </div>
-                    <div class="col-md-8 intro-summary">
-                      <div ng-if="vm.incident.description.suppressed">
-                        <div class="alert alert-danger text-center mx-5 my-2" role="alert">
-                          <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText"> because {{ vm.incident.description.suppressionText }} </span>.
+  <div class="br-pagebody">
+    <section class="data-spy" data-spy="scroll" data-target="#navbar-example">
+      <div class="mb-5 row">
+        <!-- BEGIN: Tab Panes/Content -->
+        <div class="col-md-12">
+
+          <!-- Overview -->
+          <div id="overview">
+            <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Overview</h6>
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2 pb-4 pb-md-0">
+                    <logo department="vm.currentPrincipal.FireDepartment"></logo>
+                  </div>
+                  <div class="col-md-8 intro-summary">
+                    <div ng-if="vm.incident.description.suppressed">
+                      <div class="alert alert-danger text-center mx-5 my-2" role="alert">
+                        <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText">
+                            because {{ vm.incident.description.suppressionText }} </span>.
                           <br>If you think this has occurred in error, please let us know.
-                        </div>
-                        <hr>
                       </div>
-                      <h4 class="heavyheader"> {{ vm.type }} <span ng-if="vm.subtype"> - {{ vm.subtype }} </span> </h4>
-                      <p>{{ vm.textSummaries.incidentSummary }}</p>
+                      <hr>
+                    </div>
+                    <h6 class="heavyheader"> {{ vm.type }} <span ng-if="vm.subtype"> - {{ vm.subtype }} </span> </h6>
+                    <p>{{ vm.textSummaries.incidentSummary }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-lg-6">
+                <div class="card h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Incident Summary</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body">
+                    <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
+                      <span class="light-label mb-0">Incident Number:</span>
+                      <span>{{ vm.incident.description.incident_number }}</span>
+                    </p>
+                    <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
+                      <span class="light-label mb-0">Event Type:</span>
+                      <span>{{ vm.incident.description.type }}</span>
+                    </p>
+                    <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
+                      <span class="light-label mb-0">Event Sub-Type:</span>
+                      <span>{{ vm.incident.description.subtype }}</span>
+                    </p>
+                    <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
+                      <span class="light-label mb-0">Date:</span>
+                      <span>{{ vm.incident.description.event_opened |
+                        amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM Do YYYY' }}</span>
+                    </p>
+                    <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
+                      <span class="light-label mb-0">Dispatch Time:</span>
+                      <span>{{ vm.incident.description.first_unit_dispatched |
+                        amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'HH:mm' }}</span>
+                    </p>
+                    <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
+                      <span class="light-label mb-0">Location:</span>
+                      <span>{{ vm.incident.address.address_line1 }}</span>
+                    </p>
+                    <p class="d-flex justify-content-between mg-b-5 pd-y-5">
+                      <span class="light-label mb-0">Event Duration:</span>
+                      <span>0h 17m 24s</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 dispatch-comments">
+                <div class="card h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Dispatch Comments</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body h-100">
+                    <div ng-if="!vm.incident.description.comments" class="d-flex h-100">
+                      <h5 class="tx-gray-500 m-auto pd-b-20">No dispatch comments available</h5>
+                    </div>
+                    <p ng-if="!vm.showFullComments">{{ vm.commentsTruncated }}</p>
+                    <p ng-if="vm.showFullComments">{{ vm.incident.description.comments }}</p>
+                    <div class="text-center">
+                      <span ng-if="vm.isCommentsTruncated && !vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Show
+                          All</a></span>
+                      <span ng-if="vm.isCommentsTruncated && vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Hide</a></span>
                     </div>
                   </div>
                 </div>
-                <div class="row mt-5">
-                  <div class="col-lg-6">
-                    <div class="card light-border">
-                      <h5 class="card-header">Incident Summary</h5>
-                      <dl class="row">
-                        <div class="col inline-description-list">
-                          <dl>
-                            <dt>Incident Number:</dt>
-                            <dd>{{ vm.incident.description.incident_number }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Event Type:</dt>
-                            <dd>{{ vm.incident.description.type }}</dd>
-                          </dl>
-                          <dl ng-if="vm.subtype">
-                            <dt>Event Sub-Type:</dt>
-                            <dd>{{ vm.incident.description.subtype }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Date:</dt>
-                            <dd>{{ vm.incident.description.event_opened | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM Do YYYY' }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Dispatch Time:</dt>
-                            <dd>{{ vm.incident.description.first_unit_dispatched | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'HH:mm' }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Location:</dt>
-                            <dd>{{ vm.incident.address.address_line1 }}</dd>
-                          </dl>
-                          <dl>
-                            <dt>Event Duration:</dt>
-                            <dd>0h 17m 24s</dd>
-                          </dl>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 dispatch-comments">
-                    <div class="card light-border">
-                      <h5 class="card-header">Dispatch Comments</h5>
-                      <div ng-if="!vm.incident.description.comments" class="no-data-available">
-                        <h5>No dispatch comments available</h5>
-                      </div>
-                      <p ng-if="!vm.showFullComments">{{ vm.commentsTruncated }}</p>
-                      <p ng-if="vm.showFullComments">{{ vm.incident.description.comments }}</p>
-                      <div class="text-center">
-                        <span ng-if="vm.isCommentsTruncated && !vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Show All</a></span>
-                        <span ng-if="vm.isCommentsTruncated && vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Hide</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mt-5">
-                  <div class="col-lg-12">
-                    <div class="card light-border">
-                      <h5 class="card-header">StatEngine&trade; Performance Analysis</h5>
-                      <div ng-show="!vm.incident.description.suppressed" class="performance-analysis">
-                        <div class="row">
-                          <div ng-repeat="analysis in vm.analysis" class="col-lg-2" ng-init="$last && vm.initTippy()">
-                            <div class="card light-border ruletippy" ng-attr-title="{{vm.formatEvidence(analysis.evidence)}}" ng-class="{ 'nfpa-standard': analysis.category === 'NFPA'}">
-                                <span ng-class="{ 'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
-                                                  'se-icon-circle-exclamation caution': analysis.grade === 'WARNING',
-                                                  'se-icon-circle-x fail': analysis.grade === 'DANGER'}"></span>
-                                <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">{{analysis.description}}</h6>
-                            </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-lg-12">
+                <div class="card h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">StatEngine&trade; Performance Analysis</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body">
+                    <div ng-show="!vm.incident.description.suppressed" class="performance-analysis">
+                      <div class="row">
+                        <div ng-repeat="analysis in vm.analysis" class="col-lg-2" ng-init="$last && vm.initTippy()">
+                          <div class="card ruletippy h-100" ng-attr-title="{{vm.formatEvidence(analysis.evidence)}}"
+                            ng-class="{ 'nfpa-standard': analysis.category === 'NFPA'}">
+                            <span ng-class="{ 'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
+                                                      'se-icon-circle-exclamation caution': analysis.grade === 'WARNING',
+                                                      'se-icon-circle-x fail': analysis.grade === 'DANGER'}"></span>
+                            <h6 class="tx-13 tx-medium mg-b-20">{{analysis.description}}</h6>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
 
-              <!-- Location -->
-              <div id="location" class="mt-5">
-                <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Location</h6>
-                <div class="card light-border p-0">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <incident-map incident="vm.incident"></incident-map>
+            <!-- Location -->
+            <div id="location" class="mt-5">
+              <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Location</h6>
+              <div class="card">
+                <div class="row">
+                  <div class="col-md-8">
+                    <incident-map incident="vm.incident"></incident-map>
+                  </div>
+                  <div class="col-md-4 pd-30 location-summary">
+                    <div class="row mr-3">
+                      <dl>
+                        <dt>Overview</dt>
+                        <dd>{{ vm.textSummaries.locationSummary }}</dd>
+                      </dl>
                     </div>
-                    <div class="col-md-4 p-4 location-summary">
-                      <div class="row mr-4">
-                        <dl>
-                          <dt>Overview</dt>
-                          <dd>{{ vm.textSummaries.locationSummary }}</dd>
-                        </dl>
-                      </div>
-                      <hr>
-                      <div class="row mr-4">
-                        <dl>
-                          <dt>Address</dt>
-                          <dd>
-                            <h3>{{ vm.incident.address.address_line1 }} <br>
-                              {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
-                            </h3>
-                          </dd>
-                        </dl>
-                      </div>
-                      <hr>
-                      <div class="row mr-4">
-                        <dl>
-                          <dt>Response Zone</dt>
-                          <dd>
-                            <h3>{{ vm.incident.address.response_zone }}</h3>
-                          </dd>
-                        </dl>
-                      </div>
-                      <hr>
-                      <div class="row mr-4">
-                        <dl>
-                          <dt>First Due</dt>
-                          <dd>
-                            <h3>{{ vm.incident.address.first_due }}</h3>
-                          </dd>
-                        </dl>
-                      </div>
-                      <hr ng-if="vm.incident.address.battalion">
-
-                      <div class="row mr-4" ng-if="vm.incident.address.battalion">
-                        <dl>
-                          <dt>Battalion</dt>
-                          <dd>
-                            <h3>{{ vm.incident.address.battalion }}</h3>
-                          </dd>
-                        </dl>
-                      </div>
+                    <div class="row mr-3">
+                      <dl>
+                        <dt>Address</dt>
+                        <dd>
+                          {{ vm.incident.address.address_line1 }} <br>
+                          {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
+                        </dd>
+                      </dl>
+                    </div>
+                    <div class="row mr-4">
+                      <dl>
+                        <dt>Response Zone</dt>
+                        <dd>
+                          {{ vm.incident.address.response_zone }}
+                        </dd>
+                      </dl>
+                    </div>
+                    <div class="row mr-3">
+                      <dl>
+                        <dt>First Due</dt>
+                        <dd>
+                          {{ vm.incident.address.first_due }}
+                        </dd>
+                      </dl>
+                    </div>
+                    <div class="row mr-3" ng-if="vm.incident.address.battalion">
+                      <dl>
+                        <dt>Battalion</dt>
+                        <dd>
+                          {{ vm.incident.address.battalion }}
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row mt-5">
-                <!-- Census Data -->
-                <div class="col-lg-6 census-data">
-                  <div class="card light-border">
-                    <h5 class="card-header">Census Data</h5>
-                    <div ng-if="!vm.incident.address.location.census" class="text-center no-data-available">
-                      <h5>No census data available.</h5>
-                      <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
+            </div>
+            <div class="row mt-5">
+              <!-- Census Data -->
+              <div class="col-lg-6 census-data">
+                <div class="card h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Census Data</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body h-100">
+                    <div ng-if="!vm.incident.address.location.census" class="d-flex h-100">
+                      <div class="m-auto pd-b-20">
+                        <h5 class="tx-gray-500">No census data available.</h5>
+                        <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
+                      </div>
                     </div>
                     <div ng-if="vm.incident.address.location.census">
                       <div class="row">
@@ -214,14 +239,14 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-6 stat d-flex pb-5">
+                        <div class="col-sm-6 stat d-flex pb-5 pb-md-3">
                           <i class="se-icon-census-tract fa-3x"></i>
                           <span>
                             <h2>{{ vm.incident.address.location.census.census_2010.tract }}</h2>
                             <h4>Tract</h4>
                           </span>
                         </div>
-                        <div class="col-sm-6 stat d-flex pb-5">
+                        <div class="col-sm-6 stat d-flex pb-5 pb-md-3">
                           <i class="se-icon-census-block fa-3x"></i>
                           <span>
                             <h2>{{ vm.incident.address.location.census.census_2010.block }}</h2>
@@ -232,13 +257,17 @@
                     </div>
                   </div>
                 </div>
-                <!-- Parcel Data -->
-                <div class="col-lg-6 parcel-data">
-                  <div class="card light-border">
-                    <h5 class="card-header">Parcel Data</h5>
-                    <div ng-if="!vm.incident.address.location.parcel" class="no-data-available">
-                      <h5>No parcel data available.</h5>
-                    </div>
+              </div>
+              <!-- Parcel Data -->
+              <div class="col-lg-6 parcel-data">
+                <div class="card h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Parcel Data</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body h-100">
                     <div ng-if="vm.incident.address.location.parcel">
                       <div class="row">
                         <div class="col-sm-7 stat d-flex">
@@ -251,13 +280,14 @@
                         <div class="col-sm-5 stat d-flex">
                           <i class="se-icon-land-area fa-3x"></i>
                           <span>
-                            <h2><span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{ vm.incident.address.location.parcel.land_area | number:0 }}</h2>
+                            <h2><span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{
+                              vm.incident.address.location.parcel.land_area | number:0 }}</h2>
                             <h4>Land Area (ft&sup2;)</h4>
                           </span>
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-7 stat d-flex pb-5">
+                        <div class="col-sm-7 stat d-flex pb-3 pb-md-0">
                           <i class="se-icon-dwelling-value fa-3x"></i>
                           <span>
                             <h2> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h2>
@@ -266,235 +296,324 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Situational Awareness -->
-              <div id="situationalAwareness" class="mt-5">
-                <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Situational Awareness</h6>
-                <div class="row mt-5">
-                  <!-- Weather Conditions -->
-                  <div class="col-lg-6 weather-conditions">
-                    <div class="card light-border">
-                      <h5 class="card-header">Weather Conditions</h5>
-                      <div ng-if="vm.incident.weather.currently">
-                        <div class="row">
-                          <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time | amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }} the following weather conditions were observed:</p>
-                          <div class="col-md-12">
-                            <current-weather weather="vm.incident.weather.currently"></current-weather>
-                          </div>
-                        </div>
-                      </div>
-                      <div ng-if="!vm.incident.weather.currently" class="text-center no-data-available">
-                        <h5>No weather data available at this time.</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Traffic Conditions -->
-                  <div class="col-lg-6 traffic-conditions">
-                    <div class="card light-border">
-                      <h5 class="card-header">Traffic Conditions</h5>
-                      <div class="no-data-available">
-                        <h5>No traffic data available</h5>
-                      </div>
+                    <div ng-if="!vm.incident.address.location.parcel" class="d-flex h-100 tx-center">
+                      <h5 class="tx-gray-500 m-auto pd-b-20">
+                        <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
+                        No parcel data available
+                      </h5>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Response -->
-              <div id="response" class="mt-5">
-                <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Response</h6>
-                <div ng-show="!vm.incident.description.suppressed">
-                  <div class="card light-border response-overview">
-                    <h5 class="card-header">Overview</h5>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <p>{{ vm.textSummaries.responseSummary }}</p>
-                      </div>
-                      <div class="col-lg-2">
-                        <div class="card no-border text-center">
-                          <span>Call answered in</span>
-                          <h2>{{ vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}</h2>
-                        </div>
-                      </div>
-                      <div class="col-lg-2">
-                        <div class="card no-border text-center">
-                          <span>First unit dispatched</span>
-                          <h2>{{ vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h2>
-                        </div>
-                      </div>
-                      <div class="col-lg-2">
-                        <div class="card no-border text-center">
-                          <span>First unit on scene</span>
-                          <h2> {{ vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h2>
-                        </div>
-                      </div>
-                      <div class="col-lg-2">
-                        <div class="card no-border text-center">
-                          <span>Resolved in</span>
-                          <h2> {{ vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}</h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card light-border mt-5">
-                    <h5 class="card-header">Events Timeline</h5>
-                    <div class="row">
-                      <div class="col-lg-10">
-                        <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
-                      </div>
-                      <div class="col-lg-2 pl-2">
-                        <ul class="events-timeline-legend">
-                          <li class="alarm-answer">Alarm Answer</li>
-                          <li class="alarm-processing">Alarm Processing</li>
-                          <li class="turnout-time">Turnout Time</li>
-                          <li class="travel-time">Travel Time</li>
-                          <li class="intervention-time">Intervention Time</li>
-                          <li class="transport">Transport</li>
-                          <li class="post-transport">Post Transport</li>
-                          <li class="cancelled">Out-of-Service/Cancelled</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-6 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Alarm Answering Duration <a href="" data-tippy-html='#alarmAnswerTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
-                        <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Alarm Processing Duration <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
-                        <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Travel Distances <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
-                          <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Travel Durations <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
-                        <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Response Duration <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
-                        <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Response Duration Comparisons <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy">&nbsp;</a></h5>
-                          <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12 mt-5">
-                      <div class="card light-border">
-                        <h5 class="card-header">Concurrent Incidents </h5>
-
-                        <p> There were <span class="badge"> {{ vm.concurrentIncidents.length }}</span> incidents also in progress during this timeframe</p>
-
-                        <div ui-grid="vm.concurrentIncidentTableOptions">
-                          <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">No concurrent incidents</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div ng-if="vm.incident.description.suppressed" class="no-data-available">
-                  <h5>No response data available.</h5>
-                </div>
-              </div>
-            </div> <!-- END: Tab Panes/Content -->
+            </div>
           </div>
-        </div>
-      </section>
+
+          <!-- Situational Awareness -->
+          <div id="situationalAwareness" class="mt-5">
+            <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Situational Awareness</h6>
+            <div class="row">
+              <!-- Weather Conditions -->
+              <div class="col-lg-6 weather-conditions">
+                <div class="card h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Weather Conditions</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body h-100">
+                    <div ng-if="vm.incident.weather.currently">
+                      <div class="row">
+                        <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
+                          amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }}
+                          the following weather conditions were observed:</p>
+                        <div class="col-md-12">
+                          <current-weather weather="vm.incident.weather.currently"></current-weather>
+                        </div>
+                      </div>
+                    </div>
+                    <div ng-if="!vm.incident.weather.currently" class="d-flex h-100">
+                      <div class="d-flex h-100 tx-center">
+                        <h5 class="tx-gray-500 m-auto pd-b-20">
+                          <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
+                          No weather data available at this time.
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Traffic Conditions -->
+              <div class="col-lg-6 traffic-conditions">
+                <div class="card  h-100">
+                  <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                    <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Traffic Conditions</h6>
+                    <div class="card-option">
+                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                    </div><!-- card-option -->
+                  </div><!-- card-header -->
+                  <div class="card-body h-100">
+                    <div class="d-flex h-100 tx-center">
+                      <h5 class="tx-gray-500 m-auto pd-b-20">
+                        <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
+                        No traffic data available
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Response -->
+          <div id="response" class="mt-5">
+            <h6 class="tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Response</h6>
+            <div ng-show="!vm.incident.description.suppressed">
+              <div class="card h-100 response-overview">
+                <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                  <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Overview</h6>
+                  <div class="card-option">
+                    <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                  </div><!-- card-option -->
+                </div><!-- card-header -->
+                <div class="card-body">
+                  <div class="row tx-center">
+                    <div class="col-12 col-md-4 pd-y-20 pd-md-y-0 tx-left">
+                      <p class="lh-8 mg-b-0">{{ vm.textSummaries.responseSummary }}</p>
+                    </div><!-- col-4 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0">
+                      <p class="light-label">Call answered in</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}</h4>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
+                      <p class="light-label">First unit dispatched</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h4>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-md-l-0 bd-color-gray-lighter">
+                      <p class="light-label">First unit on scene</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h4>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
+                      <p class="light-label">Resolved in</p>
+                      <h4 class="tx-info tx-normal mg-b-0">{{
+                        vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}</h4>
+                    </div><!-- col-2 -->
+                  </div><!-- row -->
+                </div>
+              </div>
+              <div class="card mt-5">
+                <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                  <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Events Timeline</h6>
+                  <div class="card-option">
+                    <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
+                  </div><!-- card-option -->
+                </div><!-- card-header -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-10">
+                      <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
+                    </div>
+                    <div class="col-lg-2 pl-2">
+                      <ul class="events-timeline-legend">
+                        <li class="alarm-answer">Alarm Answer</li>
+                        <li class="alarm-processing">Alarm Processing</li>
+                        <li class="turnout-time">Turnout Time</li>
+                        <li class="travel-time">Travel Time</li>
+                        <li class="intervention-time">Intervention Time</li>
+                        <li class="transport">Transport</li>
+                        <li class="post-transport">Post Transport</li>
+                        <li class="cancelled">Out-of-Service/Cancelled</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Alarm Answering Duration</h6>
+                      <div class="card-option">
+                        <a href="" data-tippy-html='#alarmAnswerTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Alarm Processing Duration</h6>
+                      <div class="card-option">
+                        <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Travel Distances</h6>
+                      <div class="card-option">
+                        <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Travel Durations</h6>
+                      <div class="card-option">
+                        <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Response Duration</h6>
+                      <div class="card-option">
+                        <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Response Duration Comparisons</h6>
+                      <div class="card-option">
+                        <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+                      </div><!-- card-option -->
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 mt-5">
+                  <div class="card h-100">
+                    <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+                      <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Concurrent Incidents</h6>
+                    </div><!-- card-header -->
+                    <div class="card-body">
+                      <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14">
+                          {{ vm.concurrentIncidents.length }} </span> incidents also in
+                        progress during this timeframe</p>
+                      <div ui-grid="vm.concurrentIncidentTableOptions">
+                        <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">No concurrent
+                          incidents
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-if="vm.incident.description.suppressed" class="no-data-available">
+              <h5>No response data available.</h5>
+            </div>
+          </div>
+        </div> <!-- END: Tab Panes/Content -->
+      </div>
+    </section>
+  </div>
 
   <!--- tooltips -->
   <div id="analysisRuleTippy" style="display: none;">
-    <h5>
-      <ul>
-        <li class="text-warning">15s 95% </li>
-        <li class="text-danger">40s 99%</li>
-      </ul>
-   </h5>
+    <ul class="pd-5 mg-5">
+      <li class="text-warning">15s 95% </li>
+      <li class="text-danger">40s 99%</li>
+    </ul>
   </div>
 
   <div id="alarmAnswerTippy" style="display: none;">
-    <h5>
-      <strong>Alarm Answering</strong> is the time interval that begins when the alarm is received at the communication center and ends when the alarm is acknowledged at the communication center.
-      <hr>
-      NFPA 1710 recommendation:
-      <ul>
-        <li class="text-warning">15s 95% </li>
-        <li class="text-danger">40s 99%</li>
-      </ul>
-   </h5>
+    <div class="pd-5 mg-5">
+      <h6 class="heavyheader">Alarm Answering</h6>
+      The time interval that begins when the alarm is received at the communication center and ends when the alarm is
+      acknowledged at the communication center.
+      <hr class="bd-gray-600">
+      <h6 class="heavyheader mb-0">NFPA 1710 Recommendation</h6> <br>
+      <span class="badge badge-warning tx-14 mg-r-10">15s - 95%</span>
+      <span class="badge badge-danger tx-14 mg-b-10">40s - 99%</span>
+    </div>
   </div>
 
   <div id="alarmProcessingTippy" style="display: none;">
-    <h5>
-      <strong>Alarm Processing</strong> is the time interval from when the alarm is acknowledged at the communication center until response information begins to be transmitted via voice or electronic means to emergency response facilities (ERFs) or the emergency response units (ERUs).
-      <hr>
-      NFPA 1710 recommendation:
-      <ul>
-        <li class="text-warning">64s 90%</li>
-        <li class="text-danger">106s 95%</li>
-      </ul>
-    </h5>
+    <div class="pd-5 mg-5">
+      <h6 class="heavyheader">Alarm Processing</h6>
+      The time interval from when the alarm is acknowledged at the communication
+      center until response information begins to be transmitted via voice or electronic means to emergency response
+      facilities (ERFs) or the emergency response units (ERUs).
+      <hr class="bd-gray-600">
+      <h6 class="heavyheader mb-0">NFPA 1710 Recommendation</h6> <br>
+      <span class="badge badge-warning tx-14 mg-r-10">64s - 90%</span>
+      <span class="badge badge-danger tx-14 mg-b-10">106s - 95%</span>
+    </div>
   </div>
 
   <div id="travelDistanceTippy" style="display: none;">
-    <h5>
-      <strong>Travel Distances</strong> are supplied by CAD data or estimated based on AVL.
-    </h5>
+    <div class="pd-5 mg-5">
+      <h6 class="heavyheader">Travel Distances</h6>
+      This data is supplied by CAD data or estimated based on AVL.
+    </div>
   </div>
 
   <div id="travelDurationTippy" style="display: none;">
-    <h5>
-      <strong>Travel Duration</strong> is the time interval that begins when the unit is enroute and ends when the unit is on-scene.
-      <hr>
-      NFPA 1710 recommendation:
-      <ul>
-        <li class="text-warning">240s (4m) First Engine</li>
-        <li class="text-danger">480s (8m) Low/Medium Initial Full Alarm</li>
-        <li class="text-danger">610s (10m, 10s) High Hazard Full Alarm</li>
-      </ul>
-    </h5>
+    <div class="pd-5 mg-5">
+      <h6 class="heavyheader">Travel Duration</h6>
+      The time interval that begins when the unit is enroute and ends when the unit is on-scene.
+      <hr class="bd-gray-600">
+      <h6 class="heavyheader mb-0">NFPA 1710 Recommendation</h6> <br>
+      <span class="badge badge-warning tx-14 mg-b-10">240s (4m) First Engine</span>
+      <span class="badge badge-danger tx-14 mg-b-10">480s (8m) Low/Medium Initial Full Alarm</span>
+      <span class="badge badge-danger tx-14 mg-b-10">610s (10m, 10s) High Hazard Full Alarm</span>
+    </div>
   </div>
 
   <div id="responseDurationTippy" style="display: none;">
-    <h5>
-      <strong>Response Duration</strong> is the time interval that begins when the unit is dispatched and ends when the unit is on-scene.
-      <strong>Turnout</strong> is the time interval that begins when the unit is dispatched and ends when the unit is enroute.
-
-      <hr>
-      NFPA 1710 Turnout recommendation:<br>
-      <ul>
-        <li class="text-danger">60s for EMS Incidents</li>
-        <li class="text-danger">80s for Fire Incidents</li>
-
-      </ul>
-    </h5>
+    <div class="pd-5 mg-5">
+      <h6 class="heavyheader">Response Duration</h6>
+      The time interval that begins when the unit is dispatched and ends when the unit is on-scene.
+      <hr class="bd-gray-600">
+      <h6 class="heavyheader">Turnout</h6>
+      The time interval that begins when the unit is dispatched and ends when the unit is enroute.
+      <hr class="bd-gray-600">
+      <h6 class="heavyheader mb-0">NFPA 1710 Turnout Recommendation</h6> <br>
+      <span class="badge badge-danger tx-14 mg-r-10">EMS Incidents - 60s </span>
+      <span class="badge badge-danger tx-14 mg-b-10">Fire Incidents - 80s </span>
+    </div>
   </div>
 
   <div id="responseDurationComparisonTippy" style="display: none;">
-    <h5>
-      <strong>Response Duration</strong> is the time interval that begins when the unit is dispatched and ends when the unit is on-scene.
-    </h5>
+    <div class="pd-5 mg-5">
+      <h6 class="heavyheader">Response Duration</h6>
+      The time interval that begins when the unit is dispatched and ends when the unit is on-scene.
+    </div>
   </div>

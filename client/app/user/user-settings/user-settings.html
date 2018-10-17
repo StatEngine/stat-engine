@@ -1,14 +1,8 @@
-<!-- TODO:
-    - Add logic to enable save buttons when a setting is changed OR automatically save on change
-    - Ensure that "All changes saved" confirmation message appears when a change is saved or automatically made
-    - Remove "fake" setting sections with real ones!
--->
-
 <div class="br-mainpanel medium-bg">
   <div class="br-pagetitle bg-white">
     <h2>Settings</h2>
   </div>
-  <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
+  <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-15 pd-sm-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
     <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist" id="nav-tab">
       <li class="nav-item tx-medium pl-0">
         <a class="nav-link active" data-toggle="tab" href="#nav-profile" role="tab" id="nav-profile-tab" aria-controls="nav-profile" aria-selected="true">My Profile</a>
@@ -22,9 +16,9 @@
     <div class="tab-content" id="nav-tabContent">
       <!-- My Profile -->
        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <div class="card shadow-base bd-0 mg-b-25">
-          <div class="card-body pd-30">
-            <h6 class="card-title tx-medium mg-b-35">My Profile</h6>
+        <div class="card mg-b-25">
+          <div class="card-body">
+            <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">My Profile</h6>
             <form name="profileForm" id="profileForm" ng-submit="vm.edituser(profileForm)" novalidate>
               <div class="form-layout">
                 <div class="row mg-t-30 mg-b-15">
@@ -56,9 +50,9 @@
         </div>
       </div>
       <div class="tab-pane fade " id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
-        <div class="card shadow-base bd-0 mg-b-25 tab-pane" id="nav-password" role="tabpanel">
-          <div class="card-body pd-30">
-            <h6 class="card-title tx-medium mg-b-35">Password</h6>
+        <div class="card mg-b-25 tab-pane" id="nav-password" role="tabpanel">
+          <div class="card-body">
+            <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">Password</h6>
             <form name="passwordForm" id="passwordForm" ng-submit="vm.changePassword(passwordForm)" novalidate>
               <div class="form-layout">
                 <div class="row mg-t-30 mg-b-15">
@@ -104,7 +98,7 @@
 </div>
 
 <!--
-<div class="card shadow-base bd-0 mg-b-25">
+<div class="card mg-b-25">
   <div class="card-body pd-30">
     <h6 class="card-title tx-medium mg-b-35">Department Info</h6>
     <form name="form" novalidate="">

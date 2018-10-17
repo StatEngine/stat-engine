@@ -84,10 +84,6 @@ navbar {
       text-decoration: none;
       transition: all 0.2s ease-in-out;
       width: 100%;
-
-      &:hover {
-        // color: lighten($color-bondi-blue,5%);
-      }
     }
 
     &.with-dropdown {
