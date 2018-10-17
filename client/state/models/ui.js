@@ -38,11 +38,11 @@ export const UI = types.model({
     })
 
     const timeFilters = [];
-    _.forOwn(quickFilters, (filter, key) => timeFilters.push({ displayName: 'Last ' + key, filter }));
+    _.forOwn(quickFilters, (filter, key) => timeFilters.push({ id: key, displayName: 'Last ' + key, filter }));
     self.timeFilters = timeFilters;
   });
 
-  const setFilters = (id) => {
+  const setFilters = () => {
     if (!self.selectedFilters) {
       self.selectedFilters = {
         timeFilter: self.timeFilters[0]
@@ -50,13 +50,17 @@ export const UI = types.model({
     }
   }
 
+  const setTimeFilter = (id) => {
+    console.dir("setting id = " + id);
+    const filter = _.find(self.timeFilters, (tf) => tf.id === id);
+    console.dir('found filter');
+    console.dir(filter);
+    self.selectedFilters.timeFilter = filter;
+  }
+
   return {
     buildFilters,
     setFilters,
+    setTimeFilter,
   };
 })
-.views(self => ({
-  get selectedFilters() {
-    return self.selectedFilters
-  },
-}))

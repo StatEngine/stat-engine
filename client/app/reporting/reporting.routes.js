@@ -40,7 +40,6 @@ export default function routes($stateProvider) {
           return Store.uiStore.setFilters();
         },
         redirectMe($state, units) {
-          console.dir('redirecting');
           return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id})
         }
       },
@@ -72,12 +71,14 @@ export default function routes($stateProvider) {
         },
         fetchResponses($stateParams) {
           return Store.unitStore.fetchSelectedResponses($stateParams.id, {
-            timeStart: 'todo'
+            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
+            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
           });
         },
         fetchMetrics(fetchResponses, $stateParams) {
           return Store.unitStore.fetchSelectedMetrics($stateParams.id, {
-            timeStart: 'todo'
+            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
+            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
           });
         }
       },

@@ -55,23 +55,18 @@ export const UnitList = types.model({
     self.state = "pending"
     try {
       // TODO
-      let params = {
+      //let params = {
         // This is a hack because we dont have an easy way of knowning unit station
-        station_id: _.get(self.responses, "[0].apparatus_data.unit_id")
-      };
-      const metrics = yield axios.get(`/api/units/${id}/metrics`, {
-        params
-      });
+      //  station_id: _.get(self.responses, "[0].apparatus_data.unit_id")
+      //};
+      console.dir(qs);
+      const metrics = yield axios.get(`/api/units/${id}/metrics`, { params: qs });
       self.currentMetrics = metrics.data;
 
-      const previousMetrics = yield axios.get(`/api/units/${id}/metrics`, {
-        params
-      });
+      const previousMetrics = yield axios.get(`/api/units/${id}/metrics`, { params: qs });
       self.previousMetrics = previousMetrics.data;
 
-      const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, {
-        params
-      });
+      const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, { params: qs });
       self.totalMetrics = totalMetrics.data;
 
       self.state = "done"

@@ -13,7 +13,10 @@
         <a class="breadcrumb-item" href="#">Units</a>
         <span class="breadcrumb-item active">{{ vm.selected.id }}</span>
       </nav>
-      &nbsp;&nbsp;<select ng-options="tf as tf.displayName for tf in vm.timeFilters" ng-model="vm.e" class="form-control-sm">
+      &nbsp;&nbsp;
+      {{vm.selectedTime}}
+      <select ng-model="vm.selectedTime" ng-change="vm.changeFilter()">
+        <option ng-repeat="tf in vm.timeFilters" value="{{tf.id}}">{{tf.displayName}}</option>
       </select>
     </div><!-- br-pageheader -->
 

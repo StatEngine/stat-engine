@@ -70,7 +70,8 @@ export default class ReportingUnitDetailController {
       this.totalMetrics = this.unitStore.totalMetrics;
 
       this.timeFilters = this.uiStore.timeFilters;
-      
+      this.selectedTime = this.uiStore.selectedFilters.timeFilter.id;
+
       // abstract this to component do this server side
       if (this.totalMetrics) {
         let arr = _.values(this.totalMetrics.time_series_data.total_data);
@@ -80,6 +81,20 @@ export default class ReportingUnitDetailController {
         this.totalIncidentMax = _.maxBy(arr, 'total_count');
       }
     })
+  }
+
+  changeFilter() {
+    Store.uiStore.setTimeFilter(this.selectedTime);
+
+    Store.unitStore.fetchSelectedResponses(this.selected.id, {
+      timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
+      timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+    });
+
+    Store.unitStore.fetchSelectedMetrics(this.selected.id, {
+      timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
+      timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+    });
   }
 
   $onDestory() {
