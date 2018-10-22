@@ -106,6 +106,8 @@ const unitMetricConfigs = [
   ['distanceToIncidentSum', 'showDistances'],
   ['eventDurationSum'],
   ['turnoutDurationPercentile90'],
+  ['fireTurnoutDurationPercentile90'],
+  ['emsTurnoutDurationPercentile90'],
   ['responseDurationPercentile90'],
 ];
 
@@ -131,11 +133,7 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
     ruleViolations.forEach(violation => {
       if(violation.level === 'DANGER') violation.rowColor = '#f2dede';
       else if(violation.level === 'WARNING') violation.rowColor = '#fcf8e3';
-
-      console.dir(violation)
-      console.dir(reportOptions);
       let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
-      console.dir(showAlert);
       if (_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
     });
   });

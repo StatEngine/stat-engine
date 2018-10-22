@@ -17,6 +17,7 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
+let rogers;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -451,7 +452,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,department_admin',
+        role: 'user,department_admin,kibana_admin',
         username: 'rogers',
         first_name: 'dev',
         last_name: 'user',
@@ -461,6 +462,32 @@ if(process.env.NODE_ENV === 'development') {
       }]
     }, {
       include: [FireDepartment.Users]
+    }))
+    .then(dbRogers => {
+      rogers = dbRogers;
+    })
+    .then(() => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: rogers._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        name: 'Daily',
+        timeUnit: 'DAY',
+        sections: {
+          showAlertSummary: false,
+          showBattalionSummary: true,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: false,
+        schedulerOptions: {
+          later: {
+            text: 'every 10 seconds'
+          }
+        }
+      }
     }))
     .then(() => User.create({
       provider: 'local',
