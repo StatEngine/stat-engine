@@ -26,7 +26,7 @@ const SequelizeStore = connectSessionSequelize(session.Store);
 export default function(app) {
   var env = app.get('env');
 
-  app.use(helmet());
+  //app.use(helmet());
   app.use(compression());
 
   if(env === 'development' || env === 'test') {
