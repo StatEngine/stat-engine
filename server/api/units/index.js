@@ -43,7 +43,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  metricsController.setIncidentIndex,
+  metricsController.setApparatusIndex,
   metricsController.buildTotalQuery,
   metricsController.runTotalQuery,
 );

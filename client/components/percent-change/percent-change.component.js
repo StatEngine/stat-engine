@@ -10,12 +10,8 @@ export class PercentChangeComponent {
   }
 
   $onInit() {
-    console.dir(this.oldValue)
-    console.dir(this.newValue)
-
     if(_.isNil(this.oldValue)) this.percent = 'NA';
     this.percent =  Math.round((this.newValue - this.oldValue) / this.oldValue * 100);
-    console.dir(this.percent)
   }
 }
 

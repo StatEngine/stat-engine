@@ -61,6 +61,7 @@ export default function routes($stateProvider) {
           return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
             .then(() => {
               $ocLazyLoad.inject('ui.grid');
+              $ocLazyLoad.inject('ui.grid.pagination');
             });
         },
         currentPrincipal(Principal) {
@@ -75,12 +76,24 @@ export default function routes($stateProvider) {
             timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
           });
         },
-        fetchMetrics(fetchResponses, $stateParams) {
+        fetchMetrics($stateParams) {
           return Store.unitStore.fetchSelectedMetrics($stateParams.id, {
             timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
             timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
           });
-        }
+        },
+        fetchPreviousMetrics($stateParams) {
+          return Store.unitStore.fetchSelectedPreviousMetrics($stateParams.id, {
+            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
+            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+          });
+        },
+        fetchTotalMetrics($stateParams) {
+          return Store.unitStore.fetchSelectedTotalMetrics($stateParams.id, {
+            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
+            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+          });
+        },
       },
     });
 }

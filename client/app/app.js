@@ -63,6 +63,7 @@ import plotlyWrapper from '../components/plotly-wrapper/plotly-wrapper.component
 import sidebar from '../components/sidebar/sidebar.component';
 import footer from '../components/footer/footer.component';
 import percentChange from '../components/percent-change/percent-change.component';
+import rank from '../components/rank/rank.component';
 import modal from '../components/modal/modal.service';
 
 import statsTable from '../components/tables/stats-table.component';
@@ -138,6 +139,7 @@ angular.module('statEngineApp', [
   plotlyWrapper,
   modal,
   percentChange,
+  rank,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

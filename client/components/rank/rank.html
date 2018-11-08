@@ -1,0 +1,10 @@
+{{ vm.numeral }}
+<span ng-if="vm.newValue < vm.oldValue" class="text-success">
+  <i class="fa fa-sort-down"></i>
+</span>
+<span ng-if="vm.newValue == vm.oldValue" class="text-default">
+  <i class="fa fa-arrows-h"></i>
+</span>
+<span ng-if="vm.newValue > vm.oldValue" class="text-danger">
+  <i class="fa fa-sort-up"></i>
+</span>

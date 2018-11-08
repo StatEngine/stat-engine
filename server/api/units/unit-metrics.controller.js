@@ -1,6 +1,7 @@
 import bodybuilder from 'bodybuilder';
 import _ from 'lodash';
 import util from 'util';
+import moment from 'moment';
 
 import connection from '../../elasticsearch/connection';
 
@@ -24,18 +25,30 @@ function setMetricGroups(agg) {
       .aggregation('sum', 'apparatus.extended_data.event_duration')
 }
 
+function setUnitMetricGroups(agg) {
+  return agg
+      .aggregation('percentiles', 'apparatus_data.extended_data.turnout_duration', { percents: 90 })
+      .aggregation('percentiles', 'apparatus_data.extended_data.travel_duration', { percents: 90 })
+      .aggregation('percentiles', 'apparatus_data.extended_data.response_duration', { percents: 90 })
+      .aggregation('value_count', 'apparatus_data.unit_status.transport_started.timestamp')
+      .aggregation('sum', 'apparatus_data.distance')
+      .aggregation('sum', 'apparatus_data.extended_data.event_duration')
+}
+
 export function buildResponsesQuery(req, res, next) {
   let base = bodybuilder()
+    .rawOption('_source', ['description.incident_number','description.category','description.event_closed','address.address_line1','description.type','description.subtype','apparatus_data.extended_data.*','description.shift'])
     .filter('term', 'description.suppressed', false)
-
-    //if (_.get(req, 'query.timeFilter')) {
-    //  base.filter('range', 'description.event_opened', { gte: timeFilter.start, lt: timeFilter.end })
-    //}
-
     .filter('term', 'apparatus_data.unit_id', req.params.id)
 
+    let timeStart = _.get(req, 'query.timeStart');
+    let timeEnd = _.get(req, 'query.timeEnd');
+
+    if (timeStart && timeEnd) {
+      base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd })
+    }
     req.esBody = base
-      .size(10)
+      .size(5000)
       .build();
 
     next();
@@ -76,28 +89,29 @@ export function buildQuery(req, res, next) {
           })))
         )
 
-    // TODO
-    base.filter('range', 'description.event_opened', { gte: '2018-01-12T00:00:00-05:00', lt: '2018-01-13T00:00:00-05:00' })
-    /*if (_.get(req, 'query.timeFilter')) {
-      base.filter('range', 'description.event_opened', { gte: timeFilter.start, lt: timeFilter.end })
-    }*/
+  let timeStart = _.get(req, 'query.timeStart');
+  let timeEnd = _.get(req, 'query.timeEnd');
+
+  if (timeStart && timeEnd) {
+    base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd })
+  }
 
   req.esBody = base
     .size(0)
     .build();
 
+    console.log(util.inspect(req.esBody, { showHidden: false, depth: null }))
   next();
 }
 
 export function buildTotalQuery(req, res, next) {
   let base = bodybuilder()
     .filter('term', 'description.suppressed', false)
+    .filter('term', 'apparatus_data.unit_id', req.params.id)
 
-    base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'day' }, dateAgg => dateAgg
-      .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
-        .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => {
-          return setMetricGroups(unitAgg)
-        })))
+    base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'day' }, dateAgg => {
+      return setUnitMetricGroups(dateAgg)
+    })
 
   req.esBody = base
     .size(0)
@@ -107,16 +121,24 @@ export function buildTotalQuery(req, res, next) {
 }
 
 const metrics = [
-  ['total_count', 'doc_count', { rank: true }],
-  ['total_distance_to_incident_miles', '["agg_sum_apparatus.distance"].value'],
-  ['total_commitment_time_seconds', '["agg_sum_apparatus.extended_data.event_duration"].value'],
-  ['90_percentile_turnout_duration_seconds', '["agg_percentiles_apparatus.extended_data.turnout_duration"].values["90.0"]', { rank: true }],
-  ['90_percentile_travel_duration_seconds', '["agg_percentiles_apparatus.extended_data.travel_duration"].values["90.0"]'],
+  ['total_count', 'doc_count', { rank: 'desc' }],
+  ['total_distance_to_incident_miles', '["agg_sum_apparatus.distance"].value', { rank: 'desc' }],
+  ['total_commitment_time_seconds', '["agg_sum_apparatus.extended_data.event_duration"].value', { rank: 'desc' }],
+  ['90_percentile_turnout_duration_seconds', '["agg_percentiles_apparatus.extended_data.turnout_duration"].values["90.0"]', { rank: 'asc' }],
+  ['90_percentile_travel_duration_seconds', '["agg_percentiles_apparatus.extended_data.travel_duration"].values["90.0"]', { rank: 'asc' }],
 ];
 
-function getMetrics(bucket) {
+const unitMetrics = [
+  ['total_count', 'doc_count', { rank: 'desc' }],
+  ['total_distance_to_incident_miles', '["agg_sum_apparatus_data.distance"].value', { rank: 'desc' }],
+  ['total_commitment_time_seconds', '["agg_sum_apparatus_data.extended_data.event_duration"].value', { rank: 'desc' }],
+  ['90_percentile_turnout_duration_seconds', '["agg_percentiles_apparatus_data.extended_data.turnout_duration"].values["90.0"]', { rank: 'asc' }],
+  ['90_percentile_travel_duration_seconds', '["agg_percentiles_apparatus_data.extended_data.travel_duration"].values["90.0"]', { rank: 'asc' }],
+];
+
+function getMetrics(myMetrics, bucket) {
   const formatted = {};
-  metrics.forEach(metric => {
+  myMetrics.forEach(metric => {
     const [name, path, options] = metric;
 
     let val = _.get(bucket, path);
@@ -151,10 +173,7 @@ export function runTotalQuery(req, res, next) {
 
     const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
     _.forEach(timeSeriesBuckets, timeBucket => {
-      if (_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
-      const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-      const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
-      api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(myTimeBucket);
+      api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(unitMetrics, timeBucket);
     });
 
     res.json(api_response);
@@ -164,8 +183,6 @@ export function runTotalQuery(req, res, next) {
 export function runQuery(req, res, next) {
   const unitId = req.params.id;
   const stationId = req.params.station_id;
-
-  console.dir(stationId);
 
   connection.getClient().search({
     index: req.index,
@@ -191,12 +208,11 @@ export function runQuery(req, res, next) {
     const apparatusBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
     let totalMetrics = {}
     _.forEach(apparatusBuckets, b => {
-      totalMetrics[b.key] = getMetrics(b);
+      totalMetrics[b.key] = getMetrics(metrics, b);
     });
-    console.dir(totalMetrics);
-    //rankBuckets(metrics);
-    const myBucket = _.find(apparatusBuckets, b => b.key === unitId);
-    api_response.total_data = getMetrics(myBucket);
+    const rankedMetrics = rankBuckets(totalMetrics);
+    console.dir(rankedMetrics);
+    api_response.total_data = rankedMetrics[unitId]
 
     // grouped data
     const categoryBuckets = _.get(esRes, 'aggregations["agg_terms_description.category"]buckets');
@@ -204,7 +220,7 @@ export function runQuery(req, res, next) {
       if (_.isNil(api_response.grouped_data.category[categoryBucket.key])) api_response.grouped_data.category[categoryBucket.key] = {};
       const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
       const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
-      api_response.grouped_data.category[categoryBucket.key] = getMetrics(myCatBucket);
+      api_response.grouped_data.category[categoryBucket.key] = getMetrics(metrics, myCatBucket);
     });
 
     // time series data
@@ -213,7 +229,7 @@ export function runQuery(req, res, next) {
       if (_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
       const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
       const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
-      api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(myTimeBucket);
+      api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(metrics,myTimeBucket);
     });
 
     const timeSeriesCategoryBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened_by_category"]buckets');
@@ -225,7 +241,7 @@ export function runQuery(req, res, next) {
         if (_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key])) api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = {};
         const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
         const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
-        api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetrics(myCatBucket);
+        api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetrics(metrics, myCatBucket);
       });
     });
 
@@ -233,20 +249,42 @@ export function runQuery(req, res, next) {
   });
 }
 
+export function rankBuckets(buckets) {
+  const rankedBuckets = buckets;
+
+  let arr = []
+  _.forEach(buckets, (value, key) => {
+    value.id = key;
+    arr.push(value)
+  });
+
+  _.forEach(metrics, (metric) => {
+    const [name, path, options] = metric;
+
+    let sorted = _.sortBy(arr, name);
+    if (options.rank === 'desc') sorted = sorted.reverse();
+    _.forEach(sorted, (val, index) => {
+      rankedBuckets[val.id][`${name}_rank`] = index + 1;
+    });
+
+  });
+
+  return rankedBuckets;
+}
+
 export function runResponsesQuery(req, res, next) {
   connection.getClient().search({
     index: req.index,
     body: req.esBody,
   }).then(esRes => {
-    console.log(util.inspect(esRes, { showHidden: false, depth: null }))
 
     const api_response = {
-      incidents: [],
+      responses: [],
     };
 
     const hits = _.get(esRes, 'hits.hits');
     if (hits) {
-      api_response.incidents = _.map(hits, h => h._source);
+      api_response.responses = _.map(hits, h => h._source);
     }
 
     res.json(api_response);

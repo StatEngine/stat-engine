@@ -51,11 +51,10 @@ export const UI = types.model({
   }
 
   const setTimeFilter = (id) => {
-    console.dir("setting id = " + id);
     const filter = _.find(self.timeFilters, (tf) => tf.id === id);
-    console.dir('found filter');
-    console.dir(filter);
-    self.selectedFilters.timeFilter = filter;
+    self.selectedFilters = {
+      timeFilter: filter
+    }
   }
 
   return {

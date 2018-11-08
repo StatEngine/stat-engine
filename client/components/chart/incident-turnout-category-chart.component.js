@@ -9,7 +9,7 @@ const COLORS = {
   EMS: '#25a88e'
 };
 
-export default class IncidentCategoryChartComponent {
+export default class IncidentTurnoutCategoryChartComponent {
   constructor() {
     'ngInject';
 
@@ -45,7 +45,7 @@ export default class IncidentCategoryChartComponent {
         }
       }
       _.forOwn(this.data, (dateData, dateName) => {
-        let count = _.get(dateData[categoryName], 'total_count');
+        let count = _.get(dateData[categoryName], '90_percentile_turnout_duration_seconds');
         if (!_.isNil(count)) {
           curTrace.x.push(dateName);
           curTrace.y.push(count);
@@ -55,12 +55,12 @@ export default class IncidentCategoryChartComponent {
     });
 
     this.layout = {
-      barmode: 'stack',
+      barmode: 'grouped',
       xaxis: {
         title: 'Datetime',
       },
       yaxis: {
-        title: 'Responses',
+        title: 'Turnout Time (s)',
       },
     };
 

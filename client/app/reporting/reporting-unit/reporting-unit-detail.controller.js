@@ -28,7 +28,7 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class ReportingUnitDetailController {
   /*@ngInject*/
-  constructor($state, currentPrincipal) {
+  constructor($state, currentPrincipal, $scope) {
     this.unitStore = Store.unitStore;
     this.uiStore = Store.uiStore;
 
@@ -36,6 +36,8 @@ export default class ReportingUnitDetailController {
 
     this.responsesTableOptions = {
       data: [],
+      paginationPageSizes: [100],
+      paginationPageSize: 100,
       columnDefs: [{
         field: 'description.incident_number',
         displayName: 'Incident Number',
@@ -44,23 +46,32 @@ export default class ReportingUnitDetailController {
         field: 'address.address_line1',
         displayName: 'Address'
       }, {
-        field: 'description.event_closed',
-        displayName: 'Event Closed'
-      }, {
-        field: 'durations.total_event.seconds',
-        displayName: 'Event Duration',
-        cellFilter: 'humanizeDuration',
-      }, {
         field: 'description.category',
         displayName: 'Category',
         width: 100,
       }, {
         field: 'description.type',
         displayName: 'Type',
+      }, {
+        field: 'description.event_closed',
+        displayName: 'Event Closed'
+      }, {
+        field: 'apparatus_data.extended_data.turnout_duration',
+        displayName: 'Turnout',
+        cellFilter: 'humanizeDuration',
+      }, {
+        field: 'apparatus_data.extended_data.travel_duration',
+        displayName: 'Travel',
+        cellFilter: 'humanizeDuration',
+      }, {
+        field: 'apparatus_data.extended_data.event_duration',
+        displayName: 'Utilization',
+        cellFilter: 'humanizeDuration',
       }]
     };
 
     autorun(() => {
+      console.dir('autorunning')
       this.selected = this.unitStore.selected;
 
       this.responsesTableOptions.data = this.unitStore.responses;
@@ -79,7 +90,14 @@ export default class ReportingUnitDetailController {
         this.totalIncidentMin = _.minBy(arr, 'total_count');
         this.totalIncidentAvg = _.meanBy(arr, 'total_count');
         this.totalIncidentMax = _.maxBy(arr, 'total_count');
+
+        let arr2 = _.values(this.totalMetrics.time_series_data.total_commitment_time_seconds);
+        arr2 = _.filter(arr2, a => !_.isEmpty(a));
+        this.totalCommitmentMin = _.minBy(arr, 'total_commitment_time_seconds');
+        this.totalCommitmentAvg = _.meanBy(arr, 'total_commitment_time_seconds');
+        this.totalCommitmentMax = _.maxBy(arr, 'total_commitment_time_seconds');
       }
+      $scope.$evalAsync();
     })
   }
 
@@ -95,6 +113,7 @@ export default class ReportingUnitDetailController {
       timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
       timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
     });
+    console.dir('done')
   }
 
   $onDestory() {
