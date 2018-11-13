@@ -1,7 +1,5 @@
 'use strict';
 
-let _;
-
 export default class DepartmentAdminEmailController {
   /*@ngInject*/
   constructor(currentPrincipal, reportConfigurations, User, Email) {
@@ -19,17 +17,8 @@ export default class DepartmentAdminEmailController {
     this.configurationId = this.reportConfigurations.length > 0 ? this.reportConfigurations[0]._id : undefined;
   }
 
-  async loadModules() {
-    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-  }
-
-  async $onInit() {
-    await this.loadModules();
-  }
-
   send() {
-    console.dir(this.startDate);
-    if (this.configurationId) {
+    if(this.configurationId) {
       this.EmailService.send({
         id: 'timeRangeAnalysis',
         test: this.test,
@@ -41,6 +30,6 @@ export default class DepartmentAdminEmailController {
         .then(() => {
           console.info('Alert sent');
         });
-      }
+    }
   }
 }

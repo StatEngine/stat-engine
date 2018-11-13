@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
 
 export default class LoginController {
@@ -24,7 +25,7 @@ export default class LoginController {
     this.form = $('#login-form').parsley();
   }
 
-  login(form) {
+  login() {
     this.submitted = true;
 
     if(this.form.isValid()) {

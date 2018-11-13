@@ -48,7 +48,7 @@ export const QUERIES = [{
       }
       tweet += ' yesterday';
     }
-    return [ { status: tweet } ];
+    return [{ status: tweet }];
   }
 }, {
   name: 'weeklySummary',
@@ -95,7 +95,7 @@ export const QUERIES = [{
       }
       tweet += ' last week';
     }
-    return [ { status: tweet } ];
+    return [{ status: tweet }];
   }
 }, {
   name: 'recentIncidents',
@@ -104,7 +104,7 @@ export const QUERIES = [{
     body: {
       size: 7,
       sort: [{
-        'description.units.keyword' : { 'order' : 'desc' },
+        'description.units.keyword': { order: 'desc' },
       }],
       query: {
         bool: {
@@ -126,40 +126,36 @@ export const QUERIES = [{
     },
   },
   parser: (res, options) => {
-
     let tweets = [];
     _.forEach(res.hits.hits, hit => {
-
       let tweet = `${options.name}`;
 
       let typeStr;
       let type = _.get(hit, '_source.description.category');
       let units = _.get(hit, '_source.description.units');
 
-      if (type === 'FIRE') typeStr = 'a fire';
-      else if (type === 'EMS') typeStr = 'an ems';
-      else if (type === 'OTHER') type = undefined;
+      if(type === 'FIRE') typeStr = 'a fire';
+      else if(type === 'EMS') typeStr = 'an ems';
+      else if(type === 'OTHER') type = undefined;
       let address = _.get(hit, '_source.address.common_place_name') || _.get(hit, '_source.address.address_line1');
 
-      if (type && address) {
-
-        if (_.get(hit, '_source.description.active')) {
+      if(type && address) {
+        if(_.get(hit, '_source.description.active')) {
           tweet += ` is currently responding to ${typeStr} incident`;
-        }
-        else {
-          tweet += ` responded to ${typeStr} incident`
+        } else {
+          tweet += ` responded to ${typeStr} incident`;
         }
 
-        if (units) {
-          if (units.length > 1) tweet += ` with ${units.length} units`;
-          else tweet += ` with 1 unit`;
+        if(units) {
+          if(units.length > 1) tweet += ` with ${units.length} units`;
+          else tweet += ' with 1 unit';
         }
 
         tweet += ` at ${address}`;
 
         tweets.push({ status: tweet, class: 'tweet-card-yellow' });
       }
-    })
+    });
 
     return tweets;
   }

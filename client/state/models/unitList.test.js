@@ -1,5 +1,6 @@
-import { Unit } from './unitList';
 import 'chai/register-should';
+
+import { Unit } from './unitList';
 
 it('can create an instance', () => {
   const unit = Unit.create({ unitId: 'E1'});

@@ -3,6 +3,7 @@
 /* eslint no-sync: 0 */
 
 import angular from 'angular';
+import _ from 'lodash';
 
 export class PercentChangeComponent {
   constructor() {

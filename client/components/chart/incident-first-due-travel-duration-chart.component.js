@@ -1,9 +1,6 @@
 'use strict';
 
-import angular from 'angular';
-
 let _;
-
 
 export default class IncidentFirstDueTravelDurationChartComponent {
   constructor() {

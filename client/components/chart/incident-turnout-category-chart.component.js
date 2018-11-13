@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular';
-
 let _;
 
 const COLORS = {
@@ -27,10 +25,10 @@ export default class IncidentTurnoutCategoryChartComponent {
 
     let categories = [];
 
-    _.forOwn(this.data, (dateData, dateName)  => {
+    _.forOwn(this.data, dateData => {
       _.forOwn(dateData, (categoryData, categoryName) => {
         categories.push(categoryName);
-      })
+      });
     });
     categories = _.uniq(categories);
 
@@ -43,10 +41,10 @@ export default class IncidentTurnoutCategoryChartComponent {
         marker: {
           color: COLORS[categoryName],
         }
-      }
+      };
       _.forOwn(this.data, (dateData, dateName) => {
         let count = _.get(dateData[categoryName], '90_percentile_turnout_duration_seconds');
-        if (!_.isNil(count)) {
+        if(!_.isNil(count)) {
           curTrace.x.push(dateName);
           curTrace.y.push(count);
         }

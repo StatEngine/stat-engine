@@ -2,11 +2,9 @@
 
 'use strict';
 
-import { autorun } from "mobx"
+import { autorun } from 'mobx';
 import _ from 'lodash';
 import humanizeDuration from 'humanize-duration';
-import moment from 'moment-timezone';
-import { FirecaresLookup } from '@statengine/shiftly';
 
 import { Store } from '../../../state/store';
 
@@ -71,7 +69,7 @@ export default class ReportingUnitDetailController {
     };
 
     autorun(() => {
-      console.dir('autorunning')
+      console.dir('autorunning');
       this.selected = this.unitStore.selected;
 
       this.responsesTableOptions.data = this.unitStore.responses;
@@ -84,7 +82,7 @@ export default class ReportingUnitDetailController {
       this.selectedTime = this.uiStore.selectedFilters.timeFilter.id;
 
       // abstract this to component do this server side
-      if (this.totalMetrics) {
+      if(this.totalMetrics) {
         let arr = _.values(this.totalMetrics.time_series_data.total_data);
         arr = _.filter(arr, a => !_.isEmpty(a));
         this.totalIncidentMin = _.minBy(arr, 'total_count');
@@ -93,12 +91,12 @@ export default class ReportingUnitDetailController {
 
         let arr2 = _.values(this.totalMetrics.time_series_data.total_commitment_time_seconds);
         arr2 = _.filter(arr2, a => !_.isEmpty(a));
-        this.totalCommitmentMin = _.minBy(arr, 'total_commitment_time_seconds');
-        this.totalCommitmentAvg = _.meanBy(arr, 'total_commitment_time_seconds');
-        this.totalCommitmentMax = _.maxBy(arr, 'total_commitment_time_seconds');
+        this.totalCommitmentMin = _.minBy(arr2, 'total_commitment_time_seconds');
+        this.totalCommitmentAvg = _.meanBy(arr2, 'total_commitment_time_seconds');
+        this.totalCommitmentMax = _.maxBy(arr2, 'total_commitment_time_seconds');
       }
       $scope.$evalAsync();
-    })
+    });
   }
 
   changeFilter() {
@@ -113,11 +111,11 @@ export default class ReportingUnitDetailController {
       timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
       timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
     });
-    console.dir('done')
+    console.dir('done');
   }
 
   $onDestory() {
-    console.dir('reminder: destroy autorunner')
+    console.dir('reminder: destroy autorunner');
   }
 
   selectUnit(selected) {

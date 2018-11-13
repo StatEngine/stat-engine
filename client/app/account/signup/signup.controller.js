@@ -1,6 +1,6 @@
 'use strict';
 
-import angular from 'angular';
+// eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
 
 export default class SignupController {
@@ -15,7 +15,7 @@ export default class SignupController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(User, $state, fireDepartments, AmplitudeService, AnalyticEventNames, $scope) {
+  constructor(User, $state, fireDepartments, AmplitudeService, AnalyticEventNames) {
     this.UserService = User;
     this.$state = $state;
     this.fireDepartments = fireDepartments;
@@ -24,7 +24,7 @@ export default class SignupController {
   }
 
   $onInit() {
-    this.form = $('#signup-form').parsley()
+    this.form = $('#signup-form').parsley();
   }
 
   register() {

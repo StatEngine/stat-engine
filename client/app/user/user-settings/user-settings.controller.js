@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
 
 export default class UserSettingsController {
@@ -70,7 +71,6 @@ export default class UserSettingsController {
           } else {
             this.passwordErrors.push({ message: 'Error saving data.' });
           }
-          console.dir(this.passwordErrors)
         });
     }
   }

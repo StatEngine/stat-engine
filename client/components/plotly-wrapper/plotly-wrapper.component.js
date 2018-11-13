@@ -2,10 +2,9 @@
 
 import angular from 'angular';
 
-let _;
 let PlotlyBasic;
 
-export   class PlotlyWrapperComponent {
+export class PlotlyWrapperComponent {
   constructor($scope, $window) {
     'ngInject';
 
@@ -17,7 +16,6 @@ export   class PlotlyWrapperComponent {
 
   async loadModules() {
     PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
-    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
   onResize() {

@@ -1,6 +1,5 @@
 import moment from 'moment-timezone';
 import _ from 'lodash';
-import util from 'util';
 
 import { FirecaresLookup } from '@statengine/shiftly';
 
@@ -132,11 +131,8 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
       if(violation.level === 'DANGER') violation.rowColor = '#f2dede';
       else if(violation.level === 'WARNING') violation.rowColor = '#fcf8e3';
 
-      console.dir(violation)
-      console.dir(reportOptions);
       let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
-      console.dir(showAlert);
-      if (_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
+      if(_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
     });
   });
 
@@ -187,7 +183,7 @@ export function calculateTimeRange(options) {
   let timeUnit = options.timeUnit.toLowerCase();
 
   if(!endDate && options.timeUnit && options.firecaresId) {
-    if (options.previous) {
+    if(options.previous) {
       startDate = moment.parseZone(startDate).subtract(1, timeUnit);
     } else {
       startDate = moment.parseZone(startDate);
@@ -198,8 +194,10 @@ export function calculateTimeRange(options) {
       startDate = shiftTimeFrame.start;
       endDate = shiftTimeFrame.end;
     } else {
-      endDate = moment.parseZone(startDate.format()).endOf(timeUnit).format();
-      startDate = moment.parseZone(startDate.format()).startOf(timeUnit).format();
+      endDate = moment.parseZone(startDate.format()).endOf(timeUnit)
+        .format();
+      startDate = moment.parseZone(startDate.format()).startOf(timeUnit)
+        .format();
     }
   }
   if(!endDate) throw new Error('Could not determine endDate');
@@ -211,7 +209,13 @@ export function calculateTimeRange(options) {
 }
 
 export function runComparison(req, res, next) {
-  req.timeRange = calculateTimeRange({ startDate: req.query.startDate, endDate: req.query.endDate, timeUnit: req.reportOptions.timeUnit, firecaresId: req.fireDepartment.get().firecares_id, previous: req.query.previous });
+  req.timeRange = calculateTimeRange({
+    startDate: req.query.startDate,
+    endDate: req.query.endDate,
+    timeUnit: req.reportOptions.timeUnit,
+    firecaresId: req.fireDepartment.get().firecares_id,
+    previous: req.query.previous
+  });
   let Analysis = new IncidentAnalysisTimeRange({
     index: req.fireDepartment.get().es_indices['fire-incident'],
     timeRange: req.timeRange,
@@ -244,7 +248,7 @@ export function runRuleAnalysis(req, res, next) {
 }
 
 export function setEmailOptions(req, res, next) {
-  if (!req.query.configurationId) return next(new Error('configurationId is required'));
+  if(!req.query.configurationId) return next(new Error('configurationId is required'));
 
   ExtensionConfiguration.find({
     where: {

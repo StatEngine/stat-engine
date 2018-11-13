@@ -30,7 +30,7 @@ export default function routes($stateProvider) {
         deps($ocLazyLoad) {
           return Promise.all([
             import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(() => $ocLazyLoad.inject('ui.grid')),
-            import(/* webpackChunkName: "lodash" */ 'lodash').then(mod => { _ = mod })
+            import(/* webpackChunkName: "lodash" */ 'lodash').then(mod => { _ = mod; })
 
           ]);
         },

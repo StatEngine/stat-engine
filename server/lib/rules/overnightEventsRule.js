@@ -22,7 +22,6 @@ export class OvernightEventsRule extends Rule {
     this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
       let utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
 
-      console.dir(unit)
       let count = unit.doc_count;
 
       if(utilization > this.params.threshold) {
@@ -38,7 +37,7 @@ export class OvernightEventsRule extends Rule {
         analysis.push({
           rule: this.constructor.name,
           level: this.params.level,
-          description: `Unit response > 2 overnight`,
+          description: 'Unit response > 2 overnight',
           details: `Unit: ${unit.key}, Responses: ${count}`
         });
       }

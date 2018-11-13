@@ -77,13 +77,12 @@ export default class IncidentUnitTravelDurationGraphComponent {
       },
     };
 
-    const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
 
     let shapes = [];
     let annotations = [];
 
-    if (firstArrived) {
+    if(firstArrived) {
       shapes.push({
         type: 'line',
         x0: firstArrived.extended_data.travel_duration,

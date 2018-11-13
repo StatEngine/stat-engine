@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 'use strict';
 
 import { Store } from '../../state/store';
@@ -40,7 +42,7 @@ export default function routes($stateProvider) {
           return Store.uiStore.setFilters();
         },
         redirectMe($state, units) {
-          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id})
+          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id});
         }
       },
     })

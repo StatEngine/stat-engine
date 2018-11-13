@@ -55,7 +55,7 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        reportConfigurations(ExtensionConfiguration, currentPrincipal) {
+        reportConfigurations(ExtensionConfiguration) {
           return ExtensionConfiguration.query({ name: 'Email Report' }).$promise;
         },
       },

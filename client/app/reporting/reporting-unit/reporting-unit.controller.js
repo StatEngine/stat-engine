@@ -3,8 +3,6 @@
 'use strict';
 
 import { Store } from '../../../state/store';
-import { autorun } from "mobx"
-import _ from 'lodash';
 
 export default class ReportingUnitController {
   /*@ngInject*/
