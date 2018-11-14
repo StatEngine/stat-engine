@@ -105,6 +105,8 @@ const unitMetricConfigs = [
   ['distanceToIncidentSum', 'showDistances'],
   ['eventDurationSum'],
   ['turnoutDurationPercentile90'],
+  ['fireTurnoutDurationPercentile90'],
+  ['emsTurnoutDurationPercentile90'],
   ['responseDurationPercentile90'],
 ];
 

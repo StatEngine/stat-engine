@@ -60,6 +60,9 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    logo_link: {
+      type: DataTypes.STRING,
+    },
   }, {
 
     /**

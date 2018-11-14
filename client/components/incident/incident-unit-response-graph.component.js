@@ -43,11 +43,11 @@ export default class IncidentUnitResponseGraphComponent {
     };
 
     _.forEach(this.incident.apparatus, u => {
-      if(u.extended_data.turnout_duration) {
+      if(_.get(u, 'extended_data.turnout_duration')) {
         turnoutDurations.x.push(u.extended_data.turnout_duration);
         turnoutDurations.y.push(u.unit_id);
       }
-      if(u.extended_data.travel_duration) {
+      if(_.get(u, 'extended_data.travel_duration')) {
         travelDurations.x.push(u.extended_data.travel_duration);
         travelDurations.y.push(u.unit_id);
       }
@@ -93,7 +93,7 @@ export default class IncidentUnitResponseGraphComponent {
       x0: threshold,
       x1: threshold,
       y0: -1,
-      y1: this.incident.apparatus.length,
+      y1: turnoutDurations.x.length,
       line: {
         color: '#e91276',
         width: 3,
@@ -120,7 +120,7 @@ export default class IncidentUnitResponseGraphComponent {
       },
       annotations: [{
         x: threshold,
-        y: this.incident.apparatus.length + .2,
+        y: turnoutDurations.x.length + .2,
         text: `${threshold}s`,
         showarrow: false,
         font: {

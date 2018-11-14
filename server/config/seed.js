@@ -17,6 +17,7 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 
 let richmond;
+let rogers;
 let emailReportEnrichment;
 
 if(process.env.NODE_ENV === 'development') {
@@ -114,7 +115,7 @@ if(process.env.NODE_ENV === 'development') {
         aws_secret_access_key: 'awsSecret',
       }, {
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,kibana_ro_strict',
         username: 'richmond2',
         first_name: 'Richmond2',
         last_name: 'User',
@@ -339,7 +340,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,department_admin',
+        role: 'user,kibana_admin,department_admin',
         username: 'boston',
         first_name: 'boston',
         last_name: 'User',
@@ -451,7 +452,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,department_admin',
+        role: 'user,department_admin,kibana_admin',
         username: 'rogers',
         first_name: 'dev',
         last_name: 'user',
@@ -462,6 +463,32 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(dbRogers => {
+      rogers = dbRogers;
+    })
+    .then(() => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: rogers._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        name: 'Daily',
+        timeUnit: 'DAY',
+        sections: {
+          showAlertSummary: false,
+          showBattalionSummary: true,
+          showIncidentTypeSummary: false,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: false,
+        schedulerOptions: {
+          later: {
+            text: 'every 10 seconds'
+          }
+        }
+      }
+    }))
     .then(() => User.create({
       provider: 'local',
       role: 'admin',
@@ -470,6 +497,17 @@ if(process.env.NODE_ENV === 'development') {
       password: 'password',
       nfors: true,
       api_key: 'admin',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
+    }))
+    .then(() => User.create({
+      provider: 'local',
+      role: 'user,global,kibana_admin',
+      username: 'global',
+      email: 'global@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'global',
       aws_access_key_id: 'awsKey',
       aws_secret_access_key: 'awsSecret',
     }))
@@ -500,6 +538,20 @@ if(process.env.NODE_ENV === 'development') {
       aws_secret_access_key: 'awsSecret',
       requested_fire_department_id: richmond._id,
     }))
+    .then(() => User.create({
+      provider: 'local',
+      role: 'user',
+      first_name: 'Requested2',
+      last_name: 'User',
+      username: 'requested2',
+      email: 'requested2@prominentedge.com',
+      password: 'password',
+      nfors: true,
+      api_key: 'user',
+      aws_access_key_id: 'awsKey',
+      aws_secret_access_key: 'awsSecret',
+      requested_fire_department_id: richmond._id,
+    }))
     .then(() => FireDepartment.create({
       fd_id: '0000',
       firecares_id: '00000',
@@ -518,6 +570,29 @@ if(process.env.NODE_ENV === 'development') {
         email: 'onboarding@prominentedge.com',
         password: 'password',
         api_key: 'onboarding',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '06172',
+      firecares_id: '79592',
+      name: 'Delray Beach Fire-Rescue Department',
+      state: 'FL',
+      timezone: 'US/Eastern',
+      integration_complete: true,
+      latitude: 26.4615,
+      longitude: -80.0728,
+      logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/79592.jpg',
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'delray',
+        first_name: 'Delray',
+        last_name: 'Beach',
+        email: 'delray@prominentedge.com',
+        password: 'password',
+        api_key: 'delray',
       }]
     }, {
       include: [FireDepartment.Users]

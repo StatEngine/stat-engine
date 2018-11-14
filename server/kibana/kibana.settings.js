@@ -14,11 +14,11 @@ export default {
 
     // inject jwt token
     if((p.indexOf('login') >= 0 || !req.cookies.rorCookie)
-       && (req.user && req.user.isKibanaAdmin)) {
+       && (req.user && req.user.isKibanaReadOnlyStrict)) {
       var claims = {
         sub: req.user.username,
         iss: 'https://statengine.io',
-        roles: 'kibana_admin',
+        roles: req.user.isKibanaAdmin ? 'kibana_admin' : 'kibana_ro_strict',
         firecares_id: req.user.FireDepartment.firecares_id,
       };
 

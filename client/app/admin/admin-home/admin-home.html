@@ -11,10 +11,11 @@
 
         <div class="row">
           <button class="btn-sm btn mr-2 btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">&nbsp Add New</span></button>
+          <!-- these should have a model - because theyre super destructive
           <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('config')"><span class="fa fa-pagelines">&nbsp Seed Kibana Config</span></button>
           <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('visualization')"><span class="fa fa-pagelines">&nbsp Seed Kibana Visualizations</span></button>
           <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('dashboard')"><span class="fa fa-pagelines">&nbsp Seed Kibana Dashboards</span></button>
-
+        -->
         </div>
 
         <div class="row">
@@ -237,6 +238,37 @@
           </div>
         </div>
         <hr>
+        <div class="row">
+          <div class="col-12 py-4">
+            <h4> Global Users <span class="badge badge-primary">{{vm.globalUsers.length}} </span></h4>.
+            <div class="table mb-5">
+              <div class="table-row header">
+                <div class="cell">
+                  Username
+                </div>
+                <div class="cell">
+                  Name
+                </div>
+                <div class="cell">
+                  Email
+                </div>
+              </div>
+
+              <div class="table-row" ng-repeat="user in vm.globalUsers | orderBy:'first_name'">
+                <div class="cell" data-title="Username">
+                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+                </div>
+                <div class="cell" data-title="Name">
+                  {{ user.first_name }} {{ user.last_name }}
+                </div>
+                <div class="cell" data-title="Email">
+                  {{ user.email }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
         <div class="row" ng-repeat="(id, users) in vm.departmentUsers">
           <div ng-if="id !== 'undefined'">
             <div class="col-12 py-4">
@@ -259,7 +291,10 @@
                     Ingest
                   </div>
                   <div class="cell">
-                    Dashboard
+                    Dashboard Admin
+                  </div>
+                  <div class="cell">
+                    Dashboard RO
                   </div>
                   <div class="cell">
                     NFORS
@@ -284,6 +319,9 @@
                   </div>
                   <div class="cell" data-title="Kibana Admin">
                     <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
+                  </div>
+                  <div class="cell" data-title="Kibana RO">
+                    <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
                   </div>
                   <div class="cell" data-title="NFORS">
                     <span ng-if="user.nfors"><span class="fa fa-check text-success"></span></span>

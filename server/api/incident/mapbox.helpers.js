@@ -6,20 +6,31 @@ import config from '../../config/environment';
 export function getMatrix(incident, cb) {
   let pairs = [];
   let distances = {};
+
+  let results = {};
+
   _.map(incident.apparatus, u => {
     const unit_id = _.get(u, 'unit_id');
     const longitude = _.get(u, 'unit_status.dispatched.longitude');
     const latitude = _.get(u, 'unit_status.dispatched.latitude');
     distances[unit_id] = _.get(u, 'distance');
     if(latitude && longitude) pairs.push({ unit_id, longitude, latitude });
+
+    if (u.distance) {
+      results[u.unit_id] = {
+        distance: u.distance
+      };
+    }
   });
-  if(pairs.length === 0) return cb(null);
+
+  if(pairs.length === 0) {
+    return cb(null, results);
+  }
 
   let longitude = _.get(incident, 'address.longitude');
   let latitude = _.get(incident, 'address.latitude');
   if(!longitude || !latitude) return cb(new Error('No incident coordinates'));
   pairs.push({ longitude, latitude });
-
 
   const coordinates = _.map(pairs, p => `${p.longitude},${p.latitude}`).join(';');
   const options = {
@@ -58,15 +69,13 @@ export function getMatrix(incident, cb) {
         { name: '', location: [Array] } ],
       code: 'Ok' }
     */
-    let results = {};
     for(let i = 0; i < destinationIndex; i += 1) {
       let unit = pairs[i].unit_id;
-      results[unit] = {
-        // convert to miles
-        // use actual distance with fallback to mapbox
-        distance: distances[unit] || body.distances[i][destinationIndex] * 0.000621371,
-        duration: body.durations[i][destinationIndex],
-      };
+      if (!results[unit]) results[unit] = {};
+
+      // use mapbox distance if not set by cad
+      if (!results[unit].distance) results[unit].distance = body.distances[i][destinationIndex] * 0.000621371;
+      results[unit].duration = body.durations[i][destinationIndex]
     }
     cb(null, results);
   });

@@ -19,18 +19,18 @@ export default class DepartmentAdminHomeController {
   async $onInit() {
     await this.loadModules();
 
-    this.users = _.filter(this.departmentUsers, u => !u.isAdmin);
+    this.users = _.filter(this.departmentUsers, u => !u.isAdmin && !u.isGlobal);
   }
 
   refreshUsers() {
     this.UserService.query().$promise
       .then(departmentUsers => {
-        this.users = _.filter(departmentUsers, u => !u.isAdmin);
+        this.users = _.filter(departmentUsers, u => !u.Admin && !u.isGlobal);
       });
   }
 
-  approveAccess(user) {
-    this.UserService.approveAccess({ id: user._id}, {}).$promise
+  approveAccess(user, readonly) {
+    this.UserService.approveAccess({ id: user._id, readonly }, {}).$promise
       .finally(() => {
         this.refreshUsers();
       });

@@ -153,9 +153,12 @@ export function edit(req, res) {
   // protected fields
   if(req.user.isAdmin) {
     user.role = req.body.role;
-    user.fire_department__id = req.body.fire_department__id;
     user.requested_fire_department_id = req.body.requested_fire_department_id;
     user.nfors = req.body.nfors;
+  }
+
+  if(req.user.isGlobal) {
+    user.fire_department__id = req.body.fire_department__id;
   }
 
   user.save()
@@ -190,6 +193,7 @@ export function revokeAccess(req, res) {
   user.requested_fire_department_id = null;
   let roles = user.role.split(',');
   _.pull(roles, 'kibana_admin');
+  _.pull(roles, 'kibana_ro_strict');
   user.role = roles.join(',');
   user.save()
     .then(usersaved => {
@@ -204,9 +208,13 @@ export function revokeAccess(req, res) {
 export function approveAccess(req, res) {
   const user = req.loadedUser;
 
-  user.fire_department__id = user.requested_fire_department_id;
-  user.role = `${user.role},kibana_admin`;
-  user.requested_fire_department_id = null;
+  if (user.requested_fire_department_id) {
+    user.fire_department__id = user.requested_fire_department_id;
+    user.requested_fire_department_id = null;
+  }
+
+  if (req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
+  else user.role = `${user.role},kibana_admin`;
 
   user.save()
     .then(usersaved => {
@@ -373,6 +381,7 @@ export function me(req, res, next) {
           'state',
           'firecares_id',
           'timezone',
+          'logo_link',
         ]
       })
         .then(fire_department => res.json({ user, fire_department}))

@@ -89,6 +89,11 @@
               <input type="checkbox" name="ingest" class="form-control input-md" ng-model="vm.userRoles.ingest"/>
             </div>
 
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.kibana_ro_strict.$valid && vm.submitted,'has-error': form.userRoles.kibana_ro_strict.$invalid && vm.submitted }">
+              <label>Kibana ReadOnly</label>
+              <input type="checkbox" name="kibana_ro_strict" class="form-control input-md" ng-model="vm.userRoles.kibana_ro_strict"/>
+            </div>
+
             <div class="form-group " ng-class="{ 'has-success': form.userRoles.kibana_admin.$valid && vm.submitted,'has-error': form.userRoles.kibana_admin.$invalid && vm.submitted }">
               <label>Kibana Admin</label>
               <input type="checkbox" name="kibana_admin" class="form-control input-md" ng-model="vm.userRoles.kibana_admin"/>
@@ -99,7 +104,12 @@
               <input type="checkbox" name="department_admin" class="form-control input-md" ng-model="vm.userRoles.department_admin"/>
             </div>
 
-            <div class="form-group " ng-class="{ 'has-success': form.userRoles.department_admin.$valid && vm.submitted,'has-error': form.userRoles.department_admin.$invalid && vm.submitted }">
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.admin_ro.$valid && vm.submitted,'has-error': form.userRoles.global.$invalid && vm.submitted }">
+              <label class="text-danger">Global</label>
+              <input type="checkbox" name="global" class="form-control input-md" ng-model="vm.userRoles.global"/>
+            </div>
+
+            <div class="form-group " ng-class="{ 'has-success': form.userRoles.admin.$valid && vm.submitted,'has-error': form.userRoles.department_admin.$invalid && vm.submitted }">
               <label class="text-danger">Admin</label>
 
               <input type="checkbox" name="admin" class="form-control input-md" ng-model="vm.userRoles.admin"/>

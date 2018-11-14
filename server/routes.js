@@ -25,6 +25,11 @@ export default function(app) {
   app.use('/api/safety', require('./api/safety'));
   app.use('/api/stats', require('./api/stats'));
 
+  // Kibana
+  app.route('/dashboard')
+    .get((req, res) => res.redirect(path.join(config.kibana.appPath, 'app/kibana#/dashboards?_g=()')));
+  app.use(config.kibana.appPath, require('./kibana'));
+  
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
     angular: true,
@@ -37,11 +42,6 @@ export default function(app) {
 
   // Authentication
   app.use('/auth', require('./auth').default);
-
-  // Kibana
-  app.route('/dashboard')
-    .get((req, res) => res.redirect(path.join(config.kibana.appPath, 'app/kibana#/dashboards?_g=()')));
-  app.use(config.kibana.appPath, require('./kibana'));
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')

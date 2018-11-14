@@ -26,7 +26,7 @@ const SequelizeStore = connectSessionSequelize(session.Store);
 export default function(app) {
   var env = app.get('env');
 
-  app.use(helmet());
+  //app.use(helmet());
   app.use(compression());
 
   if(env === 'development' || env === 'test') {
@@ -61,10 +61,10 @@ export default function(app) {
     store: myStore,
     // since we do SSL outside of node
     proxy: true,
-    // 5 hours in ms
+    // 30 days in ms
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 5,
+      maxAge: 1000 * 60 * 60 * 24 *30,
       secure: false,
     },
   };
