@@ -63,13 +63,32 @@ export default class ReportingUnitDetailController {
         cellFilter: 'humanizeDuration',
       }, {
         field: 'apparatus_data.extended_data.event_duration',
-        displayName: 'Utilization',
+        displayName: 'Commitment',
         cellFilter: 'humanizeDuration',
       }]
     };
 
-    autorun(() => {
-      console.dir('autorunning');
+    this.timeFilters = [{
+      id: 'shift',
+      displayName: 'Last Shift',
+    }, {
+      id: 'day',
+      displayName: 'Last Day',
+    }, {
+      id: 'week',
+      displayName: 'Last Week',
+    }, {
+      id: 'month',
+      displayName: 'Last Month',
+    }, {
+      id: 'quarter',
+      displayName: 'Last Quarter',
+    }, {
+      id: 'year',
+      displayName: 'Last Year',
+    }];
+
+    this.disposer = autorun(() => {
       this.selected = this.unitStore.selected;
 
       this.responsesTableOptions.data = this.unitStore.responses;
@@ -78,7 +97,6 @@ export default class ReportingUnitDetailController {
       this.previousMetrics = this.unitStore.previousMetrics;
       this.totalMetrics = this.unitStore.totalMetrics;
 
-      this.timeFilters = this.uiStore.timeFilters;
       this.selectedTime = this.uiStore.selectedFilters.timeFilter.id;
 
       // abstract this to component do this server side
@@ -89,40 +107,32 @@ export default class ReportingUnitDetailController {
         this.totalIncidentAvg = _.meanBy(arr, 'total_count');
         this.totalIncidentMax = _.maxBy(arr, 'total_count');
 
-        let arr2 = _.values(this.totalMetrics.time_series_data.total_commitment_time_seconds);
-        arr2 = _.filter(arr2, a => !_.isEmpty(a));
-        this.totalCommitmentMin = _.minBy(arr2, 'total_commitment_time_seconds');
-        this.totalCommitmentAvg = _.meanBy(arr2, 'total_commitment_time_seconds');
-        this.totalCommitmentMax = _.maxBy(arr2, 'total_commitment_time_seconds');
+        this.totalCommitmentMin = _.minBy(arr, 'total_commitment_time_seconds');
+        this.totalCommitmentAvg = _.meanBy(arr, 'total_commitment_time_seconds');
+        this.totalCommitmentMax = _.maxBy(arr, 'total_commitment_time_seconds');
       }
       $scope.$evalAsync();
     });
   }
 
   changeFilter() {
-    Store.uiStore.setTimeFilter(this.selectedTime);
-
-    Store.unitStore.fetchSelectedResponses(this.selected.id, {
-      timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
-      timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
-    });
-
-    Store.unitStore.fetchSelectedMetrics(this.selected.id, {
-      timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
-      timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
-    });
-    console.dir('done');
+    console.dir(this.selectedTime)
+    this.$state.go('site.reporting.unit.detail', { id: this.unitStore.selected.id, time: this.selectedTime });
   }
 
   $onDestory() {
-    console.dir('reminder: destroy autorunner');
+    if(this.disposer) this.disposer();
   }
 
   selectUnit(selected) {
-    this.$state.go('site.reporting.unit.detail', { id: selected.id });
+    this.$state.go('site.reporting.unit.detail', { id: selected.id, time: 'shift' });
   }
 
   humanizeDuration(ms) {
     return shortEnglishHumanizer(ms, { round: true });
+  }
+
+  scrollTo(location) {
+    $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
   }
 }

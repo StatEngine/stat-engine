@@ -24,18 +24,37 @@ export const UI = types.model({
       quickFilters.shift = {
         start: shiftStart.format(),
         end: shiftEnd.format(),
+        interval: 'day',
+        subInterval: 'hour',
       };
 
-      const units = ['day', 'week', 'month', 'quarter', 'year'];
+      const intervals = [{
+        interval: 'day',
+        subInterval: 'hour',
+      }, {
+        interval: 'week',
+        subInterval: 'day',
+      }, {
+        interval: 'month',
+        subInterval: 'day',
+      }, {
+        interval: 'quarter',
+        subInterval: 'week',
+      }, {
+        interval: 'year',
+        subInterval: 'month'
+      }];
+        
+      _.forEach(intervals, i => {
+        const umStart = new moment(now).subtract(1, i.interval)
+          .startOf(i.interval);
+        const umEnd = new moment(umStart).endOf(i.interval);
 
-      _.forEach(units, unit => {
-        const umStart = new moment(now).subtract(1, unit)
-          .startOf(unit);
-        const umEnd = new moment(umStart).endOf(unit);
-
-        quickFilters[unit] = {
+        quickFilters[i.interval] = {
           start: umStart.format(),
-          end: umEnd.format()
+          end: umEnd.format(),
+          interval: i.interval,
+          subInterval: i.subInterval
         };
       });
 
@@ -44,16 +63,9 @@ export const UI = types.model({
       self.timeFilters = timeFilters;
     });
 
-    const setFilters = () => {
-      if(!self.selectedFilters) {
-        self.selectedFilters = {
-          timeFilter: self.timeFilters[0]
-        };
-      }
-    };
-
     const setTimeFilter = id => {
-      const filter = _.find(self.timeFilters, tf => tf.id === id);
+      let filter = _.find(self.timeFilters, tf => tf.id === id);
+      if (!filter) filter = self.timeFilters[0];
       self.selectedFilters = {
         timeFilter: filter
       };
@@ -61,7 +73,6 @@ export const UI = types.model({
 
     return {
       buildFilters,
-      setFilters,
       setTimeFilter,
     };
   });

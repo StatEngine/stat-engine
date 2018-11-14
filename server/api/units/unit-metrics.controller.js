@@ -1,6 +1,5 @@
 import bodybuilder from 'bodybuilder';
 import _ from 'lodash';
-import util from 'util';
 
 import connection from '../../elasticsearch/connection';
 
@@ -55,7 +54,7 @@ export function buildResponsesQuery(req, res, next) {
     base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }
   req.esBody = base
-    .size(5000)
+    .size(10000)
     .build();
 
   next();
@@ -76,11 +75,11 @@ export function buildQuery(req, res, next) {
     .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
       .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => setMetricGroups(unitAgg))));
 
-  base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'hour' }, dateAgg => dateAgg
+  base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: req.query.subInterval }, dateAgg => dateAgg
     .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
       .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => setMetricGroups(unitAgg))));
 
-  base.aggregation('date_histogram', 'description.event_opened_by_category', { field: 'description.event_opened', interval: 'hour' }, dateAgg => dateAgg
+  base.aggregation('date_histogram', 'description.event_opened_by_category', { field: 'description.event_opened', interval: req.query.subInterval }, dateAgg => dateAgg
     .aggregation('terms', 'description.category', cagg => cagg
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => setMetricGroups(unitAgg)))));
@@ -96,7 +95,6 @@ export function buildQuery(req, res, next) {
     .size(0)
     .build();
 
-  console.log(util.inspect(req.esBody, { showHidden: false, depth: null }));
   next();
 }
 
@@ -105,7 +103,7 @@ export function buildTotalQuery(req, res, next) {
     .filter('term', 'description.suppressed', false)
     .filter('term', 'apparatus_data.unit_id', req.params.id);
 
-  base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: 'day' }, dateAgg => setUnitMetricGroups(dateAgg));
+  base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: req.query.interval }, dateAgg => setUnitMetricGroups(dateAgg));
 
   req.esBody = base
     .size(0)
@@ -202,7 +200,6 @@ export function runQuery(req, res) {
         totalMetrics[b.key] = getMetrics(metrics, b);
       });
       const rankedMetrics = rankBuckets(totalMetrics);
-      console.dir(rankedMetrics);
       api_response.total_data = rankedMetrics[unitId];
 
       // grouped data
@@ -252,7 +249,8 @@ export function rankBuckets(buckets) {
   });
 
   _.forEach(metrics, metric => {
-    const [name, options] = metric;
+    // eslint-disable-next-line no-unused-vars
+    const [name, path, options] = metric;
 
     let sorted = _.sortBy(arr, name);
     if(options.rank === 'desc') sorted = sorted.reverse();

@@ -38,16 +38,13 @@ export default function routes($stateProvider) {
         buildFilters(currentPrincipal) {
           return Store.uiStore.buildFilters(currentPrincipal.FireDepartment);
         },
-        setFilters(buildFilters) {
-          return Store.uiStore.setFilters();
-        },
         redirectMe($state, units) {
-          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id});
+          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id, time: 'shift' });
         }
       },
     })
     .state('site.reporting.unit.detail', {
-      url: '/:id',
+      url: '/:id?time',
       views: {
         'content@': {
           template: require('./reporting-unit/reporting-unit-detail.html'),
@@ -69,31 +66,37 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        select($stateParams) {
+        selectUnit($stateParams) {
           return Store.unitStore.select($stateParams.id);
         },
-        fetchResponses($stateParams) {
+        selectTime($stateParams) {
+          return Store.uiStore.setTimeFilter($stateParams.time);
+        },
+        fetchResponses(selectTime, selectUnit, $stateParams) {
           return Store.unitStore.fetchSelectedResponses($stateParams.id, {
             timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
             timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
           });
         },
-        fetchMetrics($stateParams) {
+        fetchMetrics(selectTime, selectUnit, $stateParams) {
           return Store.unitStore.fetchSelectedMetrics($stateParams.id, {
             timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
             timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+            subInterval: Store.uiStore.selectedFilters.timeFilter.filter.subInterval
           });
         },
-        fetchPreviousMetrics($stateParams) {
+        fetchPreviousMetrics(selectTime, selectUnit, $stateParams) {
           return Store.unitStore.fetchSelectedPreviousMetrics($stateParams.id, {
             timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
             timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+            subInterval: Store.uiStore.selectedFilters.timeFilter.filter.subInterval
           });
         },
-        fetchTotalMetrics($stateParams) {
+        fetchTotalMetrics(selectTime, selectUnit, $stateParams) {
           return Store.unitStore.fetchSelectedTotalMetrics($stateParams.id, {
             timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
             timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
+            interval: Store.uiStore.selectedFilters.timeFilter.filter.interval
           });
         },
       },
