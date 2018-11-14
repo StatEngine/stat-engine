@@ -1,7 +1,3 @@
-<div class="modal-header">
-  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
-  <h4 ng-if="vm.title" ng-bind="vm.title" class="modal-title"></h4>
-</div>
 <form class="form" name="form.editTweet" ng-submit="vm.submitForm()" novalidate>
   <div class="modal-body">
     <div class="form-group">
@@ -15,7 +11,7 @@
         <label>Image (Select One)</label>
         <div class="row align-items-center">
           <div class="col" ng-repeat="media in vm.media">
-            <a href="#" class="card hvr-float mt-2" ng-class="{'card-selected': media.id === vm.selectedMediaId }" ng-click="vm.selectMedia(media.id)">
+            <a href="#" class="card hvr-float mt-2" ng-class="{'tweet-card-selected': media.id === vm.selectedMediaId }" ng-click="vm.selectMedia(media.id)">
               <img class="twitter-media" ng-src="../../../assets/images/twitter-media/{{media.path}}" alt="">
             </a>
           </div>

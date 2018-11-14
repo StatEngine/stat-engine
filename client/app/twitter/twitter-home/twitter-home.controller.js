@@ -74,6 +74,7 @@ export default class TwitterHomeController {
     await this.loadModules();
 
     this.authorized = !_.isEmpty(this.twitterProfile);
+    this.recommendedTweets = _.filter(this.recommendedTweets, t => !_.isEmpty(t.tweet_json));
   }
 
   authorize() {
@@ -108,6 +109,7 @@ export default class TwitterHomeController {
       {},
       tweets => {
         this.recommendedTweets = tweets;
+        this.recommendedTweets = _.filter(this.recommendedTweets, t => !_.isEmpty(t.tweet_json));
       }
     );
 
@@ -140,6 +142,7 @@ export default class TwitterHomeController {
     });
 
     modalInstance.result.then(updatedTweet => {
+      console.dir(updatedTweet)
       tweet.tweet_json.status = updatedTweet.tweet_json.status;
       tweet.media_text = updatedTweet.media_text;
       tweet.media_path = updatedTweet.media_path;
