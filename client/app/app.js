@@ -12,8 +12,6 @@ import uiRouter from '@uirouter/angularjs';
 import uiBootstrap from 'ui-bootstrap4';
 import bootstrap from 'bootstrap';
 
-import calendar from 'angular-ui-calendar/src/calendar';
-
 // vendor utils
 // These two aren't angular modules but still need to be loaded
 // eslint-disable-next-line
@@ -98,7 +96,6 @@ angular.module('statEngineApp', [
   'angular-loading-bar',
   'ngCountTo',
   'angularMoment',
-  'ui.calendar',
   _Auth,
   // se modules
   trusted,
