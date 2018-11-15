@@ -28,7 +28,6 @@ router.get(
 
 router.param('id', controller.loadIncident);
 
-
 module.exports = router;
 
 export default router;

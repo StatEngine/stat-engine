@@ -1,44 +1,30 @@
-<div class="site-content light-bg">
-  <header class="naked mb-0"></header>
-  <div class="utility-nav">
-    <div class="container">
-      <div class="row">
-        <ul class="breadcrumb col-md-7">
-            <li><a href="#" ui-sref="site.user.home">Control Center</a></li>
-            <li><a href="#" ui-sref="site.incident.search">Incidents</a></li>
-        </ul>
-        <!--
-        <ul class="col-md-5 incident-switcher">
-            <li class="previous"><a href="#">Previous Incident</a></li>
-            <li class="next"><a href="#">Next Incident</a></li>
-        </ul>
-        -->
-      </div>
-    </div>
-  </div>
+<!-- TODO:
+    - Breadcrumbs needs to be hooked up
+    - Table should be switched to newer style/format (Bingles)
+    - Table and supporting elements need better responsive styling (Bingles)
+-->
 
-  <section>
-    <div class="container">
-      <div class="mt-5 row">
-        <div class="col-md-12">
-          <div class="card light-border">
-            <div class="row">
-              <div class="col-4"></div>
-              <div class="col-4">
-                <input ng-model="vm.query" class="search-input form-control" type="text" placeholder="Search a closed incidents">
-                <div class="text-center"><button class="mt-2 btn btn-primary btn-search" ng-click="vm.search()">Search</button></div>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <div ui-grid="vm.searchResultsTableOptions" class="search-grid">
-                  <div class="watermark" ng-show="!vm.searchResultsTableOptions.data.length">No data available</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="br-mainpanel medium-bg">
+  <div class="br-pageheader">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="index.html">Home</a>
+      <a class="breadcrumb-item" href="#">Reports</a>
+      <span class="breadcrumb-item active">Incidents</span>
+    </nav>
+  </div><!-- br-pageheader -->
+  <div class="br-pagetitle d-flex justify-content-between flex-wrap">
+    <h2 class="m-0">Incidents</h2>
+    <div class="input-group wd-300">
+      <input ng-model="vm.query" type="text" class="form-control" placeholder="Search Incidents">
+      <span class="input-group-btn">
+        <button class="btn bd-0 btn-secondary py-2 px-3 rounded-0" type="button" ng-click="vm.search()"><i class="fa fa-search"></i></button>
+      </span>
     </div>
-  </section>
+  </div><!-- br-pagetitle -->
+  <div class="br-pagebody">
+    <section class="br-section-wrapper shadow-none pd-0">
+      <div ui-grid="vm.searchResultsTableOptions" class="search-grid">
+        <div class="watermark" ng-show="!vm.searchResultsTableOptions.data.length"><h2 class="heavyheader text-muted">No data available</h2></div>
+      </div>
+    </section>
 </div>

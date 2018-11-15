@@ -9,8 +9,8 @@ header {
   position: relative;
   overflow: hidden;
 
-  @media (max-width: 576px) {
-    height: 620px;
+  @include media-breakpoint-down(xs) {
+    height: 760px;
   }
 
   svg {
@@ -27,7 +27,6 @@ header {
 }
 
 header section {
-  padding-top: 7rem;
   text-align: center;
   animation-delay: 0.2s;
 }
@@ -41,25 +40,20 @@ header section h1 {
 
   @media (max-width: 576px) {
     font-size: 26px;
-    text-align: left;
   }
 }
 
-header section p {
+header section .lead {
+  color: #ffffff;
   font-family: 'Open Sans';
   font-weight: 400;
-  font-size: 18px;
-  line-height: 1.56;
-  letter-spacing: 0.05rem;
-  text-align: center;
-  color: #ffffff;
-  max-width: 670px;
   margin: auto;
+  max-width: 670px;
   padding: 0.5rem 0 1.5rem;
 
-  @media (max-width: 576px) {
-    font-size: 16px;
-    text-align: left;
+  @include media-breakpoint-down(xs) {
+    font-size: 17px;
+    padding: 1.5rem 0 2.5rem;
   }
 }
 
@@ -94,6 +88,10 @@ header.naked {
   margin: 0 auto;
   width: 100%;
 
+  @include media-breakpoint-down(xs) {
+    bottom: 0.5rem;
+  }
+
   img {
     animation-delay: 0.1s;
     animation-duration: 0.5s;
@@ -119,23 +117,27 @@ header.naked {
 }
 
 .message {
-  margin-top: 6.5rem;
+  margin-top: 8.25rem;
 
-  @media (max-width: 576px) {
-    margin-top: 2.5rem;
+  @include media-breakpoint-down(sm) {
+    max-width: 800px;
+    margin-top: 9.25rem;
+    button, .btn {
+      width: 50%;
+    }
+  }
 
+  @include media-breakpoint-down(xs) {
+    margin-top: 7rem;
     .button-group {
-      text-align: left;
-
+      button, .btn {
+        width: 75%;
+      }
       button:last-child {
         display: none;
       }
     }
-
-
   }
-
-
 }
 
 /////////////////////////////////
@@ -148,16 +150,14 @@ header.naked {
 }
 
 #intro #intro-text p {
-  color: $color-pale-sky;
+  color: lighten($color-pale-sky,10%);
   font-family: 'Montserrat';
-  font-weight: 300;
   font-size: 16px;
   line-height: 2;
 }
 
 #intro-image {
   text-align: right;
-
   img {
     width: 100%;
   }
@@ -166,16 +166,20 @@ header.naked {
 #intro #benefits {
   margin: 50px 0;
 }
-@media (max-width: 750px) {
-  #intro #intro-image {
-    margin-top: 50px;
+@include media-breakpoint-down(sm) {
+  #intro-text {
+    margin: 1rem 0;
+    h2 {
+      line-height: 1.4;
+    }
   }
-
+  #intro #intro-image {
+    margin-top: 2rem;
+  }
   #intro #intro-image img {
     width: 100%;
     height: 100%;
   }
-
   #intro #benefits {
     justify-content: column;
   }
@@ -203,13 +207,6 @@ header.naked {
   padding: 50px 0;
 }
 
-#features h2 {
-  font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 28px;
-  line-height: 1.29;
-}
-
 #features > p {
   font-family: 'Montserrat';
   font-weight: 400;
@@ -225,7 +222,7 @@ header.naked {
 }
 
 #features .feature-column-left article {
-  margin-right: 5rem;
+  margin-right: 4rem;
   img {
     position: absolute;
     padding-left: 2rem;
@@ -233,7 +230,7 @@ header.naked {
 }
 
 #features .feature-column-right article {
-  margin-left: 5rem;
+  margin-left: 4rem;
   img {
     position: absolute;
     left: 0;
@@ -262,18 +259,18 @@ header.naked {
 }
 
 #features .circle {
-  background: #e3eaee;
   background-image: repeating-linear-gradient(6deg, #c2ddee -33.7%, white 100%);
-  max-height: 23rem;
-  max-width: 23rem;
-  height: 100%;
-  width: 100%;
+  background: #e3eaee;
   border-radius: 50%;
-  margin: 0 auto;
-  top: 4.5rem;
-  position: relative;
   box-shadow:0 0px 0px 12px rgba(0,0,0,0.25), 0 0px 0px 25px rgba(0,0,0,0.1), 0 0px 0px 42px rgba(0,0,0,0.05);
+  height: 100%;
+  margin: 0 auto;
+  max-height: 17.25rem;
+  max-width: 17.25rem;
+  position: relative;
+  top: 4.5rem;
   transition: all 0.15s ease;
+  width: 100%;
 }
 
 #features .circle img {
@@ -282,32 +279,22 @@ header.naked {
   transition: all 0.15s ease;
 }
 
-
-@media (max-width: 750px) {
-  #features div article {
-    text-align: left;
-  }
-  #features > a,
-  #features > p,
-   {
-    display: none;
-  }
-}
-
-// Media Queries
-@media (max-width: 1199px) {
+@include media-breakpoint-down(lg) {
   #features .circle  {
-    max-height: 20rem;
-    max-width: 20rem;
-    top: 7.5rem;
+    max-height: 13rem;
+    max-width: 13rem;
+    top: 6.5rem;
     img {
-      top: 2.5rem;
-      transform: scale(0.9);
+      top: 1.5rem;
+      transform: scale(0.8);
     }
   }
 }
 
-@media (max-width: 991px) {
+@include media-breakpoint-down(md) {
+  #features article {
+    min-height: inherit;
+  }
   #features .circle {
     display: none;
   }
@@ -318,16 +305,34 @@ header.naked {
   }
   #features .feature-column-left article img,
   #features .feature-column-right article img  {
-    position: relative;
+    left: auto;
     padding: 0;
+    position: absolute;
+  }
+  #features .feature-column-left article h5,
+  #features .feature-column-right article h5,
+  #features .feature-column-left article p,
+  #features .feature-column-right article p,   {
+    margin-left: 5rem;
   }
 }
 
-@media (max-width: 575px) {
+@include media-breakpoint-down(sm) {
+  #features div article {
+    text-align: left;
+  }
+  #features > a,
+  #features > p,
+   {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(xs) {
   #features .feature-column-left article,
   #features .feature-column-right article {
     text-align: left;
-    margin: 0 1.5rem 4rem;
+    margin: 0 0.5rem 3rem;
   }
 }
 
@@ -336,63 +341,21 @@ header.naked {
 /////////////////////////////////
 // OUR PARTNERS //
 ////////////////////////////////
-#our-partners h2 {
-  font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 1.5;
-  text-align: left;
-  color: rgba(16, 29, 35, 0.74);
-}
-
-#our-partners p {
-  font-family: 'Open Sans';
-  font-weight: 400;
-  letter-spacing: 0.2px;
-  text-align: left;
-}
-
-#our-partners .partners-logos {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 25px 0;
-}
-
-@media (max-width: 750px) {
-  #our-partners {
+  #partners .partners-logos {
+    padding-top: 1rem;
     width: 100%;
-    align-items: center;
-  }
-
-  #our-partners p {
-    text-align: center;
-  }
-
-  #our-partners .partners-logos {
-    width: 100%;
-
-    @media (max-width: 576px) {
+    @include media-breakpoint-down(xs) {
       img {
         transform: scale(.85);
       }
     }
   }
-}
 
 /////////////////////////////////
 // NEWS & EVENTS //
 ////////////////////////////////
-#news-events h2 {
-  font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 1.5;
-  color: rgba(16, 29, 35, 0.74);
-}
-
 #news-events article {
-  margin: 2rem 0;
+  margin: 1rem 0 2rem;
 }
 
 #news-events article h5 {
@@ -408,7 +371,7 @@ header.naked {
 #news-events article p {
   letter-spacing: 0.2px;
 }
-@media (max-width: 750px) {
+@include media-breakpoint-down(sm) {
   #news-events {
     width: 100%;
     padding: 20px;
@@ -418,37 +381,11 @@ header.naked {
 /////////////////////////////////
 // CONTACT US CALLOUT //
 ////////////////////////////////
-#contact, #marketplace-contact {
-  font-family: 'Montserrat';
-  font-weight: 400;
-}
-
-#contact > div p, #marketplace-contact > div p {
-  font-family: 'Montserrat';
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 1.5;
-}
-
-#contact > div p.title, #marketplace-contact > div p.title {
-  font-weight: 300;
-  color: #1ab4c2;
-  font-family: 'Open Sans';
-  font-weight: 700;
-}
-
-#contact > div p.subtitle, #marketplace-contact > div p.subtitle {
-  color: #4f585d;
-  font-family: 'Open Sans';
-  font-weight: 400;
-
-  @media (max-width: 576px) {
+@include media-breakpoint-down(xs) {
+  #contact h3 {
     font-size: 20px;
   }
-}
-
-#contact .button-group button, #marketplace-contact .button-group button {
-  @media (max-width: 576px) {
-    min-width: 150px;
+  .button-group button {
+    width: 75%;
   }
 }

@@ -9,23 +9,27 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from '@uirouter/angularjs';
-import uiBootstrap from 'angular-ui-bootstrap';
+import uiBootstrap from 'ui-bootstrap4';
+import bootstrap from 'bootstrap';
+
+import calendar from 'angular-ui-calendar/src/calendar';
 
 // vendor utils
-
 // These two aren't angular modules but still need to be loaded
 // eslint-disable-next-line
 import oclazyload from 'oclazyload';
 // eslint-disable-next-line
 import angularLoadingBar from 'angular-loading-bar';
+import parsleyjs from 'parsleyjs';
 
-import ngValidationMatch from 'angular-validation-match';
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
 import MapBoxGL from 'mapbox-gl';
 
 import '../polyfills';
 import './app.scss';
+
+import { Store } from '../state/store';
 
 // StatEngine modules
 import {
@@ -42,12 +46,12 @@ import admin from './admin';
 import guides from './guides';
 import main from './main';
 import spade from './spade';
-import shift from './shift';
+//import shift from './shift';
 import statEngine from './statEngine';
 import user from './user';
+import reporting from './reporting';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
-import nfpa from './nfpa';
 import report from './report';
 import incident from './incident';
 
@@ -55,7 +59,11 @@ import marketplace from './marketplace';
 
 // global components
 import navbar from '../components/navbar/navbar.component';
+import plotlyWrapper from '../components/plotly-wrapper/plotly-wrapper.component';
+import sidebar from '../components/sidebar/sidebar.component';
 import footer from '../components/footer/footer.component';
+import percentChange from '../components/percent-change/percent-change.component';
+import rank from '../components/rank/rank.component';
 import modal from '../components/modal/modal.service';
 
 import statsTable from '../components/tables/stats-table.component';
@@ -75,7 +83,10 @@ import analyticEventConstants from './analytic-event.constants';
 import util from '../components/util/util.module';
 
 import incidentComponents from '../components/incident';
+import chartComponents from '../components/chart';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
+
+import reportingUnitList from '../components/reporting-unit-list/reporting-unit-list.component';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -83,12 +94,11 @@ angular.module('statEngineApp', [
   ngResource,
   ngSanitize,
   uiRouter,
-  uiBootstrap,
-  ngValidationMatch,
   'oc.lazyLoad',
   'angular-loading-bar',
   'ngCountTo',
   'angularMoment',
+  'ui.calendar',
   _Auth,
   // se modules
   trusted,
@@ -103,6 +113,7 @@ angular.module('statEngineApp', [
   api,
   guides,
   navbar,
+  sidebar,
   report,
   spade,
   marketplace,
@@ -110,19 +121,25 @@ angular.module('statEngineApp', [
   user,
   incident,
   incidentComponents,
+  chartComponents,
   orderObjectBy,
-  shift,
+  //shift,
   departmentAdmin,
   twitter,
-  nfpa,
-  modal,
+  'ui.bootstrap',
   footer,
   main,
   analyticEventConstants,
   constants,
   amplitudeService,
   util,
-  humanizeComponents
+  humanizeComponents,
+  reporting,
+  reportingUnitList,
+  plotlyWrapper,
+  modal,
+  percentChange,
+  rank,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

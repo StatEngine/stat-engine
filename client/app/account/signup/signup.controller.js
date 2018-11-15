@@ -1,6 +1,7 @@
 'use strict';
 
-import angular from 'angular';
+// eslint-disable-next-line no-unused-vars
+import parsleyjs from 'parsleyjs';
 
 export default class SignupController {
   user = {
@@ -22,10 +23,14 @@ export default class SignupController {
     this.AnalyticEventNames = AnalyticEventNames;
   }
 
-  register(form) {
+  $onInit() {
+    this.form = $('#signup-form').parsley();
+  }
+
+  register() {
     this.submitted = true;
 
-    if(form.$valid) {
+    if(this.form.isValid()) {
       this.UserService.create({
         username: this.user.username,
         first_name: this.user.first_name,
@@ -43,15 +48,8 @@ export default class SignupController {
         })
         .catch(err => {
           err = err.data;
-          this.errors = {};
-
-          // Update validity of form fields that match the sequelize errors
-          if(err.name) {
-            angular.forEach(err.errors, field => {
-              form[field.path].$setValidity('mongoose', false);
-              this.errors[field.path] = err.message;
-            });
-          }
+          this.errors = err.errors;
+          console.dir(this.errors);
         });
     }
   }

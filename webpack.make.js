@@ -56,16 +56,26 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-resource',
                 'angular-sanitize',
                 '@uirouter/angularjs',
-                'angular-ui-bootstrap',
                 'oclazyload',
-                'angular-validation-match',
                 'angular-loading-bar',
                 'angular-filter-count-to/dist/angular-filter-count-to.min.js',
                 'angular-moment',
+                'moment',
                 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
-                'mapbox-gl'
+                'parsleyjs',
+                'bootstrap',
+                'mapbox-gl',
+                'mobx',
+                'mobx-state-tree',
+                'axios',
             ],
         };
+    }
+
+    config.resolve = {
+      alias: {
+         mobx: path.resolve(__dirname, 'node_modules/mobx')
+      }
     }
 
     config.optimization = {
@@ -223,6 +233,9 @@ module.exports = function makeWebpackConfig(options) {
           'jQuery': 'jquery',
           'window.jQuery': 'jquery',
           'window.$': 'jquery',
+          'moment': 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+          'window.moment': 'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+          'window.mobx': 'mobx',
         }),
         new webpack.DefinePlugin({
           'require.specified': 'require.resolve'

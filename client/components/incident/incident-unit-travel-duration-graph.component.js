@@ -64,30 +64,12 @@ export default class IncidentUnitTravelDurationGraphComponent {
       },
     };
 
-    _.forEach(this.incident.apparatus, u => {
-      let unitId = u.unit_id;
-      units.push(unitId);
-
-      const actualDuration = _.get(u, 'extended_data.travel_duration');
-      if(actualDuration) {
-        actualTrace.y.push(unitId);
-        actualTrace.x.push(actualDuration);
-      }
-
-      const expectedDuration = _.get(this.travelMatrix[unitId], 'duration');
-      if(expectedDuration) {
-        expectedTrace.y.push(unitId);
-        expectedTrace.x.push(expectedDuration);
-      }
-    });
-
-    const firstDue = _.find(this.incident.apparatus, u => u.first_due);
     const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
 
     let shapes = [];
     let annotations = [];
 
-    if (firstArrived) {
+    if(firstArrived) {
       shapes.push({
         type: 'line',
         x0: firstArrived.extended_data.travel_duration,

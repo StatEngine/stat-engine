@@ -4,7 +4,6 @@
     height: auto;
     section {
       text-align: left;
-      padding-top: 12rem;
       p {
         font-size: 15px;
         color: #334A56;
@@ -19,12 +18,6 @@
     }
   }
 
-  .welcome-text h2 {
-    font-weight: 300;
-    font-size: 26px;
-    margin-top: 0;
-  }
-
   .avatar {
     background: lighten($color-geyser,8%);
     padding: 2.5rem;
@@ -33,17 +26,36 @@
     font-size: 3.5rem;
   }
 
+  .welcome-message {
+    min-width: 410px;
+    @include media-breakpoint-down(xs) {
+      min-width: auto;
+      h3 > span {
+        display: block;
+        margin: 0.25rem 0 1rem;
+      }
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+
   .actions {
-    display: flex;
-    justify-content: flex-end;
+    min-width: 556px;
+    text-align: right;
     a {
-      margin-left: 5rem;
-      text-align: center;
+      display: inline-block;
       font-size: 14px;
       font-weight: 600;
+      text-align: center;
       &:hover img {
-          -webkit-transform: translateY(-6px);
-          transform: translateY(-6px);
+        -webkit-transform: translateY(-6px);
+        transform: translateY(-6px);
+      }
+      &:last-child {
+        img {
+          margin-right: 0;
+        }
       }
     }
     img {
@@ -58,23 +70,56 @@
       transition-property: transform;
       -webkit-transition-timing-function: ease-out;
       transition-timing-function: ease-out;
-      height: 9rem;
-      width: 100%;
-      min-width: 9rem;
-      margin-bottom: 1rem;
+      width: auto;
+      margin: 0 1.5rem 1rem;
+      max-width: 5rem;
     }
-    @media (max-width: 991px) {
-      justify-content: space-between;
+    @media (max-width: 1208px) {
       margin-top: 2rem;
+      text-align: left;
+      a:first-child {
+        img {
+          margin-left: 0;
+        }
+        span {
+          margin-left: -22px;
+        }
+      }
+    }
+    @include media-breakpoint-down(xs) {
+      display: block;
+      margin-top: 2rem;
+      min-width: auto;
+      text-align: left;
       a {
-        margin: 0 4rem 0 0;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        &:first-child span{
+          margin-left: 0;
+        }
+        &:last-child {
+          img {
+            margin-right: 1rem;
+          }
+          span {
+            margin-right: 0;
+          }
+        }
+      }
+      img {
+        display: inline-block;
+        margin: 0 1rem 0 0;
+      }
+      span {
+        margin: 0 2.5rem 0 0;
+        font-size: 18px;
       }
     }
   }
 
   .summary-profile, .summary-department {
-    @media screen and (max-width: 767px) {
-      margin-bottom: 4rem;
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 20px;
     }
   }
 
@@ -83,7 +128,7 @@
       margin: 0 2rem 2rem 0;
       max-width: 280px;
       min-width: 280px;
-      @media (max-width: 575.99px) {
+      @include media-breakpoint-down(xs) {
         max-width: none;
       }
       .switch {
@@ -126,5 +171,37 @@
 
   .badge-warning {
     background-color: #ffc107;
+  }
+}
+
+// Fine Tuning Actions
+body:not(.collapsed-menu) .actions {
+  @media (max-width: 1245px) {
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    margin-top: 2rem;
+    a:first-child {
+      img {
+        margin-left: 0;
+      }
+      span {
+        margin-left: -22px;
+      }
+    }
+  }
+  @include media-breakpoint-down(xs) {
+    display: inline-block;
+    a:first-child {
+      span {
+        margin-left: 0;
+      }
+    }
+  }
+}
+body.collapsed-menu .actions {
+  @media (min-width: 1050.5px) and (max-width: 1245px) {
+    margin-top: 0;
+    text-align: right;
   }
 }

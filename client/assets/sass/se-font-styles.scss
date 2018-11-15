@@ -80,7 +80,7 @@
     content: unicode($se-icon-land-use);
   }
 }
-.se-icon-info{
+.se-icon-info {
   &:before {
     content: unicode($se-icon-info);
   }
@@ -98,5 +98,55 @@
 .se-icon-circle-x {
   &:before {
     content: unicode($se-icon-circle-x);
+  }
+}
+.se-icon-control-center {
+  &:before {
+    content: unicode($se-icon-control-center);
+  }
+}
+.se-icon-apps {
+  &:before {
+    content: unicode($se-icon-apps);
+  }
+}
+.se-icon-marketplace {
+  &:before {
+    content: unicode($se-icon-marketplace);
+  }
+}
+.se-icon-dashboard-alt {
+  &:before {
+    content: unicode($se-icon-dashboard-alt);
+  }
+}
+.se-icon-reports {
+  &:before {
+    content: unicode($se-icon-reports);
+  }
+}
+.se-icon-fire-departments {
+  &:before {
+    content: unicode($se-icon-fire-departments);
+  }
+}
+.se-icon-users {
+  &:before {
+    content: unicode($se-icon-users);
+  }
+}
+.se-icon-collapse-sidebar {
+  &:before {
+    content: unicode($se-icon-collapse-sidebar);
+  }
+}
+.se-icon-clock {
+  &:before {
+    content: unicode($se-icon-clock);
+  }
+}
+.se-icon-rank {
+  &:before {
+    content: unicode($se-icon-rank);
   }
 }

@@ -8,14 +8,15 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.twitter', {
       abstract: true,
-      template: '<div ui-view />'
+      views: {
+        'navbar@': {
+          template: '<sidebar></sidebar>'
+        },
+      },
     })
     .state('site.twitter.home', {
       url: '/twitter',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./twitter-home/twitter-home.html'),
           controller: 'TwitterHomeController',
@@ -29,7 +30,7 @@ export default function routes($stateProvider) {
         deps($ocLazyLoad) {
           return Promise.all([
             import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid').then(() => $ocLazyLoad.inject('ui.grid')),
-            import(/* webpackChunkName: "lodash" */ 'lodash').then(mod => { _ = mod })
+            import(/* webpackChunkName: "lodash" */ 'lodash').then(mod => { _ = mod; })
 
           ]);
         },

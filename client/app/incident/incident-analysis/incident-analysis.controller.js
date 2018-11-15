@@ -127,44 +127,48 @@ export default class IncidentAnalysisController {
     tippy('.tippy', {
       allowTitleHTML: true,
       interactive: true,
-      delay: 100,
-      arrow: false,
-      arrowType: 'round',
-      size: 'large',
-      duration: 500,
+      delay: 150,
+      arrow: true,
+      arrowType: 'sharp',
+      theme: 'statengine',
+      duration: 400,
       animation: 'scale',
-      maxWidth: '300px',
+      maxWidth: '350px',
+      inertia: true,
+      touch: true,
     });
 
     // dynamic content
     tippy('.ruletippy', {
       allowTitleHTML: true,
       interactive: true,
-      delay: 100,
-      arrow: false,
-      arrowType: 'round',
-      size: 'large',
-      duration: 500,
+      delay: 150,
+      arrow: true,
+      arrowType: 'sharp',
+      theme: 'statengine',
+      duration: 400,
       animation: 'scale',
       maxWidth: '350px',
       dynamicTitle: true,
+      inertia: true,
+      touch: true,
     });
   }
 
   formatEvidence(evidence) {
-    let html = '<ul>';
+    let html = '<ul class="pd-5 mg-5">';
     _.forEach(evidence, e => {
       switch (e.grade) {
       case 'SUCCESS':
-        html += `<li class="text-success tippy-text">${e.text}</li>`;
+        html += `<li class="tippy-text">${e.text}</li>`;
         break;
 
       case 'WARNING':
-        html += `<li class="text-warning tippy-text">${e.text}</li>`;
+        html += `<li class="tippy-text">${e.text}</li>`;
         break;
 
       case 'DANGER':
-        html += `<li class="text-danger tippy-text">${e.text}</li>`;
+        html += `<li class="tippy-text">${e.text}</li>`;
         break;
       }
     });

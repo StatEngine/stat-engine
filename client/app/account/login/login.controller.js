@@ -1,5 +1,8 @@
 'use strict';
 
+// eslint-disable-next-line no-unused-vars
+import parsleyjs from 'parsleyjs';
+
 export default class LoginController {
   user = {
     username: '',
@@ -18,10 +21,14 @@ export default class LoginController {
     this.AnalyticEventNames = AnalyticEventNames;
   }
 
-  login(form) {
+  $onInit() {
+    this.form = $('#login-form').parsley();
+  }
+
+  login() {
     this.submitted = true;
 
-    if(form.$valid) {
+    if(this.form.isValid()) {
       this.Principal.login({
         username: this.user.username,
         password: this.user.password
@@ -35,7 +42,7 @@ export default class LoginController {
           this.$state.go('site.user.home');
         })
         .catch(err => {
-          this.errors.login = err.data.message;
+          this.errors = [{ message: err.data.message }];
         });
     }
   }

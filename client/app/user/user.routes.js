@@ -8,29 +8,8 @@ export default function routes($stateProvider) {
       abstract: true,
       views: {
         'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
+          template: '<sidebar></sidebar>'
         },
-        'content@': {
-          template: '<div ui-view />'
-        }
-      },
-    })
-    .state('site.user.changePassword', {
-      url: '/changePassword',
-      views: {
-        'content@': {
-          controller: 'ChangePasswordController',
-          controllerAs: 'vm',
-          template: require('./change-password/change-password.html'),
-        }
-      },
-      data: {
-        roles: ['user']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity();
-        }
       },
     })
     .state('site.user.requestAccess', {
@@ -72,6 +51,24 @@ export default function routes($stateProvider) {
           controller: 'GettingStartedController',
           controllerAs: 'vm',
           template: require('./getting-started/getting-started.html'),
+        }
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+      },
+    })
+    .state('site.user.help', {
+      url: '/help',
+      views: {
+        'content@': {
+          controller: 'HelpHomeController',
+          controllerAs: 'vm',
+          template: require('./help/help-home.html'),
         }
       },
       data: {

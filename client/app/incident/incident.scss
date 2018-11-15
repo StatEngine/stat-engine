@@ -1,357 +1,254 @@
-.incident-header {
-  background: white;
-  border-bottom: 1px solid $color-geyser;
-  h3 {
-    letter-spacing: -0.02rem;
-    margin: 3rem 0 1.75rem
-  }
-}
-
-.nav-tabs {
-  border-bottom: 0;
-  > li > a {
-    background-color: transparent;
-    border: none;
-    border-bottom: 4px solid transparent;
-    color: $color-pickled-bluewood;
-    font-size: 14px;
-    font-weight: 600;
-    margin-right: 4rem;
-    padding: 10px 0;
-  }
-  > li > a:hover,
-  > li > a:focus {
-    background-color: transparent;
-    border-color: transparent;
-    color: $color-pacific-blue;
-  }
-  > li.active > a,
-  > li.active > a:hover,
-  > li.active > a:focus {
-    background-color: transparent;
-    border: none;
-    border-bottom: 3px solid $color-pacific-blue;
-    color: $color-pickled-bluewood;
-    cursor: default;
-  }
-  @media (max-width: 768px) {
-    > li {
-      float: none;
-      a {
-        border-bottom: 0;
-      }
-      &.active > a,
-      &.active > a:hover,
-      &.active > a:focus {
-        border: none;
-        color: $color-pacific-blue;
-      }
-      &:last-child > a {
-        margin-bottom: 2rem;
-      }
-    }
-  }
-}
-
-.sectionheader {
-  color: lighten($color-pale-sky,10%);
-  font-weight: 500;
-  margin: 6rem 0 3rem;
-  text-transform: uppercase;
-}
-
 // Baseline style for statistical units found in the card layout
 .stat {
-  align-items: center;
-  display: flex;
-  padding: 0 1.5rem 6rem;
-  h2,h4 {
-    margin: 0;
-    padding: 0;
-  }
-  h2 {
-    color: $color-pacific-blue;
-  }
-  h4 {
-    color: lighten($color-pale-sky,5%);
-    font-size: 17px;
-  }
-  i {
-    margin-right: 2.35rem;
-  }
-  @media (max-width: 768px) {
-    padding-bottom: 4rem;
-  }
-}
-
-.no-data-available {
-  align-items: center;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 0 5rem;
-  height: 60%;
+    align-items: center;
+    display: flex;
+    padding: 0 1.5rem 3rem;
+    h2,
+    h4 {
+        margin: 0;
+        padding: 0;
+    }
+    h2 {
+        color: $color-pacific-blue;
+    }
+    h4 {
+        color: lighten($color-pale-sky, 5%);
+        font-size: 17px;
+    }
+    i {
+        margin-right: 1.5rem;
+    }
+    @media (max-width: 768px) {
+        padding-bottom: 3rem;
+    }
 }
 
 #overview {
-  .intro-summary {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    @media (min-width: 768px) and (max-width: 1200px) {
-      padding-left: 6rem;
-    }
-  }
-  @media (max-width: 768px) {
     .intro-summary {
-      h4 {
-        text-align: center;
-        margin-top: 4.5rem;
-      }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        @media (min-width: 768px) and (max-width: 1200px) {
+            padding-left: 6rem;
+        }
     }
-  }
-  .dispatch-comments {
-    @media (max-width: 976px) {
-      margin-top: 3rem;
+    @media (max-width: 768px) {
+        .intro-summary {
+            h4 {
+                text-align: center;
+                margin-top: 4.5rem;
+            }
+        }
     }
-    p {
-      font-family: monospace;
-      font-size: 15px;
+    .dispatch-comments {
+        @media (max-width: 976px) {
+            margin-top: 3rem;
+        }
+        p {
+            font-family: monospace;
+            font-size: 15px;
+        }
     }
-  }
 }
 
 .performance-analysis {
-  .card {
-    background-color: $color-porcelain;
-    padding: 2.5rem 1rem 2rem;
-    text-align: center;
-    transition: all 0.2s ease-in-out;
-    span:first-child {
-      font-size: 55px;
+    .card {
+        padding: 2.5rem 1rem 2rem;
+        text-align: center;
+        transition: all 0.2s ease-in-out;
+        span:first-child {
+            font-size: 55px;
+        }
+        &:hover {
+            cursor: help;
+        }
+        h6 {
+            font-size: 13px;
+            line-height: 18px;
+            font-weight: 400;
+            margin: 1rem 0 0 0;
+        }
+        &.nfpa-standard::before {
+            content: 'NFPA';
+            font-family: 'Montserrat';
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0.3;
+            position: absolute;
+            right: 12px;
+            text-transform: uppercase;
+            top: 8px;
+        }
     }
-    &:hover {
-      cursor: help;
+    .pass {
+        color: #85c02f;
     }
-    h6 {
-      font-size: 13px;
-      line-height: 18px;
-      font-weight: 400;
-      margin: 1rem 0 0 0;
+    .fail {
+        color: #e0003b;
     }
-    &.nfpa-standard::before {
-      content: 'NFPA';
-      font-family: 'Montserrat';
-      font-size: 12px;
-      font-weight: 600;
-      opacity: .3;
-      position: absolute;
-      right: 25px;
-      text-transform: uppercase;
-      top: 8px;
+    .caution {
+        color: #ff9f00;
     }
-  }
-  .pass {
-    color: #85c02f;
-  }
-  .fail {
-    color: #e0003b;
-  }
-  .caution {
-    color: #ff9f00;
-  }
-
-  @media (max-width: 976px) {
-    > .row > div {
-      margin-bottom: 2rem;
+    @media (max-width: 976px) {
+        >.row>div {
+            margin-bottom: 2rem;
+        }
     }
-  }
 }
 
 #location {
-  .location-summary {
-    > .row {
-      margin-top: 2.5rem;
-      &:first-of-type {
-        margin-top: 1rem;
-      }
+    .location-summary {
+        dl dd {
+            margin-bottom: 0.75rem;
+        }
+        dl dt {
+            margin-bottom: 0.25rem;
+        }
     }
-    > hr {
-      margin-left: -3rem;
+    @media (max-width: 768px) {
+        .location-summary>.row {
+            margin: 0 1rem;
+        }
     }
-    dl dd {
-      margin-bottom: 1rem;
-    }
-    dl dt {
-      margin-bottom: 1.5rem;
-    }
-    h3 {
-      font-family: 'Open Sans';
-      font-size: 21px;
-      font-weight: 400;
-      letter-spacing: 0.05rem;
-      margin-top: 1rem;
-    }
-  }
-  @media (max-width: 768px) {
-    .location-summary > .row {
-      margin: 1.5rem;
-    }
-  }
 }
 
 // Census Data
 .census-data {
-  i.se-icon-census-tract {
-    font-size: 3.2em;
-  }
+    i.se-icon-census-tract {
+        font-size: 3.2em;
+    }
 }
 
 // Parcel Data
 .parcel-data {
-  @media (max-width: 976px) {
-    margin-top: 3rem;
-  }
+    @media (max-width: 976px) {
+        margin-top: 3rem;
+    }
 }
 
 // Weather Conditions
 .weather-conditions {
-  // ==========
-  // TODO: Dynamically change background color based on weather summary type
-  // ==========
-  .weather-cube {
-    background: rgb(53,144,231);
-    background: linear-gradient(149deg, rgba(53,144,231,1) 0%, rgba(54,187,214,1) 100%);
-    // background: rgb(236,115,99);
-    // background: linear-gradient(149deg, rgba(236,115,99,1) 0%, rgba(239,200,69,1) 100%);
-    // background: rgb(38,46,89);
-    // background: linear-gradient(149deg, rgba(38,46,89,1) 0%, rgba(76,78,153,1) 100%);
-    // background: rgb(172,99,93);
-    // background: linear-gradient(149deg, rgba(172,99,93,1) 0%, rgba(230,186,141,1) 100%);
-    border-radius: 3px;
-    color: white;
-    text-align: center;
-    min-width: 18.3rem;
-    padding: 1rem 2rem 3rem;
-    h3 {
-      margin: 1rem 0 0 0;
+    // ==========
+    // TODO: Dynamically change background color based on weather summary type
+    // ==========
+    .weather-cube {
+        background: rgb(53, 144, 231);
+        background: linear-gradient(149deg, rgba(53, 144, 231, 1) 0%, rgba(54, 187, 214, 1) 100%); // background: rgb(236,115,99);
+        // background: linear-gradient(149deg, rgba(236,115,99,1) 0%, rgba(239,200,69,1) 100%);
+        // background: rgb(38,46,89);
+        // background: linear-gradient(149deg, rgba(38,46,89,1) 0%, rgba(76,78,153,1) 100%);
+        // background: rgb(172,99,93);
+        // background: linear-gradient(149deg, rgba(172,99,93,1) 0%, rgba(230,186,141,1) 100%);
+        border-radius: 3px;
+        color: white;
+        text-align: center;
+        padding: 2rem 2rem .75rem;
+        h3 {
+            margin: 1rem 0 0 0;
+        }
     }
-  }
-  .weather-summary {
-    @media (min-width: 992px) and (max-width: 1199px) {
-      padding-left: 4.5rem;
+    .weather-summary {
+        @media (min-width: 992px) and (max-width: 1199px) {
+            padding-left: 4.5rem;
+        }
+        @media (max-width: 768px) {
+            padding-top: 2rem;
+        }
     }
-    @media (max-width: 768px) {
-      padding-top: 2rem;
-    }
-  }
 }
 
 // Traffic Conditions
 .traffic-conditions {
-  @media (max-width: 976px) {
-    margin-top: 3rem;
-  }
+    @media (max-width: 976px) {
+        margin-top: 3rem;
+    }
 }
 
 current-weather {
-  h1.heavyheader {
-    font-family: 'Open Sans';
-    font-size: 4rem;
-    margin-top: 0;
-  }
-  h4 {
-    color: lighten($color-pale-sky,15%);
-    font-weight: 400;
-  }
-  hr {
-    border-top-color: #d7dee3;
-    width: 50%;
-  }
-  p {
-    margin: 0;
-  }
+    h1.heavyheader {
+        font-family: 'Open Sans';
+        font-size: 3rem;
+        margin-top: 0;
+    }
+    h4 {
+        color: lighten($color-pale-sky, 15%);
+        font-weight: 400;
+    }
+    hr {
+        border-top-color: #d7dee3;
+        width: 50%;
+        margin: 1rem 0 1.5rem;
+    }
+    p {
+        margin: 0;
+    }
 }
 
 .incident-map {
-  border-right: 1px solid $color-geyser;
-  height: 100%;
-  max-height: 800px;
-  width: 100%;
-  @media (max-width: 768px) {
-    border-bottom: 1px solid $color-geyser;
-    border-right: 0;
-    height: 300px;
-  }
-}
-
-// Response Overview
-.response-overview {
-  .row .card {
-    padding: 1rem;
-    h2 {
-      color: $color-pacific-blue;
-      margin: 0;
+    border-right: 1px solid $color-geyser;
+    height: 100%;
+    max-height: 500px;
+    width: 100%;
+    @media (max-width: 768px) {
+        border-bottom: 1px solid $color-geyser;
+        border-right: 0;
+        height: 300px;
     }
-    span {
-      opacity: .4;
-    }
-  }
 }
 
 .events-timeline-legend {
-  font-size: 13px;
-  li {
-    margin-bottom: .65rem;
-    &::before {
-      content: '\25A0';
-      font-size: 29px;
-      line-height: 0;
-      margin-right: 1rem;
-      position: relative;
-      top: 4px;
-    }
-    &.alarm-answer::before {
-      color: $color-celery;
-    }
-    &.alarm-processing::before {
-      color: $color-wisteria;
-    }
-    &.turnout-time::before {
-      color: $color-tulip-tree;
-    }
-    &.travel-time::before {
-      color: $color-di-serria;
-    }
-    &.intervention-time::before {
-      color: $color-pelorous;
-    }
-    &.cancelled::before {
-      color: $color-cranberry;
-    }
-    &.transport::before {
-      color: $color-pickled-bluewood;
-    }
-    &.post-transport::before {
-      color: $color-pale-sky;
-    }
-  }
-  @media (max-width: 991px) {
-    margin: 3rem 0 0 9rem;
+    font-size: 13px;
     li {
-      display: inline-block;
-      margin-bottom: .65rem;
-      min-width: 18rem;
+        margin-bottom: .65rem;
+        &::before {
+            content: '\25A0';
+            font-size: 29px;
+            line-height: 0;
+            margin-right: 0.5rem;
+            position: relative;
+            top: 4px;
+        }
+        &.alarm-answer::before {
+            color: $color-celery;
+        }
+        &.alarm-processing::before {
+            color: $color-wisteria;
+        }
+        &.turnout-time::before {
+            color: $color-tulip-tree;
+        }
+        &.travel-time::before {
+            color: $color-di-serria;
+        }
+        &.intervention-time::before {
+            color: $color-pelorous;
+        }
+        &.cancelled::before {
+            color: $color-cranberry;
+        }
+        &.transport::before {
+            color: $color-pickled-bluewood;
+        }
+        &.post-transport::before {
+            color: $color-pale-sky;
+        }
     }
-  }
+    @media (max-width: 991px) {
+        margin: 3rem 0 0 9rem;
+        li {
+            display: inline-block;
+            margin-bottom: .65rem;
+            min-width: 18rem;
+        }
+    }
 }
 
 .incident-timeline {
-  padding-left: 25px;
-  padding-right: 25px;
-  width: 100px;
-  height: 150px;
-  opacity: 0.9;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 100px;
+    height: 150px;
+    opacity: 0.9;
 }
 
 .incident-timeline line {
@@ -384,33 +281,30 @@ circle.blue-dot {
 }
 
 .indent-1 {
-  text-indent: 1em;
+    text-indent: 1em;
 }
 
 .search-grid {
-  height: 65vh;
+    height: 65vh;
 }
 
 // Override Plot.ly JS
 .bartext.bartext-outside {
-  font-weight: 600;
+    font-weight: 600;
 }
+
 .cartesianlayer .xaxislayer-above text,
 .cartesianlayer .yaxislayer-above text {
-  fill: #334A56 !important;
+    fill: #334A56 !important;
 }
 
 .infolayer .g-xtitle text,
 .infolayer .legend .legendtext,
 .infolayer .g-ytitle text {
-  fill: #334A56 !important;
+    fill: #334A56 !important;
 }
 
 .main-svg .annotation-text {
-  font-size: 14px !important;
-  font-weight: 600;
-}
-
-.tippy-text {
-  font-size: 14px !important;
+    font-size: 14px !important;
+    font-weight: 600;
 }

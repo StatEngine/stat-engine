@@ -1,0 +1,264 @@
+<div class="br-mainpanel medium-bg">
+  <reporting-unit-list units="vm.unitStore.allUnits" on-select="vm.selectUnit(selected)">
+  </reporting-unit-list>
+
+  <div class="reporting-unit-body">
+    <div class="br-pageheader bg-white">
+      <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" href="index.html">Home</a>
+        <a class="breadcrumb-item" href="#">Reports</a>
+        <a class="breadcrumb-item" href="#">Units</a>
+        <span class="breadcrumb-item active">{{ vm.selected.id }}</span>
+      </nav>
+    </div><!-- br-pageheader -->
+
+    <div class="br-pagetitle bg-white d-flex justify-content-between flex-wrap">
+      <div>
+        <h2 class="m-0">{{ vm.selected.id }} </h2>
+        <h4>{{vm.uiStore.selectedFilters.timeFilter.filter.start}} -
+          {{vm.uiStore.selectedFilters.timeFilter.filter.end}}</h4>
+      </div>
+      <select ng-model="vm.selectedTime" ng-change="vm.changeFilter()">
+        <option ng-repeat="tf in vm.timeFilters" value="{{tf.id}}">{{tf.displayName}}</option>
+      </select>
+    </div> <!-- br-pagetitle -->
+
+    <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
+      <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
+        <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a></li>
+        <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#turnout')">Turnout</a></li>
+        <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#travel')">Travel</a></li>
+        <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#details')">Details</a></li>
+      </ul>
+    </div>
+
+    <div class="br-pagebody">
+      <div class="mb-5 row">
+        <div class="col-md-12">
+          <div id="overview">
+            <div class="d-flex justify-content-between">
+              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Overview</h6>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5"><span class="fa fa-bar-chart-o fa">&nbsp;</span>{{
+                vm.currentMetrics.total_data.total_count }} responses
+                <percent-change class="d-inline" old-value="vm.previousMetrics.total_data.total_count " new-value="vm.currentMetrics.total_data.total_count">
+                </percent-change>
+              </h5>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5">
+                <rank class="d-inline" old-value="vm.previousMetrics.total_data.total_count_rank" new-value="vm.currentMetrics.total_data.total_count_rank">
+                </rank>
+              </h5>
+            </div>
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-12 pd-y-20">
+                    <div class="row">
+                      <div class="col-6 col-sm-6 pd-y-20">
+                        <h3 class="light-label mb-0">Responses</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.currentMetrics.total_data.total_count }}</h4>
+                        <percent-change old-value="vm.previousMetrics.total_data.total_count" new-value="vm.currentMetrics.total_data.total_count">
+                        </percent-change>
+                        <br>
+                        <br>
+
+                        <p>Avg {{ vm.totalIncidentAvg.toFixed(2) }}</p>
+                        <div class="progress mg-b-20">
+                          <div class="progress-bar-step" style="left: {{vm.totalIncidentAvg/vm.totalIncidentMax.total_count * 100}}%">
+                            <div class="progress-bar-label-line"></div>
+                          </div>
+                          <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_count*100/vm.totalIncidentMax.total_count}}%"
+                            role="progressbar" aria-valuenow="{{ vm.currentMetrics.total_data.total_count }}"
+                            aria-valuemin="0" aria-valuemax="{{vm.totalIncidentMax.total_count}}">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-6 col-sm-6 pd-y-20">
+                        <h3 class="light-label mb-0">Commitment</h3>
+
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}</h4>
+                        <percent-change old-value="vm.previousMetrics.total_data.total_commitment_time_seconds"
+                          new-value="vm.currentMetrics.total_data.total_commitment_time_seconds">
+                        </percent-change>
+                        <br>
+                        <br>
+
+                        <p>Avg {{vm.humanizeDuration(vm.totalCommitmentAvg*1000)}}</p>
+                        <div class="progress mg-b-20">
+                          <div class="progress-bar-step" style="left: {{vm.totalCommitmentAvg*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%">
+                            <div class="progress-bar-label-line"></div>
+                          </div>
+                          <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_commitment_time_seconds*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%"
+                            role="progressbar" aria-valuenow="{{vm.currentMetrics.total_data.total_commitment_time_seconds}}"
+                            aria-valuemin="0" aria-valuemax="{{vm.totalCommitmentMax.total_commitment_time_seconds}}">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <incident-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category">
+                    </incident-category-chart>
+                  </div>
+
+                  <!--
+                  <div class="col-6 col-sm-6 pd-y-20 tx-center">
+                    <h3 class="light-label mb-0">Analysis & Insights</h3><br>
+                    <span class="badge badge-info">Coming Soon</span </div> </div> <div class="row">
+                    <br>
+                    <br>
+                  </div>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-5 row">
+        <div class="col-md-12">
+          <div id="turnout">
+            <div class="d-flex justify-content-between">
+              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Turnout</h6>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5"><span class="fa fa-clock-o fa">&nbsp;</span>{{
+                vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds'] | number: 0 }} secs
+                <percent-change class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds'] "
+                  old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds'] ">
+                </percent-change>
+              </h5>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5">
+                <rank class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds_rank']"
+                  old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds_rank']">
+                </rank>
+              </h5>
+            </div>
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-12 pd-y-20">
+                    <div class="row">
+                      <div class="col-4 col-sm-4 pd-y-20">
+                        <h3 class="light-label mb-0">OVERALL</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds'] | number: 0 }}</h4>
+                        <percent-change new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds'] "
+                          old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds'] ">
+                        </percent-change>
+                      </div>
+                      <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                        <h3 class="light-label mb-0">EMS</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds'] |
+                          number: 0 }}</h4>
+                        <percent-change new-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
+                          old-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']">
+                        </percent-change>
+                      </div>
+                      <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                        <h3 class="light-label mb-0">FIRE</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds'] |
+                          number: 0 }}</h4>
+                        <percent-change new-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
+                          old-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']">
+                        </percent-change>
+                      </div>
+                    </div>
+                    <incident-turnout-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category">
+                    </incident-turnout-category-chart>
+                  </div>
+                </div>
+                <!---
+                  <div class="col-6 col-sm-6 pd-y-20 tx-center">
+                    <h3 class="light-label mb-0">Analysis & Insights</h3><br>
+                    <span class="badge badge-info">Coming Soon</span </div> </div> <div class="row">
+                    <br>
+                    <br>
+                  </div>
+                 -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-5 row">
+        <div class="col-md-12">
+          <div id="travel">
+            <div class="d-flex justify-content-between">
+              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Travel</h6>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5"><span class="fa fa-clock-o fa">&nbsp;</span>{{
+                vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
+                <percent-change class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
+                  old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
+                </percent-change>
+              </h5>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5">
+                <rank class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
+                  old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']">
+                </rank>
+              </h5>
+            </div>
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-12 pd-y-20">
+                    <div class="row">
+                      <div class="col-4 col-sm-4 pd-y-20">
+                        <h3 class="light-label mb-0">OVERALL</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000)
+                          }}</h4>
+                        <percent-change old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds'] "
+                          new-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
+                        </percent-change>
+                      </div>
+                      <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                        <h3 class="light-label mb-0">EMS</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']*1000)}}</h4>
+                        <percent-change old-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
+                          new-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']">
+                        </percent-change>
+                      </div>
+                      <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
+                        <h3 class="light-label mb-0">FIRE</h3>
+                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+                          vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']*1000)}}</h4>
+                        <percent-change old-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
+                          new-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']">
+                        </percent-change>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <incident-travel-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category">
+                </incident-travel-category-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-5 row">
+        <div class="col-md-12">
+          <div id="details">
+            <div class="d-flex justify-content-between">
+              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Details</h6>
+            </div>
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="row no-gutters tx-center">
+                  <div class="col-12 col-sm-12 pd-y-20">
+                    <div ui-grid="vm.responsesTableOptions" class="height-65vh" ui-grid-pagination ui-grid-auto-resize>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

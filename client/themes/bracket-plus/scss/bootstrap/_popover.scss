@@ -1,0 +1,103 @@
+/* -------------------------------------------- */
+/* ############### 3.12 Popover ############### */
+/* -------------------------------------------- */
+
+.popover {
+  font-size: 12px;
+  padding: 0;
+  @include border-radius(2px);
+}
+
+.popover-header {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: $gray-800;
+  letter-spacing: 0.5px;
+  padding: 12px 15px;
+  background-color: #fff;
+  border-color: $gray-300;
+  @include border-top-radius(2px);
+
+  &::before { display: none !important; }
+}
+
+.popover-body {
+  padding: 15px;
+
+  p:last-child { margin-bottom: 0;}
+}
+
+// colored head
+.popover-head-primary { @include popover-title-variant(theme-color('primary')); }
+.popover-head-success { @include popover-title-variant(theme-color('success')); }
+.popover-head-warning { @include popover-title-variant(theme-color('warning')); }
+.popover-head-danger { @include popover-title-variant(theme-color('danger')); }
+.popover-head-info { @include popover-title-variant(theme-color('info')); }
+.popover-head-teal { @include popover-title-variant($teal); }
+.popover-head-indigo { @include popover-title-variant($indigo); }
+.popover-head-purple { @include popover-title-variant($purple); }
+.popover-head-orange { @include popover-title-variant($orange); }
+.popover-head-pink { @include popover-title-variant($pink); }
+
+.popover-head-primary,
+.popover-head-success,
+.popover-head-warning,
+.popover-head-danger,
+.popover-head-info,
+.popover-head-teal,
+.popover-head-indigo,
+.popover-head-purple,
+.popover-head-orange,
+.popover-head-pink,
+.popover-head-dark {
+  &,.popover-header { border: 0; }
+
+  .popover-body {
+    border: 1px solid $gray-300;
+    border-top-width: 0;
+    @include border-bottom-radius(2px);
+  }
+
+  &.bs-popover-bottom,
+  &.bs-popover-auto[x-placement^="bottom"] {
+    .arrow::before { display: none; }
+  }
+}
+
+// colored body popover
+.popover-primary { @include popover-full-color(theme-color('primary')); }
+.popover-success { @include popover-full-color(theme-color('success')); }
+.popover-warning { @include popover-full-color(theme-color('warning')); }
+.popover-danger { @include popover-full-color(theme-color('danger')); }
+.popover-info { @include popover-full-color(theme-color('info')); }
+.popover-teal { @include popover-full-color($teal); }
+.popover-indigo { @include popover-full-color($indigo); }
+.popover-purple { @include popover-full-color($purple); }
+.popover-orange { @include popover-full-color($orange); }
+.popover-pink { @include popover-full-color($pink); }
+.popover-dark { @include popover-full-color($gray-800); }
+
+.popover-primary,
+.popover-success,
+.popover-warning,
+.popover-danger,
+.popover-info,
+.popover-teal,
+.popover-indigo,
+.popover-purple,
+.popover-orange,
+.popover-pink,
+.popover-dark {
+  border: 0;
+
+  .popover-header {
+    border: 0;
+    background-color: transparent;
+    padding-bottom: 0;
+    padding-top: 15px;
+    color: #fff;
+  }
+
+  .popover-body { color: rgba(#fff, .8); }
+  .arrow::before { display: none !important; }
+}

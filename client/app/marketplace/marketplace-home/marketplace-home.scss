@@ -2,6 +2,8 @@
 // MARKETPLACE //
 ////////////////////////////////
 
+// BINGLES TODO: Create a line clamp mixin utility class
+
 .marketplace-home {
   header.naked {
     margin-bottom: 0;
@@ -13,6 +15,7 @@
     min-height: 335px;
   }
   .masthead-content {
+    max-width: 650px;
     padding-top: 4rem;
     text-align: center;
     h1 {
@@ -26,32 +29,29 @@
     }
   }
   .marketplace-search {
-  	margin: 0 auto;
+  	margin: 0 0 0 1.2rem;
   	position: relative;
-  	width:90%;
     display: flex;
     .search-input {
       border-radius: 99rem;
       border-right: none;
       box-sizing: border-box;
-      padding: 2.2rem 13rem 2.2rem 2.2rem;
+      padding: 1.5rem;
     }
-    button {
-      padding: .75rem 3rem;
-      position: absolute;
-      right: 5px;
-      top: 5px;
+    .btn {
+      position: relative;
+      right: 1.2rem;
+      top: 0;
+      z-index: 5;
     }
   }
   .categories-sidenav {
     ul.nav {
       margin-left: -8px;
     }
-    .nav > li {
-      > a {
-        border-radius: 3px;
-        color: inherit;
-        padding: .75rem;
+    .nav li {
+      width: 100%;
+       a {
         &:hover, &:active, &:focus {
           background-color: lighten($color-pale-sky,50%);
           color: darken($color-cerulean,5%);
@@ -61,14 +61,6 @@
       a {
         background-color: lighten($color-pale-sky,50%);
         color: darken($color-cerulean,5%);
-        &:after {
-          content: "\E072";
-          font-family: 'Glyphicons Halflings';
-          font-size: 8px;
-          position: absolute;
-          right: 1rem;
-          top: 1.3rem;
-        }
       }
     }
   }
@@ -78,7 +70,7 @@
   .extensions-content {
     a.card {
       color: inherit;
-      padding-left: 9rem;
+      padding: 1rem 1rem 1rem 7rem;
       &:hover, &:active, &:focus {
         text-decoration: none;
       }
@@ -87,35 +79,33 @@
       }
       img {
         position: absolute;
-        left: 1.5rem;
-        top: 1.8rem;
-        max-height: 6rem;
+        left: 1rem;
+        top: .8rem;
+        max-height: 4.5rem;
       }
       h5 {
         font-size: 15px;
         line-height: 1.25;
-        margin: 0 0 5px;
+        margin-bottom: 0.3rem;
       }
       p {
         font-size: 14px;
         line-height: 1.5;
         margin-bottom: 0;
 
-        // Line clamp code (keep it to 3 lines only)
+        // Line clamp code (keep it to 2 lines only)
   			-webkit-box-orient: vertical;
   			display: -webkit-box;
-  			-webkit-line-clamp: 3;
+  			-webkit-line-clamp: 2;
   			overflow: hidden;
       }
     }
     .featured-extensions {
       .col {
-        width: 430px;
-        min-width: 430px;
-        max-width: 430px;
-
+        min-width: 50%;
+        max-width: 50%;
         margin-bottom: 1.5rem;
-        @media (max-width: 976px) {
+        @include media-breakpoint-down(lg) {
           min-width: 100%;
           width: 100%;
         }
@@ -136,22 +126,18 @@
     }
     .extensions {
       .col {
-        width: 278px;
-        max-width: 278px;
-        min-width: 278px;
-        margin-right: 2.95rem;
-        @media (max-width: 976px) {
-          margin-right: 0;
+        min-width: 300px;
+        max-width: 33.33%;
+        margin-bottom: 1.5rem;
+        @include media-breakpoint-down(lg) {
           max-width: 100%;
           width: 100%;
         }
       }
       a.card {
-        max-width: 278px;
-        width: 278px;
-        margin-bottom: 1.5rem;
-        min-height: 130px;
-        @media (max-width: 976px) {
+        width: 100%;
+        min-height: 100px;
+        @include media-breakpoint-down(lg) {
           max-width: 100%;
           width: 100%;
         }

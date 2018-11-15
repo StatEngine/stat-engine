@@ -17,6 +17,7 @@ export default function(app) {
   app.use('/api/extension-configurations', require('./api/extension-configuration'));
   app.use('/api/fire-departments', require('./api/fire-department'));
   app.use('/api/incidents', require('./api/incident'));
+  app.use('/api/units', require('./api/units'));
   app.use('/api/twitter', require('./api/twitter'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/reports', require('./api/report'));

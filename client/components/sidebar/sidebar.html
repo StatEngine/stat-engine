@@ -1,0 +1,218 @@
+<div class="br-header">
+  <div class="br-header-left">
+    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="#"><i class="se-icon-collapse-sidebar tx-14"></i></a></div>
+    <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+    <!-- <div class="input-group hidden-xs-down wd-170 transition">
+      <input id="searchbox" type="text" class="form-control" placeholder="Search">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+      </span>
+    </div> -->
+  </div><!-- br-header-left -->
+  <div class="br-header-right">
+    <nav class="nav">
+      <div class="search mg-r-15" ng-show="vm.user.fire_department__id">
+        <a href="" ui-sref="site.incident.search" class="nav-link pd-x-7 pos-relative">
+          <i class="fa fa-search tx-20"></i>
+          <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
+        </a>
+      </div><!-- Search -->
+      <!--<div class="dropdown notifications mg-r-15">
+        <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-bell tx-20"></i>
+          <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-header" x-placement="bottom-start">
+          <div class="dropdown-menu-label">
+            <label>Notifications</label>
+            <a href="">Mark All as Read</a>
+          </div>
+
+          <div class="media-list">
+          --><!--loop starts here -->
+            <!--<a href="" class="media-list-link read">
+              <div class="media">
+                <img src="../img/img8.jpg" alt="">
+                <div class="media-body">
+                  <p class="noti-text"><strong>Suzzeth Bungaos</strong> tagged you and 18 others in a post.</p>
+                  <span>October 03, 2017 8:45am</span>
+                </div>
+              </div>--><!-- media -->
+            <!--</a>-->
+            <!-- loop ends here -->
+            <!-- <a href="" class="media-list-link read">
+              <div class="media">
+                <img src="../img/img9.jpg" alt="">
+                <div class="media-body">
+                  <p class="noti-text"><strong>Mellisa Brown</strong> appreciated your work <strong>The Social Network</strong></p>
+                  <span>October 02, 2017 12:44am</span>
+                </div>-->
+              <!--</div><!-- media -->
+            <!--</a>
+            <a href="" class="media-list-link read">
+              <div class="media">
+                <img src="../img/img10.jpg" alt="">
+                <div class="media-body">
+                  <p class="noti-text">20+ new items added are for sale in your <strong>Sale Group</strong></p>
+                  <span>October 01, 2017 10:20pm</span>
+                </div>
+              </div>--><!-- media -->
+            <!--</a>
+            <a href="" class="media-list-link read">
+              <div class="media">
+                <img src="../img/img5.jpg" alt="">
+                <div class="media-body">
+                  <p class="noti-text"><strong>Julius Erving</strong> wants to connect with you on your conversation with <strong>Ronnie Mara</strong></p>
+                  <span>October 01, 2017 6:08pm</span>
+                </div>
+              </div>--><!-- media -->
+            <!--</a>-->
+            <!--<div class="dropdown-footer">
+              <a href=""><i class="fa fa-angle-down"></i> Show All Notifications</a>
+            </div>
+          </div>--><!-- media-list -->
+        <!--</div>--><!-- dropdown-menu -->
+      <!--</div>--><!-- dropdown -->
+      <div class="dropdown apps mg-r-5" ng-show="vm.user.fire_department__id">
+        <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
+          <i class="se-icon-apps tx-20"></i>
+          <!-- start: if statement -->
+          <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
+          <!-- end: if statement -->
+        </a>
+        <div class="dropdown-menu dropdown-menu-header wd-250 bd-gray-300 mg-t-10">
+          <ul class="list-unstyled user-profile-nav">
+            <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>-->
+            <li><a href="" ui-sref="site.twitter.home"><i class="fa fa-twitter"></i> Twitter</a></li>
+          </ul>
+        </div><!-- dropdown-menu -->
+      </div><!-- dropdown -->
+      <div class="dropdown user mg-r-10">
+        <a href="" class="nav-link nav-link-profile" data-toggle="dropdown" aria-expanded="false">
+          <!-- TODO: Hookup functionality to pull avatar image. If no avatar exists, render generic user icon. -->
+          <!-- <img src="../assets/images/icon-open-source.svg" class="wd-32 rounded-circle" alt=""> -->
+          <span class="d-inline-block rounded-circle bg-gray-300 ht-40 wd-40"><i class="fa fa-user tx-22 pd-l-13 pd-t-8"></i></span>
+          <span class="logged-name hidden-sm-down"> {{ vm.user.username }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-header wd-250 bd-gray-300 mg-t-10">
+          <div class="tx-center">
+            <a href=""><img src="http://via.placeholder.com/500x500" class="wd-80 rounded-circle" alt=""></a>
+            <h6 class="logged-fullname">{{ vm.user.first_name }} {{ vm.user.last_name }}</h6>
+            <p>{{ vm.user.email }}</p>
+          </div>
+            <!--<hr>
+          <div class="tx-center">
+            <span class="profile-earning-label">Earnings After Taxes</span>
+            <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
+            <span class="profile-earning-text">Based on list price.</span>
+          </div>-->
+          <hr>
+          <ul class="list-unstyled user-profile-nav">
+            <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>-->
+            <li><a href="" ui-sref="site.user.settings"><i class="icon ion-ios-gear"></i> Settings</a></li>
+            <li><a href="" ng-click="vm.signout()"><i class="icon ion-power"></i> Sign Out</a></li>
+          </ul>
+        </div><!-- dropdown-menu -->
+      </div><!-- dropdown -->
+    </nav>
+  </div>
+</div><!-- br-header -->
+
+<!-- ########## START: LEFT PANEL ########## -->
+<div class="br-logo">
+  <a href="">
+    <img src="/assets/images/se-branding-mark.svg" class="se-logo-mark" alt="statengine logo mark">
+    <img src="/assets/images/se-branding-text.svg" class="se-logo-text" alt="statengine logo text">
+  </a>
+</div>
+<div class="br-sideleft overflow-y-auto">
+
+  <!-- APP SECTION  -->
+  <label class="sidebar-label pd-x-25 mg-t-20 op-3">App</label>
+  <ul class="br-sideleft-menu">
+    <li class="br-menu-item">
+      <a href="#" ui-sref='site.user.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.home' }">
+        <i class="menu-item-icon se-icon-control-center tx-20"></i>
+        <span class="menu-item-label text-truncate">Control Center</span>
+        </a>
+    </li>
+    <li class="br-menu-item" ng-show="vm.user.fire_department__id">
+      <a href="#" ng-click='vm.dashboard()' class="br-menu-link">
+        <i class="menu-item-icon se-icon-dashboard-alt tx-20"></i>
+        <span class="menu-item-label text-truncate">Dashboard</span>
+      </a>
+    </li>
+    <li class="br-menu-item" ng-show="vm.user.fire_department__id">
+      <a href="#" class="br-menu-link with-sub" ng-class="{ active: vm.$state.current.name.startsWith('site.incident') }">
+        <i class="menu-item-icon se-icon-reports tx-20"></i>
+        <span class="menu-item-label text-truncate">Reports</span>
+      </a>
+      <ul class="br-menu-sub" ng-show="vm.user.fire_department__id">
+        <!-- TODO change incidents to reporting -->
+        <li class="sub-item"><a href="#" ui-sref='site.incident.search' class="sub-link">Incidents</a></li>
+        <li class="sub-item"><a href="#" ui-sref="site.reporting.unit" class="sub-link">Units&nbsp;<span class="badge badge-info">Experimental</span></a></li>
+        <!--li class="sub-item"><a href="#" ui-sref="" class="sub-link">Stations&nbsp;<span class="badge badge-info">Coming Soon</span></a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Batallions&nbsp;<span class="badge badge-info">Coming Soon</span></a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Addressess&nbsp;<span class="badge badge-info">Coming Soon</span></a></li>-->
+      </ul>
+    </li>
+    <li class="br-menu-item" ng-show="vm.user.fire_department__id">
+      <a href="#" class="br-menu-link with-sub">
+        <i class="menu-item-icon se-icon-apps tx-20"></i>
+        <span class="menu-item-label text-truncate">Applications</span>
+      </a>
+      <ul class="br-menu-sub">
+        <li class="sub-item"><a href="#" ui-sref='site.twitter.home' class="sub-link">Twitter</a></li>
+        <!--<li class="sub-item"><a href="#" ui-sref="" class="sub-link">Weather</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Reporting</a></li>
+        <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Another App</a></li>-->
+      </ul>
+    </li>
+    <li class="br-menu-item" ng-show="vm.user.fire_department__id">
+      <a href="#" ui-sref='site.marketplace.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.marketplace.home' }">
+        <i class="menu-item-icon se-icon-marketplace tx-20"></i>
+        <span class="menu-item-label text-truncate">Marketplace</span>
+      </a>
+    </li>
+    <li class="br-menu-item">
+      <a href="" ui-sref='site.user.settings' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.settings' }">
+        <i class="menu-item-icon fa fa-gear tx-22"></i>
+        <span class="menu-item-label text-truncate">Settings</span>
+      </a>
+    </li>
+    </li>
+
+    <!-- ADMIN SECTION  -->
+    <label ng-show="vm.user.isDepartmentAdmin || vm.user.isDepartmentAdmin" class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
+    <ul class="br-sideleft-menu">
+      <li class="br-menu-item">
+        <a href="#" ui-sref="site.admin.home" class="br-menu-link" ng-show="vm.user.isAdmin">
+          <i class="menu-item-icon se-icon-fire-departments tx-22"></i>
+          <span class="menu-item-label text-truncate">Fire Departments</span>
+        </a>
+      </li>
+      <li class="br-menu-item" ng-show="vm.user.isDepartmentAdmin">
+        <a href="#" ui-sref="site.departmentAdmin.home" class="br-menu-link">
+          <i class="menu-item-icon se-icon-users tx-16"></i>
+          <span class="menu-item-label text-truncate">My Department</span>
+        </a>
+    </ul>
+
+    <!-- SUPPORT SECTION  -->
+    <label class="sidebar-label pd-x-25 mg-t-20 op-3">Support</label>
+    <ul class="br-sideleft-menu">
+      <li class="br-menu-item">
+        <a href="https://statengine.github.io/se-documentation/" target="_blank" class="br-menu-link">
+          <i class="menu-item-icon icon ion-ios-paper tx-24"></i>
+          <span class="menu-item-label text-truncate">Docs</span>
+        </a>
+      </li>
+      <li class="br-menu-item">
+        <a href="#" ui-sref="site.user.help" class="br-menu-link">
+          <i class="menu-item-icon se-icon-help tx-20"></i>
+          <span class="menu-item-label text-truncate">Help</span>
+        </a>
+      </li>
+    </ul>
+</div><!-- br-sideleft -->
+<!-- ########## END: LEFT PANEL ########## -->

@@ -63,8 +63,8 @@
 
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
-        <button id='navbar-links-sign-in' class="btn btn-link btn-sm" ui-sref="site.account.login">Sign In</button>
-        <button id='navbar-links-sign-up' class="btn btn-outline btn-sm hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
+        <button id='navbar-links-sign-in' class="btn btn-link btn-sm btn-oblong" ui-sref="site.account.login">Sign In</button>
+        <button id='navbar-links-sign-up' class="btn btn-outline btn-sm btn-oblong hvr-float w100" ui-sref="site.account.signup">Sign Up</button>
       </div>
 
       <!-- Authenticated -->
@@ -88,26 +88,15 @@
     <div id="mobileNav" class="mobile-nav">
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
-        <ul class="mb-0">
-          <li><a class="btn btn-primary btn-sm" ui-sref="site.account.login">Sign In</a></li>
-          <li><a class="btn btn-outline btn-sm" ui-sref="site.account.signup">Sign Up</a></li>
+        <ul class="px-3 pt-5 bg-black-9">
+          <li><a class="btn btn-primary btn-oblong hvr-float" ui-sref="site.account.login">Sign In</a></li>
+          <li><a class="btn btn-outline btn-oblong hvr-float" ui-sref="site.account.signup">Sign Up</a></li>
         </ul>
       </div>
 
       <div ng-if="vm.PrincipalService.isAuthenticated()">
-        <ul class="mb-0">
+        <ul class="mb-0 pt-5 px-3 bg-black-9">
            <li><a href="site.user.home">Control Center</a></li>
-           <!--<li class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Dashboards</a>
-             <div class="animated fadeInDownShort" ng-class="{open: is_active}">
-               <ul>
-                 <li><a href="#" ng-click="vm.dashboard()">Advanced Dashboard</a></li>
-                 <li><a href="#">Dashboard 2</a></li>
-                 <li><a href="#">Another Dashboard 3</a></li>
-                 <li><a href="#">Dashboard 4</a></li>
-               </ul>
-             </div>
-           </li>
-          -->
             <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
             <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
             <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>

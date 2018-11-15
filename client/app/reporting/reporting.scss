@@ -1,0 +1,37 @@
+.br-mailbox-list {
+  left: auto !important;
+  width: auto !important;
+  z-index: aut !important;
+}
+
+.reporting-unit-body {
+  margin-left: 220px !important;
+}
+
+.progress-bar-step {
+  position:absolute;
+  margin-top:-20px;
+  z-index:1;
+  font-size: 12px;
+}
+
+.progress-bar-label-txt {
+  float: left;
+}
+
+.progress-bar-label-line {
+  float: right;
+  background: #000;
+  height:50px;
+  width:4px;
+  margin-left: 5px;
+}
+
+.progress-bar-label-percent {
+  float: right;
+  margin-left: 5px;
+}
+
+.height-65vh {
+    height: 65vh;
+}

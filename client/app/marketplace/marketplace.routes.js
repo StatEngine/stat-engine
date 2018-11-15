@@ -8,11 +8,8 @@ export default function routes($stateProvider) {
       abstract: true,
       views: {
         'navbar@': {
-          template: '<navbar class="animated fadeInDown naked"></navbar>'
+          template: '<sidebar></sidebar>'
         },
-        'content@': {
-          template: '<div ui-view />'
-        }
       },
     })
     .state('site.marketplace.home', {
@@ -36,9 +33,6 @@ export default function routes($stateProvider) {
     .state('site.marketplace.extensionRequest', {
       url: '/marketplace/:id/extensionRequest',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown"></navbar>'
-        },
         'content@': {
           template: require('./extension-request/extension-request.html'),
           controller: 'ExtensionRequestController',
@@ -57,28 +51,4 @@ export default function routes($stateProvider) {
         },
       },
     });
-  /*.state('site.marketplace.extension', {
-    url: '/marketplace/extension?name',
-    views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown"></navbar>'
-      },
-      'content@': {
-        template: require('./extension/extension.html'),
-        controller: 'ExtensionController',
-        controllerAs: 'vm'
-      }
-    },
-    data: {
-      roles: ['user']
-    },
-    resolve: {
-      currentExtension($stateParams, Extension) {
-        return Extension.get({ name: $stateParams.name, limit: 1 }).$promise;
-      },
-      currentExtensionConfiguration($stateParams, ExtensionConfiguration) {
-        return ExtensionConfiguration.get({ name: $stateParams.name, limit: 1 }).$promise;
-      }
-    },
-  });*/
 }

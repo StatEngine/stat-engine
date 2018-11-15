@@ -1,6 +1,6 @@
 <div class="modal-header">
+  <h6 ng-if="modal.title" ng-bind="modal.title" class="modal-title"></h6>
   <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
-  <h4 ng-if="modal.title" ng-bind="modal.title" class="modal-title"></h4>
 </div>
 <div class="modal-body">
   <p ng-if="modal.text" ng-bind="modal.text"></p>

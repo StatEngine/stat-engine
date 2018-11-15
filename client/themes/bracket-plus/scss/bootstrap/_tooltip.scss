@@ -1,0 +1,21 @@
+/* -------------------------------------------- */
+/* ############### 3.15 Toltips ############### */
+/* -------------------------------------------- */
+
+.tooltip-inner {
+  padding: 8px 15px;
+  font-size: 13px;
+  @include border-radius(2px);
+}
+
+// colored tooltip
+.tooltip-primary { @include tooltip-variant(theme-color('primary')); }
+.tooltip-success { @include tooltip-variant(theme-color('success')); }
+.tooltip-warning { @include tooltip-variant(theme-color('warning')); }
+.tooltip-danger { @include tooltip-variant(theme-color('danger')); }
+.tooltip-info { @include tooltip-variant(theme-color('info')); }
+.tooltip-indigo { @include tooltip-variant($indigo); }
+.tooltip-purple { @include tooltip-variant($purple); }
+.tooltip-orange { @include tooltip-variant($orange); }
+.tooltip-teal { @include tooltip-variant($teal); }
+.tooltip-pink { @include tooltip-variant($pink); }
