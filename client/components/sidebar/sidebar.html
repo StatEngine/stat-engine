@@ -1,7 +1,7 @@
 <div class="br-header">
   <div class="br-header-left">
-    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="#"><i class="se-icon-collapse-sidebar tx-14"></i></a></div>
-    <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="#"><i class="fa fa-angle-left tx-14"></i></a></div>
+    <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="fa fa-angle-right"></i></a></div>
     <!-- <div class="input-group hidden-xs-down wd-170 transition">
       <input id="searchbox" type="text" class="form-control" placeholder="Search">
       <span class="input-group-btn">
@@ -75,7 +75,7 @@
       <!--</div>--><!-- dropdown -->
       <div class="dropdown apps mg-r-5" ng-show="vm.user.fire_department__id">
         <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
-          <i class="se-icon-apps tx-20"></i>
+          <i class="fa fa-braille tx-20"></i>
           <!-- start: if statement -->
           <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
           <!-- end: if statement -->
@@ -132,19 +132,19 @@
   <ul class="br-sideleft-menu">
     <li class="br-menu-item">
       <a href="#" ui-sref='site.user.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.home' }">
-        <i class="menu-item-icon se-icon-control-center tx-20"></i>
+        <i class="menu-item-icon fa fa-home tx-20"></i>
         <span class="menu-item-label text-truncate">Control Center</span>
         </a>
     </li>
     <li class="br-menu-item" ng-show="vm.user.fire_department__id">
       <a href="#" ng-click='vm.dashboard()' class="br-menu-link">
-        <i class="menu-item-icon se-icon-dashboard-alt tx-20"></i>
+        <i class="menu-item-icon fa fa-dashboard tx-20"></i>
         <span class="menu-item-label text-truncate">Dashboard</span>
       </a>
     </li>
     <li class="br-menu-item" ng-show="vm.user.fire_department__id">
       <a href="#" class="br-menu-link with-sub" ng-class="{ active: vm.$state.current.name.startsWith('site.incident') }">
-        <i class="menu-item-icon se-icon-reports tx-20"></i>
+        <i class="menu-item-icon fa fa-newspaper-o tx-20"></i>
         <span class="menu-item-label text-truncate">Reports</span>
       </a>
       <ul class="br-menu-sub" ng-show="vm.user.fire_department__id">
@@ -158,7 +158,7 @@
     </li>
     <li class="br-menu-item" ng-show="vm.user.fire_department__id">
       <a href="#" class="br-menu-link with-sub">
-        <i class="menu-item-icon se-icon-apps tx-20"></i>
+        <i class="menu-item-icon fa fa-braille tx-20"></i>
         <span class="menu-item-label text-truncate">Applications</span>
       </a>
       <ul class="br-menu-sub">
@@ -170,7 +170,7 @@
     </li>
     <li class="br-menu-item" ng-show="vm.user.fire_department__id">
       <a href="#" ui-sref='site.marketplace.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.marketplace.home' }">
-        <i class="menu-item-icon se-icon-marketplace tx-20"></i>
+        <i class="menu-item-icon fa fa-cart-plus tx-20"></i>
         <span class="menu-item-label text-truncate">Marketplace</span>
       </a>
     </li>
@@ -187,13 +187,13 @@
     <ul class="br-sideleft-menu">
       <li class="br-menu-item">
         <a href="#" ui-sref="site.admin.home" class="br-menu-link" ng-show="vm.user.isAdmin">
-          <i class="menu-item-icon se-icon-fire-departments tx-22"></i>
+          <i class="menu-item-icon fa fa-fire tx-22"></i>
           <span class="menu-item-label text-truncate">Fire Departments</span>
         </a>
       </li>
       <li class="br-menu-item" ng-show="vm.user.isDepartmentAdmin">
         <a href="#" ui-sref="site.departmentAdmin.home" class="br-menu-link">
-          <i class="menu-item-icon se-icon-users tx-16"></i>
+          <i class="menu-item-icon fa fa-users tx-16"></i>
           <span class="menu-item-label text-truncate">My Department</span>
         </a>
     </ul>
