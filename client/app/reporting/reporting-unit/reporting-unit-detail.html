@@ -3,29 +3,31 @@
   </reporting-unit-list>
 
   <div class="reporting-unit-body">
-    <div class="br-pageheader bg-white">
-      <nav class="breadcrumb pd-0 mg-0 tx-12">
-        <a class="breadcrumb-item" href="index.html">Home</a>
-        <a class="breadcrumb-item" href="#">Reports</a>
-        <a class="breadcrumb-item" href="#">Units</a>
-        <span class="breadcrumb-item active">{{ vm.selected.id }}</span>
-      </nav>
-    </div><!-- br-pageheader -->
 
     <div class="br-pagetitle bg-white d-flex justify-content-between flex-wrap">
-      <div>
-        <h2 class="m-0">{{ vm.selected.id }} </h2>
-        <h4>{{vm.uiStore.selectedFilters.timeFilter.filter.start}} -
-          {{vm.uiStore.selectedFilters.timeFilter.filter.end}}</h4>
+      <div class="col-sm-5">
+        <h2 class="m-0 tx-bold">{{ vm.selected.id }} </h2>
       </div>
-      <select ng-model="vm.selectedTime" ng-change="vm.changeFilter()">
-        <option ng-repeat="tf in vm.timeFilters" value="{{tf.id}}">{{tf.displayName}}</option>
-      </select>
+      <div class="col-sm-7 text-right bg-white">
+        <nav class="breadcrumb pd-10 mg-0 tx-12 ml-50-percent text-right bg-white">
+          <a class="breadcrumb-item" href="index.html">Home</a>
+          <a class="breadcrumb-item" href="#">Reports</a>
+          <a class="breadcrumb-item" href="#">Units</a>
+          <span class="breadcrumb-item active">{{ vm.selected.id }}</span>
+        </nav>
+      <!-- <h3 class="light-label">{{vm.uiStore.selectedFilters.timeFilter.filter.start | date:'MMM d, y HH:mm:ss'}} -
+        {{vm.uiStore.selectedFilters.timeFilter.filter.end | date:'MMM d, y HH:mm:ss'}}</h3> -->
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" ng-model="vm.selectedTime" ng-change="vm.changeFilter()">
+          <option ng-repeat="tf in vm.timeFilters" value="{{tf.id}}">{{tf.displayName}}</option>
+        </select>
+      </div>
     </div> <!-- br-pagetitle -->
 
     <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
       <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
-        <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a></li>
+        <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Incident Types</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#turnout')">Turnout</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#travel')">Travel</a></li>
         <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#details')">Details</a></li>
@@ -37,7 +39,7 @@
         <div class="col-md-12">
           <div id="overview">
             <div class="d-flex justify-content-between">
-              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Overview</h6>
+              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Incident Types</h6>
               <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5"><span class="fa fa-bar-chart-o fa">&nbsp;</span>{{
                 vm.currentMetrics.total_data.total_count }} responses
                 <percent-change class="d-inline" old-value="vm.previousMetrics.total_data.total_count " new-value="vm.currentMetrics.total_data.total_count">

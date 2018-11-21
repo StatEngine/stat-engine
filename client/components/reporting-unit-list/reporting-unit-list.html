@@ -4,8 +4,8 @@
   </div><!-- br-mailbox-list-header -->
   <div class="br-mailbox-list-body">
     <div ng-repeat="unit in vm.units | filter: allKeyword">
-      <div class="br-mailbox-list-item" ng-click="vm.select(unit)">
-        <h6 class="tx-14 mg-b-10 tx-gray-800"> {{ unit.id }}</h6>
+      <div class="br-mailbox-list-item border-bottom" ng-click="vm.select(unit)">
+        <h6 class="tx-14 mb-2 mt-2 tx-gray-800"> {{ unit.id }}</h6>
       </div>
     </div><!-- br-mailbox-list-item -->
   </div><!-- br-mailbox-list-body -->
