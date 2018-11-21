@@ -1,12 +1,15 @@
 'use strict';
 
+import moment from 'moment-timezone';
+
 let _;
 
-const COLORS = {
-  FIRE: '#44a0c1',
-  EMS: '#25a88e'
-};
 
+const COLORS = {
+  FIRE: '#f3786b',
+  EMS: '#5fb5c8',
+  OTHER: '#f8b700'
+};
 export default class IncidentTravelCategoryChartComponent {
   constructor() {
     'ngInject';
@@ -44,10 +47,8 @@ export default class IncidentTravelCategoryChartComponent {
       };
       _.forOwn(this.data, (dateData, dateName) => {
         let count = _.get(dateData[categoryName], '90_percentile_travel_duration_seconds');
-        if(!_.isNil(count)) {
-          curTrace.x.push(dateName);
-          curTrace.y.push(count);
-        }
+        curTrace.x.push(moment(dateName).tz(this.tz).format());
+        curTrace.y.push(count);
       });
       this.trace.push(curTrace);
     });
