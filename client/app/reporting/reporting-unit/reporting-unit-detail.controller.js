@@ -26,10 +26,12 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class ReportingUnitDetailController {
   /*@ngInject*/
-  constructor($state, currentPrincipal, $scope) {
+  constructor(AmplitudeService, AnalyticEventNames, $state, currentPrincipal, $scope) {
     this.unitStore = Store.unitStore;
     this.uiStore = Store.uiStore;
     this.timeZone = currentPrincipal.FireDepartment.timezone;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
 
     this.$state = $state;
 
@@ -113,6 +115,11 @@ export default class ReportingUnitDetailController {
         this.totalCommitmentMax = _.maxBy(arr, 'total_commitment_time_seconds');
       }
       $scope.$evalAsync();
+    });
+
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+      app: 'Unit Analysis',
+      action: 'view',
     });
   }
 
