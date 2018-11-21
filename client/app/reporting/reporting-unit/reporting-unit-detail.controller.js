@@ -29,6 +29,7 @@ export default class ReportingUnitDetailController {
   constructor($state, currentPrincipal, $scope) {
     this.unitStore = Store.unitStore;
     this.uiStore = Store.uiStore;
+    this.timeZone = currentPrincipal.FireDepartment.timezone;
 
     this.$state = $state;
 

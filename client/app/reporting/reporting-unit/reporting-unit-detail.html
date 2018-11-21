@@ -100,7 +100,7 @@
                         </div>
                       </div>
                     </div>
-                    <incident-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category">
+                    <incident-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category" tz="{{vm.timeZone}}">
                     </incident-category-chart>
                   </div>
 
@@ -166,7 +166,7 @@
                         </percent-change>
                       </div>
                     </div>
-                    <incident-turnout-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category">
+                    <incident-turnout-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category" tz="{{vm.timeZone}}">
                     </incident-turnout-category-chart>
                   </div>
                 </div>
@@ -234,7 +234,7 @@
                     </div>
                   </div>
                 </div>
-                <incident-travel-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category">
+                <incident-travel-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category" tz="{{vm.timeZone}}">
                 </incident-travel-category-chart>
               </div>
             </div>
