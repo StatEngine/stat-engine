@@ -35,3 +35,13 @@
 .height-65vh {
     height: 65vh;
 }
+
+.breadcrumb-item:not(.active) {
+    color: #6c757d;
+    display: block;
+    text-align: right;
+}
+
+.ml-50-percent {
+  margin-left: 50%;
+}

@@ -12,6 +12,7 @@ export default angular.module('chart', [])
     controllerAs: 'vm',
     bindings: {
       data: '<',
+      tz: '@'
     },
   })
   .component('incidentTurnoutCategoryChart', {
@@ -20,6 +21,7 @@ export default angular.module('chart', [])
     controllerAs: 'vm',
     bindings: {
       data: '<',
+      tz: '@'
     },
   })
   .component('incidentTravelCategoryChart', {
@@ -28,6 +30,7 @@ export default angular.module('chart', [])
     controllerAs: 'vm',
     bindings: {
       data: '<',
+      tz: '@'
     },
   })
   .component('incidentFirstDueTravelDurationChart', {
@@ -36,6 +39,7 @@ export default angular.module('chart', [])
     controllerAs: 'vm',
     bindings: {
       data: '<',
+      tz: '@'
     },
   })
   .name;
