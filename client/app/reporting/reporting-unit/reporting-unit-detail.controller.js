@@ -134,6 +134,6 @@ export default class ReportingUnitDetailController {
   }
 
   scrollTo(location) {
-    $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+    $('html, body').animate({ scrollTop: $(location).offset().top - 65 }, 1000);
   }
 }
