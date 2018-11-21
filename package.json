@@ -196,6 +196,7 @@
     "style-loader": "^0.19.0",
     "supertest": "^3.0.0",
     "through2": "^2.0.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.17.1",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
