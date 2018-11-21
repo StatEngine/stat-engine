@@ -124,7 +124,6 @@ export default class ReportingUnitDetailController {
   }
 
   changeFilter() {
-    console.dir(this.selectedTime)
     this.$state.go('site.reporting.unit.detail', { id: this.unitStore.selected.id, time: this.selectedTime });
   }
 

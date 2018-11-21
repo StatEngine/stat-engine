@@ -29,6 +29,7 @@ export default function routes($stateProvider) {
           return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
             .then(() => {
               $ocLazyLoad.inject('ui.grid');
+              $ocLazyLoad.inject('ui.grid.pagination');
             });
         },
         currentPrincipal(Principal) {

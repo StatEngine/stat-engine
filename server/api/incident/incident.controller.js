@@ -16,7 +16,7 @@ export function getRecentIncidents(req, res) {
 
   const params = {
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
-    size: 100,
+    size: 1000,
     body: {
       _source: [
         'description.incident_number',

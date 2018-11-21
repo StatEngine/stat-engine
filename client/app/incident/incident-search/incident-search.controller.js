@@ -13,6 +13,8 @@ export default class IncidentSearchController {
 
     this.searchResultsTableOptions = {
       data: [],
+      paginationPageSizes: [100],
+      paginationPageSize: 100,
       columnDefs: [{
         field: 'description.incident_number',
         displayName: 'Incident Number',
