@@ -206,102 +206,38 @@
                 </incident-turnout-category-chart>
               </div>
             </div>
-            <!---
-          <div class="col-6 col-sm-6 pd-y-20 tx-center">
-            <h3 class="light-label mb-0">Analysis & Insights</h3><br>
-            <span class="badge badge-info">Coming Soon</span </div> </div> <div class="row">
-            <br>
-            <br>
-          </div>
-         -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- <div  class="mb-5 row">
-        <div class="col-md-12">
-          <div class="d-flex justify-content-between">
-            <h4 class="tx-spacing-1 tx-medium mg-b-20">Travel Time</h4>
-            <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5"><span class="fa fa-clock-o fa">&nbsp;</span>{{
-              vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
-              <percent-change class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
-                old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
-              </percent-change>
-            </h5>
-            <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5">
-              <rank class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
-                old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']">
-              </rank>
-            </h5>
-          </div>
-          <div id="travel" class="collapse">
-            <div class="d-flex justify-content-between">
-              <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Travel</h6>
-              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5"><span class="fa fa-clock-o fa">&nbsp;</span>{{
-                vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
-                <percent-change class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
-                  old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
-                </percent-change>
-              </h5>
-              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5">
-                <rank class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
-                  old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']">
-                </rank>
-              </h5>
-            </div>
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-sm-12 pd-y-20">
-                    <div class="row">
-                      <div class="col-4 col-sm-4 pd-y-20">
-                        <h3 class="light-label mb-0">OVERALL</h3>
-                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
-                          vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000)
-                          }}</h4>
-                        <percent-change old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds'] "
-                          new-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
-                        </percent-change>
-                      </div>
-                      <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
-                        <h3 class="light-label mb-0">EMS</h3>
-                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
-                          vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']*1000)}}</h4>
-                        <percent-change old-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
-                          new-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']">
-                        </percent-change>
-                      </div>
-                      <div class="col-4 col-sm-4 pd-y-20 bd-l bd-color-gray-lighter">
-                        <h3 class="light-label mb-0">FIRE</h3>
-                        <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
-                          vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']*1000)}}</h4>
-                        <percent-change old-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
-                          new-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']">
-                        </percent-change>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <incident-travel-category-chart data="vm.currentMetrics.time_series_data.grouped_data.category" tz="{{vm.timeZone}}">
-                </incident-travel-category-chart>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
     <div class="mb-5 row">
       <div class="col-md-12">
         <div id="details">
-          <div class="d-flex justify-content-between">
-            <h6 class="d-inline tx-13 tx-spacing-1 tx-gray-500 tx-uppercase tx-medium mg-b-20">Details</h6>
-          </div>
           <div class="card h-100">
             <div class="card-body">
               <div class="row no-gutters tx-center">
                 <div class="col-12 col-sm-12 pd-y-20">
-                  <div ui-grid="vm.responsesTableOptions" class="height-65vh" ui-grid-pagination ui-grid-auto-resize>
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Incidents</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                    </li> -->
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div ui-grid="vm.responsesTableOptions" class="height-65vh" ui-grid-pagination ui-grid-auto-resize>
+                    </div>
+                    <!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    </div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> -->
+                  </div>
+                  <!-- <div ui-grid="vm.responsesTableOptions" class="height-65vh" ui-grid-pagination ui-grid-auto-resize> -->
                   </div>
                 </div>
               </div>
