@@ -54,7 +54,7 @@ export default class IncidentTravelCategoryChartComponent {
     });
 
     this.layout = {
-      barmode: 'grouped',
+      barmode: 'stack',
       xaxis: {
         title: 'Datetime',
       },

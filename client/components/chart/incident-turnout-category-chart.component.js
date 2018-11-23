@@ -53,7 +53,7 @@ export default class IncidentTurnoutCategoryChartComponent {
     });
 
     this.layout = {
-      barmode: 'grouped',
+      barmode: 'stack',
       xaxis: {
         title: 'Datetime',
       },
