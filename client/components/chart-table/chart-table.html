@@ -1,0 +1,20 @@
+<table class="table table-borderless col-12" ng-if="vm.data">
+  <thead class="p-0">
+    <tr class="bg-white border-bottom">
+      <th scope="col" class="p-2 text-uppercase light-label">{{vm.title}}</th>
+      <th scope="col" class="text-right p-2 text-uppercase light-label">{{vm.metricTitle}}</th>
+    </tr>
+  </thead>
+  <tbody class="col-12">
+      <tr class="border-bottom" ng-repeat="row in vm.data | orderBy:'-count'" style="position: relative;">
+        <div class="row">
+          <th scope="row"  style="width: 85%; border-left: 4px solid {{row.color}}; position: relative; z-index: 1">
+            <div style="width: {{(row.count / vm.total) * 100}}%; background-color:#aaaaaa14; position: absolute; top:0; left:0; z-index:-1; height:100%">&nbsp;</div>
+            {{row.value}}
+          </th>
+          <td class="text-right bg-white" style="width: 15%">{{row.metric|number:0}}</td>
+      </div>
+      </tr>
+    </div>
+  </tbody>
+</table>

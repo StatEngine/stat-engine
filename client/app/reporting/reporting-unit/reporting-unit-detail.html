@@ -38,11 +38,6 @@
     <div class="card-body bg-white">
       <div class="row d-flex justify-content-between col-sm-12">
         <h4 class="tx-spacing-1 tx-medium mg-b-20 col-sm-4">Incident Types</h4>
-        <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5 col-sm-4"><span class="fa fa-bar-chart-o fa">&nbsp;</span>{{
-          vm.currentMetrics.total_data.total_count }} responses
-          <percent-change class="d-inline" old-value="vm.previousMetrics.total_data.total_count " new-value="vm.currentMetrics.total_data.total_count">
-          </percent-change>
-        </h5>
         <h5 class="d-inline tx-inverse tx-lato text-right tx-bold mg-b-5 col-sm-4">
           <rank class="d-inline" old-value="vm.previousMetrics.total_data.total_count_rank" new-value="vm.currentMetrics.total_data.total_count_rank">
           </rank>
@@ -51,46 +46,49 @@
       <div class="row col-12">
         <incident-category-chart class="col-sm-9" data="vm.currentMetrics.time_series_data.grouped_data.category" tz="{{vm.timeZone}}">
         </incident-category-chart>
-          <div class="column col-3 col-sm-3 pd-y-20">
-            <div class="col-12 col-sm-12 pd-y-20">
-              <h3 class="light-label mb-0">Responses</h3>
-              <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
-                vm.currentMetrics.total_data.total_count }}</h4>
-              <percent-change old-value="vm.previousMetrics.total_data.total_count" new-value="vm.currentMetrics.total_data.total_count">
-              </percent-change>
-              <br>
+        <div class="column col-3 col-sm-3 pd-y-20">
+          <div class="col-12 col-sm-12 pd-y-20">
+            <h3 class="light-label mb-0">Responses</h3>
+            <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+              vm.currentMetrics.total_data.total_count }}</h4>
+            <percent-change old-value="vm.previousMetrics.total_data.total_count" new-value="vm.currentMetrics.total_data.total_count">
+            </percent-change>
+            <br>
 
-              <p>Avg {{ vm.totalIncidentAvg.toFixed(2) }}</p>
-              <div class="progress mg-b-20">
-                <div class="progress-bar-step" style="left: {{vm.totalIncidentAvg/vm.totalIncidentMax.total_count * 100}}%">
-                  <div class="progress-bar-label-line"></div>
-                </div>
-                <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_count*100/vm.totalIncidentMax.total_count}}%" role="progressbar" aria-valuenow="{{ vm.currentMetrics.total_data.total_count }}" aria-valuemin="0" aria-valuemax="{{vm.totalIncidentMax.total_count}}">
-                </div>
+            <p>Avg {{ vm.totalIncidentAvg.toFixed(2) }}</p>
+            <div class="progress mg-b-20">
+              <div class="progress-bar-step" style="left: {{vm.totalIncidentAvg/vm.totalIncidentMax.total_count * 100}}%">
+                <div class="progress-bar-label-line"></div>
+              </div>
+              <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_count*100/vm.totalIncidentMax.total_count}}%" role="progressbar" aria-valuenow="{{ vm.currentMetrics.total_data.total_count }}" aria-valuemin="0" aria-valuemax="{{vm.totalIncidentMax.total_count}}">
               </div>
             </div>
+          </div>
 
-            <div class="col-12 col-sm-12 pd-y-20">
-              <h3 class="light-label mb-0">Commitment</h3>
+          <div class="col-12 col-sm-12 pd-y-20">
+            <h3 class="light-label mb-0">Commitment</h3>
 
-              <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
-                vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}</h4>
-              <percent-change old-value="vm.previousMetrics.total_data.total_commitment_time_seconds" new-value="vm.currentMetrics.total_data.total_commitment_time_seconds">
-              </percent-change>
-              <br>
-              <br>
+            <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+              vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}</h4>
+            <percent-change old-value="vm.previousMetrics.total_data.total_commitment_time_seconds" new-value="vm.currentMetrics.total_data.total_commitment_time_seconds">
+            </percent-change>
+            <br>
+            <br>
 
-              <p>Avg {{vm.humanizeDuration(vm.totalCommitmentAvg*1000)}}</p>
-              <div class="progress mg-b-20">
-                <div class="progress-bar-step" style="left: {{vm.totalCommitmentAvg*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%">
-                  <div class="progress-bar-label-line"></div>
-                </div>
-                <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_commitment_time_seconds*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%" role="progressbar" aria-valuenow="{{vm.currentMetrics.total_data.total_commitment_time_seconds}}"
-                  aria-valuemin="0" aria-valuemax="{{vm.totalCommitmentMax.total_commitment_time_seconds}}">
+            <p>Avg {{vm.humanizeDuration(vm.totalCommitmentAvg*1000)}}</p>
+            <div class="progress mg-b-20">
+              <div class="progress-bar-step" style="left: {{vm.totalCommitmentAvg*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%">
+                <div class="progress-bar-label-line"></div>
+              </div>
+              <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_commitment_time_seconds*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%" role="progressbar" aria-valuenow="{{vm.currentMetrics.total_data.total_commitment_time_seconds}}"
+                aria-valuemin="0" aria-valuemax="{{vm.totalCommitmentMax.total_commitment_time_seconds}}">
 
-                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row col-12">
+          <chart-table class="col-9 mb-5" title="Incident Type" data="vm.responseData"></chart-table>
         </div>
       </div>
 
@@ -178,6 +176,9 @@
             <div class="row">
               <div class="col-12 col-sm-12 pd-y-20">
                 <div class="row">
+                  <h3 class="light-label mb-0">Summary</h3>
+                </div>
+                <div class="row col-8">
                   <div class="col-4 col-sm-4 pd-y-20">
                     <h3 class="light-label mb-0">OVERALL</h3>
                     <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
@@ -197,7 +198,7 @@
                     <h3 class="light-label mb-0">FIRE</h3>
                     <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
                   vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds'] |
-                  number: 0 }}</h4>
+                  number: 0}}</h4>
                     <percent-change new-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']" old-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']">
                     </percent-change>
                   </div>

@@ -102,6 +102,14 @@ export default class ReportingUnitDetailController {
 
       this.selectedTime = this.uiStore.selectedFilters.timeFilter.id;
 
+      this.responseData = Object.entries(this.currentMetrics.grouped_data.category).map(n => ({
+        value: n[0],
+        count: n[1].total_count || 0,
+        metric: n[1].total_count || 0,
+        color: n[0] === 'FIRE' ? '#f3786b' : n[0] === 'EMS' ? '#5fb5c8' : '#f8b700',
+
+      }));
+
       // abstract this to component do this server side
       if(this.totalMetrics) {
         let arr = _.values(this.totalMetrics.time_series_data.total_data);

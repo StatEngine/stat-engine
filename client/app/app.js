@@ -68,7 +68,7 @@ import statsTable from '../components/tables/stats-table.component';
 import safety from '../components/safety/safety.component';
 import weather from '../components/weather/weather.component';
 import currentWeather from '../components/weather/current-weather.component';
-
+import chartTable from '../components/chart-table/chart-table.component'
 import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
 
@@ -104,6 +104,7 @@ angular.module('statEngineApp', [
   skycon,
   weather,
   currentWeather,
+  chartTable,
   safety,
   account,
   admin,
