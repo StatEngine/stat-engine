@@ -1116,8 +1116,8 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   .nav-outline.flex-md-row .nav-item {
     padding-left: 0;
   }
-  .nav-outline.active-info .nav-link.active::before, 
-  .nav-outline.active-info .nav-link.active:hover::before, 
+  .nav-outline.active-info .nav-link.active::before,
+  .nav-outline.active-info .nav-link.active:hover::before,
   .nav-outline.active-info .nav-link.active:focus::before {
     border-bottom: 0;
     position: absolute;
@@ -1127,8 +1127,8 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 }
 
 @include media-breakpoint-down(xs) {
-  .nav-outline.active-info .nav-link.active::before, 
-  .nav-outline.active-info .nav-link.active:hover::before, 
+  .nav-outline.active-info .nav-link.active::before,
+  .nav-outline.active-info .nav-link.active:hover::before,
   .nav-outline.active-info .nav-link.active:focus::before {
     left: -15px;
   }
@@ -1355,4 +1355,5 @@ span+.logged-name {
 @import '../components/incident/incident';
 @import '../components/oauth-buttons/oauth-buttons';
 @import '../components/percent-change/percent-change';
+@import '../components/bar-gauge/bar-gauge';
 // endinject //

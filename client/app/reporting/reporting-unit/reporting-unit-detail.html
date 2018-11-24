@@ -56,12 +56,8 @@
             <br>
 
             <p>Avg {{ vm.totalIncidentAvg.toFixed(2) }}</p>
-            <div class="progress mg-b-20">
-              <div class="progress-bar-step" style="left: {{vm.totalIncidentAvg/vm.totalIncidentMax.total_count * 100}}%">
-                <div class="progress-bar-label-line"></div>
-              </div>
-              <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_count*100/vm.totalIncidentMax.total_count}}%" role="progressbar" aria-valuenow="{{ vm.currentMetrics.total_data.total_count }}" aria-valuemin="0" aria-valuemax="{{vm.totalIncidentMax.total_count}}">
-              </div>
+            <div class="mg-b-20">
+              <bar-gauge min="{{vm.totalIncidentMin.total_count}}" average="{{vm.totalIncidentAvg}}" value="{{vm.currentMetrics.total_data.total_count}}" max="{{vm.totalIncidentMax.total_count}}"></bar-gauge>
             </div>
           </div>
 
@@ -76,14 +72,7 @@
             <br>
 
             <p>Avg {{vm.humanizeDuration(vm.totalCommitmentAvg*1000)}}</p>
-            <div class="progress mg-b-20">
-              <div class="progress-bar-step" style="left: {{vm.totalCommitmentAvg*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%">
-                <div class="progress-bar-label-line"></div>
-              </div>
-              <div class="progress-bar progress-bar-lg wd-35p" style="width: {{vm.currentMetrics.total_data.total_commitment_time_seconds*100/vm.totalCommitmentMax.total_commitment_time_seconds}}%" role="progressbar" aria-valuenow="{{vm.currentMetrics.total_data.total_commitment_time_seconds}}"
-                aria-valuemin="0" aria-valuemax="{{vm.totalCommitmentMax.total_commitment_time_seconds}}">
-
-              </div>
+            <bar-gauge min-label="{{ vm.totalCommitmentMin.total_commitment_time_seconds|humanizeDuration:true}}" min="{{vm.totalCommitmentMin.total_commitment_time_seconds}}" average="{{vm.totalCommitmentAvg}}" value="{{vm.currentMetrics.total_data.total_commitment_time_seconds}}" max="{{vm.totalCommitmentMax.total_commitment_time_seconds}}" max-label="{{vm.totalCommitmentMax.total_commitment_time_seconds|humanizeDuration:true}}"></bar-gauge>
             </div>
           </div>
         </div>

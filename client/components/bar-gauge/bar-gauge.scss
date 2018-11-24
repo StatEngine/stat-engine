@@ -1,0 +1,45 @@
+.bar-gauge-wrapper {
+  background-color: #e9ecef;
+}
+
+.bar-gauge {
+  background-color: #202e36;
+}
+
+.bar-gauge {
+  height: 7px;
+  width: 150px;
+}
+
+// .bar-gauge-inverse {
+//   .gauge-inverse;
+// }
+
+.bar-gauge-label {
+  font-size: 12px;
+  color: #a6a6a6;
+  position: absolute;
+  cursor: default;
+  padding-top: 5px;
+}
+
+.bar-gauge-label-min {
+  left: 0px;
+}
+
+.bar-gauge-label-max {
+  right: 0px;
+}
+
+.bar-gauge-wrapper {
+  position: relative;
+}
+
+.bar-gauge-needle {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid black;
+  position: absolute;
+}
