@@ -1,19 +1,59 @@
 .bar-gauge-wrapper {
-  background-color: #e9ecef;
+  margin-bottom: 70px;
+}
+
+.low {
+  background-color: $success;
+}
+
+.medium {
+  background-color: #ffc200;
+}
+
+.high {
+  background-color: $red;
 }
 
 .bar-gauge {
-  background-color: #202e36;
-}
+  height: 5px;
+  width: 100%;
 
-.bar-gauge {
-  height: 7px;
-  width: 150px;
-}
+  > div {
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    border-left: 2px solid white;
+  }
 
-// .bar-gauge-inverse {
-//   .gauge-inverse;
-// }
+  > .bar-gauge-first {
+    @extend .rounded-left;
+    @extend .low;
+    border-left: none;
+  }
+
+  > .bar-gauge-second {
+    @extend .medium;
+    left: 20%;
+  }
+
+  > .bar-gauge-third {
+    @extend .medium;
+    left: 40%;
+  }
+
+  > .bar-gauge-fourth {
+    @extend .medium;
+    left: 60%;
+  }
+
+  > .bar-gauge-fifth {
+    @extend .rounded-right;
+    @extend .high;
+    left: 80%;
+    width: 20%;
+  }
+
+}
 
 .bar-gauge-label {
   font-size: 12px;
@@ -31,15 +71,53 @@
   right: 0px;
 }
 
+.bar-gauge-label-mid {
+  right: 50%;
+  left: 50%;
+  margin-left: -24px;
+}
+
 .bar-gauge-wrapper {
   position: relative;
 }
 
-.bar-gauge-needle {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid black;
+.bar-gauge-needle-group {
   position: absolute;
+  width: 100%;
+
+  .bar-gauge-needle-text {
+    position: absolute;
+    top: -33px;
+    padding: 2px 5px;
+    background-color: #192d42;
+    @extend .rounded;
+    left: -35px;
+    font-size: 12px;
+    color: #abbecb;
+    font-weight: bold;
+  }
+
+  .bar-gauge-needle {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #192d42;
+    position: absolute;
+    top: -11px;
+  }
+}
+
+.bar-gauge-description {
+  font-size: 12px;
+  position: absolute;
+  cursor: default;
+  top: 37px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
 }
