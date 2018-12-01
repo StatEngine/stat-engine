@@ -38,11 +38,14 @@ export function buildResponsesQuery(req, res, next) {
     .rawOption('_source', [
       'description.incident_number',
       'description.category',
+      'description.event_opened',
       'description.event_closed',
       'address.address_line1',
       'description.type',
       'description.subtype',
+      'apparatus_data.unit_id',
       'apparatus_data.extended_data.*',
+      'apparatus_data.unit_status.*',
       'description.shift'])
     .filter('term', 'description.suppressed', false)
     .filter('term', 'apparatus_data.unit_id', req.params.id);

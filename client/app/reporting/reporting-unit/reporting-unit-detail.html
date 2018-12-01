@@ -206,28 +206,41 @@
         <div id="details">
           <div class="card h-100">
             <div class="card-body">
-              <div class="row no-gutters tx-center">
+              <div class="row no-gutters">
                 <div class="col-12 col-sm-12 pd-y-20">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Incidents</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                      <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="true" ng-click="vm.selectTab('timeline')">Timeline</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                    </li> -->
+                      <a class="nav-link" id="table-tab" data-toggle="tab" href="#tableTab" role="tab" aria-controls="table" aria-selected="true" ng-click="vm.selectTab('table')">Table</a>
+                    </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div ui-grid="vm.responsesTableOptions" class="height-65vh" ui-grid-pagination ui-grid-auto-resize>
+                    <div class="tab-pane fade show" id="tableTab" role="tabpanel" aria-labelledby="table-tab">
+                      <div ui-grid="vm.responsesTableOptions" ng-if="vm.selectedTab === 'table'" class="height-65vh" ui-grid-pagination>
+                      </div>
                     </div>
-                    <!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    
+                    <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                      <div class="row">
+                        <div class="col-lg-10">
+                          <div>
+                            <incident-apparatus-timeline responses="vm.responsesTableOptions.data""></incident-apparatus-timeline>
+                          </div>
+                        </div>
+                        <div class="col-lg-2 pl-2 pd-y-20">
+                          <ul class="events-timeline-legend">
+                            <li class="turnout-time">Turnout Time</li>
+                            <li class="travel-time">Travel Time</li>
+                            <li class="intervention-time">Intervention Time</li>
+                            <li class="transport">Transport</li>
+                            <li class="post-transport">Post Transport</li>
+                            <li class="cancelled">Out-of-Service/Cancelled</li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
-                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> -->
-                  </div>
-                  <!-- <div ui-grid="vm.responsesTableOptions" class="height-65vh" ui-grid-pagination ui-grid-auto-resize> -->
                   </div>
                 </div>
               </div>

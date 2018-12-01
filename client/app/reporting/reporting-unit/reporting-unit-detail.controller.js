@@ -34,6 +34,7 @@ export default class ReportingUnitDetailController {
     this.AnalyticEventNames = AnalyticEventNames;
 
     this.$state = $state;
+    this.selectedTab = 'timeline';
 
     this.responsesTableOptions = {
       data: [],
@@ -149,5 +150,9 @@ export default class ReportingUnitDetailController {
 
   scrollTo(location) {
     $('html, body').animate({ scrollTop: $(location).offset().top - 65 }, 1000);
+  }
+
+  selectTab(tabName) {
+    this.selectedTab = tabName;
   }
 }
