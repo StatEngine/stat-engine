@@ -84,25 +84,25 @@
       <div class="card">
         <div class="card-header m-0" id="headingOne">
           <h5 class="mb-0">
-        <button class="btn btn-link d-flex collapsed col-sm-12" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <h4 class="tx-spacing-1 tx-medium mg-b-20 col-sm-3">Travel Time</h4>
-          <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5 col-sm-6"><span class="fa fa-clock-o fa">&nbsp;</span>{{
-            vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
-            <percent-change class="d-inline col-sm-3" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
-              old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
-            </percent-change>
-          </h5>
-          <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5 text-right col-sm-3">
-            <rank class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
-              old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']">
-            </rank>
-          </h5>
-          </button>
+            <button class="btn btn-link d-flex collapsed col-sm-12" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              <h4 class="tx-spacing-1 tx-medium mg-b-20 col-sm-3">Travel Time</h4>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5 col-sm-6"><span class="fa fa-clock-o fa">&nbsp;</span>{{
+                vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
+                <percent-change class="d-inline col-sm-3" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
+                  old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds'] ">
+                </percent-change>
+              </h5>
+              <h5 class="d-inline tx-inverse tx-lato tx-bold mg-b-5 text-right col-sm-3">
+                <rank class="d-inline" new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
+                  old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']">
+                </rank>
+              </h5>
+            </button>
           </h5>
         </div>
         <!-- travel -->
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-          <div class="card-body">
+          <div class="card-body pd-x-30">
             <div class="row">
               <div class="col-12 col-sm-12 pd-y-20">
                 <div class="row">
@@ -160,13 +160,10 @@
           </h5>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-          <div class="card-body">
+          <div class="card-body pd-x-30">
             <div class="row">
               <div class="col-12 col-sm-12 pd-y-20">
                 <div class="row">
-                  <h3 class="light-label mb-0">Summary</h3>
-                </div>
-                <div class="row col-8">
                   <div class="col-4 col-sm-4 pd-y-20">
                     <h3 class="light-label mb-0">OVERALL</h3>
                     <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
