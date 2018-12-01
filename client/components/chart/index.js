@@ -4,6 +4,7 @@ import IncidentCategoryChartComponent from './incident-category-chart.component'
 import IncidentTurnoutCategoryChartComponent from './incident-turnout-category-chart.component';
 import IncidentTravelCategoryChartComponent from './incident-travel-category-chart.component';
 import IncidentFirstDueTravelDurationChartComponent from './incident-first-due-travel-duration-chart.component';
+import IncidentApparatusTimelineComponent from './incident-apparatus-timeline.component';
 
 export default angular.module('chart', [])
   .component('incidentCategoryChart', {
@@ -39,6 +40,15 @@ export default angular.module('chart', [])
     controllerAs: 'vm',
     bindings: {
       data: '<',
+      tz: '@'
+    },
+  })
+  .component('incidentApparatusTimeline', {
+    template: require('./incident-apparatus-timeline.html'),
+    controller: IncidentApparatusTimelineComponent,
+    controllerAs: 'vm',
+    bindings: {
+      responses: '<',
       tz: '@'
     },
   })
