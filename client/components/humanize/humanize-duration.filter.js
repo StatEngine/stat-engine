@@ -22,7 +22,7 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 export default angular.module('statEngineApp.humanize', [])
   .filter('humanizeDuration', function() {
     return function(seconds, variableResolution) {
-      let options = {};
+      let options = {spacer: ''};
       if(variableResolution === true) {
         if(seconds * 1000 > 604800) {
           options.largest = 3;

@@ -49,30 +49,29 @@
         <div class="column col-3 col-sm-3 pd-y-20">
           <div class="col-12 col-sm-12 pd-y-20">
             <h3 class="light-label mb-0">Responses</h3>
-            <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+            <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline clearfix">{{
               vm.currentMetrics.total_data.total_count }}</h4>
             <percent-change old-value="vm.previousMetrics.total_data.total_count" new-value="vm.currentMetrics.total_data.total_count">
             </percent-change>
-            <br>
 
-            <p>Avg {{ vm.totalIncidentAvg.toFixed(2) }}</p>
-            <div class="mg-b-20">
-              <bar-gauge min="{{vm.totalIncidentMin.total_count}}" average="{{vm.totalIncidentAvg}}" value="{{vm.currentMetrics.total_data.total_count}}" max="{{vm.totalIncidentMax.total_count}}"></bar-gauge>
+            <!-- <p>Avg {{ vm.totalIncidentAvg.toFixed(2) }}</p> -->
+            <div class="mg-b-20 mt-5 mb-5">
+              <bar-gauge class="pt-3" data="vm.totalIncidentCounts" min-label="Slow" max-label="Busy" min="vm.totalIncidentMin.total_count" average="vm.totalIncidentAvg" value="vm.currentMetrics.total_data.total_count" max="vm.totalIncidentMax.total_count"></bar-gauge>
             </div>
           </div>
 
           <div class="col-12 col-sm-12 pd-y-20">
             <h3 class="light-label mb-0">Commitment</h3>
 
-            <h4 class="tx-inverse tx-lato tx-bold mg-b-5 d-inline">{{
+            <h4 class="tx-inverse tx-lato tx-bold d-inline clearfix">{{
               vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}</h4>
+            <!-- <p>Avg {{vm.humanizeDuration(vm.totalCommitmentAvg*1000)}}</p> -->
             <percent-change old-value="vm.previousMetrics.total_data.total_commitment_time_seconds" new-value="vm.currentMetrics.total_data.total_commitment_time_seconds">
             </percent-change>
-            <br>
-            <br>
+            <div class="mg-b-20 mt-5 mb-5">
+              <bar-gauge class="pt-3" duration data="vm.totalCommitTimes" min-label="Low" max-label="High" value="vm.currentMetrics.total_data.total_commitment_time_seconds"></bar-gauge>
+            </div>
 
-            <p>Avg {{vm.humanizeDuration(vm.totalCommitmentAvg*1000)}}</p>
-            <bar-gauge min-label="{{ vm.totalCommitmentMin.total_commitment_time_seconds|humanizeDuration:true}}" min="{{vm.totalCommitmentMin.total_commitment_time_seconds}}" average="{{vm.totalCommitmentAvg}}" value="{{vm.currentMetrics.total_data.total_commitment_time_seconds}}" max="{{vm.totalCommitmentMax.total_commitment_time_seconds}}" max-label="{{vm.totalCommitmentMax.total_commitment_time_seconds|humanizeDuration:true}}"></bar-gauge>
             </div>
           </div>
         </div>

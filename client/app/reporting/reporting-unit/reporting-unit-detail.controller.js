@@ -118,6 +118,8 @@ export default class ReportingUnitDetailController {
         this.totalIncidentMin = _.minBy(arr, 'total_count');
         this.totalIncidentAvg = _.meanBy(arr, 'total_count');
         this.totalIncidentMax = _.maxBy(arr, 'total_count');
+        this.totalIncidentCounts = arr.map(a => a.total_count);
+        this.totalCommitTimes = arr.map(a => a.total_commitment_time_seconds);
 
         this.totalCommitmentMin = _.minBy(arr, 'total_commitment_time_seconds');
         this.totalCommitmentAvg = _.meanBy(arr, 'total_commitment_time_seconds');
@@ -145,7 +147,7 @@ export default class ReportingUnitDetailController {
   }
 
   humanizeDuration(ms) {
-    return shortEnglishHumanizer(ms, { round: true });
+    return shortEnglishHumanizer(ms, { round: true, spacer: '' });
   }
 
   scrollTo(location) {
