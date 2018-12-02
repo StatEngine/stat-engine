@@ -8,6 +8,22 @@ import * as controller from './incident.controller';
 const router = new Router();
 
 router.get(
+  '/active',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getActiveIncidents,
+);
+
+router.get(
+  '/top',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getTopIncidents,
+);
+
+router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),

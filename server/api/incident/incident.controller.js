@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import connection from '../../elasticsearch/connection';
+import bodybuilder from 'bodybuilder';
 
 import {
   generateTextualSummaries,
@@ -10,6 +11,77 @@ import {
 import {
   getMatrix
 } from './mapbox.helpers';
+import { HTML5_FMT } from 'moment';
+
+export function getActiveIncidents(req, res) {
+  req.esBody = bodybuilder()
+    .size(100)
+    .filter('term', 'description.suppressed', false)
+    .filter('term', 'description.active', true)
+    .filter('range', 'description.event_opened', { gte: 'now-24h' })
+    .build();
+
+  connection.getClient().search({
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
+    body: req.esBody,
+  })
+  .then(searchResults => {
+    let data = [];
+    _.forEach(searchResults.hits.hits, h => {
+      data.push(h._source)
+    });
+
+    res.json(data);
+  })
+  .catch((e) => res.status(500).send());
+}
+
+export function getTopIncidents(req, res) {
+  let base = bodybuilder()
+    .size(0)
+    .filter('term', 'description.suppressed', false)
+    .aggregation('terms', 'description.category', a => {
+        return a.aggregation('top_hits', undefined, {
+          'size': 10,
+          'sort': [{ 'durations.total_event.minutes': { 'order': 'desc' }}]
+        })
+      })
+
+  // TODO
+  //let timeStart = _.get(req, 'query.timeStart');
+  //let timeEnd = _.get(req, 'query.timeEnd');
+
+  //if(timeStart && timeEnd) {
+    base.filter('range', 'description.event_opened', { gte: 'now-24h', });//lt: timeEnd });
+  //}
+  req.esBody = base
+    .build();
+
+  connection.getClient().search({
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
+    body: req.esBody,
+  })
+  .then(searchResults => {
+    const top = {};
+
+    _.forEach(searchResults.aggregations['agg_terms_description.category'].buckets, b => {
+      top[b.key] = [];
+      _.forEach(b.agg_top_hits_undefined.hits.hits, h => {
+        let analysis = generateAnalysis(h._source);
+        analysis = _.filter(analysis, a => a.category === 'NFPA');
+        
+        top[b.key].push({
+          incident_number: h._source.description.incident_number,
+          event_duration: h._source.durations.total_event.minutes,
+          type: h._source.description.type,
+          analysis: _.keyBy(analysis, 'name')
+        })
+      })
+    })
+    res.json(top);
+  })
+  .catch((e) => res.status(500).send());
+}
 
 export function getRecentIncidents(req, res) {
   const client = connection.getClient();

@@ -28,11 +28,6 @@
                 Please follow up with your local adminstrator to receive approval.
               </p>
             </div>
-            <div ng-if="vm.onboarding">
-              <p class="tx-15">
-                We're still in the onboarding process.
-              </p>
-            </div>
             <div ng-if="vm.setupComplete">
             </div>
           </p>
@@ -62,77 +57,77 @@
   <div class="br-pagebody">
     <section class="overview">
       <div class="row">
-        <div class="col-md-6 summary-profile">
+        <div class="col-lg-7 weather-conditions">
           <div class="card h-100">
             <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-              <h6 class="card-title tx-spacing-1 tx-medium mg-b-0">My Profile</h6>
+              <h2 class="card-title tx-medium mg-b-0 tx-spacing-1">Today's Outlook</h2>
               <div class="card-option">
-                <a href="" ui-sref="site.user.settings"><i class="fa fa-pencil lh-0 tx-20"></i></a>
+                <h3 class="heavyheader"> <shift-text firecares_id="{{vm.fireDepartment.firecares_id}}" timezone="{{vm.fireDepartment.timezone}}"> </shift-text></h3>
               </div><!-- card-option -->
             </div><!-- card-header -->
-            <div class="card-body pd-t-30">
-              <dl class="row">
-                <div class="col-sm-12 col-md">
-                  <dt class="light-label">First Name</dt>
-                  <dd>{{ vm.principal.first_name }}</dd>
-                  <dt class="light-label">Last Name</dt>
-                  <dd>{{ vm.principal.last_name }}</dd>
+            <div class="card-body h-100">
+              Based on historical data, we are estimating a  <span class="busy">BUSY</span>day 
+
+              <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <h4 class="heavyheader"> Weather </h4>
+                  <div ng-if="vm.weatherForecast">
+                    <current-weather weather="vm.weatherForecast.currently"></current-weather>
+                  </div>
+                 <div ng-if="!vm.weatherForecast">
+                    <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i>
+                    <br>
+                    No weather data available at this time.
+                  </div>
                 </div>
-                <div class="col-sm-12 col-md">
-                  <dt class="light-label">Email</dt>
-                  <dd>{{ vm.principal.email }}</dd>
-                  <dt class="light-label">Roles</dt>
-                  <dd>{{ vm.principal.roles.join(", ") }}</dd>
+                <div class="col-md-6">
+                  <h4 class="heavyheader"> Safety Tip of the Day </h4>
+                  <p class="tx-light">{{vm.safetyMessage.message}}</p>
                 </div>
-              </dl>
-            </div><!-- card-body -->
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <incident-map incidents="vm.activeIncidents"></incident-map>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-6 summary-department">
-          <div class="card">
+        <div class="col-lg-5">
+          <div class="card h-100">
             <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-              <h6 class="card-title tx-spacing-1 tx-medium mg-b-0">My Department Summary</h6>
+                <h2 class="card-title tx-medium mg-b-0 tx-spacing-1">Yesterday's Recap</h2>
               <div class="card-option">
-                <a ng-if="vm.principal.isDepartmentAdmin" href="#" ui-sref="site.departmentAdmin.home"><i class="fa fa-pencil lh-0 tx-20"></i></a>
+                <h3 class="heavyheader"> <shift-text firecares_id="{{vm.fireDepartment.firecares_id}}" timezone="{{vm.fireDepartment.timezone}}" days_ago=1> </shift-text></h3>
               </div><!-- card-option -->
             </div><!-- card-header -->
-            <div class="card-body pd-t-30">
-              <dl class="row">
-                <div class="col-8">
-                  <dt class="light-label">FDID</dt>
-                  <dd>{{ vm.fireDepartment.fd_id }}</dd>
-
-                  <dt class="light-label">Name</dt>
-                  <dd>{{ vm.fireDepartment.name }}</dd>
-
-                  <dt class="light-label">Timezone</dt>
-                  <dd>{{ vm.fireDepartment.timezone }}</dd>
+            <div class="card-body h-100">
+              <h4 class="heavyheader">Top Incidents</h4>
+              <div class="row">
+                <div class="col-6">
+                  <h5 class="text-center tx-medium">FIRE</h5>
+                  <ul class="list-group">
+                    <li ng-repeat="incident in vm.interestingIncidents.FIRE" class="list-group-item">
+                      <p class="mg-b-0">
+                        <nfpa-analysis analysis="incident.analysis"></nfpa-analysis>
+                        <strong class="tx-inverse" tx-medium><a href="#" ui-sref="site.incident.analysis({ id: incident.incident_number })">{{incident.incident_number}}</a></strong>
+                        <span class="tx-muted">{{ incident.type }}</span>
+                      </p>
+                    </li>
+                  </ul>
                 </div>
-                <div class="col">
-                  <dt class="light-label">Firecares ID</dt>
-                  <dd>{{ vm.fireDepartment.firecares_id }}</dd>
-
-                  <dt class="light-label">State</dt>
-                  <dd>{{ vm.fireDepartment.state }}</dd>
-                </div>
-              </dl>
-              <div ng-if="vm.principal.isAdmin">
-                <div class="row">
-                  <div class="col col-xl-7">
-                    <div class="form-group">
-                      <div ng-if="!vm.assignedFireDepartment">
-                        <p class='text-danger text-center'>
-                          Not currently assigned to a department.
-                          <br>
+                <div class="col-6">
+                  <h5 class="text-center tx-medium">EMS</h5>
+                  <ul class="list-group">
+                      <li ng-repeat="incident in vm.interestingIncidents.EMS" class="list-group-item">
+                        <p class="mg-b-0">
+                          <nfpa-analysis analysis="incident.analysis"></nfpa-analysis>
+                          <strong class="tx-inverse" tx-medium><a href="#" ui-sref="site.incident.analysis({ id: incident.incident_number })">{{incident.incident_number}}</a></strong>
+                          <span class="tx-muted">{{ incident.type }}</span>
                         </p>
-                      </div>
-                      <label>Select Fire Department</label>
-                      <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
-                    </div>
-                    <div>
-                      <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
-                    </div>
-                  </div>
+                      </li>
+                    </ul>
                 </div>
               </div>
             </div>

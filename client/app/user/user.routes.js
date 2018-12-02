@@ -110,6 +110,18 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
+        safetyMessage(Safety) {
+          return Safety.getRandomMessage().$promise;
+        },
+        weatherForecast(currentPrincipal, Weather) {
+          if (currentPrincipal.FireDepartment) return Weather.getForecast().$promise;
+        },
+        interestingIncidents(currentPrincipal, Incident) {
+          if (currentPrincipal.FireDepartment) return Incident.get({ id: 'top' }).$promise;
+        },
+        activeIncidents(currentPrincipal, Incident) {
+          if (currentPrincipal.FireDepartment) return Incident.active({ id: 'active' }).$promise;
+        },
       }
     })
     .state('site.user.settings', {

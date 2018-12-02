@@ -93,6 +93,7 @@
     "request-promise": "^4.2.2",
     "require-all": "^2.2.0",
     "save-dev": "^2.0.0",
+    "seedrandom": "^2.4.4",
     "sequelize": "^3.23.6",
     "serve-favicon": "^2.3.0",
     "skycons": "^1.0.0",

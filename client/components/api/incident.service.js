@@ -10,5 +10,12 @@ export default function IncidentResource($resource) {
       method: 'GET',
       isArray: true,
     },
+    active: {
+      method: 'GET',
+      isArray: true,
+      params: {
+        id: '@id',
+      }
+    },
   });
 }

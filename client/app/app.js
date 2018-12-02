@@ -63,6 +63,7 @@ import footer from '../components/footer/footer.component';
 import percentChange from '../components/percent-change/percent-change.component';
 import rank from '../components/rank/rank.component';
 import modal from '../components/modal/modal.service';
+import shift from '../components/shift/shift.component';
 
 import statsTable from '../components/tables/stats-table.component';
 import safety from '../components/safety/safety.component';
@@ -72,6 +73,7 @@ import chartTable from '../components/chart-table/chart-table.component';
 import barGauge from '../components/bar-gauge/bar-gauge.component';
 import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
+import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
 
 import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
@@ -123,7 +125,7 @@ angular.module('statEngineApp', [
   incidentComponents,
   chartComponents,
   orderObjectBy,
-  //shift,
+  shift,
   departmentAdmin,
   twitter,
   'ui.bootstrap',
@@ -139,6 +141,7 @@ angular.module('statEngineApp', [
   plotlyWrapper,
   modal,
   percentChange,
+  nfpaAnalysis,
   rank,
 ])
   .config(routeConfig)

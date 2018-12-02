@@ -1,4 +1,9 @@
 .user-home {
+  .list-group-item {
+    border: none !important;
+    padding: .2rem;
+  }
+
   header {
     background: transparent;
     height: auto;
@@ -16,6 +21,11 @@
       width: 97.8%;
       margin: 4rem auto;
     }
+  }
+
+  .incident-map {
+    height: 500px !important;
+    max-height: 500px;
   }
 
   .avatar {

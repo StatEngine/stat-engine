@@ -4,10 +4,12 @@ let _;
 
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
+  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService, AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
+    this.weatherForecast = weatherForecast;
+    this.safetyMessage = safetyMessage;
 
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
@@ -18,7 +20,10 @@ export default class UserHomeController {
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
     this.appConfig = appConfig;
+    this.activeIncidents = activeIncidents;
 
+    this.interestingIncidents = interestingIncidents;
+    console.dir(interestingIncidents)
     if(this.principal.isGlobal) {
       this.fireDepartments = fireDepartments;
     }
@@ -30,6 +35,10 @@ export default class UserHomeController {
 
   async $onInit() {
     await this.loadModules();
+    console.dir(this.activeIncidents)
+
+    this.activeIncidents = _.values(this.activeIncidents);
+    console.dir(this.activeIncidents)
 
     if(this.principal.isGlobal) {
       this.assignedFireDepartment = _.find(this.fireDepartments, f => f._id === this.principal.fire_department__id);
