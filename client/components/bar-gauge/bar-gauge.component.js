@@ -51,13 +51,13 @@ export class BarGaugeComponent {
     // console.log(`
     // QuartileElementStart: ${parseInt(percentileElement.css('left'))}
     // QuartileElementEnd: ${parseInt(percentileElement.width())}
-    // WrapperWidth: ${this.wrapper.width()}
     // value: ${this.value}
+    // quartileMin: ${ranges[quartile][0]},
     // quartileMax: ${ranges[quartile][1]},
-    // quartilePercentage: ${this.value / ranges[quartile][1]}
-    // left: ${(this.value / ranges[quartile][1]) * (percentileElement.width())}
+    // percent: ${(this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0}
+    // left: ${parseInt(percentileElement.css('left')) + ((this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0) * (percentileElement.width() - 3)}
     // `);
-    this.needle.css({left: parseInt(percentileElement.css('left')) + (this.value / ranges[quartile][1]) * (percentileElement.width() - 3) + 'px'});
+    this.needle.css({left: parseInt(percentileElement.css('left')) + ((this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0) * (percentileElement.width() - 3) + 'px'});
   }
 }
 
