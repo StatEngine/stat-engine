@@ -174,10 +174,38 @@ export default class IncidentTimelineComponent {
       zoomMin: 60000,
       selectable: false,
       moment: date => moment(date).tz(timezone),
+      format: {
+        minorLabels: {
+          millisecond:'SSS',
+          second:     's',
+          minute:     'HH:mm',
+          hour:       'HH:mm',
+          weekday:    'ddd D',
+          day:        'D',
+          week:       'w',
+          month:      'MMM',
+          year:       'YYYY'
+        },
+        majorLabels: {
+          millisecond:'HH:mm:ss',
+          second:     'D MMMM HH:mm',
+          minute:     'ddd D MMMM',
+          hour:       'ddd D MMMM',
+          weekday:    'MMMM YYYY',
+          day:        'MMMM YYYY',
+          week:       'MMMM YYYY',
+          month:      'YYYY',
+          year:       ''
+        }
+      } 
     };
 
     this.element = angular.element(document.querySelector('#incident-timeline'));
     // eslint-disable-next-line
-    let timeline = new Timeline(this.element[0], items, groups, options);
+    this.timeline = new Timeline(this.element[0], items, groups, options);
+  }
+
+  $onDestory() {
+    if (this.timeline) this.timeline.destroy();
   }
 }
