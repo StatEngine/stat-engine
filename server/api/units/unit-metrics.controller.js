@@ -48,7 +48,9 @@ export function buildResponsesQuery(req, res, next) {
       'apparatus_data.unit_status.*',
       'description.shift'])
     .filter('term', 'description.suppressed', false)
-    .filter('term', 'apparatus_data.unit_id', req.params.id);
+    .filter('term', 'apparatus_data.suppressed', false)
+    .filter('term', 'apparatus_data.unit_id', req.params.id)
+    .sort('description.event_opened', 'desc');
 
   let timeStart = _.get(req, 'query.timeStart');
   let timeEnd = _.get(req, 'query.timeEnd');
@@ -56,6 +58,7 @@ export function buildResponsesQuery(req, res, next) {
   if(timeStart && timeEnd) {
     base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }
+
   req.esBody = base
     .size(10000)
     .build();

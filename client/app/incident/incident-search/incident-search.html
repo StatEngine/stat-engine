@@ -23,7 +23,7 @@
   </div><!-- br-pagetitle -->
   <div class="br-pagebody">
     <section class="br-section-wrapper shadow-none pd-0">
-      <div ui-grid="vm.searchResultsTableOptions" class="search-grid" ui-grid-pagination>
+      <div ui-grid="vm.searchResultsTableOptions" class="search-grid" ui-grid-pagination ui-grid-resize-column>
         <div class="watermark" ng-show="!vm.searchResultsTableOptions.data.length"><h2 class="heavyheader text-muted">No data available</h2></div>
       </div>
     </section>

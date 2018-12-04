@@ -30,6 +30,7 @@ export default function routes($stateProvider) {
             .then(() => {
               $ocLazyLoad.inject('ui.grid');
               $ocLazyLoad.inject('ui.grid.pagination');
+              $ocLazyLoad.inject('ui.grid.resizeColumns');
             });
         },
         currentPrincipal(Principal) {

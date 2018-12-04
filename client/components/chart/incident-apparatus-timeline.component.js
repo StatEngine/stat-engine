@@ -31,8 +31,7 @@ export default class IncidentApparatusTimelineComponent {
 
     const timezone = this.timezone;
 
-    let orderedResponses = _.orderBy(this.responses, 'apparatus_data.extended_data.event_duration', 'desc');
-    orderedResponses = orderedResponses.slice(0,99);
+    let orderedResponses = this.responses.slice(0,99);
     let order = 1;
     _.forEach(orderedResponses, response => {
       let group = response.description.incident_number;
