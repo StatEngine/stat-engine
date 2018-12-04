@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "server/index.js",
   "dependencies": {
+    "@mapbox/geojson-extent": "^0.3.2",
     "@statengine/se-fixtures": "~0.0.20",
     "@statengine/se-ingest-router": ">0.0.2",
     "@statengine/shiftly": ">0.0.17",

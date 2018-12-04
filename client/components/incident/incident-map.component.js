@@ -2,6 +2,7 @@
 
 import MapBoxGL from 'mapbox-gl';
 import _ from 'lodash';
+import geojsonExtent from '@mapbox/geojson-extent';
 
 export default class IncidentMapComponent {
   constructor(mapboxConfig) {
@@ -12,40 +13,65 @@ export default class IncidentMapComponent {
 
   $onInit() {
     this.initialized = true;
-
-    const bounds = new MapBoxGL.LngLatBounds();
     
-    const markers = [];
+    const features = [];
     _.forEach(this.incidents, incident => {
-      const incidentLocation = [incident.address.longitude, incident.address.latitude];
-  
-      const address = `<h4>\
-        ${incident.address.address_line1}<br>\
-        ${incident.address.city}, ${incident.address.state}<\h4>`;
+      const coordinates = [incident.address.longitude, incident.address.latitude];
 
-      const popup = new MapBoxGL.Popup({ offset: 25 })
-        .setHTML(address);
-  
-      bounds.extend([
-        incidentLocation[0],
-        incidentLocation[1]
-      ]);
-
-      markers.push(new MapBoxGL.Marker()
-        .setLngLat(incidentLocation)
-        .setPopup(popup)
-      );
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: coordinates
+        },
+        properties: {
+          title: incident.description.incident_number,
+          icon: 'marker'
+        }
+      });
     })
 
-    console.dir(bounds.getCenter())
+    const geojson = {
+      type: 'FeatureCollection',
+      features
+    };
+
+    const bounds = geojsonExtent(geojson);
+    const center = features.length > 0 ? features[0].geometry.coordinates : undefined;
+
     const map = new MapBoxGL.Map({
       container: 'incident-map',
       style: 'mapbox://styles/mapbox/light-v9',
-      center: bounds.getCenter(),
       zoom: 12,
-     // pitch: 60,
+      pitch: 60,
+      center
     });
 
-    _.forEach(markers, m => m.addTo(map))
+    map.on('load', () => {
+      const geojson = {
+        type: 'FeatureCollection',
+        features
+      };
+
+      map.addLayer({
+        id: 'incidents',
+        type: 'symbol',
+        source: {
+            type: 'geojson',
+            data: geojson
+        },
+        layout: {
+          'icon-image': '{icon}-15',
+          'text-field': '{title}',
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, 0.6],
+          'text-anchor': 'top'
+        }
+      });
+
+      map.fitBounds(bounds, {
+        padding: 20
+      });
+    });
   }
 }
