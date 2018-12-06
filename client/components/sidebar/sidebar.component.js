@@ -14,7 +14,7 @@ export class SidebarComponent {
     this.AnalyticEventNames = AnalyticEventNames;
     Principal.identity(true).then(user => {
       this.user = user;
-      if (this.user.nfors) {
+      if(this.user.nfors) {
         $window.document.title = 'NFORS - Powered By StatEngine';
         this.theme = 'nfors';
       }
@@ -37,6 +37,7 @@ export class SidebarComponent {
     this.$window.location.href = '/dashboard';
   }
 
+  // eslint-disable-next-line class-methods-use-this
   $onInit() {
     $(document).ready(function() {
       // This will collapsed sidebar menu on left into a mini icon menu
@@ -90,7 +91,7 @@ export class SidebarComponent {
             // hide current shown menu
             $('.show-sub + .br-menu-sub').slideUp();
 
-            var menuText = $('.menu-item-label');
+            menuText = $('.menu-item-label');
             menuText.addClass('op-lg-0-force');
             menuText.addClass('d-lg-none');
           }
@@ -100,7 +101,9 @@ export class SidebarComponent {
       // This will show sub navigation menu on left sidebar
       // only when that top level menu have a sub menu on it.
       $('.br-menu-link').on('click', function() {
+        // eslint-disable-next-line no-invalid-this
         var nextElem = $(this).next();
+        // eslint-disable-next-line no-invalid-this
         var thisLink = $(this);
 
         if(nextElem.hasClass('br-menu-sub')) {
@@ -109,10 +112,12 @@ export class SidebarComponent {
             nextElem.slideUp();
           } else {
             $('.br-menu-link').each(function() {
+              // eslint-disable-next-line no-invalid-this
               $(this).removeClass('show-sub');
             });
 
             $('.br-menu-sub').each(function() {
+              // eslint-disable-next-line no-invalid-this
               $(this).slideUp();
             });
 
@@ -142,7 +147,7 @@ export class SidebarComponent {
 
         // closing right sidebar
         if($('body').hasClass('show-right')) {
-          var targ = $(e.target).closest('.br-sideright').length;
+          targ = $(e.target).closest('.br-sideright').length;
           if(!targ) {
             $('body').removeClass('show-right');
           }

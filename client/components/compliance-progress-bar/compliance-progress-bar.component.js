@@ -3,11 +3,9 @@
 /* eslint no-sync: 0 */
 
 import angular from 'angular';
-import _ from 'lodash';
 
-function round5(x)
-{
-  return Math.ceil(x/5)*5;
+function round5(x) {
+  return Math.ceil(x / 5) * 5;
 }
 
 export class ComplianceProgressBarComponent {
@@ -16,11 +14,11 @@ export class ComplianceProgressBarComponent {
   }
 
   $onInit() {
-    this.percent = Math.round((this.value / this.max)*100);
+    this.percent = Math.round((this.value / this.max) * 100);
 
-    if (this.value <= this.success) this.thresholdClass = 'bg-success';
-    else if (this.value > this.success && this.value <= this.warning) this.thresholdClass = 'bg-warning';
-    else if (this.value > this.warning) this.thresholdClass = 'bg-danger';
+    if(this.value <= this.success) this.thresholdClass = 'bg-success';
+    else if(this.value > this.success && this.value <= this.warning) this.thresholdClass = 'bg-warning';
+    else if(this.value > this.warning) this.thresholdClass = 'bg-danger';
   }
 
   getClass() {

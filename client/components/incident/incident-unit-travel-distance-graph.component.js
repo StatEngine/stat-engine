@@ -29,7 +29,7 @@ export default class IncidentUnitTravelDistanceGraphComponent {
   async $onInit() {
     await this.loadModules();
 
-    if (this.travelMatrix) {
+    if(this.travelMatrix) {
       const units = _.keys(this.travelMatrix);
 
       const estimated = [];

@@ -3,7 +3,6 @@
 /* eslint no-sync: 0 */
 
 import angular from 'angular';
-import _ from 'lodash';
 
 export class NFPAAnalysisComponent {
   constructor() {
@@ -11,11 +10,11 @@ export class NFPAAnalysisComponent {
   }
 
   getClass(key) {
-    if (this.analysis[key].grade === 'SUCCESS') return 'tx-success';
-    if (this.analysis[key].grade === 'WARNING') return 'tx-warning';
-    if (this.analysis[key].grade === 'DANGER') return 'tx-danger';
+    if(this.analysis[key].grade === 'SUCCESS') return 'tx-success';
+    if(this.analysis[key].grade === 'WARNING') return 'tx-warning';
+    if(this.analysis[key].grade === 'DANGER') return 'tx-danger';
 
-    return ''
+    return '';
   }
 }
 

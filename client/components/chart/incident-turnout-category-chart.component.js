@@ -1,6 +1,7 @@
 'use strict';
 
 import moment from 'moment-timezone';
+
 let _;
 
 const COLORS = {
@@ -46,7 +47,9 @@ export default class IncidentTurnoutCategoryChartComponent {
       };
       _.forOwn(this.data, (dateData, dateName) => {
         let count = _.get(dateData[categoryName], '90_percentile_turnout_duration_seconds');
-        curTrace.x.push(moment(dateName).tz(this.tz).format());
+        curTrace.x.push(moment(dateName)
+          .tz(this.tz)
+          .format());
         curTrace.y.push(count);
       });
       this.trace.push(curTrace);

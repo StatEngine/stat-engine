@@ -2,6 +2,7 @@
 
 import angular from 'angular';
 import { FirecaresLookup } from '@statengine/shiftly';
+import moment from 'moment';
 
 export class ShiftTextController {
   constructor() {
@@ -11,11 +12,13 @@ export class ShiftTextController {
   $onInit() {
     const ShiftConfiguration = FirecaresLookup[this.firecaresId];
 
-    if (!this.daysAgo) this.daysAgo = 0;
+    if(!this.daysAgo) this.daysAgo = 0;
     if(ShiftConfiguration) {
       this.shiftly = new ShiftConfiguration();
 
-      this.today = moment().tz(this.timezone).subtract(this.daysAgo, 'days');
+      this.today = moment()
+        .tz(this.timezone)
+        .subtract(this.daysAgo, 'days');
       this.today.set('hour', this.shiftly.shiftStart.substring(0, 2));
       this.today.set('minutes', this.shiftly.shiftStart.substring(2, 4));
       this.todaysShift = {

@@ -172,7 +172,6 @@ function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
 }
 
 export function runComparison(req, res, next) {
-
   req.timeRange = calculateTimeRange({
     startDate: req.query.startDate,
     endDate: req.query.endDate,
@@ -224,9 +223,8 @@ export function setEmailOptions(req, res, next) {
     }]
   }).then(extensionConfiguration => {
     req.reportOptions = extensionConfiguration ? extensionConfiguration.config_json : undefined;
-    // override day reports to use shift time 
-    if (req.reportOptions.timeUnit.toLowerCase() === 'day') req.reportOptions.timeUnit = 'SHIFT';
-    
+    // override day reports to use shift time
+    if(req.reportOptions.timeUnit.toLowerCase() === 'day') req.reportOptions.timeUnit = 'SHIFT';
     if(_.isNil(req.reportOptions)) return next(new Error('No report options found'));
 
     next();

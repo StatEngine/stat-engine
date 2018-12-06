@@ -13,7 +13,7 @@ export default class IncidentMapComponent {
 
   $onInit() {
     this.initialized = true;
-    
+
     const features = [];
     _.forEach(this.incidents, incident => {
       const coordinates = [incident.address.longitude, incident.address.latitude];
@@ -22,14 +22,14 @@ export default class IncidentMapComponent {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: coordinates
+          coordinates
         },
         properties: {
           title: incident.description.incident_number,
           icon: 'marker'
         }
       });
-    })
+    });
 
     const geojson = {
       type: 'FeatureCollection',
@@ -48,17 +48,12 @@ export default class IncidentMapComponent {
     });
 
     map.on('load', () => {
-      const geojson = {
-        type: 'FeatureCollection',
-        features
-      };
-
       map.addLayer({
         id: 'incidents',
         type: 'symbol',
         source: {
-            type: 'geojson',
-            data: geojson
+          type: 'geojson',
+          data: geojson
         },
         layout: {
           'icon-image': '{icon}-15',

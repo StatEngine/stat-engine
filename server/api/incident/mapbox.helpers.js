@@ -16,7 +16,7 @@ export function getMatrix(incident, cb) {
     distances[unit_id] = _.get(u, 'distance');
     if(latitude && longitude) pairs.push({ unit_id, longitude, latitude });
 
-    if (u.distance) {
+    if(u.distance) {
       results[u.unit_id] = {
         distance: u.distance
       };
@@ -71,11 +71,11 @@ export function getMatrix(incident, cb) {
     */
     for(let i = 0; i < destinationIndex; i += 1) {
       let unit = pairs[i].unit_id;
-      if (!results[unit]) results[unit] = {};
+      if(!results[unit]) results[unit] = {};
 
       // use mapbox distance if not set by cad
-      if (!results[unit].distance) results[unit].distance = body.distances[i][destinationIndex] * 0.000621371;
-      results[unit].duration = body.durations[i][destinationIndex]
+      if(!results[unit].distance) results[unit].distance = body.distances[i][destinationIndex] * 0.000621371;
+      results[unit].duration = body.durations[i][destinationIndex];
     }
     cb(null, results);
   });

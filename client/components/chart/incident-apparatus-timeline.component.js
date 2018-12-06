@@ -8,8 +8,6 @@ import { getApparatusTimeData } from '../helpers/timelineUtils';
 let _;
 let Timeline;
 
-const TIME_FORMAT = 'HH:mm:ss';
-
 export default class IncidentApparatusTimelineComponent {
   constructor($window) {
     'ngInject';
@@ -29,9 +27,7 @@ export default class IncidentApparatusTimelineComponent {
     const items = [];
     const groups = [];
 
-    const timezone = this.timezone;
-
-    let orderedResponses = this.responses.slice(0,99);
+    let orderedResponses = this.responses.slice(0, 99);
     let order = 1;
     _.forEach(orderedResponses, response => {
       let group = response.description.incident_number;
@@ -45,7 +41,7 @@ export default class IncidentApparatusTimelineComponent {
       const appTimelineData = getApparatusTimeData(u);
       const dispatched = _.get(response, 'apparatus_data.unit_status.dispatched.timestamp');
 
-      if (dispatched) {
+      if(dispatched) {
         _.forEach(appTimelineData.durations, d => {
           const start = moment(d.start).diff(moment(dispatched));
           // normalize start times
@@ -77,78 +73,78 @@ export default class IncidentApparatusTimelineComponent {
           var duration = date - epoch;
           var divider;
           switch (scale) {
-            case 'millisecond':
-              divider = 1;
-              break;
-            case 'second':
-              divider = 1000;
-              break;
-            case 'minute':
-              divider = 1000 * 60;
-              break;
-            case 'hour':
-              divider = 1000 * 60 * 60;
-              break;
-            case 'day':
-              divider = 1000 * 60 * 60 * 24;
-              break;
-            case 'weekday':
-              divider = 1000 * 60 * 60 * 24 * 7;
-              break;
-            case 'month':
-              divider = 1000 * 60 * 60 * 24 * 30;
-              break;
-            case 'year':
-              divider = 1000 * 60 * 60 * 24 * 365;
-              break;
-            default:
-              return new Date(date);
-          } 
-          return  (Math.round(duration * step / divider)) + "m" 
+          case 'millisecond':
+            divider = 1;
+            break;
+          case 'second':
+            divider = 1000;
+            break;
+          case 'minute':
+            divider = 1000 * 60;
+            break;
+          case 'hour':
+            divider = 1000 * 60 * 60;
+            break;
+          case 'day':
+            divider = 1000 * 60 * 60 * 24;
+            break;
+          case 'weekday':
+            divider = 1000 * 60 * 60 * 24 * 7;
+            break;
+          case 'month':
+            divider = 1000 * 60 * 60 * 24 * 30;
+            break;
+          case 'year':
+            divider = 1000 * 60 * 60 * 24 * 365;
+            break;
+          default:
+            return new Date(date);
+          }
+          return `${Math.round(duration * step / divider)}m`;
         },
-        majorLabels: function(date, scale, step) {
+        majorLabels: (date, scale, step) => {
           var epoch = new Date(0);
           var duration = date - epoch;
           var divider;
           switch (scale) {
-            case 'millisecond':
-              divider = 1;
-              break;
-            case 'second':
-              divider = 1000;
-              break;
-            case 'minute':
-              divider = 1000 * 60;
-              break;
-            case 'hour':
-              divider = 1000 * 60 * 60;
-              break;
-            case 'day':
-              divider = 1000 * 60 * 60 * 24;
-              break;
-            case 'weekday':
-              divider = 1000 * 60 * 60 * 24 * 7;
-              break;
-            case 'month':
-              divider = 1000 * 60 * 60 * 24 * 30;
-              break;
-            case 'year':
-              divider = 1000 * 60 * 60 * 24 * 365;
-              break;
-            default:
-              return new Date(date);
-          } 
-          return  (Math.round(duration * step / divider)) + "m" 
+          case 'millisecond':
+            divider = 1;
+            break;
+          case 'second':
+            divider = 1000;
+            break;
+          case 'minute':
+            divider = 1000 * 60;
+            break;
+          case 'hour':
+            divider = 1000 * 60 * 60;
+            break;
+          case 'day':
+            divider = 1000 * 60 * 60 * 24;
+            break;
+          case 'weekday':
+            divider = 1000 * 60 * 60 * 24 * 7;
+            break;
+          case 'month':
+            divider = 1000 * 60 * 60 * 24 * 30;
+            break;
+          case 'year':
+            divider = 1000 * 60 * 60 * 24 * 365;
+            break;
+          default:
+            return new Date(date);
+          }
+          return `${Math.round(duration * step / divider)}m`;
         }
       }
     };
-    
+
     this.element = angular.element(document.querySelector('#apparatus-timeline'));
     // eslint-disable-next-line
     this.timeline = new Timeline(this.element[0], items, groups, options);
   }
 
   $onDestroy() {
-    if (this.timeline) this.timeline.destroy();
+    if(this.timeline) this.timeline.destroy();
   }
 }

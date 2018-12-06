@@ -11,13 +11,12 @@ function _getShiftTimeFrame(firecaresId, date) {
 }
 
 export function calculateTimeRange(options) {
-  console.dir(options)
   let startDate = options.startDate;
   let endDate = options.endDate;
   let timeUnit = options.timeUnit.toLowerCase();
 
   let shift = false;
-  if (timeUnit === 'shift') {
+  if(timeUnit === 'shift') {
     shift = true;
     timeUnit = 'day';
   }
@@ -47,3 +46,5 @@ export function calculateTimeRange(options) {
     end: endDate,
   };
 }
+
+export default calculateTimeRange;

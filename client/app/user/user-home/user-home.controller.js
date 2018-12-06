@@ -21,7 +21,10 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 });
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService, AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary) {
+  constructor(
+    $window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService,
+    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary
+  ) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
@@ -51,6 +54,7 @@ export default class UserHomeController {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
+  // eslint-disable-next-line class-methods-use-this
   humanizeDuration(ms) {
     return shortEnglishHumanizer(ms, { round: true });
   }
@@ -62,7 +66,7 @@ export default class UserHomeController {
     if(this.yesterdayStatSummary) {
       this.yesterdayStatSummary.summary.unit = Object.keys(this.yesterdayStatSummary.summary.unit).map(unit_id => ({ unit_id, value: this.yesterdayStatSummary.summary.unit[unit_id] }));
       // top ten
-      this.yesterdayStatSummary.summary.unit = this.yesterdayStatSummary.summary.unit.slice(0,9);
+      this.yesterdayStatSummary.summary.unit = this.yesterdayStatSummary.summary.unit.slice(0, 9);
     }
 
     if(this.principal.isGlobal) {

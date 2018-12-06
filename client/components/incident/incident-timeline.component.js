@@ -176,28 +176,28 @@ export default class IncidentTimelineComponent {
       moment: date => moment(date).tz(timezone),
       format: {
         minorLabels: {
-          millisecond:'SSS',
-          second:     's',
-          minute:     'HH:mm',
-          hour:       'HH:mm',
-          weekday:    'ddd D',
-          day:        'D',
-          week:       'w',
-          month:      'MMM',
-          year:       'YYYY'
+          millisecond: 'SSS',
+          second: 's',
+          minute: 'HH:mm',
+          hour: 'HH:mm',
+          weekday: 'ddd D',
+          day: 'D',
+          week: 'w',
+          month: 'MMM',
+          year: 'YYYY'
         },
         majorLabels: {
-          millisecond:'HH:mm:ss',
-          second:     'D MMMM HH:mm',
-          minute:     'ddd D MMMM',
-          hour:       'ddd D MMMM',
-          weekday:    'MMMM YYYY',
-          day:        'MMMM YYYY',
-          week:       'MMMM YYYY',
-          month:      'YYYY',
-          year:       ''
+          millisecond: 'HH:mm:ss',
+          second: 'D MMMM HH:mm',
+          minute: 'ddd D MMMM',
+          hour: 'ddd D MMMM',
+          weekday: 'MMMM YYYY',
+          day: 'MMMM YYYY',
+          week: 'MMMM YYYY',
+          month: 'YYYY',
+          year: ''
         }
-      } 
+      }
     };
 
     this.element = angular.element(document.querySelector('#incident-timeline'));
@@ -206,6 +206,6 @@ export default class IncidentTimelineComponent {
   }
 
   $onDestory() {
-    if (this.timeline) this.timeline.destroy();
+    if(this.timeline) this.timeline.destroy();
   }
 }
