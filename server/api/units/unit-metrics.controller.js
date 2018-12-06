@@ -55,6 +55,8 @@ export function buildResponsesQuery(req, res, next) {
   let timeStart = _.get(req, 'query.timeStart');
   let timeEnd = _.get(req, 'query.timeEnd');
 
+  console.dir(timeStart);
+  console.dir(timeEnd)
   if(timeStart && timeEnd) {
     base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }

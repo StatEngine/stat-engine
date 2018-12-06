@@ -110,14 +110,20 @@ export default function routes($stateProvider) {
             return undefined;
           }
         },
-        safetyMessage(Safety) {
-          return Safety.getRandomMessage().$promise;
+        safetyMessage(currentPrincipal, Safety) {
+          if (currentPrincipal.FireDepartment) return Safety.getRandomMessage().$promise;
         },
         weatherForecast(currentPrincipal, Weather) {
           if (currentPrincipal.FireDepartment) return Weather.getForecast().$promise;
         },
+        //todayStatSummary(currentPrincipal, Stats) {
+         // if (currentPrincipal.FireDepartment) return Stats.get({}).$promise;
+        //},
+        yesterdayStatSummary(currentPrincipal, Stats) {
+          if (currentPrincipal.FireDepartment) return Stats.get({ previous: true }).$promise;
+        },
         interestingIncidents(currentPrincipal, Incident) {
-          if (currentPrincipal.FireDepartment) return Incident.get({ id: 'top' }).$promise;
+          if (currentPrincipal.FireDepartment) return Incident.get({ id: 'top', previous: true }).$promise;
         },
         activeIncidents(currentPrincipal, Incident) {
           if (currentPrincipal.FireDepartment) return Incident.active({ id: 'active' }).$promise;

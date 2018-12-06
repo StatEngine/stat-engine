@@ -25,13 +25,13 @@ navbar {
     background: url("../assets/images/branding.svg") no-repeat;
     height: 42px;
     width: 155px;
-
+  
     &.symbol {
       background: url("../assets/images/branding-symbol.svg") no-repeat;
       width: 25px;
     }
   }
-
+  
   #navbar-links {
     padding-left: 3.5rem;
   }

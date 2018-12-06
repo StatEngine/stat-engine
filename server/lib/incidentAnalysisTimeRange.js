@@ -182,6 +182,7 @@ export class IncidentAnalysisTimeRange {
     this.previousTimeFilter = previousTimeRange(this.currentTimeFilter);
   }
 
+    
   ruleAnalysis() {
     let ruleConfig = [
       EventDurationSumRule,

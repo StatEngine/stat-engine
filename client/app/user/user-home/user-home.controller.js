@@ -1,10 +1,27 @@
 'use strict';
 
+import humanizeDuration from 'humanize-duration';
+
 let _;
 
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+  language: 'shortEn',
+  languages: {
+    shortEn: {
+      y: () => 'y',
+      mo: () => 'mo',
+      w: () => 'w',
+      d: () => 'd',
+      h: () => 'h',
+      m: () => 'm',
+      s: () => 's',
+      ms: () => 'ms',
+    }
+  }
+});
 export default class UserHomeController {
   /*@ngInject*/
-  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService, AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents) {
+  constructor($window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService, AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary) {
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
@@ -23,22 +40,30 @@ export default class UserHomeController {
     this.activeIncidents = activeIncidents;
 
     this.interestingIncidents = interestingIncidents;
-    console.dir(interestingIncidents)
     if(this.principal.isGlobal) {
       this.fireDepartments = fireDepartments;
     }
+
+    this.yesterdayStatSummary = yesterdayStatSummary;
   }
 
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
+  humanizeDuration(ms) {
+    return shortEnglishHumanizer(ms, { round: true });
+  }
+
   async $onInit() {
     await this.loadModules();
-    console.dir(this.activeIncidents)
 
     this.activeIncidents = _.values(this.activeIncidents);
-    console.dir(this.activeIncidents)
+    if(this.yesterdayStatSummary) {
+      this.yesterdayStatSummary.summary.unit = Object.keys(this.yesterdayStatSummary.summary.unit).map(unit_id => ({ unit_id, value: this.yesterdayStatSummary.summary.unit[unit_id] }));
+      // top ten
+      this.yesterdayStatSummary.summary.unit = this.yesterdayStatSummary.summary.unit.slice(0,9);
+    }
 
     if(this.principal.isGlobal) {
       this.assignedFireDepartment = _.find(this.fireDepartments, f => f._id === this.principal.fire_department__id);

@@ -1,0 +1,6 @@
+<div ng-if="vm.value" class="progress">
+  <div class="progress-bar" role="progressbar" ng-class="vm.getClass()">
+    {{vm.text}}
+  </div>
+</div>
+<div ng-if="!vm.value">N/A</div>

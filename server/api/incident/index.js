@@ -24,6 +24,14 @@ router.get(
 );
 
 router.get(
+  '/summary',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getSummary,
+);
+
+router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),

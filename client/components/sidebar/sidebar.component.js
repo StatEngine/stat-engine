@@ -14,6 +14,10 @@ export class SidebarComponent {
     this.AnalyticEventNames = AnalyticEventNames;
     Principal.identity(true).then(user => {
       this.user = user;
+      if (this.user.nfors) {
+        $window.document.title = 'NFORS - Powered By StatEngine';
+        this.theme = 'nfors';
+      }
     });
     this.PrincipalService = Principal;
   }

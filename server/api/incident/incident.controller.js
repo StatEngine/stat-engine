@@ -1,7 +1,10 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 import connection from '../../elasticsearch/connection';
 import bodybuilder from 'bodybuilder';
+import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
+import { calculateTimeRange } from '../../lib/timeRangeUtils';
 
 import {
   generateTextualSummaries,
@@ -37,6 +40,17 @@ export function getActiveIncidents(req, res) {
 }
 
 export function getTopIncidents(req, res) {
+  let fd = req.user.FireDepartment.get();
+  
+  const timeRange = calculateTimeRange({
+    startDate: req.query.startDate || moment().tz(fd.timezone).format(),
+    endDate: req.query.endDate,
+    timeUnit: req.query.timeUnit || 'shift',
+    firecaresId: fd.firecares_id,
+    previous: req.query.previous
+  });
+
+
   let base = bodybuilder()
     .size(0)
     .filter('term', 'description.suppressed', false)
@@ -47,13 +61,8 @@ export function getTopIncidents(req, res) {
         })
       })
 
-  // TODO
-  //let timeStart = _.get(req, 'query.timeStart');
-  //let timeEnd = _.get(req, 'query.timeEnd');
+  base.filter('range', 'description.event_opened', { gte: timeRange.start, lt: timeRange.end });
 
-  //if(timeStart && timeEnd) {
-    base.filter('range', 'description.event_opened', { gte: 'now-24h', });//lt: timeEnd });
-  //}
   req.esBody = base
     .build();
 
@@ -64,25 +73,39 @@ export function getTopIncidents(req, res) {
   .then(searchResults => {
     const top = {};
 
-    _.forEach(searchResults.aggregations['agg_terms_description.category'].buckets, b => {
-      top[b.key] = [];
-      _.forEach(b.agg_top_hits_undefined.hits.hits, h => {
-        let analysis = generateAnalysis(h._source);
-        analysis = _.filter(analysis, a => a.category === 'NFPA');
-        
-        top[b.key].push({
-          incident_number: h._source.description.incident_number,
-          event_duration: h._source.durations.total_event.minutes,
-          type: h._source.description.type,
-          analysis: _.keyBy(analysis, 'name')
+    if (_.get(searchResults, 'aggregations')) {
+      _.forEach(searchResults.aggregations['agg_terms_description.category'].buckets, b => {
+        top[b.key] = [];
+        _.forEach(b.agg_top_hits_undefined.hits.hits, h => {
+          let analysis = generateAnalysis(h._source);
+          analysis = _.filter(analysis, a => a.category === 'NFPA');
+          
+          top[b.key].push({
+            incident_number: _.get(h, '_source.description.incident_number'),
+            event_duration: _.get(h, '_source.durations.total_event.minutes'),
+            type: _.get(h, '._source.description.type'),
+            analysis: _.keyBy(analysis, 'name')
+          })
         })
       })
-    })
+    }
     res.json(top);
   })
   .catch((e) => res.status(500).send());
 }
 
+export function getSummary(req, res) {
+  let Analysis = new IncidentAnalysisTimeRange({
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
+    timeRange: {
+      start: moment().subtract(1, 'days').format(),
+      end: moment().format()
+    },
+  });
+
+  Analysis.compare()
+    .then(results => res.json(results));
+}
 export function getRecentIncidents(req, res) {
   const client = connection.getClient();
 

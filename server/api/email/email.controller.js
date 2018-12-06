@@ -6,6 +6,7 @@ import { FirecaresLookup } from '@statengine/shiftly';
 import { sendEmail } from './mandrill';
 
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
+import { calculateTimeRange } from '../../lib/timeRangeUtils';
 
 import {
   Extension,
@@ -23,22 +24,13 @@ function _getShift(firecaresId, date) {
   }
 }
 
-function _getShiftTimeFrame(firecaresId, date) {
-  const ShiftConfiguration = FirecaresLookup[firecaresId];
-
-  if(ShiftConfiguration) {
-    const shiftly = new ShiftConfiguration();
-    return shiftly.shiftTimeFrame(date);
-  }
-}
-
 function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
   let title;
   let subtitle;
   let timeUnit = reportOptions.timeUnit;
 
   const timeStart = moment.parseZone(timeRange.start);
-  if(timeUnit === 'DAY') {
+  if(timeUnit === 'SHIFT') {
     title = `Shift Report - ${timeStart.format('YYYY-MM-DD')}`;
     subtitle = `Shift ${_getShift(fireDepartment.firecares_id, timeRange.start)}`;
   } else if(timeUnit === 'WEEK') title = `Weekly Report - W${timeStart.week()}`;
@@ -179,38 +171,8 @@ function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
   return mergeVar;
 }
 
-export function calculateTimeRange(options) {
-  let startDate = options.startDate;
-  let endDate = options.endDate;
-  let timeUnit = options.timeUnit.toLowerCase();
-
-  if(!endDate && options.timeUnit && options.firecaresId) {
-    if(options.previous) {
-      startDate = moment.parseZone(startDate).subtract(1, timeUnit);
-    } else {
-      startDate = moment.parseZone(startDate);
-    }
-
-    if(timeUnit === 'day') {
-      let shiftTimeFrame = _getShiftTimeFrame(options.firecaresId, startDate.format());
-      startDate = shiftTimeFrame.start;
-      endDate = shiftTimeFrame.end;
-    } else {
-      endDate = moment.parseZone(startDate.format()).endOf(timeUnit)
-        .format();
-      startDate = moment.parseZone(startDate.format()).startOf(timeUnit)
-        .format();
-    }
-  }
-  if(!endDate) throw new Error('Could not determine endDate');
-
-  return {
-    start: startDate,
-    end: endDate,
-  };
-}
-
 export function runComparison(req, res, next) {
+
   req.timeRange = calculateTimeRange({
     startDate: req.query.startDate,
     endDate: req.query.endDate,
@@ -243,7 +205,6 @@ export function runRuleAnalysis(req, res, next) {
     .then(results => {
       req.ruleAnalysis = results;
 
-
       next();
     })
     .catch(e => next(e));
@@ -263,7 +224,9 @@ export function setEmailOptions(req, res, next) {
     }]
   }).then(extensionConfiguration => {
     req.reportOptions = extensionConfiguration ? extensionConfiguration.config_json : undefined;
-
+    // override day reports to use shift time 
+    if (req.reportOptions.timeUnit.toLowerCase() === 'day') req.reportOptions.timeUnit = 'SHIFT';
+    
     if(_.isNil(req.reportOptions)) return next(new Error('No report options found'));
 
     next();

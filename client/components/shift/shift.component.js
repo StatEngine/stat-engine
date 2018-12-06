@@ -22,7 +22,6 @@ export class ShiftTextController {
         date: this.today.format('ddd, MM-DD'),
         shift: this._calculateShift(this.today),
       };
-      console.dir(this.todaysShift)
     }
   }
 

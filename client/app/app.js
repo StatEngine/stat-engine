@@ -74,6 +74,7 @@ import barGauge from '../components/bar-gauge/bar-gauge.component';
 import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
 import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
+import complianceProgressBar from '../components/compliance-progress-bar/compliance-progress-bar.component';
 
 import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
@@ -142,6 +143,7 @@ angular.module('statEngineApp', [
   modal,
   percentChange,
   nfpaAnalysis,
+  complianceProgressBar,
   rank,
 ])
   .config(routeConfig)

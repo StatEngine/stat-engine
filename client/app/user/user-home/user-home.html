@@ -10,6 +10,25 @@
               {{ vm.principal.last_name }} !
             </span>
           </h2>
+          <h4 ng-if="vm.fireDepartment" class="heavyheader">
+            {{ vm.fireDepartment.name }} 
+          </h4>
+          <div ng-if="vm.principal.isGlobal">
+            <div class="row">
+              <div class="col col-xl-7">
+                <div ng-if="!vm.assignedFireDepartment">
+                  <p class='text-danger text-center'>
+                  Not currently assigned to a department.
+                  <br>
+                </div>
+                <div class="form-group form-inline">
+                  <select ng-options="fd as fd.name for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
+                  <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
+                </div>
+              </div>
+            </div>      
+          </div>
+
           <p class="mg-b-0 mg-t-10">
             <div ng-if="vm.homeless">
               <p class="tx-15">
@@ -60,17 +79,15 @@
         <div class="col-lg-7 weather-conditions">
           <div class="card h-100">
             <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-              <h2 class="card-title tx-medium mg-b-0 tx-spacing-1">Today's Outlook</h2>
+              <h2 class="card-title tx-medium mg-b-0 tx-spacing-1">Today</h2>
               <div class="card-option">
                 <h3 class="heavyheader"> <shift-text firecares_id="{{vm.fireDepartment.firecares_id}}" timezone="{{vm.fireDepartment.timezone}}"> </shift-text></h3>
               </div><!-- card-option -->
             </div><!-- card-header -->
             <div class="card-body h-100">
-              Based on historical data, we are estimating a  <span class="busy">BUSY</span>day 
-
               <br>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <h4 class="heavyheader"> Weather </h4>
                   <div ng-if="vm.weatherForecast">
                     <current-weather weather="vm.weatherForecast.currently"></current-weather>
@@ -81,14 +98,14 @@
                     No weather data available at this time.
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                   <h4 class="heavyheader"> Safety Tip of the Day </h4>
                   <p class="tx-light">{{vm.safetyMessage.message}}</p>
                 </div>
               </div>
               <div class="row mt-4">
                 <div class="col-12">
-                  <incident-map incidents="vm.activeIncidents"></incident-map>
+                  <!--<incident-map incidents="vm.activeIncidents"></incident-map>-->
                 </div>
               </div>
             </div>
@@ -103,31 +120,124 @@
               </div><!-- card-option -->
             </div><!-- card-header -->
             <div class="card-body h-100">
-              <h4 class="heavyheader">Top Incidents</h4>
               <div class="row">
-                <div class="col-6">
-                  <h5 class="text-center tx-medium">FIRE</h5>
-                  <ul class="list-group">
-                    <li ng-repeat="incident in vm.interestingIncidents.FIRE" class="list-group-item">
-                      <p class="mg-b-0">
-                        <nfpa-analysis analysis="incident.analysis"></nfpa-analysis>
-                        <strong class="tx-inverse" tx-medium><a href="#" ui-sref="site.incident.analysis({ id: incident.incident_number })">{{incident.incident_number}}</a></strong>
-                        <span class="tx-muted">{{ incident.type }}</span>
-                      </p>
+                <div class="col-12">
+                  <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="incidents-tab" data-toggle="tab" href="#incidents" role="tab" aria-controls="incidents" aria-selected="true"><strong>Incidents</strong></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="table-tab" data-toggle="tab" href="#units" role="tab" aria-controls="table" aria-selected="true"><strong>Units</strong></a>
                     </li>
                   </ul>
-                </div>
-                <div class="col-6">
-                  <h5 class="text-center tx-medium">EMS</h5>
-                  <ul class="list-group">
-                      <li ng-repeat="incident in vm.interestingIncidents.EMS" class="list-group-item">
-                        <p class="mg-b-0">
-                          <nfpa-analysis analysis="incident.analysis"></nfpa-analysis>
-                          <strong class="tx-inverse" tx-medium><a href="#" ui-sref="site.incident.analysis({ id: incident.incident_number })">{{incident.incident_number}}</a></strong>
-                          <span class="tx-muted">{{ incident.type }}</span>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="incidents" role="tabpanel" aria-labelledby="incidents-tab">
+                      <div>
+                        <p>Here's a quick look at some of your more interesting events.  Click any incident number to see a detailed analysis.<br>
+                          Incident not listed? Search for more <a href="#" ui-sref="site.incident.search">here</a><br><br>
+                          
+                          <strong>Note:</strong>
+                          Icons are colored according to NFPA 1710 compliance  <br>
+                          <i class="fa fa-phone mg-r-8"></i> - alarm answering <br>
+                          <i class="fa fa-spinner mg-r-8"></i> - alarm processing <br>
+                          <i class="fa fa-users mg-r-8"></i> - turnout <br>
                         </p>
-                      </li>
-                    </ul>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <h5 class="text-center tx-medium">EMS</h5>
+                          <ul class="list-group">
+                            <li ng-repeat="incident in vm.interestingIncidents.EMS" class="list-group-item">
+                              <p class="mg-b-0">
+                                <nfpa-analysis analysis="incident.analysis"></nfpa-analysis>
+                                <strong class="tx-inverse" tx-medium><a href="#" ui-sref="site.incident.analysis({ id: incident.incident_number })">{{incident.incident_number}}</a></strong>
+                                <span class="tx-muted">{{ incident.type }}</span>
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-6">
+                          <h5 class="text-center tx-medium">FIRE</h5>
+                          <ul class="list-group">
+                            <li ng-repeat="incident in vm.interestingIncidents.FIRE" class="list-group-item">
+                              <p class="mg-b-0">
+                                <nfpa-analysis analysis="incident.analysis"></nfpa-analysis>
+                                <strong class="tx-inverse" tx-medium><a href="#" ui-sref="site.incident.analysis({ id: incident.incident_number })">{{incident.incident_number}}</a></strong>
+                                <span class="tx-muted">{{ incident.type }}</span>
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade show" id="units" role="tabpanel" aria-labelledby="units-tab">
+                      <div class="col-12">
+                        <p>Here's a quick look at some of your more busier units.  Click any unit number to see a detailed analysis.<br>
+                            Unit not listed? Search for more <a href="#" ui-sref="site.reporting.unit">here</a><br><br>
+                          
+                            <strong>Note:</strong>
+                            Turnout bars are colored according to NFPA 1710 compliance  <br>
+                        </p>
+                      </div>
+                      <div class="col-12">
+                        <table class="table table-responsive mg-b-0 tx-12">
+                          <thead>
+                            <tr class="tx-10">
+                              <th class="wd-10p pd-y-5">&nbsp;</th>
+                              <th class="pd-y-5">Responses</th>
+                              <th class="pd-y-5">Commitment</th>
+                              <th class="pd-y-5">Turnout</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="unit in vm.yesterdayStatSummary.summary.unit">
+                              <td class="pd-l-20">
+                                <strong> <a href="/reporting/units/{{unit.unit_id}}?time=shift">{{unit.unit_id}}</a</strong>
+                              </td>
+                              <td>
+                                <span class="tx-inverse tx-14 tx-medium d-block">{{unit.value.incidentCount.val}}
+                                  <span class="tx-11"></span>
+                                </span>
+                              </td>
+                              <td>
+                                <span class="tx-inverse tx-14 tx-medium d-block">{{vm.humanizeDuration(unit.value.eventDurationSum.val*1000*60)}}
+                                  <span class="tx-11"></span>
+                                </span>
+                              </td>
+                              <td>
+                                <div class="row align-items-center">
+                                  <div class="col-3 tx-12">EMS</div>
+                                  <div class="col-9">
+                                    <compliance-progress-bar
+                                        value=unit.value.emsTurnoutDurationPercentile90.val
+                                        max=300
+                                        success=60
+                                        warning=70
+                                        danger=71
+                                        text="{{vm.humanizeDuration(unit.value.emsTurnoutDurationPercentile90.val*1000)}}"
+                                    ></compliance-progress-bar>
+                                  </div>
+                                </div>
+                                <div class="row align-items-center mg-t-5">
+                                  <div class="col-3 tx-12">FIRE</div>
+                                  <div class="col-9">
+                                    <compliance-progress-bar
+                                      value=unit.value.fireTurnoutDurationPercentile90.val
+                                      max=300
+                                      success=80
+                                      warning=90
+                                      danger=91
+                                      text="{{vm.humanizeDuration(unit.value.fireTurnoutDurationPercentile90.val*1000)}}"
+                                    ></compliance-progress-bar>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
