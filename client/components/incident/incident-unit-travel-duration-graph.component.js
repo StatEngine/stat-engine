@@ -31,9 +31,6 @@ export default class IncidentUnitTravelDurationGraphComponent {
 
     angular.element(this.$window).on('resize', this.onResize);
 
-    const expected = [];
-    const actual = [];
-
     const units = [];
 
     const expectedTrace = {
@@ -80,9 +77,6 @@ export default class IncidentUnitTravelDurationGraphComponent {
         expectedTrace.x.push(expectedDuration);
       }
     });
-
-    const firstDue = _.find(this.incident.apparatus, u => u.first_due);
-    const firstArrived = _.find(this.incident.apparatus, u => _.get(u, 'unit_status.arrived.order') === 1);
 
     let shapes = [];
     let annotations = [];

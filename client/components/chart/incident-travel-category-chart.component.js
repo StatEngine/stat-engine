@@ -47,7 +47,9 @@ export default class IncidentTravelCategoryChartComponent {
       };
       _.forOwn(this.data, (dateData, dateName) => {
         let count = _.get(dateData[categoryName], '90_percentile_travel_duration_seconds');
-        curTrace.x.push(moment(dateName).tz(this.tz).format());
+        curTrace.x.push(moment(dateName)
+          .tz(this.tz)
+          .format());
         curTrace.y.push(count);
       });
       this.trace.push(curTrace);

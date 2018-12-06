@@ -1228,13 +1228,7 @@ span+.logged-name {
 .collapsed-menu {
   @include media-breakpoint-up(lg) {
     .br-header {
-      left: 65px;
-    }
-
-    .br-logo {
-      left: 0;
-      padding: 0 22px;
-      width: 65px;
+      left: 0px;
     }
 
     .br-logo img.se-logo-text {
@@ -1356,4 +1350,5 @@ span+.logged-name {
 @import '../components/oauth-buttons/oauth-buttons';
 @import '../components/percent-change/percent-change';
 @import '../components/bar-gauge/bar-gauge';
+@import '../components/sidebar/sidebar';
 // endinject //

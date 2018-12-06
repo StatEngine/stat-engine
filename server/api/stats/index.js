@@ -8,19 +8,11 @@ import * as controller from './stats.controller';
 const router = new Router();
 
 router.get(
-  '/daily',
+  '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getDailyStats
-);
-
-router.get(
-  '/shift',
-  auth.isApiAuthenticated,
-  auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getShiftStats
+  controller.getStats
 );
 
 module.exports = router;

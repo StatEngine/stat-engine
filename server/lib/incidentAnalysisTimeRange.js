@@ -66,9 +66,9 @@ function unitCategoryBucket(res, unitId) {
   _.forEach(categories, c => {
     cat[c.key] = {};
     let unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.unit_id"]buckets');
-    let myUnit = _.find(unitBuckets, ub => ub.key === unitId);;
-    if (myUnit) cat[c.key] = myUnit;
-  })
+    let myUnit = _.find(unitBuckets, ub => ub.key === unitId);
+    if(myUnit) cat[c.key] = myUnit;
+  });
 
   return cat;
 }
@@ -243,16 +243,16 @@ export class IncidentAnalysisTimeRange {
 
         comparison.unit = analyzeAggregate(results, 'aggregations.apparatus["agg_terms_apparatus.unit_id"]buckets', unitMetrics);
         _.forOwn(comparison.unit, (u, key) => {
-            let currentBucket = unitCategoryBucket(results[0], key);
-            let previousBucket = unitCategoryBucket(results[1], key);
+          let currentBucket = unitCategoryBucket(results[0], key);
+          let previousBucket = unitCategoryBucket(results[1], key);
 
-            unitCategoryMetrics.forEach(metric => {
-              let val = metric.getter(currentBucket);
-              if(_.isNil(val)) val = 0;
-              const previousVal = metric.getter(previousBucket);
-              const percentChange = computePercentChange(val, previousVal);
-              metric.setter(comparison.unit[key], { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
-            });
+          unitCategoryMetrics.forEach(metric => {
+            let val = metric.getter(currentBucket);
+            if(_.isNil(val)) val = 0;
+            const previousVal = metric.getter(previousBucket);
+            const percentChange = computePercentChange(val, previousVal);
+            metric.setter(comparison.unit[key], { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
+          });
         });
         comparison.battalion = analyzeAggregate(results, 'aggregations["agg_terms_address.battalion"]buckets', battalionMetrics);
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);

@@ -38,8 +38,9 @@ export default function routes($stateProvider) {
         buildFilters(currentPrincipal) {
           return Store.uiStore.buildFilters(currentPrincipal.FireDepartment);
         },
-        redirectMe($state, units) {
-          return $state.go('site.reporting.unit.detail', { id: Store.unitStore.allUnits[0].id, time: 'shift' });
+        redirectMe($state, units, $stateParams) {
+          let id = $stateParams.id || Store.unitStore.allUnits[0].id;
+          return $state.go('site.reporting.unit.detail', { id, time: 'shift' });
         }
       },
     })

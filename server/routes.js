@@ -29,7 +29,7 @@ export default function(app) {
   app.route('/dashboard')
     .get((req, res) => res.redirect(path.join(config.kibana.appPath, 'app/kibana#/dashboards?_g=()')));
   app.use(config.kibana.appPath, require('./kibana'));
-  
+
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
     angular: true,

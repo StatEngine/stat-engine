@@ -15,7 +15,7 @@ export default angular.module('incident', [])
     controller: IncidentMapComponent,
     controllerAs: 'vm',
     bindings: {
-      incident: '<',
+      incidents: '<',
     },
   })
   .component('incidentTimeline', {

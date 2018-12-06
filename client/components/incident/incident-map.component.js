@@ -1,6 +1,8 @@
 'use strict';
 
 import MapBoxGL from 'mapbox-gl';
+import _ from 'lodash';
+import geojsonExtent from '@mapbox/geojson-extent';
 
 export default class IncidentMapComponent {
   constructor(mapboxConfig) {
@@ -12,25 +14,59 @@ export default class IncidentMapComponent {
   $onInit() {
     this.initialized = true;
 
-    const incidentLocation = [this.incident.address.longitude, this.incident.address.latitude];
+    const features = [];
+    _.forEach(this.incidents, incident => {
+      const coordinates = [incident.address.longitude, incident.address.latitude];
+
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates
+        },
+        properties: {
+          title: incident.description.incident_number,
+          icon: 'marker'
+        }
+      });
+    });
+
+    const geojson = {
+      type: 'FeatureCollection',
+      features
+    };
+
+    const bounds = geojsonExtent(geojson);
+    const center = features.length > 0 ? features[0].geometry.coordinates : undefined;
 
     const map = new MapBoxGL.Map({
       container: 'incident-map',
       style: 'mapbox://styles/mapbox/light-v9',
-      center: incidentLocation,
-      zoom: 13,
+      zoom: 12,
       pitch: 60,
+      center
     });
 
-    const address = `<h4>\
-      ${this.incident.address.address_line1}<br>\
-      ${this.incident.address.city}, ${this.incident.address.state}<\\h4>`;
-    const popup = new MapBoxGL.Popup({ offset: 25 })
-      .setHTML(address);
+    map.on('load', () => {
+      map.addLayer({
+        id: 'incidents',
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: geojson
+        },
+        layout: {
+          'icon-image': '{icon}-15',
+          'text-field': '{title}',
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, 0.6],
+          'text-anchor': 'top'
+        }
+      });
 
-    new MapBoxGL.Marker()
-      .setLngLat(incidentLocation)
-      .setPopup(popup)
-      .addTo(map);
+      map.fitBounds(bounds, {
+        padding: 20
+      });
+    });
   }
 }

@@ -9,15 +9,18 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from '@uirouter/angularjs';
+
+// eslint-disable-next-line no-unused-vars
 import uiBootstrap from 'ui-bootstrap4';
+// eslint-disable-next-line no-unused-vars
 import bootstrap from 'bootstrap';
 
 // vendor utils
-// These two aren't angular modules but still need to be loaded
-// eslint-disable-next-line
+// eslint-disable-next-line no-unused-vars
 import oclazyload from 'oclazyload';
-// eslint-disable-next-line
+// eslint-disable-next-line no-unused-vars
 import angularLoadingBar from 'angular-loading-bar';
+// eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
@@ -27,6 +30,7 @@ import MapBoxGL from 'mapbox-gl';
 import '../polyfills';
 import './app.scss';
 
+// eslint-disable-next-line no-unused-vars
 import { Store } from '../state/store';
 
 // StatEngine modules
@@ -63,6 +67,7 @@ import footer from '../components/footer/footer.component';
 import percentChange from '../components/percent-change/percent-change.component';
 import rank from '../components/rank/rank.component';
 import modal from '../components/modal/modal.service';
+import shift from '../components/shift/shift.component';
 
 import statsTable from '../components/tables/stats-table.component';
 import safety from '../components/safety/safety.component';
@@ -72,6 +77,8 @@ import chartTable from '../components/chart-table/chart-table.component';
 import barGauge from '../components/bar-gauge/bar-gauge.component';
 import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
+import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
+import complianceProgressBar from '../components/compliance-progress-bar/compliance-progress-bar.component';
 
 import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
@@ -123,7 +130,7 @@ angular.module('statEngineApp', [
   incidentComponents,
   chartComponents,
   orderObjectBy,
-  //shift,
+  shift,
   departmentAdmin,
   twitter,
   'ui.bootstrap',
@@ -139,6 +146,8 @@ angular.module('statEngineApp', [
   plotlyWrapper,
   modal,
   percentChange,
+  nfpaAnalysis,
+  complianceProgressBar,
   rank,
 ])
   .config(routeConfig)

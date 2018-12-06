@@ -3,22 +3,12 @@
 export default function StatsResource($resource) {
   'ngInject';
 
-  return $resource('/api/stats/:resource', {
+  return $resource('/api/stats/', {
     id: '@id'
   }, {
-    getDaily: {
+    get: {
       method: 'GET',
       isArray: false,
-      params: {
-        resource: 'daily'
-      }
-    },
-    getShift: {
-      method: 'GET',
-      isArray: false,
-      params: {
-        resource: 'shift'
-      }
     },
   });
 }

@@ -9,6 +9,7 @@ import percentile from 'percentile';
 export class BarGaugeComponent {
   constructor($element, $attrs) {
     'ngInject';
+
     this.element = $element[0];
     this.needle = $(this.element.querySelector('.bar-gauge-needle-group'));
     this.midLabel = $(this.element.querySelector('.bar-guage-mid'));
@@ -57,7 +58,8 @@ export class BarGaugeComponent {
     // percent: ${(this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0}
     // left: ${parseInt(percentileElement.css('left')) + ((this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0) * (percentileElement.width() - 3)}
     // `);
-    this.needle.css({left: parseInt(percentileElement.css('left')) + ((this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0) * (percentileElement.width() - 3) + 'px'});
+    this.needle.css({left: `${parseInt(percentileElement.css('left'), 10)
+      + ((this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0) * (percentileElement.width() - 3)}px`});
   }
 }
 

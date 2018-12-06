@@ -42,7 +42,6 @@ export default class IncidentFirstDueTravelDurationChartComponent {
     this.trace.push(firstDueTrace);
     this.trace.push(nonFirstDueTrace);
 
-    console.dir(this.trace)
     this.layout = {
       barmode: 'group'
     };

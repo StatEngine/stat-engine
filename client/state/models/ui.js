@@ -8,6 +8,7 @@ export const UI = types.model({
   selectedFilters: types.frozen(),
 })
   .actions(self => {
+    // eslint-disable-next-line require-yield
     const buildFilters = flow(function*(fireDepartment) {
       const ShiftConfiguration = FirecaresLookup[fireDepartment.firecares_id];
       const shiftly = new ShiftConfiguration();
@@ -44,7 +45,7 @@ export const UI = types.model({
         interval: 'year',
         subInterval: 'month'
       }];
-        
+
       _.forEach(intervals, i => {
         const umStart = new moment(now).subtract(1, i.interval)
           .startOf(i.interval);
@@ -65,7 +66,7 @@ export const UI = types.model({
 
     const setTimeFilter = id => {
       let filter = _.find(self.timeFilters, tf => tf.id === id);
-      if (!filter) filter = self.timeFilters[0];
+      if(!filter) filter = self.timeFilters[0];
       self.selectedFilters = {
         timeFilter: filter
       };
@@ -76,3 +77,5 @@ export const UI = types.model({
       setTimeFilter,
     };
   });
+
+export default UI;

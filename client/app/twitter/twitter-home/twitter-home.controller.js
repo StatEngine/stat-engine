@@ -142,7 +142,6 @@ export default class TwitterHomeController {
     });
 
     modalInstance.result.then(updatedTweet => {
-      console.dir(updatedTweet)
       tweet.tweet_json.status = updatedTweet.tweet_json.status;
       tweet.media_text = updatedTweet.media_text;
       tweet.media_path = updatedTweet.media_path;

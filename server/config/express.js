@@ -15,7 +15,6 @@ import lusca from 'lusca';
 import passport from 'passport';
 import session from 'express-session';
 import connectSessionSequelize from 'connect-session-sequelize';
-import helmet from 'helmet';
 import compression from 'compression';
 
 import config from './environment';
@@ -64,7 +63,7 @@ export default function(app) {
     // 30 days in ms
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 *30,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
       secure: false,
     },
   };
