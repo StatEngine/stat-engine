@@ -77,6 +77,8 @@ import chartTable from '../components/chart-table/chart-table.component';
 import barGauge from '../components/bar-gauge/bar-gauge.component';
 import skycon from '../components/weather/skycon.directive';
 import logo from '../components/logo/logo.component';
+import logoAvatar from '../components/logo/logo-avatar.component';
+
 import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
 import complianceProgressBar from '../components/compliance-progress-bar/compliance-progress-bar.component';
 
@@ -109,6 +111,7 @@ angular.module('statEngineApp', [
   trusted,
   statsTable,
   logo,
+  logoAvatar,
   skycon,
   weather,
   currentWeather,

@@ -11,7 +11,7 @@
             </span>
           </h2>
           <h4 ng-if="vm.fireDepartment" class="heavyheader">
-            {{ vm.fireDepartment.name }} 
+            {{ vm.fireDepartment.name }}
           </h4>
           <div ng-if="vm.principal.isGlobal">
             <div class="row">
@@ -26,7 +26,7 @@
                   <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
                 </div>
               </div>
-            </div>      
+            </div>
           </div>
 
           <p class="mg-b-0 mg-t-10">
@@ -135,7 +135,7 @@
                       <div>
                         <p>Here's a quick look at some of your more interesting events.  Click any incident number to see a detailed analysis.<br>
                           Incident not listed? Search for more <a href="#" ui-sref="site.incident.search">here</a><br><br>
-                          
+
                           <strong>Note:</strong>
                           Icons are colored according to NFPA 1710 compliance  <br>
                           <i class="fa fa-phone mg-r-8"></i> - alarm answering <br>
@@ -174,7 +174,7 @@
                       <div class="col-12">
                         <p>Here's a quick look at some of your more busier units.  Click any unit number to see a detailed analysis.<br>
                             Unit not listed? Search for more <a href="#" ui-sref="site.reporting.unit">here</a><br><br>
-                          
+
                             <strong>Note:</strong>
                             Turnout bars are colored according to NFPA 1710 compliance  <br>
                         </p>
