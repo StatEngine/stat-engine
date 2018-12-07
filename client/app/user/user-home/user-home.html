@@ -47,8 +47,6 @@
                 Please follow up with your local adminstrator to receive approval.
               </p>
             </div>
-            <div ng-if="vm.setupComplete">
-            </div>
           </p>
         </div>
         <div class="col-lg actions mg-t-5" ng-if="vm.appAccess">
@@ -76,7 +74,7 @@
   <div class="br-pagebody">
     <section class="overview">
       <div class="row">
-        <div class="col-lg-7 weather-conditions">
+        <div class="col-sm-6 weather-conditions">
           <div class="card h-100">
             <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
               <h2 class="card-title tx-medium mg-b-0 tx-spacing-1">Today</h2>
@@ -87,7 +85,7 @@
             <div class="card-body h-100">
               <br>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-12">
                   <h4 class="heavyheader"> Weather </h4>
                   <div ng-if="vm.weatherForecast">
                     <current-weather weather="vm.weatherForecast.currently"></current-weather>
@@ -98,20 +96,18 @@
                     No weather data available at this time.
                   </div>
                 </div>
-                <div class="col-md-7">
+              </div>
+              <hr>
+              <div class="row mt-3">
+                <div class="col-12">
                   <h4 class="heavyheader"> Safety Tip of the Day </h4>
                   <p class="tx-light">{{vm.safetyMessage.message}}</p>
-                </div>
-              </div>
-              <div class="row mt-4">
-                <div class="col-12">
-                  <!--<incident-map incidents="vm.activeIncidents"></incident-map>-->
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-sm-6">
           <div class="card h-100">
             <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                 <h2 class="card-title tx-medium mg-b-0 tx-spacing-1">Yesterday's Recap</h2>
@@ -124,10 +120,10 @@
                 <div class="col-12">
                   <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active" id="incidents-tab" data-toggle="tab" href="#incidents" role="tab" aria-controls="incidents" aria-selected="true"><strong>Incidents</strong></a>
+                      <a class="nav-link active"  ng-click="vm.selectTab('incidents')"  id="incidents-tab" data-toggle="tab" href="#incidents" role="tab" aria-controls="incidents" aria-selected="true"><strong>Incidents</strong></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="table-tab" data-toggle="tab" href="#units" role="tab" aria-controls="table" aria-selected="true"><strong>Units</strong></a>
+                      <a class="nav-link" ng-click="vm.selectTab('units')" id="table-tab" data-toggle="tab" href="#units" role="tab" aria-controls="table" aria-selected="true"><strong>Units</strong></a>
                     </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
@@ -179,14 +175,15 @@
                             Turnout bars are colored according to NFPA 1710 compliance  <br>
                         </p>
                       </div>
-                      <div class="col-12">
+                      <div ng-show="vm.selectedTab === 'units'" class="col-12">
                         <table class="table table-responsive mg-b-0 tx-12">
                           <thead>
                             <tr class="tx-10">
                               <th class="wd-10p pd-y-5">&nbsp;</th>
                               <th class="pd-y-5">Responses</th>
                               <th class="pd-y-5">Commitment</th>
-                              <th class="pd-y-5">Turnout</th>
+                              <th class="pd-y-5">EMS Turnout</th>
+                              <th class="pd-y-5">FIRE Turnout</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -205,32 +202,22 @@
                                 </span>
                               </td>
                               <td>
-                                <div class="row align-items-center">
-                                  <div class="col-3 tx-12">EMS</div>
-                                  <div class="col-9">
-                                    <compliance-progress-bar
-                                        value=unit.value.emsTurnoutDurationPercentile90.val
-                                        max=300
-                                        success=60
-                                        warning=70
-                                        danger=71
-                                        text="{{vm.humanizeDuration(unit.value.emsTurnoutDurationPercentile90.val*1000)}}"
-                                    ></compliance-progress-bar>
-                                  </div>
-                                </div>
-                                <div class="row align-items-center mg-t-5">
-                                  <div class="col-3 tx-12">FIRE</div>
-                                  <div class="col-9">
-                                    <compliance-progress-bar
-                                      value=unit.value.fireTurnoutDurationPercentile90.val
-                                      max=300
-                                      success=80
-                                      warning=90
-                                      danger=91
-                                      text="{{vm.humanizeDuration(unit.value.fireTurnoutDurationPercentile90.val*1000)}}"
-                                    ></compliance-progress-bar>
-                                  </div>
-                                </div>
+                                <compliance-progress-bar
+                                  id="ems_{{$id}}"
+                                  max=120
+                                  values=[60,unit.value.emsTurnoutDurationPercentile90.val,120,100,70,60]
+                                  options="{ rangeColors: ['#072F5F', '#1261A0', '#3895D3'], performanceColor: '#E92876', targetColor: 'black'}"
+                                  text="{{vm.humanizeDuration(unit.value.emsTurnoutDurationPercentile90.val*1000)}}"
+                                ></compliance-progress-bar>
+                              </td>
+                              <td>
+                                <compliance-progress-bar
+                                  id="fire_{{$id}}"
+                                  max=140
+                                  values=[80,unit.value.fireTurnoutDurationPercentile90.val,140,120,90,80]
+                                  options="{ rangeColors: ['#072F5F', '#1261A0', '#3895D3'], performanceColor: '#E92876', targetColor: 'black'}"
+                                  text="{{vm.humanizeDuration(unit.value.fireTurnoutDurationPercentile90.val*1000)}}"
+                                ></compliance-progress-bar>
                               </td>
                             </tr>
                           </tbody>

@@ -48,6 +48,8 @@ export default class UserHomeController {
     }
 
     this.yesterdayStatSummary = yesterdayStatSummary;
+
+    this.selectedTab = 'incidents';
   }
 
   async loadModules() {
@@ -61,6 +63,8 @@ export default class UserHomeController {
 
   async $onInit() {
     await this.loadModules();
+
+    $('.inlinesparkline').sparkline();
 
     this.activeIncidents = _.values(this.activeIncidents);
     if(this.yesterdayStatSummary) {
@@ -138,5 +142,9 @@ export default class UserHomeController {
       }
       this.$state.go(state);
     };
+
+    this.selectTab = function(tabName) {
+      this.selectedTab = tabName;
+    }
   }
 }

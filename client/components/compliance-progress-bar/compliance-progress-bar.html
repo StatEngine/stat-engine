@@ -1,6 +1,3 @@
-<div ng-if="vm.value" class="progress">
-  <div class="progress-bar" role="progressbar" ng-class="vm.getClass()">
-    {{vm.text}}
-  </div>
+<div>
+  <span id="{{vm.id}}" class="inlinesparkline">{{vm.valuesStr}}</span><span class="heavyheader">&nbsp;{{vm.text}}</span>
 </div>
-<div ng-if="!vm.value">N/A</div>

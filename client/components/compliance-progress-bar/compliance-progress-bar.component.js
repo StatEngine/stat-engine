@@ -9,22 +9,32 @@ function round5(x) {
 }
 
 export class ComplianceProgressBarComponent {
-  constructor() {
+  constructor($interval) {
     'ngInject';
+
+    this.$interval = $interval
   }
 
   $onInit() {
-    this.percent = Math.round((this.value / this.max) * 100);
+    const correctedValues = this.values;
+    for(let i = 0; i < correctedValues.length; i++) {
+      if(correctedValues[i] > this.max) correctedValues[i] = this.max;
+    }
+    this.valuesStr = correctedValues.join(',');
 
-    if(this.value <= this.success) this.thresholdClass = 'bg-success';
-    else if(this.value > this.success && this.value <= this.warning) this.thresholdClass = 'bg-warning';
-    else if(this.value > this.warning) this.thresholdClass = 'bg-danger';
+    const options = this.options || {};
+    options.width = '150px';
+    options.height = '20px';
+    options.type = 'bullet';
+
+    $(`.inlinesparkline`).sparkline('html', options);
+
+    // HACK = find out why we need to refresh
+    this.interval = this.$interval(() => { $.sparkline_display_visible(); }, 1000);
   }
 
-  getClass() {
-    const c = `${this.thresholdClass} wd-${round5(this.percent)}p`;
-
-    return c;
+  $onDestroy() {
+    if(this.interval) this.$interval.cancel(this.interval);
   }
 }
 
@@ -34,12 +44,11 @@ export default angular.module('directives.complianceProgressBar', [])
     controller: ComplianceProgressBarComponent,
     controllerAs: 'vm',
     bindings: {
-      success: '<',
-      warning: '<',
-      danger: '<',
-      value: '<',
-      max: '<',
-      text: '@'
+      options: '<',
+      values: '<',
+      text: '@',
+      id: '@',
+      max: '<'
     },
   })
   .name;

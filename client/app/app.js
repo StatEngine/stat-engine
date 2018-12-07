@@ -22,6 +22,7 @@ import oclazyload from 'oclazyload';
 import angularLoadingBar from 'angular-loading-bar';
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import sparkline from 'jquery-sparkline/jquery.sparkline.js';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
