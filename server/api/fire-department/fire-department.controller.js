@@ -28,6 +28,8 @@ import {
   nfpa1710,
 } from './fire-department-nfpa.controller';
 
+import { createCustomer } from '../../subscription/chargebee';
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -74,27 +76,29 @@ export function search(req, res) {
  * Creates a new fire department
  */
 export function create(req, res) {
-  var newFireDepartment = FireDepartment.build(req.body);
+  const newFireDepartment = FireDepartment.build(req.body);
+
+  const seedKibana = fireDepartment => {
+    const options = {
+      force: true
+    };
+
+    const locals = {
+      FireDepartment: fireDepartment.get()
+    };
+
+    seedKibanaAll(options, locals, err => {
+      if(err) {
+        console.error(err);
+        res.status(500).send(err);
+      } else {
+        res.json(fireDepartment);
+      }
+    });
+  };
 
   return newFireDepartment.save()
-    .then(function(fireDepartment) {
-      const options = {
-        force: true
-      };
-
-      const locals = {
-        FireDepartment: fireDepartment.get()
-      };
-
-      seedKibanaAll(options, locals, err => {
-        if(err) {
-          console.error(err);
-          res.status(500).send(err);
-        } else {
-          res.json(fireDepartment);
-        }
-      });
-    })
+    .then(fd => Promise.all(seedKibana(fd), createCustomer(fd)))
     .catch(validationError(res));
 }
 

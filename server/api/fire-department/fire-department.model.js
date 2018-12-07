@@ -63,6 +63,9 @@ export default function(sequelize, DataTypes) {
     logo_link: {
       type: DataTypes.STRING,
     },
+    customer_id: {
+      type: DataTypes.STRING,
+    }
   }, {
 
     /**
