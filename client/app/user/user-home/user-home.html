@@ -202,22 +202,22 @@
                                 </span>
                               </td>
                               <td>
-                                <compliance-progress-bar
+                                <bullet-chart
                                   id="ems_{{$id}}"
                                   max=120
                                   values=[60,unit.value.emsTurnoutDurationPercentile90.val,120,100,70,60]
                                   options="{ rangeColors: ['#072F5F', '#1261A0', '#3895D3'], performanceColor: '#E92876', targetColor: 'black'}"
                                   text="{{vm.humanizeDuration(unit.value.emsTurnoutDurationPercentile90.val*1000)}}"
-                                ></compliance-progress-bar>
+                                ></bullet-chart>
                               </td>
                               <td>
-                                <compliance-progress-bar
+                                <bullet-chart
                                   id="fire_{{$id}}"
                                   max=140
                                   values=[80,unit.value.fireTurnoutDurationPercentile90.val,140,120,90,80]
                                   options="{ rangeColors: ['#072F5F', '#1261A0', '#3895D3'], performanceColor: '#E92876', targetColor: 'black'}"
                                   text="{{vm.humanizeDuration(unit.value.fireTurnoutDurationPercentile90.val*1000)}}"
-                                ></compliance-progress-bar>
+                                ></bullet-chart>
                               </td>
                             </tr>
                           </tbody>

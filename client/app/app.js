@@ -22,6 +22,7 @@ import oclazyload from 'oclazyload';
 import angularLoadingBar from 'angular-loading-bar';
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+// eslint-disable-next-line no-unused-vars
 import sparkline from 'jquery-sparkline/jquery.sparkline.js';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
@@ -81,7 +82,7 @@ import logo from '../components/logo/logo.component';
 import logoAvatar from '../components/logo/logo-avatar.component';
 
 import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
-import complianceProgressBar from '../components/compliance-progress-bar/compliance-progress-bar.component';
+import bulletChart from '../components/bullet-chart/bullet-chart.component';
 
 import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
@@ -151,7 +152,7 @@ angular.module('statEngineApp', [
   modal,
   percentChange,
   nfpaAnalysis,
-  complianceProgressBar,
+  bulletChart,
   rank,
 ])
   .config(routeConfig)

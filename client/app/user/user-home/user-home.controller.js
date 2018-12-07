@@ -50,6 +50,11 @@ export default class UserHomeController {
     this.yesterdayStatSummary = yesterdayStatSummary;
 
     this.selectedTab = 'incidents';
+
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
+      app: 'Home',
+      location: 'user-home',
+    });
   }
 
   async loadModules() {
@@ -145,6 +150,6 @@ export default class UserHomeController {
 
     this.selectTab = function(tabName) {
       this.selectedTab = tabName;
-    }
+    };
   }
 }

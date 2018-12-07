@@ -4,15 +4,11 @@
 
 import angular from 'angular';
 
-function round5(x) {
-  return Math.ceil(x / 5) * 5;
-}
-
-export class ComplianceProgressBarComponent {
+export class BulletChartComponent {
   constructor($interval) {
     'ngInject';
 
-    this.$interval = $interval
+    this.$interval = $interval;
   }
 
   $onInit() {
@@ -27,9 +23,10 @@ export class ComplianceProgressBarComponent {
     options.height = '20px';
     options.type = 'bullet';
 
-    $(`.inlinesparkline`).sparkline('html', options);
+    $('.inlinesparkline').sparkline('html', options);
 
-    // HACK = find out why we need to refresh
+    // eslint-disable-next-line no-warning-comments
+    // TODO - find more efficient way to refresh
     this.interval = this.$interval(() => { $.sparkline_display_visible(); }, 1000);
   }
 
@@ -38,10 +35,10 @@ export class ComplianceProgressBarComponent {
   }
 }
 
-export default angular.module('directives.complianceProgressBar', [])
-  .component('complianceProgressBar', {
-    template: require('./compliance-progress-bar.html'),
-    controller: ComplianceProgressBarComponent,
+export default angular.module('directives.bulletChart', [])
+  .component('bulletChart', {
+    template: require('./bullet-chart.html'),
+    controller: BulletChartComponent,
     controllerAs: 'vm',
     bindings: {
       options: '<',
