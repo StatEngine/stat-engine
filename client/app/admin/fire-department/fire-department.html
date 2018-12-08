@@ -83,7 +83,9 @@
 
             <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
               <label>Timezone</label>
-              <input type="text" name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required="required"/>
+              <select name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required>
+                <option ng-repeat="timezone in vm.timezones" value="{{timezone}}">{{timezone}}</option>
+              </select>
               <p class="help-block" ng-show="fdForm.timezone.$error.required && vm.submitted">
                 Timezone is required
               </p>

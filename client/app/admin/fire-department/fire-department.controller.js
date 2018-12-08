@@ -18,6 +18,22 @@ export default class FireDepartmentController {
 
     this.fireDepartment = currentFireDepartment || {};
     this.$state = $state;
+    this.timezones = [
+      'US/Alaska',
+      'US/Aleutian',
+      'US/Arizona',
+      'US/Central',
+      'US/East-Indiana',
+      'US/Eastern',
+      'US/Hawaii',
+      'US/Indiana-Starke',
+      'US/Michigan',
+      'US/Mountain',
+      'US/Pacific',
+      'US/Pacific-New',
+      'US/Samoa',
+      'UTC'
+    ];
   }
 
   fixtures(type) {
