@@ -23,6 +23,9 @@
             <div class="table mb-5">
               <div class="table-row header">
                 <div class="cell">
+                  Customer Id
+                </div>
+                <div class="cell">
                   Firecares Id
                 </div>
                 <div class="cell">
@@ -54,6 +57,9 @@
               <div class="table-row" ng-repeat="fd in vm.fireDepartments | orderBy:'name'">
                 <div class="cell" data-title="Firecares Id">
                   <a ui-sref="site.admin.fireDepartment({ id: fd._id })"> {{ fd.firecares_id }} </a>
+                </div>
+                <div class="cell" data-title="Customer Id">
+                  {{ fd.customer_id }}
                 </div>
                 <div class="cell" data-title="FD ID">
                   {{ fd.fd_id }}

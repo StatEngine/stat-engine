@@ -48,20 +48,26 @@ function handleError(res, statusCode) {
  * Search for fire departments
  */
 export function search(req, res) {
+  const attributes = [
+    'firecares_id',
+    '_id',
+    'name',
+    'fd_id',
+    'timezone',
+    'state',
+    'integration_complete',
+    'integration_verified',
+    'latitude',
+    'longitude',
+  ];
+
+  if(req.user.isAdmin) {
+    attributes.push('customer_id');
+  }
+
   return FireDepartment.findAll({
     where: req.query,
-    attributes: [
-      'firecares_id',
-      '_id',
-      'name',
-      'fd_id',
-      'timezone',
-      'state',
-      'integration_complete',
-      'integration_verified',
-      'latitude',
-      'longitude',
-    ]
+    attributes
   })
     .then(fireDepartments => {
       if(!fireDepartments) {

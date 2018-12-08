@@ -1,10 +1,11 @@
 import chargebee from 'chargebee';
+import 'babel-polyfill';
+
 import _ from 'lodash';
 
 chargebee.configure({
   site: process.env.CHARGEBEE_SITE,
   api_key: process.env.CHARGEBEE_API_KEY});
-
 
 export const createCustomer = async fireDepartment => {
   let skip = _.isEmpty(process.env.CHARGEBEE_API_KEY) || _.isEmpty(fireDepartment);
