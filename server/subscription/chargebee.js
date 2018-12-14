@@ -8,6 +8,7 @@ chargebee.configure({
   api_key: process.env.CHARGEBEE_API_KEY});
 
 export const createCustomer = async fireDepartment => {
+  console.info('Creating customer');
   let skip = _.isEmpty(process.env.CHARGEBEE_API_KEY) || _.isEmpty(fireDepartment);
 
   //if customer id check
@@ -25,13 +26,13 @@ export const createCustomer = async fireDepartment => {
 
   if(skip) {
     // one of the check's failed skip
-    return;
+    return Promise.resolve();
   }
 
   let customerResponse = await chargebee.customer
     .create({ company: fireDepartment.name.substring(0, 250) }).request();
   fireDepartment.customer_id = customerResponse.customer.id;
-  fireDepartment.save();
+  return fireDepartment.save();
 };
 
 

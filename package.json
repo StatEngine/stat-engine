@@ -4,7 +4,7 @@
   "main": "server/index.js",
   "dependencies": {
     "@mapbox/geojson-extent": "^0.3.2",
-    "@statengine/se-fixtures": "~0.0.20",
+    "@statengine/se-fixtures": "~1.0.0",
     "@statengine/se-ingest-router": ">0.0.2",
     "@statengine/shiftly": ">0.0.17",
     "@statengine/siamese-san-francisco-demo": "0.0.4",
