@@ -28,6 +28,8 @@ import {
   nfpa1710,
 } from './fire-department-nfpa.controller';
 
+import { createCustomer } from '../../subscription/chargebee';
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -46,20 +48,26 @@ function handleError(res, statusCode) {
  * Search for fire departments
  */
 export function search(req, res) {
+  const attributes = [
+    'firecares_id',
+    '_id',
+    'name',
+    'fd_id',
+    'timezone',
+    'state',
+    'integration_complete',
+    'integration_verified',
+    'latitude',
+    'longitude',
+  ];
+
+  if(req.user.isAdmin) {
+    attributes.push('customer_id');
+  }
+
   return FireDepartment.findAll({
     where: req.query,
-    attributes: [
-      'firecares_id',
-      '_id',
-      'name',
-      'fd_id',
-      'timezone',
-      'state',
-      'integration_complete',
-      'integration_verified',
-      'latitude',
-      'longitude',
-    ]
+    attributes
   })
     .then(fireDepartments => {
       if(!fireDepartments) {
@@ -70,32 +78,38 @@ export function search(req, res) {
     .catch(validationError(res));
 }
 
+function seedKibana(fireDepartment) {
+  const options = {
+    force: true
+  };
+
+  const locals = {
+    FireDepartment: fireDepartment.get()
+  };
+
+
+  return new Promise((resolve, reject) => {
+    seedKibanaAll(options, locals, err => {
+      if(err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
 /**
  * Creates a new fire department
  */
 export function create(req, res) {
-  var newFireDepartment = FireDepartment.build(req.body);
+  const newFireDepartment = FireDepartment.build(req.body);
 
   return newFireDepartment.save()
-    .then(function(fireDepartment) {
-      const options = {
-        force: true
-      };
-
-      const locals = {
-        FireDepartment: fireDepartment.get()
-      };
-
-      seedKibanaAll(options, locals, err => {
-        if(err) {
-          console.error(err);
-          res.status(500).send(err);
-        } else {
-          res.json(fireDepartment);
-        }
-      });
-    })
-    .catch(validationError(res));
+    .then(fd => Promise.all([seedKibana(fd), createCustomer(fd)]))
+    .then(() => res.status(204).send())
+    .catch(() => validationError(res));
 }
 
 export function edit(req, res) {

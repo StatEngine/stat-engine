@@ -1,14 +1,25 @@
-<div class="site-content fire-deparment-home">
+<div class="br-mainpanel fire-deparment-home">
   <header class="naked"></header>
-  <section class="container site-content">
+  <section class="container">
     <section class="row mb-12 justify-content-md-center">
       <div class="col-md-auto align-self-center">
         <h2 class="subheader">Edit Fire Department</h2>
         <div class="form-elements">
           <form class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="fdForm" ng-submit="vm.updateFireDepartment(fdForm)" novalidate="">
 
+            <div ng-if="vm.fireDepartment._id" class="form-group " ng-class="{ 'has-success': fdForm.customer_id.$valid && vm.submitted,'has-error': fdForm.customer_id.$invalid && vm.submitted }">
+              <label>Customer ID</label>
+              <input type="text" name="customer_id" class="form-control input-md" ng-model="vm.fireDepartment.customer_id"/>
+              <p class="help-block" ng-show="fdForm.customer_id.$error.required && vm.submitted">
+                  Customer ID is required
+              </p>
+              <p class="help-block" ng-show="fdForm.customer_id.$error.mongoose">
+                  {{ vm.errors.customer_id }}
+              </p>
+            </div>
+
             <div class="form-group " ng-class="{ 'has-success': fdForm.firecares_id.$valid && vm.submitted,'has-error': fdForm.firecares_id.$invalid && vm.submitted }">
-              <label>Fircares ID</label>
+              <label>Firecares ID</label>
               <input type="text" name="firecares_id" class="form-control input-md" ng-model="vm.fireDepartment.firecares_id" required="required"/>
               <p class="help-block" ng-show="fdForm.firecares_id.$error.required && vm.submitted">
                 Firecares ID is required

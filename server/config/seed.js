@@ -102,6 +102,7 @@ if(process.env.NODE_ENV === 'development') {
       latitude: 37.5407,
       longitude: -77.4360,
       logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+      customer_id: 'FD-123',
       Users: [{
         provider: 'local',
         role: 'user,kibana_admin,deparment_admin',

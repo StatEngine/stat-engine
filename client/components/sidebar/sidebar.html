@@ -195,6 +195,13 @@
             <i class="menu-item-icon fa fa-users tx-16"></i>
             <span class="menu-item-label text-truncate">My Department</span>
           </a>
+        </li>
+        <li class="br-menu-item" ng-show="vm.user.isDepartmentAdmin">
+            <a href="/subscriptionPortal" target="_blank" class="br-menu-link">
+              <i class="menu-item-icon fa fa-credit-card tx-16"></i>
+              <span class="menu-item-label text-truncate">Manage Subscription</span>
+            </a>
+        </li>
       </ul>
 
       <!-- SUPPORT SECTION  -->

@@ -30,6 +30,8 @@ export default function(app) {
     .get((req, res) => res.redirect(path.join(config.kibana.appPath, 'app/kibana#/dashboards?_g=()')));
   app.use(config.kibana.appPath, require('./kibana'));
 
+  app.use('/subscriptionPortal', require('./subscription'));
+
   // All routes after this point are csrf protected
   app.use(lusca.csrf({
     angular: true,
