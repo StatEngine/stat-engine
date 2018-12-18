@@ -61,7 +61,7 @@ export function search(req, res) {
     'longitude',
   ];
 
-  if(req.user.isAdmin) {
+  if(req.user && req.user.isAdmin) {
     attributes.push('customer_id');
   }
 
