@@ -7,7 +7,7 @@
 Ensure the following packages are installed
 - [Git](https://git-scm.com/)
 - [Node.js and npm](nodejs.org) Node >= 8.x.x, npm >= 6.5.x
-- [PostSQL](https://www.postgresql.org/)
+- [PostSQL](https://www.postgresql.org/) 9.6.5
 - [Elasticsearch](https://www.postgresql.org/) 6.4.2
 
 1.  Run `npm install --global gulp`
