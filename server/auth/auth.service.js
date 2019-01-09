@@ -2,8 +2,9 @@
 
 import compose from 'composable-middleware';
 import passport from 'passport';
-
-import {FireDepartment, User} from '../sqldb';
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
+import { FireDepartment, User } from '../sqldb';
 
 /*
  * Serialize user into session
@@ -30,7 +31,7 @@ passport.deserializeUser(function(userId, done) {
  */
 export function isApiAuthenticated(req, res, next) {
   if(!req.isAuthenticated()) {
-    return passport.authenticate(['localapikey', 'basic'], { session: false })(req, res, next);
+    return passport.authenticate(['localapikey', 'basic', 'jwt'], { session: false })(req, res, next);
   } else {
     return next();
   }
@@ -124,3 +125,18 @@ export function belongsToFireDepartment(req, res, next) {
   }
   return next();
 }
+
+export const checkOauthJwt = jwt({
+  // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_fmRRChbEw/.well-known/jwks.json`
+  }),
+
+  // Validate the audience and the issuer.
+  //audience: process.env.AUTH0_AUDIENCE,
+  //issuer: `https://YOUR_AUTH0_DOMAIN/`,
+  algorithms: ['RS256']
+});

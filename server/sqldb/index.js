@@ -21,7 +21,7 @@ db.ExtensionConfiguration = db.sequelize.import('../api/extension-configuration/
 db.ExtensionRequest = db.sequelize.import('../api/extension-request/extension-request.model');
 db.Report = db.sequelize.import('../api/report/report.model.js');
 db.ReportMetric = db.sequelize.import('../api/report-metric/report-metric.model.js');
-
+db.App = db.sequelize.import('../api/app/app.model');
 db.FireDepartment.Users = db.FireDepartment.hasMany(db.User);
 
 db.User.belongsTo(db.FireDepartment);

@@ -1,20 +1,20 @@
 'use strict';
 
 export default function(sequelize, DataTypes) {
-  const Extension = sequelize.define('Extensions', {
+  const App = sequelize.define('Apps', {
     _id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    type: {
-      type: DataTypes.ENUM('ENRICHMENT', 'INTEGRATION', 'PERIODIC', 'APP'),
+    slug: {
+      type: DataTypes.STRING,
       validate: {
         notEmpty: true
       },
     },
-    name: {
+    display_name: {
       type: DataTypes.STRING(20),
       validate: {
         notEmpty: true
@@ -38,6 +38,10 @@ export default function(sequelize, DataTypes) {
     categories: {
       type: DataTypes.STRING,
     },
+    hidden: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    },
     featured: {
       type: DataTypes.BOOLEAN,
       default: false
@@ -50,18 +54,17 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       default: 'extension-preview-generic.svg'
     },
-    date_created: {
-      type: DataTypes.DATE,
+    client_secret: {
+      type: DataTypes.STRING,
       validate: {
         notEmpty: true
       },
-      defaultValue: new Date()
     },
-    date_updated: {
-      type: DataTypes.DATE,
-    },
-    config_options: {
-      type: DataTypes.ARRAY(DataTypes.JSON)
+    client_id: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      },
     },
   }, {
 
@@ -86,6 +89,8 @@ export default function(sequelize, DataTypes) {
     underscored: true,
   });
 
-
-  return Extension;
+  return App;
 }
+
+// check here: https://developer.github.com/apps/building-github-apps/creating-github-apps-from-a-manifest/
+// add webhook secret
