@@ -152,7 +152,11 @@ export const checkOauthJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/${process.env.COGNITO_POOL_ID}/.well-known/jwks.json`
+    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_fmRRChbEw/.well-known/jwks.json`
   }),
+
+  // Validate the audience and the issuer.
+  //audience: process.env.AUTH0_AUDIENCE,
+  //issuer: `https://YOUR_AUTH0_DOMAIN/`,
   algorithms: ['RS256']
 });

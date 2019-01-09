@@ -8,14 +8,14 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
-      type: DataTypes.STRING(20),
+    slug: {
+      type: DataTypes.STRING,
       validate: {
         notEmpty: true
       },
     },
-    slug: {
-      type: DataTypes.STRING,
+    display_name: {
+      type: DataTypes.STRING(20),
       validate: {
         notEmpty: true
       },
@@ -35,11 +35,8 @@ export default function(sequelize, DataTypes) {
     features: {
       type: DataTypes.ARRAY(DataTypes.STRING)
     },
-    tags: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
-    },
-    permissions: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
+    categories: {
+      type: DataTypes.STRING,
     },
     hidden: {
       type: DataTypes.BOOLEAN,
@@ -49,11 +46,13 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       default: false
     },
-    image_url: {
+    image: {
       type: DataTypes.STRING,
+      default: 'extension-generic.svg'
     },
-    preview_url: {
+    preview: {
       type: DataTypes.STRING,
+      default: 'extension-preview-generic.svg'
     },
     client_secret: {
       type: DataTypes.STRING,
@@ -62,18 +61,6 @@ export default function(sequelize, DataTypes) {
       },
     },
     client_id: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true
-      },
-    },
-    webhook_url: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true
-      },
-    },
-    webhook_secret: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true
@@ -104,3 +91,6 @@ export default function(sequelize, DataTypes) {
 
   return App;
 }
+
+// check here: https://developer.github.com/apps/building-github-apps/creating-github-apps-from-a-manifest/
+// add webhook secret
