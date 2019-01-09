@@ -30,7 +30,16 @@ Ensure the following packages are installed
 
 ### Loading ES Test data
 
-Coming soon, but not needed for basic development
+#### Nightly Dump
+
+A nightly dump of elasticdump data will be availabe in S3.
+In the meantime, you can obtain sample data from another developer.
+
+#### Loading data
+
+```
+multielasticdump --input=".\test-es-data" --output="http://localhost:9200" --direction="load"
+```
 
 ### Developing
 
