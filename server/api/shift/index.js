@@ -12,7 +12,6 @@ router.get(
   '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasPermission('shift:read'),
   auth.hasFireDepartment,
   controller.getShift
 );
