@@ -38,7 +38,4 @@ router.get(
   hello,
 );
 
-
-
-
 module.exports = router;
