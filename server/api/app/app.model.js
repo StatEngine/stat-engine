@@ -37,9 +37,12 @@ export default function(sequelize, DataTypes) {
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING)
+<<<<<<< HEAD
     },
     permissions: {
       type: DataTypes.ARRAY(DataTypes.STRING)
+=======
+>>>>>>> wip
     },
     hidden: {
       type: DataTypes.BOOLEAN,

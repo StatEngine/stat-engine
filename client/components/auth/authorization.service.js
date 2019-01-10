@@ -21,7 +21,7 @@ export default function AuthorizationService($rootScope, $state, Principal) {
               // the state they wanted before you
               // send them to the sign-in state, so
               // you can return them when you're done
-              $rootScope.returnToState = $rootScope.toState;
+              $rootScope.returnToState = $rootScope.toState ;
 
               // if state hasnt been init, send to main landing
               // otherwise go to login
