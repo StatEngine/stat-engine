@@ -44,6 +44,9 @@ export default function(sequelize, DataTypes) {
 =======
 >>>>>>> wip
     },
+    permissions: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
+    },
     hidden: {
       type: DataTypes.BOOLEAN,
       default: false
