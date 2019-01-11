@@ -274,7 +274,7 @@ export function loadComparison(req, res, next) {
   let neighborhood = _.get(req.incident, 'address.location.neighborhood');
 
   const pulsePoint = !_.isEmpty(req.incident.description.extended_data.AgencyIncidentCallTypeDescription);
-  const incidentType = pulsePoint ? req.incident.description.extended_data.AgencyIncidentCallTypeDescription : req.incident.description.type;
+  const incidentType = pulsePoint ? _.get(req.incident, 'description.extended_data.AgencyIncidentCallTypeDescription') : req.incident.description.type;
   const incidentTypeFilter = pulsePoint ? { term: {'description.extended_data.AgencyIncidentCallTypeDescription.keyword': incidentType }} : { term: {'description.type': incidentType }};
 
   const compValues = {};
