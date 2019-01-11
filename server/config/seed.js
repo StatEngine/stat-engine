@@ -18,9 +18,6 @@ const ExtensionRequest = sqldb.ExtensionRequest;
 const App = sqldb.App;
 const AppInstallation = sqldb.AppInstallation;
 
-const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
-const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
-
 let richmond;
 let rogers;
 let emailReportEnrichment;
@@ -29,10 +26,10 @@ let whosOnApp;
 if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
-    .then(() => App.sync())
-    .then(() => App.destroy({ where: {} }))
     .then(() => AppInstallation.sync())
     .then(() => AppInstallation.destroy({ where: {} }))
+    .then(() => App.sync())
+    .then(() => App.destroy({ where: {} }))
     .then(() => ExtensionConfiguration.sync())
     .then(() => ExtensionConfiguration.destroy({ where: {} }))
     .then(() => ExtensionRequest.sync())
@@ -101,14 +98,13 @@ if(process.env.NODE_ENV === 'development') {
       short_description: 'Demo app to show todays shift',
       description: 'Demo app to show todays shift',
       slug: 'whoson',
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_secret: 'cesqu5ds6gs350d6gai053l9iho9gu6igu6lj6nvevjhandi9ma',
+      client_id: '7r33g2rqj6jptrgrjkock35ic9',
       webhook_url: 'localhost:3001',
       webhook_secret: '1234',
-      permissions: ['shift:read'],
     }))
     .then(app => {
-      whosOnApp = app;
+      console.dir(app)
     })
     .then(User.sync())
     .then(() => User.destroy({ where: {} }))
