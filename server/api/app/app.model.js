@@ -38,6 +38,9 @@ export default function(sequelize, DataTypes) {
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING)
     },
+    permissions: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
+    },
     hidden: {
       type: DataTypes.BOOLEAN,
       default: false
@@ -48,11 +51,9 @@ export default function(sequelize, DataTypes) {
     },
     image_url: {
       type: DataTypes.STRING,
-      default: 'extension-generic.svg'
     },
     preview_url: {
       type: DataTypes.STRING,
-      default: 'extension-preview-generic.svg'
     },
     client_secret: {
       type: DataTypes.STRING,
@@ -61,6 +62,18 @@ export default function(sequelize, DataTypes) {
       },
     },
     client_id: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      },
+    },
+    webhook_url: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      },
+    },
+    webhook_secret: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true

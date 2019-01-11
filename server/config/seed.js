@@ -15,6 +15,8 @@ const FireDepartment = sqldb.FireDepartment;
 const Extension = sqldb.Extension;
 const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
+const App = sqldb.App;
+const AppInstallation = sqldb.AppInstallation;
 
 let richmond;
 let rogers;
@@ -23,6 +25,10 @@ let emailReportEnrichment;
 if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
+    .then(() => AppInstallation.sync())
+    .then(() => AppInstallation.destroy({ where: {} }))
+    .then(() => App.sync())
+    .then(() => App.destroy({ where: {} }))
     .then(() => ExtensionConfiguration.sync())
     .then(() => ExtensionConfiguration.destroy({ where: {} }))
     .then(() => ExtensionRequest.sync())
@@ -85,6 +91,19 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(extension => {
       emailReportEnrichment = extension;
+    })
+    .then(() => App.create({
+      name: 'Whos On App',
+      short_description: 'Demo app to show todays shift',
+      description: 'Demo app to show todays shift',
+      slug: 'whoson',
+      client_secret: 'cesqu5ds6gs350d6gai053l9iho9gu6igu6lj6nvevjhandi9ma',
+      client_id: '7r33g2rqj6jptrgrjkock35ic9',
+      webhook_url: 'localhost:3001',
+      webhook_secret: '1234',
+    }))
+    .then(app => {
+      console.dir(app)
     })
     .then(User.sync())
     .then(() => User.destroy({ where: {} }))
@@ -766,6 +785,28 @@ if(process.env.NODE_ENV === 'development') {
         aws_access_key_id: '',
         aws_secret_access_key: '',
       }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '03050',
+      firecares_id: '77989',
+      name: 'Clark County Fire Department',
+      state: 'NV',
+      timezone: 'US/Pacific',
+      integration_complete: true,
+      latitude: 37.7772,
+      longitude: -77.5161,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'clarkcounty',
+        first_name: 'clarkcounty',
+        last_name: 'User',
+        email: 'clarkcounty@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
     }, {
       include: [FireDepartment.Users]
     }))
