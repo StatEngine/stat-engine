@@ -57,6 +57,7 @@ export function hasRole(roleRequired) {
 
   return compose()
     .use(function meetsRequirements(req, res, next) {
+      console.dir(req)
       if(req.user.roles.indexOf('admin') >= 0) {
         return next();
       } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
