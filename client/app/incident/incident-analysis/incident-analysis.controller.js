@@ -48,7 +48,7 @@ export default class IncidentAnalysisController {
 
     this.incident = this.incidentData.incident;
 
-    this.type = this.incident.description.extended_data.AgencyIncidentCallTypeDescription || this.incident.description.type;
+    this.type = _.get(this.incident, 'description.extended_data.AgencyIncidentCallTypeDescription') || this.incident.description.type;
     this.subtype = this.incident.description.subtype;
     this.firstUnitDispatched = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
     this.firstUnitArrived = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
