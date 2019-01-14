@@ -9,10 +9,8 @@ export function setup() {
   opts.secretOrKey = 'top_secret';
 
   passport.use(new Strategy(opts, (jwt_payload, done) => {
-  // TODO: inject the fire department
-  console.info('valid')
-    done(null, { roles: ['user'], FireDepartment: { _id: '123'}})}
-  ))
+    done(null, jwt_payload)
+  }))
 }
 
 export default setup;

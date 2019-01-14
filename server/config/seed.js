@@ -21,6 +21,8 @@ const AppInstallation = sqldb.AppInstallation;
 let richmond;
 let rogers;
 let emailReportEnrichment;
+let whosOnApp;
+let demoApp;
 
 if(process.env.NODE_ENV === 'development') {
   Extension
@@ -103,7 +105,20 @@ if(process.env.NODE_ENV === 'development') {
       webhook_secret: '1234',
     }))
     .then(app => {
-      console.dir(app)
+      whosOnApp = app;
+    })
+    .then(() => App.create({
+      name: 'Another Demo App',
+      short_description: 'Another Demo app ',
+      description: 'Another demo app',
+      slug: 'demoapp',
+      client_secret: 'cesqu5ds6gs350d6gai053l9iho9gu6igu6lj6nvevjhandi9maadsfds',
+      client_id: '7r33g2rqj6jptrgrjkock35adfic9',
+      webhook_url: 'localhost:3001',
+      webhook_secret: '1234',
+    }))
+    .then(app => {
+      demoApp = app;
     })
     .then(User.sync())
     .then(() => User.destroy({ where: {} }))
@@ -190,6 +205,14 @@ if(process.env.NODE_ENV === 'development') {
           }
         }
       }
+    }))
+    .then(() => AppInstallation.create({
+      fire_department__id: richmond._id,
+      app__id: whosOnApp._id,
+    }))
+    .then(() => AppInstallation.create({
+      fire_department__id: richmond._id,
+      app__id: demoApp._id,
     }))
     .then(() => ExtensionConfiguration.create({
       enabled: true,
@@ -325,6 +348,10 @@ if(process.env.NODE_ENV === 'development') {
       }]
     }, {
       include: [FireDepartment.Users]
+    }))
+    .then((fd) => AppInstallation.create({
+      fire_department__id: fd._id,
+      app__id: whosOnApp._id,
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',

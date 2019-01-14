@@ -57,6 +57,7 @@ export function hasRole(roleRequired) {
 
   return compose()
     .use(function meetsRequirements(req, res, next) {
+      console.dir(req)
       if(req.user.roles.indexOf('admin') >= 0) {
         return next();
       } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
@@ -132,7 +133,7 @@ export const checkOauthJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_fmRRChbEw/.well-known/jwks.json`
+    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KOHpKsXbE/.well-known/jwks.json`
   }),
 
   // Validate the audience and the issuer.
