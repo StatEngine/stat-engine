@@ -35,19 +35,8 @@ export const createCustomer = async fireDepartment => {
   return fireDepartment.save();
 };
 
-export const retrieveCustomer = async fireDepartment => {
-  if (_.isEmpty(fireDepartment.customer_id)) {
-    return null;
-  }
-
-  return chargebee.customer
-    .retrieve(fireDepartment.customer_id)
-    .request();
-};
-
 export const retrieveSubscription = async fireDepartment => {
-  const customer = await retrieveCustomer(fireDepartment);
-  if (_.isEmpty(customer)) {
+  if (_.isEmpty(fireDepartment.customer_id)) {
     return null;
   }
 
