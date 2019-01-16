@@ -46,5 +46,12 @@ export default function FireDepartmentResource($resource) {
     update: {
       method: 'PUT',
     },
+    getSubscription: {
+      method: 'GET',
+      params: {
+        id: '@id',
+        resource: 'subscription',
+      },
+    },
   });
 }

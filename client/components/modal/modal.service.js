@@ -21,82 +21,102 @@ export function Modal($rootScope, $uibModal) {
   }
 
   // Public API here
-  return {
-    /* Confirmation modals */
-    ok(op = angular.noop) {
-      return function(...args) {
-        var title = args.shift();
-        var msg = args.shift();
-        var error = args.shift() || false;
+  const service = {
+    buttonStyle: {
+      primary: 'btn-primary',
+      success: 'btn-success',
+      danger: 'btn-danger',
+      default: 'btn-default',
+    },
 
-        var okModal;
-        okModal = openModal({
-          modal: {
-            dismissable: true,
-            title: `${title}`,
-            html: `<p>${msg}</p>`,
-            pre: error,
-            buttons: [{
-              classes: error ? 'btn-danger' : 'btn-success',
-              text: 'Ok',
-              click(e) {
-                okModal.close(e);
-              }
-            }]
+    custom({
+      title,
+      content = '',
+      buttons = [],
+      onDismiss = angular.noop,
+    }) {
+      let modal;
+      return {
+        present: () => {
+          modal = openModal({
+            modal: {
+              dismissable: true,
+              title,
+              html: `<p>${content}</p>`,
+              buttons: buttons.map(button => ({
+                classes: button.style || service.buttonStyle.default,
+                text: button.text,
+                click: (e) => {
+                  if (button.onClick) {
+                    button.onClick(e);
+                  }
+                  if (_.isUndefined(button.dismisses) || button.dismisses) {
+                    modal.dismiss();
+                  }
+                },
+              })),
+            },
+          }, 'modal-default');
+
+          // Call onDismiss() when the modal closes for any reason.
+          modal.result
+            .catch(angular.noop)
+            .then(() => {
+              onDismiss();
+              modal = null;
+            });
+        },
+        dismiss: () => {
+          if (modal) {
+            modal.dismiss();
           }
-        }, 'modal-success');
-
-        okModal.result.then(function(event) {
-          op.apply(event, args);
-        });
+        },
       };
     },
 
-    /* Confirmation modals */
-    confirm: {
+    alert({
+      title,
+      content = '',
+      closeButtonText = 'Ok',
+      onDismiss = angular.noop,
+    }) {
+      return service.custom({
+        title,
+        content,
+        buttons: [{
+          text: closeButtonText,
+          style: service.buttonStyle.primary,
+        }],
+        onDismiss,
+      });
+    },
 
-      /**
-       * Create a function to open a delete confirmation modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
-       * @param  {Function} del - callback, ran when delete is confirmed
-       * @return {Function}     - the function to open the modal (ex. myModalFn)
-       */
-      delete(del = angular.noop) {
-        /**
-         * Open a delete confirmation modal
-         * @param  {String} name   - name or info to show on modal
-         * @param  {All}           - any additional args are passed straight to del callback
-         */
-        return function(...args) {
-          var name = args.shift();
-          var deleteModal;
-          deleteModal = openModal({
-            modal: {
-              dismissable: true,
-              title: 'Confirm Delete',
-              html: `<p>Are you sure you want to delete <strong>${name}</strong> ?</p>`,
-              buttons: [{
-                classes: 'btn-danger',
-                text: 'Delete',
-                click(e) {
-                  deleteModal.close(e);
-                }
-              }, {
-                classes: 'btn-default',
-                text: 'Cancel',
-                click(e) {
-                  deleteModal.dismiss(e);
-                }
-              }]
-            }
-          }, 'modal-danger');
-
-          deleteModal.result.then(function(event) {
-            del.apply(event, args);
-          });
-        };
-      }
-    }
+    confirm({
+      title,
+      content = '',
+      cancelButtonText = 'Cancel',
+      cancelButtonStyle = service.buttonStyle.default,
+      confirmButtonText = 'Confirm',
+      confirmButtonStyle = service.buttonStyle.primary,
+      onDismiss = angular.noop,
+      onConfirm = angular.noop,
+    }) {
+      return service.custom({
+        title,
+        content,
+        buttons: [{
+          text: cancelButtonText,
+        }, {
+          text: confirmButtonText,
+          style: confirmButtonStyle,
+          onClick: onConfirm,
+        }],
+        onDismiss,
+      });
+    },
   };
+
+  return service;
 }
 
 export default angular.module('directives.modal', [])

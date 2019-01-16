@@ -6,11 +6,20 @@ export default class KitchenSinkController {
     this.Modal = Modal;
   }
 
-  okModal() {
-    this.Modal.ok()('Kitchen Sink', 'kitchen');
+  alertModal() {
+    this.Modal.alert({
+      title: 'Kitchen Sink',
+      content: 'kitchen',
+      onDismiss: () => console.log('Dismiss'),
+    }).present();
   }
 
   deleteModal() {
-    this.Modal.confirm.delete(() => {})();
+    this.Modal.confirm({
+      title: 'Confirm Delete',
+      content: 'Are you sure?',
+      onDismiss: () => console.log('Dismiss'),
+      onConfirm: () => console.log('Delete'),
+    }).present();
   }
 }
