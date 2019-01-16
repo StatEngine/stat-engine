@@ -45,6 +45,7 @@ export function getMatrix(incident, cb) {
   let destinationIndex = pairs.length - 1;
   request(options, (err, res, body) => {
     if(err) return cb(err);
+    if(_.isEmpty(body) || _.isEmpty(body.distances) || _.isEmpty(body.durations)) return cb(new Error('Unknown format from mapbox'));
 
     /* Body looks like
     { distances:

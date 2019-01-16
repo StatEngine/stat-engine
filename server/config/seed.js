@@ -354,6 +354,29 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '08301',
+      firecares_id: '95671',
+      name: 'Southern Platte Fire Protection District',
+      state: 'MO',
+      timezone: 'US/Central',
+      latitude: 42.3601,
+      longitude: -71.0589,
+      integration_complete: true,
+      integration_verified: true,
+      Users: [{
+        provider: 'local',
+        role: 'user,kibana_admin,department_admin',
+        username: 'southernplatte',
+        first_name: 'southernplatte',
+        last_name: 'User',
+        email: 'joe.chop+southerplatte@prominentedge.com',
+        password: 'password',
+        api_key: 'southerplatte',
+      }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: 'DD122',
       firecares_id: '77936',
       name: 'City Of Wheaton Fire Department',
