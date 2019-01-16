@@ -2,7 +2,7 @@
 
 import moment from 'moment';
 
-export default function routerDecorator($transitions, $rootScope, $cookies, Authorization, Principal, FireDepartment, Modal) {
+export default function routerDecorator($transitions, $rootScope, $cookies, $window, Authorization, Principal, FireDepartment, Modal) {
   'ngInject';
 
   let subscription;
@@ -26,7 +26,7 @@ export default function routerDecorator($transitions, $rootScope, $cookies, Auth
         content: 'Please renew your subscription soon to avoid any interruption of your service.',
         cancelButtonText: 'Ignore',
         confirmButtonText: 'Manage Subscription',
-        onConfirm: () => this.$window.open('/subscriptionPortal', '_blank'),
+        onConfirm: () => $window.open('/subscriptionPortal', '_blank'),
       }).present();
 
       $cookies.put('subscription_expiry_shown_at', moment().valueOf());
