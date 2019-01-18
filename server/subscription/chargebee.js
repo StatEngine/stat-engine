@@ -35,5 +35,21 @@ export const createCustomer = async fireDepartment => {
   return fireDepartment.save();
 };
 
+export const retrieveSubscription = async fireDepartment => {
+  if (_.isEmpty(fireDepartment.customer_id)) {
+    return null;
+  }
+
+  // Return the last created subscription, or null if none exist.
+  const subscriptions = await chargebee.subscription
+    .list({
+      'customer_id[is]': fireDepartment.customer_id,
+      'sort_by[desc]': 'created_at',
+    })
+    .request()
+    .catch(console.log);
+
+  return (subscriptions.list.length) ? subscriptions.list[0].subscription : null;
+};
 
 export const Chargebee = chargebee;

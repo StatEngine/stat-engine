@@ -86,6 +86,14 @@ router.post(
   controller.queueIngest
 );
 
+router.get(
+  '/:id/subscription',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.hasAdminPermission,
+  controller.getSubscription,
+);
+
 router.param('id', controller.loadFireDepartment);
 router.param('fixtureType', controller.fixtureType);
 

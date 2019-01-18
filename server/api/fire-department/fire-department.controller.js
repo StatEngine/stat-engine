@@ -28,7 +28,7 @@ import {
   nfpa1710,
 } from './fire-department-nfpa.controller';
 
-import { createCustomer } from '../../subscription/chargebee';
+import { createCustomer, retrieveSubscription } from '../../subscription/chargebee';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -287,6 +287,15 @@ export function queueIngest(req, res) {
   process(req.body)
     .then(() => res.status(204).send())
     .catch(() => res.status(500));
+}
+
+/*
+ * Gets the fire department's chargebee subscription data.
+ */
+export function getSubscription(req, res) {
+  return retrieveSubscription(req.fireDepartment)
+    .then(subscription => res.json(subscription))
+    .catch(validationError(res));
 }
 
 export function hasAdminPermission(req, res, next) {
