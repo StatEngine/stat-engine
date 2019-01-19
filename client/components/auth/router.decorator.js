@@ -31,7 +31,7 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
         content: `
           Please renew your subscription. You have <strong>${daysRemainingText}</strong> remaining before your service will be suspended.<br/>
           <br/>
-          To renew your subscription, please contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble in the bottom right.
+          To renew your subscription, please contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.
         `,
         showCloseButton: false,
         enableBackdropDismiss: false,
@@ -48,7 +48,7 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
       content: `
         Your subscription renewal grace period has elapsed and service has been suspended.<br/>
         <br/>
-        To renew your subscription, please contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble in the bottom right.
+        To renew your subscription, please contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.
       `,
       cancelButtonText: 'Refresh',
       showCloseButton: false,
