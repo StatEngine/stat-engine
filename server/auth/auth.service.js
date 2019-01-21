@@ -57,7 +57,6 @@ export function hasRole(roleRequired) {
 
   return compose()
     .use(function meetsRequirements(req, res, next) {
-      console.dir(req)
       if(req.user.roles.indexOf('admin') >= 0) {
         return next();
       } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
@@ -83,7 +82,6 @@ export function hasPermission(permissions) {
     .use(function meetsRequirements(req, res, next) {
       // Currently, permissions only apply to apps, so pass if the request is a user
       if(req.user.roles.indexOf('app') < 0) return next();
-      console.dir(req.user)
       if(req.user.permissions.indexOf(permissions) >= 0) {
         return next();
       } else {
