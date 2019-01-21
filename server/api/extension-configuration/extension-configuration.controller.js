@@ -6,8 +6,6 @@ import {
   FireDepartment
 } from '../../sqldb';
 
-import { publishEnrichmentConfiguration } from '../../publishers';
-
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
@@ -64,7 +62,6 @@ export function updateOptions(req, res) {
 
     return config.save()
       .then(updated => {
-        publishEnrichmentConfiguration(updated.get());
         return res.status(204).send();
       })
       .catch(handleError(res));
@@ -89,7 +86,6 @@ export function enable(req, res) {
 
     return config.save()
       .then(updated => {
-        publishEnrichmentConfiguration(updated.get());
         return res.status(204).send();
       })
       .catch(handleError(res));
@@ -114,7 +110,6 @@ export function disable(req, res) {
 
     return config.save()
       .then(updated => {
-        publishEnrichmentConfiguration(updated.get());
         return res.status(204).send();
       })
       .catch(handleError(res));
