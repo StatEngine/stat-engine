@@ -18,11 +18,13 @@ const ExtensionRequest = sqldb.ExtensionRequest;
 const App = sqldb.App;
 const AppInstallation = sqldb.AppInstallation;
 
+const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
+const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
+
 let richmond;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
-let demoApp;
 
 if(process.env.NODE_ENV === 'development') {
   Extension
@@ -99,26 +101,14 @@ if(process.env.NODE_ENV === 'development') {
       short_description: 'Demo app to show todays shift',
       description: 'Demo app to show todays shift',
       slug: 'whoson',
-      client_secret: 'cesqu5ds6gs350d6gai053l9iho9gu6igu6lj6nvevjhandi9ma',
-      client_id: '7r33g2rqj6jptrgrjkock35ic9',
+      client_id: process.env.DEMO_APP_CLIENT_ID,
+      client_secret: process.env.DEMO_APP_CLIENT_SECRET,
       webhook_url: 'localhost:3001',
       webhook_secret: '1234',
+      permissions: ['shift:read'],
     }))
     .then(app => {
       whosOnApp = app;
-    })
-    .then(() => App.create({
-      name: 'Another Demo App',
-      short_description: 'Another Demo app ',
-      description: 'Another demo app',
-      slug: 'demoapp',
-      client_secret: 'cesqu5ds6gs350d6gai053l9iho9gu6igu6lj6nvevjhandi9maadsfds',
-      client_id: '7r33g2rqj6jptrgrjkock35adfic9',
-      webhook_url: 'localhost:3001',
-      webhook_secret: '1234',
-    }))
-    .then(app => {
-      demoApp = app;
     })
     .then(User.sync())
     .then(() => User.destroy({ where: {} }))
@@ -209,10 +199,6 @@ if(process.env.NODE_ENV === 'development') {
     .then(() => AppInstallation.create({
       fire_department__id: richmond._id,
       app__id: whosOnApp._id,
-    }))
-    .then(() => AppInstallation.create({
-      fire_department__id: richmond._id,
-      app__id: demoApp._id,
     }))
     .then(() => ExtensionConfiguration.create({
       enabled: true,

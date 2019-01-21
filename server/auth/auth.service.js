@@ -57,17 +57,35 @@ export function hasRole(roleRequired) {
 
   return compose()
     .use(function meetsRequirements(req, res, next) {
-      console.dir(req)
       if(req.user.roles.indexOf('admin') >= 0) {
         return next();
       } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
         return next();
       } else if(roleRequired === 'kibana_ro_strict' && req.user.roles.indexOf('kibana_admin') >= 0) {
         return next();
+      } else if(roleRequired === 'user' && req.user.roles.indexOf('app') >= 0) {
+        return next();
       } else if(req.user.roles.indexOf(roleRequired) >= 0) {
         return next();
       } else {
         return res.status(403).send('Forbidden. User does not have necessary priviliges to access');
+      }
+    });
+}
+
+export function hasPermission(permissions) {
+  if(!permissions) {
+    throw new Error('Required permissions needs to be set');
+  }
+
+  return compose()
+    .use(function meetsRequirements(req, res, next) {
+      // Currently, permissions only apply to apps, so pass if the request is a user
+      if(req.user.roles.indexOf('app') < 0) return next();
+      if(req.user.permissions.indexOf(permissions) >= 0) {
+        return next();
+      } else {
+        return res.status(403).send('Forbidden. App does not have necessary priviliges to access');
       }
     });
 }
@@ -133,11 +151,7 @@ export const checkOauthJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/us-east-1_KOHpKsXbE/.well-known/jwks.json`
+    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/${process.env.COGNITO_POOL_ID}/.well-known/jwks.json`
   }),
-
-  // Validate the audience and the issuer.
-  //audience: process.env.AUTH0_AUDIENCE,
-  //issuer: `https://YOUR_AUTH0_DOMAIN/`,
   algorithms: ['RS256']
 });

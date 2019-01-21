@@ -16,6 +16,8 @@ process.env.ELASTICSEARCH_USER = process.env.ELASTICSEARCH_USER ? process.env.EL
 process.env.ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD ? process.env.ELASTICSEARCH_PASSWORD : 'kibana';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.INSTALLATION_SIGNING_SECRET = process.env.INSTALLATION_SIGNING_SECRET || 'statengine';
+
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
@@ -27,7 +29,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // ============================================
 var all = {
   env: process.env.NODE_ENV,
-
 
   // AWS Credentials for signing requests to Kibana
   aws: {
@@ -59,6 +60,10 @@ var all = {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
     appPath: process.env.NFORS_BASEPATH ? process.env.NFORS__BASEPATH : '/_plugin/kibana',
     uri: process.env.NFORS_URI ? process.env.NFORS_URI : 'http://localhost:5601',
+  },
+
+  oauth: {
+    secret: process.env.INSTALLATION_SIGNING_SECRET
   },
 
   // Root path of server
