@@ -82,6 +82,7 @@ export function hasPermission(permissions) {
     .use(function meetsRequirements(req, res, next) {
       // Currently, permissions only apply to apps, so pass if the request is a user
       if(req.user.roles.indexOf('app') < 0) return next();
+      console.dir(req.user)
       if(req.user.permissions.indexOf(permissions) >= 0) {
         return next();
       } else {

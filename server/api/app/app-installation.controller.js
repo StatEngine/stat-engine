@@ -14,12 +14,29 @@ export function search(req, res) {
   return AppInstallation.findAll({
     include: [{
       model: App,
+      attributes: [
+        '_id',
+        'name',
+        'slug',
+      ],
       where: { client_id: req.user.client_id }
     }, {
       model: FireDepartment,
+      attributes: [
+        '_id',
+        'fd_id',
+        'name',
+        'state',
+        'firecares_id',
+        'timezone',
+      ]
     }]
   })
-    .then(appInstallations => res.json(appInstallations));
+    .then(appInstallations => res.json(appInstallations))
+    .catch(e => {
+      console.error(e);
+      res.sendStatus(500);
+    })
 }
 
 const EXPIRES_IN = 60 * 60;
@@ -36,17 +53,32 @@ export function generateToken(req, res) {
       where: { client_id: req.user.client_id }
     }, {
       model: FireDepartment,
+      attributes: [
+        '_id',
+        'fd_id',
+        'name',
+        'state',
+        'firecares_id',
+        'timezone',
+      ]
     }]
   })
-    .then(installation => res.json({
-      token_type: 'Bearer',
-      access_token: jwt.sign({
-        roles: ['app'],
-        permissions: installation.permissions,
-        FireDepartment: installation.FireDepartment.get(),
-      }, config.oauth.secret, { expiresIn: EXPIRES_IN }),
-      expires_in: EXPIRES_IN
-    }));
+    .then(installation => {
+      if(_.isNil(installation)) return res.sendStatus(404);
+      return res.json({
+        token_type: 'Bearer',
+        access_token: jwt.sign({
+          roles: ['app'],
+          permissions: installation.App.permissions || [],
+          FireDepartment: installation.FireDepartment.get(),
+        }, config.oauth.secret, { expiresIn: EXPIRES_IN }),
+        expires_in: EXPIRES_IN
+      })
+    })
+    .catch(e => {
+      console.error(e);
+      res.sendStatus(500);
+    })
 }
 
 export function get(req, res) {
@@ -56,11 +88,23 @@ export function get(req, res) {
   AppInstallation.find({
     where: {
       _id: req.params.installationId
+
     },
     include: [{
       model: App,
-      where: { client_id: req.user.client_id }
+      where: { client_id: req.user.client_id },
+      attributes: [
+        '_id',
+        'slug',
+      ],
     }]
   })
-    .then(installation => res.json(installation));
+    .then(installation => {
+      if(_.isNil(installation)) return res.sendStatus(404);
+      return res.json(installation)
+    })
+    .catch(e => {
+      console.error(e);
+      res.sendStatus(500);
+    });
 }
