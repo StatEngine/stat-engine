@@ -24,9 +24,14 @@ export default class ResetPasswordController {
     if(form.$valid) {
       this.UserService.resetPassword({}, { useremail: this.user.email }).$promise
         .then(() => {
-          this.Modal.alert({
+          this.Modal.custom({
             title: 'Email Sent',
             content: "An email was sent with instructions to reset your password. Remember to check your spam if you don't see the email after some time.",
+            buttons: [{
+              text: 'Back to Sign In',
+              style: this.Modal.buttonStyle.primary,
+              onClick: () => this.$state.go('site.account.login'),
+            }],
           }).present();
         })
         .catch(err => {
