@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "main": "server/index.js",
   "dependencies": {
+    "@grpc/proto-loader": "^0.4.0",
     "@mapbox/geojson-extent": "^0.3.2",
     "@statengine/se-fixtures": "~1.0.0",
+    "@statengine/se-grpc-proto": "~0.0.2",
     "@statengine/se-ingest-router": ">0.0.2",
     "@statengine/shiftly": ">0.0.28",
     "@statengine/siamese-san-francisco-demo": "0.0.4",
@@ -58,6 +60,7 @@
     "express-session": "^1.11.3",
     "fast-json-patch": "^2.0.6",
     "font-awesome": ">=4.1.0",
+    "grpc": "^1.18.0",
     "helmet": "^3.12.0",
     "hover.css": "^2.2.1",
     "http-proxy-middleware": "^0.17.4",
