@@ -26,7 +26,7 @@ export default class ResetPasswordController {
         .then(() => {
           this.Modal.custom({
             title: 'Email Sent',
-            content: "An email was sent with instructions to reset your password. Remember to check your spam if you don't see the email after some time.",
+            content: "An email was sent with instructions to reset your password. Remember to check your spam if you don't see the email after a while.",
             buttons: [{
               text: 'Sign In',
               style: this.Modal.buttonStyle.primary,
