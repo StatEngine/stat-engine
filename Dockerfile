@@ -35,4 +35,4 @@ ENV NODE_ENV=production
 
 CMD [ "node", "/usr/src/stat-engine/dist/server/index.js" ]
 
-EXPOSE 8080 50051
+EXPOSE 8080 50501
