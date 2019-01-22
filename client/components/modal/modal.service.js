@@ -9,14 +9,15 @@ export function Modal($rootScope, $uibModal) {
    * @param  {String} modalClass - (optional) class(es) to be applied to the modal
    * @return {Object}            - the instance $uibModal.open() returns
    */
-  function openModal(scope = {}, modalClass = 'modal-default') {
+  function openModal({ scope = {}, modalClass = 'modal-default', enableBackdropDismiss = true }) {
     var modalScope = $rootScope.$new();
     angular.extend(modalScope, scope);
 
     return $uibModal.open({
       template: require('./modal.html'),
       windowClass: modalClass,
-      scope: modalScope
+      scope: modalScope,
+      backdrop: enableBackdropDismiss || 'static',
     });
   }
 
@@ -34,29 +35,34 @@ export function Modal($rootScope, $uibModal) {
       content = '',
       buttons = [],
       onDismiss = angular.noop,
+      showCloseButton = true,
+      enableBackdropDismiss = true,
     }) {
       let modal;
       return {
         present: () => {
           modal = openModal({
-            modal: {
-              dismissable: true,
-              title,
-              html: `<p>${content}</p>`,
-              buttons: buttons.map(button => ({
-                classes: button.style || service.buttonStyle.default,
-                text: button.text,
-                click: (e) => {
-                  if (button.onClick) {
-                    button.onClick(e);
-                  }
-                  if (_.isUndefined(button.dismisses) || button.dismisses) {
-                    modal.dismiss();
-                  }
-                },
-              })),
+            scope: {
+              modal: {
+                title,
+                html: `<p>${content}</p>`,
+                dismissable: showCloseButton,
+                buttons: buttons.map(button => ({
+                  classes: button.style || service.buttonStyle.default,
+                  text: button.text,
+                  click: (e) => {
+                    if (button.onClick) {
+                      button.onClick(e);
+                    }
+                    if (_.isUndefined(button.dismisses) || button.dismisses) {
+                      modal.dismiss();
+                    }
+                  },
+                })),
+              },
             },
-          }, 'modal-default');
+            enableBackdropDismiss,
+          });
 
           // Call onDismiss() when the modal closes for any reason.
           modal.result
@@ -77,17 +83,21 @@ export function Modal($rootScope, $uibModal) {
     alert({
       title,
       content = '',
-      closeButtonText = 'Ok',
+      cancelButtonText = 'Ok',
       onDismiss = angular.noop,
+      showCloseButton = true,
+      enableBackdropDismiss = true,
     }) {
       return service.custom({
         title,
         content,
         buttons: [{
-          text: closeButtonText,
+          text: cancelButtonText,
           style: service.buttonStyle.primary,
         }],
         onDismiss,
+        showCloseButton,
+        enableBackdropDismiss,
       });
     },
 
@@ -98,20 +108,27 @@ export function Modal($rootScope, $uibModal) {
       cancelButtonStyle = service.buttonStyle.default,
       confirmButtonText = 'Confirm',
       confirmButtonStyle = service.buttonStyle.primary,
-      onDismiss = angular.noop,
+      onCancel = angular.noop,
       onConfirm = angular.noop,
+      onDismiss = angular.noop,
+      showCloseButton = true,
+      enableBackdropDismiss = true,
     }) {
       return service.custom({
         title,
         content,
         buttons: [{
           text: cancelButtonText,
+          style: cancelButtonStyle,
+          onClick: onCancel,
         }, {
           text: confirmButtonText,
           style: confirmButtonStyle,
           onClick: onConfirm,
         }],
         onDismiss,
+        showCloseButton,
+        enableBackdropDismiss,
       });
     },
   };

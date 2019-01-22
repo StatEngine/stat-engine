@@ -2,34 +2,101 @@
 
 import moment from 'moment';
 
-export default function routerDecorator($transitions, $rootScope, $cookies, $window, Authorization, Principal, FireDepartment, Modal) {
+export default function routerDecorator($transitions, $rootScope, $cookies, $window, $state, Authorization, Principal, FireDepartment, Modal) {
   'ngInject';
 
+  let currentPrincipal;
   let subscription;
+  const daysToRenewSubscription = 45;
 
-  async function checkSubscriptionExpiry() {
-    // Check if the user's subscription has expired. If it is, show a dialog informing them once per day.
-    const currentPrincipal = await Principal.identity();
-    if(!currentPrincipal || !currentPrincipal.isDepartmentAdmin) {
-      return;
-    }
-
-    // Only get the subscription data once to avoid unnecessary requests.
-    if(!subscription) {
+  async function refreshSubscription() {
+    if(currentPrincipal) {
       subscription = await FireDepartment.getSubscription({ id: currentPrincipal.fire_department__id }).$promise;
     }
+  }
 
-    const shownAt = moment(parseInt($cookies.get('subscription_expiry_shown_at')) || 0);
-    if(subscription.status === 'cancelled' && moment().diff(shownAt, 'days') >= 1) {
-      Modal.confirm({
-        title: 'Subscription Canceled',
-        content: 'Please renew your subscription soon to avoid any interruption of your service.',
-        cancelButtonText: 'Ignore',
-        confirmButtonText: 'Manage Subscription',
-        onConfirm: () => $window.open('/subscriptionPortal', '_blank'),
-      }).present();
+  function showSubscriptionExpiredWarning(daysSinceCancellation) {
+    const daysRemaining = daysToRenewSubscription - daysSinceCancellation;
+    const daysRemainingText = (daysRemaining === 1) ? `${daysRemaining} day` : `${daysRemaining} days`;
+    Modal.alert({
+      title: 'Subscription Canceled',
+      content: `
+        Please renew your subscription. You have <strong>${daysRemainingText}</strong> remaining before your service will be suspended.<br/>
+        <br/>
+        To renew your subscription, please contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.
+      `,
+      showCloseButton: false,
+      enableBackdropDismiss: false,
+      cancelButtonText: 'Ignore',
+    }).present();
+  }
 
-      $cookies.put('subscription_expiry_shown_at', moment().valueOf());
+  function showSubscriptionExpired() {
+    let content;
+    if(currentPrincipal.isDepartmentAdmin) {
+      content = `
+        Your subscription renewal grace period has elapsed and service has been suspended.<br/>
+        <br/>
+        To renew your subscription, please contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.
+      `
+    } else {
+      content = "Your department's subscription has expired and service has been suspended. Please contact your department administrator to restore service.";
+    }
+
+    const modal = Modal.custom({
+      title: 'Subscription Canceled',
+      content,
+      cancelButtonText: 'Refresh',
+      showCloseButton: false,
+      enableBackdropDismiss: false,
+      buttons: [{
+        text: 'Sign Out',
+        style: Modal.buttonStyle.danger,
+        onClick: async () => {
+          try {
+            await Principal.logout();
+          } catch(err) {}
+          $state.go('site.main.main');
+        },
+      }, {
+        text: 'Refresh',
+        style: Modal.buttonStyle.primary,
+        dismisses: false,
+        onClick: async () => {
+          await refreshSubscription();
+          if(subscription.status !== 'cancelled') {
+            modal.dismiss();
+          }
+        },
+      }],
+    });
+    modal.present();
+  }
+
+  async function checkSubscriptionExpiry() {
+    currentPrincipal = await Principal.identity();
+
+    // Only get the subscription data when necessary.
+    if(!subscription || subscription.customer_id !== currentPrincipal.FireDepartment.customer_id) {
+      await refreshSubscription();
+    }
+
+    if(subscription && subscription.status === 'cancelled') {
+      const canceledAt = moment(subscription.cancelled_at * 1000);
+      const daysSinceCancellation = moment().diff(canceledAt, 'days');
+      if(daysSinceCancellation < daysToRenewSubscription) {
+        if(currentPrincipal.isDepartmentAdmin) {
+          // Only show the warning once per day.
+          const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
+          const daysSinceShown = moment().diff(shownAt, 'days');
+          if(daysSinceShown >= 1) {
+            showSubscriptionExpiredWarning(daysSinceCancellation);
+            $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
+          }
+        }
+      } else {
+        showSubscriptionExpired();
+      }
     }
   }
 
@@ -46,6 +113,8 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
   });
 
   $transitions.onSuccess({}, function() {
-    checkSubscriptionExpiry();
+    if(Principal.isAuthenticated()) {
+      checkSubscriptionExpiry();
+    }
   });
 }
