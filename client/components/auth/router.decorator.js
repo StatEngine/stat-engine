@@ -74,7 +74,7 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
       await refreshSubscription();
     }
 
-    if(subscription.status === 'cancelled') {
+    if(subscription && subscription.status === 'cancelled') {
       const canceledAt = moment(subscription.cancelled_at * 1000);
       const daysSinceCancellation = moment().diff(canceledAt, 'days');
 
