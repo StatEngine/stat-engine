@@ -90,7 +90,7 @@ router.get(
   '/:id/subscription',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.hasAdminPermission,
+  auth.hasFireDepartment,
   controller.getSubscription,
 );
 
