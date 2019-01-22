@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
 import Mailchimp from 'mailchimp-api-v3';
 import _ from 'lodash';
+import Sequelize from 'sequelize';
 
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
@@ -287,9 +288,7 @@ export function resetPassword(req, res) {
     return res.status(400).send({ error: 'Email must be included in request.' });
   } else {
     return User.find({
-      where: {
-        email: userEmail
-      }
+      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
     })
       .then(user => {
         if(user) {
