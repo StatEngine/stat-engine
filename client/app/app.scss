@@ -1241,12 +1241,7 @@ span+.logged-name {
     }
 
     .br-sideleft .sidebar-label {
-      visibility: visible;
-
-      &::before {
-        content: '...';
-        margin-right: 400px;
-      }
+      visibility: hidden;
     }
   }
 
@@ -1271,8 +1266,8 @@ span+.logged-name {
       left: 55px;
     }
 
-    .br-sideleft .sidebar-label::before {
-      display: none;
+    .br-sideleft .sidebar-label {
+      visibility: visible;
     }
   }
 }
