@@ -1,5 +1,5 @@
 # Based on https://github.com/angular-fullstack/angular-fullstack-dockerfile
-FROM node:6
+FROM node:10
 
 ARG AMPLITUDE_API_KEY
 RUN echo $AMPLITUDE_API_KEY
@@ -20,7 +20,8 @@ ENV NODE_PATH=/usr/local/lib/node_modules/:/usr/local/lib
 
 # Install stat-engine dependencies
 COPY package.json /usr/src/stat-engine/
-RUN npm install
+COPY package-lock.json /usr/src/stat-engine/
+RUN npm ci
 
 # Copy rest of src over
 COPY . /usr/src/stat-engine
