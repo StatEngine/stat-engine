@@ -77,15 +77,6 @@ router.post(
   controller.fixtures
 );
 
-router.post(
-  '/:id/:type',
-  auth.isApiAuthenticated,
-  auth.hasRole('ingest'),
-  controller.hasIngestPermission,
-  bodyParser.json(),
-  controller.queueIngest
-);
-
 router.get(
   '/:id/subscription',
   auth.isApiAuthenticated,

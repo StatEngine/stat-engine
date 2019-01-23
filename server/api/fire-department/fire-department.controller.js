@@ -10,7 +10,6 @@ import {
   seedKibanaIndexPatterns,
   seedKibanaVisualizations,
 } from '@statengine/se-fixtures';
-import { process } from '@statengine/se-ingest-router';
 
 import {
   FireDepartment,
@@ -272,21 +271,6 @@ export function multiFixtures(req, res) {
       });
     })
     .catch(handleError(res));
-}
-
-/*
- * Ingest a message into queue
- */
-export function queueIngest(req, res) {
-  if(_.isEmpty(req.body)) {
-    return res.status(400).send('Request body cannot be empty');
-  }
-
-  console.log('Queing ingest');
-  console.log(req.body);
-  process(req.body)
-    .then(() => res.status(204).send())
-    .catch(() => res.status(500));
 }
 
 /*
