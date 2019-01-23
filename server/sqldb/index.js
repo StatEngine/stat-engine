@@ -21,6 +21,8 @@ db.ExtensionConfiguration = db.sequelize.import('../api/extension-configuration/
 db.ExtensionRequest = db.sequelize.import('../api/extension-request/extension-request.model');
 db.Report = db.sequelize.import('../api/report/report.model.js');
 db.ReportMetric = db.sequelize.import('../api/report-metric/report-metric.model.js');
+db.App = db.sequelize.import('../api/app/app.model');
+db.AppInstallation = db.sequelize.import('../api/app/app-installation.model');
 
 db.FireDepartment.Users = db.FireDepartment.hasMany(db.User);
 
@@ -30,9 +32,13 @@ db.User.hasMany(db.ReportMetric);
 
 db.Extension.hasMany(db.ExtensionConfiguration);
 db.Extension.hasMany(db.ExtensionRequest);
+db.App.hasMany(db.AppInstallation);
 db.FireDepartment.hasMany(db.ExtensionConfiguration);
+db.FireDepartment.hasMany(db.AppInstallation);
 db.ExtensionConfiguration.belongsTo(db.Extension);
 db.ExtensionConfiguration.belongsTo(db.FireDepartment);
+db.AppInstallation.belongsTo(db.App);
+db.AppInstallation.belongsTo(db.FireDepartment);
 db.Report.belongsTo(db.User, { foreignKey: 'updated_by' });
 db.ReportMetric.belongsTo(db.User);
 db.Report.hasMany(db.ReportMetric);

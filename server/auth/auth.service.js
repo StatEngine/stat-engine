@@ -2,8 +2,9 @@
 
 import compose from 'composable-middleware';
 import passport from 'passport';
-
-import {FireDepartment, User} from '../sqldb';
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
+import { FireDepartment, User } from '../sqldb';
 
 /*
  * Serialize user into session
@@ -30,7 +31,7 @@ passport.deserializeUser(function(userId, done) {
  */
 export function isApiAuthenticated(req, res, next) {
   if(!req.isAuthenticated()) {
-    return passport.authenticate(['localapikey', 'basic'], { session: false })(req, res, next);
+    return passport.authenticate(['localapikey', 'basic', 'jwt'], { session: false })(req, res, next);
   } else {
     return next();
   }
@@ -62,10 +63,30 @@ export function hasRole(roleRequired) {
         return next();
       } else if(roleRequired === 'kibana_ro_strict' && req.user.roles.indexOf('kibana_admin') >= 0) {
         return next();
+      } else if(roleRequired === 'user' && req.user.roles.indexOf('app') >= 0) {
+        return next();
       } else if(req.user.roles.indexOf(roleRequired) >= 0) {
         return next();
       } else {
         return res.status(403).send('Forbidden. User does not have necessary priviliges to access');
+      }
+    });
+}
+
+export function hasPermission(permissions) {
+  if(!permissions) {
+    throw new Error('Required permissions needs to be set');
+  }
+
+  return compose()
+    .use(function meetsRequirements(req, res, next) {
+      // Currently, permissions only apply to apps, so pass if the request is a user
+      if(req.user.roles.indexOf('app') < 0) return next();
+      console.dir(req.user)
+      if(req.user.permissions.indexOf(permissions) >= 0) {
+        return next();
+      } else {
+        return res.status(403).send('Forbidden. App does not have necessary priviliges to access');
       }
     });
 }
@@ -124,3 +145,14 @@ export function belongsToFireDepartment(req, res, next) {
   }
   return next();
 }
+
+export const checkOauthJwt = jwt({
+  // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://cognito-idp.us-east-1.amazonaws.com/${process.env.COGNITO_POOL_ID}/.well-known/jwks.json`
+  }),
+  algorithms: ['RS256']
+});

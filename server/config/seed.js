@@ -15,14 +15,24 @@ const FireDepartment = sqldb.FireDepartment;
 const Extension = sqldb.Extension;
 const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
+const App = sqldb.App;
+const AppInstallation = sqldb.AppInstallation;
+
+const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
+const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
 let rogers;
 let emailReportEnrichment;
+let whosOnApp;
 
 if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
+    .then(() => AppInstallation.sync())
+    .then(() => AppInstallation.destroy({ where: {} }))
+    .then(() => App.sync())
+    .then(() => App.destroy({ where: {} }))
     .then(() => ExtensionConfiguration.sync())
     .then(() => ExtensionConfiguration.destroy({ where: {} }))
     .then(() => ExtensionRequest.sync())
@@ -85,6 +95,20 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(extension => {
       emailReportEnrichment = extension;
+    })
+    .then(() => App.create({
+      name: 'Whos On App',
+      short_description: 'Demo app to show todays shift',
+      description: 'Demo app to show todays shift',
+      slug: 'whoson',
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      webhook_url: 'localhost:3001',
+      webhook_secret: '1234',
+      permissions: ['shift:read'],
+    }))
+    .then(app => {
+      whosOnApp = app;
     })
     .then(User.sync())
     .then(() => User.destroy({ where: {} }))
@@ -171,6 +195,10 @@ if(process.env.NODE_ENV === 'development') {
           }
         }
       }
+    }))
+    .then(() => AppInstallation.create({
+      fire_department__id: richmond._id,
+      app__id: whosOnApp._id,
     }))
     .then(() => ExtensionConfiguration.create({
       enabled: true,
@@ -306,6 +334,10 @@ if(process.env.NODE_ENV === 'development') {
       }]
     }, {
       include: [FireDepartment.Users]
+    }))
+    .then((fd) => AppInstallation.create({
+      fire_department__id: fd._id,
+      app__id: whosOnApp._id,
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',
@@ -766,6 +798,28 @@ if(process.env.NODE_ENV === 'development') {
         aws_access_key_id: '',
         aws_secret_access_key: '',
       }]
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
+      fd_id: '03050',
+      firecares_id: '77989',
+      name: 'Clark County Fire Department',
+      state: 'NV',
+      timezone: 'US/Pacific',
+      integration_complete: true,
+      latitude: 37.7772,
+      longitude: -77.5161,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'clarkcounty',
+        first_name: 'clarkcounty',
+        last_name: 'User',
+        email: 'clarkcounty@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
     }, {
       include: [FireDepartment.Users]
     }))

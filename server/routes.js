@@ -12,6 +12,7 @@ import config from './config/environment';
 
 export default function(app) {
   // Insert API routes below
+  app.use('/api/app', require('./api/app'));
   app.use('/api/email', require('./api/email'));
   app.use('/api/extensions', require('./api/extension'));
   app.use('/api/extension-configurations', require('./api/extension-configuration'));
@@ -23,6 +24,7 @@ export default function(app) {
   app.use('/api/reports', require('./api/report'));
   app.use('/api/weather', require('./api/weather'));
   app.use('/api/safety', require('./api/safety'));
+  app.use('/api/shift', require('./api/shift'));
   app.use('/api/stats', require('./api/stats'));
 
   // Kibana

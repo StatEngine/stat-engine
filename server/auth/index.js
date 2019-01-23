@@ -3,12 +3,13 @@
 import express from 'express';
 
 import config from '../config/environment';
-import { FireDepartment, User } from '../sqldb';
+import { App, FireDepartment, User } from '../sqldb';
 
 // Passport Configuration
 require('./basic/passport').setup(User, config);
 require('./api-key/passport').setup(User, config);
 require('./local/passport').setup(User, FireDepartment, config);
+require('./jwt-token/passport').setup(User, config);
 
 const router = express.Router();
 
