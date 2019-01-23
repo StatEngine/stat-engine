@@ -41,9 +41,6 @@ export default function(sequelize, DataTypes) {
     permissions: {
       type: DataTypes.ARRAY(DataTypes.STRING)
     },
-    permissions: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
-    },
     hidden: {
       type: DataTypes.BOOLEAN,
       default: false
