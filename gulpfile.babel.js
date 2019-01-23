@@ -658,7 +658,8 @@ gulp.task('copy:assets', () => {
 gulp.task('copy:server', () => {
     return gulp.src([
         'package.json',
-        'server/api/incident/templates/*'
+        'server/api/incident/templates/*',
+        'node_modules/@statengine/se-grpc-proto/*'
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });
