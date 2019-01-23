@@ -25,6 +25,7 @@ var server = http.createServer(app);
 require('./config/socketio').default(socketio);*/
 require('./config/express').default(app);
 require('./routes').default(app);
+require('./grpc');
 
 // Start server
 function startServer() {
