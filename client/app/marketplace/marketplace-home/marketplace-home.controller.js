@@ -18,8 +18,10 @@ const images = importAll(require.context('../../../assets/images/extensions/', f
 
 export default class MarketplaceHomeController {
   /*@ngInject*/
-  constructor(extensions) {
+  constructor(apps, extensions, $state) {
     this.allExtensions = extensions;
+    this.allApps = apps;
+    this.$state = $state;
   }
 
   async loadModules() {
@@ -28,15 +30,15 @@ export default class MarketplaceHomeController {
 
   async $onInit() {
     await this.loadModules();
-
-    this.allExtensions = _.sortBy(this.allExtensions, o => o.name);
+    this.allApps = _.map(this.allApps, a => _.merge(a, { type: 'App' }))
+    this.allExtensions = _.sortBy(this.allExtensions.concat(this.allApps), o => o.name);
     this.filteredExtensions = this.allExtensions;
     this.filteredFeaturedExtensions = _.filter(this.allExtensions, f => f.featured);
 
     // build categories
     let categories = ['All'];
     angular.forEach(this.allExtensions, value => {
-      categories = categories.concat(value.categories.split(','));
+      if (value.categories) categories = categories.concat(value.categories.split(','));
     });
     this.categories = _.orderBy(_.uniq(categories), 'desc');
     this.selectedCategory = 'All';
@@ -44,6 +46,11 @@ export default class MarketplaceHomeController {
 
   loadImage(path) {
     return images[path];
+  }
+
+  goto(extension) {
+    if (extension.type === 'App') this.$state.go('site.marketplace.applicationInstall', { id: extension._id });
+    else this.$state.go('site.marketplace.extensionRequest', { id: extension._id });
   }
 
   filterByCategory(searchCategory) {

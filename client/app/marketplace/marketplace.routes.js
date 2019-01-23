@@ -25,6 +25,9 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        apps(Apps) {
+          return Apps.query().$promise;
+        },
         extensions(Extension) {
           return Extension.query().$promise;
         }
@@ -49,6 +52,27 @@ export default function routes($stateProvider) {
         hasRequested($stateParams, Extension) {
           return Extension.hasRequested({ id: $stateParams.id }).$promise;
         },
+      },
+    })
+    .state('site.marketplace.applicationInstall', {
+      url: '/marketplace/:id/applicationInstall',
+      views: {
+        'content@': {
+          template: require('./application-install/application-install.html'),
+          controller: 'ApplicationInstallController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['user']
+      },
+      resolve: {
+        currentApp($stateParams, Apps) {
+          return Apps.get({ id: $stateParams.id }).$promise;
+        },
+        //hasRequested($stateParams, Aoos) {
+        //  return Apps.hasRequested({ id: $stateParams.id }).$promise;
+        //},
       },
     });
 }
