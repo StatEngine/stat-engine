@@ -1,123 +1,123 @@
-<div class="br-mainpanel user-home medium-bg">
-  <div class="br-pagetitle">
-    <header class="naked"></header>
-    <section class="container site-content">
-      <section id="department-users" class="fluid-container py-5">
-        <div class="container">
-          <h3 class="mb-2" >Department Users</h3>
-          <div class="row">
-            <div class="col-12 py-4">
-              <div class="table mb-5">
-                <div class="table-row header">
-                  <div class="cell">
-                    Username
-                  </div>
-                  <div class="cell">
-                    Name
-                  </div>
-                  <div class="cell">
-                    Email
-                  </div>
-                  <div class="cell">
-                    Admin
-                  </div>
-                  <div class="cell">
-                    Ingest
-                  </div>
-                  <div class="cell">
-                    Dashboard Admin
-                  </div>
-                  <div class="cell">
-                    Dashboard Readonly
-                  </div>
-                  <div class="cell">
-                    Status
-                  </div>
-                  <div class="cell">
-                    Action
-                  </div>
-                </div>
-  
-                <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
-                  <div class="cell" data-title="Username">
-                    {{ user.username }}
-                  </div>
-                  <div class="cell" data-title="Name">
-                    {{ user.first_name }} {{ user.last_name }}
-                  </div>
-                  <div class="cell" data-title="Email">
-                    {{ user.email }}
-                  </div>
-                  <div class="cell" data-title="Admin">
-                    <span ng-if="user.isDepartmentAdmin"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Ingest">
-                    <span ng-if="user.isIngest"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Kibana Admin">
-                    <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Kibana Admin">
-                    <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Status">
-                    <span class="text-success" ng-if="user.FireDepartment">Approved</span>
-                    <span class="text-warning" ng-if="!user.FireDepartment">Pending</span>
-                  </div>
-                  <div class="cell" data-title="Action">
-                    <button class="btn btn-link" ng-click="vm.approveAccess(user)" ng-show="!user.FireDepartment" uib-popover="Approve Dashboard Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i>Dashboard Admin</button><br>
-                    <button class="btn btn-link" ng-click="vm.approveAccess(user, true)" ng-show="!user.FireDepartment" uib-popover="Approve Readonly Dashboard Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i>Dashboard Readonly</button><br>
-                    <button class="btn btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-show="!(user.isDepartmentAdmin || user.isIngest)" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i>Revoke</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+<div class="br-mainpanel department-admin-home medium-bg">
+  <section id="department-users" class="department-users">
+    <h3 class="mb-2">Department Users</h3>
+    <div class="department-users-table mb-5">
+      <div class="table-row header">
+        <div class="cell">
+          Name
         </div>
-      </section>
-      <section id="data-quality-analysis" class="fluid-container py-5 data-quality-analysis">
-        <div class="container">
-          <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION' || vm.dataQuality.grade == 'UNKNOWN' }" class="badge">{{vm.dataQuality.grade}}</span></h3>
-          <div class="row">
-            <div class="col-md-8">
-              <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>
-            </div>
-            <div class="col-12 py-4">
-              <div class="table mb-5">
-                <div class="table-row header">
-                  <div class="cell">
-                    Rule Check
-                  </div>
-                  <div class="cell">
-                    Violations
-                  </div>
-                  <div class="cell">
-                    Percentage
-                  </div>
-                  <div class="cell">
-                    Required Action
-                  </div>
-                </div>
+        <div class="cell">
+          Email
+        </div>
+        <div class="cell">
+          Permissions
+        </div>
+        <div class="cell">
+          Status
+        </div>
+        <div class="cell">
+          Action
+        </div>
+      </div>
 
-                <div class="table-row" ng-repeat="result in vm.dataQuality.results">
-                  <div class="cell" data-title="Rule Check">
-                    {{ result.rule }}
-                  </div>
-                  <div class="cell" data-title="Violations">
-                    {{ result.violations|number:0 }}
-                  </div>
-                  <div class="cell" data-title="Percentage">
-                    {{ result.percentViolation|number }}%
-                  </div>
-                  <div class="cell" data-title="Required Action">
-                    {{ result.requiredAction }}
-                  </div>
+      <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
+        <div class="cell name" data-title="Name" ng-attr-title="{{ user.name }}">
+          {{ user.first_name }} {{ user.last_name }}
+        </div>
+        <div class="cell email" data-title="Email" ng-attr-title="{{ user.email }}">
+          {{ user.email }}
+        </div>
+        <div class="cell permissions" data-title="Permissions">
+          <div ng-if="user.isDepartmentAdmin">
+            <i class="fa fa-check text-success"></i> Admin
+          </div>
+          <div ng-if="user.isIngest">
+            <i class="fa fa-check text-success"></i> Ingest
+          </div>
+          <div ng-if="user.isKibanaAdmin">
+            <i class="fa fa-check text-success"></i> Dashboard Admin
+          </div>
+          <div ng-if="!user.isKibanaAdmin && user.isKibanaReadOnlyStrict">
+            <i class="fa fa-check text-success"></i> Dashboard Readonly
+          </div>
+          <div ng-if="!user.isDepartmentAdmin && !user.isIngest && !user.isKibanaAdmin && !user.isKibanaReadOnlyStrict">
+            None
+          </div>
+        </div>
+        <div class="cell status" data-title="Status">
+          <span class="badge badge-success" ng-if="user.FireDepartment">Approved</span>
+          <span class="badge badge-warning" ng-if="!user.FireDepartment">Pending</span>
+        </div>
+        <div
+          class="cell action"
+          ng-class="{'current-user': user._id === vm.principal._id}"
+          data-title="Action"
+        >
+          <div class="dropdown d-inline-block">
+            <div class="dropdown-button" data-toggle="dropdown">
+              <i class="fa fa-angle-down"></i>
+            </div>
+            <div class="dropdown-menu">
+              <nav class="nav nav-style-2 flex-column">
+                <div class="nav-link" ng-show="!user.FireDepartment" ng-click="vm.approveAccess(user)">
+                  <i class="fa fa-2x fa-check-circle"></i>
+                  <span>Approve Dashboard Admin</span>
                 </div>
-              </div>
+                <div class="nav-link"  ng-show="!user.FireDepartment" ng-click="vm.approveAccess(user, true)">
+                  <i class="fa fa-2x fa-check-circle"></i>
+                  <span>Approve Dashboard Readonly</span>
+                </div>
+                <div class="nav-link" ng-show="!user.isDepartmentAdmin && !user.isIngest" ng-click="vm.revokeAccess(user)">
+                  <i class="fa fa-2x fa-times-circle"></i>
+                  <span>Revoke Access</span>
+                </div>
+              </nav>
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="data-quality-analysis" class="data-quality-analysis">
+    <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION' || vm.dataQuality.grade == 'UNKNOWN' }" class="badge">{{vm.dataQuality.grade}}</span></h3>
+    <div class="row">
+      <div class="col-xl-8">
+        <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>
+      </div>
+      <div class="col-12 py-4">
+        <div class="data-quality-analysis-table mb-5">
+          <div class="table-row header">
+            <div class="cell">
+              Rule Check
+            </div>
+            <div class="cell">
+              Violations
+            </div>
+            <div class="cell">
+              Percentage
+            </div>
+            <div class="cell">
+              Required Action
+            </div>
+          </div>
+
+          <div class="table-row" ng-repeat="result in vm.dataQuality.results">
+            <div class="cell" data-title="Rule Check">
+              {{ result.rule }}
+            </div>
+            <div class="cell" data-title="Violations">
+              {{ result.violations|number:0 }}
+            </div>
+            <div class="cell" data-title="Percentage">
+              {{ result.percentViolation|number }}%
+            </div>
+            <div class="cell" data-title="Required Action">
+              {{ result.requiredAction }}
             </div>
           </div>
         </div>
-      </section>
-    </section>
-  </div>
+      </div>
+    </div>
+  </section>
 </div>

@@ -200,12 +200,13 @@ table td {
 }
 
 // Table Imposter Styles
-.table {
+@mixin table($max-width) {
   display: table;
   margin: 0;
   width: 100%;
+  border: solid 1px $border-color;
 
-  @media screen and (max-width: 580px) {
+  @media screen and (max-width: $max-width) {
     display: block;
   }
 
@@ -224,18 +225,13 @@ table td {
       text-transform: uppercase;
     }
 
-    @media screen and (max-width: 580px) {
+    @media screen and (max-width: $max-width) {
       padding: 14px 0 7px;
       display: block;
       border-bottom: 1px solid $color-geyser;
 
       &.header {
-        padding: 0;
-        height: 6px;
-
-        .cell {
-          display: none;
-        }
+        display: none;
       }
 
       .cell {
@@ -262,14 +258,24 @@ table td {
       display: table-cell;
       border-bottom: 1px solid $color-geyser;
 
-      @media screen and (max-width: 580px) {
+      @media screen and (max-width: $max-width) {
         padding: 2px 16px;
         display: block;
         margin-bottom: 10px;
         border-bottom: none;
       }
     }
+
+    &:last-child {
+      .cell {
+        border-bottom: none;
+      }
+    }
   }
+}
+
+.table {
+  @include table(580px);
 }
 
 // Lists
@@ -1317,6 +1323,26 @@ span+.logged-name {
   }
 }
 
+@mixin dropdown-menu-animation($origin) {
+  transform-origin: $origin;
+
+  @keyframes dropdownMenuShow {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &.show {
+    animation: dropdownMenuShow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -1341,6 +1367,7 @@ span+.logged-name {
 @import '../app/incident/incident';
 @import '../app/report/report';
 @import '../app/reporting/reporting';
+@import '../app/department-admin/department-admin';
 @import '../components/incident/incident';
 @import '../components/oauth-buttons/oauth-buttons';
 @import '../components/percent-change/percent-change';
