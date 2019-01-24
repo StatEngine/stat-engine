@@ -1,28 +1,24 @@
 'use strict';
 
-export default class ExtensionRequestController {
+export default class ApplicationInstallController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Extension, currentExtension, hasRequested, AmplitudeService, AnalyticEventNames) {
-    this.extension = currentExtension;
+  constructor(currentPrincipal, Apps, currentApp, AmplitudeService, AnalyticEventNames) {
+    this.currentPrincipal = currentPrincipal;
+    this.app = currentApp;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
 
-    this.ExtensionService = Extension;
-
-    this.requested = hasRequested ? hasRequested.requested : false;
-
-    if(currentExtension.image) this.extensionSrc = require(`../../../assets/images/extensions/${currentExtension.image}`);
-    if(currentExtension.preview) this.extensionPreviewSrc = require(`../../../assets/images/extensions/${currentExtension.preview}`);
+    this.AppsService = Apps;
   }
 
   request() {
     this.requested = true;
-    this.ExtensionService.request({ id: this.extension._id}).$promise
+    this.AppsService.install({ id: this.app._id}).$promise
       .then(() => {
-        this.AmplitudeService.track(this.AnalyticEventNames.APP_REQUEST, {
-          app: this.extension.name,
+        this.AmplitudeService.track(this.AnalyticEventNames.APP_INSTALL, {
+          app: this.app.name,
         });
       });
   }

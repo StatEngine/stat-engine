@@ -67,6 +67,9 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
         currentApp($stateParams, Apps) {
           return Apps.get({ id: $stateParams.id }).$promise;
         },

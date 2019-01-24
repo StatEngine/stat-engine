@@ -1,8 +1,8 @@
 'use strict';
 
 import angular from 'angular';
-import ExtensionRequestController from './extension-request.controller';
+import ApplicationInstallController from './application-install.controller';
 
-export default angular.module('stateEngineApp.extensionRequest', [])
-  .controller('ExtensionRequestController', ExtensionRequestController)
+export default angular.module('stateEngineApp.applicationInstall', [])
+  .controller('ApplicationInstallController', ApplicationInstallController)
   .name;

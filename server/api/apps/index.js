@@ -14,4 +14,18 @@ router.get(
   controller.search
 );
 
+router.get(
+  '/:id',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.get
+);
+
+router.post(
+  '/:id/install',
+  auth.isApiAuthenticated,
+  auth.hasRole('department_admin'),
+  controller.install
+);
+
 module.exports = router;

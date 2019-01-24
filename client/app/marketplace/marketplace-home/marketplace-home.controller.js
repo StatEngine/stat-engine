@@ -38,7 +38,7 @@ export default class MarketplaceHomeController {
     // build categories
     let categories = ['All'];
     angular.forEach(this.allExtensions, value => {
-      if (value.categories) categories = categories.concat(value.categories.split(','));
+      if(value.categories) categories = categories.concat(value.categories.split(','));
     });
     this.categories = _.orderBy(_.uniq(categories), 'desc');
     this.selectedCategory = 'All';
@@ -49,7 +49,7 @@ export default class MarketplaceHomeController {
   }
 
   goto(extension) {
-    if (extension.type === 'App') this.$state.go('site.marketplace.applicationInstall', { id: extension._id });
+    if(extension.type === 'App') this.$state.go('site.marketplace.applicationInstall', { id: extension._id });
     else this.$state.go('site.marketplace.extensionRequest', { id: extension._id });
   }
 
