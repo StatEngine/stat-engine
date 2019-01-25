@@ -11,8 +11,8 @@ function _getShiftTimeFrame(firecaresId, date) {
 }
 
 export function calculateTimeRange(options) {
-  let startDate = options.startDate;
-  let endDate = options.endDate;
+  let startDate = options.startDate || moment().subtract(1, 'day').format();
+  let endDate = options.endDate || moment().format();
   let timeUnit = options.timeUnit.toLowerCase();
 
   let shift = false;
@@ -30,8 +30,10 @@ export function calculateTimeRange(options) {
 
     if(shift) {
       let shiftTimeFrame = _getShiftTimeFrame(options.firecaresId, startDate.format());
-      startDate = shiftTimeFrame.start;
-      endDate = shiftTimeFrame.end;
+      if(shiftTimeFrame) {
+        startDate = shiftTimeFrame.start;
+        endDate = shiftTimeFrame.end;
+      }
     } else {
       endDate = moment.parseZone(startDate.format()).endOf(timeUnit)
         .format();

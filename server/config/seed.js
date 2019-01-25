@@ -271,6 +271,28 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '60033',
+      firecares_id: '90011',
+      name: 'New Rochelle Fire Department',
+      state: 'NY',
+      timezone: 'US/Eastern',
+      integration_complete: true,
+      latitude: 0,
+      longitude: 0,
+      Users: [{
+        provider: 'local',
+        role: 'user',
+        username: 'newro',
+        first_name: 'newro',
+        last_name: 'User',
+        email: 'newro@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '03050',
       firecares_id: '77989',
       name: 'Clark County Fire Department',
