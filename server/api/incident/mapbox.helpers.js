@@ -26,6 +26,10 @@ export function getMatrix(incident, cb) {
   if(pairs.length === 0) {
     return cb(null, results);
   }
+  // We should really make multiple calls when more than 25 units are on the call
+  if(pairs.length > 25) {
+    return cb(null, results);
+  }
 
   let longitude = _.get(incident, 'address.longitude');
   let latitude = _.get(incident, 'address.latitude');
