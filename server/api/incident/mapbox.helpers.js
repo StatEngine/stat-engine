@@ -1,12 +1,12 @@
-import request from 'request';
-import _ from 'lodash';
 
+import _ from 'lodash';
+import rp from 'request-promise';
+import Promise from 'bluebird';
 import config from '../../config/environment';
 
-export function getMatrix(incident, cb) {
+export const getMatrix = async incident => {
   let pairs = [];
   let distances = {};
-
   let results = {};
 
   _.map(incident.apparatus, u => {
@@ -24,66 +24,44 @@ export function getMatrix(incident, cb) {
   });
 
   if(pairs.length === 0) {
-    return cb(null, results);
-  }
-  // We should really make multiple calls when more than 25 units are on the call
-  if(pairs.length > 25) {
-    return cb(null, results);
+    return results;
   }
 
   let longitude = _.get(incident, 'address.longitude');
   let latitude = _.get(incident, 'address.latitude');
-  if(!longitude || !latitude) return cb(new Error('No incident coordinates'));
-  pairs.push({ longitude, latitude });
+  if(!longitude || !latitude) throw new Error('No incident coordinates');
 
-  const coordinates = _.map(pairs, p => `${p.longitude},${p.latitude}`).join(';');
-  const options = {
-    uri: `https://api.mapbox.com/directions-matrix/v1/mapbox/driving/${coordinates}`,
-    qs: {
-      access_token: config.mapbox.token,
-      annotations: 'distance,duration'
-    },
-    json: true,
-  };
+  await Promise.map(_.chunk(pairs, 24), async splitPairs => {
+    // Add destination.
+    splitPairs.push({ longitude, latitude });
 
-  let destinationIndex = pairs.length - 1;
-  request(options, (err, res, body) => {
-    if(err) return cb(err);
-    if(_.isEmpty(body) || _.isEmpty(body.distances) || _.isEmpty(body.durations)) return cb(new Error('Unknown format from mapbox'));
+    const coordinates = _.map(splitPairs, p => `${p.longitude},${p.latitude}`).join(';');
+    const options = {
+      uri: `https://api.mapbox.com/directions-matrix/v1/mapbox/driving/${coordinates}`,
+      qs: {
+        access_token: config.mapbox.token,
+        annotations: 'distance,duration'
+      },
+      json: true,
+    };
 
-    /* Body looks like
-    { distances:
-      [ [ 0, 2032, 2982.3, 1928.6 ],
-        [ 2065.4, 0, 4650.1, 2453.3 ],
-        [ 3189.3, 4637.7, 0, 2451.4 ],
-        [ 1961.4, 2592.6, 2490.8, 0 ] ],
-      durations:
-      [ [ 0, 226.3, 376.7, 280.3 ],
-        [ 236.6, 0, 499.7, 374.6 ],
-        [ 390.7, 518.9, 0, 381.1 ],
-        [ 287.4, 307.8, 333.2, 0 ] ],
-      destinations:
-      [ { name: '', location: [Array] },
-        { name: 'Old Brook Circle', location: [Array] },
-        { name: '', location: [Array] },
-        { name: '', location: [Array] } ],
-      sources:
-      [ { name: '', location: [Array] },
-        { name: 'Old Brook Circle', location: [Array] },
-        { name: '', location: [Array] },
-        { name: '', location: [Array] } ],
-      code: 'Ok' }
-    */
+    let destinationIndex = splitPairs.length - 1;
+    const body = await rp(options);
+
+    if(_.isEmpty(body) || _.isEmpty(body.distances) || _.isEmpty(body.durations)) {
+      throw new Error('Unknown format from mapbox');
+    }
     for(let i = 0; i < destinationIndex; i += 1) {
-      let unit = pairs[i].unit_id;
+      let unit = splitPairs[i].unit_id;
       if(!results[unit]) results[unit] = {};
 
       // use mapbox distance if not set by cad
       if(!results[unit].distance) results[unit].distance = body.distances[i][destinationIndex] * 0.000621371;
       results[unit].duration = body.durations[i][destinationIndex];
     }
-    cb(null, results);
   });
-}
+
+  return results;
+};
 
 export default getMatrix;

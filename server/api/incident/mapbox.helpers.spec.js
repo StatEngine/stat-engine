@@ -3,7 +3,7 @@ import {
 } from './mapbox.helpers';
 import 'chai/register-should';
 
-describe('getMatrix', () => {
+describe.only('getMatrix', () => {
   let incident = {
     "address": {
       "population_density": "Urban",
@@ -339,7 +339,11 @@ describe('getMatrix', () => {
     }
   };
 
-  it('should get travel matrix', () => {
-    console.dir(getMatrix(incident));
+  it('should get travel matrix', done => {
+    getMatrix(incident)
+      .then(r => {
+        console.dir(r);
+        done();
+      });
   });
 });
