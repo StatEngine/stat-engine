@@ -4,7 +4,8 @@ export default class ExtensionRequestController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Extension, currentExtension, hasRequested, AmplitudeService, AnalyticEventNames) {
+  constructor(Extension, currentExtension, hasRequested, AmplitudeService, AnalyticEventNames, currentPrincipal) {
+    this.currentPrincipal = currentPrincipal;
     this.extension = currentExtension;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;

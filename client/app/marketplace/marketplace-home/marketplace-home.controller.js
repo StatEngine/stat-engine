@@ -30,7 +30,8 @@ export default class MarketplaceHomeController {
 
   async $onInit() {
     await this.loadModules();
-    this.allApps = _.map(this.allApps, a => _.merge(a, { type: 'App' }))
+    this.allApps = _.map(this.allApps, a => _.merge(a, { type: 'app' }))
+    this.allApps = _.filter(this.allApps, a => !(_.get(a, 'hidden', false)));
     this.allExtensions = _.sortBy(this.allExtensions.concat(this.allApps), o => o.name);
     this.filteredExtensions = this.allExtensions;
     this.filteredFeaturedExtensions = _.filter(this.allExtensions, f => f.featured);
@@ -49,7 +50,7 @@ export default class MarketplaceHomeController {
   }
 
   goto(extension) {
-    if(extension.type === 'App') this.$state.go('site.marketplace.applicationInstall', { id: extension._id });
+    if(extension.type === 'app') this.$state.go('site.marketplace.applicationInstall', { id: extension._id });
     else this.$state.go('site.marketplace.extensionRequest', { id: extension._id });
   }
 
@@ -64,9 +65,11 @@ export default class MarketplaceHomeController {
 
     this.filteredExtensions = [];
     angular.forEach(this.allExtensions, value => {
-      const categories = value.categories.split(',');
-      if(categories.indexOf(searchCategory) >= 0) {
-        this.filteredExtensions.push(value);
+      if(value.categories) {
+        const categories = value.categories.split(',');
+        if(categories.indexOf(searchCategory) >= 0) {
+          this.filteredExtensions.push(value);
+        }
       }
     });
 

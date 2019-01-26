@@ -38,6 +38,10 @@ export default function(sequelize, DataTypes) {
     categories: {
       type: DataTypes.STRING,
     },
+    hidden: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    },
     featured: {
       type: DataTypes.BOOLEAN,
       default: false

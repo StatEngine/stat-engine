@@ -17,7 +17,7 @@ export function search(req, res) {
       'description',
       'short_description',
       'features',
-      'tags',
+      'categories',
       'permissions',
       'featured',
       'hidden',
@@ -44,7 +44,7 @@ export function get(req, res) {
       'description',
       'short_description',
       'features',
-      'tags',
+      'categories',
       'permissions',
       'featured',
       'hidden',
@@ -72,8 +72,8 @@ export const install = async(req, res) => {
     app__id: req.params.id,
     fire_department__id: req.user.FireDepartment._id,
   })
-    .then(() => {
-      res.sendStatus(204);
+    .then((appInstall) => {
+      res.json(appInstall);
     })
     .catch(e => {
       console.error(e);
@@ -81,3 +81,40 @@ export const install = async(req, res) => {
     });
 }
 
+
+export const uninstall = async(req, res) => {
+  if(_.isEmpty(req.params.id)) return res.send(500);
+
+  const existing = await AppInstallation.findOne({
+    where: {
+      app__id: req.params.id,
+      fire_department__id: req.user.FireDepartment._id
+    },
+  });
+  if(!existing) return res.sendStatus(500);
+
+  return existing.destroy()
+    .then(() => {
+      res.json({});
+    })
+    .catch(e => {
+      console.error(e);
+      res.sendStatus(500);
+    });
+}
+
+export const status = async(req, res) => {
+  if(_.isEmpty(req.params.id)) return res.send(500);
+
+  await AppInstallation.findOne({
+    where: {
+      app__id: req.params.id,
+      fire_department__id: req.user.FireDepartment._id
+    },
+  })
+  .then((appInstall) => res.json(appInstall))
+  .catch(e => {
+    console.error(e);
+    res.sendStatus(500);
+  });
+};

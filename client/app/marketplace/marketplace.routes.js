@@ -46,6 +46,9 @@ export default function routes($stateProvider) {
         roles: ['user']
       },
       resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
         currentExtension($stateParams, Extension) {
           return Extension.get({ id: $stateParams.id }).$promise;
         },
@@ -73,9 +76,9 @@ export default function routes($stateProvider) {
         currentApp($stateParams, Apps) {
           return Apps.get({ id: $stateParams.id }).$promise;
         },
-        //hasRequested($stateParams, Aoos) {
-        //  return Apps.hasRequested({ id: $stateParams.id }).$promise;
-        //},
+        appInstall($stateParams, Apps) {
+          return Apps.status({ id: $stateParams.id }).$promise;
+        },
       },
     });
 }

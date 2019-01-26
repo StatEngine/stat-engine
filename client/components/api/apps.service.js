@@ -13,5 +13,21 @@ export default function AppsResource($resource) {
         action: 'install'
       }
     },
+
+    uninstall: {
+      method: 'POST',
+      params: {
+        id: '@id',
+        action: 'uninstall'
+      }
+    },
+
+    status: {
+      method: 'GET',
+      params: {
+        id: '@id',
+        action: 'status'
+      }
+    },
   });
 }

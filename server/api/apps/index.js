@@ -21,11 +21,25 @@ router.get(
   controller.get
 );
 
+router.get(
+  '/:id/status',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  controller.status
+);
+
 router.post(
   '/:id/install',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   controller.install
+);
+
+router.post(
+  '/:id/uninstall',
+  auth.isApiAuthenticated,
+  auth.hasRole('department_admin'),
+  controller.uninstall
 );
 
 module.exports = router;
