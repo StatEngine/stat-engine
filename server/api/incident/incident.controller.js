@@ -166,11 +166,12 @@ export function getIncident(req, res) {
 }
 
 export function loadMatrix(req, res, next) {
-  getMatrix(req.incident, (err, matrix) => {
-    if(err) return next(err);
-    else req.travelMatrix = matrix;
-    next();
-  });
+  return getMatrix(req.incident)
+    .then(matrix => {
+      req.travelMatrix = matrix;
+      next();
+    })
+    .catch(next);
 }
 
 export function loadConcurrent(req, res, next) {
