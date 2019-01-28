@@ -29,7 +29,9 @@ export const getMatrix = async incident => {
 
   let longitude = _.get(incident, 'address.longitude');
   let latitude = _.get(incident, 'address.latitude');
-  if(!longitude || !latitude) throw new Error('No incident coordinates');
+  if(!longitude || !latitude) {
+    return results;
+  }
 
   await Promise.map(_.chunk(pairs, 24), async splitPairs => {
     // Add destination.
