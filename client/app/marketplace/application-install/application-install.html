@@ -7,15 +7,15 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" ui-sref="site.user.home">Home</a>
       <a class="breadcrumb-item" ui-sref="site.marketplace.home">Marketplace</a>
-      <span class="breadcrumb-item active">{{vm.extension.name}}</span>
+      <span class="breadcrumb-item active">{{vm.app.name}}</span>
     </nav>
   </div><!-- br-pageheader -->
   <div class="br-pagetitle">
-    <h2 class="m-0">{{vm.extension.name}}</h2>
+    <h2 class="m-0">{{vm.app.name}}</h2>
   </div><!-- br-pagetitle -->
   <div class="br-pagebody">
     <div class="extension-request">
-      <header class="ht-auto ht-md-350 rounded-top {{vm.extension.name.toLowerCase()}}">
+      <header class="ht-auto ht-md-350 rounded-top {{vm.app.name.toLowerCase()}}">
         <section class="container m-auto pd-sm-y-5">
           <div class="row justify-content-around align-items-center mx-wd-800 m-auto">
             <div class="extension-logo d-flex animated zoomIn">
@@ -32,17 +32,10 @@
         <div class="row">
           <div class="col-md-7 mg-b-60 br-sitemap-section">
             <h5 class="heavyheader mb-3 mb-md-4">Overview</h5>
-            <p>{{vm.extension.description}}</p>
+            <p>{{vm.app.description}}</p>
             <ul class="mg-b-30">
               <li class="pd-y-4" ng-repeat="feature in vm.extension.features">{{feature}}</li>
             </ul>
-            <hr>
-            <h5 class="heavyheader mb-3 mb-md-4">Pricing and Setup</h5>
-            <p>This enrichment is currently included with your subscription, <strong>free</strong> of any additional charges!<br>
-            Please request now to enable.</p>
-            <button ng-if="vm.currentPrincipal.isDepartmentAdmin" class="btn btn-info" ng-show="!vm.requested" ng-click="vm.request()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Request enrichment</button><br>
-            <p ng-if="!vm.currentPrincipal.isDepartmentAdmin" class="text-danger"> Only an admin can request this enrichment.  Please contact your local department admin to request.</p>
-            <div ng-show="vm.requested" class="alert alert-success" role="alert">Thanks for the request! We'll let you know as soon as the enrichment is available.</div>
           </div>
           <div class="col-md-5 extension-preview">
             <h5 class="heavyheader mb-3 mb-md-4">Screenshots</h5>
@@ -52,6 +45,16 @@
             <div ng-if="vm.extension.preview">
               <img class="bd shadow-lg" ng-src="{{vm.extensionPreviewSrc}}" alt="">
             </div>
+          </div>
+        </div>
+        <div>
+          <h5 class="heavyheader mb-3 mb-md-4">Pricing and Setup</h5>
+          <p>This application is currently included with your subscription, <strong>free</strong> of any additional charges<br>
+             Please review the applications terms and policies for any additional fees that they might charge.
+          <div ng-if="!vm.currentPrincipal.isDepartmentAdmin" class="text-danger"> Only an admin can modify this application.  Please contact your local department admin to modify.</div>
+          <div ng-if="vm.currentPrincipal.isDepartmentAdmin">
+            <button ng-if="!vm.installed" class="btn btn-info" ng-click="vm.install()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Install application</button><br>
+            <button ng-if="vm.installed" class="btn btn-info btn-danger" ng-click="vm.uninstall()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Uninstall application</button><br>
           </div>
         </div>
       </section>

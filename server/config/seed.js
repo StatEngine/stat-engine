@@ -29,10 +29,10 @@ let whosOnApp;
 if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
-    .then(() => App.sync())
-    .then(() => App.destroy({ where: {} }))
     .then(() => AppInstallation.sync())
     .then(() => AppInstallation.destroy({ where: {} }))
+    .then(() => App.sync())
+    .then(() => App.destroy({ where: {} }))
     .then(() => ExtensionConfiguration.sync())
     .then(() => ExtensionConfiguration.destroy({ where: {} }))
     .then(() => ExtensionRequest.sync())

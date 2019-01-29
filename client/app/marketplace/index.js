@@ -8,7 +8,8 @@ import routing from './marketplace.routes';
 // modules
 import marketplaceHome from './marketplace-home';
 import extensionRequest from './extension-request';
+import applicationInstall from './application-install';
 
-export default angular.module('statEngineApp.marketplace', [uiRouter, marketplaceHome, extensionRequest])
+export default angular.module('statEngineApp.marketplace', [uiRouter, marketplaceHome, extensionRequest, applicationInstall])
   .config(routing)
   .name;

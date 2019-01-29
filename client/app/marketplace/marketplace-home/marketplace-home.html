@@ -5,22 +5,21 @@
         <div class="px-4 py-5">
           <div class="row justify-content-center">
             <div class="col-lg-12 masthead-content">
-              <h1 class="subheader">StatEngine Marketplace</h1>
-              <p>We have a plethora of powerful extensions that enable data enrichments, extension with Social Media platforms, and much more!</p>
-              <div class="marketplace-search input-group mb-3">
-                <input ng-model="query" class="search-input form-control" type="text" placeholder="Search the Marketplace">
-                <div class="input-group-append">
-                  <button class="btn btn-primary btn-search" type="button">Search</button>
-                </div>
-              </div>
+              <h1 class="subheader">Marketplace</h1>
+              <h5>Tools to extend your data</h5>
+              <p>Enable data enrichments, post directly to Social Media platforms, integrate with Record Management Systems (RMS) and more!</p>
             </div>
           </div>
         </div>
       </section>
       <section class="container-fluid p-3 p-md-5 mx-wd-1350">
         <section class="row">
-          <div class="categories-sidenav col-md-4 d-none d-sm-block">
-            <div class="mr-5">
+          <div class=" col-md-4">
+            <h6 class="text-uppercase heavyheader tx-13 mg-b-15">SEARCH</h6>
+            <div class="marketplace-search input-group mb-3">
+              <input ng-model="query" class="search-input form-control" type="text" placeholder="Name or description">
+            </div>
+            <div class="pd-t-10">
               <h6 class="text-uppercase heavyheader tx-13 mg-b-15">CATEGORIES</h6>
               <ul class="nav nav-pills flex-column align-items-start">
                 <li ng-repeat="category in vm.categories" ng-class="{'active' : vm.selectedCategory === category}">
@@ -28,10 +27,13 @@
                 </li>
               </ul>
             </div>
-            <hr class="my-3 mr-3 my-md-5 mr-md-5">
+            <hr class="-3 mr-3 my-md-5">
+            <p><strong class="badge badge-success tx-13">ENRICHMENTS</strong> extend your incoming data with additional attributes such as weather, census, political boundaries, and other data from third-party sources.</p>
+            <p><strong class="badge badge-primary tx-13">APPLICATIONS</strong> are external applications that you authorize to share your sanitized data with such as Social Media platforms, CAD, or RMS partners</p>
+            <hr class="-3 mr-3 my-md-5">
             <div class="extension-request mr-5 mb-5 pt-2">
               <h6 class="text-uppercase heavyheader tx-13 mg-b-15">REQUEST</h6>
-              <p>Don't see a plugin, enrichment, or app you're looking for? Request an extension and include the data that is most valuable to you and we'll make it a priority!</p>
+              <p>Have an idea for a new extension or want to create your own with our developer program? Request for more information now!</p>
               <a id='' href="mailto: contact@statengine.io" target="_blank">
                 <button class="btn btn-outline-inverse-alt btn-sm hvr-float">Request</button>
               </a>
@@ -42,9 +44,12 @@
               <h4 class="mt-0 pb-4">Featured</h4>
               <div class="row align-items-center">
                 <div ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured" class="col">
-                  <a ui-sref="site.marketplace.extensionRequest({id: extension._id})" class="card hvr-float">
+                  <a ng-click="vm.goto(extension)" href="#" class="card hvr-float">
                     <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
-                    <h5 class="heavyheader text-truncate text-">{{extension.name}}</h5>
+                    <h5 class="heavyheader text-truncate text-">{{extension.name}}
+                      <span ng-if="extension.type !== 'app'" class="pull-right badge badge-success">ENRICHMENT</span>
+                      <span ng-if="extension.type === 'app'" class="pull-right badge badge-primary">APPLICATION</span>
+                    </h5>
                     <p>{{extension.short_description}}</p>
                   </a>
                 </div>
@@ -57,9 +62,12 @@
               <h4 class="mt-0 pb-4">{{vm.selectedCategory}}</h4>
               <div class="row align-items-center">
                 <div ng-repeat="extension in vm.filteredExtensions | filter:query as filtered" class="col">
-                  <a ui-sref="site.marketplace.extensionRequest({id: extension._id})" class="card hvr-float">
+                  <a ng-click="vm.goto(extension)" href="#" class="card hvr-float">
                     <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
-                    <h5 class="heavyheader text-truncate">{{extension.name}}</h5>
+                    <h5 class="heavyheader text-truncate">{{extension.name}}
+                      <span ng-if="extension.type !== 'app'" class="pull-right badge badge-success">ENRICHMENT</span>
+                      <span ng-if="extension.type === 'app'" class="pull-right badge badge-primary">APPLICATION</span>
+                    </h5>
                     <p>{{extension.short_description}}</p>
                   </a>
                 </div>

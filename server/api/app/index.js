@@ -26,9 +26,11 @@ router.get(
   appInstallationController.search,
 );
 
-router.get(
-  '/',
-  auth.checkOauthJwt,
-);
+// future call
+// Returns the  App associated with the oauth credentials used.
+// router.get(
+//  '/',
+//  auth.checkOauthJwt,
+//);
 
 module.exports = router;

@@ -35,7 +35,7 @@ export default function(sequelize, DataTypes) {
     features: {
       type: DataTypes.ARRAY(DataTypes.STRING)
     },
-    tags: {
+    categories: {
       type: DataTypes.ARRAY(DataTypes.STRING)
     },
     permissions: {

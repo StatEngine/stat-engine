@@ -8,5 +8,7 @@ export default angular.module('statEngineApp.analyticEventName', [])
     APP_ACCESS: 'App Access',
     APP_REQUEST: 'App Request',
     APP_ACTION: 'App Action',
+    APP_INSTALL: 'App Install',
+    APP_UNINSTALL: 'App Uninstall',
   })
   .name;
