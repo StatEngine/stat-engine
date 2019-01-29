@@ -47,7 +47,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getRecentIncidents,
+  controller.getIncidents,
 );
 
 router.param('id', controller.loadIncident);

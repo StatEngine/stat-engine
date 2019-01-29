@@ -104,12 +104,13 @@ export function getSummary(req, res) {
   Analysis.compare()
     .then(results => res.json(results));
 }
-export function getRecentIncidents(req, res) {
-  const client = connection.getClient();
+export function getIncidents(req, res) {
+  const sort = req.query.sort || 'description.event_opened,desc';
 
   const params = {
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
-    size: 1000,
+    from: req.query.from || 0,
+    size: req.query.count || 10,
     body: {
       _source: [
         'description.incident_number',
@@ -119,18 +120,20 @@ export function getRecentIncidents(req, res) {
         'description.type',
         'description.units',
         'description.category',
-        'durations.total_event.seconds'],
-      sort: [{
-        'description.event_opened': {
-          order: 'desc'
-        }
-      }]
+        'durations.total_event.seconds'
+      ],
+      sort: sort.split('+')
+        .map((sortItem) => {
+          const parts = sortItem.split(',');
+          return {
+            [parts[0]]: { order: parts[1] },
+          };
+      }),
     }
   };
 
-  if(req.query.q) {
-    params.q = req.query.q;
-    params.body.sort = ['_score'];
+  if(req.query.search) {
+    params.q = req.query.search;
   } else {
     params.body.query = {
       bool: {
@@ -147,9 +150,12 @@ export function getRecentIncidents(req, res) {
     };
   }
 
-  client.search(params)
+  connection.getClient().search(params)
     .then(searchResults => {
-      res.json(searchResults.hits.hits);
+      res.json({
+        items: searchResults.hits.hits,
+        totalItems: searchResults.hits.total,
+      });
     })
     .catch(() => res.status(500).send());
 }

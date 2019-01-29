@@ -33,12 +33,6 @@ export default function routes($stateProvider) {
               $ocLazyLoad.inject('ui.grid.resizeColumns');
             });
         },
-        currentPrincipal(Principal) {
-          return Principal.identity();
-        },
-        recentIncidents(Incident) {
-          return Incident.query().$promise;
-        },
       },
     })
     .state('site.incident.analysis', {
