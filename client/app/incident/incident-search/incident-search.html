@@ -1,10 +1,9 @@
 <!-- TODO:
-    - Breadcrumbs needs to be hooked up
     - Table should be switched to newer style/format (Bingles)
     - Table and supporting elements need better responsive styling (Bingles)
 -->
 
-<div class="br-mainpanel medium-bg">
+<div class="incident-search br-mainpanel medium-bg">
   <div class="br-pageheader">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="index.html">Home</a>
@@ -15,16 +14,28 @@
   <div class="br-pagetitle d-flex justify-content-between flex-wrap">
     <h2 class="m-0">Incidents</h2>
     <div class="input-group wd-300">
-      <input ng-model="vm.query" type="text" class="form-control" placeholder="Search Incidents">
+      <input ng-model="vm.searchInputValue" type="text" class="form-control" placeholder="Search Incidents">
       <span class="input-group-btn">
-        <button class="btn bd-0 btn-secondary py-2 px-3 rounded-0" type="button" ng-click="vm.search()"><i class="fa fa-search"></i></button>
+        <button class="btn bd-0 btn-secondary py-2 px-3 rounded-0" type="button" ng-click="vm.searchButtonClick()"><i class="fa fa-search"></i></button>
       </span>
     </div>
   </div><!-- br-pagetitle -->
   <div class="br-pagebody">
     <section class="br-section-wrapper shadow-none pd-0">
-      <div ui-grid="vm.searchResultsTableOptions" class="search-grid" ui-grid-pagination ui-grid-resize-column>
-        <div class="watermark" ng-show="!vm.searchResultsTableOptions.data.length"><h2 class="heavyheader text-muted">No data available</h2></div>
+      <div class="incidents-desktop search-grid" ui-grid="vm.uiGridOptions" ui-grid-pagination ui-grid-resize-column>
+        <h2
+          class="watermark heavyheader text-muted"
+          ng-show="!vm.isLoading && !vm.uiGridOptions.data.length"
+        >
+          No data available
+        </h2>
+        <h2
+          class="watermark heavyheader text-muted"
+          ng-show="vm.isLoading"
+        >
+          Loading...
+        </h2>
       </div>
     </section>
+  </div>
 </div>
