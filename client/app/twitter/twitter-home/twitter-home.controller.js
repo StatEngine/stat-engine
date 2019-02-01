@@ -100,7 +100,19 @@ export default class TwitterHomeController {
       }
 
       if(tweetPreview.media_url) preview += `<div class="row"><div class="col"><img class="img-responsive" src=${tweetPreview.media_url}></img></div></div>`;
-      this.modalService.ok()('Tweet Preview', preview);
+      const modal = this.modalService.custom({
+        title: 'Preview',
+        content: preview,
+        cancelButtonText: 'Refresh',
+        showCloseButton: false,
+        enableBackdropDismiss: false,
+        buttons: [{
+          text: 'Ok',
+          style: this.modalService.buttonStyle.success,
+          onClick: async () => {},
+        }],
+      });
+      modal.present();
     });
   }
 
@@ -169,13 +181,38 @@ export default class TwitterHomeController {
           action: 'tweet',
         });
 
-        this.modalService.ok(this.refreshTweets.bind(this))('Thanks for Tweeting ', html, false);
+        const modal = this.modalService.custom({
+          title: 'Thanks for tweeting',
+          content: html,
+          showCloseButton: false,
+          enableBackdropDismiss: false,
+          buttons: [{
+            text: 'Ok',
+            style: this.modalService.buttonStyle.success,
+            onClick: async () => {
+              this.refreshTweets();
+            },
+          }],
+        });
+        modal.present();
       }, err => {
         console.dir(err);
         const html = '\
-          <p class="text-danger">Please try again later. If this error persists, please contact an administrator. <p>\
-          <label>Details:</label><br>';
-        this.modalService.ok(this.refreshTweets.bind(this))('Tweet Failed', html, err.data);
+          <p class="text-danger">Please try again later. If this error persists, please contact an administrator. </p>';
+        const modal = this.modalService.custom({
+            title: 'Tweet failed!',
+            content: html,
+            showCloseButton: false,
+            enableBackdropDismiss: false,
+            buttons: [{
+              text: 'Ok',
+              style: this.modalService.buttonStyle.danger,
+              onClick: async () => {
+                this.refreshTweets();
+              },
+            }],
+          });
+          modal.present();
       });
   }
 }
