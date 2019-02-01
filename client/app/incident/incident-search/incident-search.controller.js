@@ -35,6 +35,7 @@ export default class IncidentSearchController {
       }, {
         field: 'description.event_closed',
         displayName: 'Event Closed',
+        cellFilter: 'date:"MMM d, y HH:mm:ss"'
       }, {
         field: 'durations.total_event.seconds',
         displayName: 'Event Duration',
