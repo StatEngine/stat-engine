@@ -9,6 +9,8 @@ import { FireIncidentEventDurationRule30 } from './rules/fireIncidentEventDurati
 import { FireIncidentEventDurationRule60 } from './rules/fireIncidentEventDurationRule60';
 import { OvernightEventsRule } from './rules/overnightEventsRule';
 import { EventDurationSumRule } from './rules/eventDurationSumRule';
+import { TurnoutDurationOutlierRule } from './rules/turnoutDurationOutlierRule';
+import { TravelDurationOutlierRule } from './rules/travelDurationOutlierRule';
 
 export function previousTimeRange(timeRange) {
   const sm = moment.parseZone(timeRange.start);
@@ -38,7 +40,7 @@ export function buildFireIncidentQuery(timeFilter) {
         .aggregation('terms', 'apparatus.unit_id', { size: 500 }, unitAgg => unitAgg
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))))
     .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }})
-    .aggregation('terms', 'description.type', { size: 50, order: { _term: 'asc' }})
+    .aggregation('terms', 'description.type', { size: 1000, order: { _term: 'asc' }})
     .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription.keyword', { size: 50, order: { _term: 'asc' }})
     .aggregation('percentile_ranks', 'durations.response.seconds', { values: 360 })
     .aggregation('percentiles', 'durations.total_event.minutes', { percents: 90 })
@@ -188,6 +190,8 @@ export class IncidentAnalysisTimeRange {
       OvernightEventsRule,
       FireIncidentEventDurationRule30,
       FireIncidentEventDurationRule60,
+      TurnoutDurationOutlierRule,
+      TravelDurationOutlierRule,
     ];
 
     let rules = [];

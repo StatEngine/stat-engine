@@ -22,6 +22,7 @@ const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
 const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
+let tucson;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
@@ -363,7 +364,7 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => FireDepartment.create({
       fd_id: '11223',
-      firecares_id: '00000',
+      firecares_id: '97477',
       name: 'Tucson Fire Department',
       integration_complete: true,
       integration_verified: true,
@@ -373,7 +374,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -110.9747,
       Users: [{
         provider: 'local',
-        role: 'user,ingest',
+        role: 'user,department_admin',
         username: 'tucson',
         first_name: 'tucson',
         last_name: 'User',
@@ -383,6 +384,29 @@ if(process.env.NODE_ENV === 'development') {
       }]
     }, {
       include: [FireDepartment.Users]
+    }))
+    .then((fd) => ExtensionConfiguration.create({
+      enabled: true,
+      requested: false,
+      fire_department__id: fd._id,
+      extension__id: emailReportEnrichment._id,
+      config_json: {
+        name: 'Daily',
+        timeUnit: 'DAY',
+        sections: {
+          showAlertSummary: true,
+          showBattalionSummary: true,
+          showIncidentTypeSummary: true,
+          showAgencyIncidentTypeSummary: false,
+        },
+        showDistances: true,
+        showTransports: true,
+        schedulerOptions: {
+          later: {
+            text: 'every 10 seconds'
+          }
+        }
+      }
     }))
     .then(() => FireDepartment.create({
       fd_id: '25035',
