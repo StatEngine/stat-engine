@@ -14,27 +14,98 @@
   <div class="br-pagetitle d-flex justify-content-between flex-wrap">
     <h2 class="m-0">Incidents</h2>
     <div class="input-group wd-300">
-      <input ng-model="vm.searchInputValue" type="text" class="form-control" placeholder="Search Incidents">
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Search Incidents"
+        ng-model="vm.searchInputValue"
+        on-enter-pressed="vm.searchButtonClick()"
+      >
       <span class="input-group-btn">
-        <button class="btn bd-0 btn-secondary py-2 px-3 rounded-0" type="button" ng-click="vm.searchButtonClick()"><i class="fa fa-search"></i></button>
+        <button
+          class="btn bd-0 btn-primary py-2 px-3 rounded-0"
+          type="button"
+          ng-click="vm.searchButtonClick()"
+        >
+          <i class="fa fa-search"></i>
+        </button>
       </span>
     </div>
   </div><!-- br-pagetitle -->
   <div class="br-pagebody">
-    <section class="br-section-wrapper shadow-none pd-0">
-      <div class="incidents-desktop search-grid" ui-grid="vm.uiGridOptions" ui-grid-pagination ui-grid-resize-column>
-        <h2
-          class="watermark heavyheader text-muted"
-          ng-show="!vm.isLoading && !vm.uiGridOptions.data.length"
+    <section>
+      <!-- Incidents (desktop) -->
+      <div class="incidents-desktop hidden-lg-down">
+        <div
+          class="search-grid"
+          ui-grid="vm.uiGridOptions"
+          ui-grid-resize-column
         >
-          No data available
-        </h2>
-        <h2
-          class="watermark heavyheader text-muted"
-          ng-show="vm.isLoading"
-        >
-          Loading...
-        </h2>
+          <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
+          <h2
+            class="watermark heavyheader text-muted"
+            ng-show="!vm.isLoading && !vm.uiGridOptions.data.length"
+          >
+            No data available
+          </h2>
+        </div>
+
+        <table-controls
+          pagination="vm.pagination"
+          on-pagination-change="vm.handlePaginationChange({ pagination })"
+          position="bottom"
+          show-sort="false"
+        ></table-controls>
+      </div>
+
+      <!-- Incidents (mobile) -->
+      <div class="incidents-mobile hidden-xl-up">
+        <table-controls
+          pagination="vm.pagination"
+          sort="vm.sortSelect"
+          on-pagination-change="vm.handlePaginationChange({ pagination })"
+          on-sort-change="vm.handleSortChange({ sort })"
+          is-loading="vm.isLoading"
+          position="top"
+        ></table-controls>
+
+        <!-- Incidents table -->
+        <div class="incidents-mobile-table">
+          <loading-overlay ng-if="vm.isLoading" show-spinner="false"></loading-overlay>
+
+          <div
+            class="table-row"
+            ng-repeat="incident in vm.incidents"
+          >
+            <div
+              class="cell"
+              ng-repeat="columnDef in vm.uiGridOptions.columnDefs"
+              ng-attr-data-title="{{ columnDef.displayName }}"
+            >
+              <a
+                ng-if="columnDef.field === 'description.incident_number'"
+                ng-attr-ui-sref="{{ vm.getIncidentUiSref(incident) }}"
+                href="#"
+              >
+                {{ vm.getIncidentColumn(incident, columnDef) }}
+              </a>
+
+              <span ng-if="columnDef.field !== 'description.incident_number'">
+                {{ vm.getIncidentColumn(incident, columnDef) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <table-controls
+          ng-if="!vm.isLoadingFirst"
+          pagination="vm.pagination"
+          sort="vm.sortSelect"
+          on-pagination-change="vm.handlePaginationChange({ pagination })"
+          on-sort-change="vm.handleSortChange({ sort })"
+          is-loading="vm.isLoading"
+          position="bottom"
+        ></table-controls>
       </div>
     </section>
   </div>

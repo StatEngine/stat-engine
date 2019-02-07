@@ -1,3 +1,5 @@
+@import 'incident-search/incident-search.scss';
+
 // Baseline style for statistical units found in the card layout
 .stat {
     align-items: center;
@@ -282,10 +284,6 @@ circle.blue-dot {
 
 .indent-1 {
     text-indent: 1em;
-}
-
-.search-grid {
-    height: 65vh;
 }
 
 // Override Plot.ly JS

@@ -1,4 +1,28 @@
 /////////////////////////////////
+// VARIABLES //
+////////////////////////////////
+$color-cerulean:                #00A9DA;
+$color-pacific-blue:            #0099c2;
+$color-bondi-blue:              #16a2b3;
+$color-java:                    #1fc8a7;
+$color-pickled-bluewood:        #334A56;
+$color-pale-sky:                #697983;
+$color-cloudy-sky:              #abbecb;
+$color-oxford-blue:             #384553;
+$color-geyser:                  #D7DEE3;
+$color-brand-success:           #30b370;
+$color-brand-danger:            #d61745;
+$color-porcelain:               #f5f7f8;
+$color-tulip-tree:              #efb93d;
+$color-wisteria:                #9068bc;
+$color-di-serria:               #e09061;
+$color-pelorous:                #46a0c1;
+$color-cranberry:               #d6527e;
+$color-celery:                  #99c550;
+
+$primary: $color-cerulean;
+
+/////////////////////////////////
 // IMPORTS //
 ////////////////////////////////
 $fa-font-path: '/assets/fonts/font-awesome/';
@@ -25,27 +49,6 @@ $ionicons-font-path: '/assets/fonts/Ionicons/';
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:Extra-Light,Light,Regular,Medium,Semi-Bold,Bold,Extra-Bold");
 @import url('https://rsms.me/inter/inter-ui.css');
 
-/////////////////////////////////
-// VARIABLES //
-////////////////////////////////
-$color-cerulean:                #00A9DA;
-$color-pacific-blue:            #0099c2;
-$color-bondi-blue:              #16a2b3;
-$color-java:                    #1fc8a7;
-$color-pickled-bluewood:        #334A56;
-$color-pale-sky:                #697983;
-$color-cloudy-sky:              #abbecb;
-$color-oxford-blue:             #384553;
-$color-geyser:                  #D7DEE3;
-$color-brand-success:           #30b370;
-$color-brand-danger:            #d61745;
-$color-porcelain:               #f5f7f8;
-$color-tulip-tree:              #efb93d;
-$color-wisteria:                #9068bc;
-$color-di-serria:               #e09061;
-$color-pelorous:                #46a0c1;
-$color-cranberry:               #d6527e;
-$color-celery:                  #99c550;
 /////////////////////////////////
 // BROWSER //
 ////////////////////////////////
@@ -335,11 +338,23 @@ ol.statengine li::before {
   }
 }
 
+@mixin form-control-sm() {
+  height: calc(1.8125rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
 .form-control {
   &:focus {
     border-color: $color-bondi-blue;
     box-shadow: 0 0 9px 0.2rem rgba(24, 162, 178, 0.2);
   }
+}
+
+.form-control-sm {
+  @include form-control-sm;
 }
 
 .form-extras {
@@ -669,6 +684,11 @@ button {
   letter-spacing: 0.015em;
   outline: none;
   transition: all 0.15s ease;
+
+  &:disabled, &.disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
 }
 
 // Button Types
@@ -685,7 +705,6 @@ button {
 }
 
 .btn-primary {
-  background: $color-cerulean;
   background: linear-gradient(343deg, $color-cerulean 0%, $color-java 100%);
   text-shadow: 0 1px 3px rgba(0, 151, 175, 0.5);
   border: none;
@@ -741,10 +760,6 @@ button {
   &:hover {
     background: darken($color-brand-danger, 5%);
   }
-}
-
-.btn.disabled {
-  cursor: default;
 }
 
 .btn-outline {
@@ -815,6 +830,14 @@ button {
 }
 
 // Button Sizes
+$btn-sm-font-size: 13px;
+$btn-sm-padding: 6px 12px;
+
+@mixin btn-sm() {
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+}
+
 .btn {
   padding: 10px 26px;
 }
@@ -1072,7 +1095,7 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 }
 
 .br-pagebody {
-  margin-bottom: 1.5rem;
+  padding-bottom: 5.5rem !important;
 }
 
 .br-logo {
@@ -1373,4 +1396,7 @@ span+.logged-name {
 @import '../components/percent-change/percent-change';
 @import '../components/bar-gauge/bar-gauge';
 @import '../components/sidebar/sidebar';
+@import '../components/loading-spinner/loading-spinner';
+@import '../components/loading-overlay/loading-overlay';
+@import '../components/table-controls/table-controls';
 // endinject //

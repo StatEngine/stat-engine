@@ -1,0 +1,14 @@
+.incident-search {
+  .incidents-desktop {
+    .search-grid {
+      height: 61vh;
+    }
+  }
+
+  .incidents-mobile {
+    .incidents-mobile-table {
+      @include table($max-width: 1200px);
+      position: relative;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+loading-spinner {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+
+  .spinner {
+    width: 100%;
+    height: 100%;
+    border: solid 2px transparent;
+    border-top-color: #29d;
+    border-left-color: #29d;
+    border-radius: 50%;
+    -webkit-animation: spin 400ms linear infinite;
+    -moz-animation: spin 400ms linear infinite;
+    -ms-animation: spin 400ms linear infinite;
+    -o-animation: spin 400ms linear infinite;
+    animation: spin 400ms linear infinite;
+
+    @keyframes spin {
+      0% {
+        transform: rotateZ(0);
+      }
+
+      100% {
+        transform: rotateZ(360deg);
+      }
+    }
+  }
+}

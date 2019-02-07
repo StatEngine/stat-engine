@@ -105,7 +105,7 @@ export function getSummary(req, res) {
     .then(results => res.json(results));
 }
 export function getIncidents(req, res) {
-  const sort = req.query.sort || 'description.event_opened,desc';
+  const sort = req.query.sort || 'description.event_closed,desc';
 
   const params = {
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
