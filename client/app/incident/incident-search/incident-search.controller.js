@@ -47,7 +47,6 @@ export default class IncidentSearchController {
         this.sortColumns = this.sortColumns.slice(0, 1);
         this.sortSelect.selectedColumn = this.sortColumns[0];
         this.updateUiGridSort();
-        this.refreshIncidentsList();
       }
     });
 
@@ -118,8 +117,7 @@ export default class IncidentSearchController {
   }
 
   async $onInit() {
-    await this.refreshIncidentsList();
-    this.updateUiGridSort();
+    this.refreshIncidentsList();
   }
 
   getIncidentColumn(incident, columnDef) {
@@ -200,7 +198,6 @@ export default class IncidentSearchController {
   handleSortChange(args) {
     this.sortColumns = [args.sort.selectedColumn];
     this.updateUiGridSort();
-    this.refreshIncidentsList();
   }
 
   updateUiGridSort() {
