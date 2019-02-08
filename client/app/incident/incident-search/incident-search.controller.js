@@ -110,6 +110,11 @@ export default class IncidentSearchController {
     this.sortSelect.columnDefs = this.uiGridOptions.columnDefs.filter((columnDef) => {
       return (_.isUndefined(columnDef.enableSorting) || columnDef.enableSorting);
     });
+
+    this.refreshIncidentsList = _.debounce(this.refreshIncidentsList, 350, {
+      leading: true,
+      trailing: true,
+    });
   }
 
   async $onInit() {
