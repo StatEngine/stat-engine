@@ -61,7 +61,13 @@ export class TableControlsController {
     if(_.isUndefined(value)) {
       return this.pagination.pageSize;
     } else {
+      const prevPageSize = this.pagination.pageSize;
       this.pagination.pageSize = value;
+
+      // Recalculate current page to maintain position.
+      const pageFirstItemIndex = this.pagination.page * prevPageSize - prevPageSize;
+      this.pagination.page = 1 + Math.floor(pageFirstItemIndex / this.pagination.pageSize);
+
       this.fireOnPaginationChange();
     }
   }
