@@ -64,9 +64,14 @@ export default class IncidentMapComponent {
         }
       });
 
-      map.fitBounds(bounds, {
-        padding: 20
-      });
+      // Apply padding manually since MapBoxGL seems to be a bit glitchy here.
+      const padding = 0.0015;
+      bounds[0] -= padding;
+      bounds[1] -= padding;
+      bounds[2] += padding;
+      bounds[3] += padding;
+
+      map.fitBounds(bounds);
     });
   }
 }
