@@ -1,0 +1,150 @@
+table-controls {
+  button {
+    @include media-breakpoint-down(xs) {
+      @include btn-sm();
+    }
+  }
+
+  loading-spinner {
+    position: absolute;
+    right: -2rem;
+    transform: translateX(100%);
+
+    @include media-breakpoint-down(xs) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .root {
+    display: flex;
+    flex-direction: row;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+  }
+
+  .column-one {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .column-two {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 0;
+
+    @include media-breakpoint-down(sm) {
+      align-items: flex-start;
+    }
+  }
+
+  .page-control {
+    .page-number {
+      margin: 0 1rem;
+
+      .page-number-select {
+        display: inline-block !important;
+        width: auto !important;
+        vertical-align: middle !important;
+
+        @include media-breakpoint-down(xs) {
+          @include form-control-sm();
+        }
+      }
+    }
+  }
+
+  .sort-control {
+    display: inline-block;
+
+    .sort-select {
+      display: inline-block !important;
+      width: auto !important;
+      vertical-align: middle !important;
+
+      @include media-breakpoint-down(xs) {
+        @include form-control-sm();
+      }
+    }
+  }
+
+  .page-size-control {
+    .page-size-select {
+      display: inline-block !important;
+      width: auto !important;
+      vertical-align: middle !important;
+
+      @include media-breakpoint-down(xs) {
+        @include form-control-sm();
+      }
+    }
+  }
+
+  .position-top {
+    margin-bottom: 1rem;
+
+    .column-one {
+      justify-content: flex-end;
+
+      @include media-breakpoint-down(sm) {
+        order: 2;
+      }
+    }
+
+    .column-two {
+      @include media-breakpoint-down(sm) {
+        order: 1;
+      }
+    }
+
+    .sort-control {
+      order: 1;
+      margin-bottom: 1rem;
+    }
+
+    .page-size-control {
+      order: 2;
+
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .position-bottom {
+    margin-top: 1rem;
+
+    .column-one {
+      justify-content: flex-start;
+
+      @include media-breakpoint-down(sm) {
+        order: 1;
+      }
+    }
+
+    .column-two {
+      @include media-breakpoint-down(sm) {
+        order: 2;
+      }
+    }
+
+    .page-control {
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .page-size-control {
+      order: 1;
+      margin-bottom: 1rem;
+    }
+
+    .sort-control {
+      order: 2;
+    }
+  }
+}
