@@ -4,6 +4,9 @@
     <div class="department-users-table mb-5">
       <div class="table-row header">
         <div class="cell">
+          Username
+        </div>
+        <div class="cell">
           Name
         </div>
         <div class="cell">
@@ -21,6 +24,9 @@
       </div>
 
       <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
+        <div class="cell username" data-title="Username">
+          {{ user.username }}
+        </div>
         <div class="cell name" data-title="Name" ng-attr-title="{{ user.name }}">
           {{ user.first_name }} {{ user.last_name }}
         </div>
@@ -28,16 +34,16 @@
           {{ user.email }}
         </div>
         <div class="cell permissions" data-title="Permissions">
-          <div ng-if="user.isDepartmentAdmin">
+          <div class="space-nowrap" ng-if="user.isDepartmentAdmin">
             <i class="fa fa-check text-success"></i> Admin
           </div>
-          <div ng-if="user.isIngest">
+          <div class="space-nowrap" ng-if="user.isIngest">
             <i class="fa fa-check text-success"></i> Ingest
           </div>
-          <div ng-if="user.isKibanaAdmin">
+          <div class="space-nowrap" ng-if="user.isKibanaAdmin">
             <i class="fa fa-check text-success"></i> Dashboard Admin
           </div>
-          <div ng-if="!user.isKibanaAdmin && user.isKibanaReadOnlyStrict">
+          <div class="space-nowrap" ng-if="!user.isKibanaAdmin && user.isKibanaReadOnlyStrict">
             <i class="fa fa-check text-success"></i> Dashboard Readonly
           </div>
           <div ng-if="!user.isDepartmentAdmin && !user.isIngest && !user.isKibanaAdmin && !user.isKibanaReadOnlyStrict">
