@@ -5,7 +5,7 @@
 import angular from 'angular';
 
 export class SidebarComponent {
-  constructor($state, $window, AmplitudeService, AnalyticEventNames, Principal) {
+  constructor($state, $window, $transitions, AmplitudeService, AnalyticEventNames, Principal) {
     'ngInject';
 
     this.$state = $state;
@@ -20,6 +20,10 @@ export class SidebarComponent {
       }
     });
     this.PrincipalService = Principal;
+
+    $transitions.onSuccess({}, () => {
+      $('body').removeClass('show-left');
+    });
   }
 
   signout() {
