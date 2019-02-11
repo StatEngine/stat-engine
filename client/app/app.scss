@@ -217,7 +217,11 @@ table td {
     display: table-row;
 
     &:nth-of-type(even) {
-      background: lighten($color-geyser, 10%);
+      background: $color-porcelain;
+    }
+
+    &:nth-of-type(odd) {
+      background: white;
     }
 
     &.header {
@@ -246,8 +250,8 @@ table td {
           line-height: 13px;
           font-weight: bold;
           text-transform: uppercase;
-          color: darken($color-geyser, 15%);
           display: block;
+          color: #adb2b7;
         }
       }
     }
