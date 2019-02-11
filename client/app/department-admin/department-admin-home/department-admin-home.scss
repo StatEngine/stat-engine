@@ -21,7 +21,7 @@
     padding-top: 2.5rem;
     max-width: 1230px;
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1300px) {
       max-width: 580px;
     }
 
@@ -30,7 +30,7 @@
     }
 
     .department-users-table {
-      @include table(1200px);
+      @include table(1300px);
       @extend .my-4;
 
       .cell {
@@ -142,7 +142,7 @@
 
     max-width: 1230px;
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1300px) {
       max-width: 580px;
     }
 
@@ -151,7 +151,7 @@
     }
 
     .data-quality-analysis-table {
-      @include table(1200px);
+      @include table(1300px);
     }
   }
 }
