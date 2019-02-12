@@ -278,6 +278,57 @@ export function updatePassword(req, res) {
   }
 }
 
+export function requestUsername(req, res) {
+  const userEmail = req.body.useremail;
+
+  if(!userEmail) {
+    return res.status(400).send({ error: 'Email must be included in request.' });
+  } else {
+    return User.find({
+      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
+    })
+      .then(user => {
+        if(user) {
+          if(config.mailSettings.mandrillAPIKey) {
+            const mailOptions = {};
+            mailOptions.from = config.mailSettings.serverEmail;
+            mailOptions.to = user.email;
+
+            // Mailing service
+            const mailTransport = nodemailer.createTransport(mandrillTransport({
+              auth: {
+                apiKey: config.mailSettings.mandrillAPIKey
+              }
+            }));
+
+            mailOptions.mandrillOptions = {
+              template_name: config.mailSettings.requestUsernameTemplate,
+              template_content: [],
+              message: {
+                merge: true,
+                merge_language: 'handlebars',
+                global_merge_vars: [{
+                  name: 'USERNAME',
+                  content: user.username
+                }]
+              }
+            };
+
+            return mailTransport.sendMail(mailOptions)
+              .then(() => {
+                res.status(204).end();
+              })
+              .catch(validationError(res));
+          } else {
+            return res.status(403).end();
+          }
+        } else {
+          res.status(400).send({ error: 'No user matches that Email.' });
+        }
+      });
+  }
+}
+
 /**
  * Sends email to reset a users password
  */

@@ -10,6 +10,7 @@ var router = new Router();
 
 // unprotected routes
 router.post('/', bodyParser.json(), controller.create);
+router.put('/requestUsername', bodyParser.json(), controller.requestUsername);
 router.put('/resetPassword', bodyParser.json(), controller.resetPassword);
 router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
 

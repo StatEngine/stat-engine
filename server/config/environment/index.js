@@ -77,6 +77,7 @@ var all = {
 
   mailSettings: {
     serverEmail: 'noreply@statengine.io',
+    requestUsernameTemplate: 'request-username',
     resetPasswordTemplate: 'resetpassword',
     newUserTemplate: 'getting-started-statengine',
     newReportTemplate: 'new-report',
