@@ -9,8 +9,19 @@
     <h1 class="heavyheader"> {{ vm.weather.temperature | number : 0 }} &deg;</h1>
     <h4>{{ vm.incident.description.day_of_week }}</h4>
     <hr>
-    <label class="tx-semibold"> Feels like: </label> {{ vm.weather.apparentTemperature | number : 0  }} &deg; <br>
-    <span ng-if="vm.weather.precipProbability"> label> Precipiation: </label> {{ vm.weather.precipProbability*100 | number : 0 }}% of {{ vm.weather.precipType }}<br></span>
-    <label class="tx-semibold"> Wind: </label> {{ vm.weather.windSpeed | number : 0 }} mph with gusts up to {{ vm.weather.windGust | number : 0  }} mph<br>
+    <div>
+      <label class="tx-semibold">Feels Like:</label>
+      <span>{{ vm.weather.apparentTemperature | number : 0  }} &deg;</span>
+    </div>
+
+    <div ng-if="vm.weather.precipProbability">
+      <label class="tx-semibold">Precipitation:</label>
+      <span>{{ vm.weather.precipProbability*100 | number : 0 }}% chance of {{ vm.weather.precipType }}</span>
+    </div>
+
+    <div>
+      <label class="tx-semibold">Wind:</label>
+      <span>{{ vm.weather.windSpeed | number : 0 }} mph with gusts up to {{ vm.weather.windGust | number : 0  }} mph</span>
+    </div>
   </div>
 </div>
