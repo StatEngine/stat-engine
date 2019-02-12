@@ -1,0 +1,35 @@
+<div class="container-fluid signup-container">
+  <div class="row animated fadeInLeft">
+    <div class="col-auto mr-auto mt-3">
+      <button class="btn btn-outline btn-sm btn-oblong hvr-backward w80" ui-sref="site.account.login">
+        <i class="fa fa-arrow-left"></i>
+        Back
+      </button>
+    </div>
+  </div>
+  <div class="row my-5 justify-content-center animated fadeIn">
+    <div class="col-md-auto align-self-center">
+      <h1 class="text-center">Forgot Username</h1>
+      <form class="form form-wrapper" name="form" ng-submit="vm.requestUsername(form)" novalidate="novalidate">
+        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && vm.submitted,'has-error': form.email.$invalid && vm.submitted }">
+          <label>Enter Email</label>
+          <input type="email" name="email" class="form-control" ng-model="vm.user.email" required="required" mongoose-error="mongoose-error"/>
+          <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
+            Doesn't look like a valid email.
+          </p>
+          <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
+            What's your email address?
+          </p>
+          <p class="help-block" ng-show="form.email.$error.mongoose">
+            {{ vm.errors.email }}
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-primary btn-lg btn-oblong hvr-float w180 reset" type="submit">
+            Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

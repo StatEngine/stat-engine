@@ -164,6 +164,18 @@ if(process.env.NODE_ENV === 'development') {
         api_key: 'richmond',
         aws_access_key_id: 'awsKey',
         aws_secret_access_key: 'awsSecret',
+      }, {
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'lars',
+        first_name: 'Lars',
+        last_name: 'Kendall',
+        email: 'lars@prominentedge.com',
+        password: 'slingdang',
+        nfors: true,
+        api_key: 'richmond',
+        aws_access_key_id: 'awsKey',
+        aws_secret_access_key: 'awsSecret',
       }],
     }, {
       include: [FireDepartment.Users]
