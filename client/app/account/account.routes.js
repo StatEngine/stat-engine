@@ -49,6 +49,16 @@ export default function routes($stateProvider) {
         }
       },
     })
+    .state('site.account.forgotusername', {
+      url: '/forgotusername/',
+      views: {
+        'content@': {
+          template: require('./forgot-username/forgot-username.html'),
+          controller: 'ForgotUsernameController',
+          controllerAs: 'vm'
+        }
+      },
+    })
     .state('site.account.updatepassword', {
       url: '/updatepassword?password_token',
       views: {

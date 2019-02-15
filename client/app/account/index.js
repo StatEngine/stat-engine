@@ -8,9 +8,10 @@ import mongooseError from '../../components/mongoose-error/mongoose-error.direct
 import routing from './account.routes';
 import login from './login';
 import signup from './signup';
+import forgotUsername from './forgot-username';
 import resetpassword from './resetpassword';
 import updatepassword from './updatepassword';
 
-export default angular.module('statEngineApp.account', [uiRouter, login, signup, resetpassword, updatepassword, mongooseError])
+export default angular.module('statEngineApp.account', [uiRouter, login, signup, forgotUsername, resetpassword, updatepassword, mongooseError])
   .config(routing)
   .name;
