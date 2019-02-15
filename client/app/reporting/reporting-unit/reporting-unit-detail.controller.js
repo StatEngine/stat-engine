@@ -56,7 +56,8 @@ export default class ReportingUnitDetailController {
         displayName: 'Type',
       }, {
         field: 'description.event_closed',
-        displayName: 'Event Closed'
+        displayName: 'Event Closed',
+        cellFilter: 'date:"MMM d, y HH:mm:ss"'
       }, {
         field: 'apparatus_data.extended_data.turnout_duration',
         displayName: 'Turnout',
