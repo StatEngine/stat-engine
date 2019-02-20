@@ -16,15 +16,11 @@ export const UI = types.model({
       const now = new moment.tz(fireDepartment.timezone);
       const quickFilters = {};
 
-      const shiftStart = new moment(now).subtract(1, 'day');
-      shiftStart.set('hour', shiftly.shiftStart.substring(0, 2));
-      shiftStart.set('minutes', shiftly.shiftStart.substring(2, 4));
-      shiftStart.set('seconds', 0);
-      shiftStart.set('milliseconds', 0);
-      const shiftEnd = new moment(shiftStart).add(1, 'day');
+      const shiftTimeframe = shiftly.shiftTimeFrame(new moment.tz(fireDepartment.timezone).subtract(1, 'day').format());
+
       quickFilters.shift = {
-        start: shiftStart.format(),
-        end: shiftEnd.format(),
+        start: shiftTimeframe.start,
+        end: shiftTimeframe.end,
         interval: 'day',
         subInterval: 'hour',
       };
