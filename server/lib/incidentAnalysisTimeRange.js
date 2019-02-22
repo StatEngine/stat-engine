@@ -38,6 +38,8 @@ export function buildFireIncidentQuery(timeFilter) {
       .aggregation('percentiles', 'durations.turnout.seconds', { percents: 90 })
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 500 }, unitAgg => unitAgg
+          .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))
+        .aggregation('terms', 'apparatus.agency', { size: 500 }, unitAgg => unitAgg
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))))
     .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }})
     .aggregation('terms', 'description.type', { size: 1000, order: { _term: 'asc' }})
@@ -48,6 +50,12 @@ export function buildFireIncidentQuery(timeFilter) {
     .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
       .aggregation('percentiles', 'apparatus.distance', { percents: 90 })
       .aggregation('terms', 'apparatus.unit_id', { size: 500 }, unitAgg => unitAgg
+        .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 })
+        .aggregation('percentiles', 'apparatus.extended_data.response_duration', { percents: 90 })
+        .aggregation('value_count', 'apparatus.unit_status.transport_started.timestamp')
+        .aggregation('sum', 'apparatus.distance')
+        .aggregation('sum', 'apparatus.extended_data.event_duration'))
+      .aggregation('terms', 'apparatus.agency', { size: 500 }, agencyAgg => agencyAgg
         .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 })
         .aggregation('percentiles', 'apparatus.extended_data.response_duration', { percents: 90 })
         .aggregation('value_count', 'apparatus.unit_status.transport_started.timestamp')
@@ -69,6 +77,20 @@ function unitCategoryBucket(res, unitId) {
     cat[c.key] = {};
     let unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.unit_id"]buckets');
     let myUnit = _.find(unitBuckets, ub => ub.key === unitId);
+    if(myUnit) cat[c.key] = myUnit;
+  });
+
+  return cat;
+}
+
+function unitAgencyCategoryBucket(res, id) {
+  let cat = {};
+
+  let categories = _.get(res, 'aggregations["agg_terms_description.category"].buckets');
+  _.forEach(categories, c => {
+    cat[c.key] = {};
+    let unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.agency"]buckets');
+    let myUnit = _.find(unitBuckets, ub => ub.key === id);
     if(myUnit) cat[c.key] = myUnit;
   });
 
@@ -235,6 +257,7 @@ export class IncidentAnalysisTimeRange {
           battalion: {},
           incidentType: {},
           agencyIncidentType: {},
+          agencyResponses: {},
         };
 
         fireDepartmentMetrics.forEach(metric => {
@@ -258,9 +281,26 @@ export class IncidentAnalysisTimeRange {
             metric.setter(comparison.unit[key], { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
           });
         });
+
+        comparison.agencyResponses = analyzeAggregate(results, 'aggregations.apparatus["agg_terms_apparatus.agency"]buckets', unitMetrics);
+        _.forOwn(comparison.agencyResponses, (u, key) => {
+          let currentBucket = unitAgencyCategoryBucket(results[0], key);
+          let previousBucket = unitAgencyCategoryBucket(results[1], key);
+
+          unitCategoryMetrics.forEach(metric => {
+            let val = metric.getter(currentBucket);
+            if(_.isNil(val)) val = 0;
+            const previousVal = metric.getter(previousBucket);
+            const percentChange = computePercentChange(val, previousVal);
+            metric.setter(comparison.agencyResponses[key], { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
+          });
+        });
+
         comparison.battalion = analyzeAggregate(results, 'aggregations["agg_terms_address.battalion"]buckets', battalionMetrics);
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);
         comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription.keyword"]buckets', incidentTypeMetrics);
+
+        console.dir(comparison);
 
         return Promise.resolve(comparison);
       });

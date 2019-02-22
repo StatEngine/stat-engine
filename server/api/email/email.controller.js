@@ -272,10 +272,12 @@ export function setEmailMergeVars(req, res, next) {
     _formatAlerts(req.ruleAnalysis, req.reportOptions),
     _formatFireDepartmentMetrics(req.comparison, req.reportOptions),
     _formatAggregateMetrics('unit', unitMetricConfigs, req.comparison, req.reportOptions),
+    _formatAggregateMetrics('agencyResponses', unitMetricConfigs, req.comparison, req.reportOptions),
     _formatAggregateMetrics('battalion', battalionMetricConfigs, req.comparison, req.reportOptions),
     _formatAggregateMetrics('incidentType', incidentTypeMetricConfigs, req.comparison, req.reportOptions),
     _formatAggregateMetrics('agencyIncidentType', agencyIncidentTypeMetricConfigs, req.comparison, req.reportOptions),
   ];
+  console.dir(req.mergeVars)
   req.subject = description.content.title;
 
   next();
