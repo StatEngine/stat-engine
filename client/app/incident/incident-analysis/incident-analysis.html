@@ -1,4 +1,4 @@
-<!-- BINGLES TODO: 
+<!-- BINGLES TODO:
   - Refine responsiveness for visualizations and census/parcel data cards
 -->
 
@@ -44,6 +44,16 @@
                         <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText">
                             because {{ vm.incident.description.suppressionText }} </span>.
                           <br>If you think this has occurred in error, please let us know.
+                      </div>
+                      <hr>
+                    </div>
+                    <div ng-if="vm.suppressedUnits">
+                      <div class="alert alert-danger text-center mx-5 my-2" role="alert">
+                        <p>Some respones have been suppressed from analysis due to these irregularities: <span ng-if="vm.incident.description.suppressionText"> </span>
+                          <ul>
+                            <li ng-repeat="unit in vm.suppressedUnits"><strong>{{unit.suppressedText}}</strong></li>
+                          </ul>
+                          If you think this has occurred in error, please let us know.
                       </div>
                       <hr>
                     </div>
