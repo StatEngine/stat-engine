@@ -49,7 +49,7 @@
                     </div>
                     <div ng-if="vm.suppressedUnits">
                       <div class="alert alert-danger text-center mx-5 my-2" role="alert">
-                        <p>Some respones have been suppressed from analysis due to these irregularities: <span ng-if="vm.incident.description.suppressionText"> </span>
+                        <p>Some responses have been suppressed from analysis due to these irregularities: <span ng-if="vm.incident.description.suppressionText"> </span>
                           <ul>
                             <li ng-repeat="unit in vm.suppressedUnits"><strong>{{unit.suppressedText}}</strong></li>
                           </ul>
