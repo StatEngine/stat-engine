@@ -1,5 +1,5 @@
 <div ng-if="vm.initialized">
-  <div class="incidents-table-desktop hidden-lg-down">
+  <div class="incidents-table-desktop">
     <div
       class="search-grid"
       ui-grid="vm.uiGridOptions"
@@ -23,7 +23,7 @@
   </div>
 
   <!-- Incidents (mobile) -->
-  <div class="incidents-table-mobile hidden-xl-up">
+  <div class="incidents-table-mobile">
     <table-controls
       pagination="vm.pagination"
       sort="vm.sortSelect"
@@ -34,7 +34,7 @@
     ></table-controls>
 
     <!-- Incidents table -->
-    <div class="incidents-mobile-table">
+    <div class="table">
       <loading-overlay ng-if="vm.isLoading" show-spinner="false"></loading-overlay>
 
       <div

@@ -1,3 +1,5 @@
+@import '../../../components/table-controls/table-controls';
+
 reporting-unit-list {
   @include media-breakpoint-down(md) {
     .br-mailbox-list {
@@ -312,6 +314,30 @@ reporting-unit-list {
   incidents-table {
     flex: 1;
     margin-bottom: 4rem;
+
+    .incidents-table-desktop {
+      display: initial !important;
+
+      @media screen and (max-width: 1460px) {
+        display: none !important;
+      }
+    }
+
+    .incidents-table-mobile {
+      display: initial !important;
+
+      @media screen and (min-width: 1461px) {
+        display: none !important;
+      }
+
+      .table {
+        @include table($max-width: 1460px);
+      }
+    }
+
+    table-controls {
+      @include table-controls($breakpoint: 1260px);
+    }
   }
 }
 

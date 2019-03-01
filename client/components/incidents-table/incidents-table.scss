@@ -1,5 +1,9 @@
 incidents-table {
   .incidents-table-desktop {
+    @include media-breakpoint-down(lg) {
+      display: none;
+    }
+
     .search-grid {
       height: 61vh;
 
@@ -25,7 +29,11 @@ incidents-table {
   }
 
   .incidents-table-mobile {
-    .incidents-mobile-table {
+    @include media-breakpoint-up(xl) {
+      display: none;
+    }
+
+    .table {
       @include table($max-width: 1200px);
       position: relative;
     }
