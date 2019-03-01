@@ -163,6 +163,12 @@ export default class ReportingUnitController {
       if(this.overlay) {
         this.resizeOverlay(this.overlay);
       }
+
+      // If we just resized from mobile to desktop and a unit isn't selected, automatically select the first one.
+      if(this.$window.innerWidth >= 992 && this.selectedUnitId == null) {
+        this.selectedUnitId = Store.unitStore.allUnits[0].id;
+        this.fetchUnitData();
+      }
     });
   }
 
