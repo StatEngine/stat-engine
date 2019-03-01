@@ -17,7 +17,7 @@ export default function routes($stateProvider) {
       },
     })
     .state('site.reporting.unit', {
-      url: '/reporting/units',
+      url: '/reporting/units?time',
       views: {
         'content@': {
           template: require('./reporting-unit/reporting-unit.html'),
@@ -28,34 +28,7 @@ export default function routes($stateProvider) {
       data: {
         roles: ['user']
       },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity(true);
-        },
-        units() {
-          return Store.unitStore.fetchUnits();
-        },
-        buildFilters(currentPrincipal) {
-          return Store.uiStore.buildFilters(currentPrincipal.FireDepartment);
-        },
-        redirectMe($state, units, $stateParams) {
-          let id = $stateParams.id || Store.unitStore.allUnits[0].id;
-          return $state.go('site.reporting.unit.detail', { id, time: 'shift' });
-        }
-      },
-    })
-    .state('site.reporting.unit.detail', {
-      url: '/:id?time',
-      views: {
-        'content@': {
-          template: require('./reporting-unit/reporting-unit-detail.html'),
-          controller: 'ReportingUnitDetailController',
-          controllerAs: 'vm'
-        },
-      },
-      data: {
-        roles: ['user']
-      },
+      reloadOnSearch: false,
       resolve: {
         deps($ocLazyLoad) {
           return import(/* webpackChunkName: "ui-grid" */ 'angular-ui-grid/ui-grid')
@@ -68,39 +41,21 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        selectUnit($stateParams) {
-          return Store.unitStore.select($stateParams.id);
+        units() {
+          return Store.unitStore.fetchUnits();
         },
-        selectTime($stateParams) {
-          return Store.uiStore.setTimeFilter($stateParams.time);
-        },
-        fetchResponses(selectTime, selectUnit, $stateParams) {
-          return Store.unitStore.fetchSelectedResponses($stateParams.id, {
-            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
-            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
-          });
-        },
-        fetchMetrics(selectTime, selectUnit, $stateParams) {
-          return Store.unitStore.fetchSelectedMetrics($stateParams.id, {
-            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
-            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
-            subInterval: Store.uiStore.selectedFilters.timeFilter.filter.subInterval
-          });
-        },
-        fetchPreviousMetrics(selectTime, selectUnit, $stateParams) {
-          return Store.unitStore.fetchSelectedPreviousMetrics($stateParams.id, {
-            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
-            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
-            subInterval: Store.uiStore.selectedFilters.timeFilter.filter.subInterval
-          });
-        },
-        fetchTotalMetrics(selectTime, selectUnit, $stateParams) {
-          return Store.unitStore.fetchSelectedTotalMetrics($stateParams.id, {
-            timeStart: Store.uiStore.selectedFilters.timeFilter.filter.start,
-            timeEnd: Store.uiStore.selectedFilters.timeFilter.filter.end,
-            interval: Store.uiStore.selectedFilters.timeFilter.filter.interval
-          });
-        },
+        redirect(units, $window, $state, $stateParams) {
+          let selectedUnitId = $stateParams['#'];
+          if(selectedUnitId != null) {
+            return
+          }
+
+          const isLargeScreen = ($window.innerWidth >= 992);
+          if(isLargeScreen) {
+            selectedUnitId = Store.unitStore.allUnits[0].id;
+            $state.go('site.reporting.unit', { '#': selectedUnitId, time: $stateParams.time });
+          }
+        }
       },
     });
 }

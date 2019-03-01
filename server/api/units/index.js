@@ -13,9 +13,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.setIndex,
-  controller.buildQuery,
-  controller.searchUnits,
+  controller.getUnits,
 );
 
 router.get(
@@ -23,9 +21,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  metricsController.setApparatusIndex,
-  metricsController.buildResponsesQuery,
-  metricsController.runResponsesQuery,
+  metricsController.getResponses,
 );
 
 router.get(
@@ -33,9 +29,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  metricsController.setIncidentIndex,
-  metricsController.buildQuery,
-  metricsController.runQuery,
+  metricsController.getMetrics,
 );
 
 router.get(
@@ -43,9 +37,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  metricsController.setApparatusIndex,
-  metricsController.buildTotalQuery,
-  metricsController.runTotalQuery,
+  metricsController.getMetricsTotal,
 );
 
 

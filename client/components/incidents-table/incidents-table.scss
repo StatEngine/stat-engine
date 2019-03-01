@@ -1,5 +1,5 @@
-.incident-search {
-  .incidents-desktop {
+incidents-table {
+  .incidents-table-desktop {
     .search-grid {
       height: 61vh;
 
@@ -24,7 +24,7 @@
     }
   }
 
-  .incidents-mobile {
+  .incidents-table-mobile {
     .incidents-mobile-table {
       @include table($max-width: 1200px);
       position: relative;

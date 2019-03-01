@@ -9,10 +9,18 @@ let _;
 let Timeline;
 
 export default class IncidentApparatusTimelineComponent {
+  initialized = false;
+
   constructor($window) {
     'ngInject';
 
     this.$window = $window;
+
+    this.$window.addEventListener('resize', () => {
+      if(this.timeline != null) {
+        this.timeline.redraw();
+      }
+    });
   }
 
   async loadModules() {
@@ -24,6 +32,26 @@ export default class IncidentApparatusTimelineComponent {
   async $onInit() {
     await this.loadModules();
 
+    this.updateTimeline();
+
+    this.initialized = true;
+  }
+
+  $onDestroy() {
+    if(this.timeline) {
+      this.timeline.destroy();
+    }
+  }
+
+  async $onChanges() {
+    if(!this.initialized) {
+      return
+    }
+
+    this.updateTimeline();
+  }
+
+  async updateTimeline() {
     const items = [];
     const groups = [];
 
@@ -58,93 +86,104 @@ export default class IncidentApparatusTimelineComponent {
       }
     });
 
-    // Configuration for the Timeline
-    var options = {
-      selectable: false,
-      stack: false,
-      verticalScroll: true,
-      maxHeight: 500,
-      zoomable: false,
-      start: new Date(0),
-      min: new Date(0),
-      format: {
-        minorLabels: (date, scale, step) => {
-          var epoch = new Date(0);
-          var duration = date - epoch;
-          var divider;
-          switch (scale) {
-          case 'millisecond':
-            divider = 1;
-            break;
-          case 'second':
-            divider = 1000;
-            break;
-          case 'minute':
-            divider = 1000 * 60;
-            break;
-          case 'hour':
-            divider = 1000 * 60 * 60;
-            break;
-          case 'day':
-            divider = 1000 * 60 * 60 * 24;
-            break;
-          case 'weekday':
-            divider = 1000 * 60 * 60 * 24 * 7;
-            break;
-          case 'month':
-            divider = 1000 * 60 * 60 * 24 * 30;
-            break;
-          case 'year':
-            divider = 1000 * 60 * 60 * 24 * 365;
-            break;
-          default:
-            return new Date(date);
-          }
-          return `${Math.round(duration * step / divider)}m`;
-        },
-        majorLabels: (date, scale, step) => {
-          var epoch = new Date(0);
-          var duration = date - epoch;
-          var divider;
-          switch (scale) {
-          case 'millisecond':
-            divider = 1;
-            break;
-          case 'second':
-            divider = 1000;
-            break;
-          case 'minute':
-            divider = 1000 * 60;
-            break;
-          case 'hour':
-            divider = 1000 * 60 * 60;
-            break;
-          case 'day':
-            divider = 1000 * 60 * 60 * 24;
-            break;
-          case 'weekday':
-            divider = 1000 * 60 * 60 * 24 * 7;
-            break;
-          case 'month':
-            divider = 1000 * 60 * 60 * 24 * 30;
-            break;
-          case 'year':
-            divider = 1000 * 60 * 60 * 24 * 365;
-            break;
-          default:
-            return new Date(date);
-          }
-          return `${Math.round(duration * step / divider)}m`;
-        }
+    if(this.timeline) {
+      // Update timeline.
+      this.timeline.setData({
+        items,
+        groups,
+      });
+      this.timeline.redraw();
+    } else {
+      // HACK: If we don't have any data, don't create the table yet. This fixes an issue where the table
+      // won't update with new data after initializing without any data.
+      if(groups.length === 0) {
+        return;
       }
-    };
 
-    this.element = angular.element(document.querySelector('#apparatus-timeline'));
-    // eslint-disable-next-line
-    this.timeline = new Timeline(this.element[0], items, groups, options);
-  }
+      // Create timeline.
+      const options = {
+        selectable: false,
+        stack: false,
+        verticalScroll: true,
+        height: '100%',
+        maxHeight: '100%',
+        zoomable: false,
+        start: new Date(0),
+        min: new Date(0),
+        format: {
+          minorLabels: (date, scale, step) => {
+            const epoch = new Date(0);
+            const duration = date - epoch;
+            let divider;
+            switch (scale) {
+              case 'millisecond':
+                divider = 1;
+                break;
+              case 'second':
+                divider = 1000;
+                break;
+              case 'minute':
+                divider = 1000 * 60;
+                break;
+              case 'hour':
+                divider = 1000 * 60 * 60;
+                break;
+              case 'day':
+                divider = 1000 * 60 * 60 * 24;
+                break;
+              case 'weekday':
+                divider = 1000 * 60 * 60 * 24 * 7;
+                break;
+              case 'month':
+                divider = 1000 * 60 * 60 * 24 * 30;
+                break;
+              case 'year':
+                divider = 1000 * 60 * 60 * 24 * 365;
+                break;
+              default:
+                return new Date(date);
+            }
+            return `${Math.round(duration * step / divider)}m`;
+          },
+          majorLabels: (date, scale, step) => {
+            const epoch = new Date(0);
+            const duration = date - epoch;
+            let divider;
+            switch (scale) {
+              case 'millisecond':
+                divider = 1;
+                break;
+              case 'second':
+                divider = 1000;
+                break;
+              case 'minute':
+                divider = 1000 * 60;
+                break;
+              case 'hour':
+                divider = 1000 * 60 * 60;
+                break;
+              case 'day':
+                divider = 1000 * 60 * 60 * 24;
+                break;
+              case 'weekday':
+                divider = 1000 * 60 * 60 * 24 * 7;
+                break;
+              case 'month':
+                divider = 1000 * 60 * 60 * 24 * 30;
+                break;
+              case 'year':
+                divider = 1000 * 60 * 60 * 24 * 365;
+                break;
+              default:
+                return new Date(date);
+            }
+            return `${Math.round(duration * step / divider)}m`;
+          }
+        }
+      };
 
-  $onDestroy() {
-    if(this.timeline) this.timeline.destroy();
+      this.element = angular.element(document.querySelector('#apparatus-timeline'));
+      this.timeline = new Timeline(this.element[0], items, groups, options);
+    }
   }
 }

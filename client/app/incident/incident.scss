@@ -1,5 +1,3 @@
-@import 'incident-search/incident-search.scss';
-
 // Baseline style for statistical units found in the card layout
 .stat {
     align-items: center;
@@ -236,11 +234,10 @@ current-weather {
         }
     }
     @media (max-width: 991px) {
-        margin: 3rem 0 0 9rem;
+        margin: 3rem 3rem 0;
         li {
-            display: inline-block;
+            display: block;
             margin-bottom: .65rem;
-            min-width: 18rem;
         }
     }
 }

@@ -1142,6 +1142,11 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   &.active:hover {
     color: darken($color-pickled-bluewood, 10%);
   }
+
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 
@@ -1315,6 +1320,12 @@ span+.logged-name {
   letter-spacing: 0.5px;
 }
 
+.br-pagetitle {
+  > div {
+    margin-top: 0;
+  }
+}
+
 @include media-breakpoint-up(sm) {
   .br-pageheader {
     padding: 15px 25px;
@@ -1370,6 +1381,29 @@ span+.logged-name {
   }
 }
 
+// Cursor
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// Plotly
+.js-plotly-plot .plotly .modebar {
+  z-index: 1 !important;
+}
+
+// Breadcrumbs
+.breadcrumb-item {
+  &.active, &[disabled] {
+    cursor: auto;
+  }
+
+  &[disabled] {
+    &:hover {
+      color: $gray-600 !important;
+    }
+  }
+}
+
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -1403,4 +1437,5 @@ span+.logged-name {
 @import '../components/loading-spinner/loading-spinner';
 @import '../components/loading-overlay/loading-overlay';
 @import '../components/table-controls/table-controls';
+@import '../components/incidents-table/incidents-table';
 // endinject //

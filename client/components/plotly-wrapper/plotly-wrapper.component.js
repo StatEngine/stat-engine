@@ -5,11 +5,12 @@ import angular from 'angular';
 let PlotlyBasic;
 
 export class PlotlyWrapperComponent {
-  constructor($scope, $window) {
-    'ngInject';
+  trace;
+  layout;
+  initialized = false;
 
-    this.$window = $window;
-    this.$scope = $scope;
+  constructor($scope) {
+    'ngInject';
 
     this.id = $scope.$id.toString();
   }
@@ -18,20 +19,21 @@ export class PlotlyWrapperComponent {
     PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
   }
 
-  onResize() {
-    PlotlyBasic.Plots.resize(this.id);
-  }
-
-  $onDestroy() {
-    angular.element(this.$window).off('resize', this.onResize);
-  }
-
   async $onInit() {
     await this.loadModules();
 
-    angular.element(this.$window).on('resize', this.onResize);
+    PlotlyBasic.newPlot(this.id, this.trace, this.layout, { responsive: true });
 
-    PlotlyBasic.newPlot(this.id, this.trace, this.layout);
+    this.initialized = true;
+  }
+
+  async $onChanges() {
+    if(!this.initialized) {
+      return;
+    }
+
+    // Update the plot.
+    PlotlyBasic.react(this.id, this.trace, this.layout);
   }
 }
 

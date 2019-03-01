@@ -3,14 +3,12 @@ import _ from 'lodash';
 
 import connection from '../../elasticsearch/connection';
 
-export function setIncidentIndex(req, res, next) {
-  req.index = req.user.FireDepartment.get().es_indices['fire-incident'];
-  return next();
+function getApparatusIndex(req) {
+  return req.user.FireDepartment.get().es_indices['apparatus-fire-incident'];
 }
 
-export function setApparatusIndex(req, res, next) {
-  req.index = req.user.FireDepartment.get().es_indices['apparatus-fire-incident'];
-  return next();
+function getIncidentIndex(req) {
+  return req.user.FireDepartment.get().es_indices['fire-incident'];
 }
 
 function setMetricGroups(agg) {
@@ -33,8 +31,26 @@ function setUnitMetricGroups(agg) {
     .aggregation('sum', 'apparatus_data.extended_data.event_duration');
 }
 
-export function buildResponsesQuery(req, res, next) {
-  let base = bodybuilder()
+export function getResponses(req, res) {
+  const timeStart = req.query.timeStart;
+  const timeEnd = req.query.timeEnd;
+  const from = req.query.from || 0;
+  const size = req.query.size || 10;
+
+  let sort;
+  if(req.query.sort) {
+    sort = req.query.sort.split('+')
+      .map(sortItem => {
+        const [fieldName, direction] = sortItem.split(',');
+        return { [fieldName]: direction };
+      });
+  } else {
+    sort = [{
+      'description.event_closed': 'desc',
+    }];
+  }
+
+  const esBodyBuilder = bodybuilder()
     .rawOption('_source', [
       'description.incident_number',
       'description.category',
@@ -50,24 +66,33 @@ export function buildResponsesQuery(req, res, next) {
     .filter('term', 'description.suppressed', false)
     .filter('term', 'apparatus_data.suppressed', false)
     .filter('term', 'apparatus_data.unit_id', req.params.id)
-    .sort('description.event_opened', 'desc');
-
-  let timeStart = _.get(req, 'query.timeStart');
-  let timeEnd = _.get(req, 'query.timeEnd');
+    .sort(sort)
+    .from(from)
+    .size(size);
 
   if(timeStart && timeEnd) {
-    base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
+    esBodyBuilder.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }
 
-  req.esBody = base
-    .size(10000)
-    .build();
-
-  next();
+  connection.getClient().search({
+    index: getApparatusIndex(req),
+    body: esBodyBuilder.build(),
+  })
+    .then(esRes => {
+      res.json({
+        items: esRes.hits.hits.map(h => h._source),
+        totalItems: esRes.hits.total,
+      });
+    });
 }
 
-export function buildQuery(req, res, next) {
-  let base = bodybuilder()
+export function getMetrics(req, res) {
+  const unitId = req.params.id;
+  const timeStart = req.query.timeStart;
+  const timeEnd = req.query.timeEnd;
+  const subInterval = req.query.subInterval;
+
+  const base = bodybuilder()
     .filter('term', 'description.suppressed', false);
 
   base.aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
@@ -81,41 +106,125 @@ export function buildQuery(req, res, next) {
     .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
       .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => setMetricGroups(unitAgg))));
 
-  base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: req.query.subInterval }, dateAgg => dateAgg
+  base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: subInterval }, dateAgg => dateAgg
     .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
       .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => setMetricGroups(unitAgg))));
 
-  base.aggregation('date_histogram', 'description.event_opened_by_category', { field: 'description.event_opened', interval: req.query.subInterval }, dateAgg => dateAgg
+  base.aggregation('date_histogram', 'description.event_opened_by_category', { field: 'description.event_opened', interval: subInterval }, dateAgg => dateAgg
     .aggregation('terms', 'description.category', cagg => cagg
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 1000 }, unitAgg => setMetricGroups(unitAgg)))));
-
-  let timeStart = _.get(req, 'query.timeStart');
-  let timeEnd = _.get(req, 'query.timeEnd');
 
   if(timeStart && timeEnd) {
     base.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }
 
-  req.esBody = base
+  const esBody = base
     .size(0)
     .build();
 
-  next();
+  connection.getClient().search({
+    index: getIncidentIndex(req),
+    body: esBody,
+  })
+    .then(esRes => {
+      const api_response = {
+        total_data: {},
+        grouped_data: {
+          category: {},
+          population_density: {}
+        },
+        time_series_data: {
+          total_data: {},
+          grouped_data: {
+            category: {}
+          },
+        },
+      };
+
+      // total data
+      const apparatusBuckets = esRes.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets;
+      let totalMetrics = {};
+      _.forEach(apparatusBuckets, b => {
+        totalMetrics[b.key] = getMetricsFromBucket(metrics, b);
+      });
+      const rankedMetrics = rankBuckets(totalMetrics);
+      api_response.total_data = rankedMetrics[unitId];
+
+      // grouped data
+      const categoryBuckets = esRes.aggregations['agg_terms_description.category'].buckets;
+      _.forEach(categoryBuckets, categoryBucket => {
+        if(_.isNil(api_response.grouped_data.category[categoryBucket.key])) api_response.grouped_data.category[categoryBucket.key] = {};
+        const categoryApparatusBuckets = categoryBucket.apparatus["agg_terms_apparatus.unit_id"].buckets;
+        const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
+        api_response.grouped_data.category[categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
+      });
+
+      // time series data
+      const timeSeriesBuckets = esRes.aggregations['agg_date_histogram_description.event_opened'].buckets;
+      _.forEach(timeSeriesBuckets, timeBucket => {
+        if(_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
+        const timeSeriesApparatusBuckets = timeBucket.apparatus['agg_terms_apparatus.unit_id'].buckets;
+        const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
+        api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(metrics, myTimeBucket);
+      });
+
+      const timeSeriesCategoryBuckets = esRes.aggregations['agg_date_histogram_description.event_opened_by_category'].buckets;
+      _.forEach(timeSeriesCategoryBuckets, timeCategoryBucket => {
+        if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string])) api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string] = {};
+        const tcategoryBuckets = timeCategoryBucket['agg_terms_description.category'].buckets;
+
+        _.forEach(tcategoryBuckets, categoryBucket => {
+          if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key])) {
+            api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = {};
+          }
+          const categoryApparatusBuckets = categoryBucket.apparatus['agg_terms_apparatus.unit_id'].buckets;
+          const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
+          api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
+        });
+      });
+
+      res.json(api_response);
+    });
 }
 
-export function buildTotalQuery(req, res, next) {
-  let base = bodybuilder()
+export function getMetricsTotal(req, res) {
+  const base = bodybuilder()
     .filter('term', 'description.suppressed', false)
     .filter('term', 'apparatus_data.unit_id', req.params.id);
 
   base.aggregation('date_histogram', 'description.event_opened', { field: 'description.event_opened', interval: req.query.interval }, dateAgg => setUnitMetricGroups(dateAgg));
 
-  req.esBody = base
+  const esBody = base
     .size(0)
     .build();
 
-  next();
+  connection.getClient().search({
+    index: getApparatusIndex(req),
+    body: esBody,
+  })
+    .then(esRes => {
+      // total data
+      const api_response = {
+        total_data: {},
+        grouped_data: {
+          category: {}
+        },
+        time_series_data: {
+          total_data: {},
+          grouped_data: {
+            category: {}
+          },
+        },
+      };
+
+      const timeSeriesBuckets = esRes.aggregations['agg_date_histogram_description.event_opened'].buckets;
+      _.forEach(timeSeriesBuckets, timeBucket => {
+        api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(unitMetrics, timeBucket);
+      });
+
+      res.json(api_response);
+    });
 }
 
 const metrics = [
@@ -134,7 +243,7 @@ const unitMetrics = [
   ['90_percentile_travel_duration_seconds', '["agg_percentiles_apparatus_data.extended_data.travel_duration"].values["90.0"]', { rank: 'asc' }],
 ];
 
-function getMetrics(myMetrics, bucket) {
+function getMetricsFromBucket(myMetrics, bucket) {
   const formatted = {};
   myMetrics.forEach(metric => {
     const [name, path] = metric;
@@ -146,103 +255,6 @@ function getMetrics(myMetrics, bucket) {
   });
 
   return formatted;
-}
-
-export function runTotalQuery(req, res) {
-  connection.getClient().search({
-    index: req.index,
-    body: req.esBody,
-  })
-    .then(esRes => {
-    // total data
-      const api_response = {
-        total_data: {},
-        grouped_data: {
-          category: {}
-        },
-        time_series_data: {
-          total_data: {},
-          grouped_data: {
-            category: {}
-          },
-        },
-      };
-
-      const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
-      _.forEach(timeSeriesBuckets, timeBucket => {
-        api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(unitMetrics, timeBucket);
-      });
-
-      res.json(api_response);
-    });
-}
-
-export function runQuery(req, res) {
-  const unitId = req.params.id;
-
-  connection.getClient().search({
-    index: req.index,
-    body: req.esBody,
-  })
-    .then(esRes => {
-      const api_response = {
-        total_data: {},
-        grouped_data: {
-          category: {},
-          population_density: {}
-        },
-        time_series_data: {
-          total_data: {},
-          grouped_data: {
-            category: {}
-          },
-        },
-      };
-
-      // total data
-      const apparatusBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
-      let totalMetrics = {};
-      _.forEach(apparatusBuckets, b => {
-        totalMetrics[b.key] = getMetrics(metrics, b);
-      });
-      const rankedMetrics = rankBuckets(totalMetrics);
-      api_response.total_data = rankedMetrics[unitId];
-
-      // grouped data
-      const categoryBuckets = _.get(esRes, 'aggregations["agg_terms_description.category"]buckets');
-      _.forEach(categoryBuckets, categoryBucket => {
-        if(_.isNil(api_response.grouped_data.category[categoryBucket.key])) api_response.grouped_data.category[categoryBucket.key] = {};
-        const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-        const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
-        api_response.grouped_data.category[categoryBucket.key] = getMetrics(metrics, myCatBucket);
-      });
-
-      // time series data
-      const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
-      _.forEach(timeSeriesBuckets, timeBucket => {
-        if(_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
-        const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-        const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
-        api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetrics(metrics, myTimeBucket);
-      });
-
-      const timeSeriesCategoryBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened_by_category"]buckets');
-      _.forEach(timeSeriesCategoryBuckets, timeCategoryBucket => {
-        if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string])) api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string] = {};
-        const tcategoryBuckets = _.get(timeCategoryBucket, '["agg_terms_description.category"]buckets');
-
-        _.forEach(tcategoryBuckets, categoryBucket => {
-          if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key])) {
-            api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = {};
-          }
-          const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-          const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
-          api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetrics(metrics, myCatBucket);
-        });
-      });
-
-      res.json(api_response);
-    });
 }
 
 export function rankBuckets(buckets) {
@@ -266,23 +278,4 @@ export function rankBuckets(buckets) {
   });
 
   return rankedBuckets;
-}
-
-export function runResponsesQuery(req, res) {
-  connection.getClient().search({
-    index: req.index,
-    body: req.esBody,
-  })
-    .then(esRes => {
-      const api_response = {
-        responses: [],
-      };
-
-      const hits = _.get(esRes, 'hits.hits');
-      if(hits) {
-        api_response.responses = _.map(hits, h => h._source);
-      }
-
-      res.json(api_response);
-    });
 }

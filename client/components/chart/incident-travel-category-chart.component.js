@@ -4,18 +4,13 @@ import moment from 'moment-timezone';
 
 let _;
 
-
 const COLORS = {
   FIRE: '#f3786b',
   EMS: '#5fb5c8',
   OTHER: '#f8b700'
 };
 export default class IncidentTravelCategoryChartComponent {
-  constructor() {
-    'ngInject';
-
-    this.initialized = false;
-  }
+  initialized = false;
 
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
@@ -24,7 +19,31 @@ export default class IncidentTravelCategoryChartComponent {
   async $onInit() {
     await this.loadModules();
 
-    this.trace = [];
+    this.layout = {
+      barmode: 'stack',
+      xaxis: {
+        title: 'Datetime',
+      },
+      yaxis: {
+        title: 'Travel Time (s)',
+      },
+    };
+
+    this.updatePlot();
+
+    this.initialized = true;
+  }
+
+  $onChanges() {
+    if(!this.initialized) {
+      return;
+    }
+
+    this.updatePlot();
+  }
+
+  updatePlot() {
+    const trace = [];
 
     let categories = [];
 
@@ -52,19 +71,9 @@ export default class IncidentTravelCategoryChartComponent {
           .format());
         curTrace.y.push(count);
       });
-      this.trace.push(curTrace);
+      trace.push(curTrace);
     });
 
-    this.layout = {
-      barmode: 'stack',
-      xaxis: {
-        title: 'Datetime',
-      },
-      yaxis: {
-        title: 'Travel Time (s)',
-      },
-    };
-
-    this.initialized = true;
+    this.trace = trace;
   }
 }

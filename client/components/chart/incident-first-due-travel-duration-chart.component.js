@@ -3,11 +3,7 @@
 let _;
 
 export default class IncidentFirstDueTravelDurationChartComponent {
-  constructor() {
-    'ngInject';
-
-    this.initialized = false;
-  }
+  initialized = false;
 
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
@@ -16,8 +12,24 @@ export default class IncidentFirstDueTravelDurationChartComponent {
   async $onInit() {
     await this.loadModules();
 
-    this.trace = [];
+    this.layout = {
+      barmode: 'group'
+    };
 
+    this.updatePlot();
+
+    this.initialized = true;
+  }
+
+  $onChanges() {
+    if(!this.initialized) {
+      return;
+    }
+
+    this.updatePlot();
+  }
+
+  updatePlot() {
     let firstDueTrace = {
       x: [],
       y: [],
@@ -39,13 +51,6 @@ export default class IncidentFirstDueTravelDurationChartComponent {
       nonFirstDueTrace.y.push(d.id_data.non_first_due_travel);
     });
 
-    this.trace.push(firstDueTrace);
-    this.trace.push(nonFirstDueTrace);
-
-    this.layout = {
-      barmode: 'group'
-    };
-
-    this.initialized = true;
+    this.trace = [firstDueTrace, nonFirstDueTrace];
   }
 }

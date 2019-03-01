@@ -2,9 +2,8 @@
 
 import angular from 'angular';
 import ReportingUnitController from './reporting-unit.controller';
-import ReportingUnitDetailController from './reporting-unit-detail.controller';
+import incidentsTable from '../../../components/incidents-table/incidents-table.component';
 
-export default angular.module('stateEngineApp.reporting.unit', [])
+export default angular.module('stateEngineApp.reporting.unit', [incidentsTable])
   .controller('ReportingUnitController', ReportingUnitController)
-  .controller('ReportingUnitDetailController', ReportingUnitDetailController)
   .name;

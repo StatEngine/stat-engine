@@ -1,23 +1,33 @@
-<div class="bar-gauge-wrapper">
-    <div class="bar-gauge">
-      <div class="bar-gauge-first"></div>
-      <div class="bar-gauge-second"></div>
-      <div class="bar-gauge-third"></div>
-      <div class="bar-gauge-fourth"></div>
-      <div class="bar-gauge-fifth"></div>
-    </div>
-    <div class="bar-gauge-needle-group">
-      <div class="bar-gauge-needle-text">{{vm.duration ? (vm.value|humanizeDuration:true) : (vm.value|number:0)}} <span class="text-uppercase">is {{ vm.category}}</span></div>
-      <div class="bar-gauge-needle"></div>
-    </div>
-    <div class="bar-guage-min pull-left bar-gauge-label bar-gauge-label-min text-uppercase">{{vm.minLabel || 'Low'}}</div>
-    <div class="bar-guage-mid bar-gauge-label bar-gauge-label-mid text-center text-uppercase">TYPICAL</div>
-    <div class="bar-guage-max pull-right bar-gauge-label bar-gauge-label-max text-uppercase">{{vm.maxLabel || 'High'}}</div>
-
-    <div class="bar-gauge-description" style="height: 60px; display: relative">
-      <div><div class="dot low"></div> <span class="pl-1 font-weight-bold">{{vm.minLabel || 'Low'}}</span>: {{vm.duration ? (vm.lowValue|humanizeDuration:true) : vm.lowValue}} or less.</div>
-      <div><div class="dot medium"></div> <span class="pl-1 font-weight-bold">Typical</span>: {{vm.duration ? (vm.midRange[0]|humanizeDuration:true) : vm.midRange[0]}} to {{vm.duration ? (vm.midRange[1]|humanizeDuration:true): vm.midRange[1]}}</div>
-      <div><div class="dot high"></div> <span class="pl-1 font-weight-bold">{{vm.maxLabel || 'High'}}</span>: {{vm.duration ? (vm.highValue|humanizeDuration:true) : vm.highValue}} or more.</div>
+<div class="bar-gauge-wrapper" ng-cloak>
+  <div class="meter">
+    <div class="needle-group" ng-style="vm.needleGroupStyle">
+      <div class="needle-container" ng-style="vm.needleContainerStyle">
+        <div class="needle-text" ng-style="vm.needleTextStyle">
+          {{ vm.isDuration ? (vm.value|humanizeDuration:true) : (vm.value|number:0) }}
+          <span class="text-uppercase">is {{ vm.category }}</span>
+        </div>
+        <div class="needle"></div>
+      </div>
     </div>
 
+    <div class="blocks">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <div class="labels">
+      <div>{{vm.minLabel || 'Low'}}</div>
+      <div>TYPICAL</div>
+      <div>{{vm.maxLabel || 'High'}}</div>
+    </div>
+  </div>
+
+  <div class="description">
+    <div><div class="dot low"></div> <span class="pl-1 font-weight-bold">{{vm.minLabel || 'Low'}}</span>: {{vm.isDuration ? (vm.lowValue|humanizeDuration:true) : vm.lowValue}} or less</div>
+    <div><div class="dot medium"></div> <span class="pl-1 font-weight-bold">Typical</span>: {{vm.isDuration ? (vm.midRange[0]|humanizeDuration:true) : vm.midRange[0]}} to {{vm.isDuration ? (vm.midRange[1]|humanizeDuration:true): vm.midRange[1]}}</div>
+    <div><div class="dot high"></div> <span class="pl-1 font-weight-bold">{{vm.maxLabel || 'High'}}</span>: {{vm.isDuration ? (vm.highValue|humanizeDuration:true) : vm.highValue}} or more</div>
+  </div>
 </div>

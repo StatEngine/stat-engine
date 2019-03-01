@@ -21,10 +21,30 @@ export default class IncidentTurnoutCategoryChartComponent {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
-  async $onInit() {
+  $onInit() {
+    this.updatePlot();
+
+    this.layout = {
+      barmode: 'stack',
+      xaxis: {
+        title: 'Datetime',
+      },
+      yaxis: {
+        title: 'Turnout Time (s)',
+      },
+    };
+
+    this.initialized = true;
+  }
+
+  $onChanges() {
+    this.updatePlot();
+  }
+
+  async updatePlot() {
     await this.loadModules();
 
-    this.trace = [];
+    const trace = [];
 
     let categories = [];
 
@@ -52,19 +72,9 @@ export default class IncidentTurnoutCategoryChartComponent {
           .format());
         curTrace.y.push(count);
       });
-      this.trace.push(curTrace);
+      trace.push(curTrace);
     });
 
-    this.layout = {
-      barmode: 'stack',
-      xaxis: {
-        title: 'Datetime',
-      },
-      yaxis: {
-        title: 'Turnout Time (s)',
-      },
-    };
-
-    this.initialized = true;
+    this.trace = trace;
   }
 }
