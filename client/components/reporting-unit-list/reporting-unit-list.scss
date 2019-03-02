@@ -1,0 +1,15 @@
+.br-mailbox-list-item {
+  &::before {
+    background-color: $color-cerulean;
+  }
+
+  &.selected {
+    background-color: white !important;
+
+    &::before {
+      top: -1px;
+      bottom: -1px;
+      opacity: 1;
+    }
+  }
+}

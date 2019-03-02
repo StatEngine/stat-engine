@@ -14,6 +14,7 @@
     ng-class="{'unit-selected': (vm.selectedUnitId != null)}"
     units="vm.unitStore.allUnits"
     on-select="vm.selectUnit(selected)"
+    selected-unit-id="vm.selectedUnitId"
   ></reporting-unit-list>
 
   <div class="reporting-unit-body" ng-class="{'unit-selected': (vm.selectedUnitId != null)}">
