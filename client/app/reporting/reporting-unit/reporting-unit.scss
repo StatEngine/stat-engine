@@ -1,370 +1,372 @@
 @import '../../../components/table-controls/table-controls';
 
-reporting-unit-list {
-  @include media-breakpoint-down(md) {
-    .br-mailbox-list {
-      position: static;
-      width: 100%;
-    }
+.reporting-unit {
+  reporting-unit-list {
+    @include media-breakpoint-down(md) {
+      .br-mailbox-list {
+        position: static;
+        width: 100%;
+      }
 
-    &.unit-selected {
+      &.unit-selected {
+        display: none;
+      }
+    }
+  }
+
+  .fa-close {
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .br-pageheader {
+    margin-left: 220px;
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0;
+    }
+  }
+
+  .reporting-unit-body {
+    background: white;
+    margin-left: 220px !important;
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0 !important;
       display: none;
-    }
-  }
-}
 
-.fa-close {
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.br-pageheader {
-  margin-left: 220px;
-
-  @include media-breakpoint-down(md) {
-    margin-left: 0;
-  }
-}
-
-.reporting-unit-body {
-  background: white;
-  margin-left: 220px !important;
-
-  @include media-breakpoint-down(md) {
-    margin-left: 0 !important;
-    display: none;
-
-    &.unit-selected {
-      display: block;
-    }
-  }
-
-  .container-fluid {
-    max-width: 1200px;
-  }
-
-  .unit-name {
-    flex: 1;
-    margin: 0 1rem 0 0;
-    font-weight: bold;
-  }
-
-  .time-select {
-    @extend .form-control;
-    width: 10rem;
-  }
-
-  .section-tabs {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    padding: 1rem 25px 0;
-    border-bottom: solid 1px $input-border-color;
-
-    @include media-breakpoint-down(xs) {
-      padding: 1rem 15px 0;
-    }
-  }
-
-  .card {
-    margin: 1rem 0;
-  }
-
-  .incident-types-grid {
-    $layout-breakpoint: 1500px;
-
-    display: grid;
-    grid-template-areas:
-      'graph      bar-gauges'
-      'categories empty';
-    grid-template-columns: 75% 25%;
-
-    @media screen and (max-width: $layout-breakpoint) {
-      grid-template-areas:
-        'bar-gauges'
-        'graph     '
-        'categories';
-      grid-template-columns: 100%;
-    }
-
-    .incident-types-graph {
-      grid-area: graph;
-    }
-
-    .incident-types-bar-gauges {
-      grid-area: bar-gauges;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 20px 0;
-
-      @media screen and (max-width: $layout-breakpoint) {
-        flex-direction: row;
-        padding: 20px 20px;
-      }
-
-      @include media-breakpoint-down(xs) {
-        flex-direction: column;
-        padding: 20px 0;
-      }
-
-      .responses,
-      .commitment {
-        padding: 0 40px;
-
-        @media screen and (max-width: $layout-breakpoint) {
-          flex: 1;
-        }
-
-        @include media-breakpoint-down(xs) {
-          padding: 0 20px;
-        }
-      }
-
-      .responses-value,
-      .commitment-value {
-        @extend .tx-lato;
-        font-weight: bold;
-        margin-bottom: 1rem;
-
-        @include media-breakpoint-down(xs) {
-          font-size: 1rem;
-        }
+      &.unit-selected {
+        display: block;
       }
     }
 
-    chart-table {
-      grid-area: categories;
-      width: 100%;
-      max-width: 32rem;
-      margin: 1rem auto;
+    .container-fluid {
+      max-width: 1200px;
     }
-  }
 
-  .travel-time-card,
-  .turnout-time-card {
-    @extend .card;
+    .unit-name {
+      flex: 1;
+      margin: 0 1rem 0 0;
+      font-weight: bold;
+    }
 
-    .card-header {
-      @extend .tx-lato;
+    .time-select {
+      @extend .form-control;
+      width: 10rem;
+    }
+
+    .section-tabs {
       display: flex;
       align-items: center;
-      margin: 0;
-      padding: 1rem 1.2rem;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.5rem;
-      white-space: nowrap;
-
-      @include media-breakpoint-down(lg) {
-        font-size: 1.2rem;
-      }
+      justify-content: start;
+      padding: 1rem 25px 0;
+      border-bottom: solid 1px $input-border-color;
 
       @include media-breakpoint-down(xs) {
-        font-size: 1rem;
-      }
-
-      > * {
-        margin-right: 1rem;
-      }
-
-      > *[class*="fa-angle"] {
-        color: $gray-600;
-        font-size: 1.4em;
-      }
-
-      .time {
-        display: flex;
-        align-items: center;
-
-        percent-change {
-          display: flex;
-          margin-left: 1rem;
-        }
+        padding: 1rem 15px 0;
       }
     }
 
-    .categories {
-      display: flex;
-      margin: 10px 0 20px;
+    .card {
+      margin: 1rem 0;
+    }
 
-      .category {
-        flex: 0.33;
-        text-align: center;
+    .incident-types-grid {
+      $layout-breakpoint: 1500px;
 
-        &:not(:first-child) {
-          @extend .bd-l;
+      display: grid;
+      grid-template-areas:
+        'graph      bar-gauges'
+        'categories empty';
+      grid-template-columns: 75% 25%;
+
+      @media screen and (max-width: $layout-breakpoint) {
+        grid-template-areas:
+          'bar-gauges'
+          'graph     '
+          'categories';
+        grid-template-columns: 100%;
+      }
+
+      .incident-types-graph {
+        grid-area: graph;
+      }
+
+      .incident-types-bar-gauges {
+        grid-area: bar-gauges;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px 0;
+
+        @media screen and (max-width: $layout-breakpoint) {
+          flex-direction: row;
+          padding: 20px 20px;
         }
 
-        .category-label {
-          @extend .light-label;
-          margin-bottom: 0;
+        @include media-breakpoint-down(xs) {
+          flex-direction: column;
+          padding: 20px 0;
         }
 
-        .category-value {
-          @extend .tx-inverse;
+        .responses,
+        .commitment {
+          padding: 0 40px;
+
+          @media screen and (max-width: $layout-breakpoint) {
+            flex: 1;
+          }
+
+          @include media-breakpoint-down(xs) {
+            padding: 0 20px;
+          }
+        }
+
+        .responses-value,
+        .commitment-value {
           @extend .tx-lato;
-          display: inline;
           font-weight: bold;
-          margin-bottom: 5px;
+          margin-bottom: 1rem;
 
-          @include media-breakpoint-down(sm) {
+          @include media-breakpoint-down(xs) {
             font-size: 1rem;
           }
         }
       }
+
+      chart-table {
+        grid-area: categories;
+        width: 100%;
+        max-width: 32rem;
+        margin: 1rem auto;
+      }
+    }
+
+    .travel-time-card,
+    .turnout-time-card {
+      @extend .card;
+
+      .card-header {
+        @extend .tx-lato;
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 1rem 1.2rem;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.5rem;
+        white-space: nowrap;
+
+        @include media-breakpoint-down(lg) {
+          font-size: 1.2rem;
+        }
+
+        @include media-breakpoint-down(xs) {
+          font-size: 1rem;
+        }
+
+        > * {
+          margin-right: 1rem;
+        }
+
+        > *[class*="fa-angle"] {
+          color: $gray-600;
+          font-size: 1.4em;
+        }
+
+        .time {
+          display: flex;
+          align-items: center;
+
+          percent-change {
+            display: flex;
+            margin-left: 1rem;
+          }
+        }
+      }
+
+      .categories {
+        display: flex;
+        margin: 10px 0 20px;
+
+        .category {
+          flex: 0.33;
+          text-align: center;
+
+          &:not(:first-child) {
+            @extend .bd-l;
+          }
+
+          .category-label {
+            @extend .light-label;
+            margin-bottom: 0;
+          }
+
+          .category-value {
+            @extend .tx-inverse;
+            @extend .tx-lato;
+            display: inline;
+            font-weight: bold;
+            margin-bottom: 5px;
+
+            @include media-breakpoint-down(sm) {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    .details {
+      margin-bottom: 4rem;
+
+      .tab-pane {
+        padding-top: 1rem;
+      }
+
+      .nav-tabs {
+        padding: 0 1.5rem;
+      }
     }
   }
 
-  .details {
-    margin-bottom: 4rem;
+  .overlay {
+    position: fixed;
+    background: white;
+    z-index: 10;
+    transition: transform 0.5s, opacity 0.5s;
+    overflow: auto;
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
 
-    .tab-pane {
-      padding-top: 1rem;
+    &.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: unset;
     }
 
-    .nav-tabs {
-      padding: 0 1.5rem;
+    .overlay-inner {
+      @extend .container-fluid;
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
-  }
-}
 
-.overlay {
-  position: fixed;
-  background: white;
-  z-index: 10;
-  transition: transform 0.5s, opacity 0.5s;
-  overflow: auto;
-  opacity: 0;
-  transform: scale(0);
-  pointer-events: none;
+    .overlay-header {
+      @extend .br-pagetitle;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
 
-  &.active {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: unset;
-  }
+      .overlay-header-title {
+        @extend .h2;
+        @extend .unit-name;
 
-  .overlay-inner {
-    @extend .container-fluid;
-    flex: 1;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+        @include media-breakpoint-down(sm) {
+          font-size: 2rem;
+        }
+      }
+    }
 
-  .overlay-header {
-    @extend .br-pagetitle;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-
-    .overlay-header-title {
-      @extend .h2;
-      @extend .unit-name;
+    .overlay-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0 25px;
 
       @include media-breakpoint-down(sm) {
-        font-size: 2rem;
+        padding: 0 15px;
       }
     }
   }
 
-  .overlay-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 0 25px;
+  .timeline-overlay {
+    @extend .overlay;
 
-    @include media-breakpoint-down(sm) {
-      padding: 0 15px;
-    }
-  }
-}
-
-.timeline-overlay {
-  @extend .overlay;
-
-  .events-timeline-legend {
-    $item-height: 29px;
-    max-height: $item-height * 3;
-    display: inline-flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin-bottom: 4rem;
-
-    @include media-breakpoint-down(sm) {
-      margin: 0 0 4rem;
-    }
-
-    li {
-      height: $item-height;
-      margin: 0 2rem 0 0;
+    .events-timeline-legend {
+      $item-height: 29px;
+      max-height: $item-height * 3;
+      display: inline-flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
 
       @include media-breakpoint-down(sm) {
-        margin: 0 0.5rem 0 0;
+        margin: 0 0 4rem;
+      }
+
+      li {
+        height: $item-height;
+        margin: 0 2rem 0 0;
+
+        @include media-breakpoint-down(sm) {
+          margin: 0 0.5rem 0 0;
+        }
       }
     }
   }
-}
 
-.incidents-overlay {
-  @extend .overlay;
+  .incidents-overlay {
+    @extend .overlay;
 
-  incidents-table {
-    flex: 1;
-    margin-bottom: 4rem;
+    incidents-table {
+      flex: 1;
+      margin-bottom: 4rem;
 
-    .incidents-table-desktop {
-      display: initial !important;
+      .incidents-table-desktop {
+        display: initial !important;
 
-      @media screen and (max-width: 1460px) {
-        display: none !important;
-      }
-    }
-
-    .incidents-table-mobile {
-      display: initial !important;
-
-      @media screen and (min-width: 1461px) {
-        display: none !important;
+        @media screen and (max-width: 1460px) {
+          display: none !important;
+        }
       }
 
-      .table {
-        @include table($max-width: 1460px);
-      }
-    }
+      .incidents-table-mobile {
+        display: initial !important;
 
-    table-controls {
-      @include table-controls($breakpoint: 1260px);
+        @media screen and (min-width: 1461px) {
+          display: none !important;
+        }
+
+        .table {
+          @include table($max-width: 1460px);
+        }
+      }
+
+      table-controls {
+        @include table-controls($breakpoint: 1260px);
+      }
     }
   }
-}
 
-.progress-bar-step {
-  position:absolute;
-  margin-top:-20px;
-  z-index:1;
-  font-size: 12px;
-}
+  .progress-bar-step {
+    position:absolute;
+    margin-top:-20px;
+    z-index:1;
+    font-size: 12px;
+  }
 
-.progress-bar-label-txt {
-  float: left;
-}
+  .progress-bar-label-txt {
+    float: left;
+  }
 
-.progress-bar-label-line {
-  float: right;
-  background: #000;
-  height:50px;
-  width:4px;
-  margin-left: 5px;
-}
+  .progress-bar-label-line {
+    float: right;
+    background: #000;
+    height:50px;
+    width:4px;
+    margin-left: 5px;
+  }
 
-.progress-bar-label-percent {
-  float: right;
-  margin-left: 5px;
-}
+  .progress-bar-label-percent {
+    float: right;
+    margin-left: 5px;
+  }
 
-.ml-50-percent {
-  margin-left: 50%;
+  .ml-50-percent {
+    margin-left: 50%;
+  }
 }
