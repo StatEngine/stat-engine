@@ -15,6 +15,10 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
     }
   }
 
+  function getRenewSubscriptionHelpText() {
+    return `To renew your subscription, contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.`
+  }
+
   function showSubscriptionExpiredWarning(daysSinceCancellation) {
     const daysRemaining = daysToRenewSubscription - daysSinceCancellation;
     const daysRemainingText = (daysRemaining === 1) ? `${daysRemaining} day` : `${daysRemaining} days`;
@@ -23,7 +27,7 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
       content: `
         Please renew your subscription. You have <strong>${daysRemainingText}</strong> remaining before your service will be suspended.<br/>
         <br/>
-        To renew your subscription, click "Manage Subscription" on the menu or contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.
+        ${getRenewSubscriptionHelpText()}
       `,
       showCloseButton: false,
       enableBackdropDismiss: false,
@@ -37,7 +41,7 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
       content = `
         Your subscription renewal grace period has elapsed and service has been suspended.<br/>
         <br/>
-        To renew your subscription, click "Manage Subscription" on the menu or contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble (<i class="fa fa-comments"></i>) in the lower right corner.
+        ${getRenewSubscriptionHelpText()}
       `
     } else {
       content = "Your department's subscription has expired and service has been suspended. Please contact your department administrator to restore service.";
