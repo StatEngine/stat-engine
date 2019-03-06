@@ -4,6 +4,7 @@
   reporting-unit-list {
     .br-mailbox-list {
       left: auto;
+      z-index: auto;
     }
 
     @include media-breakpoint-down(md) {
