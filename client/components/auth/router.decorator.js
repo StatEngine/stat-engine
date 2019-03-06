@@ -88,19 +88,19 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
     if(subscription && subscription.status === 'cancelled') {
       const canceledAt = moment(subscription.cancelled_at * 1000);
       const daysSinceCancellation = moment().diff(canceledAt, 'days');
-      // if(daysSinceCancellation < daysToRenewSubscription) {
-      //   if(currentPrincipal.isDepartmentAdmin) {
-      //     // Only show the warning once per day.
-      //     const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
-      //     const daysSinceShown = moment().diff(shownAt, 'days');
-      //     if(daysSinceShown >= 1) {
-      //       showSubscriptionExpiredWarning(daysSinceCancellation);
-      //       $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
-      //     }
-      //   }
-      // } else {
+      if(daysSinceCancellation < daysToRenewSubscription) {
+        if(currentPrincipal.isDepartmentAdmin) {
+          // Only show the warning once per day.
+          const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
+          const daysSinceShown = moment().diff(shownAt, 'days');
+          if(daysSinceShown >= 1) {
+            showSubscriptionExpiredWarning(daysSinceCancellation);
+            $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
+          }
+        }
+      } else {
         showSubscriptionExpired();
-      // }
+      }
     }
   }
 
