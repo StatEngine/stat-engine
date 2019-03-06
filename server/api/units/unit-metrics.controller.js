@@ -143,8 +143,8 @@ export function getMetrics(req, res) {
       };
 
       // total data
-      const apparatusBuckets = esRes.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets;
-      let totalMetrics = {};
+      const apparatusBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
+      const totalMetrics = {};
       _.forEach(apparatusBuckets, b => {
         totalMetrics[b.key] = getMetricsFromBucket(metrics, b);
       });
@@ -152,33 +152,33 @@ export function getMetrics(req, res) {
       api_response.total_data = rankedMetrics[unitId];
 
       // grouped data
-      const categoryBuckets = esRes.aggregations['agg_terms_description.category'].buckets;
+      const categoryBuckets = _.get(esRes, 'aggregations["agg_terms_description.category"]buckets');
       _.forEach(categoryBuckets, categoryBucket => {
         if(_.isNil(api_response.grouped_data.category[categoryBucket.key])) api_response.grouped_data.category[categoryBucket.key] = {};
-        const categoryApparatusBuckets = categoryBucket.apparatus["agg_terms_apparatus.unit_id"].buckets;
+        const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
         const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
         api_response.grouped_data.category[categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
       });
 
       // time series data
-      const timeSeriesBuckets = esRes.aggregations['agg_date_histogram_description.event_opened'].buckets;
+      const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
       _.forEach(timeSeriesBuckets, timeBucket => {
         if(_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
-        const timeSeriesApparatusBuckets = timeBucket.apparatus['agg_terms_apparatus.unit_id'].buckets;
+        const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
         const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
         api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(metrics, myTimeBucket);
       });
 
-      const timeSeriesCategoryBuckets = esRes.aggregations['agg_date_histogram_description.event_opened_by_category'].buckets;
+      const timeSeriesCategoryBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened_by_category"]buckets');
       _.forEach(timeSeriesCategoryBuckets, timeCategoryBucket => {
         if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string])) api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string] = {};
-        const tcategoryBuckets = timeCategoryBucket['agg_terms_description.category'].buckets;
+        const tcategoryBuckets = _.get(timeCategoryBucket, '["agg_terms_description.category"]buckets');
 
         _.forEach(tcategoryBuckets, categoryBucket => {
           if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key])) {
             api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = {};
           }
-          const categoryApparatusBuckets = categoryBucket.apparatus['agg_terms_apparatus.unit_id'].buckets;
+          const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
           const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
           api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
         });
@@ -218,7 +218,7 @@ export function getMetricsTotal(req, res) {
         },
       };
 
-      const timeSeriesBuckets = esRes.aggregations['agg_date_histogram_description.event_opened'].buckets;
+      const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
       _.forEach(timeSeriesBuckets, timeBucket => {
         api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(unitMetrics, timeBucket);
       });
