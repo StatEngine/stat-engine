@@ -2,6 +2,10 @@
 
 .reporting-unit {
   reporting-unit-list {
+    .br-mailbox-list {
+      left: auto;
+    }
+
     @include media-breakpoint-down(md) {
       .br-mailbox-list {
         position: static;
