@@ -73,7 +73,6 @@ import shift from '../components/shift/shift.component';
 import onEnterPressed from '../components/on-enter-pressed/onEnterPressed.directive';
 import loadingSpinner from '../components/loading-spinner/loading-spinner.component';
 import loadingOverlay from '../components/loading-overlay/loading-overlay.component';
-import tableControls from '../components/table-controls/table-controls.component';
 
 import statsTable from '../components/tables/stats-table.component';
 import safety from '../components/safety/safety.component';
@@ -161,7 +160,6 @@ angular.module('statEngineApp', [
   onEnterPressed,
   loadingSpinner,
   loadingOverlay,
-  tableControls,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

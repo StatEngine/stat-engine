@@ -1,4 +1,4 @@
-table-controls {
+@mixin table-controls($breakpoint: 768px) {
   button {
     @include media-breakpoint-down(xs) {
       @include btn-sm();
@@ -6,9 +6,7 @@ table-controls {
   }
 
   loading-spinner {
-    position: absolute;
-    right: -2rem;
-    transform: translateX(100%);
+    margin-left: 2rem;
 
     @include media-breakpoint-down(xs) {
       width: 30px;
@@ -17,32 +15,61 @@ table-controls {
   }
 
   .root {
-    display: flex;
-    flex-direction: row;
+    display: grid;
 
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
+    &.position-top {
+      grid-template-areas:
+        'empty sort'
+        'page  page-size';
+
+      .sort-control {
+        margin-bottom: 1rem;
+      }
+
+      @media screen and (max-width: $breakpoint) {
+        grid-template-areas:
+          'sort'
+          'page-size'
+          'page';
+
+        .page-size-control {
+          margin-bottom: 1rem;
+        }
+      }
+
+      margin-bottom: 1rem;
     }
-  }
 
-  .column-one {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
+    &.position-bottom {
+      grid-template-areas:
+        'page  page-size'
+        'empty sort';
 
-  .column-two {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex: 0;
+      .page-control {
+        margin-bottom: 1rem;
+      }
 
-    @include media-breakpoint-down(sm) {
-      align-items: flex-start;
+      .page-size-control {
+        margin-bottom: 1rem;
+      }
+
+      @media screen and (max-width: $breakpoint) {
+        grid-template-areas:
+          'page'
+          'page-size'
+          'sort';
+      }
+
+      margin-top: 1rem;
     }
   }
 
   .page-control {
+    grid-area: page;
+    display: flex;
+    align-items: center;
+    position: relative;
+
     .page-number {
       margin: 0 1rem;
 
@@ -59,7 +86,14 @@ table-controls {
   }
 
   .sort-control {
-    display: inline-block;
+    grid-area: sort;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media screen and (max-width: $breakpoint) {
+      justify-content: flex-start;
+    }
 
     .sort-select {
       display: inline-block !important;
@@ -73,6 +107,15 @@ table-controls {
   }
 
   .page-size-control {
+    grid-area: page-size;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media screen and (max-width: $breakpoint) {
+      justify-content: flex-start;
+    }
+
     .page-size-select {
       display: inline-block !important;
       width: auto !important;
@@ -83,68 +126,8 @@ table-controls {
       }
     }
   }
+}
 
-  .position-top {
-    margin-bottom: 1rem;
-
-    .column-one {
-      justify-content: flex-end;
-
-      @include media-breakpoint-down(sm) {
-        order: 2;
-      }
-    }
-
-    .column-two {
-      @include media-breakpoint-down(sm) {
-        order: 1;
-      }
-    }
-
-    .sort-control {
-      order: 1;
-      margin-bottom: 1rem;
-    }
-
-    .page-size-control {
-      order: 2;
-
-      @include media-breakpoint-down(sm) {
-        margin-bottom: 1rem;
-      }
-    }
-  }
-
-  .position-bottom {
-    margin-top: 1rem;
-
-    .column-one {
-      justify-content: flex-start;
-
-      @include media-breakpoint-down(sm) {
-        order: 1;
-      }
-    }
-
-    .column-two {
-      @include media-breakpoint-down(sm) {
-        order: 2;
-      }
-    }
-
-    .page-control {
-      @include media-breakpoint-down(sm) {
-        margin-bottom: 1rem;
-      }
-    }
-
-    .page-size-control {
-      order: 1;
-      margin-bottom: 1rem;
-    }
-
-    .sort-control {
-      order: 2;
-    }
-  }
+table-controls {
+  @include table-controls();
 }

@@ -5,9 +5,9 @@
 import angular from 'angular';
 
 export class ReportingUnitListComponent {
-  constructor() {
-    'ngInject';
-  }
+  units;
+  onSelect;
+  selectedUnitId;
 
   select(unit) {
     this.onSelect({ selected: unit });
@@ -21,7 +21,8 @@ export default angular.module('reportingUnitList', [])
     controllerAs: 'vm',
     bindings: {
       units: '<',
-      onSelect: '&'
+      onSelect: '&',
+      selectedUnitId: '<',
     },
   })
   .name;

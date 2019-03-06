@@ -14,7 +14,10 @@ export const UnitList = types.model({
   currentMetrics: types.frozen(),
   previousMetrics: types.frozen(),
   totalMetrics: types.frozen(),
-  responses: types.frozen(),
+  responses: types.maybe(types.model({
+    items: types.frozen(),
+    totalItems: types.number,
+  })),
 })
   .actions(self => {
     const fetchUnits = flow(function*() {
@@ -30,15 +33,14 @@ export const UnitList = types.model({
       return self.units.length;
     });
 
-    const select = id => {
-      self.selected = id;
-    };
-
-    const fetchSelectedResponses = flow(function*(id, qs) {
+    const fetchResponses = flow(function*(id, query) {
       self.state = 'pending';
       try {
-        const metrics = yield axios.get(`/api/units/${id}/responses`, { params: qs });
-        self.responses = metrics.data.responses;
+        const metrics = yield axios.get(`/api/units/${id}/responses`, { params: query });
+        self.responses = {
+          items: metrics.data.items,
+          totalItems: metrics.data.totalItems,
+        };
 
         self.state = 'done';
       } catch(error) {
@@ -48,10 +50,10 @@ export const UnitList = types.model({
       return true;
     });
 
-    const fetchSelectedMetrics = flow(function*(id, qs) {
+    const fetchMetrics = flow(function*(id, query) {
       self.state = 'pending';
       try {
-        const metrics = yield axios.get(`/api/units/${id}/metrics`, { params: qs });
+        const metrics = yield axios.get(`/api/units/${id}/metrics`, { params: query });
         self.currentMetrics = metrics.data;
 
         self.state = 'done';
@@ -62,16 +64,16 @@ export const UnitList = types.model({
       return true;
     });
 
-    const fetchSelectedPreviousMetrics = flow(function*(id, qs) {
+    const fetchPreviousMetrics = flow(function*(id, query) {
       self.state = 'pending';
       try {
-        const pqs = _.clone(qs);
-        const duration = moment.duration(moment(pqs.timeEnd).diff(moment(pqs.timeStart)));
-        pqs.timeEnd = pqs.timeStart;
-        pqs.timeStart = moment.parseZone(pqs.timeEnd).subtract(duration.asMilliseconds(), 'milliseconds')
+        const queryCopy = _.clone(query);
+        const duration = moment.duration(moment(queryCopy.timeEnd).diff(moment(queryCopy.timeStart)));
+        queryCopy.timeEnd = queryCopy.timeStart;
+        queryCopy.timeStart = moment.parseZone(queryCopy.timeEnd).subtract(duration.asMilliseconds(), 'milliseconds')
           .format();
 
-        const previousMetrics = yield axios.get(`/api/units/${id}/metrics`, { params: pqs });
+        const previousMetrics = yield axios.get(`/api/units/${id}/metrics`, { params: queryCopy });
         self.previousMetrics = previousMetrics.data;
 
         self.state = 'done';
@@ -82,10 +84,10 @@ export const UnitList = types.model({
       return true;
     });
 
-    const fetchSelectedTotalMetrics = flow(function*(id, qs) {
+    const fetchTotalMetrics = flow(function*(id, query) {
       self.state = 'pending';
       try {
-        const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, { params: qs });
+        const totalMetrics = yield axios.get(`/api/units/${id}/metrics/total`, { params: query });
         self.totalMetrics = totalMetrics.data;
 
         self.state = 'done';
@@ -99,11 +101,10 @@ export const UnitList = types.model({
 
     return {
       fetchUnits,
-      fetchSelectedResponses,
-      fetchSelectedTotalMetrics,
-      fetchSelectedPreviousMetrics,
-      fetchSelectedMetrics,
-      select
+      fetchResponses,
+      fetchTotalMetrics,
+      fetchPreviousMetrics,
+      fetchMetrics,
     };
   })
   .views(self => ({

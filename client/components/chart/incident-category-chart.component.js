@@ -11,10 +11,12 @@ const COLORS = {
 };
 
 export default class IncidentCategoryChartComponent {
-  constructor() {
+  initialized = false;
+
+  constructor($window) {
     'ngInject';
 
-    this.initialized = false;
+    this.$window = $window;
   }
 
   async loadModules() {
@@ -24,7 +26,31 @@ export default class IncidentCategoryChartComponent {
   async $onInit() {
     await this.loadModules();
 
-    this.trace = [];
+    this.layout = {
+      barmode: 'stack',
+      xaxis: {
+        title: 'Datetime',
+      },
+      yaxis: {
+        title: 'Responses',
+      },
+    };
+
+    this.updatePlot();
+
+    this.initialized = true;
+  }
+
+  $onChanges() {
+    if(!this.initialized) {
+      return;
+    }
+
+    this.updatePlot();
+  }
+
+  updatePlot() {
+    const trace = [];
 
     let categories = [];
 
@@ -53,19 +79,9 @@ export default class IncidentCategoryChartComponent {
         curTrace.y.push(count);
       });
 
-      this.trace.push(curTrace);
+      trace.push(curTrace);
     });
 
-    this.layout = {
-      barmode: 'stack',
-      xaxis: {
-        title: 'Datetime',
-      },
-      yaxis: {
-        title: 'Responses',
-      },
-    };
-
-    this.initialized = true;
+    this.trace = trace;
   }
 }

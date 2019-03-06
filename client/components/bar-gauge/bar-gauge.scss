@@ -1,5 +1,5 @@
 .bar-gauge-wrapper {
-  margin-bottom: 70px;
+  position: relative;
 }
 
 .low {
@@ -14,104 +14,89 @@
   background-color: $red;
 }
 
-.bar-gauge {
-  height: 5px;
-  width: 100%;
+.meter {
+  margin-bottom: 1rem;
 
-  > div {
-    width: 20%;
-    height: 100%;
-    position: absolute;
-    border-left: 2px solid white;
+  .blocks {
+    display: flex;
+    height: 5px;
+    width: 100%;
+    position: relative;
+
+    > div {
+      @extend .medium;
+      flex: 1;
+      margin: 0 1px;
+      height: 100%;
+
+      &:first-child {
+        @extend .rounded-left;
+        @extend .low;
+        margin-left: 0;
+
+      }
+
+      &:last-child {
+        @extend .rounded-right;
+        @extend .high;
+        margin-right: 0;
+
+      }
+    }
   }
 
-  > .bar-gauge-first {
-    @extend .rounded-left;
-    @extend .low;
-    border-left: none;
-  }
-
-  > .bar-gauge-second {
-    @extend .medium;
-    left: 20%;
-  }
-
-  > .bar-gauge-third {
-    @extend .medium;
-    left: 40%;
-  }
-
-  > .bar-gauge-fourth {
-    @extend .medium;
-    left: 60%;
-  }
-
-  > .bar-gauge-fifth {
-    @extend .rounded-right;
-    @extend .high;
-    left: 80%;
-    width: 20%;
-  }
-
-}
-
-.bar-gauge-label {
-  font-size: 12px;
-  color: #a6a6a6;
-  position: absolute;
-  cursor: default;
-  padding-top: 5px;
-}
-
-.bar-gauge-label-min {
-  left: 0px;
-}
-
-.bar-gauge-label-max {
-  right: 0px;
-}
-
-.bar-gauge-label-mid {
-  right: 50%;
-  left: 50%;
-  margin-left: -24px;
-}
-
-.bar-gauge-wrapper {
-  position: relative;
-}
-
-.bar-gauge-needle-group {
-  position: absolute;
-  width: 100%;
-
-  .bar-gauge-needle-text {
-    position: absolute;
-    top: -33px;
-    padding: 2px 5px;
-    background-color: #192d42;
-    @extend .rounded;
-    left: -35px;
+  .labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     font-size: 12px;
-    color: #abbecb;
-    font-weight: bold;
+    color: #a6a6a6;
+    padding-top: 5px;
+    text-transform: uppercase;
+
+    @include media-breakpoint-down(xs) {
+      display: none;
+    }
   }
 
-  .bar-gauge-needle {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #192d42;
-    position: absolute;
-    top: -11px;
+  .needle-group {
+    padding: 0 5px 2px;
+
+    .needle-container {
+      display: inline-block;
+      position: relative;
+      transform: translateX(-50%);
+
+      .needle-text {
+        @extend .rounded;
+        padding: 2px 5px;
+        background-color: #192d42;
+        font-size: 12px;
+        color: #abbecb;
+        font-weight: bold;
+        white-space: nowrap;
+
+        @include media-breakpoint-down(xs) {
+          font-size: 11px;
+        }
+      }
+
+      .needle {
+        width: 0;
+        height: 0;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #192d42;
+      }
+    }
   }
 }
 
-.bar-gauge-description {
+.description {
   font-size: 12px;
-  position: absolute;
-  cursor: default;
   top: 37px;
 }
 

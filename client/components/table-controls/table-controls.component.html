@@ -6,79 +6,69 @@
     'position-bottom': (vm.position === 'bottom')
   }"
 >
-  <div class="column-one">
-    <div class="page-control">
-      <div class="form-inline position-relative d-inline-flex">
-        <button
-          class="btn btn-primary"
-          ng-click="vm.prevButtonClick()"
-          ng-disabled="vm.pagination.page === 1"
+  <div class="page-control">
+    <button
+      class="btn btn-primary"
+      ng-click="vm.prevButtonClick()"
+      ng-disabled="vm.pagination.page === 1"
+    >
+      Previous
+    </button>
+    <span class="page-number">
+      <select
+        class="page-number-select form-control"
+        ng-model="vm.pageGetterSetter"
+        ng-model-options="{ getterSetter: true }"
+      >
+        <option
+          ng-repeat="pageNumber in vm.pageNumbers"
+          ng-value="pageNumber"
         >
-          Previous
-        </button>
-        <span class="page-number">
-          <select
-            class="page-number-select form-control"
-            ng-model="vm.pageGetterSetter"
-            ng-model-options="{ getterSetter: true }"
-          >
-            <option
-              ng-repeat="pageNumber in vm.pageNumbers"
-              ng-value="pageNumber"
-            >
-              {{ pageNumber }}
-            </option>
-          </select>
-          <span>/ {{ vm.totalPages }}</span>
-        </span>
-        <button
-          class="btn btn-primary"
-          ng-click="vm.nextButtonClick()"
-          ng-disabled="vm.pagination.page === vm.pageNumbers.slice(-1)[0]"
-        >
-          Next
-        </button>
-        <loading-spinner ng-if="vm.isLoading"></loading-spinner>
-      </div>
-    </div>
+          {{ pageNumber }}
+        </option>
+      </select>
+      <span>/ {{ vm.totalPages }}</span>
+    </span>
+    <button
+      class="btn btn-primary"
+      ng-click="vm.nextButtonClick()"
+      ng-disabled="vm.pagination.page === vm.pageNumbers.slice(-1)[0]"
+    >
+      Next
+    </button>
+    <loading-spinner ng-if="vm.isLoading"></loading-spinner>
   </div>
 
-  <div class="column-two">
-    <div class="sort-control" ng-if="vm.showSort">
-      <div class="form-inline flex-nowrap">
-        <span class="space-nowrap">Sort by:&nbsp;</span>
-        <select
-          class="sort-select form-control"
-          ng-model="vm.sortGetterSetter"
-          ng-model-options="{ getterSetter: true }"
-        >
-          <option
-            ng-repeat="columnDef in vm.columnDefs"
-            ng-value="vm.sortColumnToValue(columnDef)"
-          >
-            {{ columnDef.displayName }}
-          </option>
-        </select>
-      </div>
-    </div>
+  <div class="sort-control" ng-if="vm.showSort">
+    <span class="space-nowrap">Sort by:&nbsp;</span>
+    <select
+      class="sort-select form-control"
+      ng-model="vm.sortGetterSetter"
+      ng-model-options="{ getterSetter: true }"
+    >
+      <option
+        ng-repeat="columnDef in vm.columnDefs"
+        ng-value="vm.sortColumnToValue(columnDef)"
+      >
+        {{ columnDef.displayName }}
+      </option>
+    </select>
+  </div>
 
-    <div class="page-size-control">
-      <div class="form-inline flex-nowrap">
-        <div class="space-nowrap">Items per page:&nbsp;</div>
-        <select
-          class="page-size-select form-control"
-          ng-model="vm.pageSizeGetterSetter"
-          ng-model-options="{ getterSetter: true }"
-        >
-          <option
-            ng-repeat="pageSize in vm.pagination.pageSizes"
-            ng-value="pageSize"
-          >
-            {{ pageSize }}
-          </option>
-        </select>
-      </div>
-    </div>
+  <div class="page-size-control">
+    <div class="space-nowrap">Items per page:&nbsp;</div>
+    <select
+      class="page-size-select form-control"
+      ng-model="vm.pageSizeGetterSetter"
+      ng-model-options="{ getterSetter: true }"
+    >
+      <option
+        ng-repeat="pageSize in vm.pagination.pageSizes"
+        ng-value="pageSize"
+      >
+        {{ pageSize }}
+      </option>
+    </select>
   </div>
 </div>
 

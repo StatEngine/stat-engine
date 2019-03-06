@@ -13,102 +13,57 @@ export default class IncidentSearchController {
     pageSizes: [10, 25, 50, 100],
     totalItems: 0,
   };
-  sortColumns = [{
-    field: 'description.event_closed',
-    direction: 'desc',
-  }];
-  sortSelect = {
-    selectedColumn: this.sortColumns[0],
-    columnDefs: [],
+  sort = {
+    columns: [{
+      field: 'description.event_closed',
+      direction: 'desc',
+    }],
   };
   search;
   searchInputValue;
   isLoading = true;
   isLoadingFirst = true;
-  uiGridOptions;
-  uiGridApi;
+  uiGridColumnDefs;
 
   /*@ngInject*/
-  constructor($window, $scope, $filter, AmplitudeService, AnalyticEventNames, Incident) {
+  constructor($window, $scope, AmplitudeService, AnalyticEventNames, Incident) {
     this.$window = $window;
-    this.$filter = $filter;
     this.IncidentService = Incident;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
 
-    // Set a smaller default page size on mobile.
-    if($window.innerWidth <= 1200) {
-      this.pagination.pageSize = this.pagination.pageSizes[1];
-    }
-
-    angular.element($window).bind('resize', () => {
-      // Mobile only supports sorting by 1 column, so enforce this on resize to mobile.
-      if($window.innerWidth <= 1200 && this.sortColumns.length > 1) {
-        this.sortColumns = this.sortColumns.slice(0, 1);
-        this.sortSelect.selectedColumn = this.sortColumns[0];
-        this.updateUiGridSort();
-      }
-    });
-
-    this.uiGridOptions = {
-      data: this.incidents,
-      paginationPageSizes: this.pagination.pageSizes,
-      paginationPageSize: this.pagination.pageSize,
-      paginationCurrentPage: this.pagination.page,
-      totalItems: this.pagination.totalItems,
-      columnDefs: [{
-        field: 'description.incident_number',
-        displayName: 'Incident Number',
-        cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col ) }}</a></div>',
-      }, {
-        field: 'address.address_line1',
-        displayName: 'Address'
-      }, {
-        field: 'description.event_closed',
-        displayName: 'Event Closed',
-        cellFilter: 'date:"MMM d, y HH:mm:ss"',
-        defaultSort: {
-          direction: 'desc',
-          priority: 0,
-        },
-      }, {
-        field: 'durations.total_event.seconds',
-        displayName: 'Event Duration',
-        cellFilter: 'humanizeDuration',
-      }, {
-        field: 'description.units_count',
-        displayName: '# Units',
-        width: 100,
-        enableSorting: false,
-      }, {
-        field: 'description.category',
-        displayName: 'Category',
-        width: 100,
-      }, {
-        field: 'description.type',
-        displayName: 'Type',
-      }],
-      enablePaginationControls: false,
-      useExternalPagination: true,
-      useExternalSorting: true,
-      enableHorizontalScrollbar: false,
-      onRegisterApi: (uiGridApi) => {
-        this.uiGridApi = uiGridApi;
-        uiGridApi.core.on.sortChanged($scope, (uiGrid, sortColumns) => {
-          this.sortColumns = sortColumns.map((sortColumn) => ({
-            field: sortColumn.field,
-            direction: sortColumn.sort.direction,
-          }));
-          this.sortSelect.selectedColumn = this.sortColumns[0];
-          this.refreshIncidentsList();
-        });
+    this.uiGridColumnDefs = [{
+      field: 'description.incident_number',
+      displayName: 'Incident Number',
+      cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col ) }}</a></div>',
+    }, {
+      field: 'address.address_line1',
+      displayName: 'Address'
+    }, {
+      field: 'description.event_closed',
+      displayName: 'Event Closed',
+      cellFilter: 'date:"MMM d, y HH:mm:ss"',
+      defaultSort: {
+        direction: 'desc',
+        priority: 0,
       },
-    };
-
-    // In sort select only show columns with sorting enabled.
-    this.sortSelect.columnDefs = this.uiGridOptions.columnDefs.filter((columnDef) => {
-      return (_.isUndefined(columnDef.enableSorting) || columnDef.enableSorting);
-    });
+    }, {
+      field: 'durations.total_event.seconds',
+      displayName: 'Event Duration',
+      cellFilter: 'humanizeDuration',
+    }, {
+      field: 'description.units_count',
+      displayName: '# Units',
+      width: 100,
+      enableSorting: false,
+    }, {
+      field: 'description.category',
+      displayName: 'Category',
+      width: 100,
+    }, {
+      field: 'description.type',
+      displayName: 'Type',
+    }];
 
     this.refreshIncidentsList = _.debounce(this.refreshIncidentsList, 350, {
       leading: true,
@@ -151,7 +106,7 @@ export default class IncidentSearchController {
   async refreshIncidentsList() {
     this.isLoading = true;
 
-    const sort = this.sortColumns.map((sortColumn) => {
+    const sort = this.sort.columns.map((sortColumn) => {
       return `${sortColumn.field},${sortColumn.direction}`;
     }).join('+');
 
@@ -164,14 +119,10 @@ export default class IncidentSearchController {
     this.incidents = data.items.map(item => item._source);
     this.pagination.totalItems = data.totalItems;
 
-    // Compute 'unitCount' from 'units'.
+    // HACK: Compute 'unitCount' from 'units' (this should be preprocessed in the database).
     this.incidents.forEach((incident) => {
       incident.description.units_count = incident.description.units.length;
     });
-
-    // Update uiGrid.
-    this.uiGridOptions.data = this.incidents;
-    this.uiGridOptions.totalItems = this.pagination.totalItems;
 
     this.isLoading = false;
     this.isLoadingFirst = false;
@@ -201,13 +152,7 @@ export default class IncidentSearchController {
     this.refreshIncidentsList();
   }
 
-  handleSortChange(args) {
-    this.sortColumns = [args.sort.selectedColumn];
-    this.updateUiGridSort();
-  }
-
-  updateUiGridSort() {
-    const gridColumn = this.uiGridApi.grid.getColumn(this.sortColumns[0].field);
-    this.uiGridApi.grid.sortColumn(gridColumn, this.sortColumns[0].direction);
+  handleSortChange() {
+    this.refreshIncidentsList();
   }
 }
