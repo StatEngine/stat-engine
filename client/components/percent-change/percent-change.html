@@ -1,3 +1,11 @@
-<span ng-if="vm.percent > 0" class="badge badge-pill badge-success-light align-middle"><i class="align-middle badge-icon fa fa-fw fa-arrow-up"></i>{{ vm.percent }}%</span>
-<span ng-if="vm.percent < 0" class="badge badge-pill badge-danger-light align-middle"><i class="align-middle badge-icon fa fa-fw fa-arrow-down"></i>{{ vm.percent * -1 }}%</span>
-<span ng-if="vm.percent === 0" class="badge badge-pill badge-secondary align-middle">No change</span>
+<span ng-if="vm.percent > 0" class="badge badge-pill badge-success-light align-middle">
+  <i class="align-middle badge-icon fa fa-fw fa-arrow-up"></i>
+  <span>{{ vm.percent | number }}%</span>
+</span>
+<span ng-if="vm.percent < 0" class="badge badge-pill badge-danger-light align-middle">
+  <i class="align-middle badge-icon fa fa-fw fa-arrow-down"></i>
+  <span>{{ vm.percent * -1 | number }}%</span>
+</span>
+<span ng-if="vm.percent === 0" class="badge badge-pill badge-secondary align-middle">
+  No change
+</span>

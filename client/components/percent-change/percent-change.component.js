@@ -3,16 +3,17 @@
 /* eslint no-sync: 0 */
 
 import angular from 'angular';
-import _ from 'lodash';
 
 export class PercentChangeComponent {
-  constructor() {
-    'ngInject';
-  }
+  newValue;
+  oldValue;
 
-  $onInit() {
-    if(_.isNil(this.oldValue)) this.percent = 'NA';
-    this.percent = Math.round((this.newValue - this.oldValue) / this.oldValue * 100);
+  $onChanges() {
+    if(this.oldValue == null || this.newValue == null) {
+      this.percent = 'NA';
+    } else {
+      this.percent = Math.round((this.newValue - this.oldValue) / this.oldValue * 100);
+    }
   }
 }
 
