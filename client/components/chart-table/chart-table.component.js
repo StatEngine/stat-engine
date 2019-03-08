@@ -12,7 +12,12 @@ export class ChartTableComponent {
 
   $onInit() {
     this.metricTitle = this.metricTitle || 'Count';
-    this.total = _.sumBy(this.data, n => n.count);
+  }
+
+  $onChanges(changes) {
+    if(changes.data) {
+      this.total = _.sumBy(this.data, n => n.count);
+    }
   }
 }
 
