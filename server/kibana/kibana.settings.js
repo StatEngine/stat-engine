@@ -23,7 +23,7 @@ export default {
       };
 
       var jwt = nJwt.create(claims, config.ror.secret);
-      jwt.setExpiration(new Date().getTime() + (86400 * 1000 * 7)); // 7d
+      jwt.setExpiration(new Date().getTime() + (86400 * 1000 * 30)); // 30d
       let key = jwt.compact();
 
       // Deep linking w/ JWT https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md
