@@ -121,9 +121,15 @@ export class IncidentsTableController {
 
     // Apply filter if the column def has one.
     if(columnDef.cellFilter) {
-      const filterType = columnDef.cellFilter.split(':')[0];
-      const filterExpression = columnDef.cellFilter.match(/(?<=")(.*)(?=")/g);
-      value = this.$filter(filterType)(value, filterExpression);
+      const filterParts = columnDef.cellFilter.split(':');
+      const filterType = filterParts[0];
+      if(filterParts.length > 1) {
+        // Get the filter expression and trim the quote marks off of it.
+        const filterExpression = columnDef.cellFilter.slice(filterType.length + 1).slice(1, -1);
+        value = this.$filter(filterType)(value, filterExpression);
+      } else {
+        value = this.$filter(filterType)(value);
+      }
     }
 
     return value;

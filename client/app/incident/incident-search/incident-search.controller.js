@@ -75,34 +75,6 @@ export default class IncidentSearchController {
     this.refreshIncidentsList();
   }
 
-  getIncidentColumn(incident, columnDef) {
-    // Translate incident field string into the incident data (ex. 'description.units.length' -> `incident['description']['units']['length']).
-    const fieldParts = columnDef.field.split('.');
-    let value = incident;
-    for(const part of fieldParts) {
-      value = value[part];
-    }
-
-    // Apply filter if the column def has one.
-    if(columnDef.cellFilter) {
-      const filterParts = columnDef.cellFilter.split(':');
-      const filterType = filterParts[0];
-      if(filterParts.length > 1) {
-        // Get the filter expression and trim the quote marks off of it.
-        const filterExpression = columnDef.cellFilter.slice(filterType.length + 1).slice(1, -1);
-        value = this.$filter(filterType)(value, filterExpression);
-      } else {
-        value = this.$filter(filterType)(value);
-      }
-    }
-
-    return value;
-  }
-
-  getIncidentUiSref(incident) {
-    return `site.incident.analysis({ id: '${incident.description.incident_number}' })`;
-  }
-
   async refreshIncidentsList() {
     this.isLoading = true;
 
