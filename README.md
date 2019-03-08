@@ -1,5 +1,8 @@
 # StatEngine
 
+## About
+StatEngine is a fire service analytical system, the most comprehensive way to get accurate and real-time information to help fire service leaders assure adequate fire resources, optimize fire operations, reduce firefighter injury and death, minimize civilian injury and death, and minimize property loss.  More information about funding and background is available [here](https://www.nist.gov/ctl/pscr/real-time-open-source-data-analytics-and-visualization-platform).
+
 ## Getting Started
 
 ### Prerequisites
