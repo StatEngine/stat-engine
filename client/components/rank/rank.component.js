@@ -6,11 +6,10 @@ import angular from 'angular';
 import numeral from 'numeral';
 
 export class RankComponent {
-  constructor() {
-    'ngInject';
-  }
+  newValue;
+  oldValue;
 
-  $onInit() {
+  $onChanges() {
     this.numeral = numeral(this.newValue).format('0o');
   }
 }
