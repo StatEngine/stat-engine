@@ -1,6 +1,5 @@
 # StatEngine
 
-## About
 StatEngine is a fire service analytical system, the most comprehensive way to get accurate and real-time information to help fire service leaders assure adequate fire resources, optimize fire operations, reduce firefighter injury and death, minimize civilian injury and death, and minimize property loss.  More information about funding and background is available [here](https://www.nist.gov/ctl/pscr/real-time-open-source-data-analytics-and-visualization-platform).
 
 ## Getting Started
@@ -38,8 +37,7 @@ Ensure the following packages are installed
 
 #### Nightly Dump
 
-A nightly dump of elasticdump data will be availabe in S3.
-In the meantime, you can obtain sample data from another developer.
+A nightly dump of elasticdump data is availabe in S3.   Please contact a team member for access. 
 
 #### Loading data
 
@@ -51,11 +49,16 @@ In the meantime, you can obtain sample data from another developer.
 
 1.  Run `git clone https://github.com/StatEngine/stat-engine.git`
 
-1.  Obtain **env.json** secrets file from development team and copy to the root of **stat-engine** directory
+2.  Obtain **env.json** secrets file from development team and copy to the root of **stat-engine** directory
 
-1.  Run `npm install`
+3.  Run `npm install`
 
-1.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
+4.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
-1.  Login with username: `richmond`, password: `password`.
+5.  Login with username: `richmond`, password: `password`.
+
+### Testing
+Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing. 
+![](https://s3.amazonaws.com/statengine-public-assets/Browserstack-logo%402x.png)
+
 
