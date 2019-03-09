@@ -80,6 +80,7 @@ export class BarGaugeComponent {
     let valuePercent = 0;
     if(ranges[quartile]) {
       valuePercent = (this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0;
+      valuePercent *= 100;
       this.needleGroupStyle.visibility = 'visible';
     } else {
       this.needleGroupStyle.visibility = 'hidden';
