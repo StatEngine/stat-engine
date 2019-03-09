@@ -32,15 +32,11 @@
       &:first-child {
         @extend .rounded-left;
         @extend .low;
-        margin-left: 0;
-
       }
 
       &:last-child {
         @extend .rounded-right;
         @extend .high;
-        margin-right: 0;
-
       }
     }
   }
@@ -60,7 +56,7 @@
   }
 
   .needle-group {
-    padding: 0 5px 2px;
+    padding-bottom: 2px;
 
     .needle-container {
       display: inline-block;
@@ -98,6 +94,7 @@
 .description {
   font-size: 12px;
   top: 37px;
+  padding: 0 1px;
 }
 
 .dot {

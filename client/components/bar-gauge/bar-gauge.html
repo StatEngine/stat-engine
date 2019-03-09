@@ -1,6 +1,6 @@
 <div class="bar-gauge-wrapper" ng-cloak>
   <div class="meter">
-    <div class="needle-group" ng-style="vm.needleGroupStyle">
+    <div class="needle-group">
       <div class="needle-container" ng-style="vm.needleContainerStyle">
         <div class="needle-text" ng-style="vm.needleTextStyle">
           {{ vm.isDuration ? (vm.value|humanizeDuration:true) : (vm.value|number:0) }}
@@ -11,11 +11,10 @@
     </div>
 
     <div class="blocks">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div
+        ng-repeat="blockStyle in vm.blockStyles"
+        ng-style="blockStyle"
+      ></div>
     </div>
 
     <div class="labels">

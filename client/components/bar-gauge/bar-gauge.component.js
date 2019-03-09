@@ -8,20 +8,22 @@ import percentile from 'percentile';
 
 export class BarGaugeComponent {
   value;
-  min;
-  max;
   maxLabel;
   minLabel;
   data;
-  needleGroupStyle = {
-    visibility: 'visible',
-  };
   needleContainerStyle = {
     left: 0,
   };
   needleTextStyle = {
     transform: undefined,
   };
+  blockStyles = [
+    {flex: '0.2'},
+    {flex: '0.2'},
+    {flex: '0.2'},
+    {flex: '0.2'},
+    {flex: '0.2'},
+  ];
   initialized = false;
 
   constructor($element, $timeout) {
@@ -47,19 +49,23 @@ export class BarGaugeComponent {
   }
 
   updateGauge() {
-    this.isDuration = (!_.isUndefined(this.isDuration)) ? this.isDuration : false;
+    this.metricTitle = this.metricTitle || 'Count';
+    this.isDuration = (this.isDuration != null) ? this.isDuration : false;
+    const value = this.value || 0;
 
-    this.min = _.min(this.data);
-    this.max = _.max(this.data);
+    const min = _.min(this.data);
+    const max = _.max(this.data);
 
     this.totalPercentiles = [20, 40, 60, 80, 90].map(percent => percentile(percent, this.data));
 
     const ranges = _.reduce(this.totalPercentiles, (acc, p, i) => {
       let res = [];
-      if(i === 0) {
-        res = [this.min, p];
+      if(min === max) {
+        res = [min, max];
+      } else if(i === 0) {
+        res = [min, p];
       } else if(i === this.totalPercentiles.length - 1) {
-        res = [this.totalPercentiles[i - 1] + 1, this.max];
+        res = [this.totalPercentiles[i - 1] + 1, max];
       } else {
         res = [this.totalPercentiles[i - 1] + 1, p];
       }
@@ -67,25 +73,37 @@ export class BarGaugeComponent {
       return acc;
     }, []);
 
-    const quartile = _.findIndex(ranges, range => this.value >= range[0] && this.value <= range[1]);
-
     this.lowValue = ranges[0][1];
     this.midRange = [ranges[1][0], ranges[3][1]];
     this.highValue = ranges[4][0];
-    this.category = quartile === 0 ? this.minLabel : quartile === 4 ? this.maxLabel : 'Typical';
 
-    this.metricTitle = this.metricTitle || 'Count';
-    this.total = _.sumBy(this.data, n => n.count);
-
-    let valuePercent = 0;
-    if(ranges[quartile]) {
-      valuePercent = (this.value - ranges[quartile][0]) / (ranges[quartile][1] - ranges[quartile][0]) || 0;
-      this.needleGroupStyle.visibility = 'visible';
+    // Calculate block widths.
+    const fullRange = max - min;
+    if(fullRange === 0) {
+      this.blockStyles.forEach(blockStyle => {
+        blockStyle.flex = '0.2';
+      });
     } else {
-      this.needleGroupStyle.visibility = 'hidden';
+      const lowRangePercent = (this.lowValue - min) / fullRange;
+      const highRangePercent = (max - this.highValue) / fullRange;
+      const midRangePercent = 1 - (lowRangePercent + highRangePercent);
+      this.blockStyles[0].flex = `${lowRangePercent}`;
+      this.blockStyles[1].flex = `${midRangePercent / 3}`;
+      this.blockStyles[2].flex = `${midRangePercent / 3}`;
+      this.blockStyles[3].flex = `${midRangePercent / 3}`;
+      this.blockStyles[4].flex = `${highRangePercent}`;
     }
 
+    // Calculate the needle position. Clamp the percent and add a little room so it doesn't
+    // quite go to the edge.
+    let valuePercent = ((value - min) / (max - min)) || 0;
+    valuePercent *= 100;
+    valuePercent = Math.min(Math.max(valuePercent, 2), 98);
     this.needleContainerStyle.left = `${valuePercent}%`;
+
+    // Figure out which category this value falls in.
+    const quartile = _.findIndex(ranges, range => value >= range[0] && value <= range[1]);
+    this.category = quartile === 0 ? this.minLabel : quartile === 4 ? this.maxLabel : 'Typical';
 
     // On render...
     this.$timeout(() => {
@@ -116,8 +134,6 @@ export default angular.module('directives.barGauge', [])
     controllerAs: 'vm',
     bindings: {
       value: '<',
-      min: '<',
-      max: '<',
       maxLabel: '@',
       minLabel: '@',
       data: '<',
