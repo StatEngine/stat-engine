@@ -131,11 +131,15 @@
         .commitment-value {
           @extend .tx-lato;
           font-weight: bold;
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
 
           @include media-breakpoint-down(xs) {
             font-size: 1rem;
           }
+        }
+
+        percent-change {
+          margin-bottom: 0.5rem;
         }
       }
 
@@ -184,7 +188,6 @@
           align-items: center;
 
           percent-change {
-            display: flex;
             margin-left: 1rem;
           }
         }
@@ -196,7 +199,8 @@
 
         .category {
           flex: 0.33;
-          text-align: center;
+          display: flex;
+          justify-content: center;
 
           &:not(:first-child) {
             @extend .bd-l;
@@ -207,15 +211,24 @@
             margin-bottom: 0;
           }
 
-          .category-value {
-            @extend .tx-inverse;
-            @extend .tx-lato;
-            display: inline;
-            font-weight: bold;
-            margin-bottom: 5px;
+          .category-value-container {
+            display: flex;
+            align-items: center;
 
-            @include media-breakpoint-down(sm) {
-              font-size: 1rem;
+            .category-value {
+              @extend .tx-inverse;
+              @extend .tx-lato;
+              display: inline;
+              font-weight: bold;
+              margin: 0;
+
+              @include media-breakpoint-down(sm) {
+                font-size: 1rem;
+              }
+            }
+
+            percent-change {
+              margin-left: 0.5rem;
             }
           }
         }

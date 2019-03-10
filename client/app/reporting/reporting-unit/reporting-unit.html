@@ -178,34 +178,46 @@
               <div class="card-body">
                 <div class="categories">
                   <div class="category">
-                    <h3 class="category-label">OVERALL</h3>
-                    <h4 class="category-value">
-                      {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
-                    </h4>
-                    <percent-change
-                      old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
-                      new-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds']"
-                    ></percent-change>
+                    <div>
+                      <h3 class="category-label">OVERALL</h3>
+                      <div class="category-value-container">
+                        <h4 class="category-value">
+                          {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
+                        </h4>
+                        <percent-change
+                          old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
+                          new-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds']"
+                        ></percent-change>
+                      </div>
+                    </div>
                   </div>
                   <div class="category">
-                    <h3 class="category-label">EMS</h3>
-                    <h4 class="category-value">
-                      {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']*1000) }}
-                    </h4>
-                    <percent-change
-                      old-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
-                      new-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
-                    ></percent-change>
+                    <div>
+                      <h3 class="category-label">EMS</h3>
+                      <div class="category-value-container">
+                        <h4 class="category-value">
+                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']*1000) }}
+                        </h4>
+                        <percent-change
+                          old-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
+                          new-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
+                        ></percent-change>
+                      </div>
+                    </div>
                   </div>
                   <div class="category">
-                    <h3 class="category-label">FIRE</h3>
-                    <h4 class="category-value">
-                      {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']*1000) }}
-                    </h4>
-                    <percent-change
-                      old-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
-                      new-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
-                    ></percent-change>
+                    <div>
+                      <h3 class="category-label">FIRE</h3>
+                      <div class="category-value-container">
+                        <h4 class="category-value">
+                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']*1000) }}
+                        </h4>
+                        <percent-change
+                          old-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
+                          new-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
+                        ></percent-change>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -254,34 +266,46 @@
               <div class="card-body">
                 <div class="categories">
                   <div class="category">
-                    <h3 class="category-label">OVERALL</h3>
-                    <h4 class="category-value">
-                      {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']*1000) }}
-                    </h4>
-                    <percent-change
-                      new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']"
-                      old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds']"
-                    ></percent-change>
+                    <div>
+                      <h3 class="category-label">OVERALL</h3>
+                      <div class="category-value-container">
+                        <h4 class="category-value">
+                          {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']*1000) }}
+                        </h4>
+                        <percent-change
+                          new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']"
+                          old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds']"
+                        ></percent-change>
+                      </div>
+                    </div>
                   </div>
                   <div class="category">
-                    <h3 class="category-label">EMS</h3>
-                    <h4 class="category-value">
-                      {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']*1000) }}
-                    </h4>
-                    <percent-change
-                      new-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
-                      old-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
-                    ></percent-change>
+                    <div>
+                      <h3 class="category-label">EMS</h3>
+                      <div class="category-value-container">
+                        <h4 class="category-value">
+                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']*1000) }}
+                        </h4>
+                        <percent-change
+                          new-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
+                          old-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
+                        ></percent-change>
+                      </div>
+                    </div>
                   </div>
                   <div class="category">
-                    <h3 class="category-label">FIRE</h3>
-                    <h4 class="category-value">
-                      {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']*1000) }}
-                    </h4>
-                    <percent-change
-                      new-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
-                      old-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
-                    ></percent-change>
+                    <div>
+                      <h3 class="category-label">FIRE</h3>
+                      <div class="category-value-container">
+                        <h4 class="category-value">
+                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']*1000) }}
+                        </h4>
+                        <percent-change
+                          new-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
+                          old-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
+                        ></percent-change>
+                      </div>
+                    </div>
                   </div>
                 </div>
 

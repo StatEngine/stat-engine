@@ -1,15 +1,30 @@
-.badge-success-light {
-  color: #25ad46;
-  background-color: #e9ffee;
-  border: 1px solid #25ad46;
-}
+percent-change {
+  display: inline-block;
+  line-height: 1;
 
-.badge-danger-light {
+  .percent-change-pill {
+    @extend .badge;
+    @extend .badge-pill;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    top: 1px;
+
+    .percent-change-pill-arrow {
+      @extend .fa;
+      @extend .fa-fw;
+    }
+  }
+
+  .badge-success-light {
+    color: #25ad46;
+    background-color: #e9ffee;
+    border: 1px solid #25ad46;
+  }
+
+  .badge-danger-light {
     color: #dd3241;
     background-color: #fdebed;
     border: 1px solid #dd3241;
-}
-
-.badge-icon {
-  font-size: .75rem;
+  }
 }
