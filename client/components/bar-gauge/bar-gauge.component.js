@@ -17,13 +17,6 @@ export class BarGaugeComponent {
   needleTextStyle = {
     transform: undefined,
   };
-  blockStyles = [
-    {flex: '0.2'},
-    {flex: '0.2'},
-    {flex: '0.2'},
-    {flex: '0.2'},
-    {flex: '0.2'},
-  ];
   initialized = false;
 
   constructor($element, $timeout) {
@@ -77,33 +70,13 @@ export class BarGaugeComponent {
     this.midRange = [ranges[1][0], ranges[3][1]];
     this.highValue = ranges[4][0];
 
-    // Calculate block widths.
-    const fullRange = max - min;
-    if(fullRange === 0) {
-      this.blockStyles.forEach(blockStyle => {
-        blockStyle.flex = '0.2';
-      });
-    } else {
-      const lowRangePercent = (this.lowValue - min) / fullRange;
-      const highRangePercent = (max - this.highValue) / fullRange;
-      const midRangePercent = 1 - (lowRangePercent + highRangePercent);
-      this.blockStyles[0].flex = `${lowRangePercent}`;
-      this.blockStyles[1].flex = `${midRangePercent / 3}`;
-      this.blockStyles[2].flex = `${midRangePercent / 3}`;
-      this.blockStyles[3].flex = `${midRangePercent / 3}`;
-      this.blockStyles[4].flex = `${highRangePercent}`;
-    }
-
-    // Calculate the needle position. Clamp the percent and add a little room so it doesn't
-    // quite go to the edge.
-    let valuePercent = ((value - min) / (max - min)) || 0;
-    valuePercent *= 100;
-    valuePercent = Math.min(Math.max(valuePercent, 2), 98);
-    this.needleContainerStyle.left = `${valuePercent}%`;
-
     // Figure out which category this value falls in.
     const quartile = _.findIndex(ranges, range => value >= range[0] && value <= range[1]);
     this.category = quartile === 0 ? this.minLabel : quartile === 4 ? this.maxLabel : 'Typical';
+
+    // Position the needle in the middle of the current quartile bar.
+    let needleLeftPercent = quartile * 20 + 10;
+    this.needleContainerStyle.left = `${needleLeftPercent}%`;
 
     // On render...
     this.$timeout(() => {
@@ -111,11 +84,11 @@ export class BarGaugeComponent {
       const elementBounds = this.element[0].getBoundingClientRect();
       const needleTextElementBounds = this.needleTextElement[0].getBoundingClientRect();
       const needleTextHalfWidth = needleTextElementBounds.width / 2;
-      const needleContainerX = elementBounds.width * (valuePercent / 100);
+      const needleContainerX = elementBounds.width * (needleLeftPercent / 100);
       const needleTextMinX = needleContainerX - needleTextHalfWidth;
       const needleTextMaxX = needleContainerX + needleTextHalfWidth;
 
-      const offset = 10;
+      const offset = 0;
       if(needleTextMinX < 0) {
         this.needleTextStyle.transform = `translateX(${-needleTextMinX - offset}px)`;
       } else if(needleTextMaxX > elementBounds.width) {
