@@ -1,4 +1,15 @@
 <div class="br-mainpanel department-admin-home medium-bg">
+  <div
+    class="action-message"
+    ng-class="{
+      'text-success': (vm.actionMessageColor === 'success'),
+      'text-danger': (vm.actionMessageColor === 'danger')
+    }"
+    ng-if="vm.actionMessage"
+  >
+    {{ vm.actionMessage }}
+  </div>
+
   <section id="department-users" class="department-users">
     <h3 class="mb-2">Department Users</h3>
     <div class="department-users-table mb-5">

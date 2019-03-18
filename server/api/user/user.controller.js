@@ -24,6 +24,15 @@ function handleError(res, statusCode) {
   };
 }
 
+async function getDepartmentAdmins(departmentId) {
+  return await User.findAll({
+    where: {
+      fire_department__id: departmentId,
+      role: { $iLike: '%department_admin%' },
+    },
+  });
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -94,6 +103,144 @@ function sendWelcomeEmail(user) {
   }
 }
 
+async function sendRequestDepartmentAccessEmail(user, department) {
+  if(!config.mailSettings.mandrillAPIKey) {
+    return
+  }
+
+  const departmentAdmins = await getDepartmentAdmins(department._id);
+
+  const mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  mailTransport.sendMail({
+    from: config.mailSettings.serverEmail,
+    to: departmentAdmins.map(admin => admin.email),
+    mandrillOptions: {
+      template_name: config.mailSettings.requestDepartmentAccessTemplate,
+      template_content: [],
+      message: {
+        merge: false,
+        merge_language: 'handlebars',
+        global_merge_vars: [{
+          name: 'DEPARTMENT_NAME',
+          content: department.name,
+        }, {
+          name: 'DEPARTMENT_IMAGE_URL',
+          content: `https://s3.amazonaws.com/statengine-public-assets/logos/${department.firecares_id}.png`,
+        }, {
+          name: 'USER_USERNAME',
+          content: user.username,
+        }, {
+          name: 'USER_EMAIL',
+          content: user.email,
+        }, {
+          name: 'USER_FIRST_NAME',
+          content: user.first_name,
+        }, {
+          name: 'USER_LAST_NAME',
+          content: user.last_name,
+        }, {
+          name: 'APPROVE_DASHBOARD_ADMIN_URL',
+          content: `https://statengine.io/departmentAdmin?action=approve_dashboard_admin&action_username=${user.username}`,
+        }, {
+          name: 'APPROVE_DASHBOARD_READONLY_URL',
+          content: `https://statengine.io/departmentAdmin?action=approve_dashboard_readonly&action_username=${user.username}`,
+        }, {
+          name: 'REJECT_ACCESS_URL',
+          content: `https://statengine.io/departmentAdmin?action=revoke&action_username=${user.username}`,
+        }],
+      },
+    },
+  });
+}
+
+async function sendAccessApprovedEmail(user, department, readonly) {
+  if(!config.mailSettings.mandrillAPIKey) {
+    return
+  }
+
+  const mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  mailTransport.sendMail({
+    from: config.mailSettings.serverEmail,
+    to: user.email,
+    mandrillOptions: {
+      template_name: config.mailSettings.departmentAccessApproved,
+      template_content: [],
+      message: {
+        merge: false,
+        merge_language: 'handlebars',
+        global_merge_vars: [{
+          name: 'DEPARTMENT_NAME',
+          content: department.name,
+        }, {
+          name: 'DEPARTMENT_IMAGE_URL',
+          content: `https://s3.amazonaws.com/statengine-public-assets/logos/${department.firecares_id}.png`,
+        }, {
+          name: 'USER_FIRST_NAME',
+          content: user.first_name,
+        }, {
+          name: 'ACCESS_LEVEL',
+          content: (readonly) ? 'Dashboard Readonly' : 'Dashboard Admin',
+        }, {
+          name: 'CONTROL_CENTER_URL',
+          content: 'https://statengine.io/home'
+        }],
+      },
+    },
+  });
+}
+
+async function sendAccessRevokedEmail(user, department, hadAccess) {
+  if(!config.mailSettings.mandrillAPIKey) {
+    return
+  }
+
+  const mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  let templateName;
+  if(hadAccess) {
+    templateName = config.mailSettings.departmentAccessRevoked;
+  } else {
+    templateName = config.mailSettings.departmentAccessRejected;
+  }
+
+  mailTransport.sendMail({
+    from: config.mailSettings.serverEmail,
+    to: user.email,
+    mandrillOptions: {
+      template_name: templateName,
+      template_content: [],
+      message: {
+        merge: false,
+        merge_language: 'handlebars',
+        global_merge_vars: [{
+          name: 'DEPARTMENT_NAME',
+          content: department.name,
+        }, {
+          name: 'DEPARTMENT_IMAGE_URL',
+          content: `https://s3.amazonaws.com/statengine-public-assets/logos/${department.firecares_id}.png`,
+        }, {
+          name: 'USER_FIRST_NAME',
+          content: user.first_name,
+        }],
+      },
+    },
+  });
+}
+
 function addToMailingList(user) {
   if(config.mailchimp.apiKey && config.mailchimp.listId) {
     const mailchimp = new Mailchimp(config.mailchimp.apiKey);
@@ -116,30 +263,39 @@ function addToMailingList(user) {
 /**
  * Creates a new user
  */
-export function create(req, res) {
-  var newUser = User.build(req.body);
+export async function create(req, res) {
+  const user = User.build(req.body);
 
   // force this all so user cannot overwrite in request
   if(!req.user || !req.user.isAdmin) {
-    newUser.setDataValue('provider', 'local');
-    newUser.setDataValue('role', 'user');
-    newUser.setDataValue('fire_department__id', undefined);
+    user.setDataValue('provider', 'local');
+    user.setDataValue('role', 'user');
+    user.setDataValue('fire_department__id', undefined);
   }
-  newUser.setDataValue('api_key', uuidv4());
+  user.setDataValue('api_key', uuidv4());
 
-  return newUser.save()
-    .then(user => addToMailingList(user)
-      .then(() => {
-        if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
-          sendWelcomeEmail(user)
-            .then(() => {
-              res.status(204).send({user});
-            });
-        } else {
-          res.status(204).send({user});
+  try {
+    await user.save();
+    addToMailingList(user);
+
+    if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
+      sendWelcomeEmail(user);
+    }
+
+    // Send access request to department admin if a department was set.
+    if(req.body.requested_fire_department_id) {
+      const department = await FireDepartment.find({
+        where: {
+          _id: req.body.requested_fire_department_id,
         }
-      }))
-    .catch(validationError(res));
+      });
+      sendRequestDepartmentAccessEmail(user, department);
+    }
+
+    res.status(204).send({ user });
+  } catch (err) {
+    validationError(res);
+  }
 }
 
 /**
@@ -172,23 +328,33 @@ export function edit(req, res) {
 /**
  * Request access
  */
-export function requestAccess(req, res) {
+export async function requestAccess(req, res) {
   const user = req.loadedUser;
 
   user.requested_fire_department_id = req.body.requested_fire_department_id;
 
-  user.save()
-    .then(usersaved => {
-      res.status(204).send({usersaved});
-    })
-    .catch(handleError(res));
+  try {
+    await user.save();
+    const department = await FireDepartment.find({
+      where: {
+        _id: user.requested_fire_department_id,
+      },
+    });
+    sendRequestDepartmentAccessEmail(user, department);
+    res.status(204).send({ user });
+  } catch (err) {
+    handleError(res);
+  }
 }
 
 /**
  * Request access
  */
-export function revokeAccess(req, res) {
+export async function revokeAccess(req, res) {
   const user = req.loadedUser;
+
+  const hadAccess = (user.fire_department__id != null);
+  const departmentId = user.fire_department__id || user.requested_fire_department_id;
 
   user.fire_department__id = null;
   user.requested_fire_department_id = null;
@@ -196,17 +362,25 @@ export function revokeAccess(req, res) {
   _.pull(roles, 'kibana_admin');
   _.pull(roles, 'kibana_ro_strict');
   user.role = roles.join(',');
-  user.save()
-    .then(usersaved => {
-      res.status(204).send({usersaved});
-    })
-    .catch(handleError(res));
+
+  try {
+    await user.save();
+    const department = await FireDepartment.find({
+      where: {
+        _id: departmentId,
+      },
+    });
+    sendAccessRevokedEmail(user, department, hadAccess);
+    res.status(204).send({ user });
+  } catch (err) {
+    handleError(res)
+  }
 }
 
 /**
  * Request access
  */
-export function approveAccess(req, res) {
+export async function approveAccess(req, res) {
   const user = req.loadedUser;
 
   if(user.requested_fire_department_id) {
@@ -217,11 +391,18 @@ export function approveAccess(req, res) {
   if(req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
   else user.role = `${user.role},kibana_admin`;
 
-  user.save()
-    .then(usersaved => {
-      res.status(204).send({usersaved});
-    })
-    .catch(handleError(res));
+  try {
+    await user.save();
+    const department = await FireDepartment.find({
+      where: {
+        _id: user.fire_department__id,
+      },
+    });
+    sendAccessApprovedEmail(user, department, req.query.readonly);
+    res.status(204).send({ user });
+  } catch (err) {
+    handleError(res)
+  }
 }
 
 /**
