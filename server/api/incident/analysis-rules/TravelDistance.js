@@ -9,7 +9,8 @@ export default class TravelDistance extends IncidentRule {
   }
 
   applicable() {
-    return !_.isNil(this.incident.travelMatrix);
+    if (_.isNil(this.incident.travelMatrix) || _.isEmpty(this.incident.travelMatrix)) return false;
+    return true;
   }
 
   getEvidence() {

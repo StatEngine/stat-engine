@@ -101,7 +101,7 @@
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 pd-y-5">
                       <span class="light-label mb-0">Event Duration:</span>
-                      <span>0h 17m 24s</span>
+                      <span>{{ vm.humanizeDuration(vm.incident.durations.total_event.seconds*1000) }}</span>
                     </p>
                   </div>
                 </div>
@@ -399,12 +399,12 @@
                     <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
                       <p class="light-label">First unit dispatched</p>
                       <h4 class="tx-info tx-normal mg-b-0">{{
-                        vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h4>
+                        vm.humanizeDuration(vm.incident.durations.alarm_processing.seconds*1000) }}</h4>
                     </div><!-- col-2 -->
                     <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-md-l-0 bd-color-gray-lighter">
                       <p class="light-label">First unit on scene</p>
                       <h4 class="tx-info tx-normal mg-b-0">{{
-                        vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h4>
+                        vm.humanizeDuration(vm.incident.durations.response.minutes*1000*60) }}</h4>
                     </div><!-- col-2 -->
                     <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
                       <p class="light-label">Resolved in</p>

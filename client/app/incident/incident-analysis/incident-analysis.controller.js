@@ -199,6 +199,7 @@ export default class IncidentAnalysisController {
   }
 
   humanizeDuration(ms) {
+    if (_.isNil(ms) || _.isNaN(ms)) return 'N/A';
     return shortEnglishHumanizer(ms, { round: true });
   }
 }

@@ -109,6 +109,16 @@ export class Incident {
     return seconds ? humanizeDuration(seconds * 1000) : undefined;
   }
 
+  get callAlarmProcessingDurationHumanized() {
+    let seconds = _.get(this.incident, 'durations.alarm_processing.seconds');
+    return seconds ? humanizeDuration(seconds * 1000) : undefined;
+  }
+
+  get responseDurationHumanized() {
+    let seconds = _.get(this.incident, 'durations.response.seconds');
+    return seconds ? humanizeDuration(seconds * 1000) : undefined;
+  }
+
   get totalResponseDurationHumanized() {
     let seconds = _.get(this.incident, 'durations.total_response.seconds');
     return seconds ? humanizeDuration(seconds * 1000) : undefined;

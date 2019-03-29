@@ -316,6 +316,28 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '29006',
+      firecares_id: '85090',
+      name: 'Jackson Township Fire Department',
+      state: 'IN',
+      timezone: 'US/Eastern',
+      integration_complete: true,
+      latitude: 0,
+      longitude: 0,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'jackson',
+        first_name: 'jackson',
+        last_name: 'User',
+        email: 'jackson@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '05936',
       firecares_id: '81205',
       name: 'Fairmount Fire Protection District',
