@@ -80,6 +80,11 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
   async function checkSubscriptionExpiry() {
     currentPrincipal = await Principal.identity();
 
+    // Ignore subscription expiry for global users.
+    if(currentPrincipal.isGlobal) {
+      return;
+    }
+
     // Only get the subscription data when necessary.
     if(!subscription || subscription.customer_id !== currentPrincipal.FireDepartment.customer_id) {
       await refreshSubscription();
