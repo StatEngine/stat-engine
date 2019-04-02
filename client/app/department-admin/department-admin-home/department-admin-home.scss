@@ -15,6 +15,11 @@
     background-color: #ffc107;
   }
 
+  .action-message {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
   .department-users {
     @extend .container-fluid;
 
