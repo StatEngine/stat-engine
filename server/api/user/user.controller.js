@@ -10,6 +10,8 @@ import Sequelize from 'sequelize';
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
 
+const statEngineLogoLink = 'https://s3.amazonaws.com/statengine-public-assets/statengine-symbol.png';
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -25,6 +27,10 @@ function handleError(res, statusCode) {
 }
 
 async function getDepartmentAdmins(departmentId) {
+  if(departmentId == null) {
+    throw new Error('departmentId cannot be null or undefined!');
+  }
+
   return await User.findAll({
     where: {
       fire_department__id: departmentId,
@@ -120,7 +126,7 @@ async function sendRequestDepartmentAccessEmail(user, department) {
     from: config.mailSettings.serverEmail,
     to: departmentAdmins.map(admin => admin.email),
     mandrillOptions: {
-      template_name: config.mailSettings.requestDepartmentAccessTemplate,
+      template_name: config.mailSettings.departmentAccessRequestedTemplate,
       template_content: [],
       message: {
         merge: false,
@@ -130,7 +136,7 @@ async function sendRequestDepartmentAccessEmail(user, department) {
           content: department.name,
         }, {
           name: 'DEPARTMENT_IMAGE_URL',
-          content: `https://s3.amazonaws.com/statengine-public-assets/logos/${department.firecares_id}.png`,
+          content: department.logo_link || statEngineLogoLink,
         }, {
           name: 'USER_USERNAME',
           content: user.username,
@@ -173,7 +179,7 @@ async function sendAccessApprovedEmail(user, department, readonly) {
     from: config.mailSettings.serverEmail,
     to: user.email,
     mandrillOptions: {
-      template_name: config.mailSettings.departmentAccessApproved,
+      template_name: config.mailSettings.departmentAccessApprovedTemplate,
       template_content: [],
       message: {
         merge: false,
@@ -183,7 +189,7 @@ async function sendAccessApprovedEmail(user, department, readonly) {
           content: department.name,
         }, {
           name: 'DEPARTMENT_IMAGE_URL',
-          content: `https://s3.amazonaws.com/statengine-public-assets/logos/${department.firecares_id}.png`,
+          content: department.logo_link || statEngineLogoLink,
         }, {
           name: 'USER_FIRST_NAME',
           content: user.first_name,
@@ -212,9 +218,9 @@ async function sendAccessRevokedEmail(user, department, hadAccess) {
 
   let templateName;
   if(hadAccess) {
-    templateName = config.mailSettings.departmentAccessRevoked;
+    templateName = config.mailSettings.departmentAccessRevokedTemplate;
   } else {
-    templateName = config.mailSettings.departmentAccessRejected;
+    templateName = config.mailSettings.departmentAccessRejectedTemplate;
   }
 
   mailTransport.sendMail({
@@ -231,7 +237,7 @@ async function sendAccessRevokedEmail(user, department, hadAccess) {
           content: department.name,
         }, {
           name: 'DEPARTMENT_IMAGE_URL',
-          content: `https://s3.amazonaws.com/statengine-public-assets/logos/${department.firecares_id}.png`,
+          content: department.logo_link || statEngineLogoLink,
         }, {
           name: 'USER_FIRST_NAME',
           content: user.first_name,
@@ -294,7 +300,7 @@ export async function create(req, res) {
 
     res.status(204).send({ user });
   } catch (err) {
-    validationError(res);
+    handleError(res);
   }
 }
 
