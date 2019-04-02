@@ -10,21 +10,7 @@ import Sequelize from 'sequelize';
 import config from '../../config/environment';
 import { FireDepartment, User } from '../../sqldb';
 
-const statEngineLogoLink = 'https://s3.amazonaws.com/statengine-public-assets/statengine-symbol.png';
-
-function validationError(res, statusCode) {
-  statusCode = statusCode || 422;
-  return function(err) {
-    return res.status(statusCode).json(err);
-  };
-}
-
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
-  return function(err) {
-    return res.status(statusCode).send(err);
-  };
-}
+import { validationError, handleError } from '../../util/error';
 
 async function getDepartmentAdmins(departmentId) {
   if(departmentId == null) {

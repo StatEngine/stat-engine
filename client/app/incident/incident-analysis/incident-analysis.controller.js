@@ -131,10 +131,10 @@ export default class IncidentAnalysisController {
       arrow: true,
       arrowType: 'sharp',
       theme: 'statengine',
-      duration: 400,
-      animation: 'scale',
+      duration: 250,
+      animation: 'shift-away',
       maxWidth: '350px',
-      inertia: true,
+      inertia: false,
       touch: true,
     });
 
@@ -146,11 +146,11 @@ export default class IncidentAnalysisController {
       arrow: true,
       arrowType: 'sharp',
       theme: 'statengine',
-      duration: 400,
-      animation: 'scale',
+      duration: 250,
+      animation: 'shift-away',
       maxWidth: '350px',
       dynamicTitle: true,
-      inertia: true,
+      inertia: false,
       touch: true,
     });
   }
@@ -199,6 +199,7 @@ export default class IncidentAnalysisController {
   }
 
   humanizeDuration(ms) {
+    if (_.isNil(ms) || _.isNaN(ms)) return 'N/A';
     return shortEnglishHumanizer(ms, { round: true });
   }
 }

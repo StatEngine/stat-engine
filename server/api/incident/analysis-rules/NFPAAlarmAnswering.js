@@ -1,5 +1,6 @@
-import { IncidentRule, GRADES } from '../incident-rule';
+import _ from 'lodash';
 
+import { IncidentRule, GRADES } from '../incident-rule';
 export default class AlarmAnswering extends IncidentRule {
   constructor(incident) {
     super(incident);
@@ -9,6 +10,10 @@ export default class AlarmAnswering extends IncidentRule {
     this.category = 'NFPA';
 
     this.description = `Alarm answering should be less than ${this.warningThreshold} seconds, 95% of time`;
+  }
+
+  applicable() {
+    return !_.isNil(this.incident.alarmAnsweringDurationSeconds);
   }
 
   getEvidence() {

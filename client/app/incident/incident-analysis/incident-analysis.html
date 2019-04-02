@@ -68,9 +68,6 @@
                 <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Incident Summary</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body">
                     <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
@@ -101,7 +98,7 @@
                     </p>
                     <p class="d-flex justify-content-between mg-b-5 pd-y-5">
                       <span class="light-label mb-0">Event Duration:</span>
-                      <span>0h 17m 24s</span>
+                      <span>{{ vm.humanizeDuration(vm.incident.durations.total_event.seconds*1000) }}</span>
                     </p>
                   </div>
                 </div>
@@ -110,9 +107,6 @@
                 <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Dispatch Comments</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body h-100">
                     <div ng-if="!vm.incident.description.comments" class="d-flex h-100">
@@ -134,9 +128,6 @@
                 <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">StatEngine&trade; Performance Analysis</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body">
                     <div ng-show="!vm.incident.description.suppressed" class="performance-analysis">
@@ -213,9 +204,6 @@
                 <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Census Data</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body h-100">
                     <div ng-if="!vm.incident.address.location.census" class="d-flex h-100">
@@ -273,9 +261,6 @@
                 <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Parcel Data</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body h-100">
                     <div ng-if="vm.incident.address.location.parcel">
@@ -327,9 +312,6 @@
                 <div class="card h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Weather Conditions</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body h-100">
                     <div ng-if="vm.incident.weather.currently">
@@ -358,9 +340,6 @@
                 <div class="card  h-100">
                   <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                     <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Traffic Conditions</h6>
-                    <div class="card-option">
-                      <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                    </div><!-- card-option -->
                   </div><!-- card-header -->
                   <div class="card-body h-100">
                     <div class="d-flex h-100 tx-center">
@@ -382,9 +361,6 @@
               <div class="card h-100 response-overview">
                 <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                   <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Overview</h6>
-                  <div class="card-option">
-                    <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                  </div><!-- card-option -->
                 </div><!-- card-header -->
                 <div class="card-body">
                   <div class="row tx-center">
@@ -399,12 +375,12 @@
                     <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
                       <p class="light-label">First unit dispatched</p>
                       <h4 class="tx-info tx-normal mg-b-0">{{
-                        vm.humanizeDuration(vm.incident.durations.alarm_handling.seconds*1000) }}</h4>
+                        vm.humanizeDuration(vm.incident.durations.alarm_processing.seconds*1000) }}</h4>
                     </div><!-- col-2 -->
                     <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-md-l-0 bd-color-gray-lighter">
                       <p class="light-label">First unit on scene</p>
                       <h4 class="tx-info tx-normal mg-b-0">{{
-                        vm.humanizeDuration(vm.incident.durations.total_response.minutes*1000*60) }}</h4>
+                        vm.humanizeDuration(vm.incident.durations.response.minutes*1000*60) }}</h4>
                     </div><!-- col-2 -->
                     <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
                       <p class="light-label">Resolved in</p>
@@ -417,9 +393,6 @@
               <div class="card mt-5">
                 <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
                   <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Events Timeline</h6>
-                  <div class="card-option">
-                    <a href="#"><i class="icon ion-more lh-0 tx-20"></i></a>
-                  </div><!-- card-option -->
                 </div><!-- card-header -->
                 <div class="card-body">
                   <div class="row">

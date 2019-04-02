@@ -28,20 +28,8 @@ import {
 } from './fire-department-nfpa.controller';
 
 import { createCustomer, retrieveSubscription } from '../../subscription/chargebee';
+import { validationError, handleError } from '../../util/error';
 
-function validationError(res, statusCode) {
-  statusCode = statusCode || 422;
-  return function(err) {
-    return res.status(statusCode).json(err);
-  };
-}
-
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
-  return function(err) {
-    return res.status(statusCode).send(err);
-  };
-}
 
 /**
  * Search for fire departments
