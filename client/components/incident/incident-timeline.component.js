@@ -11,6 +11,9 @@ let Timeline;
 const TIME_FORMAT = 'HH:mm:ss';
 
 export default class IncidentTimelineComponent {
+  incident;
+  timezone;
+
   constructor($window) {
     'ngInject';
 
@@ -30,8 +33,8 @@ export default class IncidentTimelineComponent {
     const groups = [];
 
     groups.push({
-      id: 'Alarm',
-      content: '<b>Alarm</b>',
+      id: 'Incident',
+      content: '<b>Incident</b>',
       order: 1,
     });
 
@@ -46,7 +49,7 @@ export default class IncidentTimelineComponent {
         content: '',
         type: 'point',
         start: psapAnswer,
-        group: 'Alarm',
+        group: 'Incident',
         // eslint-disable-next-line
         title: `PSAP Answer at ${moment(psapAnswer).tz(this.timezone).format(TIME_FORMAT)}`,
         className: 'point',
@@ -73,7 +76,7 @@ export default class IncidentTimelineComponent {
         align: 'bottom',
         end: eventOpened,
         type: 'range',
-        group: 'Alarm',
+        group: 'Incident',
         className: 'alarm-answering-duration',
         title: `<b>Alarm Answer in ${humanizeDuration(alarmAnswer)}</b>`,
       });
@@ -87,7 +90,7 @@ export default class IncidentTimelineComponent {
         align: 'bottom',
         end: firstUnitDispatched,
         type: 'range',
-        group: 'Alarm',
+        group: 'Incident',
         className: 'alarm-processing-duration',
         title: `<b>Alarm Processing in ${humanizeDuration(alarmProcessing)}</b>`,
       });
@@ -99,7 +102,7 @@ export default class IncidentTimelineComponent {
         content: '',
         type: 'point',
         start: eventOpened,
-        group: 'Alarm',
+        group: 'Incident',
         // eslint-disable-next-line
         title: `Event Opened at ${moment(eventOpened).tz(this.timezone).format(TIME_FORMAT)}`,
         className: 'point',
@@ -112,9 +115,152 @@ export default class IncidentTimelineComponent {
         content: '',
         type: 'point',
         start: eventClosed,
-        group: 'Alarm',
+        group: 'Incident',
         // eslint-disable-next-line
         title: `Event Closed at ${moment(eventClosed).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const airMonitoringComplete = _.get(this.incident, 'description.air_monitoring_complete');
+    if(airMonitoringComplete) {
+      items.push({
+        id: 'airMonitoringComplete',
+        content: '',
+        type: 'point',
+        start: airMonitoringComplete,
+        group: 'Incident',
+        title: `Air Monitoring Complete at ${moment(airMonitoringComplete).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      })
+    }
+
+    const commandEstablished = _.get(this.incident, 'description.command_established');
+    if(commandEstablished) {
+      items.push({
+        id: 'commandEstablished',
+        content: '',
+        type: 'point',
+        start: commandEstablished,
+        group: 'Incident',
+        title: `Command Established at ${moment(commandEstablished).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const lossStopped = _.get(this.incident, 'description.loss_stopped');
+    if(lossStopped) {
+      items.push({
+        id: 'lossStopped',
+        content: '',
+        type: 'point',
+        start: lossStopped,
+        group: 'Incident',
+        title: `Loss Stopped at ${moment(lossStopped).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const primarySearchComplete = _.get(this.incident, 'description.primary_search_complete');
+    if(primarySearchComplete) {
+      items.push({
+        id: 'primarySearchComplete',
+        content: '',
+        type: 'point',
+        start: primarySearchComplete,
+        group: 'Incident',
+        title: `Primary Search Complete at ${moment(primarySearchComplete).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const rehabEstablished = _.get(this.incident, 'description.rehab_established');
+    if(rehabEstablished) {
+      items.push({
+        id: 'rehabEstablished',
+        content: '',
+        type: 'point',
+        start: rehabEstablished,
+        group: 'Incident',
+        title: `Rehab Established at ${moment(rehabEstablished).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const ricEstablished = _.get(this.incident, 'description.ric_established');
+    if(ricEstablished) {
+      items.push({
+        id: 'ricEstablished',
+        content: '',
+        type: 'point',
+        start: ricEstablished,
+        group: 'Incident',
+        title: `RIC Established at ${moment(ricEstablished).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const secondarySearchComplete = _.get(this.incident, 'description.secondary_search_complete');
+    if(secondarySearchComplete) {
+      items.push({
+        id: 'secondarySearchComplete',
+        content: '',
+        type: 'point',
+        start: secondarySearchComplete,
+        group: 'Incident',
+        title: `Secondary Search Complete at ${moment(secondarySearchComplete).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const waterOnFire = _.get(this.incident, 'description.water_on_fire');
+    if(waterOnFire) {
+      items.push({
+        id: 'waterOnFire',
+        content: '',
+        type: 'point',
+        start: waterOnFire,
+        group: 'Incident',
+        title: `Water On Fire at ${moment(waterOnFire).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const walkAroundCompleted = _.get(this.incident, 'description.walk_around_completed');
+    if(walkAroundCompleted) {
+      items.push({
+        id: 'walkAroundCompleted',
+        content: '',
+        type: 'point',
+        start: walkAroundCompleted,
+        group: 'Incident',
+        title: `Walk Around Completed at ${moment(walkAroundCompleted).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const utilitiesSecured = _.get(this.incident, 'description.utilities_secured');
+    if(utilitiesSecured) {
+      items.push({
+        id: 'utilitiesSecured',
+        content: '',
+        type: 'point',
+        start: utilitiesSecured,
+        group: 'Incident',
+        title: `Utilities Secured at ${moment(utilitiesSecured).tz(this.timezone).format(TIME_FORMAT)}`,
+        className: 'point',
+      });
+    }
+
+    const fireWatchInitiated = _.get(this.incident, 'description.fire_watch_initiated');
+    if(fireWatchInitiated) {
+      items.push({
+        id: 'fireWatchInitiated',
+        content: '',
+        type: 'point',
+        start: fireWatchInitiated,
+        group: 'Incident',
+        title: `Fire Watch Initiated at ${moment(fireWatchInitiated).tz(this.timezone).format(TIME_FORMAT)}`,
         className: 'point',
       });
     }
@@ -149,6 +295,7 @@ export default class IncidentTimelineComponent {
       // each timestamp
       _.forOwn(u.unit_status, (status, statusName) => {
         if(status.timestamp) {
+          const displayName = _.startCase(statusName) || statusName;
           items.push({
             id: `${u.unit_id}-${statusName}`,
             content: '',
@@ -156,7 +303,7 @@ export default class IncidentTimelineComponent {
             type: 'point',
             group: u.unit_id,
             // eslint-disable-next-line
-            title: `${statusName} at ${moment(status.timestamp).tz(this.timezone).format(TIME_FORMAT)}`,
+            title: `${displayName} at ${moment(status.timestamp).tz(this.timezone).format(TIME_FORMAT)}`,
             className: 'point',
           });
         }
