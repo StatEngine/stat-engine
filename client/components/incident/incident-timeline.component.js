@@ -122,15 +122,15 @@ export default class IncidentTimelineComponent {
       });
     }
 
-    const airMonitoringComplete = _.get(this.incident, 'description.air_monitoring_complete');
-    if(airMonitoringComplete) {
+    const airMonitoringCompleted = _.get(this.incident, 'description.air_monitoring_completed');
+    if(airMonitoringCompleted) {
       items.push({
-        id: 'airMonitoringComplete',
+        id: 'airMonitoringCompleted',
         content: '',
         type: 'point',
-        start: airMonitoringComplete,
+        start: airMonitoringCompleted,
         group: 'Incident',
-        title: `Air Monitoring Complete at ${moment(airMonitoringComplete).tz(this.timezone).format(TIME_FORMAT)}`,
+        title: `Air Monitoring Completed at ${moment(airMonitoringCompleted).tz(this.timezone).format(TIME_FORMAT)}`,
         className: 'point',
       })
     }
@@ -161,15 +161,15 @@ export default class IncidentTimelineComponent {
       });
     }
 
-    const primarySearchComplete = _.get(this.incident, 'description.primary_search_complete');
-    if(primarySearchComplete) {
+    const primarySearchCompleted = _.get(this.incident, 'description.primary_search_completed');
+    if(primarySearchCompleted) {
       items.push({
-        id: 'primarySearchComplete',
+        id: 'primarySearchCompleted',
         content: '',
         type: 'point',
-        start: primarySearchComplete,
+        start: primarySearchCompleted,
         group: 'Incident',
-        title: `Primary Search Complete at ${moment(primarySearchComplete).tz(this.timezone).format(TIME_FORMAT)}`,
+        title: `Primary Search Completed at ${moment(primarySearchCompleted).tz(this.timezone).format(TIME_FORMAT)}`,
         className: 'point',
       });
     }
@@ -200,15 +200,15 @@ export default class IncidentTimelineComponent {
       });
     }
 
-    const secondarySearchComplete = _.get(this.incident, 'description.secondary_search_complete');
-    if(secondarySearchComplete) {
+    const secondarySearchCompleted = _.get(this.incident, 'description.secondary_search_completed');
+    if(secondarySearchCompleted) {
       items.push({
-        id: 'secondarySearchComplete',
+        id: 'secondarySearchCompleted',
         content: '',
         type: 'point',
-        start: secondarySearchComplete,
+        start: secondarySearchCompleted,
         group: 'Incident',
-        title: `Secondary Search Complete at ${moment(secondarySearchComplete).tz(this.timezone).format(TIME_FORMAT)}`,
+        title: `Secondary Search Completed at ${moment(secondarySearchCompleted).tz(this.timezone).format(TIME_FORMAT)}`,
         className: 'point',
       });
     }
