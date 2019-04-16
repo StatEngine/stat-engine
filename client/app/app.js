@@ -62,6 +62,7 @@ import incident from './incident';
 import marketplace from './marketplace';
 
 // global components
+import appbar from '../components/appbar/appbar.component';
 import navbar from '../components/navbar/navbar.component';
 import plotlyWrapper from '../components/plotly-wrapper/plotly-wrapper.component';
 import sidebar from '../components/sidebar/sidebar.component';
@@ -127,6 +128,7 @@ angular.module('statEngineApp', [
   admin,
   api,
   guides,
+  appbar,
   navbar,
   sidebar,
   report,

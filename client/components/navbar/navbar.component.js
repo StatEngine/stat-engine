@@ -30,7 +30,7 @@ export class NavbarComponent {
     };
 
     this.scrollTo = function(location) {
-      $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+      $('.content-view').animate({ scrollTop: $(location).offset().top }, 1000);
     };
 
     this.dashboard = function(location) {
@@ -53,32 +53,28 @@ export class NavbarComponent {
       $state.go(state);
     };
 
-    $scope.$on('$destroy', () => {
-      const body = angular.element(document.querySelector('body'))[0];
-      const bodyClasses = body.className.split(' ');
-      const noScroll = bodyClasses.indexOf('noScroll');
-      if(noScroll > 0) bodyClasses.splice(noScroll, 1);
-      body.className = bodyClasses.join(' ');
+    angular.element('.mobile-nav-overlay').on('click', () => {
+      this.hideMobileNav();
     });
+
+    // HACK: There's a bug in some browsers where animations will break descendant 'fixed' position elements.
+    // So remove the 'animated' class once it completes to avoid breaking the mobile nav.
+    setTimeout(() => {
+      angular.element('navbar').removeClass('animated');
+    }, 1000);
   }
 
-  // eslint-disable-next-line
-  openMobile() {
-    const x = angular.element(document.querySelector('#mobileNav'))[0];
-    const body = angular.element(document.querySelector('body'))[0];
-    const bodyClasses = body.className.split(' ');
+  $onDestroy() {
+    this.hideMobileNav();
+    angular.element('.mobile-nav-overlay').off('click');
+  }
 
-    const noScroll = bodyClasses.indexOf('noScroll');
+  showMobileNav() {
+    angular.element('body').addClass('show-mobile-nav');
+  }
 
-    if(x.className === 'mobile-nav open') {
-      x.className = 'mobile-nav';
-      if(noScroll > 0) bodyClasses.splice(noScroll, 1);
-    } else {
-      x.className = 'mobile-nav open';
-      bodyClasses.push('noScroll');
-    }
-
-    body.className = bodyClasses.join(' ');
+  hideMobileNav() {
+    angular.element('body').removeClass('show-mobile-nav');
   }
 }
 

@@ -1,62 +1,57 @@
-<!-- TODO:
-    - Breadcrumbs needs to be hooked up
--->
-
-<div class="br-mainpanel medium-bg">
-  <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" ui-sref="site.user.home">Home</a>
-      <a class="breadcrumb-item" ui-sref="site.marketplace.home">Marketplace</a>
-      <span class="breadcrumb-item active">{{vm.app.name}}</span>
-    </nav>
-  </div><!-- br-pageheader -->
-  <div class="br-pagetitle">
-    <h2 class="m-0">{{vm.app.name}}</h2>
-  </div><!-- br-pagetitle -->
-  <div class="br-pagebody">
-    <div class="extension-request">
-      <header class="ht-auto ht-md-350 rounded-top {{vm.app.name.toLowerCase()}}">
-        <section class="container m-auto pd-sm-y-5">
-          <div class="row justify-content-around align-items-center mx-wd-800 m-auto">
-            <div class="extension-logo d-flex animated zoomIn">
-              <img ng-src="{{vm.extensionSrc}}" alt="">
-            </div>
-            <div class="plus-sign hidden-xs animated bounceIn"></div>
-            <div class="extension-logo statengine d-flex hidden-xs animated zoomIn">
-              <img src="../assets/images/statengine-symbol.svg" alt="StatEngine">
-            </div>
+<div class="br-pageheader">
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item" ui-sref="site.user.home">Home</a>
+    <a class="breadcrumb-item" ui-sref="site.marketplace.home">Marketplace</a>
+    <span class="breadcrumb-item active">{{vm.app.name}}</span>
+  </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagetitle">
+  <h2 class="m-0">{{vm.app.name}}</h2>
+</div><!-- br-pagetitle -->
+<div class="br-pagebody">
+  <div class="extension-request">
+    <header class="ht-auto ht-md-350 rounded-top {{vm.app.name.toLowerCase()}}">
+      <section class="container m-auto pd-sm-y-5">
+        <div class="row justify-content-around align-items-center mx-wd-800 m-auto">
+          <div class="extension-logo d-flex animated zoomIn">
+            <img ng-src="{{vm.extensionSrc}}" alt="">
           </div>
-        </section>
-      </header>
-      <section class="br-section-wrapper pd-md-40">
-        <div class="row">
-          <div class="col-md-7 mg-b-60 br-sitemap-section">
-            <h5 class="heavyheader mb-3 mb-md-4">Overview</h5>
-            <p>{{vm.app.description}}</p>
-            <ul class="mg-b-30">
-              <li class="pd-y-4" ng-repeat="feature in vm.extension.features">{{feature}}</li>
-            </ul>
-          </div>
-          <div class="col-md-5 extension-preview">
-            <h5 class="heavyheader mb-3 mb-md-4">Screenshots</h5>
-            <div ng-if="!vm.extension.preview" class="d-flex justify-content-center align-items-center bg-gray-200 ht-250 p-3 tx-center tx-gray-500 w-75">
-              <h6 class="heavyheader tx-uppercase"> Sorry, no preview available yet</h6>
-            </div>
-            <div ng-if="vm.extension.preview">
-              <img class="bd shadow-lg" ng-src="{{vm.extensionPreviewSrc}}" alt="">
-            </div>
-          </div>
-        </div>
-        <div>
-          <h5 class="heavyheader mb-3 mb-md-4">Pricing and Setup</h5>
-          <p>This application is currently included with your subscription, <strong>free</strong> of any additional charges<br>
-             Please review the applications terms and policies for any additional fees that they might charge.
-          <div ng-if="!vm.currentPrincipal.isDepartmentAdmin" class="text-danger"> Only an admin can modify this application.  Please contact your local department admin to modify.</div>
-          <div ng-if="vm.currentPrincipal.isDepartmentAdmin">
-            <button ng-if="!vm.installed" class="btn btn-info" ng-click="vm.install()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Install application</button><br>
-            <button ng-if="vm.installed" class="btn btn-info btn-danger" ng-click="vm.uninstall()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Uninstall application</button><br>
+          <div class="plus-sign hidden-xs animated bounceIn"></div>
+          <div class="extension-logo statengine d-flex hidden-xs animated zoomIn">
+            <img src="../assets/images/statengine-symbol.svg" alt="StatEngine">
           </div>
         </div>
       </section>
-    </div>
+    </header>
+    <section class="br-section-wrapper pd-md-40">
+      <div class="row">
+        <div class="col-md-7 mg-b-60 br-sitemap-section">
+          <h5 class="heavyheader mb-3 mb-md-4">Overview</h5>
+          <p>{{vm.app.description}}</p>
+          <ul class="mg-b-30">
+            <li class="pd-y-4" ng-repeat="feature in vm.extension.features">{{feature}}</li>
+          </ul>
+        </div>
+        <div class="col-md-5 extension-preview">
+          <h5 class="heavyheader mb-3 mb-md-4">Screenshots</h5>
+          <div ng-if="!vm.extension.preview" class="d-flex justify-content-center align-items-center bg-gray-200 ht-250 p-3 tx-center tx-gray-500 w-75">
+            <h6 class="heavyheader tx-uppercase"> Sorry, no preview available yet</h6>
+          </div>
+          <div ng-if="vm.extension.preview">
+            <img class="bd shadow-lg" ng-src="{{vm.extensionPreviewSrc}}" alt="">
+          </div>
+        </div>
+      </div>
+      <div>
+        <h5 class="heavyheader mb-3 mb-md-4">Pricing and Setup</h5>
+        <p>This application is currently included with your subscription, <strong>free</strong> of any additional charges<br>
+           Please review the applications terms and policies for any additional fees that they might charge.
+        <div ng-if="!vm.currentPrincipal.isDepartmentAdmin" class="text-danger"> Only an admin can modify this application.  Please contact your local department admin to modify.</div>
+        <div ng-if="vm.currentPrincipal.isDepartmentAdmin">
+          <button ng-if="!vm.installed" class="btn btn-info" ng-click="vm.install()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Install application</button><br>
+          <button ng-if="vm.installed" class="btn btn-info btn-danger" ng-click="vm.uninstall()"><i class="fa fa-plus mr-3" aria-hidden="true"></i>Uninstall application</button><br>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>

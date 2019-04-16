@@ -7,9 +7,6 @@ export default function routes($stateProvider) {
     .state('site.admin', {
       abstract: true,
       views: {
-        'navbar@': {
-          template: '<sidebar></sidebar>'
-        },
         'content@': {
           template: '<div ui-view />'
         }

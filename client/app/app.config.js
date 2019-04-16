@@ -19,7 +19,14 @@ export function routeConfig($urlRouterProvider, $locationProvider, $stateProvide
         }
       ]
     },
-    template: '<div ui-view />'
+    views: {
+      'appbar@': {
+        template: '<appbar></appbar>',
+      },
+      'sidebar@': {
+        template: '<sidebar></sidebar>'
+      },
+    },
   });
 }
 

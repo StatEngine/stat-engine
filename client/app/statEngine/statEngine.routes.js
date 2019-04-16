@@ -6,8 +6,11 @@ export default function routes($stateProvider) {
   $stateProvider.state('statEngine', {
     url: '/statEngine',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown"></navbar>'
+      'appbar@': {
+        template: '',
+      },
+      'sidebar@': {
+        template: '',
       },
       'content@': {
         template: require('./landing/landing.html'),

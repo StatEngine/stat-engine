@@ -10,11 +10,6 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.reporting', {
       abstract: true,
-      views: {
-        'navbar@': {
-          template: '<sidebar></sidebar>'
-        },
-      },
     })
     .state('site.reporting.unit', {
       url: '/reporting/units?time',

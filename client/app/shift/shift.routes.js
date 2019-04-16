@@ -11,9 +11,6 @@ export default function routes($stateProvider) {
     .state('site.shift.home', {
       url: '/shift',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./shift-home/shift-home.html'),
           controller: 'ShiftHomeController',

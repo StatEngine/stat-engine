@@ -1,147 +1,145 @@
-<div>
-  <div>
-    <header>
-      <div id="silos"></div>
-      <section id="app-screenshot">
-        <img alt="StatEngine" src="/assets/images/screenshot.png" class="animated fadeInUp">
-      </section>
-      <svg id="wave" xmlns="http://www.w3.org/2000/svg" viewBox="-300 0 950 270">
-        <path d="M-344,225 C245,404 250,0 2000,509" fill="none" stroke="white" stroke-width="120" stroke-linecap="round"></path>
-      </svg>
-      <section class="container message animated fadeIn">
-        <div>
-          <div class="col-12">
-            <h1 class="extraheavyheader tx-30 tx-md-34">Improving safety through real-time data analytics and visualization</h1>
-            <p class="lead">StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
-          </div>
-          <div class="col-12 py-2 button-group">
-            <a class="btn btn-primary btn-lg btn-oblong hvr-float" id='main-request-demo' href="mailto:contact@statengine.io" target="_blank">Request a Demo</a>
-            <!--<button class="btn btn-outline hvr-float w180">Learn More</button>-->
-          </div>
+<div class="site">
+  <navbar class="animated fadeInDown"></navbar>
+  <header>
+    <div id="silos"></div>
+    <section id="app-screenshot">
+      <img alt="StatEngine" src="/assets/images/screenshot.png" class="animated fadeInUp">
+    </section>
+    <svg id="wave" xmlns="http://www.w3.org/2000/svg" viewBox="-300 0 950 270">
+      <path d="M-344,225 C245,404 250,0 2000,509" fill="none" stroke="white" stroke-width="120" stroke-linecap="round"></path>
+    </svg>
+    <section class="container message animated fadeIn">
+      <div>
+        <div class="col-12">
+          <h1 class="extraheavyheader tx-30 tx-md-34">Improving safety through real-time data analytics and visualization</h1>
+          <p class="lead">StatEngine is a real-time open source data analytics and visualization platform for public safety organizations.</p>
         </div>
-      </section>
-    </header>
-    <section id="intro" class="container">
-      <section id="intro-header" class="row">
-        <div id="intro-text" class="col-md-6">
-          <h2 class="subheader">
-            Say goodbye to complex and restrictive data analytics software
-          </h2>
-          <p>
-            StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools. This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data
-            sets.
-          </p>
+        <div class="col-12 py-2 button-group">
+          <a class="btn btn-primary btn-lg btn-oblong hvr-float" id='main-request-demo' href="mailto:contact@statengine.io" target="_blank">Request a Demo</a>
+          <!--<button class="btn btn-outline hvr-float w180">Learn More</button>-->
         </div>
-        <div id="intro-image" class="col-md-5 ml-auto">
-          <img src="/assets/images/open-source.png"/>
-        </div>
-      </section>
+      </div>
+    </section>
+  </header>
+  <section id="intro" class="container">
+    <section id="intro-header" class="row">
+      <div id="intro-text" class="col-md-6">
+        <h2 class="subheader">
+          Say goodbye to complex and restrictive data analytics software
+        </h2>
+        <p>
+          StatEngine is built on powerful, best-of-breed, open source analytics and visualization tools. This means public safety organizations of all sizes can easily and cost-effectively exploit large volumes of complex, highly relevant, and impactful data
+          sets.
+        </p>
+      </div>
+      <div id="intro-image" class="col-md-5 ml-auto">
+        <img src="/assets/images/open-source.png"/>
+      </div>
+    </section>
 
-      <section id="benefits" class="row">
-        <div ng-repeat="props in $ctrl.intros" class="intro-item col-lg-3">
-          <img src="{{props.img}}"/>
-          <h5>{{props.title}}</h5>
-          <p class="common-body-text">
-            {{props.content}}
-          </p>
+    <section id="benefits" class="row">
+      <div ng-repeat="props in $ctrl.intros" class="intro-item col-lg-3">
+        <img src="{{props.img}}"/>
+        <h5>{{props.title}}</h5>
+        <p class="common-body-text">
+          {{props.content}}
+        </p>
+      </div>
+    </section>
+  </section>
+  <section id="features">
+    <div class="container">
+      <div class="row mb-3">
+        <h3 class="col-12 extraheavyheader pb-1">Built for public safety organizations</h3>
+        <p class="col-12 lead">We are always working hard to make StatEngine the best platform for your needs.
+        </p>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-lg-4 text-right feature-column-left">
+          <article>
+            <img src="/assets/images/icon-data-enrichment.svg" alt="Data Enrichment Icon">
+            <h5>Data Enrichment</h5>
+            <p>Use our ever-growing enrichment libraries to enhance your raw data.</p>
+          </article>
+          <article>
+            <img src="/assets/images/icon-cloud-instance.svg" alt="Cloud Instance Icon">
+            <h5>Highly Available Cloud Instance</h5>
+            <p>Reduce infrastructure and installation complexity by leveraging our secure cloud instance.</p>
+          </article>
+          <article>
+            <img src="/assets/images/icon-secure-integrations.svg" alt="Secure Integrations Icon">
+            <h5>Secure Integrations</h5>
+            <p>Easily and securely authorize third-party applications to access your data and enable powerful workflows.</p>
+          </article>
+        </div>
+        <div class="col-lg-4">
+          <div class="circle">
+            <img src="/assets/images/statengine-symbol.svg"/>
+          </div>
+        </div>
+        <div class="col-lg-4 text-left feature-column-right">
+          <article>
+            <img src="/assets/images/icon-open-source.svg" alt="Open Source Icon">
+            <h5>Built in the Open</h5>
+            <p>Core components of StatEngine have open source licenses to maximize the return on investment for public safety organizations.</p>
+          </article>
+          <article>
+            <img src="/assets/images/icon-operations.svg" alt="Operations Icon">
+            <h5>Instant Insight Into Your Operations</h5>
+            <p>StatEngine's analytics provide instant insight into your operational data, allowing you to easily identify trends and patterns in your service delivery.</p>
+          </article>
+          <article>
+            <img src="/assets/images/icon-continuous-improvement.svg" alt="Continuous Improvement Icon">
+            <h5>Continuous Improvement</h5>
+            <p>StatEngine is always being improved to offer public safety organizations more value.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <div class="row justify-content-between">
+      <section id="partners" class="col-lg-5 mt-5 mb-1 py-md-4 pb-md-2">
+        <h4 class="heavyheader pb-1">Our Partners</h4>
+        <p>
+          We are working with a broad group of partners who contribute to StatEngine, making it stronger and richer. These partners create a vibrant ecosystem of intelligent growth and knowledge validation.
+        </p>
+        <div class="row justify-content-between flex-nowrap partners-logos">
+          <a id='main-partners-rfd' href="http://www.richmondgov.com/Fire/index.aspx" target="_blank"><img src="assets/images/richmond-va-logo.png" width="91" height="113"/></a>
+          <a id='main-partners-nfors' href="http://nfors.org" target="_blank"><img src="assets/images/nfors-logo.png" height="91" width="150"/></a>
+          <a id='main-partners-hanover' href="https://www.hanovercounty.gov/297/Fire-EMS" target="_blank"><img src="assets/images/hanover-va-logo.png" width="102" height="114"/></a>
         </div>
       </section>
-    </section>
-    <section id="features">
-      <div class="container">
-        <div class="row mb-3">
-          <h3 class="col-12 extraheavyheader pb-1">Built for public safety organizations</h3>
-          <p class="col-12 lead">We are always working hard to make StatEngine the best platform for your needs.
-          </p>
-        </div>
-        <div class="row justify-content-between">
-          <div class="col-lg-4 text-right feature-column-left">
-            <article>
-              <img src="/assets/images/icon-data-enrichment.svg" alt="Data Enrichment Icon">
-              <h5>Data Enrichment</h5>
-              <p>Use our ever-growing enrichment libraries to enhance your raw data.</p>
-            </article>
-            <article>
-              <img src="/assets/images/icon-cloud-instance.svg" alt="Cloud Instance Icon">
-              <h5>Highly Available Cloud Instance</h5>
-              <p>Reduce infrastructure and installation complexity by leveraging our secure cloud instance.</p>
-            </article>
-            <article>
-              <img src="/assets/images/icon-secure-integrations.svg" alt="Secure Integrations Icon">
-              <h5>Secure Integrations</h5>
-              <p>Easily and securely authorize third-party applications to access your data and enable powerful workflows.</p>
-            </article>
-          </div>
-          <div class="col-lg-4">
-            <div class="circle">
-              <img src="/assets/images/statengine-symbol.svg"/>
-            </div>
-          </div>
-          <div class="col-lg-4 text-left feature-column-right">
-            <article>
-              <img src="/assets/images/icon-open-source.svg" alt="Open Source Icon">
-              <h5>Built in the Open</h5>
-              <p>Core components of StatEngine have open source licenses to maximize the return on investment for public safety organizations.</p>
-            </article>
-            <article>
-              <img src="/assets/images/icon-operations.svg" alt="Operations Icon">
-              <h5>Instant Insight Into Your Operations</h5>
-              <p>StatEngine's analytics provide instant insight into your operational data, allowing you to easily identify trends and patterns in your service delivery.</p>
-            </article>
-            <article>
-              <img src="/assets/images/icon-continuous-improvement.svg" alt="Continuous Improvement Icon">
-              <h5>Continuous Improvement</h5>
-              <p>StatEngine is always being improved to offer public safety organizations more value.</p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="container">
-      <div class="row justify-content-between">
-        <section id="partners" class="col-lg-5 mt-5 mb-1 py-md-4 pb-md-2">
-          <h4 class="heavyheader pb-1">Our Partners</h4>
-          <p>
-            We are working with a broad group of partners who contribute to StatEngine, making it stronger and richer. These partners create a vibrant ecosystem of intelligent growth and knowledge validation.
-          </p>
-          <div class="row justify-content-between flex-nowrap partners-logos">
-            <a id='main-partners-rfd' href="http://www.richmondgov.com/Fire/index.aspx" target="_blank"><img src="assets/images/richmond-va-logo.png" width="91" height="113"/></a>
-            <a id='main-partners-nfors' href="http://nfors.org" target="_blank"><img src="assets/images/nfors-logo.png" height="91" width="150"/></a>
-            <a id='main-partners-hanover' href="https://www.hanovercounty.gov/297/Fire-EMS" target="_blank"><img src="assets/images/hanover-va-logo.png" width="102" height="114"/></a>
-          </div>
-        </section>
-        <section id="news-events" class="col-lg-5 mt-5 mb-1 py-md-4">
-          <h4 class="heavyheader pb-1">Latest News &amp; Events</h4>
-          <article>
-            <h6 class="subheader">Weather Data Enrichment</h6>
-            <p>How does rain, snow, or temperature effect response times? Weather data can now be added automatically to incidents!</p>
-          </article>
-          <article>
-            <h6 class="subheader">PulsePoint Integration</h6>
-            <p><a href="http://www.pulsepoint.org/" target="_blanK"> PulsePoint </a> organizations can now analyze data in StatEngine in one easy step!</p>
-          </article>
-          <article>
-            <h6 class="subheader">Email Reports</h6>
-            <p>Daily shift reports, weekly summaries and more now available!</p>
-          </article>
-        </section>
-      </div>
-      <div class="bottom-line"></div>
+      <section id="news-events" class="col-lg-5 mt-5 mb-1 py-md-4">
+        <h4 class="heavyheader pb-1">Latest News &amp; Events</h4>
+        <article>
+          <h6 class="subheader">Weather Data Enrichment</h6>
+          <p>How does rain, snow, or temperature effect response times? Weather data can now be added automatically to incidents!</p>
+        </article>
+        <article>
+          <h6 class="subheader">PulsePoint Integration</h6>
+          <p><a href="http://www.pulsepoint.org/" target="_blanK"> PulsePoint </a> organizations can now analyze data in StatEngine in one easy step!</p>
+        </article>
+        <article>
+          <h6 class="subheader">Email Reports</h6>
+          <p>Daily shift reports, weekly summaries and more now available!</p>
+        </article>
+      </section>
     </div>
-    <section id="contact" class="container my-5 py-2 py-md-3">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-md-12 text-center">
-          <h3 class="mb-4">Getting started is easy. Get in touch, or create an account.</h3>
-        </div>
-        <div class="col-md-12 button-group text-center">
-          <button id='main-get-started-sign-up' class="btn btn-primary btn-oblong hvr-float w180" ui-sref="site.account.signup">Sign Up</button>
-          <a id='main-get-started-contact-us' href="mailto: contact@statengine.io" target="_blank">
-            <button class="btn btn-outline-inverse btn-oblong hvr-float w180">Contact Us</button>
-          </a>
-        </div>
-      </div>
-    </section>
-    <footer id="footer"></footer>
+    <div class="bottom-line"></div>
   </div>
-  <div class="site-overlay"></div>
+  <section id="contact" class="container my-5 py-2 py-md-3">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-12 text-center">
+        <h3 class="mb-4">Getting started is easy. Get in touch, or create an account.</h3>
+      </div>
+      <div class="col-md-12 button-group text-center">
+        <button id='main-get-started-sign-up' class="btn btn-primary btn-oblong hvr-float w180" ui-sref="site.account.signup">Sign Up</button>
+        <a id='main-get-started-contact-us' href="mailto: contact@statengine.io" target="_blank">
+          <button class="btn btn-outline-inverse btn-oblong hvr-float w180">Contact Us</button>
+        </a>
+      </div>
+    </div>
+  </section>
+  <footer id="footer"></footer>
 </div>

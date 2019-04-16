@@ -6,11 +6,6 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.marketplace', {
       abstract: true,
-      views: {
-        'navbar@': {
-          template: '<sidebar></sidebar>'
-        },
-      },
     })
     .state('site.marketplace.home', {
       url: '/marketplace/home',

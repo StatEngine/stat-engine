@@ -1,122 +1,112 @@
-<div class="br-mainpanel medium-bg">
-  <!-- TODO
-  <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="index.html">Home</a>
-      <a class="breadcrumb-item" href="#">Applications</a>
-      <span class="breadcrumb-item active">Twitter</span>
-    </nav>
-  </div> --><!-- br-pageheader -->
-  <div class="br-pagebody twitter-home">
-    <div class="row text-center" ng-if="!vm.authorized">
-      <div class="col-md-12 m-auto mx-wd-800">
-        <!-- Integration Info & Description -->
-        <div class="extension-logo pd-b-35">
-          <img src="../assets/images/extensions/extension-twitter.svg" class="w-25" alt="Twitter">
+<div class="br-pagebody twitter-home">
+  <div class="row text-center" ng-if="!vm.authorized">
+    <div class="col-md-12 m-auto mx-wd-800">
+      <!-- Integration Info & Description -->
+      <div class="extension-logo pd-b-35">
+        <img src="../assets/images/extensions/extension-twitter.svg" class="w-25" alt="Twitter">
+      </div>
+      <h3 class="mb-3 ng-binding">Twitter App</h3>
+      <p class="mb-5">This app will auto-generate recommended tweets that capture important metrics of your department operations. Easily post directly to your Twitter feed with simple to use edit and preview control modes. Want to include rich media such as a photo with your tweet? No problem. We have an option for that as well!</p>
+      <!-- Authorization Access -->
+      <div class="authorize mt-5">
+        <h4 class="subheader mb-4 pb-4">Please authorize StatEngine to use your Twitter account.</h4>
+        <div class="row">
+          <div class="col-md-6 pd-b-50 pd-md-b-0">
+            <p class="text-left">This application <strong class="tx-success">will be able to</strong>:</p>
+            <ul class="list-group tx-left">
+              <li class="list-group-item rounded-top-0">
+                <p class="mg-b-0">
+                  <i class="fa fa-check tx-success mg-r-8"></i>
+                  <strong class="tx-inverse tx-medium">Read tweets from your timeline</strong>
+                </p>
+              </li>
+              <li class="list-group-item">
+                <p class="mg-b-0"><i class="fa fa-check tx-success mg-r-8"></i><strong class="tx-inverse tx-medium">See who you follow</strong></p>
+              </li>
+              <li class="list-group-item">
+                <p class="mg-b-0"><i class="fa fa-check tx-success mg-r-8"></i><strong class="tx-inverse tx-medium">Post tweets on your behalf</strong></p>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <p class="text-left">This application <strong class="tx-danger">will NOT be able to</strong>:</p>
+            <ul class="list-group tx-left">
+              <li class="list-group-item rounded-top-0">
+                <p class="mg-b-0">
+                  <i class="fa fa-times tx-danger mg-r-8"></i>
+                  <strong class="tx-inverse tx-medium">Access your private messages</strong>
+                </p>
+              </li>
+              <li class="list-group-item">
+                <p class="mg-b-0"><i class="fa fa-times tx-danger mg-r-8"></i><strong class="tx-inverse tx-medium">See your password</strong></p>
+              </li>
+              <li class="list-group-item">
+                <p class="mg-b-0"><i class="fa fa-times tx-danger mg-r-8"></i><strong class="tx-inverse tx-medium">Update your profile</strong></p>
+              </li>
+            </ul>
+          </div>
         </div>
-        <h3 class="mb-3 ng-binding">Twitter App</h3>
-        <p class="mb-5">This app will auto-generate recommended tweets that capture important metrics of your department operations. Easily post directly to your Twitter feed with simple to use edit and preview control modes. Want to include rich media such as a photo with your tweet? No problem. We have an option for that as well!</p>
-        <!-- Authorization Access -->
-        <div class="authorize mt-5">
-          <h4 class="subheader mb-4 pb-4">Please authorize StatEngine to use your Twitter account.</h4>
-          <div class="row">
-            <div class="col-md-6 pd-b-50 pd-md-b-0">
-              <p class="text-left">This application <strong class="tx-success">will be able to</strong>:</p>
-              <ul class="list-group tx-left">
-                <li class="list-group-item rounded-top-0">
-                  <p class="mg-b-0">
-                    <i class="fa fa-check tx-success mg-r-8"></i>
-                    <strong class="tx-inverse tx-medium">Read tweets from your timeline</strong>
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <p class="mg-b-0"><i class="fa fa-check tx-success mg-r-8"></i><strong class="tx-inverse tx-medium">See who you follow</strong></p>
-                </li>
-                <li class="list-group-item">
-                  <p class="mg-b-0"><i class="fa fa-check tx-success mg-r-8"></i><strong class="tx-inverse tx-medium">Post tweets on your behalf</strong></p>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <p class="text-left">This application <strong class="tx-danger">will NOT be able to</strong>:</p>
-              <ul class="list-group tx-left">
-                <li class="list-group-item rounded-top-0">
-                  <p class="mg-b-0">
-                    <i class="fa fa-times tx-danger mg-r-8"></i>
-                    <strong class="tx-inverse tx-medium">Access your private messages</strong>
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <p class="mg-b-0"><i class="fa fa-times tx-danger mg-r-8"></i><strong class="tx-inverse tx-medium">See your password</strong></p>
-                </li>
-                <li class="list-group-item">
-                  <p class="mg-b-0"><i class="fa fa-times tx-danger mg-r-8"></i><strong class="tx-inverse tx-medium">Update your profile</strong></p>
-                </li>
-              </ul>
+        <button class="btn btn-oblong btn-primary mt-5 mb-2" ng-click="vm.authorize()">Authorize this Integration</button>
+      </div>
+    </div>
+  </div>
+
+  <section ng-if="vm.authorized">
+    <!-- Account Info -->
+    <div class="row twitter-account-info">
+      <div class="col-lg-12 mb-3">
+        <div class="card">
+          <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
+            <h6>Twitter Account Info</h6>
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-xs-3 avatar">
+                <i class="fa fa-check-circle text-success checkmark"></i>
+                <img src={{vm.profileUrl}} class="my-3 ml-2 mr-4"></img>
+              </div>
+              <div class="col-xs-9">
+                <h4 class="pt-2 mt-4">{{ vm.twitterProfile.name }}</h4>
+                <span><strong>{{ vm.twitterProfile.statuses_count }}</strong>&nbsp;Tweets</span>
+                <em>&nbsp;| &nbsp;</em> <span><strong>{{ vm.twitterProfile.friends_count }}</strong> Following</span>
+                <em>&nbsp;| &nbsp;</em> <span><strong>{{ vm.twitterProfile.followers_count }}</strong> Followers</span>
+              </div>
             </div>
           </div>
-          <button class="btn btn-oblong btn-primary mt-5 mb-2" ng-click="vm.authorize()">Authorize this Integration</button>
         </div>
       </div>
     </div>
 
-    <section ng-if="vm.authorized">
-      <!-- Account Info -->
-      <div class="row twitter-account-info">
-        <div class="col-lg-12 mb-3">
-          <div class="card">
-            <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-              <h6>Twitter Account Info</h6>
+    <!-- Tweet Recommendations -->
+    <div class="row recommendations">
+      <div class="col-lg-12 mb-3">
+        <div class="card tweet-card">
+          <h6 class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">Tweet Recommendations</h6>
+
+          <div class="card-body">
+            <div ng-if="!vm.recommendedTweets || vm.recommendedTweets.length === 0" class="text-warning">
+              <div class="alert alert-info text-center mx-5 my-2" role="alert">We don't have any recommended tweets for you right now. Please check back later!</div>
             </div>
-            <div class="card-body">
 
-              <div class="row">
-                <div class="col-xs-3 avatar">
-                  <i class="fa fa-check-circle text-success checkmark"></i>
-                  <img src={{vm.profileUrl}} class="my-3 ml-2 mr-4"></img>
-                </div>
-                <div class="col-xs-9">
-                  <h4 class="pt-2 mt-4">{{ vm.twitterProfile.name }}</h4>
-                  <span><strong>{{ vm.twitterProfile.statuses_count }}</strong>&nbsp;Tweets</span>
-                  <em>&nbsp;| &nbsp;</em> <span><strong>{{ vm.twitterProfile.friends_count }}</strong> Following</span>
-                  <em>&nbsp;| &nbsp;</em> <span><strong>{{ vm.twitterProfile.followers_count }}</strong> Followers</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            <div ng-if="vm.recommendedTweets.length > 0" class="col-md-12 px-0 pt-2 pb-4">
 
-      <!-- Tweet Recommendations -->
-      <div class="row recommendations">
-        <div class="col-lg-12 mb-3">
-          <div class="card tweet-card">
-            <h6 class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">Tweet Recommendations</h6>
+              <p class="mb-2 intro">Tweet any of the following recommendations directly to <a href="http://twitter.com" target="_blank">Twitter</a>!<br>
+                Edit the suggested text, or add images and overlay text prior to tweeting by clicking the <i class="fa fa-pencil"></i> button. <br>
+                 Not sure if its perfect? Thats OK, you can preview what the recommend tweet will look like by clicking the <i class="fa fa-eye"></i> button. Finally, to post the tweet, click the <i class="fa fa-twitter"></i> button.
+              </p>
 
-            <div class="card-body">
-              <div ng-if="!vm.recommendedTweets || vm.recommendedTweets.length === 0" class="text-warning">
-                <div class="alert alert-info text-center mx-5 my-2" role="alert">We don't have any recommended tweets for you right now. Please check back later!</div>
-              </div>
-
-              <div ng-if="vm.recommendedTweets.length > 0" class="col-md-12 px-0 pt-2 pb-4">
-
-                <p class="mb-2 intro">Tweet any of the following recommendations directly to <a href="http://twitter.com" target="_blank">Twitter</a>!<br>
-                  Edit the suggested text, or add images and overlay text prior to tweeting by clicking the <i class="fa fa-pencil"></i> button. <br>
-                   Not sure if its perfect? Thats OK, you can preview what the recommend tweet will look like by clicking the <i class="fa fa-eye"></i> button. Finally, to post the tweet, click the <i class="fa fa-twitter"></i> button.
-                </p>
-
-                <div class="row" >
-                  <div class="col-md-4 my-3" ng-repeat="tweet in vm.recommendedTweets">
-                    <div class="card card-shadowed tweet-card" ng-class="tweet.tweet_json.class">
-                      <div class="card-body">
-                          <div class="tweet-text" data-title="Text">
-                            <p>{{tweet.tweet_json.status}}</p>
-                          </div>
-                          <div class="tweet-actions" data-title="Actions">
-                            <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-pencil"></i></button>
-                            <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-eye"></i></button>
-                            <button class="btn-link" ng-click="vm.tweetTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-twitter"></i></button>
+              <div class="row" >
+                <div class="col-md-4 my-3" ng-repeat="tweet in vm.recommendedTweets">
+                  <div class="card card-shadowed tweet-card" ng-class="tweet.tweet_json.class">
+                    <div class="card-body">
+                        <div class="tweet-text" data-title="Text">
+                          <p>{{tweet.tweet_json.status}}</p>
                         </div>
+                        <div class="tweet-actions" data-title="Actions">
+                          <button class="btn-link" ng-click="vm.editTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Edit" popover-trigger="'mouseenter'"><i class="fa fa-pencil"></i></button>
+                          <button class="btn-link" ng-click="vm.previewTweet(tweet)" uib-popover="Preview/View" popover-trigger="'mouseenter'"><i class="fa fa-eye"></i></button>
+                          <button class="btn-link" ng-click="vm.tweetTweet(tweet)" ng-class="{'fa-disabled': tweet.date_tweeted }" ng-disabled="tweet.date_tweeted" uib-popover="Tweet" popover-trigger="'mouseenter'"><i class="fa fa-twitter"></i></button>
                       </div>
                     </div>
                   </div>
@@ -126,49 +116,49 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Recent Activity -->
-      <div class="row mt-1 recent-activity">
-        <div class="col-lg-12">
-          <div class="card">
-            <h6 class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">Recent Activity</h6>
+    <!-- Recent Activity -->
+    <div class="row mt-1 recent-activity">
+      <div class="col-lg-12">
+        <div class="card">
+          <h6 class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">Recent Activity</h6>
 
 
-            <div class="card-body">
-              <div ng-if="!vm.recentTweets || vm.recentTweets.length === 0" class="text-warning">
-                <br>
-                <p>Whoops - looks like you don't have any recent activity.  Start tweeting now! </p>
-              </div>
-      
-              <div ng-if="vm.recentTweets.length > 0">
-                <div class="table mb-5">
-                  <div class="table-row header">
-                    <div class="cell tweet-cell">
-                      Tweet
-                    </div>
-                    <div class="cell tweet-cell">
-                      # Retweets <i class="fa fa-retweet"></i>
-                    </div>
-                    <div class="cell tweet-cell">
-                      # Favorites <i class="fa fa-heart-o"></i>
-                    </div>
-                    <div class="cell tweet-cell">
-                      Date
-                    </div>
+          <div class="card-body">
+            <div ng-if="!vm.recentTweets || vm.recentTweets.length === 0" class="text-warning">
+              <br>
+              <p>Whoops - looks like you don't have any recent activity.  Start tweeting now! </p>
+            </div>
+
+            <div ng-if="vm.recentTweets.length > 0">
+              <div class="table mb-5">
+                <div class="table-row header">
+                  <div class="cell tweet-cell">
+                    Tweet
                   </div>
-                  <div class="table-row" ng-repeat="tweet in vm.recentTweets">
-                    <div class="cell tweet-cell" data-title="Text">
-                      <a ng-click="vm.openTweet(tweet)" target="_blank" href="#"> {{tweet.text}} </a>
-                    </div>
-                    <div class="cell tweet-cell" data-title="Text">
-                      {{tweet.retweet_count}}
-                    </div>
-                    <div class="cell tweet-cell" data-title="Text">
-                      {{tweet.favorite_count}}
-                    </div>
-                    <div class="cell tweet-cell" data-title="Text">
-                      {{tweet.created_at}}
-                    </div>
+                  <div class="cell tweet-cell">
+                    # Retweets <i class="fa fa-retweet"></i>
+                  </div>
+                  <div class="cell tweet-cell">
+                    # Favorites <i class="fa fa-heart-o"></i>
+                  </div>
+                  <div class="cell tweet-cell">
+                    Date
+                  </div>
+                </div>
+                <div class="table-row" ng-repeat="tweet in vm.recentTweets">
+                  <div class="cell tweet-cell" data-title="Text">
+                    <a ng-click="vm.openTweet(tweet)" target="_blank" href="#"> {{tweet.text}} </a>
+                  </div>
+                  <div class="cell tweet-cell" data-title="Text">
+                    {{tweet.retweet_count}}
+                  </div>
+                  <div class="cell tweet-cell" data-title="Text">
+                    {{tweet.favorite_count}}
+                  </div>
+                  <div class="cell tweet-cell" data-title="Text">
+                    {{tweet.created_at}}
                   </div>
                 </div>
               </div>
@@ -176,6 +166,6 @@
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </div>

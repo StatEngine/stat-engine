@@ -20,10 +20,15 @@
 
 
 </head>
-<body class="pushy-wrapper">
-    <div ui-view="navbar"></div>
+<body>
+    <div class="root-view">
+      <div class="sidebar-view" ui-view="sidebar"></div>
+      <div class="app-view">
+        <div class="appbar-view" ui-view="appbar"></div>
+        <div class="content-view" ui-view="content"></div>
+      </div>
+    </div>
     <div ui-view="landing"></div>
-    <div ui-view="content"></div>
     <div ui-view="footer"></div>
     <script src="https://embed.small.chat/T03E96HPMGAZRYQ28Y.js" async></script>
 </body>

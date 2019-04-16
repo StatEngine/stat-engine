@@ -6,9 +6,6 @@ export default function routes($stateProvider) {
   $stateProvider.state('kitchenSink', {
     url: '/kitchenSink',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown naked"></navbar>'
-      },
       'content@': {
         template: require('./kitchen-sink/kitchen-sink.html'),
         controller: 'KitchenSinkController',
@@ -20,9 +17,6 @@ export default function routes($stateProvider) {
   $stateProvider.state('layoutA', {
     url: '/layoutA',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown naked"></navbar>'
-      },
       'content@': {
         template: require('./layout-a/layout-a.html'),
       }
@@ -32,9 +26,6 @@ export default function routes($stateProvider) {
   $stateProvider.state('layoutB', {
     url: '/layoutB',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown naked"></navbar>'
-      },
       'content@': {
         template: require('./layout-b/layout-b.html'),
       }
@@ -44,9 +35,6 @@ export default function routes($stateProvider) {
   $stateProvider.state('layoutC', {
     url: '/layoutC',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown naked"></navbar>'
-      },
       'content@': {
         template: require('./layout-c/layout-c.html'),
       }

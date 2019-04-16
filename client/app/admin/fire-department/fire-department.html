@@ -1,169 +1,166 @@
-<div class="br-mainpanel fire-deparment-home">
-  <header class="naked"></header>
-  <section class="container">
-    <section class="row mb-12 justify-content-md-center">
-      <div class="col-md-auto align-self-center">
-        <h2 class="subheader">Edit Fire Department</h2>
-        <div class="form-elements">
-          <form class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="fdForm" ng-submit="vm.updateFireDepartment(fdForm)" novalidate="">
+<section class="container py-5">
+  <section class="row mb-12 justify-content-md-center">
+    <div class="col-md-auto align-self-center">
+      <h2 class="subheader">Edit Fire Department</h2>
+      <div class="form-elements">
+        <form class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="fdForm" ng-submit="vm.updateFireDepartment(fdForm)" novalidate="">
 
-            <div ng-if="vm.fireDepartment._id" class="form-group " ng-class="{ 'has-success': fdForm.customer_id.$valid && vm.submitted,'has-error': fdForm.customer_id.$invalid && vm.submitted }">
-              <label>Customer ID</label>
-              <input type="text" name="customer_id" class="form-control input-md" ng-model="vm.fireDepartment.customer_id"/>
-              <p class="help-block" ng-show="fdForm.customer_id.$error.required && vm.submitted">
-                  Customer ID is required
-              </p>
-              <p class="help-block" ng-show="fdForm.customer_id.$error.mongoose">
-                  {{ vm.errors.customer_id }}
-              </p>
-            </div>
+          <div ng-if="vm.fireDepartment._id" class="form-group " ng-class="{ 'has-success': fdForm.customer_id.$valid && vm.submitted,'has-error': fdForm.customer_id.$invalid && vm.submitted }">
+            <label>Customer ID</label>
+            <input type="text" name="customer_id" class="form-control input-md" ng-model="vm.fireDepartment.customer_id"/>
+            <p class="help-block" ng-show="fdForm.customer_id.$error.required && vm.submitted">
+                Customer ID is required
+            </p>
+            <p class="help-block" ng-show="fdForm.customer_id.$error.mongoose">
+                {{ vm.errors.customer_id }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.firecares_id.$valid && vm.submitted,'has-error': fdForm.firecares_id.$invalid && vm.submitted }">
-              <label>Firecares ID</label>
-              <input type="text" name="firecares_id" class="form-control input-md" ng-model="vm.fireDepartment.firecares_id" required="required"/>
-              <p class="help-block" ng-show="fdForm.firecares_id.$error.required && vm.submitted">
-                Firecares ID is required
-              </p>
-              <p class="help-block" ng-show="fdForm.firecares_id.$error.mongoose">
-                {{ vm.errors.firecares_id }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.firecares_id.$valid && vm.submitted,'has-error': fdForm.firecares_id.$invalid && vm.submitted }">
+            <label>Firecares ID</label>
+            <input type="text" name="firecares_id" class="form-control input-md" ng-model="vm.fireDepartment.firecares_id" required="required"/>
+            <p class="help-block" ng-show="fdForm.firecares_id.$error.required && vm.submitted">
+              Firecares ID is required
+            </p>
+            <p class="help-block" ng-show="fdForm.firecares_id.$error.mongoose">
+              {{ vm.errors.firecares_id }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.fd_id.$valid && vm.submitted,'has-error': fdForm.fd_id.$invalid && vm.submitted }">
-              <label>FD ID</label>
-              <input type="text" name="fd_id" class="form-control input-md" ng-model="vm.fireDepartment.fd_id" required="required"/>
-              <p class="help-block" ng-show="fdForm.fd_id.$error.required && vm.submitted">
-                FD ID is required
-              </p>
-              <p class="help-block" ng-show="fdForm.fd_id.$error.mongoose">
-                {{ vm.errors.fd_id }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.fd_id.$valid && vm.submitted,'has-error': fdForm.fd_id.$invalid && vm.submitted }">
+            <label>FD ID</label>
+            <input type="text" name="fd_id" class="form-control input-md" ng-model="vm.fireDepartment.fd_id" required="required"/>
+            <p class="help-block" ng-show="fdForm.fd_id.$error.required && vm.submitted">
+              FD ID is required
+            </p>
+            <p class="help-block" ng-show="fdForm.fd_id.$error.mongoose">
+              {{ vm.errors.fd_id }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.name.$valid && vm.submitted,'has-error': fdForm.name.$invalid && vm.submitted }">
-              <label>Name</label>
-              <input type="text" name="name" class="form-control input-md" ng-model="vm.fireDepartment.name" required="required"/>
-              <p class="help-block" ng-show="fdForm.name.$error.required && vm.submitted">
-                Name is required
-              </p>
-              <p class="help-block" ng-show="fdForm.name.$error.mongoose">
-                {{ vm.errors.name }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.name.$valid && vm.submitted,'has-error': fdForm.name.$invalid && vm.submitted }">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control input-md" ng-model="vm.fireDepartment.name" required="required"/>
+            <p class="help-block" ng-show="fdForm.name.$error.required && vm.submitted">
+              Name is required
+            </p>
+            <p class="help-block" ng-show="fdForm.name.$error.mongoose">
+              {{ vm.errors.name }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.state.$valid && vm.submitted,'has-error': fdForm.state.$invalid && vm.submitted }">
-              <label>State</label>
-              <input type="text" name="state" class="form-control input-md" ng-model="vm.fireDepartment.state" required="required"/>
-              <p class="help-block" ng-show="fdForm.state.$error.required && vm.submitted">
-                State is required
-              </p>
-              <p class="help-block" ng-show="fdForm.state.$error.mongoose">
-                {{ vm.errors.state }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.state.$valid && vm.submitted,'has-error': fdForm.state.$invalid && vm.submitted }">
+            <label>State</label>
+            <input type="text" name="state" class="form-control input-md" ng-model="vm.fireDepartment.state" required="required"/>
+            <p class="help-block" ng-show="fdForm.state.$error.required && vm.submitted">
+              State is required
+            </p>
+            <p class="help-block" ng-show="fdForm.state.$error.mongoose">
+              {{ vm.errors.state }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.latitude.$valid && vm.submitted,'has-error': fdForm.latitude.$invalid && vm.submitted }">
-              <label>Latitude</label>
-              <input type="number" name="latitude" class="form-control input-md" ng-model="vm.fireDepartment.latitude" required="required"/>
-              <p class="help-block" ng-show="fdForm.latitude.$error.required && vm.submitted">
-                Latitude is required
-              </p>
-              <p class="help-block" ng-show="fdForm.latitude.$error.mongoose">
-                {{ vm.errors.latitude }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.latitude.$valid && vm.submitted,'has-error': fdForm.latitude.$invalid && vm.submitted }">
+            <label>Latitude</label>
+            <input type="number" name="latitude" class="form-control input-md" ng-model="vm.fireDepartment.latitude" required="required"/>
+            <p class="help-block" ng-show="fdForm.latitude.$error.required && vm.submitted">
+              Latitude is required
+            </p>
+            <p class="help-block" ng-show="fdForm.latitude.$error.mongoose">
+              {{ vm.errors.latitude }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
-              <label>Longitude</label>
-              <input type="number" name="longitude" class="form-control input-md" ng-model="vm.fireDepartment.longitude" required="required"/>
-              <p class="help-block" ng-show="fdForm.longitude.$error.required && vm.submitted">
-                Longitude is required
-              </p>
-              <p class="help-block" ng-show="fdForm.longitude.$error.mongoose">
-                {{ vm.errors.longitude }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
+            <label>Longitude</label>
+            <input type="number" name="longitude" class="form-control input-md" ng-model="vm.fireDepartment.longitude" required="required"/>
+            <p class="help-block" ng-show="fdForm.longitude.$error.required && vm.submitted">
+              Longitude is required
+            </p>
+            <p class="help-block" ng-show="fdForm.longitude.$error.mongoose">
+              {{ vm.errors.longitude }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
-              <label>Logo Link</label>
-              <input type="text" name="logo_link" class="form-control input-md" ng-model="vm.fireDepartment.logo_link"/>
-              <p class="help-block" ng-show="fdForm.logo_link.$error.mongoose">
-                {{ vm.errors.logo_link }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
+            <label>Logo Link</label>
+            <input type="text" name="logo_link" class="form-control input-md" ng-model="vm.fireDepartment.logo_link"/>
+            <p class="help-block" ng-show="fdForm.logo_link.$error.mongoose">
+              {{ vm.errors.logo_link }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
-              <label>Timezone</label>
-              <select name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required>
-                <option ng-repeat="timezone in vm.timezones" value="{{timezone}}">{{timezone}}</option>
-              </select>
-              <p class="help-block" ng-show="fdForm.timezone.$error.required && vm.submitted">
-                Timezone is required
-              </p>
-              <p class="help-block" ng-show="fdForm.timezone.$error.mongoose">
-                {{ vm.errors.timezone }}
-              </p>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
+            <label>Timezone</label>
+            <select name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required>
+              <option ng-repeat="timezone in vm.timezones" value="{{timezone}}">{{timezone}}</option>
+            </select>
+            <p class="help-block" ng-show="fdForm.timezone.$error.required && vm.submitted">
+              Timezone is required
+            </p>
+            <p class="help-block" ng-show="fdForm.timezone.$error.mongoose">
+              {{ vm.errors.timezone }}
+            </p>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.integration_complete.$valid && vm.submitted,'has-error': fdForm.integration_complete.$invalid && vm.submitted }">
-              <label>Integration Complete</label>
-              <input type="checkbox" name="integration_complete" class="form-control input-md" ng-model="vm.fireDepartment.integration_complete"/>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.integration_complete.$valid && vm.submitted,'has-error': fdForm.integration_complete.$invalid && vm.submitted }">
+            <label>Integration Complete</label>
+            <input type="checkbox" name="integration_complete" class="form-control input-md" ng-model="vm.fireDepartment.integration_complete"/>
+          </div>
 
-            <div class="form-group " ng-class="{ 'has-success': fdForm.integration_verified.$valid && vm.submitted,'has-error': fdForm.integration_verified.$invalid && vm.submitted }">
-              <label>Integration Verified</label>
-              <input type="checkbox" name="integration_verified" class="form-control input-md" ng-model="vm.fireDepartment.integration_verified"/>
-            </div>
+          <div class="form-group " ng-class="{ 'has-success': fdForm.integration_verified.$valid && vm.submitted,'has-error': fdForm.integration_verified.$invalid && vm.submitted }">
+            <label>Integration Verified</label>
+            <input type="checkbox" name="integration_verified" class="form-control input-md" ng-model="vm.fireDepartment.integration_verified"/>
+          </div>
 
-            <div>
-              <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
-            </div>
-          </form>
-        </div>
+          <div>
+            <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
+          </div>
+        </form>
       </div>
-      <div class="col-md-auto align-self-center" ng-if="vm.fireDepartment._id && vm.fireDepartment._id !== 'new'">
-        <h2 class="subheader">Kibana Fixtures</h2>
-        <div class="form-elements">
-          <div class="form form-wrapper">
-            <div>
-              <label>Configuration</label>
-              <p> Seeds config with timezone, browser setting, and other advanced settings.</p>
-              <span><button id='seedKibanaConfig' ng-click="vm.fixtures('config')" class="btn btn-alt-2 btn-sm">Seed Config</button></span>
-            </div>
+    </div>
+    <div class="col-md-auto align-self-center" ng-if="vm.fireDepartment._id && vm.fireDepartment._id !== 'new'">
+      <h2 class="subheader">Kibana Fixtures</h2>
+      <div class="form-elements">
+        <div class="form form-wrapper">
+          <div>
+            <label>Configuration</label>
+            <p> Seeds config with timezone, browser setting, and other advanced settings.</p>
+            <span><button id='seedKibanaConfig' ng-click="vm.fixtures('config')" class="btn btn-alt-2 btn-sm">Seed Config</button></span>
+          </div>
 
-            <br>
-            <div>
-              <label>Visualizations</label>
-              <p> Seeds new and updates existing visualizations.</p>
-              <span><button id='seedKibanaVisualizations' ng-click="vm.fixtures('visualization')" class="btn btn-alt-2 btn-sm">Seed Visualizations</button></span>
-            </div>
+          <br>
+          <div>
+            <label>Visualizations</label>
+            <p> Seeds new and updates existing visualizations.</p>
+            <span><button id='seedKibanaVisualizations' ng-click="vm.fixtures('visualization')" class="btn btn-alt-2 btn-sm">Seed Visualizations</button></span>
+          </div>
 
-            <br>
-            <div>
-              <label>Dashboards</label>
-              <p> Seeds new and updates existing dashboards.</p>
-              <span><button id='seedKibanaDashboards' ng-click="vm.fixtures('dashboard')"  class="btn btn-alt-2 btn-sm">Seed Dashboards</button></span>
-            </div>
+          <br>
+          <div>
+            <label>Dashboards</label>
+            <p> Seeds new and updates existing dashboards.</p>
+            <span><button id='seedKibanaDashboards' ng-click="vm.fixtures('dashboard')"  class="btn btn-alt-2 btn-sm">Seed Dashboards</button></span>
+          </div>
 
 
-            <hr>
-            <h3 class="text-danger">Danger Zone</h3>
+          <hr>
+          <h3 class="text-danger">Danger Zone</h3>
 
-            <div>
-              <label>Index Patterns</label>
-              <p> Seeds new and updates exsiting index patterns.  Custom scripted fields will be removed! </p>
-              <span><button id='seedIndexPatterns' ng-click="vm.fixtures('indexPattern')" class="btn btn-alt-2 btn-sm btn-danger">Seed Index Patterns</button></span>
-            </div>
+          <div>
+            <label>Index Patterns</label>
+            <p> Seeds new and updates exsiting index patterns.  Custom scripted fields will be removed! </p>
+            <span><button id='seedIndexPatterns' ng-click="vm.fixtures('indexPattern')" class="btn btn-alt-2 btn-sm btn-danger">Seed Index Patterns</button></span>
+          </div>
 
-            <br>
-            <div>
-              <label>Seed All</label>
-              <p> Deletes, creates, and seeds entire Kibana Index.  All user modifications will be removed!</p>
-              <span><button id='seedAlKibana' ng-click="vm.fixtures('all')" class="btn btn-alt-2 btn-sm btn-danger">Seed All</button></span>
-            </div>
+          <br>
+          <div>
+            <label>Seed All</label>
+            <p> Deletes, creates, and seeds entire Kibana Index.  All user modifications will be removed!</p>
+            <span><button id='seedAlKibana' ng-click="vm.fixtures('all')" class="btn btn-alt-2 btn-sm btn-danger">Seed All</button></span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </section>
-</div>
+</section>
