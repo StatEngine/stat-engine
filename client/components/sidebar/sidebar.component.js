@@ -103,28 +103,11 @@ export class SidebarComponent {
           return false;
         }
       });
-
-      // This will hide sidebar when it's clicked outside of it
-      $(document).on('click', function(e) {
-        e.stopPropagation();
-
-        // closing left sidebar
-        if($('body').hasClass('show-sidebar')) {
-          var targ = $(e.target).closest('.br-sideleft').length;
-          if(!targ) {
-            $('body').removeClass('show-sidebar');
-          }
-        }
-
-        // closing right sidebar
-        if($('body').hasClass('show-right')) {
-          targ = $(e.target).closest('.br-sideright').length;
-          if(!targ) {
-            $('body').removeClass('show-right');
-          }
-        }
-      });
     });
+  }
+
+  hideSidebar() {
+    $('body').removeClass('show-sidebar');
   }
 }
 

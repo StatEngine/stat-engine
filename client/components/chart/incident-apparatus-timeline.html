@@ -1,4 +1,6 @@
-<div style="height: 100%; display: flex; flex-direction: column;">
-  <div class="text-warning mb-3" ng-show="vm.responses.length > 99">This visualization is limited to the first 100 incidents</div>
-  <div style="flex: 1" id="apparatus-timeline"></div>
+<div style="flex: 1; display: flex; flex-direction: column;">
+  <div class="text-warning mb-3" style="font-size: 0.75rem">This visualization is limited to the first 100 incidents</div>
+  <div style="flex: 1;" id="apparatus-timeline-container">
+    <div style="max-height: 100%;" id="apparatus-timeline"></div>
+  </div>
 </div>

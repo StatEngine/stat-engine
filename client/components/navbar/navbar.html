@@ -93,9 +93,9 @@
       <div class="mobile-nav-overlay"></div>
 
       <!-- Unauthenticated -->
-      <div class="bg-black-9" ng-if="!vm.PrincipalService.isAuthenticated()">
+      <div class="mobile-nav-sidebar" ng-if="!vm.PrincipalService.isAuthenticated()">
         <div class="fa fa-close" ng-click="vm.hideMobileNav()"></div>
-        <ul class="px-3 pt-5">
+        <ul class="px-3 mt-5">
           <li><a class="btn btn-primary btn-oblong hvr-float" ui-sref="site.account.login">Sign In</a></li>
           <li><a class="btn btn-outline btn-oblong hvr-float" ui-sref="site.account.signup">Sign Up</a></li>
         </ul>

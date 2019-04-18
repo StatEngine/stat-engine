@@ -96,6 +96,7 @@ body {
   height: 100%;
   max-height: 100%;
   z-index: 100;
+  -webkit-overflow-scrolling: touch; // Fix iOS momentum scrolling.
 }
 
 .app-view {
@@ -108,9 +109,11 @@ body {
   @extend .medium-bg;
   flex: 1;
   overflow: auto;
+  -webkit-overflow-scrolling: touch; // Fix iOS momentum scrolling.
 }
 
-.show-mobile-nav {
+.show-mobile-nav,
+.show-sidebar {
   .content-view {
     @extend .no-scroll;
   }

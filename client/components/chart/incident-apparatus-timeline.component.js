@@ -17,9 +17,7 @@ export default class IncidentApparatusTimelineComponent {
     this.$window = $window;
 
     this.$window.addEventListener('resize', () => {
-      if(this.timeline != null) {
-        this.timeline.redraw();
-      }
+      this.redraw();
     });
   }
 
@@ -92,7 +90,7 @@ export default class IncidentApparatusTimelineComponent {
         items,
         groups,
       });
-      this.timeline.redraw();
+      this.redraw();
     } else {
       // HACK: If we don't have any data, don't create the table yet. This fixes an issue where the table
       // won't update with new data after initializing without any data.
@@ -100,13 +98,16 @@ export default class IncidentApparatusTimelineComponent {
         return;
       }
 
+      this.element = angular.element(document.querySelector('#apparatus-timeline'));
+      const height = angular.element(document.querySelector('#apparatus-timeline-container'))[0].offsetHeight;
+
       // Create timeline.
-      const options = {
+      this.options = {
         selectable: false,
         stack: false,
         verticalScroll: true,
-        height: '100%',
-        maxHeight: '100%',
+        height: `${height}px`,
+        maxHeight: `${height}px`,
         zoomable: false,
         start: new Date(0),
         min: new Date(0),
@@ -182,8 +183,22 @@ export default class IncidentApparatusTimelineComponent {
         }
       };
 
-      this.element = angular.element(document.querySelector('#apparatus-timeline'));
-      this.timeline = new Timeline(this.element[0], items, groups, options);
+      this.timeline = new Timeline(this.element[0], items, groups, this.options);
     }
+  }
+
+  redraw() {
+    if (!this.timeline) {
+      return;
+    }
+
+    // HACK: For some reason setting a height/maxHeight of 100% doesn't work on mobile (the timeline
+    // overflows its container). So set the timeline height manually when redrawing.
+    const element = angular.element(document.querySelector('#apparatus-timeline-container'));
+    const height = element[0].offsetHeight;
+    this.options.height = `${height}px`;
+    this.options.maxHeight = `${height}px`;
+    this.timeline.setOptions(this.options);
+    this.timeline.redraw();
   }
 }

@@ -343,16 +343,16 @@
     </div>
 
     <div class="timeline-overlay" ng-class="{'active': (vm.overlay === 'timeline')}">
-      <div class="overlay-inner">
-        <div class="overlay-header">
-          <div class="overlay-header-title">
+      <div class="reporting-unit-overlay-inner">
+        <div class="reporting-unit-overlay-header">
+          <div class="reporting-unit-overlay-header-title">
             <span>{{ vm.selectedUnitId }} Timeline</span>
           </div>
           <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
         </div>
 
-        <div class="overlay-content">
-          <div class="flex-1 mb-3">
+        <div class="reporting-unit-overlay-content">
+          <div class="flex-1 d-flex flex-column mb-3">
             <incident-apparatus-timeline responses="vm.incidents"></incident-apparatus-timeline>
           </div>
 
@@ -371,15 +371,15 @@
     </div>
 
     <div class="incidents-overlay" ng-class="{'active': (vm.overlay === 'incidents')}">
-      <div class="overlay-inner">
-        <div class="overlay-header">
-          <div class="overlay-header-title">
+      <div class="reporting-unit-overlay-inner">
+        <div class="reporting-unit-overlay-header">
+          <div class="reporting-unit-overlay-header-title">
             <span>{{ vm.selectedUnitId }} Incidents</span>
           </div>
           <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
         </div>
 
-        <div class="overlay-content">
+        <div class="reporting-unit-overlay-content">
           <incidents-table
             incidents="vm.incidents"
             pagination="vm.incidentsTable.pagination"

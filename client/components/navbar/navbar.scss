@@ -365,6 +365,47 @@ navbar.naked {
   transition: all 200ms ease-in;
   z-index: 100;
 
+  .mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: -1;
+  }
+
+  .mobile-nav-sidebar {
+    @extend .bg-black-9;
+    height: 100vh;
+    line-height: 3rem;
+    list-style: none;
+    overflow: auto;
+    padding: 0 0 8rem;
+    width: 300px;
+
+    li {
+      line-height: 2;
+      display: block;
+      margin-right: 0;
+      width: 100%;
+    }
+
+    a {
+      color: #fff;
+      padding: 1rem 2rem;
+
+      &.btn {
+        width: 100%;
+        margin: 1rem 0;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+
   .fa-close {
     position: absolute;
     top: 1rem;
@@ -372,46 +413,6 @@ navbar.naked {
     font-size: 2rem;
     cursor: pointer;
   }
-}
-
-.mobile-nav ul {
-  height: 100vh;
-  line-height: 3rem;
-  list-style: none;
-  overflow: auto;
-  padding: 0 0 8rem;
-  width: 300px;
-}
-
-.mobile-nav li {
-  line-height: 2;
-  display: block;
-  margin-right: 0;
-  width: 100%;
-}
-
-.mobile-nav a {
-  color: #fff;
-  padding: 1rem 2rem;
-
-  &.btn {
-    width: 100%;
-    margin: 1rem 0;
-    transition: all 0.2s ease-in-out;
-  }
-}
-
-.mobile-nav-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-  z-index: -1;
 }
 
 .show-mobile-nav {
