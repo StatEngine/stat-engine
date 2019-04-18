@@ -380,12 +380,13 @@ navbar.naked {
 
   .mobile-nav-sidebar {
     @extend .bg-black-9;
+    @extend .ios-scroll-fix;
     height: 100vh;
     line-height: 3rem;
     list-style: none;
     overflow: auto;
-    padding: 0 0 8rem;
     width: 300px;
+    padding: 4rem 1rem 0;
 
     li {
       line-height: 2;
