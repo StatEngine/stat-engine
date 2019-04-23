@@ -7,20 +7,20 @@ export default function routes($stateProvider) {
     .state('site.main', {
       abstract: true,
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown"></navbar>'
+        'appbar@': {
+          template: '',
+        },
+        'sidebar@': {
+          template: '',
         },
         'content@': {
-          template: '<div ui-view />'
+          template: '<div ui-view />',
         },
       },
     })
     .state('site.main.about', {
       url: '/about',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown naked"></navbar>'
-        },
         'content@': {
           template: require('./about/about.html'),
         }
@@ -29,9 +29,6 @@ export default function routes($stateProvider) {
     .state('site.main.funding', {
       url: '/funding',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown naked"></navbar>'
-        },
         'content@': {
           template: require('./funding/funding.html'),
         }
@@ -56,9 +53,6 @@ export default function routes($stateProvider) {
     .state('site.main.termsOfUse', {
       url: '/termsOfUse',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown naked"></navbar>'
-        },
         'content@': {
           template: require('./terms-of-use/terms-of-use.html'),
         }
@@ -67,9 +61,6 @@ export default function routes($stateProvider) {
     .state('site.main.partners', {
       url: '/partners',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown naked"></navbar>'
-        },
         'content@': {
           template: require('./partners/partners.html'),
           controller: 'PartnersController',

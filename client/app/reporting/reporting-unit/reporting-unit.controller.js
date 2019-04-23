@@ -149,21 +149,7 @@ export default class ReportingUnitController {
       this.$scope.$evalAsync();
     });
 
-    this.$timeout(() => {
-      // Resize the overlays immediately after the first render so they start the correct size. This prevents
-      // bugs in rendering their child elements. For perfect sizing we also have to hide the scrollbar temporarily.
-      angular.element('html').css('overflow', 'hidden');
-      ['timeline', 'incidents'].forEach((overlayName) => {
-        this.resizeOverlay(overlayName);
-      });
-      angular.element('html').css('overflow', 'auto');
-    });
-
     this.removeResizeEventListener = this.$window.addEventListener('resize', () => {
-      if(this.overlay) {
-        this.resizeOverlay(this.overlay);
-      }
-
       // If we just resized from mobile to desktop and a unit isn't selected, automatically select the first one.
       if(this.$window.innerWidth >= 992 && this.selectedUnitId == null) {
         this.selectedUnitId = Store.unitStore.allUnits[0].id;
@@ -217,14 +203,14 @@ export default class ReportingUnitController {
   }
 
   selectUnit(selected) {
-    angular.element('html')[0].scrollTop = 0;
+    angular.element('.reporting-unit-content').scrollTop(0);
     this.selectedUnitId = selected.id;
     this.overlay = undefined;
     this.fetchUnitData();
   }
 
   deselectUnit() {
-    angular.element('html')[0].scrollTop = 0;
+    angular.element('.reporting-unit-content').scrollTop(0);
     this.selectedUnitId = null;
     this.overlay = undefined;
   }
@@ -244,39 +230,15 @@ export default class ReportingUnitController {
       this.collapsedGraphResizeHack();
     }
 
-    $('html, body').animate({ scrollTop: $(location).offset().top - 80 }, 1000);
+    $('.reporting-unit-content').animate({ scrollTop: $(location).offset().top - 80 }, 1000);
   }
 
   showOverlay(overlayName) {
     this.overlay = overlayName;
-    angular.element('html').css('overflow', 'hidden');
-    this.resizeOverlay(this.overlay);
   }
 
   hideOverlay() {
     this.overlay = undefined;
-    angular.element('html').css('overflow', 'auto');
-  }
-
-  resizeOverlay(overlayName) {
-    let overlaySelector;
-    if(overlayName === 'timeline') {
-      overlaySelector = '.timeline-overlay';
-    } else if(overlayName === 'incidents') {
-      overlaySelector = '.incidents-overlay';
-    } else {
-      throw new Error(`Overlay name "${overlayName} is not recognized.`);
-    }
-
-    const reportingUnitBodyRect = angular.element('.reporting-unit-body')[0].getBoundingClientRect();
-    const brHeaderRect = angular.element('.br-header')[0].getBoundingClientRect();
-    const overlay = angular.element(overlaySelector);
-    overlay.css({
-      top: `${brHeaderRect.height}px`,
-      left: `${reportingUnitBodyRect.left}px`,
-      width: `${reportingUnitBodyRect.width}px`,
-      height: `${this.$window.innerHeight - brHeaderRect.height}px`,
-    });
   }
 
   handleTravelTimeHeaderClick() {

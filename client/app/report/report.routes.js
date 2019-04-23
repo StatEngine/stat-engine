@@ -8,14 +8,10 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.report', {
       abstract: true,
-      template: '<div ui-view />'
     })
     .state('site.report.edit', {
       url: '/reports/:type/:name/edit',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./report-edit/report-edit.html'),
           controller: 'ReportEditController',
@@ -84,9 +80,6 @@ export default function routes($stateProvider) {
     .state('site.report.history', {
       url: '/reports/history',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./report-history/report-history.html'),
           controller: 'ReportHistoryController',
@@ -105,9 +98,6 @@ export default function routes($stateProvider) {
     .state('site.report.view', {
       url: '/reports/:type/:name',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./report-view/report-view.html'),
           controller: 'ReportViewController',
@@ -142,9 +132,6 @@ export default function routes($stateProvider) {
     .state('site.report.metrics', {
       url: '/reports/:type/:name/metrics',
       views: {
-        'navbar@': {
-          template: '<navbar class="animated fadeInDown dark-bg"></navbar>'
-        },
         'content@': {
           template: require('./report-metrics/report-metrics.html'),
           controller: 'ReportMetricsController',

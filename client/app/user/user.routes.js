@@ -6,11 +6,6 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.user', {
       abstract: true,
-      views: {
-        'navbar@': {
-          template: '<sidebar></sidebar>'
-        },
-      },
     })
     .state('site.user.requestAccess', {
       url: '/requestAccess',

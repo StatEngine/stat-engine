@@ -22,7 +22,7 @@ export class SidebarComponent {
     this.PrincipalService = Principal;
 
     $transitions.onSuccess({}, () => {
-      $('body').removeClass('show-left');
+      $('body').removeClass('show-sidebar');
     });
   }
 
@@ -44,34 +44,6 @@ export class SidebarComponent {
   // eslint-disable-next-line class-methods-use-this
   $onInit() {
     $(document).ready(function() {
-      // This will collapsed sidebar menu on left into a mini icon menu
-      $('#btnLeftMenu').on('click', function() {
-        var menuText = $('.menu-item-label');
-
-        if($('body').hasClass('collapsed-menu')) {
-          $('body').removeClass('collapsed-menu');
-
-          // show current sub menu when reverting back from collapsed menu
-          $('.show-sub + .br-menu-sub').slideDown();
-
-          $('.br-sideleft').one('transitionend', function() {
-            menuText.removeClass('op-lg-0-force');
-            menuText.removeClass('d-lg-none');
-          });
-        } else {
-          $('body').addClass('collapsed-menu');
-
-          // hide toggled sub menu
-          $('.show-sub + .br-menu-sub').slideUp();
-
-          menuText.addClass('op-lg-0-force');
-          $('.br-sideleft').one('transitionend', function() {
-            menuText.addClass('d-lg-none');
-          });
-        }
-        return false;
-      });
-
       // This will expand the icon menu when mouse cursor points anywhere
       // inside the sidebar menu on left. This will only trigget to left sidebar
       // when it's in collapsed mode (the icon only menu)
@@ -131,37 +103,15 @@ export class SidebarComponent {
           return false;
         }
       });
-
-      $('#btnLeftMenuMobile').on('click', function() {
-        $('body').addClass('show-left');
-        return false;
-      });
-
-      // This will hide sidebar when it's clicked outside of it
-      $(document).on('click', function(e) {
-        e.stopPropagation();
-
-        // closing left sidebar
-        if($('body').hasClass('show-left')) {
-          var targ = $(e.target).closest('.br-sideleft').length;
-          if(!targ) {
-            $('body').removeClass('show-left');
-          }
-        }
-
-        // closing right sidebar
-        if($('body').hasClass('show-right')) {
-          targ = $(e.target).closest('.br-sideright').length;
-          if(!targ) {
-            $('body').removeClass('show-right');
-          }
-        }
-      });
     });
+  }
+
+  hideSidebar() {
+    $('body').removeClass('show-sidebar');
   }
 }
 
-export default angular.module('directives.sidebar', [])
+export default angular.module('sidebar', [])
   .component('sidebar', {
     template: require('./sidebar.html'),
     controller: SidebarComponent,

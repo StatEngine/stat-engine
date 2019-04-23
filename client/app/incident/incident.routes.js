@@ -6,11 +6,6 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.incident', {
       abstract: true,
-      views: {
-        'navbar@': {
-          template: '<sidebar></sidebar>'
-        },
-      },
     })
     .state('site.incident.search', {
       url: '/incidents/search',

@@ -2,7 +2,6 @@
 // HEADER //
 ////////////////////////////////
 header {
-  display: flex;
   height: 850px;
   background: #0b345d;
   background-image: linear-gradient(155deg, #002f62 0%, #18496a 50%, #138b89 100%);
@@ -117,11 +116,11 @@ header.naked {
 }
 
 .message {
-  margin-top: 8.25rem;
+  margin-top: 8.75rem;
 
   @include media-breakpoint-down(sm) {
     max-width: 800px;
-    margin-top: 9.25rem;
+    margin-top: 9.75rem;
     button, .btn {
       width: 50%;
     }
@@ -179,9 +178,6 @@ header.naked {
   #intro #intro-image img {
     width: 100%;
     height: 100%;
-  }
-  #intro #benefits {
-    justify-content: column;
   }
 }
 
@@ -312,7 +308,7 @@ header.naked {
   #features .feature-column-left article h5,
   #features .feature-column-right article h5,
   #features .feature-column-left article p,
-  #features .feature-column-right article p,   {
+  #features .feature-column-right article p {
     margin-left: 5rem;
   }
 }
@@ -322,8 +318,7 @@ header.naked {
     text-align: left;
   }
   #features > a,
-  #features > p,
-   {
+  #features > p {
     display: none;
   }
 }

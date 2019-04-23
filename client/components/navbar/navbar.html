@@ -85,32 +85,31 @@
       </div>
     </div>
 
-    <div id="mobileNav" class="mobile-nav">
-      <!-- Unauthenticated -->
-      <div ng-if="!vm.PrincipalService.isAuthenticated()">
-        <ul class="px-3 pt-5 bg-black-9">
+    <div class="hamburger col-auto ml-auto">
+      <a ng-click="vm.showMobileNav()" span class="fa fa-2x fa-bars"></span></a>
+    </div>
+
+    <div class="mobile-nav">
+      <div class="mobile-nav-overlay"></div>
+
+      <div class="mobile-nav-sidebar">
+        <div class="fa fa-close" ng-click="vm.hideMobileNav()"></div>
+
+        <ul ng-if="!vm.PrincipalService.isAuthenticated()">
           <li><a class="btn btn-primary btn-oblong hvr-float" ui-sref="site.account.login">Sign In</a></li>
           <li><a class="btn btn-outline btn-oblong hvr-float" ui-sref="site.account.signup">Sign Up</a></li>
         </ul>
-      </div>
 
-      <div ng-if="vm.PrincipalService.isAuthenticated()">
-        <ul class="mb-0 pt-5 px-3 bg-black-9">
-           <li><a href="site.user.home">Control Center</a></li>
-            <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
-            <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
-            <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>
-            <li><a href="#" ng-click="vm.goto('site.incident.search','Incident Analysis')">Incident Analysis</a></li>
-            <li ng-if="!vm.appConfig.on_premise"><a href="/marketplace/home">App Marketplace</a></li>
-            <li><a class="btn btn-outline btn-sm" ng-click="vm.logout()">Sign Out</a></li>
+        <ul ng-if="vm.PrincipalService.isAuthenticated()">
+          <li><a href="site.user.home">Control Center</a></li>
+          <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
+          <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
+          <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>
+          <li><a href="#" ng-click="vm.goto('site.incident.search','Incident Analysis')">Incident Analysis</a></li>
+          <li ng-if="!vm.appConfig.on_premise"><a href="/marketplace/home">App Marketplace</a></li>
+          <li><a class="btn btn-outline btn-sm" ng-click="vm.logout()">Sign Out</a></li>
         </ul>
       </div>
-
     </div>
-
-    <div class="hamburger col-auto ml-auto">
-      <a ng-click="vm.openMobile()" span class="fa fa-2x fa-bars"></span></a>
-    </div>
-
   </div>
 </div>

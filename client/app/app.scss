@@ -81,10 +81,42 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
 }
 
-.content {
+.root-view {
+  flex: 1;
+  display: flex;
+}
+
+.sidebar-view {
+  @extend .ios-scroll-fix;
   height: 100%;
+  max-height: 100%;
+  z-index: 100;
+}
+
+.app-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-view {
+  @extend .medium-bg;
+  @extend .ios-scroll-fix;
+  flex: 1;
+  overflow: auto;
+}
+
+.show-mobile-nav,
+.show-sidebar {
+  .content-view {
+    @extend .no-scroll;
+  }
 }
 
 a {
@@ -874,6 +906,8 @@ $btn-sm-padding: 6px 12px;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background: white;
+  position: relative;
 }
 
 // Apply to main/"middle" content wrapper
@@ -1090,38 +1124,52 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 // THEME (BRACKETS) OVERRIDES //
 ////////////////////////////////
 
+.br-header {
+  position: unset;
+  top: unset;
+  left: unset;
+  right: unset;
+  z-index: unset;
+  box-shadow: none;
+  border-bottom: 1px solid lighten($input-border-color, 5%);
+}
+
+.br-header-right .nav>div {
+  line-height: 0;
+}
+
+.br-logo {
+  position: unset;
+  top: unset;
+  left: unset;
+  right: unset;
+  z-index: unset;
+  border: 0;
+  background-color: transparent !important;
+  padding: 0;
+}
+
+.br-sideleft {
+  position: unset;
+  top: unset;
+  right: unset;
+  bottom: unset;
+  left: unset;
+  z-index: unset;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
 .br-mainpanel {
-  margin-top: 0;
-  padding-top: $br-header-height;
+  margin: 0 !important;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 .br-pagebody {
   padding-bottom: 5.5rem !important;
-}
-
-.br-logo {
-  border: 0;
-  background-color: #152637;
-  padding: 0 25px;
-
-  img {
-    max-height: 40px;
-    position: absolute;
-    top: 14px;
-
-    &.se-logo-text {
-      top: 22px;
-      left: 55px;
-    }
-  }
-}
-
-.br-sideleft {
-  background-color: #192d42;
-  padding: 0;
 }
 
 .navicon-left {
@@ -1149,6 +1197,43 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   }
 }
 
+.collapsed-menu {
+  @include media-breakpoint-up(lg) {
+    .br-header {
+      left: 0;
+    }
+
+    .br-menu-link {
+      padding: 0 21px;
+    }
+
+    .br-sideleft .sidebar-label {
+      visibility: hidden;
+    }
+
+    .logo-container {
+      width: 65px;
+    }
+
+    .logo-collapsed {
+      opacity: 1;
+    }
+
+    .logo-expanded {
+      opacity: 0;
+    }
+  }
+
+  // hide the active sub-menu styling to avoid confusion
+  .br-menu-link.show-sub {
+    background-color: transparent;
+    color: $color-cloudy-sky;
+  }
+
+  .navicon-left a {
+    transform: rotate(180deg);
+  }
+}
 
 @include media-breakpoint-down(sm) {
   .nav-outline.flex-md-row .nav-item {
@@ -1170,15 +1255,6 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
   .nav-outline.active-info .nav-link.active:focus::before {
     left: -15px;
   }
-}
-
-.br-header {
-  box-shadow: none;
-  border-bottom: 1px solid lighten($input-border-color, 5%);
-}
-
-.br-header-right .nav>div {
-  line-height: 0;
 }
 
 .logged-fullname {
@@ -1263,47 +1339,8 @@ span+.logged-name {
   }
 }
 
-.collapsed-menu {
-  @include media-breakpoint-up(lg) {
-    .br-header {
-      left: 0px;
-    }
-
-    .br-logo img.se-logo-text {
-      left: -270px;
-
-    }
-
-    .br-menu-link {
-      padding: 0 21px;
-    }
-
-    .br-sideleft .sidebar-label {
-      visibility: hidden;
-    }
-  }
-
-  // hide the active sub-menu styling to avoid confusion
-  .br-menu-link.show-sub {
-    background-color: transparent;
-    color: $color-cloudy-sky;
-  }
-
-  .navicon-left a {
-    transform: rotate(180deg);
-  }
-}
-
 .expand-menu {
   @include media-breakpoint-up(lg) {
-    .br-logo {
-      width: $br-sideleft-width;
-    }
-
-    .br-logo img.se-logo-text {
-      left: 55px;
-    }
-
     .br-sideleft .sidebar-label {
       visibility: visible;
     }
@@ -1404,6 +1441,15 @@ span+.logged-name {
   }
 }
 
+// Utility
+.no-scroll {
+  overflow: hidden;
+}
+
+.ios-scroll-fix {
+  -webkit-overflow-scrolling: touch; // Fix iOS momentum scrolling.
+}
+
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -1417,12 +1463,12 @@ span+.logged-name {
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/navbar/navbar';
+@import '../components/sidebar/sidebar';
 // @import '../components/breadcrumbs/breadcrumbs';
 @import '../components/tables/stats-table';
 @import '../app/account/login/login';
 @import '../app/account/signup/signup';
 @import '../app/user/user';
-@import '../app/user/getting-started/getting-started';
 @import '../app/twitter/twitter-home/twitter-home';
 @import '../app/admin/admin-home/admin-home';
 @import '../app/incident/incident';
@@ -1433,10 +1479,10 @@ span+.logged-name {
 @import '../components/oauth-buttons/oauth-buttons';
 @import '../components/percent-change/percent-change';
 @import '../components/bar-gauge/bar-gauge';
-@import '../components/sidebar/sidebar';
 @import '../components/loading-spinner/loading-spinner';
 @import '../components/loading-overlay/loading-overlay';
 @import '../components/table-controls/table-controls';
 @import '../components/incidents-table/incidents-table';
 @import '../components/reporting-unit-list/reporting-unit-list';
+@import '../components/plotly-wrapper/plotly-wrapper';
 // endinject //

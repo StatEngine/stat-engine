@@ -1,0 +1,53 @@
+<div ng-class="vm.theme">
+  <div class="br-header">
+    <div class="br-header-left">
+      <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href="#"><i class="fa fa-angle-left tx-20"></i></a></div>
+      <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="fa fa-bars tx-20"></i></a></div>
+    </div><!-- br-header-left -->
+    <div class="br-header-right">
+      <nav class="nav">
+        <div class="search mg-r-15" ng-show="vm.user.fire_department__id">
+          <a href="" ui-sref="site.incident.search" class="nav-link pd-x-7 pos-relative">
+            <i class="fa fa-search tx-20"></i>
+            <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
+          </a>
+        </div>
+        <div class="dropdown apps mg-r-5" ng-show="vm.user.fire_department__id">
+          <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-braille tx-20"></i>
+            <!-- start: if statement -->
+            <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
+            <!-- end: if statement -->
+          </a>
+          <div class="dropdown-menu dropdown-menu-header wd-250 bd-gray-300 mg-t-10">
+            <ul class="list-unstyled user-profile-nav">
+              <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>-->
+              <li><a href="" ui-sref="site.twitter.home"><i class="fa fa-twitter"></i> Twitter</a></li>
+            </ul>
+          </div><!-- dropdown-menu -->
+        </div><!-- dropdown -->
+        <div class="dropdown user mg-r-10">
+          <a href="" class="nav-link nav-link-profile" data-toggle="dropdown" aria-expanded="false">
+            <span class="d-inline-block">
+              <logo-avatar department="vm.user.FireDepartment"></logo-avatar>
+            </span>
+            <span class="logged-name hidden-sm-down"> {{ vm.user.username }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-header wd-250 bd-gray-300 mg-t-10">
+            <div class="tx-center">
+              <logo ng-if="vm.user.FireDepartment" department="vm.user.FireDepartment"></logo>
+              <h6 class="logged-fullname">{{ vm.user.first_name }} {{ vm.user.last_name }}</h6>
+              <p>{{ vm.user.email }}</p>
+            </div>
+            <hr>
+            <ul class="list-unstyled user-profile-nav">
+              <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>-->
+              <li><a href="" ui-sref="site.user.settings"><i class="icon ion-ios-gear"></i> Settings</a></li>
+              <li><a href="" ng-click="vm.signout()"><i class="icon ion-power"></i> Sign Out</a></li>
+            </ul>
+          </div><!-- dropdown-menu -->
+        </div><!-- dropdown -->
+      </nav>
+    </div>
+  </div><!-- br-header -->
+</div>

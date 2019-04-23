@@ -7,6 +7,12 @@ export default function routes($stateProvider) {
     .state('site.account', {
       abstract: true,
       views: {
+        'appbar@': {
+          template: '',
+        },
+        'sidebar@': {
+          template: '',
+        },
         'content@': {
           template: '<div ui-view />'
         }

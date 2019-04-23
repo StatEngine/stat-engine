@@ -1,343 +1,340 @@
-<div class="br-mainpanel admin-home">
-  <header class="naked"></header>
-  <section class="container">
-    <section id="department-users" class="fluid-container py-5">
-      <div class="container">
-        <h3 class="mb-2" >Fire Departments
-          <span class="badge badge-success" uib-popover="Onboarding Complete" popover-trigger="'mouseenter'">{{vm.onboardedFireDepartments.length}}</span>
-          <span class="badge badge-warning" uib-popover="Integration Complete" popover-trigger="'mouseenter'">{{vm.integratedFireDepartments.length}}</span>
-          <span class="badge badge-danger" uib-popover="Not Started" popover-trigger="'mouseenter'">{{vm.notStartedFireDepartments.length}}</span>
-        </h3>
+<section class="container">
+  <section class="fluid-container py-5">
+    <div class="container">
+      <h3 class="mb-2" >Fire Departments
+        <span class="badge badge-success" uib-popover="Onboarding Complete" popover-trigger="'mouseenter'">{{vm.onboardedFireDepartments.length}}</span>
+        <span class="badge badge-warning" uib-popover="Integration Complete" popover-trigger="'mouseenter'">{{vm.integratedFireDepartments.length}}</span>
+        <span class="badge badge-danger" uib-popover="Not Started" popover-trigger="'mouseenter'">{{vm.notStartedFireDepartments.length}}</span>
+      </h3>
 
-        <div class="row">
-          <button class="btn-sm btn mr-2 btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">&nbsp Add New</span></button>
-          <!-- these should have a model - because theyre super destructive
-          <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('config')"><span class="fa fa-pagelines">&nbsp Seed Kibana Config</span></button>
-          <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('visualization')"><span class="fa fa-pagelines">&nbsp Seed Kibana Visualizations</span></button>
-          <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('dashboard')"><span class="fa fa-pagelines">&nbsp Seed Kibana Dashboards</span></button>
-        -->
-        </div>
+      <div class="row">
+        <button class="btn-sm btn mr-2 btn-success" ui-sref="site.admin.fireDepartment({ id: 'new' })"><span class="fa fa-plus">&nbsp Add New</span></button>
+        <!-- these should have a model - because theyre super destructive
+        <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('config')"><span class="fa fa-pagelines">&nbsp Seed Kibana Config</span></button>
+        <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('visualization')"><span class="fa fa-pagelines">&nbsp Seed Kibana Visualizations</span></button>
+        <button class="btn-sm btn mr-2 btn-warning" ng-click="vm.fixtures('dashboard')"><span class="fa fa-pagelines">&nbsp Seed Kibana Dashboards</span></button>
+      -->
+      </div>
 
-        <div class="row">
-          <div class="col-12 py-4">
-            <div class="table mb-5">
-              <div class="table-row header">
-                <div class="cell">
-                  Customer Id
-                </div>
-                <div class="cell">
-                  Firecares Id
-                </div>
-                <div class="cell">
-                  FD ID
-                </div>
-                <div class="cell">
-                  Name
-                </div>
-                <div class="cell">
-                  State
-                </div>
-                <div class="cell">
-                  Location
-                </div>
-                <div class="cell">
-                  Timezone
-                </div>
-                <div class="cell">
-                  Integration Complete
-                </div>
-                <div class="cell">
-                  Integration Verified
-                </div>
-                <div class="cell">
-                  Number of Users
-                </div>
+      <div class="row">
+        <div class="col-12 py-4">
+          <div class="table mb-5">
+            <div class="table-row header">
+              <div class="cell">
+                Customer Id
               </div>
+              <div class="cell">
+                Firecares Id
+              </div>
+              <div class="cell">
+                FD ID
+              </div>
+              <div class="cell">
+                Name
+              </div>
+              <div class="cell">
+                State
+              </div>
+              <div class="cell">
+                Location
+              </div>
+              <div class="cell">
+                Timezone
+              </div>
+              <div class="cell">
+                Integration Complete
+              </div>
+              <div class="cell">
+                Integration Verified
+              </div>
+              <div class="cell">
+                Number of Users
+              </div>
+            </div>
 
-              <div class="table-row" ng-repeat="fd in vm.fireDepartments | orderBy:'name'">
-                <div class="cell" data-title="Firecares Id">
-                  <a ui-sref="site.admin.fireDepartment({ id: fd._id })"> {{ fd.firecares_id }} </a>
-                </div>
-                <div class="cell" data-title="Customer Id">
-                  {{ fd.customer_id }}
-                </div>
-                <div class="cell" data-title="FD ID">
-                  {{ fd.fd_id }}
-                </div>
-                <div class="cell" data-title="Name">
-                  {{ fd.name }}
-                </div>
-                <div class="cell" data-title="State">
-                  {{ fd.state }}
-                </div>
-                <div class="cell" data-title="Location">
-                  <a href="https://www.google.com/maps/?ll={{fd.latitude }},{{ fd.longitude }}&z=10" target="_blank">{{ fd.latitude | number: 2 }},{{ fd.longitude | number: 2 }}</a>
-                </div>
-                <div class="cell" data-title="Timezone">
-                  {{ fd.timezone }}
-                </div>
-                <div class="cell" data-title="Integration Complete">
-                  <span ng-if="fd.integration_complete"><span class="fa fa-check text-success"></span></span>
-                </div>
-                <div class="cell" data-title="Integration Verified">
-                  <span ng-if="fd.integration_verified"><span class="fa fa-check text-success"></span></span>
-                </div>
-                <div class="cell" data-title="Number of Users">
-                  {{ vm.departmentUsers[fd._id].length }}
-                </div>
+            <div class="table-row" ng-repeat="fd in vm.fireDepartments | orderBy:'name'">
+              <div class="cell" data-title="Firecares Id">
+                <a ui-sref="site.admin.fireDepartment({ id: fd._id })"> {{ fd.firecares_id }} </a>
+              </div>
+              <div class="cell" data-title="Customer Id">
+                {{ fd.customer_id }}
+              </div>
+              <div class="cell" data-title="FD ID">
+                {{ fd.fd_id }}
+              </div>
+              <div class="cell" data-title="Name">
+                {{ fd.name }}
+              </div>
+              <div class="cell" data-title="State">
+                {{ fd.state }}
+              </div>
+              <div class="cell" data-title="Location">
+                <a href="https://www.google.com/maps/?ll={{fd.latitude }},{{ fd.longitude }}&z=10" target="_blank">{{ fd.latitude | number: 2 }},{{ fd.longitude | number: 2 }}</a>
+              </div>
+              <div class="cell" data-title="Timezone">
+                {{ fd.timezone }}
+              </div>
+              <div class="cell" data-title="Integration Complete">
+                <span ng-if="fd.integration_complete"><span class="fa fa-check text-success"></span></span>
+              </div>
+              <div class="cell" data-title="Integration Verified">
+                <span ng-if="fd.integration_verified"><span class="fa fa-check text-success"></span></span>
+              </div>
+              <div class="cell" data-title="Number of Users">
+                {{ vm.departmentUsers[fd._id].length }}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <hr>
-    <section id="department-users" class="fluid-container py-5">
-      <div class="container">
-        <h3 class="mb-2" >Users <span class="badge badge-success">{{vm.users.length}} </span></h3><button class="btn btn-success" ui-sref="site.admin.user({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
-        <div class="row">
-          <div class="col-12 py-4">
-            <h4> Homeless Users <span class="badge badge-danger">{{vm.homelessUsers.length}} </span></h4>
-            <p> Users that have signed up, but not requested access to any department yet </p>
-            <p ng-if="!vm.homelessUsers || vm.homelessUsers.length === 0" class="text-success"> No homeless users </p>
-            <div ng-if="vm.homelessUsers.length > 0" class="table mb-5">
-              <div class="table-row header">
-                <div class="cell">
-                  Username
-                </div>
-                <div class="cell">
-                  Name
-                </div>
-                <div class="cell">
-                  Email
-                </div>
-              </div>
-
-              <div class="table-row" ng-repeat="user in vm.homelessUsers | orderBy:'first_name'">
-                <div class="cell" data-title="Username">
-                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
-                </div>
-                <div class="cell" data-title="Name">
-                  {{ user.first_name }} {{ user.last_name }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ user.email }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-12 py-4">
-            <h4> Pending Data Access Requests <span class="badge badge-warning">{{vm.pendingUsers.length}} </span></h4>
-            <p> Users that have requested access to a department, but haven't received approval</p>
-            <p ng-if="!vm.pendingUsers || vm.pendingUsers.length === 0" class="text-success"> No pending requests </p>
-            <div ng-if="vm.pendingUsers.length > 0" class="table mb-5">
-              <div class="table-row header">
-                <div class="cell">
-                  Username
-                </div>
-                <div class="cell">
-                  Name
-                </div>
-                <div class="cell">
-                  Email
-                </div>
-                <div class="cell">
-                  Requested Department
-                </div>
-                <div class="cell">
-                  Actions
-                </div>
-              </div>
-
-              <div class="table-row" ng-repeat="user in vm.pendingUsers | orderBy:'first_name'">
-                <div class="cell" data-title="Username">
-                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
-                </div>
-                <div class="cell" data-title="Name">
-                  {{ user.first_name }} {{ user.last_name }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ user.email }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ vm.fireDepartmentLookup[user.requested_fire_department_id].name }}
-                </div>
-                <div class="cell" data-title="Action">
-                  <button class="btn-link" ng-click="vm.approveAccess(user)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i></button>
-                  <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-12 py-4">
-            <h4> Ingest Users <span class="badge badge-primary">{{vm.ingestUsers.length}} </span></h4>
-            <p> Spade Users </p>
-            <p ng-if="!vm.ingestUsers || vm.ingestUsers.length === 0" class="text-success"> No spade users </p>
-            <div ng-if="vm.ingestUsers.length > 0" class="table mb-5">
-              <div class="table-row header">
-                <div class="cell">
-                  Username
-                </div>
-                <div class="cell">
-                  Name
-                </div>
-                <div class="cell">
-                  Email
-                </div>
-                <div class="cell">
-                  Department
-                </div>
-              </div>
-
-              <div class="table-row" ng-repeat="user in vm.ingestUsers | orderBy:'first_name'">
-                <div class="cell" data-title="Username">
-                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
-                </div>
-                <div class="cell" data-title="Name">
-                  {{ user.first_name }} {{ user.last_name }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ user.email }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ user.FireDepartment.name }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-12 py-4">
-            <h4> Admin Users <span class="badge badge-primary">{{vm.adminUsers.length}} </span></h4>.
-            <div class="table mb-5">
-              <div class="table-row header">
-                <div class="cell">
-                  Username
-                </div>
-                <div class="cell">
-                  Name
-                </div>
-                <div class="cell">
-                  Email
-                </div>
-              </div>
-
-              <div class="table-row" ng-repeat="user in vm.adminUsers | orderBy:'first_name'">
-                <div class="cell" data-title="Username">
-                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
-                </div>
-                <div class="cell" data-title="Name">
-                  {{ user.first_name }} {{ user.last_name }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ user.email }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-12 py-4">
-            <h4> Global Users <span class="badge badge-primary">{{vm.globalUsers.length}} </span></h4>.
-            <div class="table mb-5">
-              <div class="table-row header">
-                <div class="cell">
-                  Username
-                </div>
-                <div class="cell">
-                  Name
-                </div>
-                <div class="cell">
-                  Email
-                </div>
-              </div>
-
-              <div class="table-row" ng-repeat="user in vm.globalUsers | orderBy:'first_name'">
-                <div class="cell" data-title="Username">
-                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
-                </div>
-                <div class="cell" data-title="Name">
-                  {{ user.first_name }} {{ user.last_name }}
-                </div>
-                <div class="cell" data-title="Email">
-                  {{ user.email }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div class="row" ng-repeat="(id, users) in vm.departmentUsers">
-          <div ng-if="id !== 'undefined'">
-            <div class="col-12 py-4">
-              <h4 ng-if="id"> {{ users[0].FireDepartment.name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
-              <div class="table tabemb-5">
-                <div class="table-row header">
-                  <div class="cell">
-                    Username
-                  </div>
-                  <div class="cell">
-                    Name
-                  </div>
-                  <div class="cell">
-                    Email
-                  </div>
-                  <div class="cell">
-                    Admin
-                  </div>
-                  <div class="cell">
-                    Ingest
-                  </div>
-                  <div class="cell">
-                    Dashboard Admin
-                  </div>
-                  <div class="cell">
-                    Dashboard RO
-                  </div>
-                  <div class="cell">
-                    NFORS
-                  </div>
-                </div>
-
-                <div class="table-row" ng-repeat="user in users | orderBy:'first_name'">
-                  <div class="cell" data-title="Username">
-                    <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
-                  </div>
-                  <div class="cell" data-title="Name">
-                    {{ user.first_name }} {{ user.last_name }}
-                  </div>
-                  <div class="cell" data-title="Email">
-                    {{ user.email }}
-                  </div>
-                  <div class="cell" data-title="Department Admin">
-                    <span ng-if="user.isDepartmentAdmin"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Admin">
-                    <span ng-if="user.isIngest"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Kibana Admin">
-                    <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="Kibana RO">
-                    <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                  <div class="cell" data-title="NFORS">
-                    <span ng-if="user.nfors"><span class="fa fa-check text-success"></span></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   </section>
-</div>
+  <hr>
+  <section class="fluid-container py-5">
+    <div class="container">
+      <h3 class="mb-2" >Users <span class="badge badge-success">{{vm.users.length}} </span></h3><button class="btn btn-success" ui-sref="site.admin.user({ id: 'new' })"><span class="fa fa-plus">Add New</span></button>
+      <div class="row">
+        <div class="col-12 py-4">
+          <h4> Homeless Users <span class="badge badge-danger">{{vm.homelessUsers.length}} </span></h4>
+          <p> Users that have signed up, but not requested access to any department yet </p>
+          <p ng-if="!vm.homelessUsers || vm.homelessUsers.length === 0" class="text-success"> No homeless users </p>
+          <div ng-if="vm.homelessUsers.length > 0" class="table mb-5">
+            <div class="table-row header">
+              <div class="cell">
+                Username
+              </div>
+              <div class="cell">
+                Name
+              </div>
+              <div class="cell">
+                Email
+              </div>
+            </div>
+
+            <div class="table-row" ng-repeat="user in vm.homelessUsers | orderBy:'first_name'">
+              <div class="cell" data-title="Username">
+                <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+              </div>
+              <div class="cell" data-title="Name">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ user.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 py-4">
+          <h4> Pending Data Access Requests <span class="badge badge-warning">{{vm.pendingUsers.length}} </span></h4>
+          <p> Users that have requested access to a department, but haven't received approval</p>
+          <p ng-if="!vm.pendingUsers || vm.pendingUsers.length === 0" class="text-success"> No pending requests </p>
+          <div ng-if="vm.pendingUsers.length > 0" class="table mb-5">
+            <div class="table-row header">
+              <div class="cell">
+                Username
+              </div>
+              <div class="cell">
+                Name
+              </div>
+              <div class="cell">
+                Email
+              </div>
+              <div class="cell">
+                Requested Department
+              </div>
+              <div class="cell">
+                Actions
+              </div>
+            </div>
+
+            <div class="table-row" ng-repeat="user in vm.pendingUsers | orderBy:'first_name'">
+              <div class="cell" data-title="Username">
+                <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+              </div>
+              <div class="cell" data-title="Name">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ user.email }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ vm.fireDepartmentLookup[user.requested_fire_department_id].name }}
+              </div>
+              <div class="cell" data-title="Action">
+                <button class="btn-link" ng-click="vm.approveAccess(user)" ng-class="{'fa-disabled': user.FireDepartment }" uib-popover="Approve Access" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-check-circle text-success"></i></button>
+                <button class="btn-link" ng-click="vm.revokeAccess(user)" uib-popover="Revoke Access" ng-class="{'fa-disabled': user.isDepartmentAdmin }" popover-trigger="'mouseenter'"><i class="fa fa-2x fa-times-circle text-danger"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 py-4">
+          <h4> Ingest Users <span class="badge badge-primary">{{vm.ingestUsers.length}} </span></h4>
+          <p> Spade Users </p>
+          <p ng-if="!vm.ingestUsers || vm.ingestUsers.length === 0" class="text-success"> No spade users </p>
+          <div ng-if="vm.ingestUsers.length > 0" class="table mb-5">
+            <div class="table-row header">
+              <div class="cell">
+                Username
+              </div>
+              <div class="cell">
+                Name
+              </div>
+              <div class="cell">
+                Email
+              </div>
+              <div class="cell">
+                Department
+              </div>
+            </div>
+
+            <div class="table-row" ng-repeat="user in vm.ingestUsers | orderBy:'first_name'">
+              <div class="cell" data-title="Username">
+                <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+              </div>
+              <div class="cell" data-title="Name">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ user.email }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ user.FireDepartment.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 py-4">
+          <h4> Admin Users <span class="badge badge-primary">{{vm.adminUsers.length}} </span></h4>.
+          <div class="table mb-5">
+            <div class="table-row header">
+              <div class="cell">
+                Username
+              </div>
+              <div class="cell">
+                Name
+              </div>
+              <div class="cell">
+                Email
+              </div>
+            </div>
+
+            <div class="table-row" ng-repeat="user in vm.adminUsers | orderBy:'first_name'">
+              <div class="cell" data-title="Username">
+                <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+              </div>
+              <div class="cell" data-title="Name">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ user.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 py-4">
+          <h4> Global Users <span class="badge badge-primary">{{vm.globalUsers.length}} </span></h4>.
+          <div class="table mb-5">
+            <div class="table-row header">
+              <div class="cell">
+                Username
+              </div>
+              <div class="cell">
+                Name
+              </div>
+              <div class="cell">
+                Email
+              </div>
+            </div>
+
+            <div class="table-row" ng-repeat="user in vm.globalUsers | orderBy:'first_name'">
+              <div class="cell" data-title="Username">
+                <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+              </div>
+              <div class="cell" data-title="Name">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="cell" data-title="Email">
+                {{ user.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row" ng-repeat="(id, users) in vm.departmentUsers">
+        <div ng-if="id !== 'undefined'">
+          <div class="col-12 py-4">
+            <h4 ng-if="id"> {{ users[0].FireDepartment.name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
+            <div class="table tabemb-5">
+              <div class="table-row header">
+                <div class="cell">
+                  Username
+                </div>
+                <div class="cell">
+                  Name
+                </div>
+                <div class="cell">
+                  Email
+                </div>
+                <div class="cell">
+                  Admin
+                </div>
+                <div class="cell">
+                  Ingest
+                </div>
+                <div class="cell">
+                  Dashboard Admin
+                </div>
+                <div class="cell">
+                  Dashboard RO
+                </div>
+                <div class="cell">
+                  NFORS
+                </div>
+              </div>
+
+              <div class="table-row" ng-repeat="user in users | orderBy:'first_name'">
+                <div class="cell" data-title="Username">
+                  <a ui-sref="site.admin.user({ id: user._id })"> {{ user.username }} </a>
+                </div>
+                <div class="cell" data-title="Name">
+                  {{ user.first_name }} {{ user.last_name }}
+                </div>
+                <div class="cell" data-title="Email">
+                  {{ user.email }}
+                </div>
+                <div class="cell" data-title="Department Admin">
+                  <span ng-if="user.isDepartmentAdmin"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="Admin">
+                  <span ng-if="user.isIngest"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="Kibana Admin">
+                  <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="Kibana RO">
+                  <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
+                </div>
+                <div class="cell" data-title="NFORS">
+                  <span ng-if="user.nfors"><span class="fa fa-check text-success"></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

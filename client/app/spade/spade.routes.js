@@ -6,8 +6,11 @@ export default function routes($stateProvider) {
   $stateProvider.state('spadeLanding', {
     url: '/spade',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown"></navbar>'
+      'appbar@': {
+        template: '',
+      },
+      'sidebar@': {
+        template: '',
       },
       'content@': {
         template: require('./landing/landing.html'),
@@ -20,9 +23,6 @@ export default function routes($stateProvider) {
   $stateProvider.state('spadeDocumentation', {
     url: '/spade/documentation',
     views: {
-      'navbar@': {
-        template: '<navbar class="animated fadeInDown"></navbar>'
-      },
       'content@': {
         template: require('./documentation/documentation.html'),
         controller: 'SpadeDocumentationController',

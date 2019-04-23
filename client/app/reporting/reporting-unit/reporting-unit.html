@@ -1,14 +1,5 @@
-<div class="reporting-unit br-mainpanel medium-bg position-relative">
+<div class="reporting-unit">
   <loading-overlay ng-if="vm.isFetching"></loading-overlay>
-
-  <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" ui-sref="site.user.home">Home</a>
-      <a class="breadcrumb-item" href="" ng-disabled="true">Reports</a>
-      <a class="breadcrumb-item" ng-class="{'active': (vm.selectedUnitId == null)}" href="" ui-sref="site.reporting.unit" ng-disabled="vm.isLargeScreen()">Units</a>
-      <a class="breadcrumb-item active" ng-if="vm.selectedUnitId != null">{{ vm.selectedUnitId }}</a>
-    </nav>
-  </div>
 
   <reporting-unit-list
     ng-class="{'unit-selected': (vm.selectedUnitId != null)}"
@@ -17,377 +8,389 @@
     selected-unit-id="vm.selectedUnitId"
   ></reporting-unit-list>
 
-  <div class="reporting-unit-body" ng-class="{'unit-selected': (vm.selectedUnitId != null)}">
-    <div class="container-fluid">
-      <div class="position-relative" ng-if="vm.didFetchInitial">
-        <div class="br-pagetitle bg-white">
-          <div class="d-flex align-items-center justify-content-between">
-            <h2 class="unit-name">{{ vm.selectedUnitId }}</h2>
-            <span class="fa fa-close hidden-lg-up" ng-click="vm.deselectUnit()"></span>
-          </div>
+  <div class="reporting-unit-content-container" ng-class="{'unit-selected': (vm.selectedUnitId != null)}">
+    <div class="reporting-unit-content">
+      <div class="br-pageheader">
+        <nav class="breadcrumb pd-0 mg-0 tx-12">
+          <a class="breadcrumb-item" ui-sref="site.user.home">Home</a>
+          <a class="breadcrumb-item" href="" ng-disabled="true">Reports</a>
+          <a class="breadcrumb-item" ng-class="{'active': (vm.selectedUnitId == null)}" href="" ui-sref="site.reporting.unit" ng-disabled="vm.isLargeScreen()">Units</a>
+          <a class="breadcrumb-item active" ng-if="vm.selectedUnitId != null">{{ vm.selectedUnitId }}</a>
+        </nav>
+      </div>
 
-          <select
-            class="time-select"
-            ng-model="vm.selectedTimeFilterIdGetterSetter"
-            ng-model-options="{ getterSetter: true }"
-          >
-            <option
-              ng-repeat="tf in vm.timeFilters"
-              value="{{tf.id}}"
-            >
-              {{tf.displayName}}
-            </option>
-          </select>
-        </div>
-
-        <div class="section-tabs">
-          <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" ng-if="vm.isDataAvailable()">
-            <li class="nav-item tx-medium pl-0">
-              <a class="nav-link" href="" ng-click="vm.scrollTo('#incidentTypesHeader')">
-                Incident Types
-              </a>
-            </li>
-            <li class="nav-item tx-medium">
-              <a class="nav-link" href="" ng-click="vm.scrollTo('#travelTimeHeader')">
-                Travel
-              </a>
-            </li>
-            <li class="nav-item tx-medium">
-              <a class="nav-link" href="" ng-click="vm.scrollTo('#turnoutTimeHeader')">
-                Turnout
-              </a>
-            </li>
-            <li class="nav-item tx-medium">
-              <a class="nav-link" href="" ng-click="vm.showOverlay('timeline')" ng-disabled="vm.incidents.length === 0">
-                Timeline
-              </a>
-            </li>
-            <li class="nav-item tx-medium">
-              <a class="nav-link" href="" ng-click="vm.showOverlay('incidents')" ng-disabled="vm.incidents.length === 0">
-                Incidents
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card-body bg-white" ng-if="!vm.isDataAvailable()">
-          <h2>No Data Available</h2>
-        </div>
-
-        <div ng-if="vm.isDataAvailable()">
-          <div class="card-body bg-white">
-            <div class="d-flex mg-b-20">
-              <h4 id="incidentTypesHeader" class="flex-1 tx-spacing-1 tx-medium m-0">Incident Types</h4>
-              <h5 class="tx-inverse tx-lato tx-bold m-0">
-                <rank
-                  old-value="vm.previousMetrics.total_data.total_count_rank"
-                  new-value="vm.currentMetrics.total_data.total_count_rank"
-                ></rank>
-              </h5>
-            </div>
-
-            <div class="incident-types-grid">
-              <div class="incident-types-graph">
-                <incident-category-chart
-                  ng-hide="!vm.isIncidentCategoryDataAvailable()"
-                  data="vm.currentMetrics.time_series_data.grouped_data.category"
-                  tz="{{vm.timeZone}}"
-                ></incident-category-chart>
+      <div class="reporting-unit-content-body" ng-class="{'unit-selected': (vm.selectedUnitId != null)}">
+        <div class="container-fluid">
+          <div class="position-relative" ng-if="vm.didFetchInitial">
+            <div class="br-pagetitle bg-white">
+              <div class="d-flex align-items-center justify-content-between">
+                <h2 class="unit-name">{{ vm.selectedUnitId }}</h2>
+                <span class="fa fa-close hidden-lg-up" ng-click="vm.deselectUnit()"></span>
               </div>
 
-              <div class="incident-types-bar-gauges">
-                <div class="responses">
-                  <h3 class="light-label mb-0">Responses</h3>
-                  <h4 class="responses-value">
-                    {{ vm.currentMetrics.total_data.total_count || 0 }}
-                  </h4>
+              <select
+                class="time-select"
+                ng-model="vm.selectedTimeFilterIdGetterSetter"
+                ng-model-options="{ getterSetter: true }"
+              >
+                <option
+                  ng-repeat="tf in vm.timeFilters"
+                  value="{{tf.id}}"
+                >
+                  {{tf.displayName}}
+                </option>
+              </select>
+            </div>
 
-                  <percent-change
-                    old-value="vm.previousMetrics.total_data.total_count"
-                    new-value="vm.currentMetrics.total_data.total_count"
-                  ></percent-change>
+            <div class="section-tabs">
+              <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" ng-if="vm.isDataAvailable()">
+                <li class="nav-item tx-medium pl-0">
+                  <a class="nav-link" href="" ng-click="vm.scrollTo('#incidentTypesHeader')">
+                    Incident Types
+                  </a>
+                </li>
+                <li class="nav-item tx-medium">
+                  <a class="nav-link" href="" ng-click="vm.scrollTo('#travelTimeHeader')">
+                    Travel
+                  </a>
+                </li>
+                <li class="nav-item tx-medium">
+                  <a class="nav-link" href="" ng-click="vm.scrollTo('#turnoutTimeHeader')">
+                    Turnout
+                  </a>
+                </li>
+                <li class="nav-item tx-medium">
+                  <a class="nav-link" href="" ng-click="vm.showOverlay('timeline')" ng-disabled="vm.incidents.length === 0">
+                    Timeline
+                  </a>
+                </li>
+                <li class="nav-item tx-medium">
+                  <a class="nav-link" href="" ng-click="vm.showOverlay('incidents')" ng-disabled="vm.incidents.length === 0">
+                    Incidents
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-                  <bar-gauge
-                    data="vm.totalIncidentCounts"
-                    min-label="Slow"
-                    max-label="Busy"
-                    value="vm.currentMetrics.total_data.total_count"
-                  ></bar-gauge>
+            <div class="card-body bg-white" ng-if="!vm.isDataAvailable()">
+              <h2>No Data Available</h2>
+            </div>
+
+            <div ng-if="vm.isDataAvailable()">
+              <div class="card-body bg-white">
+                <div class="d-flex mg-b-20">
+                  <h4 id="incidentTypesHeader" class="flex-1 tx-spacing-1 tx-medium m-0">Incident Types</h4>
+                  <h5 class="tx-inverse tx-lato tx-bold m-0">
+                    <rank
+                      old-value="vm.previousMetrics.total_data.total_count_rank"
+                      new-value="vm.currentMetrics.total_data.total_count_rank"
+                    ></rank>
+                  </h5>
                 </div>
 
-                <hr/>
+                <div class="incident-types-grid">
+                  <div class="incident-types-graph">
+                    <incident-category-chart
+                      ng-hide="!vm.isIncidentCategoryDataAvailable()"
+                      data="vm.currentMetrics.time_series_data.grouped_data.category"
+                      tz="{{vm.timeZone}}"
+                    ></incident-category-chart>
+                  </div>
 
-                <div class="commitment">
-                  <h3 class="light-label mb-0">Commitment</h3>
-                  <h4 class="commitment-value">
-                    {{ vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}
-                  </h4>
+                  <div class="incident-types-bar-gauges">
+                    <div class="responses">
+                      <h3 class="light-label mb-0">Responses</h3>
+                      <h4 class="responses-value">
+                        {{ vm.currentMetrics.total_data.total_count || 0 }}
+                      </h4>
 
-                  <percent-change
-                    old-value="vm.previousMetrics.total_data.total_commitment_time_seconds"
-                    new-value="vm.currentMetrics.total_data.total_commitment_time_seconds"
-                  ></percent-change>
+                      <percent-change
+                        old-value="vm.previousMetrics.total_data.total_count"
+                        new-value="vm.currentMetrics.total_data.total_count"
+                      ></percent-change>
 
-                  <bar-gauge
-                    is-duration="true"
-                    data="vm.totalCommitTimes"
-                    min-label="Low"
-                    max-label="High"
-                    value="vm.currentMetrics.total_data.total_commitment_time_seconds"
-                  ></bar-gauge>
+                      <bar-gauge
+                        data="vm.totalIncidentCounts"
+                        min-label="Slow"
+                        max-label="Busy"
+                        value="vm.currentMetrics.total_data.total_count"
+                      ></bar-gauge>
+                    </div>
+
+                    <hr/>
+
+                    <div class="commitment">
+                      <h3 class="light-label mb-0">Commitment</h3>
+                      <h4 class="commitment-value">
+                        {{ vm.humanizeDuration(vm.currentMetrics.total_data.total_commitment_time_seconds*1000) }}
+                      </h4>
+
+                      <percent-change
+                        old-value="vm.previousMetrics.total_data.total_commitment_time_seconds"
+                        new-value="vm.currentMetrics.total_data.total_commitment_time_seconds"
+                      ></percent-change>
+
+                      <bar-gauge
+                        is-duration="true"
+                        data="vm.totalCommitTimes"
+                        min-label="Low"
+                        max-label="High"
+                        value="vm.currentMetrics.total_data.total_commitment_time_seconds"
+                      ></bar-gauge>
+                    </div>
+                  </div>
+
+                  <chart-table title="Incident Type" data="vm.responseData"></chart-table>
                 </div>
               </div>
 
-              <chart-table title="Incident Type" data="vm.responseData"></chart-table>
-            </div>
-          </div>
+              <div class="travel-time-card">
+                <div
+                  class="card-header"
+                  id="travelTimeHeader"
+                  data-toggle="collapse"
+                  data-target="#travelTimeCollapse"
+                  aria-expanded="false"
+                  aria-controls="travelTimeCollapse"
+                  ng-click="vm.handleTravelTimeHeaderClick()"
+                >
+                  <span
+                    class="fa"
+                    ng-class="{
+                      'fa-angle-up': vm.isTravelTimeCollapsed,
+                      'fa-angle-down': !vm.isTravelTimeCollapsed
+                    }"
+                  ></span>
+                  <div class="flex-1">Travel Time</div>
+                  <div class="time flex-1">
+                    <span class="fa fa-clock-o">&nbsp;</span>
+                    <span>{{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}</span>
+                    <percent-change
+                      new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
+                      old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds']"
+                    ></percent-change>
+                  </div>
+                  <rank
+                    class="flex-1"
+                    new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
+                    old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
+                  ></rank>
+                </div>
+                <div class="collapse" id="travelTimeCollapse" aria-labelledby="travelTimeHeader">
+                  <div class="card-body">
+                    <div class="categories">
+                      <div class="category">
+                        <div>
+                          <h3 class="category-label">OVERALL</h3>
+                          <div class="category-value-container">
+                            <h4 class="category-value">
+                              {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
+                            </h4>
+                            <percent-change
+                              old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
+                              new-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds']"
+                            ></percent-change>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="category">
+                        <div>
+                          <h3 class="category-label">EMS</h3>
+                          <div class="category-value-container">
+                            <h4 class="category-value">
+                              {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']*1000) }}
+                            </h4>
+                            <percent-change
+                              old-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
+                              new-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
+                            ></percent-change>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="category">
+                        <div>
+                          <h3 class="category-label">FIRE</h3>
+                          <div class="category-value-container">
+                            <h4 class="category-value">
+                              {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']*1000) }}
+                            </h4>
+                            <percent-change
+                              old-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
+                              new-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
+                            ></percent-change>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-          <div class="travel-time-card">
-            <div
-              class="card-header"
-              id="travelTimeHeader"
-              data-toggle="collapse"
-              data-target="#travelTimeCollapse"
-              aria-expanded="false"
-              aria-controls="travelTimeCollapse"
-              ng-click="vm.handleTravelTimeHeaderClick()"
-            >
+                    <incident-travel-category-chart
+                      data="vm.currentMetrics.time_series_data.grouped_data.category"
+                      tz="{{vm.timeZone}}"
+                    ></incident-travel-category-chart>
+                  </div>
+                </div>
+              </div>
+
+              <div class="turnout-time-card">
+                <div
+                  class="card-header"
+                  id="turnoutTimeHeader"
+                  data-toggle="collapse"
+                  data-target="#turnoutTimeCollapse"
+                  aria-expanded="true"
+                  aria-controls="turnoutTimeCollapse"
+                  ng-click="vm.handleTurnoutTimeHeaderClick()"
+                >
               <span
                 class="fa"
                 ng-class="{
-                  'fa-angle-up': vm.isTravelTimeCollapsed,
-                  'fa-angle-down': !vm.isTravelTimeCollapsed
+                  'fa-angle-up': vm.isTurnoutTimeCollapsed,
+                  'fa-angle-down': !vm.isTurnoutTimeCollapsed
                 }"
               ></span>
-              <div class="flex-1">Travel Time</div>
-              <div class="time flex-1">
-                <span class="fa fa-clock-o">&nbsp;</span>
-                <span>{{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}</span>
-                <percent-change
-                  new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
-                  old-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds']"
-                ></percent-change>
-              </div>
-              <rank
-                class="flex-1"
-                new-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
-                old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds_rank']"
-              ></rank>
-            </div>
-            <div class="collapse" id="travelTimeCollapse" aria-labelledby="travelTimeHeader">
-              <div class="card-body">
-                <div class="categories">
-                  <div class="category">
-                    <div>
-                      <h3 class="category-label">OVERALL</h3>
-                      <div class="category-value-container">
-                        <h4 class="category-value">
-                          {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']*1000) }}
-                        </h4>
-                        <percent-change
-                          old-value="vm.currentMetrics.total_data['90_percentile_travel_duration_seconds']"
-                          new-value="vm.previousMetrics.total_data['90_percentile_travel_duration_seconds']"
-                        ></percent-change>
-                      </div>
-                    </div>
+                  <div class="flex-1">Turnout Time</div>
+                  <div class="time flex-1">
+                    <span class="fa fa-clock-o fa">&nbsp;</span>
+                    <span>{{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']*1000) }}</span>
+                    <percent-change
+                      new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']"
+                      old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds']"
+                    ></percent-change>
                   </div>
-                  <div class="category">
-                    <div>
-                      <h3 class="category-label">EMS</h3>
-                      <div class="category-value-container">
-                        <h4 class="category-value">
-                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']*1000) }}
-                        </h4>
-                        <percent-change
-                          old-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
-                          new-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_travel_duration_seconds']"
-                        ></percent-change>
+                  <rank
+                    class="flex-1"
+                    new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds_rank']"
+                    old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds_rank']"
+                  ></rank>
+                </div>
+                <div class="collapse" id="turnoutTimeCollapse" aria-labelledby="turnoutTimeHeader">
+                  <div class="card-body">
+                    <div class="categories">
+                      <div class="category">
+                        <div>
+                          <h3 class="category-label">OVERALL</h3>
+                          <div class="category-value-container">
+                            <h4 class="category-value">
+                              {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']*1000) }}
+                            </h4>
+                            <percent-change
+                              new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']"
+                              old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds']"
+                            ></percent-change>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="category">
+                        <div>
+                          <h3 class="category-label">EMS</h3>
+                          <div class="category-value-container">
+                            <h4 class="category-value">
+                              {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']*1000) }}
+                            </h4>
+                            <percent-change
+                              new-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
+                              old-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
+                            ></percent-change>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="category">
+                        <div>
+                          <h3 class="category-label">FIRE</h3>
+                          <div class="category-value-container">
+                            <h4 class="category-value">
+                              {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']*1000) }}
+                            </h4>
+                            <percent-change
+                              new-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
+                              old-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
+                            ></percent-change>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="category">
-                    <div>
-                      <h3 class="category-label">FIRE</h3>
-                      <div class="category-value-container">
-                        <h4 class="category-value">
-                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']*1000) }}
-                        </h4>
-                        <percent-change
-                          old-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
-                          new-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_travel_duration_seconds']"
-                        ></percent-change>
-                      </div>
-                    </div>
+
+                    <incident-turnout-category-chart
+                      class="w-100"
+                      data="vm.currentMetrics.time_series_data.grouped_data.category"
+                      tz="{{vm.timeZone}}"
+                    ></incident-turnout-category-chart>
                   </div>
                 </div>
-
-                <incident-travel-category-chart
-                  class="w-100"
-                  data="vm.currentMetrics.time_series_data.grouped_data.category"
-                  tz="{{vm.timeZone}}"
-                ></incident-travel-category-chart>
-              </div>
-            </div>
-          </div>
-
-          <div class="turnout-time-card">
-            <div
-              class="card-header"
-              id="turnoutTimeHeader"
-              data-toggle="collapse"
-              data-target="#turnoutTimeCollapse"
-              aria-expanded="true"
-              aria-controls="turnoutTimeCollapse"
-              ng-click="vm.handleTurnoutTimeHeaderClick()"
-            >
-          <span
-            class="fa"
-            ng-class="{
-              'fa-angle-up': vm.isTurnoutTimeCollapsed,
-              'fa-angle-down': !vm.isTurnoutTimeCollapsed
-            }"
-          ></span>
-              <div class="flex-1">Turnout Time</div>
-              <div class="time flex-1">
-                <span class="fa fa-clock-o fa">&nbsp;</span>
-                <span>{{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']*1000) }}</span>
-                <percent-change
-                  new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']"
-                  old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds']"
-                ></percent-change>
-              </div>
-              <rank
-                class="flex-1"
-                new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds_rank']"
-                old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds_rank']"
-              ></rank>
-            </div>
-            <div class="collapse" id="turnoutTimeCollapse" aria-labelledby="turnoutTimeHeader">
-              <div class="card-body">
-                <div class="categories">
-                  <div class="category">
-                    <div>
-                      <h3 class="category-label">OVERALL</h3>
-                      <div class="category-value-container">
-                        <h4 class="category-value">
-                          {{ vm.humanizeDuration(vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']*1000) }}
-                        </h4>
-                        <percent-change
-                          new-value="vm.currentMetrics.total_data['90_percentile_turnout_duration_seconds']"
-                          old-value="vm.previousMetrics.total_data['90_percentile_turnout_duration_seconds']"
-                        ></percent-change>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="category">
-                    <div>
-                      <h3 class="category-label">EMS</h3>
-                      <div class="category-value-container">
-                        <h4 class="category-value">
-                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']*1000) }}
-                        </h4>
-                        <percent-change
-                          new-value="vm.currentMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
-                          old-value="vm.previousMetrics.grouped_data.category.EMS['90_percentile_turnout_duration_seconds']"
-                        ></percent-change>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="category">
-                    <div>
-                      <h3 class="category-label">FIRE</h3>
-                      <div class="category-value-container">
-                        <h4 class="category-value">
-                          {{ vm.humanizeDuration(vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']*1000) }}
-                        </h4>
-                        <percent-change
-                          new-value="vm.currentMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
-                          old-value="vm.previousMetrics.grouped_data.category.FIRE['90_percentile_turnout_duration_seconds']"
-                        ></percent-change>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <incident-turnout-category-chart
-                  class="w-100"
-                  data="vm.currentMetrics.time_series_data.grouped_data.category"
-                  tz="{{vm.timeZone}}"
-                ></incident-turnout-category-chart>
-              </div>
-            </div>
-          </div>
-
-          <div class="details pd-y-20 d-flex justify-content-around" id="details">
-            <button
-              class="btn btn-primary btn-lg"
-              ng-disabled="(vm.incidents.length === 0)"
-              ng-click="vm.showOverlay('timeline')"
-            >
-              Timeline
-            </button>
-
-            <button
-              class="btn btn-primary btn-lg"
-              ng-disabled="(vm.incidents.length === 0)"
-              ng-click="vm.showOverlay('incidents')"
-            >
-              Incidents
-            </button>
-          </div>
-        </div>
-
-        <div class="timeline-overlay" ng-class="{'active': (vm.overlay === 'timeline')}">
-          <div class="overlay-inner">
-            <div class="overlay-header">
-              <div class="overlay-header-title">
-                <span>{{ vm.selectedUnitId }} Timeline</span>
-              </div>
-              <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
-            </div>
-
-            <div class="overlay-content">
-              <div class="flex-1 mb-3">
-                <incident-apparatus-timeline responses="vm.incidents"></incident-apparatus-timeline>
               </div>
 
-              <div>
-                <ul class="events-timeline-legend">
-                  <li class="turnout-time">Turnout Time</li>
-                  <li class="travel-time">Travel Time</li>
-                  <li class="intervention-time">Intervention Time</li>
-                  <li class="transport">Transport</li>
-                  <li class="post-transport">Post Transport</li>
-                  <li class="cancelled">Out-of-Service/Cancelled</li>
-                </ul>
+              <div class="details pd-y-20 d-flex justify-content-around" id="details">
+                <button
+                  class="btn btn-primary btn-lg"
+                  ng-disabled="(vm.incidents.length === 0)"
+                  ng-click="vm.showOverlay('timeline')"
+                >
+                  Timeline
+                </button>
+
+                <button
+                  class="btn btn-primary btn-lg"
+                  ng-disabled="(vm.incidents.length === 0)"
+                  ng-click="vm.showOverlay('incidents')"
+                >
+                  Incidents
+                </button>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="incidents-overlay" ng-class="{'active': (vm.overlay === 'incidents')}">
-          <div class="overlay-inner">
-            <div class="overlay-header">
-              <div class="overlay-header-title">
-                <span>{{ vm.selectedUnitId }} Incidents</span>
-              </div>
-              <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
-            </div>
-
-            <div class="overlay-content">
-              <incidents-table
-                incidents="vm.incidents"
-                pagination="vm.incidentsTable.pagination"
-                sort="vm.incidentsTable.sort"
-                ui-grid-column-defs="vm.incidentsTable.uiGridColumnDefs"
-                on-pagination-change="vm.handleIncidentsPaginationChange()"
-                on-sort-change="vm.handleIncidentsSortChange()"
-                use-external-pagination="true"
-                use-external-sorting="true"
-                is-loading="vm.isFetchingResponses"
-              ></incidents-table>
-            </div>
+    <div class="timeline-overlay" ng-class="{'active': (vm.overlay === 'timeline')}">
+      <div class="reporting-unit-overlay-inner">
+        <div class="reporting-unit-overlay-header">
+          <div class="reporting-unit-overlay-header-title">
+            <span>{{ vm.selectedUnitId }} Timeline</span>
           </div>
+          <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
+        </div>
+
+        <div class="reporting-unit-overlay-content">
+          <div class="flex-1 d-flex flex-column mb-3">
+            <incident-apparatus-timeline responses="vm.incidents"></incident-apparatus-timeline>
+          </div>
+
+          <div>
+            <ul class="events-timeline-legend">
+              <li class="turnout-time">Turnout Time</li>
+              <li class="travel-time">Travel Time</li>
+              <li class="intervention-time">Intervention Time</li>
+              <li class="transport">Transport</li>
+              <li class="post-transport">Post Transport</li>
+              <li class="cancelled">Out-of-Service/Cancelled</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="incidents-overlay" ng-class="{'active': (vm.overlay === 'incidents')}">
+      <div class="reporting-unit-overlay-inner">
+        <div class="reporting-unit-overlay-header">
+          <div class="reporting-unit-overlay-header-title">
+            <span>{{ vm.selectedUnitId }} Incidents</span>
+          </div>
+          <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
+        </div>
+
+        <div class="reporting-unit-overlay-content">
+          <incidents-table
+            incidents="vm.incidents"
+            pagination="vm.incidentsTable.pagination"
+            sort="vm.incidentsTable.sort"
+            ui-grid-column-defs="vm.incidentsTable.uiGridColumnDefs"
+            on-pagination-change="vm.handleIncidentsPaginationChange()"
+            on-sort-change="vm.handleIncidentsSortChange()"
+            use-external-pagination="true"
+            use-external-sorting="true"
+            is-loading="vm.isFetchingResponses"
+          ></incidents-table>
         </div>
       </div>
     </div>

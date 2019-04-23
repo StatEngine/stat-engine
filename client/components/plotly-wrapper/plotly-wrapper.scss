@@ -1,0 +1,7 @@
+plotly-wrapper {
+  .plotly {
+    > .svg-container {
+      width: auto !important;
+    }
+  }
+}

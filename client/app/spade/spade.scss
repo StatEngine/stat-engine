@@ -6,7 +6,6 @@ $color-spade-hyperlink: #0a85ff;
 
 // Landing Page Styles
 .spade-landing {
-
   section a {
     color: $color-spade-hyperlink;
     &:hover {
@@ -19,6 +18,9 @@ $color-spade-hyperlink: #0a85ff;
     background-position: center;
     background-size: cover;
     height: 570px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   header section {
@@ -102,8 +104,13 @@ $color-spade-hyperlink: #0a85ff;
       background-image: url('../assets/images/download-icon.svg');
     }
 
-    h4, p {
+    .info-card-text {
       padding-left: 10rem;
+
+      @include media-breakpoint-down(md) {
+        padding-left: 0;
+        padding-top: 6rem;
+      }
     }
   }
 

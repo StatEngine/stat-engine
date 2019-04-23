@@ -8,11 +8,6 @@ export default function routes($stateProvider) {
   $stateProvider
     .state('site.twitter', {
       abstract: true,
-      views: {
-        'navbar@': {
-          template: '<sidebar></sidebar>'
-        },
-      },
     })
     .state('site.twitter.home', {
       url: '/twitter',
