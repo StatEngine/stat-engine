@@ -15,11 +15,22 @@ export default {
     // inject jwt token
     if((p.indexOf('login') >= 0 || !req.cookies.rorCookie)
        && (req.user && req.user.isKibanaReadOnlyStrict)) {
+
+      let roles = req.user.isKibanaAdmin ? ['kibana_admin'] : ['kibana_ro_strict'];
+      let firecares_id = req.user.FireDepartment.firecares_id;
+
+      // multi-tenancy middleware placeholder
+      // for mvp, only global users can select another tenant
+      if(req.user.isGlobal && req.tenancy === 'global') {
+        // firecares_id is acting as tenant until I rename it in ROR settings
+        firecares_id = 'global';
+      }
+
       var claims = {
         sub: req.user.username,
         iss: 'https://statengine.io',
-        roles: req.user.isKibanaAdmin ? 'kibana_admin' : 'kibana_ro_strict',
-        firecares_id: req.user.FireDepartment.firecares_id,
+        roles,
+        firecares_id,
       };
 
       var jwt = nJwt.create(claims, config.ror.secret);
@@ -43,6 +54,8 @@ export default {
     if(req.user.FireDepartment) {
       const es_indicies = req.user.FireDepartment.get().es_indices;
       proxyReq.setHeader('x-se-fire-department-all', es_indicies.all);
+
+      if (req.tenancy === 'global') proxyReq.setHeader('x-se-fire-department-all', '*');
     }
   },
   // Router function to direct nfors

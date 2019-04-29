@@ -17,6 +17,7 @@ router.use(
   auth.isAuthenticated,
   auth.hasRole('kibana_ro_strict'),
   auth.hasFireDepartment,
+  auth.tenancy,
   proxy(settings)
 );
 

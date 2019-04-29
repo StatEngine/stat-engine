@@ -58,6 +58,7 @@ import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import report from './report';
 import incident from './incident';
+import dashboard from './dashboard';
 
 import marketplace from './marketplace';
 
@@ -137,6 +138,7 @@ angular.module('statEngineApp', [
   statEngine,
   user,
   incident,
+  dashboard,
   incidentComponents,
   chartComponents,
   orderObjectBy,

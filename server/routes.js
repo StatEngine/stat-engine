@@ -30,7 +30,7 @@ export default function(app) {
 
   // Kibana
   app.route('/dashboard')
-    .get((req, res) => res.redirect(path.join(config.kibana.appPath, '/')));
+    .get((req, res) => res.redirect(req.originalUrl.replace('/dashboard', config.kibana.appPath)));
   app.use(config.kibana.appPath, require('./kibana'));
 
   app.use('/subscriptionPortal', require('./subscription'));

@@ -128,14 +128,6 @@ export default class UserHomeController {
         });
     };
 
-    this.dashboard = function() {
-      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
-        app: 'Dashboard',
-        location: 'user-home'
-      });
-      this.$window.location.href = '/dashboard';
-    };
-
     this.goto = function(state, appName) {
       this.userDropDownActive = false;
 
