@@ -104,7 +104,7 @@ export const QUERIES = [{
     body: {
       size: 7,
       sort: [{
-        'description.units.keyword': { order: 'desc' },
+        'description.units': { order: 'desc' },
       }],
       query: {
         bool: {

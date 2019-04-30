@@ -282,7 +282,7 @@ export function loadComparison(req, res, next) {
 
   const pulsePoint = !_.isEmpty(_.get(req.incident, 'description.extended_data.AgencyIncidentCallTypeDescription'));
   const incidentType = pulsePoint ? _.get(req.incident, 'description.extended_data.AgencyIncidentCallTypeDescription') : req.incident.description.type;
-  const incidentTypeFilter = pulsePoint ? { term: {'description.extended_data.AgencyIncidentCallTypeDescription.keyword': incidentType }} : { term: {'description.type': incidentType }};
+  const incidentTypeFilter = pulsePoint ? { term: {'description.extended_data.AgencyIncidentCallTypeDescription': incidentType }} : { term: {'description.type': incidentType }};
 
   const compValues = {};
   const aggs = [

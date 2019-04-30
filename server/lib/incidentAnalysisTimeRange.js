@@ -43,7 +43,7 @@ export function buildFireIncidentQuery(timeFilter) {
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))))
     .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }})
     .aggregation('terms', 'description.type', { size: 1000, order: { _term: 'asc' }})
-    .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription.keyword', { size: 50, order: { _term: 'asc' }})
+    .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription', { size: 50, order: { _term: 'asc' }})
     .aggregation('percentile_ranks', 'durations.response.seconds', { values: 360 })
     .aggregation('percentiles', 'durations.total_event.minutes', { percents: 90 })
     .aggregation('percentiles', 'durations.turnout.seconds', { percents: 90 })
@@ -298,7 +298,7 @@ export class IncidentAnalysisTimeRange {
 
         comparison.battalion = analyzeAggregate(results, 'aggregations["agg_terms_address.battalion"]buckets', battalionMetrics);
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);
-        comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription.keyword"]buckets', incidentTypeMetrics);
+        comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription"]buckets', incidentTypeMetrics);
 
         console.dir(comparison);
 
