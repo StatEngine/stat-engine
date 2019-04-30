@@ -10,7 +10,7 @@ Ensure the following packages are installed
 - [Git](https://git-scm.com/downloads)
 - [Node.js and npm](https://nodejs.org) Node >= 8.x.x, npm >= 6.5.x
 - [PostSQL](https://www.postgresql.org/download/) 9.6.5
-- [Elasticsearch](https://www.elastic.co/downloads/past-releases/elasticsearch-6-4-2) 6.4.2
+- [Elasticsearch](https://www.elastic.co/downloads/past-releases/elasticsearch-6-4-1) 6.4.1
 
 
 1.  Run `npm install --global gulp`
@@ -29,9 +29,61 @@ Ensure the following packages are installed
 
 #### Elasticsearch Setup
 
-1.  Navigate to your Elasticsearch install directory  (ex. `cd elasticsearch-6.4.2`)
+1.  Navigate to your Elasticsearch install directory  (ex. `cd elasticsearch-6.4.1`)
 
-1.  Run `.\bin\elasticsearch`
+2.  Download Readonly Rest Plugin here: https://github.com/sscarduzio/elasticsearch-readonlyrest-plugin/archive/v1.16.33_es6.4.1.zip
+
+3.  Install readonlyrest plugin
+```
+bin/elasticsearch-plugin install file:///<location of download>
+```
+
+4.  Configure readonlyrest plugin, copy the following into favorite editor and save in config/readonlyrest.yml
+```
+readonlyrest:
+  enable: true
+  prompt_for_basic_auth: false
+
+  access_control_rules:
+
+  - name: "::USR-KIBANA-RO-STRICT::"
+    kibana_access: ro_strict
+    kibana_index: ".kibana_@{user}"
+    indices: [".kibana", ".kibana-devnull", ".kibana_@{user}", "@{x-se-fire-department-all}"]
+    kibana_hide_apps: ["readonlyrest_kbn", "kibana:dev_tools"]
+    jwt_auth:
+     name: "jwt1"
+     roles: ["kibana_ro_strict"]
+
+  - name: "::USR-KIBANA::"
+    kibana_access: admin
+    kibana_index: ".kibana_@{user}"
+    indices: [".kibana", ".kibana-devnull", ".kibana_@{user}", "@{x-se-fire-department-all}"]
+    kibana_hide_apps: ["readonlyrest_kbn", "kibana:dev_tools"]
+    jwt_auth:
+     name: "jwt1"
+     roles: ["kibana_admin"]
+
+  - name: "::KIBANA::"
+    auth_key: kibana:kibana
+    verbosity: info
+
+  jwt:
+    - name: jwt1
+      signature_algo: 'HMAC'
+      signature_key: 'woEayHiICafruph^gZJb3EG5Fnl1qou6XUT8xR^7OMwaCYxz^&@rr#Hi5*s*918tQS&iDJO&67xy0hP!F@pThb3#Aymx%XPV3x^'
+      user_claim: 'firecares_id'
+      roles_claim: 'roles'
+```
+
+5. Run `.\bin\elasticsearch`
+
+### Running Kibana
+
+1.  Run preconfigured kibana
+```
+docker run -p 5601:5601 prominentedgestatengine/kibana:HEAD-c7f45bd-development
+```
 
 ### Loading Elasticsearch Test Data
 
