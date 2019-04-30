@@ -95,7 +95,7 @@ A nightly dump of elasticdump data is availabe in S3.   Please contact a team me
 
 1. Make sure Elasticsearch is running
 
-2. Run `multielasticdump --input="./es-test-data" --output="http://localhost:9200" --direction="load"`
+2. Run `multielasticdump --input="./es-test-data" --output="http://kibana:kibana@localhost:9200" --direction="load"`
 
 ### Developing
 
