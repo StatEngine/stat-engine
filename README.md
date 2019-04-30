@@ -38,7 +38,7 @@ Ensure the following packages are installed
 bin/elasticsearch-plugin install file:///<location of download>
 ```
 
-4.  Configure readonlyrest plugin, copy the following into favorite editor and save in config/readonlyrest.yml
+4.  Configure readonlyrest plugin, copy the following into a new file called in ```config/readonlyrest.yml```
 ```
 readonlyrest:
   enable: true
@@ -80,7 +80,7 @@ readonlyrest:
 
 ### Running Kibana
 
-1.  Run preconfigured kibana
+1.  Run the preconfigured Kibana instance
 ```
 docker run -p 5601:5601 prominentedgestatengine/kibana:HEAD-c7f45bd-development
 ```
