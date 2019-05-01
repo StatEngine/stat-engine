@@ -114,6 +114,21 @@ const agencyIncidentTypeMetricConfigs = [
   ['incidentCount'],
 ];
 
+const alertColors = {
+  success: {
+    row: '#dff0d8',
+    rowBorder: '#83d062',
+  },
+  warning: {
+    row: '#fcf8e3',
+    rowBorder: '#c7ba75',
+  },
+  danger: {
+    row: '#f2dede',
+    rowBorder: '#bb7474',
+  },
+};
+
 function _formatAlerts(ruleAnalysis, reportOptions) {
   let mergeVar = {
     name: 'alerts',
@@ -122,8 +137,14 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
 
   _.forEach(ruleAnalysis, ruleViolations => {
     ruleViolations.forEach(violation => {
-      if(violation.level === 'DANGER') violation.rowColor = '#f2dede';
-      else if(violation.level === 'WARNING') violation.rowColor = '#fcf8e3';
+      if(violation.level === 'DANGER') {
+        violation.rowColor = alertColors.danger.row;
+        violation.rowBorderColor = alertColors.danger.rowBorder;
+      }
+      else if(violation.level === 'WARNING') {
+        violation.rowColor = alertColors.warning.row;
+        violation.rowBorderColor = alertColors.warning.rowBorder;
+      }
 
       let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
       if(_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
@@ -132,11 +153,17 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
 
   if(mergeVar.content.length === 0) {
     mergeVar.content.push({
-      rowColor: '#dff0d8',
+      rowColor: alertColors.success.row,
+      rowBorderColor: alertColors.success.rowBorder,
       description: 'No alerts',
       details: 'Keep up the good work!'
     });
   }
+
+  // Add a space after any comma without one after it.
+  mergeVar.content.forEach(alert => {
+    alert.details = alert.details.replace(/(,(?=\S)|:)/g, ', ')
+  })
 
   return mergeVar;
 }
