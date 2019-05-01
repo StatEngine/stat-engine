@@ -91,6 +91,9 @@ export default class ReportsViewController {
   }
 
   notifyModal() {
-    this.ModalService.ok()('Success!', 'Your department has been notified via email.');
+    this.ModalService.alert({
+      title: 'Success!',
+      content: 'Your department has been notified via email.',
+    }).present();
   }
 }
