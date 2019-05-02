@@ -69,20 +69,16 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
     },
 
     logout() {
-      return $http.get('/auth/local/logout')
-        .finally(() => {
-          this.authenticate({});
-          const cookies = $cookies.getAll();
-          angular.forEach(cookies, (v, k) => {
-            $cookies.remove(k);
-          });
-          amplitude.getInstance().setUserId(null); // not string 'null'
-          amplitude.getInstance().regenerateDeviceId();
-          _amplitudeIdentify = false;
+      this.authenticate({});
+      const cookies = $cookies.getAll();
+      angular.forEach(cookies, (v, k) => {
+        $cookies.remove(k);
+      });
+      amplitude.getInstance().setUserId(null); // not string 'null'
+      amplitude.getInstance().regenerateDeviceId();
+      _amplitudeIdentify = false;
 
-          // invalidate server session in case kibana doesn't callback
-          return $http.get('/auth/local/logout/_callback');
-        });
+      return $http.get('/auth/local/logout');
     },
 
     signup(user) {

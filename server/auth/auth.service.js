@@ -126,6 +126,20 @@ export function hasFireDepartment(req, res, next) {
   }
 }
 
+/**
+ * Sets kibana tenancy
+ */
+export function tenancy(req, res, next) {
+  req.tenancy = req.fireDepartment.firecares_id;
+
+  // Only global users can set a tenancy for now
+  if(req.user.isGlobal && req.query.tenancy) {
+    req.tenancy = req.query.tenancy;
+  }
+
+  next();
+}
+
 /*
  * Ensures user is assigned to fire department of request path
  */

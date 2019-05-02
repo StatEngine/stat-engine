@@ -40,16 +40,10 @@ router.post('/', bodyParser.json(), (req, res, next) => {
   })(req, res, next);
 });
 
-// Callback logout route
-// Kibana should call this on logout or from Angular on failure
-router.get('/logout/_callback', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
-
 // Logsout of Kibana
 router.get('/logout', (req, res) => {
-  res.redirect(path.join(config.kibana.appPath, '/logout'));
+  req.logout();
+  res.redirect('/');
 });
 
 // Route to determine if user is logged in
