@@ -30,6 +30,7 @@ export function calculateTimeRange(options) {
 
     if(shift) {
       let shiftTimeFrame = _getShiftTimeFrame(options.firecaresId, startDate.format());
+
       if(shiftTimeFrame) {
         startDate = shiftTimeFrame.start;
         endDate = shiftTimeFrame.end;
@@ -40,10 +41,9 @@ export function calculateTimeRange(options) {
           .format();
       }
     } else {
-      endDate = moment.parseZone(startDate.format()).endOf(timeUnit)
+      startDate = moment.parseZone(startDate.format()).startOf('day')
         .format();
-      startDate = moment.parseZone(startDate.format()).startOf(timeUnit)
-        .format();
+      endDate = moment.parseZone(startDate).add(1, timeUnit).format();
     }
   }
   if(!endDate) throw new Error('Could not determine endDate');
