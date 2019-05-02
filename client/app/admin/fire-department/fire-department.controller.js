@@ -45,11 +45,17 @@ export default class FireDepartmentController {
 
     this.FireDepartmentService.fixtures(params, {}).$promise
       .then(() => {
-        this.ModalService.ok()('Success', 'Fixtures Loaded!');
+        this.ModalService.alert({
+          title: 'Success!',
+          content: 'Fixtures loaded!',
+        }).present();
       })
       .catch(err => {
         console.error(err);
-        this.ModalService.ok()('Error', 'Fixtures Error', err);
+        this.ModalService.alert({
+          title: 'Error',
+          content: `Fixtures error: ${err.message}`,
+        }).present();
       });
   }
 
