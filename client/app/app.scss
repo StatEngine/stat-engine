@@ -668,14 +668,6 @@ input[type="radio"]:focus {
 }
 
 // Bootstrap Overrides
-@media (min-width: 1230px) {
-  .container {
-    // Compensates for the 30px of container padding for 1200px overall grid size
-    max-width: 1230px;
-    width: 1230px;
-  }
-}
-
 .text-success,
 .tx-success,
 .alert-success {
