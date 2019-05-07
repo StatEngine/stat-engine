@@ -3,11 +3,9 @@
 'use strict';
 
 import angular from 'angular';
-import { autorun } from 'mobx';
 import _ from 'lodash';
 import moment from 'moment-timezone';
 import humanizeDuration from 'humanize-duration';
-import { Store } from '../../../state/store';
 import { FirecaresLookup } from '@statengine/shiftly/lib';
 
 const shortEnglishHumanizer = humanizeDuration.humanizer({
@@ -28,34 +26,38 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class ReportingUnitController {
   isFetching = false;
-  isFetchingResponses = false;
+  isFetchingIncidentsTableResponses = false;
   didFetchInitial = false;
   isTravelTimeCollapsed = true;
   isTurnoutTimeCollapsed = true;
   timeFilters;
   _selectedTimeFilterId;
   _selectedTimeFilter;
-  incidents = [];
   overlay;
+  incidentsTimeline = {
+    incidents: [],
+  };
   incidentsTable;
 
   /*@ngInject*/
-  constructor($window, $location, $state, $stateParams, $scope, $transitions, $timeout, AmplitudeService, AnalyticEventNames, currentPrincipal) {
+  constructor($window, $location, $state, $stateParams, $transitions, $timeout, AmplitudeService,
+              AnalyticEventNames, currentPrincipal, Unit, units) {
     this.$window = $window;
     this.$location = $location;
     this.$state = $state;
-    this.$scope = $scope;
     this.$timeout = $timeout;
-    this.unitStore = Store.unitStore;
     this.timeZone = currentPrincipal.FireDepartment.timezone;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
     this.currentPrincipal = currentPrincipal;
+    this.Unit = Unit;
+    this.units = units;
 
     this.buildTimeFilters();
     this.selectedTimeFilterId = $stateParams.time || 'shift';
 
     this.incidentsTable = {
+      incidents: [],
       pagination: {
         page: 1,
         pageSize: (this.$window.innerWidth <= 1200) ? 25 : 100,
@@ -117,52 +119,16 @@ export default class ReportingUnitController {
   async $onInit() {
     await this.fetchUnitData();
 
-    this.disposer = autorun(() => {
-      this.incidents = this.unitStore.responses.items;
-      this.incidentsTable.pagination.totalItems = this.unitStore.responses.totalItems;
-
-      this.currentMetrics = this.unitStore.currentMetrics;
-      this.previousMetrics = this.unitStore.previousMetrics;
-      this.totalMetrics = this.unitStore.totalMetrics;
-
-      this.responseData = Object.entries(this.currentMetrics.grouped_data.category).map(n => ({
-        value: n[0],
-        count: n[1].total_count || 0,
-        metric: n[1].total_count || 0,
-        color: n[0] === 'FIRE' ? '#f3786b' : n[0] === 'EMS' ? '#5fb5c8' : '#f8b700',
-      }));
-
-      // abstract this to component do this server side
-      if(this.totalMetrics) {
-        let arr = _.values(this.totalMetrics.time_series_data.total_data);
-        arr = _.filter(arr, a => !_.isEmpty(a));
-        this.totalIncidentMin = _.minBy(arr, 'total_count');
-        this.totalIncidentAvg = _.meanBy(arr, 'total_count');
-        this.totalIncidentMax = _.maxBy(arr, 'total_count');
-        this.totalIncidentCounts = arr.map(a => a.total_count);
-        this.totalCommitTimes = arr.map(a => a.total_commitment_time_seconds);
-
-        this.totalCommitmentMin = _.minBy(arr, 'total_commitment_time_seconds');
-        this.totalCommitmentAvg = _.meanBy(arr, 'total_commitment_time_seconds');
-        this.totalCommitmentMax = _.maxBy(arr, 'total_commitment_time_seconds');
-      }
-      this.$scope.$evalAsync();
-    });
-
     this.removeResizeEventListener = this.$window.addEventListener('resize', () => {
       // If we just resized from mobile to desktop and a unit isn't selected, automatically select the first one.
       if(this.$window.innerWidth >= 992 && this.selectedUnitId == null) {
-        this.selectedUnitId = Store.unitStore.allUnits[0].id;
+        this.selectedUnitId = this.units[0].id;
         this.fetchUnitData();
       }
     });
   }
 
   $onDestroy() {
-    if(this.disposer) {
-      this.disposer();
-    }
-
     this.removeResizeEventListener();
   }
 
@@ -260,38 +226,29 @@ export default class ReportingUnitController {
   }
 
   async fetchUnitData() {
+    if (this.selectedUnitId == null) {
+      return;
+    }
+
     this.isFetching = true;
 
-    await this.fetchResponses();
-
-    await Store.unitStore.fetchMetrics(this.selectedUnitId, {
-      timeStart: this.selectedTimeFilter.filter.start,
-      timeEnd: this.selectedTimeFilter.filter.end,
-      subInterval: this.selectedTimeFilter.filter.subInterval,
-    });
-
-    await Store.unitStore.fetchPreviousMetrics(this.selectedUnitId, {
-      timeStart: this.selectedTimeFilter.filter.start,
-      timeEnd: this.selectedTimeFilter.filter.end,
-      subInterval: this.selectedTimeFilter.filter.subInterval,
-    });
-
-    await Store.unitStore.fetchTotalMetrics(this.selectedUnitId, {
-      timeStart: this.selectedTimeFilter.filter.start,
-      timeEnd: this.selectedTimeFilter.filter.end,
-      interval: this.selectedTimeFilter.filter.interval,
-    });
+    await this.fetchIncidentsTimelineData();
+    await this.fetchIncidentsTableData();
+    await this.fetchMetrics();
+    await this.fetchPreviousMetrics();
+    await this.fetchMetricsTotal();
 
     this.isFetching = false;
     this.didFetchInitial = true;
   }
 
-  async fetchResponses() {
-    this.isFetchingResponses = true;
+  async fetchIncidentsTableData() {
+    this.isFetchingIncidentsTableResponses = true;
     const pageSize = this.incidentsTable.pagination.pageSize;
     const page = this.incidentsTable.pagination.page;
 
-    await Store.unitStore.fetchResponses(this.selectedUnitId, {
+    const data = await this.Unit.getResponses({
+      id: this.selectedUnitId,
       timeStart: this.selectedTimeFilter.filter.start,
       timeEnd: this.selectedTimeFilter.filter.end,
       from: (page - 1) * pageSize,
@@ -299,18 +256,86 @@ export default class ReportingUnitController {
       sort: this.incidentsTable.sort.columns.map((sortColumn) => {
         return `${sortColumn.field},${sortColumn.direction}`;
       }).join('+'),
-    });
+    }).$promise;
 
-    this.isFetchingResponses = false;
+    this.incidentsTable.incidents = data.items;
+    this.incidentsTable.pagination.totalItems = data.totalItems;
+
+    this.isFetchingIncidentsTableResponses = false;
+  }
+
+  async fetchIncidentsTimelineData() {
+    const data = await this.Unit.getResponses({
+      id: this.selectedUnitId,
+      timeStart: this.selectedTimeFilter.filter.start,
+      timeEnd: this.selectedTimeFilter.filter.end,
+      from: 0,
+      size: 100,
+    }).$promise;
+
+    this.incidentsTimeline.incidents = data.items;
+  }
+
+  async fetchMetrics() {
+    this.currentMetrics = await this.Unit.getMetrics({
+      id: this.selectedUnitId,
+      timeStart: this.selectedTimeFilter.filter.start,
+      timeEnd: this.selectedTimeFilter.filter.end,
+      subInterval: this.selectedTimeFilter.filter.subInterval,
+    }).$promise;
+
+    this.responseData = Object.entries(this.currentMetrics.grouped_data.category).map(n => ({
+      value: n[0],
+      count: n[1].total_count || 0,
+      metric: n[1].total_count || 0,
+      color: n[0] === 'FIRE' ? '#f3786b' : n[0] === 'EMS' ? '#5fb5c8' : '#f8b700',
+    }));
+  }
+
+  async fetchPreviousMetrics() {
+    const timeStart = this.selectedTimeFilter.filter.start;
+    const timeEnd = this.selectedTimeFilter.filter.end;
+    const duration = moment.duration(moment(timeEnd).diff(moment(timeStart)));
+
+    this.previousMetrics = await this.Unit.getMetrics({
+      id: this.selectedUnitId,
+      timeStart: moment.parseZone(timeStart).subtract(duration.asMilliseconds(), 'milliseconds').format(),
+      timeEnd: timeStart,
+      subInterval: this.selectedTimeFilter.filter.subInterval,
+    }).$promise;
+  }
+
+  async fetchMetricsTotal() {
+    this.metricsTotal = await this.Unit.getMetricsTotal({
+      id: this.selectedUnitId,
+      timeStart: this.selectedTimeFilter.filter.start,
+      timeEnd: this.selectedTimeFilter.filter.end,
+      interval: this.selectedTimeFilter.filter.interval,
+    }).$promise;
+
+    // abstract this to component do this server side
+    if(this.metricsTotal) {
+      let arr = _.values(this.metricsTotal.time_series_data.total_data);
+      arr = _.filter(arr, a => !_.isEmpty(a));
+      this.totalIncidentMin = _.minBy(arr, 'total_count');
+      this.totalIncidentAvg = _.meanBy(arr, 'total_count');
+      this.totalIncidentMax = _.maxBy(arr, 'total_count');
+      this.totalIncidentCounts = arr.map(a => a.total_count);
+      this.totalCommitTimes = arr.map(a => a.total_commitment_time_seconds);
+
+      this.totalCommitmentMin = _.minBy(arr, 'total_commitment_time_seconds');
+      this.totalCommitmentAvg = _.meanBy(arr, 'total_commitment_time_seconds');
+      this.totalCommitmentMax = _.maxBy(arr, 'total_commitment_time_seconds');
+    }
   }
 
   async handleIncidentsPaginationChange() {
-    await this.fetchResponses();
+    await this.fetchIncidentsTableData();
     angular.element('.incidents-overlay')[0].scrollTop = 0;
   }
 
-  handleIncidentsSortChange() {
-    this.fetchResponses();
+  handleIncidentsTableSortChange() {
+    this.fetchIncidentsTableData();
   }
 
   buildTimeFilters() {

@@ -3,7 +3,7 @@
 
   <reporting-unit-list
     ng-class="{'unit-selected': (vm.selectedUnitId != null)}"
-    units="vm.unitStore.allUnits"
+    units="vm.units"
     on-select="vm.selectUnit(selected)"
     selected-unit-id="vm.selectedUnitId"
   ></reporting-unit-list>
@@ -60,12 +60,22 @@
                   </a>
                 </li>
                 <li class="nav-item tx-medium">
-                  <a class="nav-link" href="" ng-click="vm.showOverlay('timeline')" ng-disabled="vm.incidents.length === 0">
+                  <a
+                    class="nav-link"
+                    href=""
+                    ng-click="vm.showOverlay('timeline')"
+                    ng-disabled="vm.incidentsTimeline.incidents.length === 0"
+                  >
                     Timeline
                   </a>
                 </li>
                 <li class="nav-item tx-medium">
-                  <a class="nav-link" href="" ng-click="vm.showOverlay('incidents')" ng-disabled="vm.incidents.length === 0">
+                  <a
+                    class="nav-link"
+                    href=""
+                    ng-click="vm.showOverlay('incidents')"
+                    ng-disabled="vm.incidentsTable.incidents.length === 0"
+                  >
                     Incidents
                   </a>
                 </li>
@@ -322,7 +332,7 @@
               <div class="details pd-y-20 d-flex justify-content-around" id="details">
                 <button
                   class="btn btn-primary btn-lg"
-                  ng-disabled="(vm.incidents.length === 0)"
+                  ng-disabled="(vm.incidentsTimeline.incidents.length === 0)"
                   ng-click="vm.showOverlay('timeline')"
                 >
                   Timeline
@@ -330,7 +340,7 @@
 
                 <button
                   class="btn btn-primary btn-lg"
-                  ng-disabled="(vm.incidents.length === 0)"
+                  ng-disabled="(vm.incidentsTable.incidents.length === 0)"
                   ng-click="vm.showOverlay('incidents')"
                 >
                   Incidents
@@ -353,7 +363,7 @@
 
         <div class="reporting-unit-overlay-content">
           <div class="flex-1 d-flex flex-column mb-3">
-            <incident-apparatus-timeline responses="vm.incidents"></incident-apparatus-timeline>
+            <incident-apparatus-timeline responses="vm.incidentsTimeline.incidents"></incident-apparatus-timeline>
           </div>
 
           <div>
@@ -381,15 +391,15 @@
 
         <div class="reporting-unit-overlay-content">
           <incidents-table
-            incidents="vm.incidents"
+            incidents="vm.incidentsTable.incidents"
             pagination="vm.incidentsTable.pagination"
             sort="vm.incidentsTable.sort"
             ui-grid-column-defs="vm.incidentsTable.uiGridColumnDefs"
             on-pagination-change="vm.handleIncidentsPaginationChange()"
-            on-sort-change="vm.handleIncidentsSortChange()"
+            on-sort-change="vm.handleIncidentsTableSortChange()"
             use-external-pagination="true"
             use-external-sorting="true"
-            is-loading="vm.isFetchingResponses"
+            is-loading="vm.isFetchingIncidentsTableResponses"
           ></incidents-table>
         </div>
       </div>

@@ -2,8 +2,6 @@
 
 'use strict';
 
-import { Store } from '../../state/store';
-
 export default function routes($stateProvider) {
   'ngInject';
 
@@ -36,8 +34,8 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        units() {
-          return Store.unitStore.fetchUnits();
+        units(Unit) {
+          return Unit.query().$promise;
         },
         redirect(units, $window, $state, $stateParams) {
           let selectedUnitId = $stateParams['#'];
@@ -47,7 +45,7 @@ export default function routes($stateProvider) {
 
           const isLargeScreen = ($window.innerWidth >= 992);
           if(isLargeScreen) {
-            selectedUnitId = Store.unitStore.allUnits[0].id;
+            selectedUnitId = units[0].id;
             $state.go('site.reporting.unit', { '#': selectedUnitId, time: $stateParams.time });
           }
         }
