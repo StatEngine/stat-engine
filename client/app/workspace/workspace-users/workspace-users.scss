@@ -1,4 +1,4 @@
-.department-admin-home {
+.workspace-users-wrapper {
   .badge-danger {
     background-color: $color-brand-danger;
   }
@@ -20,7 +20,7 @@
     margin-top: 2rem;
   }
 
-  .department-users {
+  .workspace-users {
     @extend .container-fluid;
 
     padding-top: 2.5rem;
@@ -34,7 +34,7 @@
       padding-top: 1.5rem;
     }
 
-    .department-users-table {
+    .workspace-users-table {
       @include table(1300px);
       @extend .my-4;
 
@@ -55,18 +55,12 @@
           white-space: nowrap;
         }
 
-        &.admin,
-        &.ingest,
-        &.dashboard-admin,
-        &.dashboard-readonly {
-          text-align: center;
-
-          @media screen and (max-width: 1200px) {
-            text-align: left;
-          }
+        &.permission {
+          font-size: 14px;
+          text-transform: uppercase;
         }
 
-        &.status {
+        &.owner {
           font-size: 14px;
           text-transform: uppercase;
         }

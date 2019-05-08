@@ -24,7 +24,7 @@ export default class SignupController {
   }
 
   $onInit() {
-    this.form = $('#signup-form').parsley();
+    this.form = $('#workspace-form').parsley();
   }
 
   register() {

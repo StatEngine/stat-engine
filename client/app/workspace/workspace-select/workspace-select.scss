@@ -1,4 +1,4 @@
-.dashboard-tenancy {
+.workspace-select {
   header.naked {
     margin-bottom: 0;
   }
@@ -8,7 +8,7 @@
     min-height: 335px;
   }
   .masthead-content {
-    max-width: 650px;
+    max-width: 800px;
     padding-top: 4rem;
     text-align: center;
     h1 {
@@ -21,7 +21,7 @@
       margin: 1.5rem 0 2rem;
     }
   }
-  .tenancy-search {
+  .workspace-search {
   	position: relative;
     display: flex;
     .search-input {
@@ -55,7 +55,7 @@
       }
     }
   }
-  .tenants-content {
+  .workspaces-content {
     a.card {
       color: inherit;
       padding: 1rem 1rem 1rem 7rem;
@@ -65,11 +65,13 @@
       &:hover {
         transform: translateY(-5px);
       }
-      img {
+      button {
         position: absolute;
         left: 1rem;
         top: .8rem;
+        width: 4.5rem;
         max-height: 4.5rem;
+        height: 4.5rem;
       }
       h5 {
         font-size: 15px;
@@ -88,7 +90,7 @@
   			overflow: hidden;
       }
     }
-    .tenants {
+    .workspaces {
       .col {
         min-width: 50%;
         max-width: 50%;

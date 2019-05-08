@@ -1,0 +1,7 @@
+// all users with kibana_admin, read only access now have role of dashboard_user
+// create default tenants, groups
+// emails
+// tenants
+
+// test creating a new user
+// slugs, speical characters and unique

@@ -17,12 +17,14 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 const App = sqldb.App;
 const AppInstallation = sqldb.AppInstallation;
+const Workspace = sqldb.Workspace;
+const UserWorkspace = sqldb.UserWorkspace;
 
 const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
 const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
-let tucson;
+let richmondUser;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
@@ -30,6 +32,8 @@ let whosOnApp;
 if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
+    .then(() => Workspace.sync())
+    .then(() => Workspace.destroy({ where: {} }))
     .then(() => AppInstallation.sync())
     .then(() => AppInstallation.destroy({ where: {} }))
     .then(() => App.sync())
@@ -130,7 +134,7 @@ if(process.env.NODE_ENV === 'development') {
       customer_id: 'FD-123',
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin,deparment_admin',
+        role: 'user,dashboard_user,deparment_admin',
         username: 'richmond',
         first_name: 'Richmond',
         last_name: 'User',
@@ -142,7 +146,7 @@ if(process.env.NODE_ENV === 'development') {
         aws_secret_access_key: 'awsSecret',
       }, {
         provider: 'local',
-        role: 'user,kibana_ro_strict',
+        role: 'user,dashboard_user',
         username: 'richmond2',
         first_name: 'Richmond2',
         last_name: 'User',
@@ -201,6 +205,26 @@ if(process.env.NODE_ENV === 'development') {
       fire_department__id: richmond._id,
       app__id: whosOnApp._id,
     }))
+    .then(() => Workspace.create({
+      fire_department__id: richmond._id,
+      name: 'Richmond Ops',
+      slug: 'ops',
+      description: 'Richmond Ops Workspace',
+      color: '#3CAEA3',
+    }))
+    .then((wkspace) => {
+      // Assign richmond
+      return User.find({
+        where: { username: 'richmond' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: wkspace._id,
+          is_owner: true,
+          permission: 'admin',
+        })
+      })
+    })
     .then(() => ExtensionConfiguration.create({
       enabled: true,
       requested: false,
@@ -442,7 +466,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin,department_admin',
+        role: 'user,dashboard_user,department_admin',
         username: 'boston',
         first_name: 'boston',
         last_name: 'User',
@@ -465,7 +489,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin,department_admin',
+        role: 'user,dashboard_user,department_admin',
         username: 'southernplatte',
         first_name: 'southernplatte',
         last_name: 'User',
@@ -488,7 +512,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,dashboard_user',
         username: 'wheaton',
         first_name: 'wheaton',
         last_name: 'User',
@@ -577,7 +601,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,department_admin,kibana_admin',
+        role: 'user,department_admin,dashboard_user',
         username: 'rogers',
         first_name: 'dev',
         last_name: 'user',
@@ -627,7 +651,7 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => User.create({
       provider: 'local',
-      role: 'user,global,kibana_admin',
+      role: 'user,global,dashboard_user',
       username: 'global',
       email: 'global@prominentedge.com',
       password: 'password',
@@ -788,7 +812,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -122.4194,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,dashboard_user',
         username: 'sfUser',
         first_name: 'Demo',
         last_name: 'User',
@@ -838,7 +862,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -122.4194,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,dashboard_user',
         username: 'sfUser',
         first_name: 'Demo',
         last_name: 'User',

@@ -40,6 +40,8 @@ $ionicons-font-path: '/assets/fonts/Ionicons/';
 @import "~mapbox-gl/dist/mapbox-gl.css";
 @import "~tippy.js/dist/tippy.css";
 @import "~vis/dist/vis.css";
+@import "~spectrum-colorpicker/spectrum.css";
+
 
 // Theme import
 @import "../themes/bracket-plus/scss/bracket";
@@ -1451,7 +1453,7 @@ span+.logged-name {
 @import 'main/main';
 @import 'spade/spade';
 @import 'marketplace/marketplace';
-@import 'dashboard/dashboard';
+@import 'workspace/workspace';
 @import 'statEngine/statEngine';
 @import '../components/footer/footer';
 @import '../components/modal/modal';

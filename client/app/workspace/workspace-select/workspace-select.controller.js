@@ -1,11 +1,13 @@
 'use strict';
 
-export default class DashboardTenancyController {
+export default class WorkspaceSelectController {
   /*@ngInject*/
-  constructor(currentPrincipal, $window) {
+  constructor(currentPrincipal, $window, workspaces) {
     this.$window = $window;
 
-    this.tenants = [{
+    this.workspaces = workspaces;
+
+    /*[{
       slug: currentPrincipal.FireDepartment.firecares_id,
       name: 'My Department',
       short_description: currentPrincipal.FireDepartment.name,
@@ -19,10 +21,10 @@ export default class DashboardTenancyController {
         short_description: 'All Departments',
         image: '/assets/images/nfors-branding-symbol.png',
       });
-    }
+    }*/
   }
 
-  select(tenant) {
-    this.$window.location.href = '/dashboard?tenancy=' + tenant.slug;
+  select(workspace) {
+    this.$window.location.href = '/dashboard?workspace=' + workspace.id;
   }
 }

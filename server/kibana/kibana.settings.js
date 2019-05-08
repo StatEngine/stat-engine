@@ -14,9 +14,10 @@ export default {
 
     // inject jwt token
     if((p.indexOf('login') >= 0 || !req.cookies.rorCookie)
-       && (req.user && req.user.isKibanaReadOnlyStrict)) {
+       && req.user) {
 
-      let roles = req.user.isKibanaAdmin ? ['kibana_admin'] : ['kibana_ro_strict'];
+      let roles = 'kibana_admin';
+      //let roles = req.user.isKibanaAdmin ? ['kibana_admin'] : ['kibana_ro_strict'];
       let firecares_id = req.user.FireDepartment.firecares_id;
 
       // multi-tenancy middleware placeholder

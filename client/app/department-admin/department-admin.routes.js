@@ -28,9 +28,6 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        dataQuality(FireDepartment, currentPrincipal) {
-          return FireDepartment.dataQuality({ id: currentPrincipal.FireDepartment._id, resource: 'fire-incident' }).$promise;
-        },
         departmentUsers(User) {
           return User.query().$promise;
         },

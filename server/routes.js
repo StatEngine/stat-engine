@@ -27,6 +27,7 @@ export default function(app) {
   app.use('/api/safety', require('./api/safety'));
   app.use('/api/shift', require('./api/shift'));
   app.use('/api/stats', require('./api/stats'));
+  app.use('/api/workspaces', require('./api/workspace'));
 
   // Kibana
   app.route('/dashboard')

@@ -8,9 +8,11 @@ import _ from 'lodash';
 import Sequelize from 'sequelize';
 
 import config from '../../config/environment';
-import { FireDepartment, User } from '../../sqldb';
+import { FireDepartment, User, UserWorkspace, Workspace } from '../../sqldb';
 
 import { validationError, handleError } from '../../util/error';
+
+console.dir(UserWorkspace);
 
 async function getDepartmentAdmins(departmentId) {
   if(departmentId == null) {
@@ -23,6 +25,28 @@ async function getDepartmentAdmins(departmentId) {
       role: { $iLike: '%department_admin%' },
     },
   });
+}
+
+export async function departmentUsers(req, res) {
+  return await FireDepartment.find({
+    where: {
+      _id: req.user.FireDepartment._id
+    },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: ['username', 'email', 'role']
+    }]
+  })
+    .then(fd => {
+      if(!fd) {
+        return res.status(404).end();
+      }
+      return res.json(fd.Users);
+    })
+    .catch(handleError(res));
 }
 
 /**
@@ -586,29 +610,41 @@ export function me(req, res, next) {
       'aws_secret_access_key',
       'password_token',
       'password_reset_expire',
-    ]
+    ],
+    include: [{
+      model: FireDepartment,
+      attributes: [
+        '_id',
+        'fd_id',
+        'name',
+        'state',
+        'firecares_id',
+        'timezone',
+        'logo_link',
+      ],
+    }, {
+      model: Workspace,
+      through: {
+      }
+    }]
   })
     .then(user => {
       if(!user) {
         return res.status(401).end();
       }
+      console.dir(user);
 
-      return FireDepartment.find({
-        where: {
-          _id: user.fire_department__id
-        },
-        attributes: [
-          '_id',
-          'fd_id',
-          'name',
-          'state',
-          'firecares_id',
-          'timezone',
-          'logo_link',
-        ]
-      })
-        .then(fire_department => res.json({ user, fire_department}))
-        .catch(err => next(err));
+      const resData = {
+        user: user.get({ plain: true }),
+        fire_department: user.FireDepartment,
+        workspaces: user.Workspaces,
+      };
+
+      // remove dup data
+      delete resData.user.FireDepartment;
+      delete resData.user.Workspaces;
+
+      res.json(resData)
     })
     .catch(err => next(err));
 }

@@ -4,12 +4,11 @@ let _;
 
 export default class DepartmentAdminHomeController {
   /*@ngInject*/
-  constructor($location, currentPrincipal, dataQuality, departmentUsers, User) {
+  constructor($location, currentPrincipal, departmentUsers, User) {
     this.$location = $location;
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.departmentUsers = departmentUsers;
-    this.dataQuality = dataQuality;
     this.UserService = User;
   }
 

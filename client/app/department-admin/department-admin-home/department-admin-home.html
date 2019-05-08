@@ -95,46 +95,4 @@
       </div>
     </div>
   </section>
-
-  <section id="data-quality-analysis" class="data-quality-analysis">
-    <h3 class="mb-2" >Data Quality Analysis <span ng-class="{'badge-danger': vm.dataQuality.grade == 'POOR', 'badge-success': vm.dataQuality.grade == 'GOOD', 'badge-warning': vm.dataQuality.grade == 'NEEDS ATTENTION' || vm.dataQuality.grade == 'UNKNOWN' }" class="badge">{{vm.dataQuality.grade}}</span></h3>
-    <div class="row">
-      <div class="col-xl-8">
-        <p>The quality and accuracy of your organization's data is critical in getting the most value from the StatEngine platform.  Use this table to keep an eye on things so that your data stays in tip top shape.</p>
-      </div>
-      <div class="col-12 py-4">
-        <div class="data-quality-analysis-table mb-5">
-          <div class="table-row header">
-            <div class="cell">
-              Rule Check
-            </div>
-            <div class="cell">
-              Violations
-            </div>
-            <div class="cell">
-              Percentage
-            </div>
-            <div class="cell">
-              Required Action
-            </div>
-          </div>
-
-          <div class="table-row" ng-repeat="result in vm.dataQuality.results">
-            <div class="cell" data-title="Rule Check">
-              {{ result.rule }}
-            </div>
-            <div class="cell" data-title="Violations">
-              {{ result.violations|number:0 }}
-            </div>
-            <div class="cell" data-title="Percentage">
-              {{ result.percentViolation|number }}%
-            </div>
-            <div class="cell" data-title="Required Action">
-              {{ result.requiredAction }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 </div>

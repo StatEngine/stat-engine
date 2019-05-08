@@ -38,7 +38,7 @@ export class NavbarComponent {
         app: 'Dashboard',
         location
       });
-      this.$window.location.href = '/dashboard';
+      this.$window.location.href = '/workspace';
     };
 
     this.goto = function(state, appName) {

@@ -59,9 +59,7 @@ export function hasRole(roleRequired) {
     .use(function meetsRequirements(req, res, next) {
       if(req.user.roles.indexOf('admin') >= 0) {
         return next();
-      } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
-        return next();
-      } else if(roleRequired === 'kibana_ro_strict' && req.user.roles.indexOf('kibana_admin') >= 0) {
+      } else if(roleRequired === 'dashboard_user' && req.user.roles.indexOf('department_admin') >= 0) {
         return next();
       } else if(roleRequired === 'user' && req.user.roles.indexOf('app') >= 0) {
         return next();

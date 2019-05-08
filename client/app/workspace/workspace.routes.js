@@ -1,0 +1,75 @@
+'use strict';
+
+export default function routes($stateProvider) {
+  'ngInject';
+
+  $stateProvider
+    .state('site.workspace', {
+      abstract: true,
+    })
+    .state('site.workspace.home', {
+      url: '/workspaces',
+      views: {
+        'content@': {
+          template: require('./workspace-select/workspace-select.html'),
+          controller: 'WorkspaceSelectController',
+          controllerAs: 'vm',
+        }
+      },
+      data: {
+        roles: ['user', 'dashboard_user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+        workspaces(User) {
+          return User.get().$promise.then(user => user.workspaces);
+        },
+      }
+    })
+    .state('site.workspace.edit', {
+      url: '/workspaces/:id',
+      views: {
+        'content@': {
+          template: require('./workspace-edit/workspace-edit.html'),
+          controller: 'WorkspaceEditController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['user', 'dashboard_user']
+      },
+      resolve: {
+        currentWorkspace(Workspace, $stateParams) {
+            return undefined;
+            if($stateParams.id === 'new') return;
+           return Workspace.get({ id: $stateParams.id }).$promise;
+        },
+      },
+    })
+    .state('site.workspace.edit.users', {
+      url: '/users',
+      views: {
+        'content@': {
+          template: require('./workspace-users/workspace-users.html'),
+          controller: 'WorkspaceUsersController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['user', 'dashboard_user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+        departmentUsers(User) {
+          return User.query().$promise;
+        },
+        currentWorkspace(Workspace, $stateParams) {
+          return Workspace.get({ id: $stateParams.id }).$promise;
+        },
+      },
+    })
+}

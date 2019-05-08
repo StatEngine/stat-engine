@@ -15,6 +15,7 @@ router.put('/resetPassword', bodyParser.json(), controller.resetPassword);
 router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
 
 // authenticated routes
+router.get('/', auth.isApiAuthenticated, auth.hasFireDepartment, controller.departmentUsers);
 router.get('/me', auth.isApiAuthenticated, controller.me);
 router.put('/:id', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.edit);
 router.put('/:id/password', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.changePassword);
