@@ -25,6 +25,7 @@ const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
 let richmondUser;
+let wkspace;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
@@ -210,9 +211,10 @@ if(process.env.NODE_ENV === 'development') {
       name: 'Richmond Ops',
       slug: 'ops',
       description: 'Richmond Ops Workspace',
-      color: '#3CAEA3',
+      color: '#d61745',
     }))
-    .then((wkspace) => {
+    .then((saved) => {
+      wkspace = saved;
       // Assign richmond
       return User.find({
         where: { username: 'richmond' }
@@ -222,6 +224,19 @@ if(process.env.NODE_ENV === 'development') {
           workspace__id: wkspace._id,
           is_owner: true,
           permission: 'admin',
+        })
+      })
+    })
+    .then(() => {
+      // Assign richmond2
+      return User.find({
+        where: { username: 'richmond2' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: wkspace._id,
+          is_owner: false,
+          permission: 'ro',
         })
       })
     })

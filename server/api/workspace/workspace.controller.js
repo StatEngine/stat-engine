@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { sequelize, Workspace, User, FireDepartment, UserWorkspace } from '../../sqldb';
+import { sequelize, Workspace, FireDepartment, UserWorkspace, User} from '../../sqldb';
 
 import { validationError, handleError } from '../../util/error';
 
@@ -21,6 +21,22 @@ export async function create(req, res) {
   });
 }
 
+export async function edit(req, res) {
+  return await Workspace.update({
+    name: req.body.name,
+    description: req.body.description,
+    color: req.body.color,
+  }, {
+    returning: true,
+    where: {
+      _id: req.params.id
+  }}).then(result => {
+    res.json(result[1][0]);
+  }).catch(err => {
+    handleError(res);
+  });
+}
+
 export async function get(req, res) {
   return Workspace.find({
     where: { _id: req.params.id },
@@ -36,6 +52,39 @@ export async function get(req, res) {
   });
 }
 
+export async function getAll(req, res) {
+  // Get all workspaces that user is privy to
+  return Workspace.findAll({
+    where: {
+      fire_department__id: req.user.FireDepartment._id,
+    },
+    include: [{
+      model: User,
+      where: { _id: req.user._id },
+      attributes: []
+    }]
+  })
+  .then(workspaces => {
+    // now fetch each workpace, including users
+    if (!workspaces || workspaces.length === 0) return res.status(404).send();
+
+    return Workspace.findAll({
+      where: {
+        fire_department__id: req.user.FireDepartment._id,
+        _id: _.map(workspaces, w => w._id),
+      },
+      include: [{
+        model: User,
+        attributes: [ 'username', 'email', ]
+      }]
+    }).then(result => res.json(result))
+  }).catch(err => {
+    console.dir(err);
+    handleError(res);
+  });
+}
+
+
 // TODO
 export async function updateUsers(req, res) {
   await sequelize.transaction(t => {
@@ -46,7 +95,10 @@ export async function updateUsers(req, res) {
         attributes: ['username', 'email', 'role']
       }]
     }).then(workspace => {
-      console.dir(workspace);
+      console.dir(workspace.getUsers());
+      console.dir(req.body.users);
+
+      return workspace;
       //return saved.addUser(req.user, { transaction: t, is_owner: true, permission: 'admin' });
     });
   }).then(result => {

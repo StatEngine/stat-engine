@@ -1,3 +1,13 @@
+<div class="br-pageheader">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="site.user.home">Home</a>
+      <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
+      <a class="breadcrumb-item" ui-sref="site.workspace.edit({ id: vm.workspace._id })">{{ vm.workspace.name }}</a>
+      <a class="breadcrumb-item"> Edit Users</a>
+    </nav>
+  </div><!-- br-pageheader -->
+</div>
+<div class="br-pagebody">
 <div class="workspace-users-wrapper">
     <div
       class="action-message"
@@ -12,6 +22,23 @@
 
     <section class="workspace-users">
       <h3 class="mb-2">Workspace Users</h3>
+        Use the dropdown on the <strong>ACTIONS</strong> column to modify any user permissions.<br><br>
+        <ul class="statengine">
+          <li>
+            <strong class="text-success">GRANT READ</strong> will allow ther user read control over a workspace's saved objects.  This allows the user to filter, and explore dashboards and visualizations.  However, the user will <strong>NOT</strong> be able to create or modify any dasbhoards or visualizations in this workspace.
+          </li>
+          <li>
+            <strong class="text-success">GRANT WRITE</strong> will allow ther user write control over a workspace's saved objects.  This allows the user to create, edit, and delete dashboards and visualizations. The user will <strong>NOT</strong> have some workspace adminstritator capabilities, such as changing advanced settings or exporting objects and reports.
+          </li>
+          <li>
+            <strong class="text-success">GRANT FULL</strong> will allow the user full control over a workspace's saved objects.  This allows the user to create, edit, and delete dashboards and visualizations.  The user will also have workspace administrator capabilities, such as changing advanced settings or exporting objects and reports.
+          </li>
+          <li>
+            <strong class="text-success">GRANT OWNERSHIP</strong> will allow the user full control over a workspace's saved objects, in addition to complete control over the workspace name, description, and user permissions.  The user will be able to delete a workspace, so please proceed with caution.
+          <li>
+            <strong class="text-danger">REVOKE ACCESS</strong> will remove the user's access from the workspace.  No saved objects will be deleted.
+          </li>
+        </ul>
       <div class="workspace-users-table mb-5">
         <div class="table-row header">
           <div class="cell">
@@ -43,14 +70,13 @@
             <span class="badge badge-danger" ng-if="!user.UserWorkspace.is_owner">NO</span>
           </div>
           <div class="cell owner" data-title="Permission">
-            <span class="badge badge-success" ng-if="user.UserWorkspace.permission === 'admin'">admin</span>
-            <span class="badge badge-primary" ng-if="user.UserWorkspace.permission === 'ro'">write</span>
+            <span class="badge badge-success" ng-if="user.UserWorkspace.permission === 'admin'">full</span>
+            <span class="badge badge-primary" ng-if="user.UserWorkspace.permission === 'rw'">write</span>
             <span class="badge badge-secondary" ng-if="user.UserWorkspace.permission === 'ro'">read</span>
             <span class="badge badge-danger" ng-if="!user.UserWorkspace">NONE</span>
           </div>
           <div
-            class="cell action"
-            ng-class="{'current-user': user._id === vm.principal._id}"
+            class="cell action allowed"
             data-title="Action"
           >
             <div class="dropdown d-inline-block">
@@ -59,17 +85,25 @@
               </div>
               <div class="dropdown-menu">
                 <nav class="nav nav-style-2 flex-column">
-                  <div class="nav-link" ng-show="!user.FireDepartment" ng-click="vm.approveAccess(user)">
+                  <div class="nav-link" ng-click="vm.grantAccess(user, 'ro')">
                     <i class="fa fa-2x fa-check-circle"></i>
-                    <span>Approve Dashboard Admin</span>
+                    <span class="text-success">GRANT READ</span>
                   </div>
-                  <div class="nav-link"  ng-show="!user.FireDepartment" ng-click="vm.approveAccess(user, true)">
+                  <div class="nav-link" ng-click="vm.editWorkspace(workspace)">
                     <i class="fa fa-2x fa-check-circle"></i>
-                    <span>Approve Dashboard Readonly</span>
+                    <span class="text-success">GRANT WRITE</span>
                   </div>
-                  <div class="nav-link" ng-show="!user.isDepartmentAdmin && !user.isIngest" ng-click="vm.revokeAccess(user)">
+                  <div class="nav-link" ng-click="vm.editWorkspace(workspace)">
+                    <i class="fa fa-2x fa-check-circle"></i>
+                    <span class="text-success">GRANT FULL</span>
+                  </div>
+                  <div class="nav-link" ng-click="vm.editWorkspace(workspace)">
+                    <i class="fa fa-2x fa-check-circle"></i>
+                    <span class="text-success">GRANT OWNERSHIP</span>
+                  </div>
+                  <div class="nav-link" ng-click="vm.revokeAccess(user)">
                     <i class="fa fa-2x fa-times-circle"></i>
-                    <span>Revoke Access</span>
+                    <span class="text-danger">REVOKE ACCESS</span>
                   </div>
                 </nav>
               </div><!-- dropdown-menu -->

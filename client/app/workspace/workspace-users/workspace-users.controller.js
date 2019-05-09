@@ -4,9 +4,10 @@ let _;
 
 export default class WorkspaceUsersController {
   /*@ngInject*/
-  constructor(departmentUsers, currentWorkspace) {
+  constructor(departmentUsers, currentWorkspace, Workspace) {
     this.departmentUsers = departmentUsers;
     this.workspace = currentWorkspace;
+    this.WorkspaceService = Workspace;
     console.dir(this.workspace)
   }
 
@@ -18,6 +19,7 @@ export default class WorkspaceUsersController {
     await this.loadModules();
     console.dir(this.departmentUsers)
     const users = _.filter(this.departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
+    console.dir(users)
 
     // merge in workspace users
     this.users = _.values(_.merge(
@@ -25,6 +27,12 @@ export default class WorkspaceUsersController {
       _.keyBy(this.workspace.Users, 'username')
     ));
     console.dir(this.users);
+  }
+
+  grantAccess(user, level) {
+    console.dir(user)
+    this.WorkspaceService.updateUsers({ id: this.workspace._id }, { users: [ { _id: user._id, access: level }] }).$promise
+      .then(() => alert('done'))
   }
 
 /*  refreshUsers() {

@@ -114,7 +114,9 @@ export default function(sequelize, DataTypes) {
                || this.roles.indexOf('admin') >= 0;
       },
       isDashboardUser() {
-        return this.roles.indexOf('dashboard_user') >= 0;
+        return this.roles.indexOf('admin') >= 0
+              || this.roles.indexOf('department_admin') >= 0
+              || this.roles.indexOf('dashboard_user') >= 0;
       },
     },
 

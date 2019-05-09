@@ -9,7 +9,8 @@ import routing from './workspace.routes';
 import workspaceSelect from './workspace-select';
 import workspaceEdit from './workspace-edit';
 import workspaceUsers from './workspace-users';
+import workspaceManage from './workspace-manage';
 
-export default angular.module('statEngineApp.workspace', [uiRouter, workspaceSelect, workspaceEdit, workspaceUsers])
+export default angular.module('statEngineApp.workspace', [uiRouter, workspaceSelect, workspaceEdit, workspaceUsers, workspaceManage])
   .config(routing)
   .name;

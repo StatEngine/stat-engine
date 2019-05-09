@@ -28,6 +28,27 @@ export default function routes($stateProvider) {
         },
       }
     })
+    .state('site.workspace.manage', {
+      url: '/workspaces/manage',
+      views: {
+        'content@': {
+          template: require('./workspace-manage/workspace-manage.html'),
+          controller: 'WorkspaceManageController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['user', 'dashboard_user']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+        workspaces(Workspace) {
+          return Workspace.query().$promise;
+        },
+      },
+    })
     .state('site.workspace.edit', {
       url: '/workspaces/:id',
       views: {
@@ -42,8 +63,7 @@ export default function routes($stateProvider) {
       },
       resolve: {
         currentWorkspace(Workspace, $stateParams) {
-            return undefined;
-            if($stateParams.id === 'new') return;
+          if($stateParams.id === 'new') return;
            return Workspace.get({ id: $stateParams.id }).$promise;
         },
       },

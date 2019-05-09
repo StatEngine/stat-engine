@@ -17,7 +17,6 @@ export default class WorkspaceEditController {
     this.WorkspaceService = Workspace;
     this.ModalService = Modal;
 
-
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
                     ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
     this.workspace = currentWorkspace || {
@@ -35,13 +34,19 @@ export default class WorkspaceEditController {
     this.submitted = true;
 
     if(this.form.isValid()) {
-      this.WorkspaceService.save({
+      let fnc = this.WorkspaceService.update;
+
+      if (this.workspace._id === 'new') fnc = this.WorkspaceService.save;
+
+      fnc({ id: this.workspace._id}, {
+        id: this.workspace._id,
         name: this.workspace.name,
         description: this.workspace.description,
         color: this.workspace.color,
       }).$promise
-        .then(() => {
-          alert('success');
+        .then((saved) => {
+          console.dir(saved)
+          this.$state.go('site.workspace.edit.users', { id:saved._id});
         })
         .catch(err => {
           err = err.data;

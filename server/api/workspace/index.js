@@ -18,6 +18,14 @@ router.post(
 );
 
 router.get(
+  '/',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  controller.getAll
+);
+
+router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
@@ -26,12 +34,23 @@ router.get(
   controller.get
 );
 
+router.put(
+  '/:id',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  controller.hasWorkspaceOwnerAccess,
+  bodyParser.json(),
+  controller.edit
+)
+
 router.post(
   '/:id/users',
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   controller.hasWorkspaceOwnerAccess,
+  bodyParser.json(),
   controller.updateUsers
 );
 
