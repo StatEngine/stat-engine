@@ -4,52 +4,185 @@
 <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-15 pd-sm-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
   <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist" id="nav-tab">
     <li class="nav-item tx-medium pl-0">
-      <a class="nav-link active" data-toggle="tab" href="#nav-profile" role="tab" id="nav-profile-tab" aria-controls="nav-profile" aria-selected="true">My Profile</a>
+      <a
+        class="nav-link active"
+        data-toggle="tab"
+        href="#nav-profile"
+        role="tab"
+        id="nav-profile-tab"
+        aria-controls="nav-profile"
+        aria-selected="true"
+        ng-click="vm.handleTabClick('profile')"
+      >
+        My Profile
+      </a>
     </li>
     <li class="nav-item tx-medium">
-      <a class="nav-link" data-toggle="tab" href="#nav-password" role="tab" id="nav-password-tab" aria-controls="nav-password" aria-selected="false">Password</a>
+      <a
+        class="nav-link"
+        data-toggle="tab"
+        href="#nav-email"
+        role="tab"
+        id="nav-email-tab"
+        aria-controls="nav-email"
+        aria-selected="false"
+        ng-click="vm.handleTabClick('email')"
+      >
+        Email
+      </a>
+    </li>
+    <li class="nav-item tx-medium">
+      <a
+        class="nav-link"
+        data-toggle="tab"
+        href="#nav-password"
+        role="tab"
+        id="nav-password-tab"
+        aria-controls="nav-password"
+        aria-selected="false"
+        ng-click="vm.handleTabClick('password')"
+      >
+        Password
+      </a>
     </li>
   </ul>
 </div>
 <div class="br-pagebody">
   <div class="tab-content" id="nav-tabContent">
     <!-- My Profile -->
-     <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
       <div class="card mg-b-25">
         <div class="card-body">
           <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">My Profile</h6>
-          <form name="profileForm" id="profileForm" ng-submit="vm.edituser(profileForm)" novalidate>
+          <form name="profileForm" id="profileForm" ng-submit="vm.saveProfile(profileForm)" novalidate>
             <div class="form-layout">
-              <div class="row mg-t-30 mg-b-15">
+              <div class="row">
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label">First Name:
                       <span class="tx-danger">*</span></label>
-                    <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" ng-model="vm.user.first_name" required>
+                    <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" ng-model="vm.profile.inputs.firstName" required>
                   </div>
                 </div>
-                <!-- col-4 -->
+
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label">Last Name:
                       <span class="tx-danger">*</span></label>
-                    <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" ng-model="vm.user.last_name" required>
+                    <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" ng-model="vm.profile.inputs.lastName" required>
                   </div>
                 </div>
-                <!-- col-4 -->
               </div>
-              <!-- row -->
+
+              <div class="my-3"></div>
+
+              <div>
+                <p class="help-block" ng-show="vm.profile.errors">
+                  <ul>
+                    <li ng-repeat="error in vm.profile.errors">
+                      <p class="text-danger">{{ error.message }}</p>
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
               <div class="form-layout-footer d-flex align-items-center">
-                <button id='save_user_profile_btn' type="submit" class="btn btn-info">Save Changes</button>
-                <p ng-show="vm.saved && !profileForm.$dirty" class="mg-b-0 mg-l-20"><i class="fa fa-check tx-success mg-r-5"></i> All Changes Saved!</p>
+                <button id='save_user_profile_btn' type="submit" class="btn btn-info" ng-disabled="vm.profileDisableSaveButton()">
+                  Save Changes
+                </button>
+                <p ng-show="vm.profile.isSaving" class="mg-b-0 mg-l-20">
+                  Saving...
+                </p>
+                <p ng-show="vm.profile.showSaved && !profileForm.$dirty" class="mg-b-0 mg-l-20">
+                  <i class="fa fa-check tx-success mg-r-5"></i> Saved!
+                </p>
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
+
+    <!-- Email -->
+    <div class="tab-pane fade" id="nav-email" role="tabpanel" aria-labelledby="nav-email-tab">
+      <div class="card mg-b-25">
+        <div class="card-body">
+          <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">Email</h6>
+          <form name="emailForm" id="emailForm" ng-submit="vm.saveEmail(emailForm)" novalidate>
+            <div class="form-layout">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">Shift Report:</label>
+                    <div>
+                      <toggle-switch
+                        on="vm.email.inputs.shiftReportEnabled"
+                        on-change="emailForm.$setDirty()"
+                      ></toggle-switch>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">Week Report:</label>
+                    <div>
+                      <toggle-switch
+                        on="vm.email.inputs.weekReportEnabled"
+                        on-change="emailForm.$setDirty()"
+                      ></toggle-switch>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">Month Report:</label>
+                    <div>
+                      <toggle-switch
+                        on="vm.email.inputs.monthReportEnabled"
+                        on-change="emailForm.$setDirty()"
+                      ></toggle-switch>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="my-3"></div>
+
+              <div>
+                <p class="help-block" ng-show="vm.email.errors">
+                  <ul>
+                    <li ng-repeat="error in vm.email.errors">
+                      <p class="text-danger">{{ error.message }}</p>
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
+              <div class="form-layout-footer d-flex align-items-center">
+                <button id='save_email_btn' type="submit" class="btn btn-info" ng-disabled="vm.emailDisableSaveButton()">
+                  Save Changes
+                </button>
+                <p ng-show="vm.email.isSaving" class="mg-b-0 mg-l-20">
+                  Saving...
+                </p>
+                <p ng-show="vm.email.showSaved && !emailForm.$dirty" class="mg-b-0 mg-l-20">
+                  <i class="fa fa-check tx-success mg-r-5"></i> Saved!
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="tab-pane fade " id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
-      <div class="card mg-b-25 tab-pane" id="nav-password" role="tabpanel">
+      <div class="card mg-b-25 tab-pane" role="tabpanel">
         <div class="card-body">
           <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">Password</h6>
           <form name="passwordForm" id="passwordForm" ng-submit="vm.changePassword(passwordForm)" novalidate>
@@ -59,34 +192,44 @@
                   <div class="form-group">
                     <label class="form-control-label">Current Password:
                       <span class="tx-danger">*</span></label>
-                    <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword" required mongoose-error/>
+                    <input type="password" name="password" class="form-control" ng-model="vm.password.inputs.currentPassword" required mongoose-error/>
                   </div>
                   <div class="form-group">
                     <label class="form-control-label">New Password:
                         <span class="tx-danger">*</span></label>
-                    <input type="password" id="password1" name="password1" data-parsley-minlength="8" data-parsley-uppercase="1" data-parsley-lowercase="1" data-parsley-number="1" required class="form-control" ng-model="vm.user.newPassword" mongoose-error="mongoose-error"/>
+                    <input type="password" id="password1" name="password1" data-parsley-minlength="8" data-parsley-uppercase="1" data-parsley-lowercase="1" data-parsley-number="1" required class="form-control" ng-model="vm.password.inputs.newPassword" mongoose-error="mongoose-error"/>
                   </div>
                   <div class="form-group">
                     <label class="form-control-label">Confirm Password:
                         <span class="tx-danger">*</span></label>
-                    <input type="password" id="password2" name="password2" data-parsley-equalto="#password1" required class="form-control" ng-model="vm.user.confirmPassword" mongoose-error="mongoose-error"/>
+                    <input type="password" id="password2" name="password2" data-parsley-equalto="#password1" required class="form-control" ng-model="vm.password.inputs.newPasswordRepeat" mongoose-error="mongoose-error"/>
                   </div>
                 </div>
               </div>
             </div>
 
+            <div class="my-3"></div>
+
             <div>
-              <p class="help-block" ng-show="vm.passwordErrors">
+              <p class="help-block" ng-show="vm.password.errors">
                 <ul>
-                  <li ng-repeat="error in vm.passwordErrors">
+                  <li ng-repeat="error in vm.password.errors">
                     <p class="text-danger">{{ error.message }}</p>
                   </li>
                 </ul>
               </p>
             </div>
+
             <div class="form-layout-footer d-flex align-items-center">
-              <button id='save_user_password_btn' type="submit" class="btn btn-info">Save Password</button>
-              <p ng-show="vm.savedPassword && !passwordForm.$dirty" class="mg-b-0 mg-l-20"><i class="fa fa-check tx-success mg-r-5"></i>Password Saved!</p>
+              <button id='save_user_password_btn' type="submit" class="btn btn-info" ng-disabled="vm.passwordDisableSaveButton()">
+                Save Password
+              </button>
+              <p ng-show="vm.password.isSaving" class="mg-b-0 mg-l-20">
+                Saving...
+              </p>
+              <p ng-show="vm.password.showSaved && !passwordForm.$dirty" class="mg-b-0 mg-l-20">
+                <i class="fa fa-check tx-success mg-r-5"></i> Saved!
+              </p>
             </div>
           </form>
         </div>
@@ -94,45 +237,3 @@
     </div>
   </div>
 </div>
-
-<!--
-<div class="card mg-b-25">
-  <div class="card-body pd-30">
-    <h6 class="card-title tx-medium mg-b-35">Department Info</h6>
-    <form name="form" novalidate="">
-      <div class="form-layout">
-        <div class="row mg-t-30 mg-b-15">
-          <div class="col-lg-4">
-            <div class="form-group">
-              <label class="form-control-label">Department Name:
-                <span class="tx-danger">*</span></label>
-                <input type="text" class="form-control" value="Super Duper Department" placeholder="Department Name" required="required">
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="form-group mg-b-10-force">
-              <label class="form-control-label">Mail Address: <span class="tx-danger">*</span></label>
-              <input class="form-control" type="text" name="address" value="Market St. San Francisco" placeholder="Enter address">
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="form-group mg-b-10-force">
-              <label class="form-control-label">Country: <span class="tx-danger">*</span></label>
-              <select class="form-control select2 select2-hidden-accessible" data-placeholder="Choose country" tabindex="-1" aria-hidden="true">
-                <option label="Choose country"></option>
-                <option value="USA">United States of America</option>
-                <option value="UK">United Kingdom</option>
-                <option value="China">China</option>
-                <option value="Japan">Japan</option>
-              </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 407px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-s8rp-container"><span class="select2-selection__rendered" id="select2-s8rp-container">
-            </div>
-          </div>
-        </div>
-        <div class="form-layout-footer">
-          <button id='save_user_profile_btn' type="submit" class="btn btn-info disabled" disabled>Save Changes</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
--->

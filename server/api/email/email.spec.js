@@ -1,4 +1,5 @@
-import { calculateTimeRange, setMergeVars, TimeUnit } from './email.controller';
+import { calculateTimeRange, setMergeVars } from './email.controller';
+import { TimeUnit } from '../../components/constants/time-unit';
 import 'chai/register-should';
 
 describe('setMergeVars()', () => {

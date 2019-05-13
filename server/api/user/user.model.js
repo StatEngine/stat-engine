@@ -86,6 +86,9 @@ export default function(sequelize, DataTypes) {
     },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
+    unsubscribed_emails: {
+      type: DataTypes.STRING,
+    },
   }, {
 
     /**
@@ -282,6 +285,22 @@ export default function(sequelize, DataTypes) {
             fn(null);
           });
         });
+      },
+
+      isUnsubscribedToEmail(emailId) {
+        if(!this.unsubscribed_emails) {
+          return false;
+        }
+
+        emailId = emailId.toLowerCase();
+
+        for(const unsubscribedEmailId of this.unsubscribed_emails.toLowerCase().split(',')) {
+          if(unsubscribedEmailId === emailId) {
+            return true;
+          }
+        }
+
+        return false;
       }
     },
     underscored: true,

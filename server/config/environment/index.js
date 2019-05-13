@@ -85,6 +85,7 @@ var all = {
     departmentAccessApprovedTemplate: 'department-access-approved',
     departmentAccessRevokedTemplate: 'department-access-revoked',
     departmentAccessRejectedTemplate: 'department-access-rejected',
+    timeRangeTemplate: 'timerange',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
     mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
   },

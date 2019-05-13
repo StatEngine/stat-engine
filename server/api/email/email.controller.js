@@ -13,14 +13,8 @@ import {
   FireDepartment,
   User,
 } from '../../sqldb';
-
-export const TimeUnit = {
-  Shift: 'SHIFT',
-  Day: 'DAY',
-  Week: 'WEEK',
-  Month: 'MONTH',
-  Year: 'YEAR',
-};
+import config from '../../config/environment';
+import { TimeUnit } from '../../components/constants/time-unit';
 
 export async function sendTimeRangeAnalysis(req, res) {
   const configId = req.query.configurationId;
@@ -53,7 +47,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
 
   // Override day reports to use shift time.
-  if(reportOptions.timeUnit.toLowerCase() === TimeUnit.Day.toLowerCase()) {
+  if(reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
     reportOptions.timeUnit = TimeUnit.Shift;
   }
 
@@ -94,26 +88,42 @@ export async function sendTimeRangeAnalysis(req, res) {
     ],
     include: [{
       model: User,
-      attributes: ['_id', 'first_name', 'last_name', 'email', 'role']
+      attributes: ['_id', 'first_name', 'last_name', 'email', 'role', 'unsubscribed_emails']
     }]
   });
 
-  const to = [];
+  const toUsersByEmail = {};
 
   if(_.isNil(reportOptions.emailAllUsers) || reportOptions.emailAllUsers) {
-    fd.Users.forEach(u => to.push(u.get()));
+    fd.Users.forEach(u => {
+      toUsersByEmail[u.email] = u;
+    });
   }
 
   // Add additional to.
   if(reportOptions.to) {
-    reportOptions.to.forEach(u => to.push({
-      isAdmin: false,
-      _id: u.email,
-      email: u.email,
-    }));
+    reportOptions.to.forEach(u => {
+      // Don't add the same email twice.
+      if(toUsersByEmail[u.email]) {
+        return;
+      }
+
+      toUsersByEmail[u.email] = {
+        isAdmin: false,
+        isExternal: true,
+        _id: u.email,
+        email: u.email,
+      };
+    });
   }
 
-  if(_.isEmpty(to)) {
+  let toUsers = Object.keys(toUsersByEmail).map(email => toUsersByEmail[email]);
+
+  // Remove unsubscribed users from the email list.
+  const emailId = _getTimeRangeEmailId(reportOptions.timeUnit);
+  toUsers = toUsers.filter(user => !user.isUnsubscribedToEmail(emailId));
+
+  if(_.isEmpty(toUsers)) {
     return res.status(200).send();
   }
 
@@ -122,7 +132,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   //
 
   const description = _formatDescription(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
-  const mergeVars = [
+  const globalMergeVars = [
     description,
     _formatOptions(reportOptions),
     _formatAlerts(ruleAnalysis, reportOptions),
@@ -133,24 +143,33 @@ export async function sendTimeRangeAnalysis(req, res) {
     _formatAggregateMetrics('incidentType', incidentTypeMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('agencyIncidentType', agencyIncidentTypeMetricConfigs, comparison, reportOptions),
   ];
-  console.dir(mergeVars);
+  console.dir(globalMergeVars);
   const subject = description.content.title;
 
   //
-  // Send.
+  // Send email.
   //
 
   const promises = [];
-  to.forEach(user => {
+  toUsers.forEach(user => {
     const metadata = {
       firecaresId: fireDepartment.firecares_id,
       fireDepartmentName: fireDepartment.name,
       userIsAdmin: user.isAdmin,
+      userIsExternal: !!user.isExternal,
       userId: user._id,
       timeUnit: reportOptions.timeUnit,
     };
 
-    promises.push(sendEmail(user.email, subject, 'timerange', mergeVars, test, metadata));
+    const mergeVars = globalMergeVars.slice(0);
+    mergeVars.push({
+      name: 'user',
+      content: {
+        isExternal: metadata.userIsExternal,
+      },
+    });
+
+    promises.push(sendEmail(user.email, subject, config.mailSettings.timeRangeTemplate, mergeVars, test, metadata));
   });
 
   await Promise.all(promises);
@@ -172,10 +191,14 @@ function _getShift(firecaresId, date) {
 // Helpers
 //
 
+function _getTimeRangeEmailId(timeUnit) {
+  return `${config.mailSettings.timeRangeTemplate}_${timeUnit}`.toLowerCase();
+}
+
 function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
   let title;
   let subtitle;
-  let timeUnit = reportOptions.timeUnit;
+  let timeUnit = reportOptions.timeUnit.toLowerCase();
 
   const timeStart = moment.parseZone(timeRange.start);
   if(timeUnit === TimeUnit.Shift) {

@@ -3,13 +3,14 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+
 'use strict';
 
 import uuidv4 from 'uuid/v4';
 import { seedKibanaAll, seedIndexTemplates } from '@statengine/se-fixtures';
 
 import sqldb from '../sqldb';
-import { TimeUnit } from '../api/email/email.controller';
+import { TimeUnit } from '../components/constants/time-unit';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
