@@ -4,55 +4,52 @@ let _;
 
 export default class WorkspaceUsersController {
   /*@ngInject*/
-  constructor(departmentUsers, currentWorkspace, Workspace) {
-    this.departmentUsers = departmentUsers;
-    this.workspace = currentWorkspace;
+  constructor(Workspace, User, $stateParams) {
+    this.workspaceId = $stateParams.id;
+
     this.WorkspaceService = Workspace;
-    console.dir(this.workspace)
+    this.UserService = User;
   }
 
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
-  async $onInit() {
-    await this.loadModules();
-    console.dir(this.departmentUsers)
-    const users = _.filter(this.departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
-    console.dir(users)
+  async refresh() {
+    this.refreshing = true;
+    const departmentUsers = await this.UserService.query().$promise;
+    this.workspace = await this.WorkspaceService.get({ id: this.workspaceId }).$promise;
 
-    // merge in workspace users
+    const users = _.filter(departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
     this.users = _.values(_.merge(
       _.keyBy(users, 'username'),
       _.keyBy(this.workspace.Users, 'username')
     ));
-    console.dir(this.users);
+    this.refreshing = false;
   }
 
-  grantAccess(user, level) {
-    console.dir(user)
-    this.WorkspaceService.updateUsers({ id: this.workspace._id }, { users: [ { _id: user._id, access: level }] }).$promise
-      .then(() => alert('done'))
+  async $onInit() {
+    await this.loadModules();
+    await this.refresh();
   }
 
-/*  refreshUsers() {
-    this.UserService.query().$promise
-      .then(departmentUsers => {
-        this.users = _.filter(departmentUsers, u => !u.Admin && !u.isGlobal);
-      });
+  async grantPermission(user, level) {
+    this.WorkspaceService.updateUserPermissions({ id: this.workspace._id, controllerId: user._id }, { user: { _id: user._id, permission: level } }).$promise
+      .then(() => this.refresh());
   }
 
-  approveAccess(user, readonly) {
-    this.UserService.approveAccess({ id: user._id, readonly }, {}).$promise
-      .finally(() => {
-        this.refreshUsers();
-      });
+  async revokePermission(user) {
+    this.WorkspaceService.revokeUserPermissions({ id: this.workspace._id, controllerId: user._id }, { user: { _id: user._id } }).$promise
+      .then(() => this.refresh());
   }
 
-  revokeAccess(user) {
-    this.UserService.revokeAccess({ id: user._id}, {}).$promise
-      .finally(() => {
-        this.refreshUsers();
-      });
-  }*/
+  async grantOwnership(user) {
+    this.WorkspaceService.updateUserOwnership({ id: this.workspace._id, controllerId: user._id }, { user: { _id: user._id, is_owner: 'true' } }).$promise
+      .then(() => this.refresh());
+  }
+
+  async revokeOwnership(user) {
+    this.WorkspaceService.revokeUserOwnership({ id: this.workspace._id, controllerId: user._id }, { user: { _id: user._id } }).$promise
+      .then(() => this.refresh());
+  }
 }

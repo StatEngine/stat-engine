@@ -9,13 +9,15 @@ export async function create(req, res) {
 
   // force this all so user cannot overwrite in request
   workspace.setDataValue('fire_department__id', req.user.FireDepartment._id);
+  let wkspace;
   await sequelize.transaction(t => {
     // chain all your queries here. make sure you return them.
     return workspace.save({transaction: t}).then(saved => {
+      wkspace = saved;
       return saved.addUser(req.user, { transaction: t, is_owner: true, permission: 'admin' });
     });
   }).then(result => {
-    res.status(204).send();
+    res.json(wkspace);
   }).catch(err => {
     handleError(res);
   });
@@ -42,7 +44,7 @@ export async function get(req, res) {
     where: { _id: req.params.id },
     include: [{
       model: User,
-      attributes: ['username', 'email', 'role']
+      attributes: ['_id', 'username', 'email', 'role']
     }]
   })
   .then(result => {
@@ -66,7 +68,7 @@ export async function getAll(req, res) {
   })
   .then(workspaces => {
     // now fetch each workpace, including users
-    if (!workspaces || workspaces.length === 0) return res.status(404).send();
+    if (!workspaces || workspaces.length === 0) return res.json([]).send();
 
     return Workspace.findAll({
       where: {
@@ -84,28 +86,111 @@ export async function getAll(req, res) {
   });
 }
 
+export async function updateUser(req, res) {
+  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+  if(_.isNil(req.body.user.permission)) throw new Error('req.body.user.permission not set');
 
-// TODO
-export async function updateUsers(req, res) {
-  await sequelize.transaction(t => {
-    return Workspace.find({
-      where: { _id: req.params.id },
-      include: [{
-        model: User,
-        attributes: ['username', 'email', 'role']
-      }]
-    }).then(workspace => {
-      console.dir(workspace.getUsers());
-      console.dir(req.body.users);
+  console.dir('finding one')
+  return await UserWorkspace
+    .findOne({
+      where: {
+        workspace__id: req.params.id,
+        user__id: req.params.userId,
+      }
+    })
+    .then((userWorkspace) => {
+      if(userWorkspace) return userWorkspace.update({
+        permission: req.body.user.permission
+      });
+      else return UserWorkspace.create({
+        user__id: req.params.userId,
+        workspace__id: req.params.id,
+        permission: req.body.user.permission,
+        is_owner: false,
+      });
+    })
+    .then(() => res.status(204).send())
+    .catch((err) => handleError(res));
+}
 
-      return workspace;
-      //return saved.addUser(req.user, { transaction: t, is_owner: true, permission: 'admin' });
-    });
-  }).then(result => {
-    res.status(204).send();
-  }).catch(err => {
-    handleError(res);
-  });
+export async function updateOwner(req, res) {
+  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+  if(_.isNil(req.body.user.is_owner)) throw new Error('req.body.user.is_owner not set');
+
+  return await UserWorkspace
+    .findOne({
+      where: {
+        workspace__id: req.params.id,
+        user__id: req.params.userId,
+      }
+    })
+    .then((userWorkspace) => {
+      if(userWorkspace) return userWorkspace.update({
+        is_owner: req.body.user.is_owner
+      });
+      else return UserWorkspace.create({
+        user__id: req.params.userId,
+        workspace__id: req.params.id,
+        permission: 'admin',
+        is_owner: true,
+      });
+    })
+    .then(() => res.status(204).send())
+    .catch((err) => handleError(res));
+}
+
+export async function revokeUser(req, res) {
+  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+
+  return await UserWorkspace
+    .findOne({
+      where: {
+        workspace__id: req.params.id,
+        user__id: req.params.userId,
+      }
+    })
+    .then((userWorkspace) => {
+      if(userWorkspace) return userWorkspace.update({
+        permission: null,
+      });
+      else return UserWorkspace.create({
+        user__id: req.params.userId,
+        workspace__id: req.params.id,
+        permission: null,
+        is_owner: false,
+      });
+    })
+    .then(() => res.status(204).send())
+    .catch((err) => handleError(res));
+}
+
+export async function revokeOwner(req, res) {
+  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+
+  return await UserWorkspace
+    .findOne({
+      where: {
+        workspace__id: req.params.id,
+        user__id: req.params.userId,
+      }
+    })
+    .then((userWorkspace) => {
+      if(userWorkspace) return userWorkspace.update({
+        is_owner: false,
+      });
+      else return UserWorkspace.create({
+        user__id: req.params.userId,
+        workspace__id: req.params.id,
+        permission: null,
+        is_owner: false,
+      });
+    })
+    .then(() => res.status(204).send())
+    .catch((err) => handleError(res));
 }
 
 export async function hasWorkspaceAccess(req, res, next) {
@@ -118,7 +203,6 @@ export async function hasWorkspaceAccess(req, res, next) {
     },
   })
   .then(result => {
-    console.dir(result);
     if (_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have access to this workspace'));
     return next();
   }).catch(err => {
@@ -137,7 +221,6 @@ export async function hasWorkspaceOwnerAccess(req, res, next) {
     },
   })
   .then(result => {
-    console.dir(result);
     if (_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have owner access to this workspace'));
     return next();
   }).catch(err => {

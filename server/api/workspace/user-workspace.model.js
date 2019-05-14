@@ -7,9 +7,6 @@ export default function(sequelize, DataTypes) {
     // corresponds to readonlyrest permissions
     permission: {
       type: DataTypes.ENUM(WORKSPACE_PERMISSIONS),
-      validate: {
-        notEmpty: true
-      },
       defaultValue: WORKSPACE_PERMISSIONS[0],
     },
     is_owner: {

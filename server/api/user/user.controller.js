@@ -37,7 +37,7 @@ export async function departmentUsers(req, res) {
     ],
     include: [{
       model: User,
-      attributes: ['username', 'email', 'role']
+      attributes: ['_id', 'username', 'email', 'role']
     }]
   })
     .then(fd => {

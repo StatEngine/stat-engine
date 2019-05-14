@@ -44,14 +44,45 @@ router.put(
   controller.edit
 )
 
-router.post(
-  '/:id/users',
+router.delete(
+  '/:id/users/:userId',
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   controller.hasWorkspaceOwnerAccess,
   bodyParser.json(),
-  controller.updateUsers
+  controller.revokeUser,
 );
+
+router.post(
+  '/:id/users/:userId',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  controller.hasWorkspaceOwnerAccess,
+  bodyParser.json(),
+  controller.updateUser
+);
+
+router.post(
+  '/:id/owners/:userId',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  controller.hasWorkspaceOwnerAccess,
+  bodyParser.json(),
+  controller.updateOwner
+);
+
+router.delete(
+  '/:id/owners/:userId',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  controller.hasWorkspaceOwnerAccess,
+  bodyParser.json(),
+  controller.revokeOwner,
+);
+
 
 module.exports = router;

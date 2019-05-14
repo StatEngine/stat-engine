@@ -84,12 +84,6 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        departmentUsers(User) {
-          return User.query().$promise;
-        },
-        currentWorkspace(Workspace, $stateParams) {
-          return Workspace.get({ id: $stateParams.id }).$promise;
-        },
       },
     })
 }

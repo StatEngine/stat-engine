@@ -36,7 +36,7 @@ export default class WorkspaceEditController {
     if(this.form.isValid()) {
       let fnc = this.WorkspaceService.update;
 
-      if (this.workspace._id === 'new') fnc = this.WorkspaceService.save;
+      if (!this.workspace._id) fnc = this.WorkspaceService.create;
 
       fnc({ id: this.workspace._id}, {
         id: this.workspace._id,
@@ -45,8 +45,7 @@ export default class WorkspaceEditController {
         color: this.workspace.color,
       }).$promise
         .then((saved) => {
-          console.dir(saved)
-          this.$state.go('site.workspace.edit.users', { id:saved._id});
+          this.$state.go('site.workspace.edit.users', { id: saved._id});
         })
         .catch(err => {
           err = err.data;
