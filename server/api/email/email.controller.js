@@ -162,7 +162,7 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
 
   // Add a space after any comma without one after it.
   mergeVar.content.forEach(alert => {
-    alert.details = alert.details.replace(/(,(?=\S)|:)/g, ', ')
+    alert.details = alert.details.replace(/(,(?=\S))/g, ', ')
   })
 
   return mergeVar;
