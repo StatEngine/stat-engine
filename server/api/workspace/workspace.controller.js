@@ -1,10 +1,48 @@
 import _ from 'lodash';
+import { Promise } from 'bluebird';
+import nJwt from 'njwt';
+import request from 'request-promise';
 import { sequelize, Workspace, FireDepartment, UserWorkspace, User} from '../../sqldb';
 
 import { validationError, handleError } from '../../util/error';
+import config from '../../config/environment';
 
+import {
+  seedKibanaTemplate,
+  seedKibanaConfig,
+  seedKibanaDashboards,
+  seedKibanaIndexPatterns,
+  seedKibanaVisualizations,
+} from '@statengine/se-fixtures';
 
-export async function create(req, res) {
+const seedTemplate = Promise.promisify(seedKibanaTemplate);
+const seedIndexPatterns = Promise.promisify(seedKibanaIndexPatterns);
+const seedConfig = Promise.promisify(seedKibanaConfig);
+const seedVisualizations = Promise.promisify(seedKibanaVisualizations);
+const seedDashboards = Promise.promisify(seedKibanaDashboards);
+
+export async function loadFixtures(req, res) {
+  const options = {
+    force: true
+  };
+
+  let fire_department = req.fireDepartment.get();
+  const locals = {
+    fire_department,
+    kibana: { tenancy: `.kibana_${fire_department.firecares_id}_${req.wkspace.slug}` }
+  }
+
+  await seedTemplate(options, locals);
+  await seedIndexPatterns(options, locals);
+  await seedConfig(options, locals);
+
+  if(req.query.seedVisualizations) await seedVisualizations(options, locals);
+  if(req.query.seedDashboards) await seedDashboards(options, locals);
+
+  res.json(req.wkspace).send();
+}
+
+export async function create(req, res, next) {
   const workspace = Workspace.build(req.body);
 
   // force this all so user cannot overwrite in request
@@ -17,8 +55,10 @@ export async function create(req, res) {
       return saved.addUser(req.user, { transaction: t, is_owner: true, permission: 'admin' });
     });
   }).then(result => {
-    res.json(wkspace);
+    req.wkspace = wkspace;
+    next();
   }).catch(err => {
+    console.dir(err)
     handleError(res);
   });
 }
@@ -40,25 +80,29 @@ export async function edit(req, res) {
 }
 
 export async function get(req, res) {
-  return Workspace.find({
-    where: { _id: req.params.id },
-    include: [{
-      model: User,
-      attributes: ['_id', 'username', 'email', 'role']
-    }]
-  })
-  .then(result => {
-    res.json(result);
+  res.json(req.workspace);
+}
+
+export async function markAsDeleted(req, res) {
+  return await Workspace.update({
+    is_deleted: true
+  }, {
+    where: {
+      _id: req.params.id
+  }}).then(result => {
+    res.status(204).send();
   }).catch(err => {
     handleError(res);
   });
 }
+
 
 export async function getAll(req, res) {
   // Get all workspaces that user is privy to
   return Workspace.findAll({
     where: {
       fire_department__id: req.user.FireDepartment._id,
+      is_deleted: false,
     },
     include: [{
       model: User,
@@ -91,7 +135,6 @@ export async function updateUser(req, res) {
   if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
   if(_.isNil(req.body.user.permission)) throw new Error('req.body.user.permission not set');
 
-  console.dir('finding one')
   return await UserWorkspace
     .findOne({
       where: {
@@ -204,6 +247,7 @@ export async function hasWorkspaceAccess(req, res, next) {
   })
   .then(result => {
     if (_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have access to this workspace'));
+    req.userWorkspace = result;
     return next();
   }).catch(err => {
     return next(err);
@@ -225,6 +269,28 @@ export async function hasWorkspaceOwnerAccess(req, res, next) {
     return next();
   }).catch(err => {
     return next(err);
+  });
+}
+
+export async function load(req, res, next) {
+  return Workspace.find({
+    where: {
+      _id: req.params.id,
+      is_deleted: false,
+    },
+    include: [{
+      model: User,
+      attributes: ['_id', 'username', 'email', 'role']
+    }, {
+      model: FireDepartment,
+      attributes: ['firecares_id']
+    }]
+  })
+  .then(result => {
+    req.workspace = result;
+    next();
+  }).catch(err => {
+    handleError(res);
   });
 }
 

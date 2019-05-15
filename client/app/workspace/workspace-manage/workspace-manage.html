@@ -20,7 +20,10 @@
 
     <section class="workspace-manage">
       <h3 class="mb-2">Manage Workspaces<button class="btn btn-primary pull-right" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button></h3>
-      <div class="workspace-users-table mb-5">
+      <div class="mt-5" ng-if="!vm.workspaces.length && vm.initialized">
+         No workspaces available!  <a ui-sref="site.workspace.edit({ id: 'new' })" href="#">Create </a> one now.
+      </div>
+      <div class="workspace-users-table mb-5" ng-if="vm.workspaces.length > 0">
         <div class="table-row header">
           <div class="cell">
             Name
@@ -42,7 +45,7 @@
         <div class="table-row" ng-repeat="workspace in vm.workspaces | orderBy:'name'">
           <div class="cell name" data-title="name">
             <button ng-style="{'background-color': workspace.color }" type="button" class="btn btn-sm"></button>
-            <a href="#">{{ workspace.name }} </a>
+            {{ workspace.name }}
           </div>
           <div class="cell description" data-title="Description" ng-attr-title="{{ workspace.description }}">
             {{ workspace.description }}
@@ -76,7 +79,7 @@
                     <i class="fa fa-2x fa-check-circle"></i>
                     <span class="text-success">Edit</span>
                   </div>
-                  <div class="nav-link" ng-click="vm.revokeAccess(user)">
+                  <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)">
                     <i class="fa fa-2x fa-times-circle"></i>
                     <span class="text-danger">Delete</span>
                   </div>

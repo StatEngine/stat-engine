@@ -4,22 +4,24 @@ import { Router } from 'express';
 import connectEnsureLoggedIn from 'connect-ensure-login';
 import proxy from 'http-proxy-middleware';
 
-import * as auth from '../auth/auth.service';
-
-import settings from './kibana.settings';
+import * as auth from '../../auth/auth.service';
+import * as rorController from './read-only-rest.controller';
+import * as workspaceController from '../../api/workspace/workspace.controller';
 
 const ensureLoggedIn = connectEnsureLoggedIn.ensureLoggedIn;
 
 const router = new Router();
 
-router.use(
-  '*',
+router.get(
+  '/:id/dashboard',
   ensureLoggedIn('/login'),
   auth.isAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  //auth.hasRorCookie,
-  proxy(settings)
+  workspaceController.hasWorkspaceAccess,
+  rorController.login,
 );
+
+router.param('id', workspaceController.load);
 
 module.exports = router;

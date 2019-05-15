@@ -25,7 +25,8 @@ const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
 let richmondUser;
-let wkspace;
+let ricmondWkspace;
+let miamiWkspace;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
@@ -214,14 +215,14 @@ if(process.env.NODE_ENV === 'development') {
       color: '#d61745',
     }))
     .then((saved) => {
-      wkspace = saved;
+      ricmondWkspace = saved;
       // Assign richmond
       return User.find({
         where: { username: 'richmond' }
       }).then(r => {
         UserWorkspace.create({
           user__id: r._id,
-          workspace__id: wkspace._id,
+          workspace__id: ricmondWkspace._id,
           is_owner: true,
           permission: 'admin',
         })
@@ -234,7 +235,7 @@ if(process.env.NODE_ENV === 'development') {
       }).then(r => {
         UserWorkspace.create({
           user__id: r._id,
-          workspace__id: wkspace._id,
+          workspace__id: ricmondWkspace._id,
           is_owner: false,
           permission: 'ro',
         })
@@ -354,6 +355,72 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(() => FireDepartment.create({
+      fd_id: '01032',
+      firecares_id: '88539',
+      name: 'Miami-Dade Fire Rescue Department',
+      state: 'FL',
+      timezone: 'US/Eastern',
+      integration_complete: true,
+      latitude: 25.5516,
+      longitude: -80.6327,
+      logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/88539.jpg',
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'miami',
+        first_name: 'miami',
+        last_name: 'user',
+        email: 'miami@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+        nfors: true,
+      }, {
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'miami2',
+        first_name: 'miami2',
+        last_name: 'user',
+        email: 'miami2@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+        nfors: true,
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then((fd) => Workspace.findOne({
+      where: {
+        fire_department__id: fd._id,
+      }
+    }))
+    .then((wkspace) => {
+      miamiWkspace = wkspace;
+      // Assign richmond
+      return User.find({
+        where: { username: 'miami' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: miamiWkspace._id,
+          is_owner: true,
+          permission: 'admin',
+        })
+      })
+    })
+    .then(() => {
+      // Assign miami2
+      return User.find({
+        where: { username: 'miami2' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: miamiWkspace._id,
+          is_owner: false,
+          permission: 'ro',
+        })
+      })
+    })
     .then(() => FireDepartment.create({
       fd_id: '29006',
       firecares_id: '85090',

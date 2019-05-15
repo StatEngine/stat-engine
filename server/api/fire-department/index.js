@@ -30,14 +30,6 @@ router.get(
 );
 
 router.post(
-  '/fixtures/:fixtureType',
-  auth.isApiAuthenticated,
-  bodyParser.json(),
-  auth.hasRole('admin'),
-  controller.multiFixtures
-);
-
-router.post(
   '/',
   auth.isApiAuthenticated,
   bodyParser.json(),
@@ -69,14 +61,6 @@ router.get(
   controller.nfpa
 );
 
-router.post(
-  '/:id/fixtures/:fixtureType',
-  auth.isApiAuthenticated,
-  bodyParser.json(),
-  auth.hasRole('admin'),
-  controller.fixtures
-);
-
 router.get(
   '/:id/subscription',
   auth.isApiAuthenticated,
@@ -86,6 +70,5 @@ router.get(
 );
 
 router.param('id', controller.loadFireDepartment);
-router.param('fixtureType', controller.fixtureType);
 
 module.exports = router;

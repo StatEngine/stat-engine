@@ -3,13 +3,6 @@
 import async from 'async';
 import _ from 'lodash';
 import Promise from 'bluebird';
-import {
-  seedKibanaAll,
-  seedKibanaConfig,
-  seedKibanaDashboards,
-  seedKibanaIndexPatterns,
-  seedKibanaVisualizations,
-} from '@statengine/se-fixtures';
 
 import {
   FireDepartment,
@@ -177,87 +170,6 @@ export function nfpa(req, res) {
     return runNFPA(_.merge(qaConfig, { index: fireIndex }))
       .then(out => res.json(out));
   }, {})
-    .catch(handleError(res));
-}
-
-
-export function fixtureType(req, res, next) {
-  let fnc;
-
-  switch (req.params.fixtureType) {
-  case 'config':
-    fnc = seedKibanaConfig;
-    break;
-
-  case 'visualization':
-    fnc = seedKibanaVisualizations;
-    break;
-
-  case 'dashboard':
-    fnc = seedKibanaDashboards;
-    break;
-
-  case 'indexPattern':
-    fnc = seedKibanaIndexPatterns;
-    break;
-
-  case 'all':
-    fnc = seedKibanaAll;
-    break;
-
-  default:
-    return res.status(404).send();
-  }
-
-  req.seedFnc = fnc;
-  next();
-}
-
-export function fixtures(req, res) {
-  const options = {
-    force: true
-  };
-
-  const locals = {
-    FireDepartment: req.fireDepartment.get()
-  };
-
-  req.seedFnc(options, locals, err => {
-    if(err) {
-      console.error(err);
-      res.status(500).send(err);
-    } else {
-      res.status(200).send();
-    }
-  });
-}
-
-export function multiFixtures(req, res) {
-  const options = {
-    force: true
-  };
-
-  return FireDepartment.findAll({})
-    .then(fireDepartments => {
-      if(!fireDepartments) {
-        return res.status(404).end();
-      }
-
-      async.each(fireDepartments, (fireDepartment, done) => {
-        const locals = {
-          FireDepartment: fireDepartment.get()
-        };
-
-        req.seedFnc(options, locals, done);
-      }, err => {
-        if(err) {
-          console.error(err);
-          res.status(500).send(err);
-        } else {
-          res.status(200).send();
-        }
-      });
-    })
     .catch(handleError(res));
 }
 

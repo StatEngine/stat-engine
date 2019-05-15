@@ -23,6 +23,7 @@ export default class WorkspaceEditController {
       color: this.palette[0][0],
     };
     this.$state = $state;
+    this.seed = this.workspace._id == undefined;
   }
 
 
@@ -36,9 +37,20 @@ export default class WorkspaceEditController {
     if(this.form.isValid()) {
       let fnc = this.WorkspaceService.update;
 
-      if (!this.workspace._id) fnc = this.WorkspaceService.create;
+      let params = {
+        id: this.workspace._id
+      };
 
-      fnc({ id: this.workspace._id}, {
+      if(!this.workspace._id) {
+        fnc = this.WorkspaceService.create;
+
+        if (this.seed) {
+          params.seedVisualizations = true;
+          params.seedDashboards = true;
+        }
+      }
+
+      fnc(params, {
         id: this.workspace._id,
         name: this.workspace.name,
         description: this.workspace.description,

@@ -14,7 +14,8 @@ router.post(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  controller.create
+  controller.create,
+  controller.loadFixtures,
 );
 
 router.get(
@@ -42,6 +43,15 @@ router.put(
   controller.hasWorkspaceOwnerAccess,
   bodyParser.json(),
   controller.edit
+)
+
+router.delete(
+  '/:id',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  controller.hasWorkspaceOwnerAccess,
+  controller.markAsDeleted
 )
 
 router.delete(
@@ -84,5 +94,6 @@ router.delete(
   controller.revokeOwner,
 );
 
+router.param('id', controller.load);
 
 module.exports = router;

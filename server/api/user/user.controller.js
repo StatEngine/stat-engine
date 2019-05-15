@@ -624,15 +624,18 @@ export function me(req, res, next) {
       ],
     }, {
       model: Workspace,
-      through: {
-      }
+      through: {},
+      where: {
+        is_deleted: false
+      },
+      required: false,
     }]
   })
     .then(user => {
+      console.dir(user);
       if(!user) {
         return res.status(401).end();
       }
-      console.dir(user);
 
       const resData = {
         user: user.get({ plain: true }),

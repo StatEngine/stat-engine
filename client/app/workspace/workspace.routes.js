@@ -44,9 +44,6 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        workspaces(Workspace) {
-          return Workspace.query().$promise;
-        },
       },
     })
     .state('site.workspace.edit', {

@@ -25,9 +25,14 @@
               <input type="text" name="description" class="form-control" ng-model="vm.workspace.description" required/>
             </div>
 
-            <div class="form-group">
-              <label>Color</label><br>
+            <div class="form-group form-inline">
+              <label>Color</label>&nbsp;
               <spectrum-colorpicker ng-model="vm.workspace.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true }"></spectrum-colorpicker>
+            </div>
+
+            <div class="form-group form-inline" ng-if="!vm.workspace._id">
+              <label>Create Sample Dashboards?</label>&nbsp;
+              <input type="checkbox" name="seed" class="form-control" ng-model="vm.seed"/>
             </div>
 
             <div>

@@ -4,11 +4,12 @@ let _;
 
 export default class WorkspaceUsersController {
   /*@ngInject*/
-  constructor(Workspace, User, $stateParams) {
+  constructor(Workspace, User, $stateParams, currentPrincipal) {
     this.workspaceId = $stateParams.id;
 
     this.WorkspaceService = Workspace;
     this.UserService = User;
+    this.currentPrincipal = currentPrincipal;
   }
 
   async loadModules() {
