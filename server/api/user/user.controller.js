@@ -290,28 +290,24 @@ export async function create(req, res) {
   }
   user.setDataValue('api_key', uuidv4());
 
-  try {
-    await user.save();
-    addToMailingList(user);
+  await user.save();
+  addToMailingList(user);
 
-    if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
-      sendWelcomeEmail(user);
-    }
-
-    // Send access request to department admin if a department was set.
-    if(req.body.requested_fire_department_id) {
-      const department = await FireDepartment.find({
-        where: {
-          _id: req.body.requested_fire_department_id,
-        }
-      });
-      sendRequestDepartmentAccessEmail(user, department);
-    }
-
-    res.status(204).send({ user });
-  } catch (err) {
-    handleError(res);
+  if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
+    sendWelcomeEmail(user);
   }
+
+  // Send access request to department admin if a department was set.
+  if(req.body.requested_fire_department_id) {
+    const department = await FireDepartment.find({
+      where: {
+        _id: req.body.requested_fire_department_id,
+      }
+    });
+    sendRequestDepartmentAccessEmail(user, department);
+  }
+
+  res.status(204).send({ user });
 }
 
 /**
@@ -349,18 +345,14 @@ export async function requestAccess(req, res) {
 
   user.requested_fire_department_id = req.body.requested_fire_department_id;
 
-  try {
-    await user.save();
-    const department = await FireDepartment.find({
-      where: {
-        _id: user.requested_fire_department_id,
-      },
-    });
-    sendRequestDepartmentAccessEmail(user, department);
-    res.status(204).send({ user });
-  } catch (err) {
-    handleError(res);
-  }
+  await user.save();
+  const department = await FireDepartment.find({
+    where: {
+      _id: user.requested_fire_department_id,
+    },
+  });
+  sendRequestDepartmentAccessEmail(user, department);
+  res.status(204).send({ user });
 }
 
 /**
@@ -379,18 +371,14 @@ export async function revokeAccess(req, res) {
   _.pull(roles, 'kibana_ro_strict');
   user.role = roles.join(',');
 
-  try {
-    await user.save();
-    const department = await FireDepartment.find({
-      where: {
-        _id: departmentId,
-      },
-    });
-    sendAccessRevokedEmail(user, department, hadAccess);
-    res.status(204).send({ user });
-  } catch (err) {
-    handleError(res)
-  }
+  await user.save();
+  const department = await FireDepartment.find({
+    where: {
+      _id: departmentId,
+    },
+  });
+  sendAccessRevokedEmail(user, department, hadAccess);
+  res.status(204).send({ user });
 }
 
 /**
@@ -407,18 +395,14 @@ export async function approveAccess(req, res) {
   if(req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
   else user.role = `${user.role},kibana_admin`;
 
-  try {
-    await user.save();
-    const department = await FireDepartment.find({
-      where: {
-        _id: user.fire_department__id,
-      },
-    });
-    sendAccessApprovedEmail(user, department, req.query.readonly);
-    res.status(204).send({ user });
-  } catch (err) {
-    handleError(res)
-  }
+  await user.save();
+  const department = await FireDepartment.find({
+    where: {
+      _id: user.fire_department__id,
+    },
+  });
+  sendAccessApprovedEmail(user, department, req.query.readonly);
+  res.status(204).send({ user });
 }
 
 /**

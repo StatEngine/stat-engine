@@ -1,8 +1,6 @@
-import { UnitList } from './models/unitList';
 
 class RootStore {
   constructor() {
-    this.unitStore = UnitList.create({ units: [] });
   }
 }
 
