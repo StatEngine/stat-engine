@@ -59,7 +59,7 @@ export default class IncidentApparatusTimelineComponent {
       let group = response.description.incident_number;
       groups.push({
         id: group,
-        content: `<a href="/incidents/${response.description.incident_number}">${response.description.incident_number}</a>`,
+        content: `<a class="timeline-incident-link" href="/incidents/${response.description.incident_number}">${response.description.incident_number}</a>`,
         order: order++,
       });
 
@@ -184,6 +184,14 @@ export default class IncidentApparatusTimelineComponent {
       };
 
       this.timeline = new Timeline(this.element[0], items, groups, this.options);
+
+      // Respond to incident link tapes on mobile.
+      const self = this;
+      for(const element of $('.timeline-incident-link')) {
+        new Hammer(element).on('tap', function(e) {
+          self.$window.location = $(e.target).attr('href');
+        });
+      }
     }
   }
 
