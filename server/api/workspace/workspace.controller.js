@@ -62,10 +62,11 @@ export async function edit(req, res) {
     description: req.body.description,
     color: req.body.color,
   }, {
-    returning: true,
     where: {
       _id: req.params.id
-    }}).then(result => {
+    },
+    returning: true,
+  }).then(result => {
     res.json(result[1][0]);
   });
 }
@@ -85,19 +86,21 @@ export async function markAsDeleted(req, res) {
   });
 }
 
-
 export async function getAll(req, res) {
   // Get all workspaces that user is privy to
+  let include = [];
+  if (!req.user.isGlobal) include = [{
+    model: User,
+    where: { _id: req.user._id },
+    attributes: []
+  }];
+
   return Workspace.findAll({
     where: {
       fire_department__id: req.user.FireDepartment._id,
       is_deleted: false,
     },
-    include: [{
-      model: User,
-      where: { _id: req.user._id },
-      attributes: []
-    }]
+    include,
   })
     .then(workspaces => {
       // now fetch each workpace, including users
@@ -109,7 +112,7 @@ export async function getAll(req, res) {
         },
         include: [{
           model: User,
-          attributes: ['username', 'email', ]
+          attributes: [ 'username', 'email', 'role' ]
         }]
       }).then(result => res.json(result));
     });
@@ -232,6 +235,7 @@ export async function revokeOwner(req, res) {
 export async function hasWorkspaceAccess(req, res, next) {
   if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
 
+  if (req.user.isGlobal) return next();
   return UserWorkspace.find({
     where: {
       workspace__id: req.params.id,
@@ -248,6 +252,7 @@ export async function hasWorkspaceAccess(req, res, next) {
 export async function hasWorkspaceOwnerAccess(req, res, next) {
   if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
 
+  if (req.user.isAdmin) return next();
   return UserWorkspace.find({
     where: {
       workspace__id: req.params.id,

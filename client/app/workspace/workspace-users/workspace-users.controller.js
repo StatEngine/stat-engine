@@ -20,7 +20,7 @@ export default class WorkspaceUsersController {
     this.refreshing = true;
     const departmentUsers = await this.UserService.query().$promise;
     this.workspace = await this.WorkspaceService.get({ id: this.workspaceId }).$promise;
-
+    this.workspace.Users = _.filter(this.workspace.Users, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
     const users = _.filter(departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
     this.users = _.values(_.merge(
       _.keyBy(users, 'username'),

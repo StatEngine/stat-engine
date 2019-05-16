@@ -61,13 +61,13 @@
           <div
             class="cell action"
             data-title="Action"
-            ng-if="!workspace.is_owner">
+            ng-if="!workspace.is_owner && !vm.currentPrincipal.isAdmin">
             <span class="text-danger">Contact an owner to modify</span>
           </div>
           <div
             class="cell action allowed"
             data-title="Action"
-            ng-if="workspace.is_owner"
+            ng-if="workspace.is_owner || vm.currentPrincipal.isAdmin"
           >
             <div class="dropdown d-inline-block">
               <div class="dropdown-button" data-toggle="dropdown">

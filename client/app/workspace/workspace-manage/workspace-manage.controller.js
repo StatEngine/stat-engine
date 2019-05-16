@@ -20,7 +20,9 @@ export default class WorkspaceManageController {
   async refresh() {
     this.workspaces = await this.WorkspaceService.query().$promise;
     this.workspaces.forEach(wkspace => {
-      wkspace.owners = _.filter(wkspace.Users, u => u.UserWorkspace.is_owner)
+      console.dir(wkspace.Users)
+
+      wkspace.owners = _.filter(wkspace.Users, u => u.UserWorkspace.is_owner && !u.isGlobal)
       wkspace.is_owner = _.map(wkspace.owners, o => o.email).indexOf(this.currentPrincipal.email) >= 0;
     });
     this.initialized = true;

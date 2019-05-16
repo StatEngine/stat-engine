@@ -34,7 +34,7 @@ export async function getAll(req, res) {
   ];
 
   // Return more data for requested
-  if (req.user.isDepartmentAdmin) {
+  if(req.user.isDepartmentAdmin) {
     userAttributes = [
       '_id',
       'username',
@@ -567,10 +567,10 @@ export function resetPassword(req, res) {
 /**
  * Get my info
  */
-export function me(req, res, next) {
+export async function me(req, res, next) {
   var userId = req.user._id;
 
-  return User.find({
+  let user = await User.find({
     where: {
       _id: userId
     },
@@ -608,24 +608,30 @@ export function me(req, res, next) {
       required: false,
     }]
   })
-    .then(user => {
-      if(!user) {
-        return res.status(401).end();
+
+  if(!user) return res.status(401).end();
+
+  let workspaces = user.Workspaces;
+  // Globals have access to all workspaces, regardless of permissions
+  if (req.user.isGlobal) {
+    workspaces = await Workspace.findAll({
+      where: {
+        fire_department__id: req.user.fire_department__id,
       }
-
-      const resData = {
-        user: user.get({ plain: true }),
-        fire_department: user.FireDepartment,
-        workspaces: user.Workspaces,
-      };
-
-      // remove dup data
-      delete resData.user.FireDepartment;
-      delete resData.user.Workspaces;
-
-      res.json(resData)
     })
-    .catch(err => next(err));
+  }
+
+  const resData = {
+    user: user.get({ plain: true }),
+    fire_department: user.FireDepartment,
+    workspaces,
+  };
+
+  // remove dup data
+  delete resData.user.FireDepartment;
+  delete resData.user.Workspaces;
+
+  res.json(resData);
 }
 
 export function hasEditPermisssion(req, res, next) {

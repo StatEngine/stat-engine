@@ -8,11 +8,17 @@ export function login(req, res) {
   res.clearCookie("rorCookie");
 
   if (_.isNil(req.workspace)) throw new Error('req.worspace not set');
-  if (_.isNil(req.userWorkspace)) throw new Error('req.userWorkspace not set');
 
-  let roles = `kibana_${req.userWorkspace.permission}`;
   // firecares_id is acting as tenant unti renamed in ROR settings
   let firecares_id = `${req.workspace.FireDepartment.firecares_id}_${req.workspace.slug}`;
+  let roles;
+
+  if (!req.user.isGlobal) {
+    if (_.isNil(req.userWorkspace)) throw new Error('req.userWorkspace not set');
+    roles = `kibana_${req.userWorkspace.permission}`;
+  } else {
+    roles = 'kibana_admin';
+  }
 
   var claims = {
     sub: req.user.username,
