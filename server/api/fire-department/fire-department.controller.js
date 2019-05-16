@@ -13,7 +13,8 @@ import {
   runQA,
   noApparatus,
   unTypedApparatus,
-  gradeQAResults } from './fire-department-data-quality.controller';
+  gradeQAResults
+} from './fire-department-data-quality.controller';
 
 import {
   runNFPA,
@@ -58,28 +59,6 @@ export function search(req, res) {
     .catch(validationError(res));
 }
 
-function seedKibana(fireDepartment) {
-  const options = {
-    force: true
-  };
-
-  const locals = {
-    FireDepartment: fireDepartment.get()
-  };
-
-
-  return new Promise((resolve, reject) => {
-    seedKibanaAll(options, locals, err => {
-      if(err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-}
-
 /**
  * Creates a new fire department
  */
@@ -87,7 +66,7 @@ export function create(req, res) {
   const newFireDepartment = FireDepartment.build(req.body);
 
   return newFireDepartment.save()
-    .then(fd => Promise.all([seedKibana(fd), createCustomer(fd)]))
+    .then(fd => Promise.all([createCustomer(fd)]))
     .then(() => res.status(204).send())
     .catch(() => validationError(res));
 }

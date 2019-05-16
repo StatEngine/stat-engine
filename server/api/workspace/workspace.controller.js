@@ -1,11 +1,7 @@
 import _ from 'lodash';
 import { Promise } from 'bluebird';
-import nJwt from 'njwt';
-import request from 'request-promise';
 import { sequelize, Workspace, FireDepartment, UserWorkspace, User} from '../../sqldb';
 
-import { validationError, handleError } from '../../util/error';
-import config from '../../config/environment';
 
 import {
   seedKibanaTemplate,
@@ -30,7 +26,7 @@ export async function loadFixtures(req, res) {
   const locals = {
     fire_department,
     kibana: { tenancy: `.kibana_${fire_department.firecares_id}_${req.wkspace.slug}` }
-  }
+  };
 
   await seedTemplate(options, locals);
   await seedIndexPatterns(options, locals);
@@ -48,18 +44,15 @@ export async function create(req, res, next) {
   // force this all so user cannot overwrite in request
   workspace.setDataValue('fire_department__id', req.user.FireDepartment._id);
   let wkspace;
-  await sequelize.transaction(t => {
+  await sequelize.transaction(t =>
     // chain all your queries here. make sure you return them.
-    return workspace.save({transaction: t}).then(saved => {
+    workspace.save({transaction: t}).then(saved => {
       wkspace = saved;
       return saved.addUser(req.user, { transaction: t, is_owner: true, permission: 'admin' });
-    });
-  }).then(result => {
+    })
+  ).then(() => {
     req.wkspace = wkspace;
     next();
-  }).catch(err => {
-    console.dir(err)
-    handleError(res);
   });
 }
 
@@ -72,10 +65,8 @@ export async function edit(req, res) {
     returning: true,
     where: {
       _id: req.params.id
-  }}).then(result => {
+    }}).then(result => {
     res.json(result[1][0]);
-  }).catch(err => {
-    handleError(res);
   });
 }
 
@@ -89,10 +80,8 @@ export async function markAsDeleted(req, res) {
   }, {
     where: {
       _id: req.params.id
-  }}).then(result => {
+    }}).then(() => {
     res.status(204).send();
-  }).catch(err => {
-    handleError(res);
   });
 }
 
@@ -110,24 +99,20 @@ export async function getAll(req, res) {
       attributes: []
     }]
   })
-  .then(workspaces => {
-    // now fetch each workpace, including users
-    if (!workspaces || workspaces.length === 0) return res.json([]).send();
-
-    return Workspace.findAll({
-      where: {
-        fire_department__id: req.user.FireDepartment._id,
-        _id: _.map(workspaces, w => w._id),
-      },
-      include: [{
-        model: User,
-        attributes: [ 'username', 'email', ]
-      }]
-    }).then(result => res.json(result))
-  }).catch(err => {
-    console.dir(err);
-    handleError(res);
-  });
+    .then(workspaces => {
+      // now fetch each workpace, including users
+      if(!workspaces || workspaces.length === 0) return res.json([]).send();
+      return Workspace.findAll({
+        where: {
+          fire_department__id: req.user.FireDepartment._id,
+          _id: _.map(workspaces, w => w._id),
+        },
+        include: [{
+          model: User,
+          attributes: ['username', 'email', ]
+        }]
+      }).then(result => res.json(result));
+    });
 }
 
 export async function updateUser(req, res) {
@@ -142,19 +127,21 @@ export async function updateUser(req, res) {
         user__id: req.params.userId,
       }
     })
-    .then((userWorkspace) => {
-      if(userWorkspace) return userWorkspace.update({
-        permission: req.body.user.permission
-      });
-      else return UserWorkspace.create({
-        user__id: req.params.userId,
-        workspace__id: req.params.id,
-        permission: req.body.user.permission,
-        is_owner: false,
-      });
+    .then(userWorkspace => {
+      if(userWorkspace) {
+        return userWorkspace.update({
+          permission: req.body.user.permission
+        });
+      } else {
+        return UserWorkspace.create({
+          user__id: req.params.userId,
+          workspace__id: req.params.id,
+          permission: req.body.user.permission,
+          is_owner: false,
+        });
+      }
     })
-    .then(() => res.status(204).send())
-    .catch((err) => handleError(res));
+    .then(() => res.status(204).send());
 }
 
 export async function updateOwner(req, res) {
@@ -169,19 +156,21 @@ export async function updateOwner(req, res) {
         user__id: req.params.userId,
       }
     })
-    .then((userWorkspace) => {
-      if(userWorkspace) return userWorkspace.update({
-        is_owner: req.body.user.is_owner
-      });
-      else return UserWorkspace.create({
-        user__id: req.params.userId,
-        workspace__id: req.params.id,
-        permission: 'admin',
-        is_owner: true,
-      });
+    .then(userWorkspace => {
+      if(userWorkspace) {
+        return userWorkspace.update({
+          is_owner: req.body.user.is_owner
+        });
+      } else {
+        return UserWorkspace.create({
+          user__id: req.params.userId,
+          workspace__id: req.params.id,
+          permission: 'admin',
+          is_owner: true,
+        });
+      }
     })
     .then(() => res.status(204).send())
-    .catch((err) => handleError(res));
 }
 
 export async function revokeUser(req, res) {
@@ -195,19 +184,21 @@ export async function revokeUser(req, res) {
         user__id: req.params.userId,
       }
     })
-    .then((userWorkspace) => {
-      if(userWorkspace) return userWorkspace.update({
-        permission: null,
-      });
-      else return UserWorkspace.create({
-        user__id: req.params.userId,
-        workspace__id: req.params.id,
-        permission: null,
-        is_owner: false,
-      });
+    .then(userWorkspace => {
+      if(userWorkspace) {
+        return userWorkspace.update({
+          permission: null,
+        });
+      } else {
+        return UserWorkspace.create({
+          user__id: req.params.userId,
+          workspace__id: req.params.id,
+          permission: null,
+          is_owner: false,
+        });
+      }
     })
     .then(() => res.status(204).send())
-    .catch((err) => handleError(res));
 }
 
 export async function revokeOwner(req, res) {
@@ -221,23 +212,25 @@ export async function revokeOwner(req, res) {
         user__id: req.params.userId,
       }
     })
-    .then((userWorkspace) => {
-      if(userWorkspace) return userWorkspace.update({
-        is_owner: false,
-      });
-      else return UserWorkspace.create({
-        user__id: req.params.userId,
-        workspace__id: req.params.id,
-        permission: null,
-        is_owner: false,
-      });
+    .then(userWorkspace => {
+      if(userWorkspace) {
+        return userWorkspace.update({
+          is_owner: false,
+        });
+      } else {
+        return UserWorkspace.create({
+          user__id: req.params.userId,
+          workspace__id: req.params.id,
+          permission: null,
+          is_owner: false,
+        });
+      }
     })
     .then(() => res.status(204).send())
-    .catch((err) => handleError(res));
 }
 
 export async function hasWorkspaceAccess(req, res, next) {
-  if (_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
+  if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
 
   return UserWorkspace.find({
     where: {
@@ -245,17 +238,15 @@ export async function hasWorkspaceAccess(req, res, next) {
       user__id: req.user._id,
     },
   })
-  .then(result => {
-    if (_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have access to this workspace'));
-    req.userWorkspace = result;
-    return next();
-  }).catch(err => {
-    return next(err);
-  });
+    .then(result => {
+      if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have access to this workspace'));
+      req.userWorkspace = result;
+      return next();
+    })
 }
 
 export async function hasWorkspaceOwnerAccess(req, res, next) {
-  if (_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
+  if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
 
   return UserWorkspace.find({
     where: {
@@ -264,12 +255,10 @@ export async function hasWorkspaceOwnerAccess(req, res, next) {
       is_owner: true,
     },
   })
-  .then(result => {
-    if (_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have owner access to this workspace'));
-    return next();
-  }).catch(err => {
-    return next(err);
-  });
+    .then(result => {
+      if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have owner access to this workspace'));
+      return next();
+    })
 }
 
 export async function load(req, res, next) {
@@ -286,11 +275,9 @@ export async function load(req, res, next) {
       attributes: ['firecares_id']
     }]
   })
-  .then(result => {
-    req.workspace = result;
-    next();
-  }).catch(err => {
-    handleError(res);
-  });
+    .then(result => {
+      req.workspace = result;
+      next();
+    })
 }
 

@@ -4,12 +4,11 @@ let _;
 
 export default class AdminHomeController {
   /*@ngInject*/
-  constructor(User, FireDepartment, Modal, fireDepartments, users) {
+  constructor(User, FireDepartment, Modal, fireDepartments) {
     this.UserService = User;
     this.FireDepartmentService = FireDepartment;
     this.ModalService = Modal;
     this.fireDepartments = fireDepartments;
-    this.users = users;
   }
 
   async loadModules() {
@@ -18,6 +17,7 @@ export default class AdminHomeController {
 
   async $onInit() {
     await this.loadModules();
+    await this.refreshUsers();
 
     this.onboardedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_verified);
     this.integratedFireDepartments = _.filter(this.fireDepartments, fd => fd.integration_complete && !fd.integration_verified);
@@ -31,13 +31,13 @@ export default class AdminHomeController {
     this.adminUsers = _.filter(this.users, u => u.isAdmin);
     this.globalUsers = _.filter(this.users, u => u.isGlobal);
     this.ingestUsers = _.filter(this.users, u => u.isIngest);
-    this.homelessUsers = _.filter(this.users, u => !u.requested_fire_department_id && !u.FireDepartment && !u.isAdmin);
+    this.homelessUsers = _.filter(this.users, u => !u.fire_department__id && !u.requested_fire_department_id && !u.isAdmin);
     this.pendingUsers = _.filter(this.users, u => u.requested_fire_department_id);
-    this.departmentUsers = _.groupBy(this.users, 'FireDepartment._id');
+    this.departmentUsers = _.groupBy(this.users, 'fire_department__id');
   }
 
   refreshUsers() {
-    this.UserService.query().$promise
+    return this.UserService.query({ includeAll: true }).$promise
       .then(users => {
         this.users = users;
         this.buildData();

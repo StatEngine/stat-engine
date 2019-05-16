@@ -16,7 +16,7 @@ router.put('/resetPassword', bodyParser.json(), controller.resetPassword);
 router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
 
 // authenticated routes
-router.get('/', auth.isApiAuthenticated, auth.hasFireDepartment, controller.departmentUsers);
+router.get('/', auth.isApiAuthenticated, auth.hasFireDepartment, asyncMiddleware(controller.getAll));
 router.get('/me', auth.isApiAuthenticated, controller.me);
 router.put('/:id', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.edit);
 router.put('/:id/password', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.changePassword);
@@ -24,7 +24,6 @@ router.put('/:id/requestAccess', auth.isApiAuthenticated, bodyParser.json(), con
 router.param('id', controller.loadUser);
 
 // department admin routes
-router.get('/', auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.index);
 router.get('/:id', auth.isApiAuthenticated, auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.get);
 router.put('/:id/revokeAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, asyncMiddleware(controller.revokeAccess));
 router.put('/:id/approveAccess', bodyParser.json(), auth.isApiAuthenticated, auth.hasRole('department_admin'), controller.hasEditPermisssion, asyncMiddleware(controller.approveAccess));

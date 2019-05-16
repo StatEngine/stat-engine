@@ -21,10 +21,10 @@
           <div class="table mb-5">
             <div class="table-row header">
               <div class="cell">
-                Customer Id
+                Firecares Id
               </div>
               <div class="cell">
-                Firecares Id
+                Customer Id
               </div>
               <div class="cell">
                 FD ID
@@ -276,7 +276,7 @@
       <div class="row" ng-repeat="(id, users) in vm.departmentUsers">
         <div ng-if="id !== 'undefined'">
           <div class="col-12 py-4">
-            <h4 ng-if="id"> {{ users[0].FireDepartment.name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
+            <h4 ng-if="id"> {{ vm.fireDepartmentLookup[users[0].fire_department__id].name }} <span class="badge badge-primary">{{users.length}} </span> </h4>
             <div class="table tabemb-5">
               <div class="table-row header">
                 <div class="cell">
@@ -289,16 +289,10 @@
                   Email
                 </div>
                 <div class="cell">
-                  Admin
+                  Department Admin
                 </div>
                 <div class="cell">
-                  Ingest
-                </div>
-                <div class="cell">
-                  Dashboard Admin
-                </div>
-                <div class="cell">
-                  Dashboard RO
+                  Dashboard User
                 </div>
                 <div class="cell">
                   NFORS
@@ -318,14 +312,8 @@
                 <div class="cell" data-title="Department Admin">
                   <span ng-if="user.isDepartmentAdmin"><span class="fa fa-check text-success"></span></span>
                 </div>
-                <div class="cell" data-title="Admin">
-                  <span ng-if="user.isIngest"><span class="fa fa-check text-success"></span></span>
-                </div>
-                <div class="cell" data-title="Kibana Admin">
-                  <span ng-if="user.isKibanaAdmin"><span class="fa fa-check text-success"></span></span>
-                </div>
-                <div class="cell" data-title="Kibana RO">
-                  <span ng-if="user.isKibanaReadOnlyStrict"><span class="fa fa-check text-success"></span></span>
+                <div class="cell" data-title="Dashboard User">
+                  <span ng-if="user.isDashboardUser"><span class="fa fa-check text-success"></span></span>
                 </div>
                 <div class="cell" data-title="NFORS">
                   <span ng-if="user.nfors"><span class="fa fa-check text-success"></span></span>

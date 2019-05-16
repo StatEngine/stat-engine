@@ -28,9 +28,6 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        departmentUsers(User) {
-          return User.query().$promise;
-        },
       },
     })
     .state('site.departmentAdmin.email', {

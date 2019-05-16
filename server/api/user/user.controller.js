@@ -12,8 +12,6 @@ import { FireDepartment, User, UserWorkspace, Workspace } from '../../sqldb';
 
 import { validationError, handleError } from '../../util/error';
 
-console.dir(UserWorkspace);
-
 async function getDepartmentAdmins(departmentId) {
   if(departmentId == null) {
     throw new Error('departmentId cannot be null or undefined!');
@@ -27,48 +25,17 @@ async function getDepartmentAdmins(departmentId) {
   });
 }
 
-export async function departmentUsers(req, res) {
-  return await FireDepartment.find({
-    where: {
-      _id: req.user.FireDepartment._id
-    },
-    attributes: [
-      '_id',
-    ],
-    include: [{
-      model: User,
-      attributes: ['_id', 'username', 'email', 'role']
-    }]
-  })
-    .then(fd => {
-      if(!fd) {
-        return res.status(404).end();
-      }
-      return res.json(fd.Users);
-    })
-    .catch(handleError(res));
-}
+export async function getAll(req, res) {
+  let userAttributes = [
+    '_id',
+    'username',
+    'email',
+    'role',
+  ];
 
-/**
- * Get list of users
- * restriction: 'admin'
- */
-export function index(req, res) {
-  let where;
-  if(req.user.isAdmin) where = undefined;
-  else {
-    where = {
-      $or: [
-        {fire_department__id: req.user.fire_department__id},
-        {requested_fire_department_id: req.user.FireDepartment._id }
-      ]
-    };
-  }
-
-  return User.findAll({
-    where,
-    include: [FireDepartment],
-    attributes: [
+  // Return more data for requested
+  if (req.user.isDepartmentAdmin) {
+    userAttributes = [
       '_id',
       'username',
       'first_name',
@@ -77,12 +44,48 @@ export function index(req, res) {
       'role',
       'requested_fire_department_id',
       'nfors',
-    ]
-  })
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(handleError(res));
+      'fire_department__id',
+    ];
+  }
+
+  const fd = await FireDepartment.find({
+    where: {
+      _id: req.user.FireDepartment._id
+    },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: userAttributes,
+    }]
+  });
+
+  if(!fd) return res.status(404).end();
+
+  let users = fd.Users;
+  if(req.query.includeRequested && req.user.isDepartmentAdmin) {
+    let requestedUsers = await User.findAll({
+      where: {
+        requested_fire_department_id: req.user.FireDepartment._id
+      },
+      attributes: userAttributes
+    });
+    users = users.concat(requestedUsers);
+  }
+  if(req.query.includeAll && req.user.isAdmin) {
+    let allOtherUsers = await User.findAll({
+      where: {
+        _id: {
+          $not: req.user.FireDepartment._id
+        }
+      },
+      attributes: userAttributes
+    });
+    users = users.concat(allOtherUsers);
+  }
+
+  return res.json(users);
 }
 
 export function get(req, res) {
@@ -160,21 +163,18 @@ async function sendRequestDepartmentAccessEmail(user, department) {
           name: 'USER_LAST_NAME',
           content: user.last_name,
         }, {
-          name: 'APPROVE_DASHBOARD_ADMIN_URL',
-          content: `https://statengine.io/departmentAdmin?action=approve_dashboard_admin&action_username=${user.username}`,
-        }, {
-          name: 'APPROVE_DASHBOARD_READONLY_URL',
-          content: `https://statengine.io/departmentAdmin?action=approve_dashboard_readonly&action_username=${user.username}`,
+          name: 'APPROVE_ACCESS_URL',
+          content: `http://localhost:3000/departmentAdmin?action=approve_access&action_username=${user.username}`,
         }, {
           name: 'REJECT_ACCESS_URL',
-          content: `https://statengine.io/departmentAdmin?action=revoke&action_username=${user.username}`,
+          content: `http://localhost:3000/departmentAdmin?action=revoke_access&action_username=${user.username}`,
         }],
       },
     },
   });
 }
 
-async function sendAccessApprovedEmail(user, department, readonly) {
+async function sendAccessApprovedEmail(user, department) {
   if(!config.mailSettings.mandrillAPIKey) {
     return
   }
@@ -203,9 +203,6 @@ async function sendAccessApprovedEmail(user, department, readonly) {
         }, {
           name: 'USER_FIRST_NAME',
           content: user.first_name,
-        }, {
-          name: 'ACCESS_LEVEL',
-          content: (readonly) ? 'Dashboard Readonly' : 'Dashboard Admin',
         }, {
           name: 'CONTROL_CENTER_URL',
           content: 'https://statengine.io/home'
@@ -366,10 +363,7 @@ export async function revokeAccess(req, res) {
 
   user.fire_department__id = null;
   user.requested_fire_department_id = null;
-  let roles = user.role.split(',');
-  _.pull(roles, 'kibana_admin');
-  _.pull(roles, 'kibana_ro_strict');
-  user.role = roles.join(',');
+  user.role = 'user';
 
   await user.save();
   const department = await FireDepartment.find({
@@ -392,8 +386,7 @@ export async function approveAccess(req, res) {
     user.requested_fire_department_id = null;
   }
 
-  if(req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
-  else user.role = `${user.role},kibana_admin`;
+  user.role = `${user.role},dashboard_user`;
 
   await user.save();
   const department = await FireDepartment.find({
@@ -616,7 +609,6 @@ export function me(req, res, next) {
     }]
   })
     .then(user => {
-      console.dir(user);
       if(!user) {
         return res.status(401).end();
       }

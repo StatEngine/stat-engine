@@ -39,22 +39,13 @@ export default function(sequelize, DataTypes) {
     },
   }, {
 
-    /**
-     * Virtual Getters
-     */
-    getterMethods: {
-    },
+    getterMethods: {},
 
-    indexes: [
-      {
-          unique: true,
-          fields: ['name', 'fire_department__id']
-      }
-    ],
+    indexes: [{
+      unique: true,
+      fields: ['name', 'fire_department__id']
+    }],
 
-    /**
-     * Pre-save hooks
-     */
     hooks: {
       beforeCreate(workspace, fields, cb) {
         /* ES Rules for index names
@@ -67,34 +58,18 @@ export default function(sequelize, DataTypes) {
           Cannot be longer than 255 bytes (note it is bytes, so multi-byte characters will count towards the 255 limit faster)
         */
         workspace.slug = slugify(workspace.name, {
-          replacement: '-',                       // replace spaces with replacement
-          remove: /[/*+~.()'"!:@]/g,              // regex to remove characters, TODO test this
-          lower: true                             // result in lower case
-        })
+          replacement: '-', // replace spaces with replacement
+          remove: /[*:?"<>|#\/\\,]/g, // regex to remove characters, TODO test this
+          lower: true // result in lower case
+        });
         cb();
       },
     },
 
-    /**
-     * Instance Methods
-     */
-    instanceMethods: {
-    },
+    instanceMethods: {},
 
     underscored: true,
   });
-
-  /*Workspace.addHook('afterCreate', (workspace, options) => {
-    // These operations will be part of the same transaction as the
-    // original Workspace.create call.
-    // create new rows in workspace permssions, for each workspace permission type
-    return Promise.all(_.map(WORKSPACE_PERMISSIONS, p => Workspace.sequelize.models.WorkspacePermissions.create({
-      permission: p,
-      workspace__id: workspace._id
-    }, {
-      transaction: options.transaction
-    })));
-  });*/
 
   return Workspace;
 }

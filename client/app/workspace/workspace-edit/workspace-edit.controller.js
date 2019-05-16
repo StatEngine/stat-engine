@@ -4,6 +4,8 @@ import angular from 'angular';
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
 
+let _;
+
 export default class WorkspaceEditController {
   workspace = {};
   errors = {
@@ -26,9 +28,9 @@ export default class WorkspaceEditController {
     this.seed = this.workspace._id == undefined;
   }
 
-
-  $onInit() {
+  async $onInit() {
     this.form = $('#workspace-form').parsley();
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
   updateWorkspace(form) {
@@ -62,6 +64,13 @@ export default class WorkspaceEditController {
         .catch(err => {
           err = err.data;
           this.errors = err.errors;
+          // clean up validation error
+          let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
+          if(nameError) {
+            this.errors = [{
+              message: 'This name is already in use! Please choose another.'
+            }]
+          }
         });
     }
   }

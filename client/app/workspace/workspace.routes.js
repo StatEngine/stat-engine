@@ -17,7 +17,7 @@ export default function routes($stateProvider) {
         }
       },
       data: {
-        roles: ['user', 'dashboard_user']
+        roles: ['dashboard_user','department_admin']
       },
       resolve: {
         currentPrincipal(Principal) {
@@ -38,7 +38,7 @@ export default function routes($stateProvider) {
         }
       },
       data: {
-        roles: ['user', 'dashboard_user']
+        roles: ['dashboard_user','department_admin']
       },
       resolve: {
         currentPrincipal(Principal) {
@@ -56,7 +56,7 @@ export default function routes($stateProvider) {
         }
       },
       data: {
-        roles: ['user', 'dashboard_user']
+        roles: ['dashboard_user','department_admin']
       },
       resolve: {
         currentWorkspace(Workspace, $stateParams) {
@@ -75,7 +75,7 @@ export default function routes($stateProvider) {
         }
       },
       data: {
-        roles: ['user', 'dashboard_user']
+        roles: ['dashboard_user','department_admin']
       },
       resolve: {
         currentPrincipal(Principal) {

@@ -51,19 +51,10 @@
           <div class="space-nowrap" ng-if="user.isIngest">
             <i class="fa fa-check text-success"></i> Ingest
           </div>
-          <div class="space-nowrap" ng-if="user.isKibanaAdmin">
-            <i class="fa fa-check text-success"></i> Dashboard Admin
-          </div>
-          <div class="space-nowrap" ng-if="!user.isKibanaAdmin && user.isKibanaReadOnlyStrict">
-            <i class="fa fa-check text-success"></i> Dashboard Readonly
-          </div>
-          <div ng-if="!user.isDepartmentAdmin && !user.isIngest && !user.isKibanaAdmin && !user.isKibanaReadOnlyStrict">
-            None
-          </div>
         </div>
         <div class="cell status" data-title="Status">
-          <span class="badge badge-success" ng-if="user.FireDepartment">Approved</span>
-          <span class="badge badge-warning" ng-if="!user.FireDepartment">Pending</span>
+          <span class="badge badge-success" ng-if="user.isDashboardUser">Approved</span>
+          <span class="badge badge-warning" ng-if="!user.isDashboardUser">Pending</span>
         </div>
         <div
           class="cell action"
@@ -76,15 +67,11 @@
             </div>
             <div class="dropdown-menu">
               <nav class="nav nav-style-2 flex-column">
-                <div class="nav-link" ng-show="!user.FireDepartment" ng-click="vm.approveAccess(user)">
+                <div class="nav-link" ng-show="!user.isDashboardUser" ng-click="vm.approveAccess(user)">
                   <i class="fa fa-2x fa-check-circle"></i>
-                  <span>Approve Dashboard Admin</span>
+                  <span>Approve Access</span>
                 </div>
-                <div class="nav-link"  ng-show="!user.FireDepartment" ng-click="vm.approveAccess(user, true)">
-                  <i class="fa fa-2x fa-check-circle"></i>
-                  <span>Approve Dashboard Readonly</span>
-                </div>
-                <div class="nav-link" ng-show="!user.isDepartmentAdmin && !user.isIngest" ng-click="vm.revokeAccess(user)">
+                <div class="nav-link" ng-show="!user.isIngest" ng-click="vm.revokeAccess(user)">
                   <i class="fa fa-2x fa-times-circle"></i>
                   <span>Revoke Access</span>
                 </div>

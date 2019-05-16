@@ -11,6 +11,9 @@ process.env.ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD ? proces
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.INSTALLATION_SIGNING_SECRET = process.env.INSTALLATION_SIGNING_SECRET || 'statengine';
 
+let emailPrefix = '';
+if(process.env.NODE_ENV === 'development') emailPrefix = 'dev-';
+
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
@@ -81,10 +84,10 @@ var all = {
     resetPasswordTemplate: 'resetpassword',
     newUserTemplate: 'getting-started-statengine',
     newReportTemplate: 'new-report',
-    departmentAccessRequestedTemplate: 'department-access-requested',
-    departmentAccessApprovedTemplate: 'department-access-approved',
-    departmentAccessRevokedTemplate: 'department-access-revoked',
-    departmentAccessRejectedTemplate: 'department-access-rejected',
+    departmentAccessRequestedTemplate: `${emailPrefix}department-access-requested`,
+    departmentAccessApprovedTemplate: `${emailPrefix}department-access-approved`,
+    departmentAccessRevokedTemplate: `${emailPrefix}department-access-revoked`,
+    departmentAccessRejectedTemplate: `${emailPrefix}department-access-rejected`,
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
     mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
   },

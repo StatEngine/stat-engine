@@ -1,9 +1,7 @@
 Migrate
 // all users with kibana_admin, read only access now have role of dashboard_user
 // create default tenants, and index templates
-
-// test creating a new user
-// slugs, speical characters and unique
 // add new roles to readonlyrest
+// Deploy email templates
 
-approve/reject email
+admin
