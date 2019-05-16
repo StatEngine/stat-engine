@@ -185,7 +185,7 @@ export default class IncidentApparatusTimelineComponent {
 
       this.timeline = new Timeline(this.element[0], items, groups, this.options);
 
-      // Respond to incident link tapes on mobile.
+      // Respond to incident link taps on mobile.
       const self = this;
       for(const element of $('.timeline-incident-link')) {
         new Hammer(element).on('tap', function(e) {
