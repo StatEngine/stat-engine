@@ -10,6 +10,7 @@ let Timeline;
 
 export default class IncidentApparatusTimelineComponent {
   initialized = false;
+  hammers = [];
 
   constructor($window) {
     'ngInject';
@@ -39,6 +40,12 @@ export default class IncidentApparatusTimelineComponent {
     if(this.timeline) {
       this.timeline.destroy();
     }
+
+    // Cleanup touch gesture managers.
+    this.hammers.forEach(hammer => {
+      hammer.destroy();
+    });
+    this.hammers = [];
   }
 
   async $onChanges() {
@@ -188,9 +195,10 @@ export default class IncidentApparatusTimelineComponent {
       // Respond to incident link taps on mobile.
       const self = this;
       for(const element of $('.timeline-incident-link')) {
-        new Hammer(element).on('tap', function(e) {
+        const hammer = new Hammer(element).on('tap', function(e) {
           self.$window.location = $(e.target).attr('href');
         });
+        this.hammers.push(hammer);
       }
     }
   }
