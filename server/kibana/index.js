@@ -18,7 +18,6 @@ router.use(
   auth.isAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  //auth.hasRorCookie,
   proxy(settings)
 );
 

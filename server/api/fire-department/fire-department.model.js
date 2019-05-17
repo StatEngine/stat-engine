@@ -115,7 +115,6 @@ export default function(sequelize, DataTypes) {
   FireDepartment.addHook('afterCreate', (fd, options) => {
     // These operations will be part of the same transaction as the
     // original FireDepartment.create call.
-    // create new rows in Workspace permssions, for each Workspace permission type
     return FireDepartment.sequelize.models.Workspace.create({
       name: 'Default',
       slug: 'default',

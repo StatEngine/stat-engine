@@ -8,9 +8,6 @@ export default {
   logLevel: 'debug',
   // Strip out the appPath, so kibana sees requested path
   pathRewrite: (path, req) => {
-    console.dir(' in here');
-    console.dir(path);
-
     return path.replace(`${config.kibana.appPath}`, '');
   },
   // add custom headers to request
