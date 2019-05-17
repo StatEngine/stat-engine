@@ -59,6 +59,7 @@
     "fast-json-patch": "^2.0.6",
     "font-awesome": ">=4.1.0",
     "grpc": "^1.18.0",
+    "hammerjs": "^2.0.8",
     "helmet": "^3.12.0",
     "hover.css": "^2.2.1",
     "http-proxy-middleware": "^0.17.4",
