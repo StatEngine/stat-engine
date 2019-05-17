@@ -298,6 +298,7 @@ export async function edit(req, res) {
   const nfors = req.body.nfors;
   const fireDepartmentId = req.body.fire_department__id;
 
+  // The user being edited (req.user is the user making the edit).
   const user = req.loadedUser;
 
   if(firstName != null) {
@@ -309,17 +310,17 @@ export async function edit(req, res) {
   }
 
   if(unsubscribedEmails != null) {
-    user.unsubscribed_emails = unsubscribedEmails.toLowerCase();
+    user.unsubscribed_emails = unsubscribedEmails;
   }
 
   // protected fields
-  if(user.isAdmin) {
+  if(req.user.isAdmin) {
     user.role = role;
     user.requested_fire_department_id = requestedFireDepartmentId;
     user.nfors = nfors;
   }
 
-  if(user.isGlobal) {
+  if(req.user.isGlobal) {
     user.fire_department__id = fireDepartmentId;
   }
 

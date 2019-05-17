@@ -287,20 +287,12 @@ export default function(sequelize, DataTypes) {
         });
       },
 
-      isUnsubscribedToEmail(emailId) {
+      isSubscribedToEmail(emailName) {
         if(!this.unsubscribed_emails) {
-          return false;
+          return true;
         }
 
-        emailId = emailId.toLowerCase();
-
-        for(const unsubscribedEmailId of this.unsubscribed_emails.toLowerCase().split(',')) {
-          if(unsubscribedEmailId === emailId) {
-            return true;
-          }
-        }
-
-        return false;
+        return !this.unsubscribed_emails.split(',').includes(emailName);
       }
     },
     underscored: true,

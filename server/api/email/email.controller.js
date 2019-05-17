@@ -120,8 +120,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   let toUsers = Object.keys(toUsersByEmail).map(email => toUsersByEmail[email]);
 
   // Remove unsubscribed users from the email list.
-  const emailId = _getTimeRangeEmailId(reportOptions.timeUnit);
-  toUsers = toUsers.filter(user => !user.isUnsubscribedToEmail(emailId));
+  toUsers = toUsers.filter(user => user.isSubscribedToEmail(reportOptions.name));
 
   if(_.isEmpty(toUsers)) {
     return res.status(200).send();

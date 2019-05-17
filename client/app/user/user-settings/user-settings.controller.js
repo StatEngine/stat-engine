@@ -3,8 +3,6 @@
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
 
-import { TimeUnit } from '../../../components/constants/time-unit';
-
 export default class UserSettingsController {
   profile = {
     inputs: {
@@ -18,9 +16,7 @@ export default class UserSettingsController {
   };
   email = {
     inputs: {
-      shiftReportEnabled: true,
-      weekReportEnabled: true,
-      monthReportEnabled: true,
+      enabled: {},
     },
     form: null,
     errors: [],
@@ -40,7 +36,7 @@ export default class UserSettingsController {
   };
 
   /*@ngInject*/
-  constructor($scope, $state, $location, User, currentPrincipal, AmplitudeService, AnalyticEventNames) {
+  constructor($scope, $state, $location, User, currentPrincipal, AmplitudeService, AnalyticEventNames, reportNames) {
     this.$scope = $scope;
     this.$state = $state;
     this.$location = $location;
@@ -48,13 +44,14 @@ export default class UserSettingsController {
     this.UserService = User;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
+    this.reportNames = reportNames;
 
     // Copy user data into inputs.
     this.profile.inputs.firstName = this.user.first_name;
     this.profile.inputs.lastName = this.user.last_name;
-    this.email.inputs.shiftReportEnabled = !this.isUserUnsubscribedToReportType(TimeUnit.Shift);
-    this.email.inputs.weekReportEnabled = !this.isUserUnsubscribedToReportType(TimeUnit.Week);
-    this.email.inputs.monthReportEnabled = !this.isUserUnsubscribedToReportType(TimeUnit.Month);
+    this.reportNames.forEach(reportName => {
+      this.email.inputs.enabled[reportName] = this.isUserSubscribedTo(reportName);
+    });
 
     // Change tab when the url hash changes.
     this.updateSelectedTab();
@@ -74,27 +71,13 @@ export default class UserSettingsController {
     }
   }
 
-  isUserUnsubscribedToReportType(timeUnit) {
+  isUserSubscribedTo(emailName) {
+    // Check if this email is currently unsubscribed in the user data.
     if(!this.user.unsubscribed_emails) {
-      return false;
+      return true;
     }
 
-    const emailId = this.getTimeRangeEmailId(timeUnit);
-
-    // Check if this email report type is currently enabled in the user data.
-    for(const unsubscribedEmailId of this.user.unsubscribed_emails.split(',')) {
-      if(unsubscribedEmailId.toLowerCase() === emailId) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  getTimeRangeEmailId(timeUnit) {
-    // Report emails are unsubscribed as "{templateSlug}_{timeUnit}".
-    // TODO: The 'timerange' part of this emailId should be returned from the server as part of an app config.
-    return `timerange_${timeUnit}`.toLowerCase();
+    return !this.user.unsubscribed_emails.split(',').includes(emailName);
   }
 
   $onInit() {
@@ -155,24 +138,12 @@ export default class UserSettingsController {
     }
 
     // Translate our toggle switches into an array of unsubscribed email ids that the server expects.
-    const unsubscribedEmails = [];
-    if(!this.email.inputs.shiftReportEnabled) {
-      unsubscribedEmails.push(this.getTimeRangeEmailId(TimeUnit.Shift));
-    }
-    if(!this.email.inputs.weekReportEnabled) {
-      unsubscribedEmails.push(this.getTimeRangeEmailId(TimeUnit.Week));
-    }
-    if(!this.email.inputs.monthReportEnabled) {
-      unsubscribedEmails.push(this.getTimeRangeEmailId(TimeUnit.Month));
-    }
+    const unsubscribedEmails = Object.keys(this.email.inputs.enabled)
+      .filter(reportName => !this.email.inputs.enabled[reportName]);
 
     // Track unsubscribes in analytics (only log the events after the user update succeeds).
-    const newlyUnsubscribedEmailIds = [];
-    unsubscribedEmails.forEach(emailId => {
-      if(!this.user.unsubscribed_emails || !this.user.unsubscribed_emails.includes(emailId)) {
-        newlyUnsubscribedEmailIds.push(emailId);
-      }
-    });
+    const newlyUnsubscribed = unsubscribedEmails
+      .filter(emailName => (!this.user.unsubscribed_emails || !this.user.unsubscribed_emails.includes(emailName)));
 
     this.email.isSaving = true;
     this.email.errors = [];
@@ -192,11 +163,11 @@ export default class UserSettingsController {
     }
 
     // Log unsubscribe events.
-    newlyUnsubscribedEmailIds.forEach(emailId => {
+    newlyUnsubscribed.forEach(emailName => {
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'User Settings',
         action: 'unsubscribed email',
-        emailId,
+        emailName,
       });
     });
 
@@ -208,11 +179,13 @@ export default class UserSettingsController {
   }
 
   emailHasChanges() {
-    return (
-      this.email.inputs.shiftReportEnabled !== this.isUserUnsubscribedToReportType(TimeUnit.Shift) ||
-      this.email.inputs.weekReportEnabled !== this.isUserUnsubscribedToReportType(TimeUnit.Week) ||
-      this.email.inputs.monthReportEnabled !== this.isUserUnsubscribedToReportType(TimeUnit.Month)
-    );
+    for(const emailName of Object.keys(this.email.inputs.enabled)) {
+      if(this.email.inputs.enabled[emailName] !== this.isUserSubscribedTo(emailName)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   emailDisableSaveButton() {

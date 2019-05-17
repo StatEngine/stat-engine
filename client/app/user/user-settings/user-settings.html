@@ -110,41 +110,13 @@
           <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">Email</h6>
           <form name="emailForm" id="emailForm" ng-submit="vm.saveEmail(emailForm)" novalidate>
             <div class="form-layout">
-              <div class="row">
+              <div class="row" ng-repeat="reportName in vm.reportNames">
                 <div class="col">
                   <div class="form-group">
-                    <label class="form-control-label">Shift Report:</label>
+                    <label class="form-control-label">{{ reportName }} Report:</label>
                     <div>
                       <toggle-switch
-                        on="vm.email.inputs.shiftReportEnabled"
-                        on-change="emailForm.$setDirty()"
-                      ></toggle-switch>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label">Week Report:</label>
-                    <div>
-                      <toggle-switch
-                        on="vm.email.inputs.weekReportEnabled"
-                        on-change="emailForm.$setDirty()"
-                      ></toggle-switch>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label">Month Report:</label>
-                    <div>
-                      <toggle-switch
-                        on="vm.email.inputs.monthReportEnabled"
+                        on="vm.email.inputs.enabled[reportName]"
                         on-change="emailForm.$setDirty()"
                       ></toggle-switch>
                     </div>
