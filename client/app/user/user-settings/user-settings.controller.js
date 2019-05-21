@@ -4,74 +4,241 @@
 import parsleyjs from 'parsleyjs';
 
 export default class UserSettingsController {
-  user = {
-    first_name: '',
-    last_name: '',
-    error: ''
+  profile = {
+    inputs: {
+      firstName: '',
+      lastName: '',
+    },
+    form: null,
+    errors: [],
+    showSaved: false,
+    isSaving: false,
   };
-  passwordErrors = [];
-  submitted = false;
+  email = {
+    inputs: {
+      enabled: {},
+    },
+    form: null,
+    errors: [],
+    showSaved: false,
+    isSaving: false,
+  };
+  password = {
+    inputs: {
+      currentPassword: '',
+      newPassword: '',
+      newPasswordRepeat: '',
+    },
+    form: null,
+    errors: [],
+    showSaved: false,
+    isSaving: false,
+  };
 
   /*@ngInject*/
-  constructor(User, $state, currentPrincipal) {
-    this.user = currentPrincipal;
-    this.UserService = User;
+  constructor($scope, $state, $location, User, currentPrincipal, AmplitudeService, AnalyticEventNames, reportNames) {
+    this.$scope = $scope;
     this.$state = $state;
-    this.saved = false;
-    this.savedPassword = false;
+    this.$location = $location;
+    this.user =  currentPrincipal;
+    this.UserService = User;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
+    this.reportNames = reportNames;
+
+    // Copy user data into inputs.
+    this.profile.inputs.firstName = this.user.first_name;
+    this.profile.inputs.lastName = this.user.last_name;
+    this.reportNames.forEach(reportName => {
+      this.email.inputs.enabled[reportName] = this.isUserSubscribedTo(reportName);
+    });
+
+    // Change tab when the url hash changes.
+    this.updateSelectedTab();
+    this.$scope.$watch(() => this.$location.hash(), () => {
+      this.updateSelectedTab();
+    });
+  }
+
+  updateSelectedTab() {
+    // Select tab in url hash (if one exists).
+    const tabName = this.$location.hash();
+    if(tabName) {
+      $(`#nav-${tabName}-tab`).tab('show');
+    } else {
+      $('#nav-profile-tab').tab('show');
+      this.$location.hash('profile');
+    }
+  }
+
+  isUserSubscribedTo(emailName) {
+    // Check if this email is currently unsubscribed in the user data.
+    if(!this.user.unsubscribed_emails) {
+      return true;
+    }
+
+    return !this.user.unsubscribed_emails.split(',').includes(emailName);
   }
 
   $onInit() {
-    this.profileForm = $('#profileForm').parsley();
-    this.passwordForm = $('#passwordForm').parsley();
+    this.profile.form = $('#profileForm').parsley();
+    this.email.form = $('#emailForm').parsley();
+    this.password.form = $('#passwordForm').parsley();
   }
 
-  edituser(form) {
-    this.submitted = true;
+  async saveProfile(form) {
+    this.profile.showSaved = false;
 
-    this.saved = false;
+    if(!this.profile.form.isValid()) {
+      return;
+    }
 
-    if(this.profileForm.isValid()) {
-      this.saved = false;
-      this.UserService.update({ id: this.user._id }, {
-        first_name: this.user.first_name,
-        last_name: this.user.last_name,
+    this.profile.isSaving = true;
+    this.profile.errors = [];
+    try {
+      await this.UserService.update({ id: this.user._id }, {
+        first_name: this.profile.inputs.firstName,
+        last_name: this.profile.inputs.lastName,
+      }).$promise;
+    } catch (err) {
+      if(err.data.error) {
+        this.profile.errors.push({ message: err.data.error });
+      } else {
+        this.profile.errors.push({ message: 'Error saving data.' });
+      }
+      return;
+    } finally {
+      this.profile.isSaving = false;
+    }
+
+    // Update local user data.
+    this.user.first_name = this.profile.inputs.firstName;
+    this.user.last_name = this.profile.inputs.lastName;
+
+    this.profile.showSaved = true;
+    form.$setPristine(true);
+  }
+
+  profileHasChanges() {
+    return (
+      this.profile.inputs.firstName !== this.user.first_name ||
+      this.profile.inputs.lastName !== this.user.last_name
+    );
+  }
+
+  profileDisableSaveButton() {
+    return (!this.profileHasChanges() || this.profile.isSaving);
+  }
+
+  async saveEmail(form) {
+    this.email.showSaved = false;
+
+    if(!this.email.form.isValid()) {
+      return;
+    }
+
+    // Translate our toggle switches into an array of unsubscribed email ids that the server expects.
+    const unsubscribedEmails = Object.keys(this.email.inputs.enabled)
+      .filter(reportName => !this.email.inputs.enabled[reportName]);
+
+    // Track unsubscribes in analytics (only log the events after the user update succeeds).
+    const newlyUnsubscribed = unsubscribedEmails
+      .filter(emailName => (!this.user.unsubscribed_emails || !this.user.unsubscribed_emails.includes(emailName)));
+
+    this.email.isSaving = true;
+    this.email.errors = [];
+    try {
+      await this.UserService.update({ id: this.user._id }, {
+        unsubscribed_emails: unsubscribedEmails.join(','),
+      }).$promise;
+    } catch (err) {
+      if(err.data.error) {
+        this.email.errors.push({ message: err.data.error });
+      } else {
+        this.email.errors.push({ message: 'Error saving data.' });
+      }
+      return;
+    } finally {
+      this.email.isSaving = false;
+    }
+
+    // Log unsubscribe events.
+    newlyUnsubscribed.forEach(emailName => {
+      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+        app: 'User Settings',
+        action: 'unsubscribed email',
+        emailName,
+      });
+    });
+
+    // Update local user data.
+    this.user.unsubscribed_emails = unsubscribedEmails.join(',');
+
+    this.email.showSaved = true;
+    form.$setPristine(true);
+  }
+
+  emailHasChanges() {
+    for(const emailName of Object.keys(this.email.inputs.enabled)) {
+      if(this.email.inputs.enabled[emailName] !== this.isUserSubscribedTo(emailName)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  emailDisableSaveButton() {
+    return (!this.emailHasChanges() || this.email.isSaving);
+  }
+
+  async changePassword(form) {
+    this.password.showSaved = false;
+
+    if(!this.password.form.isValid()) {
+      return;
+    }
+
+    this.password.isSaving = true;
+    this.password.errors = [];
+    try {
+      await this.UserService.changePassword({ id: this.user._id }, {
         username: this.user.username,
+        oldPassword: this.password.inputs.currentPassword,
+        newPassword: this.password.inputs.newPassword,
       }).$promise
-        .then(() => {
-          this.errors = {};
-          this.saved = true;
-          form.$setPristine(true);
-        })
-        .catch(err => {
-          if(err.data.error) this.errors.error = err.data.error;
-          else this.errors.error = 'Error saving data.';
-        });
+    } catch (err) {
+      if(err.data.password) {
+        this.password.errors.push({ message: err.data.password });
+      } else if(err.data.error) {
+        this.password.errors.push({ message: err.data.error });
+      } else {
+        this.password.errors.push({ message: 'Error saving data.' });
+      }
+      return;
+    } finally {
+      this.password.isSaving = false;
     }
+
+    // Logged in, redirect to user home
+    this.password.showSaved = true;
+    form.$setPristine(true);
   }
 
-  changePassword(form) {
-    this.submitted = true;
+  passwordDisableSaveButton() {
+    return (
+      this.password.inputs.currentPassword.length === 0 ||
+      this.password.inputs.newPassword.length === 0 ||
+      this.password.inputs.newPasswordRepeat.length === 0 ||
+      this.password.isSaving
+    );
+  }
 
-    this.savedPassword = false;
+  handleTabClick(tabName) {
+    this.$location.hash(tabName);
 
-    if(this.passwordForm.isValid()) {
-      this.passwordErrors = [];
-      this.UserService.changePassword({ id: this.user._id }, { username: this.user.username, oldPassword: this.user.oldPassword, newPassword: this.user.newPassword }).$promise
-        .then(() => {
-          // Logged in, redirect to user home
-          this.savedPassword = true;
-          form.$setPristine(true);
-        })
-        .catch(err => {
-          if(err.data.password) {
-            this.passwordErrors.push({ message: err.data.password });
-          } else if(err.data.error) {
-            this.passwordErrors.push({ message: err.data.error });
-          } else {
-            this.passwordErrors.push({ message: 'Error saving data.' });
-          }
-        });
-    }
+    this.profile.showSaved = false;
+    this.email.showSaved = false;
+    this.password.showSaved = false;
   }
 }

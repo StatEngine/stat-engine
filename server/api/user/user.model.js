@@ -86,6 +86,9 @@ export default function(sequelize, DataTypes) {
     },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
+    unsubscribed_emails: {
+      type: DataTypes.STRING,
+    },
   }, {
 
     /**
@@ -282,6 +285,14 @@ export default function(sequelize, DataTypes) {
             fn(null);
           });
         });
+      },
+
+      isSubscribedToEmail(emailName) {
+        if(!this.unsubscribed_emails) {
+          return true;
+        }
+
+        return !this.unsubscribed_emails.split(',').includes(emailName);
       }
     },
     underscored: true,

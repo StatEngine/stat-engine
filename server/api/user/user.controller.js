@@ -289,28 +289,48 @@ export async function create(req, res) {
 /**
  * Edits a user
  */
-export function edit(req, res) {
+export async function edit(req, res) {
+  const firstName = req.body.first_name;
+  const lastName = req.body.last_name;
+  const unsubscribedEmails = req.body.unsubscribed_emails;
+  const role = req.body.role;
+  const requestedFireDepartmentId = req.body.requested_fire_department_id;
+  const nfors = req.body.nfors;
+  const fireDepartmentId = req.body.fire_department__id;
+
+  // The user being edited (req.user is the user making the edit).
   const user = req.loadedUser;
 
-  user.last_name = req.body.last_name;
-  user.first_name = req.body.first_name;
+  if(firstName != null) {
+    user.first_name = firstName;
+  }
+
+  if(lastName != null) {
+    user.last_name = lastName;
+  }
+
+  if(unsubscribedEmails != null) {
+    user.unsubscribed_emails = unsubscribedEmails;
+  }
 
   // protected fields
   if(req.user.isAdmin) {
-    user.role = req.body.role;
-    user.requested_fire_department_id = req.body.requested_fire_department_id;
-    user.nfors = req.body.nfors;
+    user.role = role;
+    user.requested_fire_department_id = requestedFireDepartmentId;
+    user.nfors = nfors;
   }
 
   if(req.user.isGlobal) {
-    user.fire_department__id = req.body.fire_department__id;
+    user.fire_department__id = fireDepartmentId;
   }
 
-  user.save()
-    .then(usersaved => {
-      res.status(204).send({usersaved});
-    })
-    .catch(validationError(res));
+  try {
+    await user.save();
+  } catch (err) {
+    return validationError(res)(err)
+  }
+
+  res.status(200).send({ user });
 }
 
 /**
@@ -332,7 +352,7 @@ export async function requestAccess(req, res) {
 }
 
 /**
- * Request access
+ * Revoke access
  */
 export async function revokeAccess(req, res) {
   const user = req.loadedUser;
@@ -358,7 +378,7 @@ export async function revokeAccess(req, res) {
 }
 
 /**
- * Request access
+ * Approve access
  */
 export async function approveAccess(req, res) {
   const user = req.loadedUser;
@@ -570,6 +590,7 @@ export function me(req, res, next) {
       'aws_secret_access_key',
       'password_token',
       'password_reset_expire',
+      'unsubscribed_emails',
     ]
   })
     .then(user => {
