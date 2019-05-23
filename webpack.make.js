@@ -9,7 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = function makeWebpackConfig(options) {
@@ -103,7 +103,7 @@ module.exports = function makeWebpackConfig(options) {
       },
       runtimeChunk: 'single',
       minimizer: [
-        new UglifyJsPlugin(),
+        new TerserPlugin(),
         new OptimizeCSSAssetsPlugin({})
       ]
     }
