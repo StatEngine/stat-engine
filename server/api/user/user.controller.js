@@ -83,6 +83,7 @@ export async function getAll(req, res) {
       attributes: userAttributes
     });
     users = users.concat(allOtherUsers);
+    users = _.uniqBy(users, '_id');
   }
 
   return res.json(users);
@@ -409,6 +410,25 @@ export async function approveAccess(req, res) {
   user.role = `${user.role},dashboard_user`;
 
   await user.save();
+
+  // assign to default workspaces
+  await Workspace
+    .findOne({
+      where: {
+        slug: 'default',
+        fire_department__id: user.fire_department__id,
+      }
+    }).then(workspace => {
+      if(workspace) {
+        return UserWorkspace.create({
+          user__id: user._id,
+          workspace__id: workspace._id,
+          permission: 'ro',
+          is_owner: false,
+        });
+      }
+    });
+
   const department = await FireDepartment.find({
     where: {
       _id: user.fire_department__id,

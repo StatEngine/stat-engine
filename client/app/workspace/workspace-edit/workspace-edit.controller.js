@@ -72,9 +72,6 @@ export default class WorkspaceEditController {
           this.ModalService.custom({
             title: 'Workspaces Saved',
             content: 'Workspace has been saved!<br>  Would you like to manage user access now?',
-            onDismiss: () => {
-              this.$state.go('site.workspace.home');
-            },
             showCloseButton: false,
             enableBackdropDismiss: false,
             buttons: [{
@@ -87,6 +84,7 @@ export default class WorkspaceEditController {
               text: 'Manage Users',
               style: this.ModalService.buttonStyle.primary,
               onClick: async () => {
+                console.dir('in here')
                 this.$state.go('site.workspace.edit.users', { id: saved._id});
               },
             }],

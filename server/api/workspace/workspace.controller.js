@@ -76,6 +76,15 @@ export async function get(req, res) {
 }
 
 export async function markAsDeleted(req, res) {
+  // prevent deleting default workspace
+  const wkspace = await Workspace.findOne({
+    where: {
+      _id: req.params.id
+    }
+  });
+
+  if(wkspace.slug === 'default') return res.send(500);
+
   return await Workspace.update({
     is_deleted: true
   }, {

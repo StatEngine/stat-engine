@@ -77,7 +77,7 @@
                     <i class="fa fa-2x fa-users"></i>
                     <span>Edit Access</span>
                   </div>
-                  <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)">
+                  <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)" ng-if="workspace.slug !== 'default'">
                     <i class="fa fa-2x fa-times-circle"></i>
                     <span>Delete Workspace</span>
                   </div>
