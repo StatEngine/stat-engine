@@ -28,6 +28,7 @@ export function Modal($rootScope, $uibModal) {
       success: 'btn-success',
       danger: 'btn-danger',
       default: 'btn-default',
+      outlineInverseAlt: 'btn-outline-inverse-alt',
     },
 
     custom({

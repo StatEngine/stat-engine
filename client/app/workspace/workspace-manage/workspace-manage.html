@@ -9,7 +9,11 @@
 <div class="workspace-manage-wrapper">
     <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
     <section class="workspace-manage">
-      <h3 class="mb-2">Manage Workspaces<button class="btn btn-primary pull-right" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button></h3>
+      <h3 class="mb-2">
+        Manage Workspaces
+        <button class="btn btn-primary pull-right" ui-sref="site.workspace.home">Done</button>
+        <button class="btn btn-outline-inverse-alt pull-right mr-2" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button>
+      </h3>
       <div class="mt-5" ng-if="!vm.workspaces.length && !vm.isLoading">
          No workspaces available!  <a ui-sref="site.workspace.edit({ id: 'new' })" href="#">Create </a> one now.
       </div>
@@ -67,11 +71,15 @@
                 <nav class="nav nav-style-2 flex-column">
                   <div class="nav-link" ng-click="vm.editWorkspace(workspace)">
                     <i class="fa fa-2x fa-pencil"></i>
-                    <span>Edit</span>
+                    <span>Edit Workspace</span>
+                  </div>
+                  <div class="nav-link" ng-click="vm.editWorkspaceUsers(workspace)">
+                    <i class="fa fa-2x fa-users"></i>
+                    <span>Edit Access</span>
                   </div>
                   <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)">
                     <i class="fa fa-2x fa-times-circle"></i>
-                    <span>Delete</span>
+                    <span>Delete Workspace</span>
                   </div>
                 </nav>
               </div><!-- dropdown-menu -->

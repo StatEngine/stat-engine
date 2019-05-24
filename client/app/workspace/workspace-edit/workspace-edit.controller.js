@@ -15,7 +15,7 @@ export default class WorkspaceEditController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Workspace, Modal, currentWorkspace, $state) {
+  constructor(Workspace, Modal, currentWorkspace, $state, AmplitudeService, AnalyticEventNames) {
     this.WorkspaceService = Workspace;
     this.ModalService = Modal;
 
@@ -28,6 +28,8 @@ export default class WorkspaceEditController {
     this.seed = this.workspace._id == undefined;
 
     this.title = this.workspace._id ? 'Edit Workspace' : 'New Workspace';
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
   }
 
   async $onInit() {
@@ -52,6 +54,12 @@ export default class WorkspaceEditController {
           params.seedVisualizations = true;
           params.seedDashboards = true;
         }
+
+        this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+          app: 'WORKSPACE',
+          action: 'create',
+          with_fixtures: this.seed,
+        });
       }
 
       fnc(params, {
@@ -61,9 +69,31 @@ export default class WorkspaceEditController {
         color: this.workspace.color,
       }).$promise
         .then((saved) => {
-          this.$state.go('site.workspace.edit.users', { id: saved._id});
+          this.ModalService.custom({
+            title: 'Workspaces Saved',
+            content: 'Workspace has been saved!<br>  Would you like to manage user access now?',
+            onDismiss: () => {
+              this.$state.go('site.workspace.home');
+            },
+            showCloseButton: false,
+            enableBackdropDismiss: false,
+            buttons: [{
+              text: 'Skip',
+              style: this.ModalService.buttonStyle.outlineInverseAlt,
+              onClick: async () => {
+                this.$state.go('site.workspace.home');
+              },
+            }, {
+              text: 'Manage Users',
+              style: this.ModalService.buttonStyle.primary,
+              onClick: async () => {
+                this.$state.go('site.workspace.edit.users', { id: saved._id});
+              },
+            }],
+          }).present();
         })
         .catch(err => {
+          console.dir(err)
           err = err.data;
           this.errors = err.errors;
           // clean up validation error

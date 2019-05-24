@@ -32,7 +32,11 @@
 
             <div class="form-group form-inline" ng-if="!vm.workspace._id">
               <label>Create Sample Dashboards?</label>&nbsp;
-              <input type="checkbox" name="seed" class="form-control" ng-model="vm.seed"/>
+              <toggle-switch
+                on="vm.seed"
+                on-change="emailForm.$setDirty()"
+                knob-class="knob-yes-no"
+              ></toggle-switch>
             </div>
 
             <div>
@@ -43,7 +47,7 @@
                   </li>
                 </ul>
               </p>
-              <button id='cancel-workspace' ui-sref="site.workspace.home" class="btn btn-danger btn-lg hvr-float w180">Cancel</button>
+              <button id='cancel-workspace' ui-sref="site.workspace.manage" class="btn btn-danger btn-lg hvr-float w180">Cancel</button>
               <button id='save-workspace' class="btn btn-primary btn-lg hvr-float w180" type="submit">Save</button>
             </div>
           </form>

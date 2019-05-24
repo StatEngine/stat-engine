@@ -42,7 +42,9 @@ toggle-switch {
         letter-spacing: 1px;
         text-shadow: 1px 1px rgba(33, 37, 41, 0.1);
       }
+    }
 
+    .knob-on-off {
       &::before {
         content: 'on';
         left: -25px;
@@ -50,6 +52,18 @@ toggle-switch {
 
       &::after {
         content: 'off';
+        right: -28px;
+      }
+    }
+
+    .knob-yes-no {
+      &::before {
+        content: 'yes';
+        left: -25px;
+      }
+
+      &::after {
+        content: 'no';
         right: -28px;
       }
     }

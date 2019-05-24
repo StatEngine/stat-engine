@@ -38,15 +38,27 @@ export default class WorkspaceManageController {
     this.$state.go('site.workspace.edit', { id: workspace._id});
   }
 
+  editWorkspaceUsers(workspace) {
+    this.$state.go('site.workspace.edit.users', { id: workspace._id});
+  }
+
   deleteWorkspace(workspace) {
-    this.ModalService.confirm({
+    this.ModalService.custom({
       title: 'Confirm Delete',
       content: 'Are you sure you want to delete this workspace?<br><br><strong class="text-danger">All saved objects, such as dashboards, and visualizations will be deleted.  Workspace users will no longer be able to access!</strong>',
       onDismiss: () => console.log('Dismiss'),
-      onConfirm: () => {
-        this.WorkspaceService.delete({ id: workspace._id})
+      buttons: [{
+        text: 'Cancel',
+        style: this.ModalService.buttonStyle.outlineInverseAlt,
+        onClick: async () => {},
+      }, {
+        text: 'Delete',
+        style: this.ModalService.buttonStyle.danger,
+        onClick: async () => {
+          this.WorkspaceService.delete({ id: workspace._id})
           .$promise.then(() => this.refresh());
-      },
+        },
+      }],
     }).present();
   }
 }

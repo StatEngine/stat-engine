@@ -2,9 +2,11 @@
 
 export default class WorkspaceSelectController {
   /*@ngInject*/
-  constructor($window, User) {
+  constructor($window, User, AmplitudeService, AnalyticEventNames) {
     this.$window = $window;
     this.UserService = User;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
     this.isLoading = true;
     this.refresh();
   }
@@ -17,6 +19,11 @@ export default class WorkspaceSelectController {
   }
 
   select(workspace) {
+    console.dir(workspace.name)
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
+      app: 'WORKSPACE',
+      workspace: workspace.name
+    });
     this.$window.location.href = `/workspaces/${workspace._id}/dashboard`;
   }
 }
