@@ -10,7 +10,6 @@ export default class WorkspaceManageController {
     this.$state = $state;
     this.WorkspaceService = Workspace;
     this.ModalService = Modal;
-    this.initialized = false;
   }
 
   async loadModules() {
@@ -18,14 +17,16 @@ export default class WorkspaceManageController {
   }
 
   async refresh() {
+    this.isLoading = true;
     this.workspaces = await this.WorkspaceService.query().$promise;
     this.workspaces.forEach(wkspace => {
-      console.dir(wkspace.Users)
-
       wkspace.owners = _.filter(wkspace.Users, u => u.UserWorkspace.is_owner && !u.isGlobal)
       wkspace.is_owner = _.map(wkspace.owners, o => o.email).indexOf(this.currentPrincipal.email) >= 0;
+      wkspace.users_with_access = _.filter(wkspace.Users, u => (u.UserWorkspace.permission || u.UserWorkspace.is_owner) && !u.isGlobal);
     });
-    this.initialized = true;
+
+    console.dir(this.workspaces)
+    this.isLoading = false;
   }
 
   async $onInit() {

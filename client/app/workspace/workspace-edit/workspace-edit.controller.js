@@ -26,6 +26,8 @@ export default class WorkspaceEditController {
     };
     this.$state = $state;
     this.seed = this.workspace._id == undefined;
+
+    this.title = this.workspace._id ? 'Edit Workspace' : 'New Workspace';
   }
 
   async $onInit() {

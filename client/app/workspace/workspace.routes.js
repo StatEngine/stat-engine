@@ -23,9 +23,6 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        workspaces(User) {
-          return User.get().$promise.then(user => user.workspaces);
-        },
       }
     })
     .state('site.workspace.manage', {

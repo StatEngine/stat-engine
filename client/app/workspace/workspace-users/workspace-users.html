@@ -49,7 +49,8 @@
           objects will be deleted.
         </li>
       </ul>
-      <div class="workspace-users-table mb-5" ng-if="!vm.refreshing">
+      <div class="workspace-users-table mb-5">
+        <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
         <div class="table-row header">
           <div class="cell">
             Username
@@ -106,19 +107,19 @@
                 <nav class="nav nav-style-2 flex-column">
                   <div class="nav-link" ng-click="vm.grantPermission(user, 'ro')">
                     <i class="fa fa-2x fa-check-circle"></i>
-                    <span class="text-success">GRANT READ</span>
+                    <span">GRANT READ</span>
                   </div>
                   <div class="nav-link" ng-click="vm.grantPermission(user, 'rw')">
                     <i class="fa fa-2x fa-check-circle"></i>
-                    <span class="text-success">GRANT WRITE</span>
+                    <span>GRANT WRITE</span>
                   </div>
                   <div class="nav-link" ng-click="vm.grantPermission(user, 'admin')">
                     <i class="fa fa-2x fa-check-circle"></i>
-                    <span class="text-success">GRANT FULL</span>
+                    <span>GRANT FULL</span>
                   </div>
                   <div class="nav-link" ng-click="vm.revokePermission(user)">
                     <i class="fa fa-2x fa-times-circle"></i>
-                    <span class="text-danger">REVOKE ACCESS</span>
+                    <span>REVOKE ACCESS</span>
                   </div>
                 </nav>
               </div>

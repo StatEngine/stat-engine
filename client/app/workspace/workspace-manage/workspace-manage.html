@@ -7,20 +7,10 @@
   </div><!-- br-pageheader -->
 </div>
 <div class="workspace-manage-wrapper">
-    <div
-      class="action-message"
-      ng-class="{
-        'text-success': (vm.actionMessageColor === 'success'),
-        'text-danger': (vm.actionMessageColor === 'danger')
-      }"
-      ng-if="vm.actionMessage"
-    >
-      {{ vm.actionMessage }}
-    </div>
-
+    <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
     <section class="workspace-manage">
       <h3 class="mb-2">Manage Workspaces<button class="btn btn-primary pull-right" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button></h3>
-      <div class="mt-5" ng-if="!vm.workspaces.length && vm.initialized">
+      <div class="mt-5" ng-if="!vm.workspaces.length && !vm.isLoading">
          No workspaces available!  <a ui-sref="site.workspace.edit({ id: 'new' })" href="#">Create </a> one now.
       </div>
       <div class="workspace-users-table mb-5" ng-if="vm.workspaces.length > 0">
@@ -35,7 +25,7 @@
             Owners
           </div>
           <div class="cell">
-            Num of Users
+            # Users
           </div>
           <div class="cell">
             Action
@@ -56,7 +46,7 @@
             </div>
           </div>
           <div class="cell numUsers" data-title="NumOfUsers">
-              {{ workspace.Users.length }}
+              {{ workspace.users_with_access.length }}
           </div>
           <div
             class="cell action"
@@ -76,12 +66,12 @@
               <div class="dropdown-menu">
                 <nav class="nav nav-style-2 flex-column">
                   <div class="nav-link" ng-click="vm.editWorkspace(workspace)">
-                    <i class="fa fa-2x fa-check-circle"></i>
-                    <span class="text-success">Edit</span>
+                    <i class="fa fa-2x fa-pencil"></i>
+                    <span>Edit</span>
                   </div>
                   <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)">
                     <i class="fa fa-2x fa-times-circle"></i>
-                    <span class="text-danger">Delete</span>
+                    <span>Delete</span>
                   </div>
                 </nav>
               </div><!-- dropdown-menu -->

@@ -17,7 +17,7 @@ export default class WorkspaceUsersController {
   }
 
   async refresh() {
-    this.refreshing = true;
+    this.isLoading = true;
     const departmentUsers = await this.UserService.query().$promise;
     this.workspace = await this.WorkspaceService.get({ id: this.workspaceId }).$promise;
     this.workspace.Users = _.filter(this.workspace.Users, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
@@ -26,7 +26,7 @@ export default class WorkspaceUsersController {
       _.keyBy(users, 'username'),
       _.keyBy(this.workspace.Users, 'username')
     ));
-    this.refreshing = false;
+    this.isLoading = false;
   }
 
   async $onInit() {

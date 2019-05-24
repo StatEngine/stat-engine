@@ -2,7 +2,7 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="site.user.home">Home</a>
       <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
-      <a class="breadcrumb-item"> Edit Workspace</a>
+      <a class="breadcrumb-item">{{vm.title}}</a>
     </nav>
   </div><!-- br-pageheader -->
 </div>
@@ -11,7 +11,7 @@
     <section class="row mb-12 justify-content-md-center animated fadeIn">
       <div class="col-md-auto align-self-center">
         <div class="col-md-auto align-self-center">
-          <h1 class="text-center">Edit Workspace</h1>
+          <h1 class="text-center">{{vm.title}}</h1>
 
           <form class="form form-wrapper" name="form" ng-submit="vm.updateWorkspace(form)" id="workspace-form" novalidate>
 
@@ -22,12 +22,12 @@
 
             <div class="form-group">
               <label>Description</label>
-              <input type="text" name="description" class="form-control" ng-model="vm.workspace.description" required/>
+              <textarea name="description" rows="4" class="form-control" ng-model="vm.workspace.description" maxlength="255" required/>
             </div>
 
             <div class="form-group form-inline">
               <label>Color</label>&nbsp;
-              <spectrum-colorpicker ng-model="vm.workspace.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true }"></spectrum-colorpicker>
+              <spectrum-colorpicker ng-model="vm.workspace.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true, hideAfterPaletteSelect:true }"></spectrum-colorpicker>
             </div>
 
             <div class="form-group form-inline" ng-if="!vm.workspace._id">
@@ -43,8 +43,8 @@
                   </li>
                 </ul>
               </p>
-              <button id='cancel-workspace' ui-sref="site.workspace.home" class="btn btn-danger btn-lg btn-oblong hvr-float w180">Cancel</button>
-              <button id='save-workspace' class="btn btn-primary btn-lg btn-oblong hvr-float w180" type="submit">Next</button>
+              <button id='cancel-workspace' ui-sref="site.workspace.home" class="btn btn-danger btn-lg hvr-float w180">Cancel</button>
+              <button id='save-workspace' class="btn btn-primary btn-lg hvr-float w180" type="submit">Save</button>
             </div>
           </form>
         </div>

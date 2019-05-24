@@ -2,9 +2,18 @@
 
 export default class WorkspaceSelectController {
   /*@ngInject*/
-  constructor(currentPrincipal, $window, workspaces) {
+  constructor($window, User) {
     this.$window = $window;
-    this.workspaces = workspaces;
+    this.UserService = User;
+    this.isLoading = true;
+    this.refresh();
+  }
+
+  refresh() {
+    this.UserService.get().$promise.then(user => {
+      this.workspaces = user.workspaces;
+      this.isLoading = false;
+    });
   }
 
   select(workspace) {
