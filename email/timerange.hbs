@@ -2183,10 +2183,14 @@
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                                   <tbody>
                                   <tr>
-
-
                                     <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
-                                      <em>Copyright © Prominent Edge, All rights reserved.</em><br>
+                                      <em>Copyright © Prominent Edge, All rights reserved.</em>
+                                      <br><br><br>
+                                      {{#if user.isexternal}}
+                                        <p>To unsubscribe, please contact your admin.</p>
+                                      {{else}}
+                                        <p>To unsubscribe, please update your <a href="https://statengine.io/settings#email">email settings</a>.</p>
+                                      {{/if}}
                                     </td>
                                   </tr>
                                   </tbody>

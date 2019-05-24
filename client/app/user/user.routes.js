@@ -140,7 +140,13 @@ export default function routes($stateProvider) {
       resolve: {
         currentPrincipal(Principal) {
           return Principal.identity();
-        }
+        },
+        reportNames(ExtensionConfiguration) {
+          return ExtensionConfiguration.query({ name: 'Email Report' }).$promise
+            .then(extensionConfigs => {
+              return extensionConfigs.map(config => config.config_json.name);
+            });
+        },
       },
     });
 }

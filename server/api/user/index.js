@@ -18,7 +18,7 @@ router.put('/updatePassword', bodyParser.json(), controller.updatePassword);
 // authenticated routes
 router.get('/', auth.isApiAuthenticated, auth.hasFireDepartment, asyncMiddleware(controller.getAll));
 router.get('/me', auth.isApiAuthenticated, asyncMiddleware(controller.me));
-router.put('/:id', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.edit);
+router.put('/:id', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, asyncMiddleware(controller.edit));
 router.put('/:id/password', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, controller.changePassword);
 router.put('/:id/requestAccess', auth.isApiAuthenticated, bodyParser.json(), controller.hasEditPermisssion, asyncMiddleware(controller.requestAccess));
 router.param('id', controller.loadUser);

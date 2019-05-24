@@ -30,6 +30,7 @@ import sparkline from 'jquery-sparkline/jquery.sparkline.js';
 
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
+import 'hammerjs';
 import MapBoxGL from 'mapbox-gl';
 
 import '../polyfills';
@@ -105,6 +106,7 @@ import chartComponents from '../components/chart';
 import humanizeComponents from '../components/humanize/humanize-duration.filter';
 
 import reportingUnitList from '../components/reporting-unit-list/reporting-unit-list.component';
+import toggleSwitch from '../components/toggle-switch/toggle-switch.component';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -168,6 +170,7 @@ angular.module('statEngineApp', [
   onEnterPressed,
   loadingSpinner,
   loadingOverlay,
+  toggleSwitch,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

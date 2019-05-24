@@ -6,6 +6,7 @@ public
 client/bower_components
 client/app/app.constants.js
 client/index.html
+client/app.html
 dist
 /server/config/local.env.js
 npm-debug.log

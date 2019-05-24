@@ -3,12 +3,14 @@
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
 
+
 'use strict';
 
 import uuidv4 from 'uuid/v4';
 import { seedKibanaAll, seedIndexTemplates } from '@statengine/se-fixtures';
 
 import sqldb from '../sqldb';
+import { TimeUnit } from '../components/constants/time-unit';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
@@ -196,7 +198,7 @@ if(process.env.NODE_ENV === 'development') {
       extension__id: emailReportEnrichment._id,
       config_json: {
         name: 'Daily',
-        timeUnit: 'DAY',
+        timeUnit: TimeUnit.Day,
         sections: {
           showAlertSummary: {
             FireIncidentEventDurationRule30: false
@@ -260,7 +262,7 @@ if(process.env.NODE_ENV === 'development') {
       extension__id: emailReportEnrichment._id,
       config_json: {
         name: 'Weekly',
-        timeUnit: 'WEEK',
+        timeUnit: TimeUnit.Week,
         sections: {
           showAlertSummary: false,
           showBattalionSummary: true,
@@ -284,7 +286,7 @@ if(process.env.NODE_ENV === 'development') {
       extension__id: emailReportEnrichment._id,
       config_json: {
         name: 'Monthly',
-        timeUnit: 'MONTH',
+        timeUnit: TimeUnit.Month,
         sections: {
           showAlertSummary: false,
           showBattalionSummary: true,
@@ -532,7 +534,7 @@ if(process.env.NODE_ENV === 'development') {
       extension__id: emailReportEnrichment._id,
       config_json: {
         name: 'Daily',
-        timeUnit: 'DAY',
+        timeUnit: TimeUnit.Day,
         sections: {
           showAlertSummary: true,
           showBattalionSummary: true,
@@ -716,7 +718,7 @@ if(process.env.NODE_ENV === 'development') {
       extension__id: emailReportEnrichment._id,
       config_json: {
         name: 'Daily',
-        timeUnit: 'DAY',
+        timeUnit: TimeUnit.Day,
         sections: {
           showAlertSummary: false,
           showBattalionSummary: true,
