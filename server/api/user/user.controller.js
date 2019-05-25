@@ -644,7 +644,7 @@ export async function me(req, res, next) {
       model: Workspace,
       through: {},
       where: {
-        is_deleted: false
+        is_deleted: false,
       },
       required: false,
     }]
@@ -652,7 +652,7 @@ export async function me(req, res, next) {
 
   if(!user) return res.status(401).end();
 
-  let workspaces = user.Workspaces;
+  let workspaces = _.filter(user.Workspaces, uw => uw.UserWorkspace.permission !== null);
   // Globals have access to all workspaces, regardless of permissions
   if (req.user.isGlobal) {
     workspaces = await Workspace.findAll({
