@@ -1,20 +1,18 @@
 <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="site.user.home">Home</a>
-      <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
-      <a class="breadcrumb-item">{{vm.title}}</a>
-    </nav>
-  </div><!-- br-pageheader -->
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item" href="site.user.home">Home</a>
+    <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
+    <a class="breadcrumb-item">{{vm.title}}</a>
+  </nav>
 </div>
-<div class="br-pagebody">
-  <section class="container py-5">
-    <section class="row mb-12 justify-content-md-center animated fadeIn">
+<section class="container">
+  <section class="row mb-12 justify-content-md-center animated fadeIn">
+    <div class="col-md-auto align-self-center">
       <div class="col-md-auto align-self-center">
-        <div class="col-md-auto align-self-center">
-          <h1 class="text-center">{{vm.title}}</h1>
+        <h1 class="text-center my-5">{{vm.title}}</h1>
 
-          <form class="form form-wrapper" name="form" ng-submit="vm.updateWorkspace(form)" id="workspace-form" novalidate>
-
+        <div class="br-pagebody">
+          <form class="form form-wrapper my-0" name="form" ng-submit="vm.updateWorkspace(form)" id="workspace-form" novalidate>
             <div class="form-group">
               <label>Name</label>
               <input type="text" id="name" name="name" class="form-control" ng-model="vm.workspace.name" required minlength='3' maxlength='20' mongoose-error="mongoose-error"/>
@@ -25,21 +23,25 @@
               <textarea name="description" rows="4" class="form-control" ng-model="vm.workspace.description" maxlength="255" required/>
             </div>
 
-            <div class="form-group form-inline">
-              <label>Color</label>&nbsp;
-              <spectrum-colorpicker ng-model="vm.workspace.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true, hideAfterPaletteSelect:true }"></spectrum-colorpicker>
+            <div class="form-group">
+              <label>Color</label>
+              <div>
+                <spectrum-colorpicker ng-model="vm.workspace.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true, hideAfterPaletteSelect:true }"></spectrum-colorpicker>
+              </div>
             </div>
 
-            <div class="form-group form-inline" ng-if="!vm.workspace._id">
-              <label>Create Sample Dashboards?</label>&nbsp;
-              <toggle-switch
-                on="vm.seed"
-                on-change="emailForm.$setDirty()"
-                knob-class="knob-yes-no"
-              ></toggle-switch>
+            <div class="form-group" ng-if="!vm.workspace._id">
+              <label>Create Sample Dashboards</label>
+              <div>
+                <toggle-switch
+                  on="vm.seed"
+                  on-change="emailForm.$setDirty()"
+                  knob-class="knob-yes-no"
+                ></toggle-switch>
+              </div>
             </div>
 
-            <div>
+            <div class="mt-5">
               <p class="help-block" ng-show="vm.errors">
                 <ul>
                   <li ng-repeat="error in vm.errors">
@@ -47,11 +49,15 @@
                   </li>
                 </ul>
               </p>
-              <button id='cancel-workspace' ui-sref="site.workspace.manage" class="btn btn-danger btn-lg hvr-float w180">Cancel</button>
-              <button id='save-workspace' class="btn btn-primary btn-lg hvr-float w180" type="submit">Save</button>
+              <div class="d-flex">
+                <button id='cancel-workspace' ui-sref="site.workspace.manage" class="btn btn-danger btn-lg flex-1">Cancel</button>
+                <div class="px-3"></div>
+                <button id='save-workspace' class="btn btn-primary btn-lg flex-1" type="submit">Create</button>
+              </div>
             </div>
           </form>
         </div>
-      </section>
-    </section>
-</div>
+      </div>
+    </div>
+  </section>
+</section>

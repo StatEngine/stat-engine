@@ -70,8 +70,8 @@ export default class WorkspaceEditController {
       }).$promise
         .then((saved) => {
           this.ModalService.custom({
-            title: 'Workspaces Saved',
-            content: 'Workspace has been saved!<br>  Would you like to manage user access now?',
+            title: 'Workspace Created',
+            content: 'Would you like to manage user access now?',
             showCloseButton: false,
             enableBackdropDismiss: false,
             buttons: [{

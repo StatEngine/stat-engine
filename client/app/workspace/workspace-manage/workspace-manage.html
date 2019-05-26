@@ -1,22 +1,24 @@
 <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="site.user.home">Home</a>
-      <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
-      <a class="breadcrumb-item"> Manage Workspaces</a>
-    </nav>
-  </div><!-- br-pageheader -->
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item" href="site.user.home">Home</a>
+    <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
+    <a class="breadcrumb-item">Manage Workspaces</a>
+  </nav>
 </div>
 <div class="workspace-manage-wrapper">
-    <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
-    <section class="workspace-manage">
-      <h3 class="mb-2">
-        Manage Workspaces
-        <button class="btn btn-primary pull-right" ui-sref="site.workspace.home">Done</button>
-        <button class="btn btn-outline-inverse-alt pull-right mr-2" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button>
-      </h3>
-      <div class="mt-5" ng-if="!vm.workspaces.length && !vm.isLoading">
-         No workspaces available!  <a ui-sref="site.workspace.edit({ id: 'new' })" href="#">Create </a> one now.
+  <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
+  <section class="workspace-manage">
+    <div class="br-pagetitle d-flex justify-content-between align-items-center flex-wrap">
+      <h2 class="my-2 mr-3">Manage Workspaces</h2>
+      <div>
+        <button class="btn btn-outline-inverse-alt mr-2" ui-sref="site.workspace.home">Back to Workspaces</button>
+        <button class="btn btn-primary" ui-sref="site.workspace.edit({ id: 'new' })">Create</button>
       </div>
+    </div>
+    <div class="br-pagebody">
+      <h6 class="tx-semibold mt-5" ng-if="!vm.workspaces.length && !vm.isLoading">
+        No workspaces available! <a ui-sref="site.workspace.edit({ id: 'new' })" href="#">Create</a> one now.
+      </h6>
       <div class="workspace-users-table mb-5" ng-if="vm.workspaces.length > 0">
         <div class="table-row header">
           <div class="cell">
@@ -49,8 +51,8 @@
               {{ owner.email }}
             </div>
           </div>
-          <div class="cell numUsers" data-title="NumOfUsers">
-              {{ workspace.users_with_access.length }}
+          <div class="cell numUsers" data-title="# Users">
+            {{ workspace.users_with_access.length }}
           </div>
           <div
             class="cell action"
@@ -74,7 +76,7 @@
                     <span>Edit Workspace</span>
                   </div>
                   <div class="nav-link" ng-click="vm.editWorkspaceUsers(workspace)">
-                    <i class="fa fa-2x fa-users"></i>
+                    <i class="fa fa-2x fa-users" style="font-size: 16px;"></i>
                     <span>Edit Access</span>
                   </div>
                   <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)" ng-if="workspace.slug !== 'default'">
@@ -87,5 +89,6 @@
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+</div>

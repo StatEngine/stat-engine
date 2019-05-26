@@ -3,19 +3,21 @@
     <a class="breadcrumb-item" href="site.user.home">Home</a>
     <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
     <a class="breadcrumb-item" ui-sref="site.workspace.edit({ id: vm.workspace._id })">{{ vm.workspace.name }}</a>
-    <a class="breadcrumb-item"> Edit Users</a>
+    <a class="breadcrumb-item">Edit Users</a>
   </nav>
-</div><!-- br-pageheader -->
 </div>
-<div class="br-pagebody">
-  <div class="workspace-users-wrapper">
-    <section class="workspace-users">
-      <h3 class="mb-2">Workspace Users
-        <button class="btn btn-primary pull-right" ui-sref="site.workspace.home">Done</button>
-        <button class="btn btn-outline-inverse-alt pull-right mr-2" ui-sref="site.workspace.manage">Back to Manage</button>
-      </h3>
-      <h4 class="mt-5 heavyheader">Ownership</h4>
-      Use the dropdown to modify user ownerships. <br>
+<div class="workspace-users-wrapper">
+  <section class="workspace-users">
+    <div class="br-pagetitle d-flex justify-content-between align-items-center flex-wrap">
+      <h2 class="my-2 mr-3">Workspace Users</h2>
+      <div>
+        <button class="btn btn-outline-inverse-alt mr-2" ui-sref="site.workspace.manage">Back to Manage</button>
+        <button class="btn btn-primary" ui-sref="site.workspace.home">Done</button>
+      </div>
+    </div>
+    <div class="br-pagebody">
+      <h4 class="heavyheader">Ownership</h4>
+      <div>Use the dropdown to modify user ownerships.</div>
       <ul class="statengine">
         <li>
           <strong class="text-success">GRANT OWNERSHIP</strong> will make the user a co-owner. This allows the user to
@@ -27,31 +29,31 @@
         </li>
       </ul>
       <h4 class="mt-5 heavyheader">Access Permission</h4>
-      Use the dropdown to modify user access permission.<br><br>
+      <div>Use the dropdown to modify user access permission.</div>
       <ul class="statengine">
         <li>
-          <strong class="text-success">GRANT READ</strong> will allow ther user read access over a workspace's saved
+          <strong class="text-success">GRANT READ</strong> will give the user read access to a workspace's saved
           objects. This allows the user to filter, and explore dashboards and visualizations. However, the user will
           <strong>NOT</strong> be able to create or modify any dashboards or visualizations in this workspace.
         </li>
         <li>
-          <strong class="text-success">GRANT WRITE</strong> will allow ther user write access over a workspace's saved
+          <strong class="text-success">GRANT WRITE</strong> will give the user write access to a workspace's saved
           objects. This allows the user to create, edit, and delete dashboards and visualizations. The user will
           <strong>NOT</strong> have some workspace adminstritator capabilities, such as changing advanced settings or
           exporting objects and reports.
         </li>
         <li>
-          <strong class="text-success">GRANT FULL</strong> will allow the user full access over a workspace's saved
+          <strong class="text-success">GRANT FULL</strong> will give the user full access to a workspace's saved
           objects. This allows the user to create, edit, and delete dashboards and visualizations. The user will also
           have workspace administrator capabilities, such as changing advanced settings or exporting objects and
           reports.
         </li>
         <li>
-          <strong class="text-danger">REVOKE ACCESS</strong> will remove the user's access from the workspace. No saved
+          <strong class="text-danger">REVOKE ACCESS</strong> will remove the user's access to the workspace. No saved
           objects will be deleted.
         </li>
       </ul>
-      <div class="workspace-users-table mb-5">
+      <div class="workspace-users-table">
         <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
         <div class="table-row header">
           <div class="cell">
@@ -75,59 +77,64 @@
           <div class="cell email" data-title="Email" ng-attr-title="{{ user.email }}">
             {{ user.email }}
           </div>
-          <div class="cell owner action" data-title="Owner">
-            <span class="badge badge-success" ng-if="user.UserWorkspace.is_owner">YES</span>
-            <span class="badge badge-danger" ng-if="!user.UserWorkspace.is_owner">NO</span>
-            <div class="dropdown d-inline-block" ng-show="user._id !== vm.currentPrincipal._id">
-              <div class="dropdown-button" data-toggle="dropdown">
-                <i class="fa fa-angle-down"></i>
-              </div>
-              <div class="dropdown-menu">
-                <nav class="nav nav-style-2 flex-column">
-                  <div class="nav-link" ng-click="vm.grantOwnership(user)">
-                    <i class="fa fa-2x fa-check-circle"></i>
-                    <span class="text-success">GRANT OWNERSHIP</span>
-                  </div>
-                  <div class="nav-link" ng-click="vm.revokeOwnership(user)">
-                    <i class="fa fa-2x fa-times-circle"></i>
-                    <span class="text-danger">REVOKE OWNERSHIP</span>
-                  </div>
-                </nav>
+          <div class="cell owner" data-title="Owner">
+            <div class="d-flex align-items-center">
+              <span class="badge badge-success" ng-if="user.UserWorkspace.is_owner">Yes</span>
+              <span class="badge badge-danger" ng-if="!user.UserWorkspace.is_owner">No</span>
+              <div class="dropdown d-inline-block ml-2" ng-show="user._id !== vm.currentPrincipal._id">
+                <div class="dropdown-button" data-toggle="dropdown">
+                  <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="dropdown-menu">
+                  <nav class="nav nav-style-2 flex-column">
+                    <div class="nav-link" ng-if="!user.UserWorkspace.is_owner" ng-click="vm.grantOwnership(user)">
+                      <i class="fa fa-2x fa-check-circle"></i>
+                      <span>Grant Ownership</span>
+                    </div>
+                    <div class="nav-link" ng-if="user.UserWorkspace.is_owner" ng-click="vm.revokeOwnership(user)">
+                      <i class="fa fa-2x fa-times-circle"></i>
+                      <span>Revoke Ownership</span>
+                    </div>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
-          <div class="cell owner action" data-title="Access Permission">
-            <span class="badge badge-success" ng-if="user.UserWorkspace.permission === 'admin'">full</span>
-            <span class="badge badge-primary" ng-if="user.UserWorkspace.permission === 'rw'">write</span>
-            <span class="badge badge-secondary" ng-if="user.UserWorkspace.permission === 'ro'">read</span>
-            <span class="badge badge-danger" ng-if="!user.UserWorkspace.permission">NONE</span>
-            <div class="dropdown d-inline-block">
-              <div class="dropdown-button" data-toggle="dropdown">
-                <i class="fa fa-angle-down"></i>
-              </div>
-              <div class="dropdown-menu">
-                <nav class="nav nav-style-2 flex-column">
-                  <div class="nav-link" ng-click="vm.grantPermission(user, 'ro')">
-                    <i class="fa fa-2x fa-check-circle"></i>
-                    <span">GRANT READ</span>
-                  </div>
-                  <div class="nav-link" ng-click="vm.grantPermission(user, 'rw')">
-                    <i class="fa fa-2x fa-check-circle"></i>
-                    <span>GRANT WRITE</span>
-                  </div>
-                  <div class="nav-link" ng-click="vm.grantPermission(user, 'admin')">
-                    <i class="fa fa-2x fa-check-circle"></i>
-                    <span>GRANT FULL</span>
-                  </div>
-                  <div class="nav-link" ng-click="vm.revokePermission(user)">
-                    <i class="fa fa-2x fa-times-circle"></i>
-                    <span>REVOKE ACCESS</span>
-                  </div>
-                </nav>
+          <div class="cell access-permission" data-title="Access Permission">
+            <div class="d-flex align-items-center">
+              <span class="badge badge-secondary" ng-if="user.UserWorkspace.permission === 'ro'">Read</span>
+              <span class="badge badge-primary" ng-if="user.UserWorkspace.permission === 'rw'">Write</span>
+              <span class="badge badge-success" ng-if="user.UserWorkspace.permission === 'admin'">Full</span>
+              <span class="badge badge-danger" ng-if="!user.UserWorkspace.permission">None</span>
+              <div class="dropdown d-inline-block ml-2">
+                <div class="dropdown-button" data-toggle="dropdown">
+                  <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="dropdown-menu">
+                  <nav class="nav nav-style-2 flex-column">
+                    <div class="nav-link" ng-if="user.UserWorkspace.permission !== 'ro'" ng-click="vm.grantPermission(user, 'ro')">
+                      <i class="fa fa-2x fa-check-circle"></i>
+                      <span>Grant Read</span>
+                    </div>
+                    <div class="nav-link" ng-if="user.UserWorkspace.permission !== 'rw'" ng-click="vm.grantPermission(user, 'rw')">
+                      <i class="fa fa-2x fa-check-circle"></i>
+                      <span>Grant Write</span>
+                    </div>
+                    <div class="nav-link" ng-if="user.UserWorkspace.permission !== 'admin'" ng-click="vm.grantPermission(user, 'admin')">
+                      <i class="fa fa-2x fa-check-circle"></i>
+                      <span>Grant Full</span>
+                    </div>
+                    <div class="nav-link" ng-if="user.UserWorkspace.permission" ng-click="vm.revokePermission(user)">
+                      <i class="fa fa-2x fa-times-circle"></i>
+                      <span>Revoke Access</span>
+                    </div>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+</div>
