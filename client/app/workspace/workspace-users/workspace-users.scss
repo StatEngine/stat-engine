@@ -23,20 +23,12 @@
   .workspace-users {
     @extend .container-fluid;
 
-    padding-top: 2.5rem;
     max-width: 1230px;
 
-    @media screen and (max-width: 1300px) {
-      max-width: 580px;
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding-top: 1.5rem;
-    }
-
     .workspace-users-table {
-      @include table(1300px);
-      @extend .my-4;
+      $workspace-users-table-width: 1300px;
+      @include table($workspace-users-table-width);
+      @extend .my-5;
 
       .cell {
         vertical-align: middle;
@@ -55,22 +47,13 @@
           white-space: nowrap;
         }
 
-        &.permission {
-          font-size: 14px;
-          text-transform: uppercase;
-        }
-
-        &.owner {
-          font-size: 14px;
-          text-transform: uppercase;
-        }
-
-        &.action {
+        &.owner,
+        &.access-permission {
           .dropdown {
             display: inline-block;
             margin-left: 8px;
 
-            @media screen and (max-width: 1200px) {
+            @media screen and (max-width: $workspace-users-table-width) {
               margin-left: 0;
             }
 
@@ -100,7 +83,7 @@
               transform: unset !important;
               padding: 0 !important;
 
-              @media screen and (max-width: 1200px) {
+              @media screen and (max-width: $workspace-users-table-width) {
                 @include dropdown-menu-animation(top left);
                 left: 0 !important;
                 right: auto !important;
@@ -122,7 +105,7 @@
           }
 
           &.current-user {
-            @media screen and (max-width: 1200px) {
+            @media screen and (max-width: $workspace-users-table-width) {
               display: none;
             }
 

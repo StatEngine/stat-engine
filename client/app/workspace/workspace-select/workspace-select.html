@@ -1,58 +1,55 @@
 <div class="br-pageheader">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="site.user.home">Home</a>
-      <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
-    </nav>
-  </div><!-- br-pageheader -->
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item" href="site.user.home">Home</a>
+    <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
+  </nav>
 </div>
-<div class="br-pagebody p-0 m-0">
-    <div class="workspace-select">
-      <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
-      <section class="masthead-wrapper">
-        <div class="px-4 py-5">
-          <div class="row justify-content-center">
-            <div class="col-lg-12 masthead-content">
-              <h1 class="text-white extraheavyheader">Workspaces</h1>
-              <p class="text-white">
-                With workspaces, you can organize your dashboards, visualizations, and other saved objects into meaningful categories such as Operations, Accreditation, Battalion, or Station Dashboards.
-                Once inside a workspace, you will only have access to the dashboards and visualizations that have been created in that workspace.
-                When creating a workspace, you can grant other users read/write access, or keep the workspace only visible to yourself.
-                <br>
-                <br>
-              </p>
-            </div>
-          </div>
+<div class="workspace-select">
+  <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
+  <section class="masthead-wrapper">
+    <div class="px-4 py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 masthead-content">
+          <h1 class="text-white extraheavyheader">Workspaces</h1>
+          <p class="text-white mb-3">
+            With workspaces, you can organize your dashboards, visualizations, and other saved objects into meaningful categories such as Operations, Accreditation, Battalion, or Station Dashboards.
+            Once inside a workspace, you will only have access to the dashboards and visualizations that have been created in that workspace.
+            When creating a workspace, you can grant other users read/write access, or keep the workspace only visible to yourself.
+          </p>
         </div>
-      </section>
-      <section class="container-fluid p-3 p-md-5 mx-wd-1350">
-        <section class="row justify-content-center">
-          <div class="workspaces-content col-md-8">
-            <section class="workspaces">
-              <h2>Your workspaces<button class="btn btn-outline-inverse-alt pull-right" ui-sref="site.workspace.manage"> Manage Workspaces</button><h2></h2>
-              <br>
-              <strong class="text-primary">For existing customers, your dashboards and permissions have been migrated to the default workspace.</strong><br>
-              <strong>Click any workspace to enter the workspace</strong><br>
-              <br>
-              <br>
-              <div class="row align-items-center">
-                <div ng-repeat="workspace in vm.workspaces | filter:query as filtered" class="col">
-                  <a ng-click="vm.select(workspace)" href="#" class="card hvr-float">
-                    <button ng-style="{'background-color': workspace.color }" type="button" class="btn"></button>
-                    <h5 class="heavyheader text-truncate">{{workspace.name}}
-                      <span ng-if="workspace.permission === 'ro' || workspace.permission === 'ro_strict'" class="badge badge-secondary">Read Only Access</span>
-                      <span ng-if="workspace.permission === 'rw'" class="badge badge-primary">Write Access</span>
-                      <span ng-if="workspace.permission === 'admin'" class="badge badge-success">Full Access</span>
-                    </h5>
-                    <p>{{workspace.description}}</p>
-                  </a>
-                </div>
-                <div ng-if="filtered.length == 0" class="col">
-                  <p class="text-danger">No workspaces available </p>
-                </div>
-              </div>
-            </section>
-          </div>
-        </section>
-      </section>
+      </div>
     </div>
-  </div>
+  </section>
+  <section class="workspaces-content">
+    <div class="br-pagetitle">
+      <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+        <h2 class="mb-0 mr-3">My Workspaces</h2>
+        <button class="btn btn-primary" ui-sref="site.workspace.manage">Manage</button>
+      </div>
+      <div>
+        <i class="fa fa-info-circle mr-2"></i>
+        Existing customer dashboards and permissions have been migrated to the default workspace.
+      </div>
+    </div>
+    <div class="br-pagebody">
+      <div class="row align-items-center">
+        <div ng-repeat="workspace in vm.workspaces | filter:query as filtered" class="col">
+          <a ng-click="vm.select(workspace)" href="#" class="workspace-card hvr-float shadow-sm">
+            <button ng-style="{'background-color': workspace.color }" type="button" class="btn"></button>
+            <h5 class="heavyheader text-truncate">{{workspace.name}}
+              <span ng-if="workspace.permission === 'ro' || workspace.permission === 'ro_strict'" class="badge badge-secondary">Read Only Access</span>
+              <span ng-if="workspace.permission === 'rw'" class="badge badge-primary">Write Access</span>
+              <span ng-if="workspace.permission === 'admin'" class="badge badge-success">Full Access</span>
+            </h5>
+            <p>{{workspace.description}}</p>
+          </a>
+        </div>
+        <div ng-if="filtered.length == 0" class="col">
+          <h6 class="tx-semibold">
+            No workspaces available! <a ui-sref="site.workspace.edit({ id: 'new' })" href="#">Create</a> one now.
+          </h6>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
