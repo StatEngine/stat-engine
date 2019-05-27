@@ -36,15 +36,7 @@
         </li>
         <li>
           <strong class="text-success">GRANT WRITE</strong> will allow ther user write access over a workspace's saved
-          objects. This allows the user to create, edit, and delete dashboards and visualizations. The user will
-          <strong>NOT</strong> have some workspace adminstritator capabilities, such as changing advanced settings or
-          exporting objects and reports.
-        </li>
-        <li>
-          <strong class="text-success">GRANT FULL</strong> will allow the user full access over a workspace's saved
-          objects. This allows the user to create, edit, and delete dashboards and visualizations. The user will also
-          have workspace administrator capabilities, such as changing advanced settings or exporting objects and
-          reports.
+          objects. This allows the user to create, edit, and delete dashboards and visualizations.
         </li>
         <li>
           <strong class="text-danger">REVOKE ACCESS</strong> will remove the user's access from the workspace. No saved
@@ -97,9 +89,8 @@
             </div>
           </div>
           <div class="cell owner action" data-title="Access Permission">
-            <span class="badge badge-success" ng-if="user.UserWorkspace.permission === 'admin'">full</span>
-            <span class="badge badge-primary" ng-if="user.UserWorkspace.permission === 'rw'">write</span>
-            <span class="badge badge-secondary" ng-if="user.UserWorkspace.permission === 'ro'">read</span>
+            <span class="badge badge-success" ng-if="user.UserWorkspace.permission === 'admin'">write</span>
+            <span class="badge badge-secondary" ng-if="user.UserWorkspace.permission === 'ro_strict'">read</span>
             <span class="badge badge-danger" ng-if="!user.UserWorkspace.permission">NONE</span>
             <div class="dropdown d-inline-block">
               <div class="dropdown-button" data-toggle="dropdown">
@@ -107,17 +98,13 @@
               </div>
               <div class="dropdown-menu">
                 <nav class="nav nav-style-2 flex-column">
-                  <div class="nav-link" ng-click="vm.grantPermission(user, 'ro')">
+                  <div class="nav-link" ng-click="vm.grantPermission(user, 'ro_strict')">
                     <i class="fa fa-2x fa-check-circle"></i>
                     <span">GRANT READ</span>
                   </div>
-                  <div class="nav-link" ng-click="vm.grantPermission(user, 'rw')">
-                    <i class="fa fa-2x fa-check-circle"></i>
-                    <span>GRANT WRITE</span>
-                  </div>
                   <div class="nav-link" ng-click="vm.grantPermission(user, 'admin')">
                     <i class="fa fa-2x fa-check-circle"></i>
-                    <span>GRANT FULL</span>
+                    <span>GRANT WRITE</span>
                   </div>
                   <div class="nav-link" ng-click="vm.revokePermission(user)">
                     <i class="fa fa-2x fa-times-circle"></i>

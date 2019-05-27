@@ -423,7 +423,7 @@ export async function approveAccess(req, res) {
         return UserWorkspace.create({
           user__id: user._id,
           workspace__id: workspace._id,
-          permission: 'ro',
+          permission: 'ro_strict',
           is_owner: false,
         });
       }
