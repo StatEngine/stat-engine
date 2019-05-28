@@ -122,8 +122,6 @@ export default class IncidentAnalysisController {
   }
 
   initTippy() {
-    console.dir(tippy);
-
     tippy('.tippy', {
       allowTitleHTML: true,
       interactive: true,

@@ -24,7 +24,7 @@
     <div class="br-pagetitle">
       <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
         <h2 class="mb-0 mr-3">My Workspaces</h2>
-        <button class="btn btn-primary" ui-sref="site.workspace.manage">Manage</button>
+        <button class="btn btn-primary" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button>
       </div>
       <div>
         <i class="fa fa-info-circle mr-2"></i>
@@ -34,15 +34,15 @@
     <div class="br-pagebody">
       <div class="row align-items-center">
         <div ng-repeat="workspace in vm.workspaces | filter:query as filtered" class="col">
-          <a ng-click="vm.select(workspace)" href="#" class="workspace-card hvr-float shadow-sm">
+          <div ng-click="vm.select(workspace)" href="#" class="workspace-card hvr-float shadow-sm">
             <button ng-style="{'background-color': workspace.color }" type="button" class="btn"></button>
-            <h5 class="heavyheader text-truncate">{{workspace.name}}
-              <span ng-if="workspace.permission === 'ro' || workspace.permission === 'ro_strict'" class="badge badge-secondary">Read Only Access</span>
-              <span ng-if="workspace.permission === 'rw'" class="badge badge-primary">Write Access</span>
-              <span ng-if="workspace.permission === 'admin'" class="badge badge-success">Full Access</span>
-            </h5>
+            <h5 class="heavyheader text-truncate">{{workspace.name}}</h5>
             <p>{{workspace.description}}</p>
-          </a>
+          </div>
+          <div ng-if="workspace.UserWorkspace.is_owner">
+              <a ng-click="vm.editWorkspace(workspace)" href="#">Edit</a>
+              <a ng-click="vm.deleteWorkspace(workspace)" href="#">Delete</a>
+          </div>
         </div>
         <div ng-if="filtered.length == 0" class="col">
           <h6 class="tx-semibold">

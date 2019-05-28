@@ -251,7 +251,7 @@ if(process.env.NODE_ENV === 'development') {
           user__id: r._id,
           workspace__id: ricmondWkspace._id,
           is_owner: false,
-          permission: 'ro',
+          permission: 'ro_strict',
         })
       })
     })
@@ -431,7 +431,7 @@ if(process.env.NODE_ENV === 'development') {
           user__id: r._id,
           workspace__id: miamiWkspace._id,
           is_owner: false,
-          permission: 'ro',
+          permission: 'ro_strict',
         })
       })
     })

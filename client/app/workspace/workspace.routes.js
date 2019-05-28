@@ -25,24 +25,6 @@ export default function routes($stateProvider) {
         },
       }
     })
-    .state('site.workspace.manage', {
-      url: '/workspaces/manage',
-      views: {
-        'content@': {
-          template: require('./workspace-manage/workspace-manage.html'),
-          controller: 'WorkspaceManageController',
-          controllerAs: 'vm'
-        }
-      },
-      data: {
-        roles: ['dashboard_user','department_admin']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity(true);
-        },
-      },
-    })
     .state('site.workspace.edit', {
       url: '/workspaces/:id',
       views: {
@@ -59,24 +41,6 @@ export default function routes($stateProvider) {
         currentWorkspace(Workspace, $stateParams) {
           if($stateParams.id === 'new') return;
            return Workspace.get({ id: $stateParams.id }).$promise;
-        },
-      },
-    })
-    .state('site.workspace.edit.users', {
-      url: '/users',
-      views: {
-        'content@': {
-          template: require('./workspace-users/workspace-users.html'),
-          controller: 'WorkspaceUsersController',
-          controllerAs: 'vm'
-        }
-      },
-      data: {
-        roles: ['dashboard_user','department_admin']
-      },
-      resolve: {
-        currentPrincipal(Principal) {
-          return Principal.identity(true);
         },
       },
     })

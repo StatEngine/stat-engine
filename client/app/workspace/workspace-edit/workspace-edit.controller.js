@@ -5,7 +5,7 @@ import angular from 'angular';
 import parsleyjs from 'parsleyjs';
 
 let _;
-
+let tippy;
 export default class WorkspaceEditController {
   workspace = {};
   errors = {
@@ -15,8 +15,9 @@ export default class WorkspaceEditController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Workspace, Modal, currentWorkspace, $state, AmplitudeService, AnalyticEventNames) {
+  constructor(Workspace, Modal, currentWorkspace, $state, AmplitudeService, AnalyticEventNames, User) {
     this.WorkspaceService = Workspace;
+    this.UserService = User;
     this.ModalService = Modal;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
@@ -32,9 +33,51 @@ export default class WorkspaceEditController {
     this.AnalyticEventNames = AnalyticEventNames;
   }
 
+   async loadModules() {
+    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+    tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
+    tippy = tippy.default;
+  }
+
   async $onInit() {
+    await this.loadModules();
     this.form = $('#workspace-form').parsley();
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
+    await this.refresh();
+    this.initTippy();
+  }
+
+  async refresh() {
+    this.isLoading = true;
+    const departmentUsers = await this.UserService.query().$promise;
+    let workspaceUsers = [];
+    if(this.workspace._id) {
+      workspaceUsers = _.filter(this.workspace.Users, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
+    }
+    const users = _.filter(departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
+    this.users = _.values(_.merge(
+      _.keyBy(users, 'username'),
+      _.keyBy(this.workspace.Users, 'username')
+    ));
+    this.isLoading = false;
+  }
+
+  initTippy() {
+    console.dir(tippy);
+
+    tippy('.tippy', {
+      allowTitleHTML: true,
+      interactive: true,
+      delay: 150,
+      arrow: true,
+      arrowType: 'sharp',
+      theme: 'statengine',
+      duration: 250,
+      animation: 'shift-away',
+      maxWidth: '750px',
+      inertia: false,
+      touch: true,
+    });
   }
 
   updateWorkspace(form) {
