@@ -113,6 +113,7 @@ export async function sendTimeRangeAnalysis(req, res) {
         isExternal: true,
         _id: u.email,
         email: u.email,
+        isSubscribedToEmail: () => true,
       };
     });
   }
@@ -121,6 +122,7 @@ export async function sendTimeRangeAnalysis(req, res) {
 
   // Remove unsubscribed users from the email list.
   toUsers = toUsers.filter(user => user.isSubscribedToEmail(reportOptions.name));
+
 
   if(_.isEmpty(toUsers)) {
     return res.status(200).send();
