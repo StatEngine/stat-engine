@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { Promise } from 'bluebird';
 import { sequelize, Workspace, FireDepartment, UserWorkspace, User} from '../../sqldb';
 
-
 import {
   seedKibanaTemplate,
   seedKibanaConfig,
@@ -39,16 +38,38 @@ export async function loadFixtures(req, res) {
 }
 
 export async function create(req, res, next) {
-  const workspace = Workspace.build(req.body);
+  const workspace = Workspace.build({
+    name: req.body.name,
+    description: req.body.description,
+    color: req.body.color,
+  });
 
   // force this all so user cannot overwrite in request
   workspace.setDataValue('fire_department__id', req.user.FireDepartment._id);
   let wkspace;
   await sequelize.transaction(t =>
-    // chain all your queries here. make sure you return them.
     workspace.save({transaction: t}).then(saved => {
       wkspace = saved;
-      return saved.addUser(req.user, { transaction: t, is_owner: true, permission: 'admin' });
+      // make the user an owner
+      let permissionPromises = [UserWorkspace.create({
+        user__id: req.user._id,
+        workspace__id: saved._id,
+        permission: 'admin',
+        is_owner: true,
+      }, { transaction: t })];
+
+      // update any other user permissions
+      req.body.users.forEach(u => {
+        if (u._id !== req.user._id && (u.is_owner || u.permission)) {
+          permissionPromises.push(UserWorkspace.create({
+            user__id: u._id,
+            workspace__id: saved._id,
+            permission: u.permission,
+            is_owner: u.is_owner,
+          }, { transaction: t }));
+        }
+      });
+      return Promise.all(permissionPromises);
     })
   ).then(() => {
     req.wkspace = wkspace;
@@ -57,21 +78,72 @@ export async function create(req, res, next) {
 }
 
 export async function edit(req, res) {
-  return await Workspace.update({
-    name: req.body.name,
-    description: req.body.description,
-    color: req.body.color,
-  }, {
-    where: {
-      _id: req.params.id
-    },
-    returning: true,
-  }).then(result => {
-    res.json(result[1][0]);
+  await sequelize.transaction(t => {
+    const calls = [];
+    calls.push(Workspace.update({
+      name: req.body.name,
+      description: req.body.description,
+      color: req.body.color,
+    }, {
+      where: {
+        _id: req.params.id
+      },
+      transaction: t
+    }));
+
+    // update permissions
+    req.body.users.forEach(u => {
+      calls.push(UserWorkspace
+        .findOne({
+          where: {
+            workspace__id: req.params.id,
+            user__id: u._id,
+          }
+        }, {
+          transaction: t
+        })
+        .then(userWorkspace => {
+          if(userWorkspace) {
+            return userWorkspace.update({
+              permission: u.permission,
+              is_owner: u.is_owner,
+            }, { transaction: t });
+          } else {
+            return UserWorkspace.create({
+              user__id: u._id,
+              workspace__id: req.params.id,
+              permission: u.permission,
+              is_owner: u.is_owner,
+            }, { transaction: t });
+          }
+        }));
+    });
+
+    return Promise.all(calls);
   });
+  res.status(204).send();
 }
 
 export async function get(req, res) {
+  let workspace = req.workspace.get();
+
+  // cleanup api call
+  let users = workspace.Users;
+  delete workspace.FireDepartment;
+  delete workspace.Users;
+  workspace.users = [];
+
+  users.forEach((u) => {
+    if (!u.isAdmin && !u.isGlobal && u.isDashboardUser)
+    workspace.users.push({
+      _id: u._id,
+      email: u.email,
+      username: u.username,
+      is_owner: _.get(u, 'UserWorkspace.is_owner') || false,
+      permission: _.get(u, 'UserWorkspace.permission') || null,
+    })
+  })
+
   res.json(req.workspace);
 }
 

@@ -38,9 +38,8 @@ export default function routes($stateProvider) {
         roles: ['dashboard_user','department_admin']
       },
       resolve: {
-        currentWorkspace(Workspace, $stateParams) {
-          if($stateParams.id === 'new') return;
-           return Workspace.get({ id: $stateParams.id }).$promise;
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
         },
       },
     })
