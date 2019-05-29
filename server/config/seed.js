@@ -192,6 +192,9 @@ if(process.env.NODE_ENV === 'development') {
         showDistances: true,
         showTransports: false,
         logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+        to: [{
+          email: 'mailinglist@test.com'
+        }],
         schedulerOptions: {
           later: {
             text: 'every 5 seconds'
