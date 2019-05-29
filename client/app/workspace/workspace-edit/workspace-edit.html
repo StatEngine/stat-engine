@@ -193,7 +193,7 @@
                       </div>
                     </div>
                     <div class="mt-5">
-                      <p class="help-block" ng-show="vm.errors">
+                      <p class="help-block" ng-show="vm.showErrors && !workspaceForm.$dirty">
                         <ul>
                           <li ng-repeat="error in vm.errors">
                             <p class="text-danger">{{ error.message }}</p>
@@ -204,6 +204,9 @@
                   </div>
                 </div>
                 <div class="form-layout-footer d-flex align-items-center">
+                  <button id='back_workspace_btn' ui-sref="site.workspace.home" class="btn btn-default mr-2">
+                    Back
+                  </button>
                   <button id='save_workspace_btn' type="submit" class="btn btn-info" ng-disabled="vm.saveDisabled()">
                     Save
                   </button>

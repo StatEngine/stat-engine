@@ -43,7 +43,7 @@ export default function(sequelize, DataTypes) {
 
     indexes: [{
       unique: true,
-      fields: ['name', 'fire_department__id']
+      fields: ['slug', 'fire_department__id']
     }],
 
     hooks: {

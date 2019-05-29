@@ -28,6 +28,7 @@ export default class WorkspaceEditController {
                     ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
 
     this.inputWorkspace = {
+      _id: this.$stateParams.id === 'new' ? undefined : this.$stateParams.id,
       color: this.palette[0][0],
     };
   }
@@ -51,8 +52,8 @@ export default class WorkspaceEditController {
 
     this.origWorkspace = {};
 
-    if(this.$stateParams.id !== 'new') {
-      this.origWorkspace = await this.WorkspaceService.get({ id: this.$stateParams.id }).$promise;
+    if(this.inputWorkspace._id) {
+      this.origWorkspace = await this.WorkspaceService.get({ id: this.inputWorkspace._id }).$promise;
       this.inputWorkspace = _.cloneDeep(this.origWorkspace);
     }
     const departmentUsers = await this.UserService.query().$promise;
@@ -168,6 +169,7 @@ export default class WorkspaceEditController {
       }
 
       this.isSaving = true;
+      this.errors = {};
       await fnc(params, {
         id: this.inputWorkspace._id,
         name: this.inputWorkspace.name,
@@ -176,8 +178,9 @@ export default class WorkspaceEditController {
         users: this.inputUsers,
       }).$promise
         .then((saved) => {
-          this.refresh();
+          if (saved._id) this.inputWorkspace._id = saved._id;
           this.showSaved = true;
+          this.refresh();
         })
         .catch(err => {
           err = err.data;
@@ -189,12 +192,11 @@ export default class WorkspaceEditController {
               message: 'This name is already in use! Please choose another.'
             }]
           }
+          this.showErrors = true;
         })
         .finally(() => {
           this.isSaving = false;
         })
-        this.hasUserChanges = false;
-
         form.$setPristine(true);
     }
   }
