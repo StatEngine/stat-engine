@@ -26,22 +26,39 @@
         <h2 class="mb-0 mr-3">My Workspaces</h2>
         <button class="btn btn-primary" ui-sref="site.workspace.edit({ id: 'new' })">Create New</button>
       </div>
-      <div>
-        <i class="fa fa-info-circle mr-2"></i>
+      <div class="d-flex align-items-center">
+        <i class="se-icon-info mr-2"></i>
         Existing customer dashboards and permissions have been migrated to the default workspace.
       </div>
     </div>
     <div class="br-pagebody">
       <div class="row align-items-center">
         <div ng-repeat="workspace in vm.workspaces | filter:query as filtered" class="col">
-          <div ng-click="vm.select(workspace)" href="#" class="workspace-card hvr-float shadow-sm">
-            <button ng-style="{'background-color': workspace.color }" type="button" class="btn"></button>
+          <div ng-click="vm.select($event, workspace)" href="#" class="workspace-card shadow-sm">
+            <div class="dropdown" ng-if="workspace.UserWorkspace.is_owner">
+              <div
+                class="dropdown-button icon-btn icon-btn-primary"
+                data-toggle="dropdown"
+                ng-click="vm.dropdownClick($event)"
+              >
+                <i class="fa fa-angle-down"></i>
+              </div>
+              <div class="dropdown-menu dropdown-menu-right" ng-click="vm.dropdownClick($event)">
+                <nav class="nav nav-style-2 flex-column">
+                  <div class="nav-link" ng-click="vm.editWorkspace(workspace)">
+                    <i class="fa fa-2x fa-edit"></i>
+                    <span>Edit</span>
+                  </div>
+                  <div class="nav-link" ng-click="vm.deleteWorkspace(workspace)">
+                    <i class="fa fa-2x fa-times-circle"></i>
+                    <span>Delete</span>
+                  </div>
+                </nav>
+              </div>
+            </div>
+            <div class="workspace-color" ng-style="{'background-color': workspace.color }"></div>
             <h5 class="heavyheader text-truncate">{{workspace.name}}</h5>
             <p>{{workspace.description}}</p>
-          </div>
-          <div ng-if="workspace.UserWorkspace.is_owner">
-              <a ng-click="vm.editWorkspace(workspace)" href="#">Edit</a>
-              <a ng-click="vm.deleteWorkspace(workspace)" href="#">Delete</a>
           </div>
         </div>
         <div ng-if="filtered.length == 0" class="col">

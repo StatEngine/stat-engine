@@ -16,6 +16,10 @@ export default class WorkspaceSelectController {
     this.refresh();
   }
 
+  $onInit() {
+    $('.dropdown-button').dropdown();
+  }
+
   refresh() {
     this.isLoading = true;
     this.UserService.get().$promise.then(user => {
@@ -24,12 +28,23 @@ export default class WorkspaceSelectController {
     });
   }
 
-  select(workspace) {
+  select(e, workspace) {
+    // HACK: Ignore events that occurred in the dropdown.
+    if(e.originalEvent.dropdownClick) {
+      return;
+    }
+
     this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
       app: 'WORKSPACE',
       workspace: workspace.name
     });
     this.$window.location.href = `/workspaces/${workspace._id}/dashboard`;
+  }
+
+  dropdownClick(e) {
+    // HACK: For some reason e.stopPropagation() makes Bootstrap dropdowns act glitchy,
+    // so we have to use this silly workaround to manually prevent propagation.
+    e.originalEvent.dropdownClick = true;
   }
 
   editWorkspace(workspace) {

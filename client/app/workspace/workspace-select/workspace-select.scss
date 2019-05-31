@@ -36,6 +36,7 @@
       height: 100px;
       color: inherit;
       padding: 1rem 1rem 1rem 7rem;
+      cursor: pointer;
 
       @include media-breakpoint-down(lg) {
         max-width: 100%;
@@ -45,16 +46,14 @@
       &:hover, &:active, &:focus {
         text-decoration: none;
       }
-      &:hover {
-        transform: translateY(-5px);
-      }
-      button {
+      .workspace-color {
         position: absolute;
         left: 1rem;
         top: .8rem;
         width: 4.5rem;
         max-height: 4.5rem;
         height: 4.5rem;
+        border-radius: 0.25rem;
       }
       h5 {
         font-size: 15px;
@@ -71,6 +70,18 @@
         display: -webkit-box;
         -webkit-line-clamp: 3;
         overflow: hidden;
+      }
+      .dropdown {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        .dropdown-button {
+          border-top: none;
+          border-right: none;
+          border-top-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
       }
     }
 

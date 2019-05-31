@@ -5,17 +5,14 @@ import angular from 'angular';
 import parsleyjs from 'parsleyjs';
 
 let _;
-let tippy;
 export default class WorkspaceEditController {
   workspace = {};
-  errors = {
-    error: undefined
-  };
+  errors = [];
   message = '';
-  submitted = false;
+  seed = true;
 
   /*@ngInject*/
-  constructor(Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal) {
+  constructor(Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal) {
     this.WorkspaceService = Workspace;
     this.UserService = User;
     this.$state = $state;
@@ -23,6 +20,7 @@ export default class WorkspaceEditController {
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
     this.currentPrincipal = currentPrincipal;
+    this.Modal = Modal;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
                     ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
@@ -33,18 +31,38 @@ export default class WorkspaceEditController {
     };
   }
 
-   async loadModules() {
+  async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-    tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
-    tippy = tippy.default;
   }
 
   async $onInit() {
     await this.loadModules();
     this.workspaceForm = $('#workspace-form').parsley();
-    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
     await this.refresh();
-    this.initTippy();
+  }
+
+  get pageTitle() {
+    if(!this.inputWorkspace) {
+      return undefined;
+    } else {
+      return this.inputWorkspace._id ? 'Edit Workspace' : 'New Workspace';
+    }
+  }
+
+  get saveButtonText() {
+    if(!this.inputWorkspace) {
+      return undefined;
+    } else {
+      return this.inputWorkspace._id ? 'Save' : 'Create';
+    }
+  }
+
+  get savingText() {
+    if(!this.inputWorkspace) {
+      return undefined;
+    } else {
+      return this.inputWorkspace._id ? 'Saving...' : 'Creating...';
+    }
   }
 
   async refresh() {
@@ -59,7 +77,6 @@ export default class WorkspaceEditController {
     const departmentUsers = await this.UserService.query().$promise;
 
     this.seed = this.inputWorkspace._id == undefined;
-    this.title = this.inputWorkspace._id ? 'Edit Workspace' : 'New Workspace';
 
     const users = _.filter(departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
     this.inputUsers = _.values(_.merge(
@@ -68,7 +85,7 @@ export default class WorkspaceEditController {
     ));
     const me = _.find(this.inputUsers, u => u.username === this.currentPrincipal.username);
     // default permissions
-    if (me) {
+    if(me) {
       me.is_owner = true;
       me.permission = 'admin';
     }
@@ -89,7 +106,10 @@ export default class WorkspaceEditController {
 
   async grantOwnership(form, inputUser) {
     const user = _.find(this.inputUsers, u => u._id === inputUser._id);
-    if(user) user.is_owner = true;
+    if(user) {
+      user.is_owner = true;
+      user.permission = 'admin';
+    }
     form.$setDirty(true);
   }
 
@@ -99,30 +119,21 @@ export default class WorkspaceEditController {
     form.$setDirty(true);
   }
 
-  initTippy() {
-    tippy('.tippy', {
-      allowTitleHTML: true,
-      interactive: true,
-      delay: 150,
-      arrow: true,
-      arrowType: 'sharp',
-      theme: 'statengine',
-      duration: 250,
-      animation: 'shift-away',
-      maxWidth: '750px',
-      inertia: false,
-      touch: true,
-    });
-  }
-
-
   saveDisabled() {
+    if(this.isSaving) {
+      return true;
+    }
+
     let noChanges = true;
     let noUserChanges = true;
-    if (!this.origWorkspace || !this.inputWorkspace) return true;
+    if (!this.origWorkspace || !this.inputWorkspace) {
+      return true;
+    }
     if (this.origWorkspace.name !== this.inputWorkspace.name ||
         this.origWorkspace.description !== this.inputWorkspace.description ||
-        this.origWorkspace.color !== this.inputWorkspace.color) noChanges = false;
+        this.origWorkspace.color !== this.inputWorkspace.color) {
+      noChanges = false;
+    }
 
     if (this.inputUsers) {
       this.inputUsers.forEach(u => {
@@ -145,59 +156,63 @@ export default class WorkspaceEditController {
   }
 
   async updateWorkspace(form) {
-    this.submitted = true;
+    if(!this.workspaceForm.isValid()) {
+      return;
+    }
 
-    if(this.workspaceForm.isValid()) {
-      let fnc = this.WorkspaceService.update;
+    let fnc = this.WorkspaceService.update;
 
-      let params = {
-        id: this.inputWorkspace._id
-      };
+    const params = {
+      id: this.inputWorkspace._id
+    };
 
-      if(!this.inputWorkspace._id) {
-        fnc = this.WorkspaceService.create;
-        if (this.seed) {
-          params.seedVisualizations = true;
-          params.seedDashboards = true;
-        }
-
-        this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
-          app: 'WORKSPACE',
-          action: 'create',
-          with_fixtures: this.seed,
-        });
+    if(!this.inputWorkspace._id) {
+      fnc = this.WorkspaceService.create;
+      if (this.seed) {
+        params.seedVisualizations = true;
+        params.seedDashboards = true;
       }
 
-      this.isSaving = true;
-      this.errors = {};
+      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+        app: 'WORKSPACE',
+        action: 'create',
+        with_fixtures: this.seed,
+      });
+    }
+
+    this.isSaving = true;
+    this.errors = {};
+    try {
       await fnc(params, {
         id: this.inputWorkspace._id,
         name: this.inputWorkspace.name,
         description: this.inputWorkspace.description,
         color: this.inputWorkspace.color,
         users: this.inputUsers,
-      }).$promise
-        .then((saved) => {
-          if (saved._id) this.inputWorkspace._id = saved._id;
-          this.showSaved = true;
-          this.refresh();
-        })
-        .catch(err => {
-          err = err.data;
-          this.errors = err.errors;
-          // clean up validation error
-          let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
-          if(nameError) {
-            this.errors = [{
-              message: 'This name is already in use! Please choose another.'
-            }]
-          }
-          this.showErrors = true;
-        })
-        .finally(() => {
-          this.isSaving = false;
-        })
-        form.$setPristine(true);
+      }).$promise;
+    } catch (err) {
+      err = err.data;
+      this.errors = err.errors;
+      // clean up validation error
+      let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
+      if(nameError) {
+        this.errors = [{
+          message: 'This name is already in use! Please choose another.'
+        }]
+      }
+      this.showErrors = true;
+      return;
+    } finally {
+      this.isSaving = false;
     }
+
+    this.$state.go('site.workspace.home');
+  }
+
+  showUserAccessInfo() {
+    this.Modal.alert({
+      title: 'User Access',
+      content: $('#userAccessInfo')[0].innerHTML,
+    }).present();
   }
 }

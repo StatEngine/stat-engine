@@ -96,35 +96,6 @@
                 filter: brightness(0.95);
               }
             }
-
-            .dropdown-menu {
-              @include dropdown-menu-animation(top right);
-              top: auto !important;
-              bottom: auto !important;
-              left: auto !important;
-              right: 0 !important;
-              transform: unset !important;
-              padding: 0 !important;
-
-              @media screen and (max-width: 1200px) {
-                @include dropdown-menu-animation(top left);
-                left: 0 !important;
-                right: auto !important;
-              }
-
-              .nav {
-                align-items: start;
-
-                .nav-link {
-                  width: 100%;
-                  padding: 0.75rem 1rem;
-                  white-space: nowrap;
-                  display: flex;
-                  align-items: center;
-                  cursor: pointer;
-                }
-              }
-            }
           }
 
           &.current-user {

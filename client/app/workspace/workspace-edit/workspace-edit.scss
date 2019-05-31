@@ -1,13 +1,60 @@
+.workspace-edit {
+  @extend .container-fluid;
+
+  padding-top: 15px;
+  max-width: 1230px;
+
+  .form-inputs {
+    display: grid;
+    grid-template-areas:
+      'name        color'
+      'description create-sample'
+      'users       users';
+    grid-template-columns: 50%;
+    grid-gap: 2rem;
+
+    @include media-breakpoint-down(sm) {
+      grid-template-areas:
+        'name'
+        'description'
+        'color'
+        'create-sample'
+        'users';
+      grid-template-columns: 100%;
+    }
+
+    .workspace-name {
+      grid-area: name;
+    }
+
+    .workspace-color {
+      grid-area: color;
+    }
+
+    .workspace-description {
+      grid-area: description;
+    }
+
+    .workspace-create-sample {
+      grid-area: create-sample;
+    }
+
+    .workspace-users {
+      grid-area: users;
+    }
+  }
+}
+
 .workspace-users {
   @extend .container-fluid;
 
   max-width: 1230px;
+  padding: 0;
 
   .workspace-users-table {
     $workspace-users-table-width: 1300px;
     @include table($workspace-users-table-width);
-    @extend .my-5;
-    margin-top: 1rem !important;
+    @extend .mb-5;
 
     .cell {
       vertical-align: middle;
@@ -34,52 +81,6 @@
 
           @media screen and (max-width: $workspace-users-table-width) {
             margin-left: 0;
-          }
-
-          .dropdown-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            color: $gray-800;
-            border: solid 1px $input-border-color;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            transition: filter 0.25s;
-
-            &:hover {
-              filter: brightness(0.95);
-            }
-          }
-
-          .dropdown-menu {
-            @include dropdown-menu-animation(top right);
-            top: auto !important;
-            bottom: auto !important;
-            left: auto !important;
-            right: 0 !important;
-            transform: unset !important;
-            padding: 0 !important;
-
-            @media screen and (max-width: $workspace-users-table-width) {
-              @include dropdown-menu-animation(top left);
-              left: 0 !important;
-              right: auto !important;
-            }
-
-            .nav {
-              align-items: start;
-
-              .nav-link {
-                width: 100%;
-                padding: 0.75rem 1rem;
-                white-space: nowrap;
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-              }
-            }
           }
         }
 

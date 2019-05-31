@@ -863,6 +863,23 @@ button {
   }
 }
 
+.icon-btn {
+  background: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  width: 2em;
+  height: 2em;
+}
+
+.icon-btn-primary {
+  color: $color-cerulean;
+
+  &:hover {
+    color: darken($color-cerulean, 5%);
+  }
+}
+
 // Button Sizes
 $btn-sm-font-size: 13px;
 $btn-sm-padding: 6px 12px;
@@ -1419,6 +1436,50 @@ span+.logged-name {
 
   &.show {
     animation: dropdownMenuShow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.dropdown {
+  .dropdown-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: $gray-800;
+    border: solid 1px $input-border-color;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 0.25s;
+    border-radius: 0.25rem;
+
+    &:hover {
+      background: darken(white, 5%);
+      color: darken($gray-800, 5%);
+    }
+  }
+
+  .dropdown-menu {
+    padding: 0 !important;
+    outline: none;
+
+    .nav {
+      align-items: start;
+
+      .nav-link {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &.active {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+      }
+    }
   }
 }
 
