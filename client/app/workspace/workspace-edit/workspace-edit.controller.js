@@ -197,7 +197,7 @@ export default class WorkspaceEditController {
       let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
       if(nameError) {
         this.errors = [{
-          message: 'This name is already in use! Please choose another.'
+          message: 'This name is already in use by someone in your department! Please choose another.'
         }]
       }
       this.showErrors = true;
