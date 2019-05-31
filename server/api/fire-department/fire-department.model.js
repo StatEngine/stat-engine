@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 export default function(sequelize, DataTypes) {
   const FireDepartment = sequelize.define('FireDepartments', {
 
@@ -109,6 +111,20 @@ export default function(sequelize, DataTypes) {
     underscored: true,
   });
 
+  // Create a default Workspace
+  FireDepartment.addHook('afterCreate', (fd, options) => {
+    // These operations will be part of the same transaction as the
+    // original FireDepartment.create call.
+    return FireDepartment.sequelize.models.Workspace.create({
+      name: 'Default',
+      slug: 'default',
+      description: 'Default Workspace',
+      color: '#920000',
+      fire_department__id: fd._id,
+    }, {
+      transaction: options.transaction
+    });
+  });
 
   return FireDepartment;
 }

@@ -36,29 +36,6 @@ export default class FireDepartmentController {
     ];
   }
 
-  fixtures(type) {
-    let params = {
-      id: this.fireDepartment._id,
-      resource2: type
-    };
-
-
-    this.FireDepartmentService.fixtures(params, {}).$promise
-      .then(() => {
-        this.ModalService.alert({
-          title: 'Success!',
-          content: 'Fixtures loaded!',
-        }).present();
-      })
-      .catch(err => {
-        console.error(err);
-        this.ModalService.alert({
-          title: 'Error',
-          content: `Fixtures error: ${err.message}`,
-        }).present();
-      });
-  }
-
   updateFireDepartment(form) {
     this.submitted = true;
 

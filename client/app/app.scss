@@ -40,6 +40,8 @@ $ionicons-font-path: '/assets/fonts/Ionicons/';
 @import "~mapbox-gl/dist/mapbox-gl.css";
 @import "~tippy.js/dist/tippy.css";
 @import "~vis/dist/vis.css";
+@import "~spectrum-colorpicker/spectrum.css";
+
 
 // Theme import
 @import "../themes/bracket-plus/scss/bracket";
@@ -738,6 +740,10 @@ button {
   border: none;
 }
 
+.btn-danger {
+  border: none;
+}
+
 .btn-secondary {
   background: lighten($color-pickled-bluewood, 12%);
   color: white;
@@ -857,6 +863,23 @@ button {
   }
 }
 
+.icon-btn {
+  background: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  width: 2em;
+  height: 2em;
+}
+
+.icon-btn-primary {
+  color: $color-cerulean;
+
+  &:hover {
+    color: darken($color-cerulean, 5%);
+  }
+}
+
 // Button Sizes
 $btn-sm-font-size: 13px;
 $btn-sm-padding: 6px 12px;
@@ -887,6 +910,12 @@ $btn-sm-padding: 6px 12px;
 
 .button-group button {
   margin: 10px;
+}
+
+// Badges
+.badge {
+  text-transform: uppercase;
+  font-size: 86%;
 }
 
 /////////////////////////////////
@@ -1410,6 +1439,50 @@ span+.logged-name {
   }
 }
 
+.dropdown {
+  .dropdown-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: $gray-800;
+    border: solid 1px $input-border-color;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 0.25s;
+    border-radius: 0.25rem;
+
+    &:hover {
+      background: darken(white, 5%);
+      color: darken($gray-800, 5%);
+    }
+  }
+
+  .dropdown-menu {
+    padding: 0 !important;
+    outline: none;
+
+    .nav {
+      align-items: start;
+
+      .nav-link {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &.active {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}
+
 // Cursor
 .cursor-pointer {
   cursor: pointer;
@@ -1451,7 +1524,7 @@ span+.logged-name {
 @import 'main/main';
 @import 'spade/spade';
 @import 'marketplace/marketplace';
-@import 'dashboard/dashboard';
+@import 'workspace/workspace';
 @import 'statEngine/statEngine';
 @import '../components/footer/footer';
 @import '../components/modal/modal';

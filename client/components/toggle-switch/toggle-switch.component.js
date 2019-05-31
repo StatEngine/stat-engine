@@ -10,6 +10,9 @@ export class ToggleSwitchComponent {
     if(this.on == null) {
       this.on = false;
     }
+    if(!this.knobClass) {
+      this.knobClass = 'knob-on-off';
+    }
   }
 
   handleToggleClick() {
@@ -29,6 +32,7 @@ export default angular.module('toggleSwitch', [])
     bindings: {
       on: '=?',
       onChange: '&?',
+      knobClass: '@',
     },
   })
   .name;

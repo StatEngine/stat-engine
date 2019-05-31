@@ -59,9 +59,7 @@ export function hasRole(roleRequired) {
     .use(function meetsRequirements(req, res, next) {
       if(req.user.roles.indexOf('admin') >= 0) {
         return next();
-      } else if(roleRequired === 'kibana_admin' && req.user.roles.indexOf('department_admin') >= 0) {
-        return next();
-      } else if(roleRequired === 'kibana_ro_strict' && req.user.roles.indexOf('kibana_admin') >= 0) {
+      } else if(roleRequired === 'dashboard_user' && req.user.roles.indexOf('department_admin') >= 0) {
         return next();
       } else if(roleRequired === 'user' && req.user.roles.indexOf('app') >= 0) {
         return next();
@@ -124,20 +122,6 @@ export function hasFireDepartment(req, res, next) {
     req.fireDepartment = req.user.FireDepartment;
     return next();
   }
-}
-
-/**
- * Sets kibana tenancy
- */
-export function tenancy(req, res, next) {
-  req.tenancy = req.fireDepartment.firecares_id;
-
-  // Only global users can set a tenancy for now
-  if(req.user.isGlobal && req.query.tenancy) {
-    req.tenancy = req.query.tenancy;
-  }
-
-  next();
 }
 
 /*

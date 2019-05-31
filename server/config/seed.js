@@ -19,12 +19,16 @@ const ExtensionConfiguration = sqldb.ExtensionConfiguration;
 const ExtensionRequest = sqldb.ExtensionRequest;
 const App = sqldb.App;
 const AppInstallation = sqldb.AppInstallation;
+const Workspace = sqldb.Workspace;
+const UserWorkspace = sqldb.UserWorkspace;
 
 const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
 const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
-let tucson;
+let richmondUser;
+let ricmondWkspace;
+let miamiWkspace;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
@@ -32,6 +36,8 @@ let whosOnApp;
 if(process.env.NODE_ENV === 'development') {
   Extension
     .sync()
+    .then(() => Workspace.sync())
+    .then(() => Workspace.destroy({ where: {} }))
     .then(() => AppInstallation.sync())
     .then(() => AppInstallation.destroy({ where: {} }))
     .then(() => App.sync())
@@ -132,7 +138,7 @@ if(process.env.NODE_ENV === 'development') {
       customer_id: 'FD-123',
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin,deparment_admin',
+        role: 'user,dashboard_user',
         username: 'richmond',
         first_name: 'Richmond',
         last_name: 'User',
@@ -144,7 +150,7 @@ if(process.env.NODE_ENV === 'development') {
         aws_secret_access_key: 'awsSecret',
       }, {
         provider: 'local',
-        role: 'user,kibana_ro_strict',
+        role: 'user,dashboard_user',
         username: 'richmond2',
         first_name: 'Richmond2',
         last_name: 'User',
@@ -161,6 +167,18 @@ if(process.env.NODE_ENV === 'development') {
         first_name: 'RichmondAdmin',
         last_name: 'User',
         email: 'richmondadmin@prominentedge.com',
+        password: 'password',
+        nfors: true,
+        api_key: 'richmond',
+        aws_access_key_id: 'awsKey',
+        aws_secret_access_key: 'awsSecret',
+      }, {
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'richmondAdmin2',
+        first_name: 'RichmondAdmin2',
+        last_name: 'User',
+        email: 'richmondadmin2@prominentedge.com',
         password: 'password',
         nfors: true,
         api_key: 'richmond',
@@ -206,6 +224,40 @@ if(process.env.NODE_ENV === 'development') {
       fire_department__id: richmond._id,
       app__id: whosOnApp._id,
     }))
+    .then(() => Workspace.create({
+      fire_department__id: richmond._id,
+      name: 'Richmond Ops',
+      slug: 'ops',
+      description: 'Richmond Ops Workspace',
+      color: '#d61745',
+    }))
+    .then((saved) => {
+      ricmondWkspace = saved;
+      // Assign richmond
+      return User.find({
+        where: { username: 'richmond' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: ricmondWkspace._id,
+          is_owner: true,
+          permission: 'admin',
+        })
+      })
+    })
+    .then(() => {
+      // Assign richmond2
+      return User.find({
+        where: { username: 'richmond2' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: ricmondWkspace._id,
+          is_owner: false,
+          permission: 'ro_strict',
+        })
+      })
+    })
     .then(() => ExtensionConfiguration.create({
       enabled: true,
       requested: false,
@@ -320,6 +372,72 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(() => FireDepartment.create({
+      fd_id: '01032',
+      firecares_id: '88539',
+      name: 'Miami-Dade Fire Rescue Department',
+      state: 'FL',
+      timezone: 'US/Eastern',
+      integration_complete: true,
+      latitude: 25.5516,
+      longitude: -80.6327,
+      logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/88539.jpg',
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'miami',
+        first_name: 'miami',
+        last_name: 'user',
+        email: 'miami@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+        nfors: true,
+      }, {
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'miami2',
+        first_name: 'miami2',
+        last_name: 'user',
+        email: 'miami2@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+        nfors: true,
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then((fd) => Workspace.findOne({
+      where: {
+        fire_department__id: fd._id,
+      }
+    }))
+    .then((wkspace) => {
+      miamiWkspace = wkspace;
+      // Assign richmond
+      return User.find({
+        where: { username: 'miami' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: miamiWkspace._id,
+          is_owner: true,
+          permission: 'admin',
+        })
+      })
+    })
+    .then(() => {
+      // Assign miami2
+      return User.find({
+        where: { username: 'miami2' }
+      }).then(r => {
+        UserWorkspace.create({
+          user__id: r._id,
+          workspace__id: miamiWkspace._id,
+          is_owner: false,
+          permission: 'ro_strict',
+        })
+      })
+    })
     .then(() => FireDepartment.create({
       fd_id: '29006',
       firecares_id: '85090',
@@ -447,7 +565,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin,department_admin',
+        role: 'user,dashboard_user,department_admin',
         username: 'boston',
         first_name: 'boston',
         last_name: 'User',
@@ -470,7 +588,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin,department_admin',
+        role: 'user,dashboard_user,department_admin',
         username: 'southernplatte',
         first_name: 'southernplatte',
         last_name: 'User',
@@ -493,7 +611,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,dashboard_user',
         username: 'wheaton',
         first_name: 'wheaton',
         last_name: 'User',
@@ -582,7 +700,7 @@ if(process.env.NODE_ENV === 'development') {
       integration_verified: true,
       Users: [{
         provider: 'local',
-        role: 'user,department_admin,kibana_admin',
+        role: 'user,department_admin,dashboard_user',
         username: 'rogers',
         first_name: 'dev',
         last_name: 'user',
@@ -632,7 +750,7 @@ if(process.env.NODE_ENV === 'development') {
     }))
     .then(() => User.create({
       provider: 'local',
-      role: 'user,global,kibana_admin',
+      role: 'user,global,dashboard_user',
       username: 'global',
       email: 'global@prominentedge.com',
       password: 'password',
@@ -793,7 +911,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -122.4194,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,dashboard_user',
         username: 'sfUser',
         first_name: 'Demo',
         last_name: 'User',
@@ -843,7 +961,7 @@ if(process.env.NODE_ENV === 'development') {
       longitude: -122.4194,
       Users: [{
         provider: 'local',
-        role: 'user,kibana_admin',
+        role: 'user,dashboard_user',
         username: 'sfUser',
         first_name: 'Demo',
         last_name: 'User',

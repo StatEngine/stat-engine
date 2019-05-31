@@ -8,7 +8,7 @@ import _ from 'lodash';
 import Sequelize from 'sequelize';
 
 import config from '../../config/environment';
-import { FireDepartment, User } from '../../sqldb';
+import { FireDepartment, User, UserWorkspace, Workspace } from '../../sqldb';
 
 import { validationError, handleError } from '../../util/error';
 
@@ -25,26 +25,17 @@ async function getDepartmentAdmins(departmentId) {
   });
 }
 
-/**
- * Get list of users
- * restriction: 'admin'
- */
-export function index(req, res) {
-  let where;
-  if(req.user.isAdmin) where = undefined;
-  else {
-    where = {
-      $or: [
-        {fire_department__id: req.user.fire_department__id},
-        {requested_fire_department_id: req.user.FireDepartment._id }
-      ]
-    };
-  }
+export async function getAll(req, res) {
+  let userAttributes = [
+    '_id',
+    'username',
+    'email',
+    'role',
+  ];
 
-  return User.findAll({
-    where,
-    include: [FireDepartment],
-    attributes: [
+  // Return more data for requested
+  if(req.user.isDepartmentAdmin) {
+    userAttributes = [
       '_id',
       'username',
       'first_name',
@@ -53,12 +44,49 @@ export function index(req, res) {
       'role',
       'requested_fire_department_id',
       'nfors',
-    ]
-  })
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(handleError(res));
+      'fire_department__id',
+    ];
+  }
+
+  const fd = await FireDepartment.find({
+    where: {
+      _id: req.user.FireDepartment._id
+    },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: userAttributes,
+    }]
+  });
+
+  if(!fd) return res.status(404).end();
+
+  let users = fd.Users;
+  if(req.query.includeRequested && req.user.isDepartmentAdmin) {
+    let requestedUsers = await User.findAll({
+      where: {
+        requested_fire_department_id: req.user.FireDepartment._id
+      },
+      attributes: userAttributes
+    });
+    users = users.concat(requestedUsers);
+  }
+  if(req.query.includeAll && req.user.isAdmin) {
+    let allOtherUsers = await User.findAll({
+      where: {
+        _id: {
+          $not: req.user.FireDepartment._id
+        }
+      },
+      attributes: userAttributes
+    });
+    users = users.concat(allOtherUsers);
+    users = _.uniqBy(users, '_id');
+  }
+
+  return res.json(users);
 }
 
 export function get(req, res) {
@@ -136,21 +164,18 @@ async function sendRequestDepartmentAccessEmail(user, department) {
           name: 'USER_LAST_NAME',
           content: user.last_name,
         }, {
-          name: 'APPROVE_DASHBOARD_ADMIN_URL',
-          content: `https://statengine.io/departmentAdmin?action=approve_dashboard_admin&action_username=${user.username}`,
-        }, {
-          name: 'APPROVE_DASHBOARD_READONLY_URL',
-          content: `https://statengine.io/departmentAdmin?action=approve_dashboard_readonly&action_username=${user.username}`,
+          name: 'APPROVE_ACCESS_URL',
+          content: `http://localhost:3000/departmentAdmin?action=approve_access&action_username=${user.username}`,
         }, {
           name: 'REJECT_ACCESS_URL',
-          content: `https://statengine.io/departmentAdmin?action=revoke&action_username=${user.username}`,
+          content: `http://localhost:3000/departmentAdmin?action=revoke_access&action_username=${user.username}`,
         }],
       },
     },
   });
 }
 
-async function sendAccessApprovedEmail(user, department, readonly) {
+async function sendAccessApprovedEmail(user, department) {
   if(!config.mailSettings.mandrillAPIKey) {
     return
   }
@@ -179,9 +204,6 @@ async function sendAccessApprovedEmail(user, department, readonly) {
         }, {
           name: 'USER_FIRST_NAME',
           content: user.first_name,
-        }, {
-          name: 'ACCESS_LEVEL',
-          content: (readonly) ? 'Dashboard Readonly' : 'Dashboard Admin',
         }, {
           name: 'CONTROL_CENTER_URL',
           content: 'https://statengine.io/home'
@@ -362,10 +384,7 @@ export async function revokeAccess(req, res) {
 
   user.fire_department__id = null;
   user.requested_fire_department_id = null;
-  let roles = user.role.split(',');
-  _.pull(roles, 'kibana_admin');
-  _.pull(roles, 'kibana_ro_strict');
-  user.role = roles.join(',');
+  user.role = 'user';
 
   await user.save();
   const department = await FireDepartment.find({
@@ -388,10 +407,28 @@ export async function approveAccess(req, res) {
     user.requested_fire_department_id = null;
   }
 
-  if(req.query.readonly) user.role = `${user.role},kibana_ro_strict`;
-  else user.role = `${user.role},kibana_admin`;
+  user.role = `${user.role},dashboard_user`;
 
   await user.save();
+
+  // assign to default workspaces
+  await Workspace
+    .findOne({
+      where: {
+        slug: 'default',
+        fire_department__id: user.fire_department__id,
+      }
+    }).then(workspace => {
+      if(workspace) {
+        return UserWorkspace.create({
+          user__id: user._id,
+          workspace__id: workspace._id,
+          permission: 'ro_strict',
+          is_owner: false,
+        });
+      }
+    });
+
   const department = await FireDepartment.find({
     where: {
       _id: user.fire_department__id,
@@ -570,10 +607,10 @@ export function resetPassword(req, res) {
 /**
  * Get my info
  */
-export function me(req, res, next) {
+export async function me(req, res, next) {
   var userId = req.user._id;
 
-  return User.find({
+  let user = await User.find({
     where: {
       _id: userId
     },
@@ -591,31 +628,51 @@ export function me(req, res, next) {
       'password_token',
       'password_reset_expire',
       'unsubscribed_emails',
-    ]
+    ],
+    include: [{
+      model: FireDepartment,
+      attributes: [
+        '_id',
+        'fd_id',
+        'name',
+        'state',
+        'firecares_id',
+        'timezone',
+        'logo_link',
+      ],
+    }, {
+      model: Workspace,
+      through: {},
+      where: {
+        is_deleted: false,
+      },
+      required: false,
+    }]
   })
-    .then(user => {
-      if(!user) {
-        return res.status(401).end();
-      }
 
-      return FireDepartment.find({
-        where: {
-          _id: user.fire_department__id
-        },
-        attributes: [
-          '_id',
-          'fd_id',
-          'name',
-          'state',
-          'firecares_id',
-          'timezone',
-          'logo_link',
-        ]
-      })
-        .then(fire_department => res.json({ user, fire_department}))
-        .catch(err => next(err));
+  if(!user) return res.status(401).end();
+
+  let workspaces = _.filter(user.Workspaces, uw => uw.UserWorkspace.permission !== null);
+  // Globals have access to all workspaces, regardless of permissions
+  if (req.user.isGlobal) {
+    workspaces = await Workspace.findAll({
+      where: {
+        fire_department__id: req.user.fire_department__id,
+      }
     })
-    .catch(err => next(err));
+  }
+
+  const resData = {
+    user: user.get({ plain: true }),
+    fire_department: user.FireDepartment,
+    workspaces,
+  };
+
+  // remove dup data
+  delete resData.user.FireDepartment;
+  delete resData.user.Workspaces;
+
+  res.json(resData);
 }
 
 export function hasEditPermisssion(req, res, next) {

@@ -28,6 +28,7 @@ export function Modal($rootScope, $uibModal) {
       success: 'btn-success',
       danger: 'btn-danger',
       default: 'btn-default',
+      outlineInverseAlt: 'btn-outline-inverse-alt',
     },
 
     custom({
@@ -45,7 +46,7 @@ export function Modal($rootScope, $uibModal) {
             scope: {
               modal: {
                 title,
-                html: `<p>${content}</p>`,
+                html: content,
                 dismissable: showCloseButton,
                 buttons: buttons.map(button => ({
                   classes: button.style || service.buttonStyle.default,

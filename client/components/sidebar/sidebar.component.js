@@ -38,7 +38,7 @@ export class SidebarComponent {
       app: 'Dashboard',
       location: 'sidebar',
     });
-    this.$state.go('site.dashboard.home');
+    this.$state.go('site.workspace.home');
   }
 
   // eslint-disable-next-line class-methods-use-this

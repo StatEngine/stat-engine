@@ -15,6 +15,9 @@ import uiBootstrap from 'ui-bootstrap4';
 // eslint-disable-next-line no-unused-vars
 import bootstrap from 'bootstrap';
 
+import spectrum from 'spectrum-colorpicker/spectrum';
+import spectrumColorPicker from 'angular-spectrum-colorpicker/dist/angular-spectrum-colorpicker.js';
+
 // vendor utils
 // eslint-disable-next-line no-unused-vars
 import oclazyload from 'oclazyload';
@@ -59,7 +62,7 @@ import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import report from './report';
 import incident from './incident';
-import dashboard from './dashboard';
+import workspace from './workspace';
 
 import marketplace from './marketplace';
 
@@ -115,6 +118,7 @@ angular.module('statEngineApp', [
   'angular-loading-bar',
   'ngCountTo',
   'angularMoment',
+  'angularSpectrumColorpicker',
   _Auth,
   // se modules
   trusted,
@@ -140,7 +144,7 @@ angular.module('statEngineApp', [
   statEngine,
   user,
   incident,
-  dashboard,
+  workspace,
   incidentComponents,
   chartComponents,
   orderObjectBy,

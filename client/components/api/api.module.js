@@ -14,6 +14,7 @@ import StatsResource from './stats.service';
 import TwitterResource from './twitter.service';
 import UserResource from './user.service';
 import IncidentResource from './incident.service';
+import WorkspaceResource from './workspace.service';
 import UnitResource from './unit.service';
 
 export default angular.module('statEngineApp.api', [])
@@ -29,5 +30,6 @@ export default angular.module('statEngineApp.api', [])
   .factory('Stats', StatsResource)
   .factory('Safety', SafetyResource)
   .factory('Incident', IncidentResource)
+  .factory('Workspace', WorkspaceResource)
   .factory('Unit', UnitResource)
   .name;

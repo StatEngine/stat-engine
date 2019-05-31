@@ -1,0 +1,99 @@
+.workspace-edit {
+  @extend .container-fluid;
+
+  padding-top: 15px;
+  max-width: 1230px;
+
+  .form-inputs {
+    display: grid;
+    grid-template-areas:
+      'name        color'
+      'description create-sample'
+      'users       users';
+    grid-template-columns: 50%;
+    grid-gap: 2rem;
+
+    @include media-breakpoint-down(sm) {
+      grid-template-areas:
+        'name'
+        'description'
+        'color'
+        'create-sample'
+        'users';
+      grid-template-columns: 100%;
+    }
+
+    .workspace-name {
+      grid-area: name;
+    }
+
+    .workspace-color {
+      grid-area: color;
+    }
+
+    .workspace-description {
+      grid-area: description;
+    }
+
+    .workspace-create-sample {
+      grid-area: create-sample;
+    }
+
+    .workspace-users {
+      grid-area: users;
+    }
+  }
+}
+
+.workspace-users {
+  @extend .container-fluid;
+
+  max-width: 1230px;
+  padding: 0;
+
+  .workspace-users-table {
+    $workspace-users-table-width: 1300px;
+    @include table($workspace-users-table-width);
+    @extend .mb-5;
+
+    .cell {
+      vertical-align: middle;
+
+      &.name {
+        max-width: 215px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &.email {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &.owner,
+      &.access-permission {
+        .dropdown {
+          display: inline-block;
+          margin-left: 8px;
+
+          @media screen and (max-width: $workspace-users-table-width) {
+            margin-left: 0;
+          }
+        }
+
+        &.current-user {
+          @media screen and (max-width: $workspace-users-table-width) {
+            display: none;
+          }
+
+          .dropdown {
+            display: none !important;
+          }
+        }
+      }
+    }
+  }
+}

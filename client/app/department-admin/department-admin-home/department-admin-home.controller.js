@@ -4,13 +4,10 @@ let _;
 
 export default class DepartmentAdminHomeController {
   /*@ngInject*/
-  constructor($location, currentPrincipal, dataQuality, departmentUsers, User) {
+  constructor($location, currentPrincipal, User) {
     this.$location = $location;
     this.principal = currentPrincipal;
-    this.fireDepartment = currentPrincipal.FireDepartment;
-    this.departmentUsers = departmentUsers;
-    this.dataQuality = dataQuality;
-    this.UserService = User;
+    this.fireDepartment = currentPrincipal.FireDepartment;    this.UserService = User;
   }
 
   async loadModules() {
@@ -19,9 +16,7 @@ export default class DepartmentAdminHomeController {
 
   async $onInit() {
     await this.loadModules();
-
-    this.users = _.filter(this.departmentUsers, u => !u.isAdmin && !u.isGlobal);
-
+    await this.refreshUsers();
     this.performQueryAction();
   }
 
@@ -32,25 +27,16 @@ export default class DepartmentAdminHomeController {
       const user = this.users.find(user => user.username === search.action_username);
       if(user) {
         const userRealname = `${user.first_name} ${user.last_name}`;
-        if(search.action === 'approve_dashboard_admin') {
+        if(search.action === 'approve_access') {
           if(user.FireDepartment) {
             this.actionMessage = `${userRealname} has already been approved.`;
           } else {
-            this.actionMessage = `Approved dashboard admin access for ${userRealname}.`;
+            this.actionMessage = `Approved access for ${userRealname}.`;
             this.approveAccess(user);
           }
 
           this.actionMessageColor = 'success';
-        } else if(search.action === 'approve_dashboard_readonly') {
-          if(user.FireDepartment) {
-            this.actionMessage = `${userRealname} has already been approved.`;
-          } else {
-            this.actionMessage = `Approved dashboard readonly access for ${userRealname}.`;
-            this.approveAccess(user, true);
-          }
-
-          this.actionMessageColor = 'success';
-        } else if(search.action === 'revoke') {
+        } else if(search.action === 'revoke_access') {
           if(user.isDepartmentAdmin || user.isIngest) {
             this.actionMessage = `Unable to revoke access for ${userRealname}.`;
           } else {
@@ -90,14 +76,16 @@ export default class DepartmentAdminHomeController {
   }
 
   refreshUsers() {
-    this.UserService.query().$promise
+    return this.UserService.query({ includeRequested: true }).$promise
       .then(departmentUsers => {
+        // Hide special users
         this.users = _.filter(departmentUsers, u => !u.Admin && !u.isGlobal);
+        console.dir(this.users)
       });
   }
 
-  approveAccess(user, readonly) {
-    this.UserService.approveAccess({ id: user._id, readonly }, {}).$promise
+  approveAccess(user) {
+    this.UserService.approveAccess({ id: user._id }, {}).$promise
       .finally(() => {
         this.refreshUsers();
       });

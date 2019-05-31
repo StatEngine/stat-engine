@@ -28,9 +28,6 @@ export default function routes($stateProvider) {
         fireDepartments(FireDepartment) {
           return FireDepartment.query().$promise;
         },
-        users(User) {
-          return User.query().$promise;
-        },
       },
     })
     .state('site.admin.fireDepartment', {
