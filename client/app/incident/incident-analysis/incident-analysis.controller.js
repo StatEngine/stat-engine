@@ -187,7 +187,7 @@ export default class IncidentAnalysisController {
 
 
   scrollTo(location) {
-    $('html, body').animate({ scrollTop: $(location).offset().top }, 1000);
+    $('.content-view').animate({ scrollTop: $(location).offset().top }, 1000);
   }
 
   toggleComments() {
