@@ -9,8 +9,11 @@
   </div><!-- br-pageheader -->
   <div class="br-pagetitle bg-white d-flex justify-content-between flex-wrap">
     <h2 class="m-0">Incident {{ vm.incident.description.incident_number }}</h2>
+    <button class="print-button btn btn-primary" ng-click="vm.print()">
+      Print
+    </button>
   </div>
-  <div class="ht-md-60 pb-3 pb-md-0 pd pd-x-15 pd-sm-x-25 bd-b d-flex align-items-center justify-content-start bg-white">
+  <div class="incident-analysis-tabs">
     <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
       <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a></li>
       <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#location')">Location</a></li>
@@ -27,8 +30,6 @@
 
           <!-- Overview -->
           <section class="overview" id="overview">
-            <div class="section-header">Overview</div>
-
             <!-- Overview Intro -->
             <div class="overview-intro card">
               <div class="card-body">
@@ -110,12 +111,15 @@
                 <div ng-if="!vm.incident.description.comments" class="d-flex h-100">
                   <h5 class="tx-gray-500 m-auto pd-b-20">No dispatch comments available</h5>
                 </div>
-                <p ng-if="!vm.showFullComments">{{ vm.commentsTruncated }}</p>
-                <p ng-if="vm.showFullComments">{{ vm.incident.description.comments }}</p>
-                <div class="text-center">
-                  <span ng-if="vm.isCommentsTruncated && !vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Show
-                      All</a></span>
-                  <span ng-if="vm.isCommentsTruncated && vm.showFullComments"><a href="#" ng-click="vm.toggleComments()">Hide</a></span>
+                <p ng-if="!vm.isShowingFullComments">{{ vm.commentsTruncated }}</p>
+                <p ng-if="vm.isShowingFullComments">{{ vm.incident.description.comments }}</p>
+                <div class="dispatch-comments-show-hide text-center">
+                  <span ng-if="vm.isCommentsTruncated && !vm.isShowingFullComments">
+                    <a href="#" ng-click="vm.showFullComments(true)">Show All</a>
+                  </span>
+                  <span ng-if="vm.isCommentsTruncated && vm.isShowingFullComments">
+                    <a href="#" ng-click="vm.showFullComments(false)">Hide</a>
+                  </span>
                 </div>
               </div>
             </div>
@@ -145,8 +149,6 @@
 
           <!-- Location -->
           <section class="location" id="location">
-            <div class="section-header">Location</div>
-
             <!-- Map -->
             <div class="location-map card">
               <div class="row">
@@ -302,8 +304,6 @@
 
           <!-- Situational Awareness -->
           <section class="situational-awareness" id="situationalAwareness">
-            <div class="section-header">Situational Awareness</div>
-
             <!-- Weather Conditions -->
             <div class="weather-conditions card">
               <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
@@ -349,8 +349,6 @@
 
           <!-- Response -->
           <section class="response" id="response" ng-show="!vm.incident.description.suppressed">
-            <div class="section-header">Response</div>
-
             <!-- Response Overview -->
             <div class="response-overview card">
               <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
@@ -498,7 +496,7 @@
                 <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14">
                   {{ vm.concurrentIncidents.length }} </span> incidents also in
                   progress during this timeframe</p>
-                <div ui-grid="vm.concurrentIncidentTableOptions">
+                <div class="concurrent-incidents-table" ui-grid="vm.concurrentIncidentTableOptions">
                   <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">
                     No concurrent incidents
                   </div>

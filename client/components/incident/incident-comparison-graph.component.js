@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular';
-
 let _;
 let PlotlyBasic;
 
@@ -16,14 +14,6 @@ export default class IncidentComparisonGraphComponent {
   async loadModules() {
     PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-  }
-
-  onResize() {
-    PlotlyBasic.Plots.resize(this.id);
-  }
-
-  $onDestroy() {
-    angular.element(this.$window).off('resize', this.onResize);
   }
 
   async $onInit() {
@@ -120,7 +110,8 @@ export default class IncidentComparisonGraphComponent {
         linecolor: '#d7dee3',
       },
     }, {
-      displayModeBar: false
+      displayModeBar: false,
+      responsive: true,
     });
   }
 }

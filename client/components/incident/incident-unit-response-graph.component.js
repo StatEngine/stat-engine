@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular';
-
 let _;
 let PlotlyBasic;
 
@@ -18,18 +16,8 @@ export default class IncidentUnitResponseGraphComponent {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
-  onResize() {
-    PlotlyBasic.Plots.resize(this.id);
-  }
-
-  $onDestroy() {
-    angular.element(this.$window).off('resize', this.onResize);
-  }
-
   async $onInit() {
     await this.loadModules();
-
-    angular.element(this.$window).on('resize', this.onResize);
 
     // Get turnout and travel durations
     const unitTimelineData = [];
@@ -129,6 +117,9 @@ export default class IncidentUnitResponseGraphComponent {
       }]
     };
 
-    PlotlyBasic.newPlot(this.id, unitTimelineData, layout, {displayModeBar: false});
+    PlotlyBasic.newPlot(this.id, unitTimelineData, layout, {
+      displayModeBar: false,
+      responsive: true,
+    });
   }
 }

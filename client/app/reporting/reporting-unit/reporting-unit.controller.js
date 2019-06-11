@@ -40,8 +40,9 @@ export default class ReportingUnitController {
   incidentsTable;
 
   /*@ngInject*/
-  constructor($window, $location, $state, $stateParams, $transitions, $timeout, AmplitudeService,
+  constructor($scope, $window, $location, $state, $stateParams, $transitions, $timeout, AmplitudeService,
               AnalyticEventNames, currentPrincipal, Unit, units) {
+    this.$scope = $scope;
     this.$window = $window;
     this.$location = $location;
     this.$state = $state;
@@ -126,10 +127,10 @@ export default class ReportingUnitController {
         this.fetchUnitData();
       }
     });
-  }
 
-  $onDestroy() {
-    this.removeResizeEventListener();
+    this.$scope.$on('$destroy', () => {
+      this.removeResizeEventListener();
+    });
   }
 
   get selectedTimeFilterId() {
