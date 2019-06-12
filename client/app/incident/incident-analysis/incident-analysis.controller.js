@@ -248,5 +248,10 @@ export default class IncidentAnalysisController {
     this.uiGridApi.core.handleWindowResize();
 
     this.showFullComments(false);
+
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+      app: 'Incident Analysis',
+      action: 'print',
+    });
   };
 }
