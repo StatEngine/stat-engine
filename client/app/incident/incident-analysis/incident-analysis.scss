@@ -1,19 +1,109 @@
 .incident-analysis {
+  .br-pageheader {
+    @media print {
+      display: none;
+    }
+  }
+
+  .br-pagebody {
+    margin-top: 0;
+
+    @media print {
+      margin-top: 30px;
+    }
+  }
+
+  .print-button {
+    @media print {
+      display: none;
+    }
+  }
+
+  .incident-analysis-tabs {
+    @extend .ht-md-60;
+    @extend .pb-3;
+    @extend .pb-md-0;
+    @extend .pd-x-15;
+    @extend .pd-sm-x-25;
+    @extend .bd-b;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background: white;
+
+    @media print {
+      display: none;
+    }
+  }
+
   .incident-analysis-content {
+    @extend .container-fluid;
+
+    max-width: 1230px;
+
+    @media print {
+      display: block;
+      margin: 0;
+      padding: 0;
+
+      > .row {
+        display: block;
+
+        > *[class*="col-"] {
+          display: block;
+        }
+      }
+    }
+
     section {
       display: grid;
       grid-template-columns: 50%;
       grid-gap: 2rem;
+      padding-top: 2rem;
 
       &:not(:first-child) {
         @extend .mt-5;
       }
 
+      > :first-child::before {
+        @extend .tx-13;
+        @extend .tx-spacing-1;
+        @extend .tx-gray-500;
+        @extend .tx-uppercase;
+        @extend .tx-medium;
+        font-family: 'Montserrat', sans-serif;
+        grid-area: section-header;
+        margin-bottom: -1rem;
+        transform: translateY(-200%);
+      }
+
       @include media-breakpoint-down(md) {
         grid-template-areas: unset !important;
         grid-template-columns: auto !important;
-        > * {
+
+        > *,
+        > :first-child::before {
           grid-area: unset !important;
+        }
+      }
+
+      @media print {
+        display: block;
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+
+        .card {
+          margin: 2rem 0;
+          break-inside: avoid;
+          page-break-inside: avoid;
+
+          &:first-child {
+            margin: 0;
+          }
+
+          .card-option {
+            display: none;
+          }
         }
       }
 
@@ -23,6 +113,10 @@
           'overview-intro       overview-intro'
           'incident-summary     dispatch-comments'
           'performance-analysis performance-analysis';
+
+        > :first-child::before {
+          content: 'Overview';
+        }
 
         .overview-intro {
           grid-area: overview-intro;
@@ -53,10 +147,17 @@
 
         .dispatch-comments {
           grid-area: dispatch-comments;
+          page-break-before: always;
 
           p {
             font-family: monospace;
             font-size: 15px;
+          }
+
+          .dispatch-comments-show-hide {
+            @media print {
+              display: none;
+            }
           }
         }
 
@@ -122,6 +223,10 @@
           'map            map'
           'census-data    parcel-data';
 
+        > :first-child::before {
+          content: 'Location';
+        }
+
         .location-summary {
           @media (max-width: 768px) {
             > .row {
@@ -173,29 +278,12 @@
           'section-header     section-header'
           'weather-conditions traffic-conditions';
 
+        > :first-child::before {
+          content: 'Situational Awareness';
+        }
+
         .weather-conditions {
           grid-area: weather-conditions;
-
-          // ==========
-          // TODO: Dynamically change background color based on weather summary type
-          // ==========
-          .weather-cube {
-            background: rgb(53, 144, 231);
-            background: linear-gradient(149deg, rgba(53, 144, 231, 1) 0%, rgba(54, 187, 214, 1) 100%); // background: rgb(236,115,99);
-            // background: linear-gradient(149deg, rgba(236,115,99,1) 0%, rgba(239,200,69,1) 100%);
-            // background: rgb(38,46,89);
-            // background: linear-gradient(149deg, rgba(38,46,89,1) 0%, rgba(76,78,153,1) 100%);
-            // background: rgb(172,99,93);
-            // background: linear-gradient(149deg, rgba(172,99,93,1) 0%, rgba(230,186,141,1) 100%);
-            border-radius: 3px;
-            color: white;
-            text-align: center;
-            padding: 2rem 2rem .75rem;
-
-            h3 {
-              margin: 1rem 0 0 0;
-            }
-          }
 
           .weather-summary {
             @media (min-width: 992px) and (max-width: 1199px) {
@@ -245,6 +333,10 @@
           'travel-distances         travel-durations'
           'response-duration        response-duration-comparisons'
           'concurrent-incidents     concurrent-incidents';
+
+        > :first-child::before {
+          content: 'Response';
+        }
 
         .response-overview {
           grid-area: response-overview;
@@ -355,17 +447,6 @@
         .concurrent-incidents {
           grid-area: concurrent-incidents;
         }
-      }
-
-      .section-header {
-        @extend .tx-13;
-        @extend .tx-spacing-1;
-        @extend .tx-gray-500;
-        @extend .tx-uppercase;
-        @extend .tx-medium;
-        font-family: 'Montserrat', sans-serif;
-        grid-area: section-header;
-        margin-bottom: -1rem;
       }
     }
 

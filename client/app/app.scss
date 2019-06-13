@@ -87,11 +87,21 @@ body {
   flex-direction: column;
   height: 100vh;
   width: 100vw;
+
+  @media print {
+    display: block;
+  }
 }
 
 .root-view {
   flex: 1;
   display: flex;
+  max-height: 100%;
+
+  @media print {
+    display: block;
+    max-height: initial;
+  }
 }
 
 .sidebar-view {
@@ -105,6 +115,16 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+
+  @media print {
+    display: block;
+  }
+}
+
+.appbar-view {
+  @media print {
+    display: none;
+  }
 }
 
 .content-view {
@@ -112,12 +132,23 @@ body {
   @extend .ios-scroll-fix;
   flex: 1;
   overflow: auto;
+
+  @media print {
+    display: block;
+    overflow: visible;
+  }
 }
 
 .show-mobile-nav,
 .show-sidebar {
   .content-view {
     @extend .no-scroll;
+  }
+}
+
+#Smallchat {
+  @media print {
+    display: none;
   }
 }
 
@@ -1513,6 +1544,49 @@ span+.logged-name {
 
 .ios-scroll-fix {
   -webkit-overflow-scrolling: touch; // Fix iOS momentum scrolling.
+}
+
+// HACK: Fix printing overlap with page headers/footers in Chrome.
+@page {
+  margin: 5rem 2rem;
+}
+
+// HACK: Safari doesn't seem to apply responsive styling in print mode, so we have to force some
+// page properties here to make things look right. The crazy media query will detect Safari browsers.
+@media not all and (min-resolution:.001dpcm) {
+  @supports (-webkit-appearance:none) {
+    @media print {
+      .sidebar-view {
+        display: none;
+      }
+
+      html, body {
+        width: 215.9mm; // Letter Paper width
+      }
+    }
+  }
+}
+
+.weather-cube {
+  // ==========
+  // TODO: Dynamically change background color based on weather summary type
+  // ==========
+
+  background: rgb(53, 144, 231);
+  background: linear-gradient(149deg, rgba(53, 144, 231, 1) 0%, rgba(54, 187, 214, 1) 100%); // background: rgb(236,115,99);
+  // background: linear-gradient(149deg, rgba(236,115,99,1) 0%, rgba(239,200,69,1) 100%);
+  // background: rgb(38,46,89);
+  // background: linear-gradient(149deg, rgba(38,46,89,1) 0%, rgba(76,78,153,1) 100%);
+  // background: rgb(172,99,93);
+  // background: linear-gradient(149deg, rgba(172,99,93,1) 0%, rgba(230,186,141,1) 100%);
+  border-radius: 3px;
+  color: white;
+  text-align: center;
+  padding: 2rem 2rem .75rem;
+
+  h3 {
+    margin: 1rem 0 0 0;
+  }
 }
 
 /////////////////////////////////

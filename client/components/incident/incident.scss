@@ -124,3 +124,16 @@
 .vis.timeline .item.dot {
     display: none;
 }
+
+.mapboxgl-canvas {
+  @media print {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+.mapboxgl-control-container {
+  @media print {
+    display: none;
+  }
+}

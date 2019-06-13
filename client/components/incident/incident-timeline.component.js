@@ -14,10 +14,11 @@ export default class IncidentTimelineComponent {
   incident;
   timezone;
 
-  constructor($window) {
+  constructor($window, Print) {
     'ngInject';
 
     this.$window = $window;
+    this.Print = Print;
   }
 
   async loadModules() {
@@ -350,9 +351,27 @@ export default class IncidentTimelineComponent {
     this.element = angular.element(document.querySelector('#incident-timeline'));
     // eslint-disable-next-line
     this.timeline = new Timeline(this.element[0], items, groups, options);
+
+    this.Print.addBeforePrintListener(this.beforePrint);
+    this.Print.addAfterPrintListener(this.afterPrint)
   }
 
-  $onDestory() {
-    if(this.timeline) this.timeline.destroy();
+  $onDestroy() {
+    if(this.timeline) {
+      this.timeline.destroy();
+    }
+
+    this.Print.removeBeforePrintListener(this.beforePrint);
+    this.Print.removeAfterPrintListener(this.afterPrint);
   }
+
+  beforePrint = () => {
+    // HACK: Timelines won't seem to auto resize on print, so we have to hardcode the width for now.
+    this.timeline.setOptions({ width: 960 });
+  };
+
+  afterPrint = () => {
+    // Remove hardcoded timeline width.
+    this.timeline.setOptions({ width: '100%' });
+  };
 }

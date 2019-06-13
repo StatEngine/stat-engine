@@ -6,6 +6,7 @@ import humanizeDuration from 'humanize-duration';
 
 let _;
 let tippy;
+let PlotlyBasic;
 
 const shortEnglishHumanizer = humanizeDuration.humanizer({
   language: 'shortEn',
@@ -25,17 +26,20 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class IncidentAnalysisController {
   /*@ngInject*/
-  constructor(AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData) {
+  constructor($scope, AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData, Print) {
+    this.$scope = $scope;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
     this.currentPrincipal = currentPrincipal;
     this.incidentData = incidentData;
+    this.Print = Print;
   }
 
   async loadModules() {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
     tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
     tippy = tippy.default;
+    PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
   }
 
   async $onInit() {
@@ -55,7 +59,7 @@ export default class IncidentAnalysisController {
     let comments = _.get(this.incident, 'description.comments');
     if(comments) {
       let limit = 500;
-      this.showFullComments = false;
+      this.isShowingFullComments = false;
       this.commentsTruncated = comments.substring(0, limit);
       this.isCommentsTruncated = comments.length > limit;
     }
@@ -113,12 +117,23 @@ export default class IncidentAnalysisController {
       }, {
         field: 'description.type',
         displayName: 'Type',
-      }]
+      }],
+      onRegisterApi: (uiGridApi) => {
+        this.uiGridApi = uiGridApi;
+      },
     };
     this.formatSearchResults(this.concurrentIncidents);
 
     this.initialized = true;
     this.initTippy();
+
+    this.Print.addBeforePrintListener(this.beforePrint);
+    this.Print.addAfterPrintListener(this.afterPrint);
+
+    this.$scope.$on('$destroy', () => {
+      this.Print.removeBeforePrintListener(this.beforePrint);
+      this.Print.removeAfterPrintListener(this.afterPrint);
+    });
   }
 
   initTippy() {
@@ -190,14 +205,53 @@ export default class IncidentAnalysisController {
     $('.content-view').animate({ scrollTop: $(location).offset().top }, 1000);
   }
 
-  toggleComments() {
-    if(this.showFullComments) $('#fullComments').collapse('show');
-    else $('#fullComments').collapse('hide');
-    this.showFullComments = !this.showFullComments;
+  showFullComments(show) {
+    if(show) {
+      $('#fullComments').collapse('show');
+    } else {
+      $('#fullComments').collapse('hide');
+    }
+
+    this.isShowingFullComments = show;
   }
 
   humanizeDuration(ms) {
     if (_.isNil(ms) || _.isNaN(ms)) return 'N/A';
     return shortEnglishHumanizer(ms, { round: true });
   }
+
+  print() {
+    this.Print.print();
+  }
+
+  beforePrint = () => {
+    // HACK: Some elements won't seem to auto resize on print, so we have to hardcode their widths for now.
+    const plots = $('.js-plotly-plot');
+    for(const plot of plots) {
+      PlotlyBasic.relayout(plot, { width: 960 });
+    }
+
+    $('.concurrent-incidents-table').css({ width: '960px' });
+    this.uiGridApi.core.handleWindowResize();
+
+    this.showFullComments(true);
+  };
+
+  afterPrint = () => {
+    // Remove hardcoded plot widths.
+    const plots = $('.js-plotly-plot');
+    for(const plot of plots) {
+      PlotlyBasic.relayout(plot, { width: 0 });
+    }
+
+    $('.concurrent-incidents-table').css({ width: 'auto' });
+    this.uiGridApi.core.handleWindowResize();
+
+    this.showFullComments(false);
+
+    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+      app: 'Incident Analysis',
+      action: 'print',
+    });
+  };
 }

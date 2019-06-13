@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular';
-
 let _;
 let PlotlyBasic;
 
@@ -18,18 +16,8 @@ export default class IncidentUnitTravelDurationGraphComponent {
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
   }
 
-  onResize() {
-    PlotlyBasic.Plots.resize(this.id);
-  }
-
-  $onDestroy() {
-    angular.element(this.$window).off('resize', this.onResize);
-  }
-
   async $onInit() {
     await this.loadModules();
-
-    angular.element(this.$window).on('resize', this.onResize);
 
     const units = [];
 
@@ -107,6 +95,9 @@ export default class IncidentUnitTravelDurationGraphComponent {
       },
 
     };
-    PlotlyBasic.newPlot(this.id, data, layout, {displayModeBar: false});
+    PlotlyBasic.newPlot(this.id, data, layout, {
+      displayModeBar: false,
+      responsive: true,
+    });
   }
 }

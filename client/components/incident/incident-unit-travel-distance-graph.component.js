@@ -1,7 +1,5 @@
 'use strict';
 
-import angular from 'angular';
-
 let _;
 let PlotlyBasic;
 
@@ -16,14 +14,6 @@ export default class IncidentUnitTravelDistanceGraphComponent {
   async loadModules() {
     PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
     _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-  }
-
-  onResize() {
-    PlotlyBasic.Plots.resize(this.id);
-  }
-
-  $onDestroy() {
-    angular.element(this.$window).off('resize', this.onResize);
   }
 
   async $onInit() {
@@ -92,7 +82,10 @@ export default class IncidentUnitTravelDistanceGraphComponent {
         },
         annotations,
       };
-      PlotlyBasic.newPlot(this.id, data, layout, {displayModeBar: false});
+      PlotlyBasic.newPlot(this.id, data, layout, {
+        displayModeBar: false,
+        responsive: true,
+      });
     }
   }
 }
