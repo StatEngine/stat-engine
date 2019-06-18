@@ -1,65 +1,49 @@
 <div class="container">
-  <div class="row">
+  <div class="d-flex align-items-center">
 
     <!-- Logo/Branding -->
 
     <!-- Unauthenticated -->
-    <div class="col-auto" ng-if="!vm.PrincipalService.isAuthenticated()">
-      <a ui-sref="site.main.main" href="#" class="branding" ></a>
-    </div>
+    <a ng-if="!vm.PrincipalService.isAuthenticated()" ui-sref="site.main.main" href="#" class="branding mx-3" ></a>
 
     <!-- Authenticated -->
-    <div class="col-auto" ng-if="vm.PrincipalService.isAuthenticated()">
-      <a ui-sref="site.user.home" href="#" class="branding symbol"></a>
-    </div>
+    <a ng-if="vm.PrincipalService.isAuthenticated()" ui-sref="site.user.home" href="#" class="branding symbol mx-3"></a>
 
     <!-- Navigation Links -->
-    <div id="navbar-links" class="col-auto pr-0">
-      <div class="row">
-        <div class="col-12 pr-0">
+    <div id="navbar-links">
+      <!-- Unauthenticated -->
+      <div ng-if="!vm.PrincipalService.isAuthenticated()">
+        <ul class="mb-0">
+          <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
+          <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></li>
+        </ul>
+      </div>
 
-          <!-- Unauthenticated -->
-          <div ng-if="!vm.PrincipalService.isAuthenticated()">
-            <ul class="mb-0">
-              <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
-              <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></li>
-            </ul>
-          </div>
-
-          <!-- Authenticated -->
-          <div ng-if="vm.PrincipalService.isAuthenticated()">
-            <ul class="mb-0">
-               <li><a href="site.user.home">Control Center</a></li>
-               <li ng-if="vm.currentPrincipal.fire_department__id" class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Apps</a>
-                 <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
-                   <ul>
-                     <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
-                     <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
-                     <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>
-                     <li><a href="#" ng-click="vm.goto('site.incident.search','Incident Analysis')">Incident Analysis</a></li>
-                   </ul>
-                   <!-- <div class="footer"> An optional footer </div> -->
-                 </div>
-               </li>
-               <li ng-if="!vm.appConfig.on_premise"><a href="/marketplace/home">Marketplace</a></li>
-               <!--<li><a href="/data-quality">Installation</a></li>-->
-               <li ng-if="vm.currentPrincipal.isAdmin"><a href="/admin">Admin</a></li>
-               <li ng-if="vm.currentPrincipal.isDepartmentAdmin && !vm.currentPrincipal.isAdmin"><a href="/departmentAdmin">Admin</a></li>
-            </ul>
-          </div>
-
-          <!-- <div ng-if="!vm.PrincipalService.isAuthenticated()">
-             <span class="col-3"><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></span>
-             <span class="col-3"><a ng-click="vm.scrollTo('#footer')" id='navbar-links-developers' href="#">Developers</a></span>
-             <span class="col-3 pr-0"><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></span>
-          </div> -->
-
-        </div>
+      <!-- Authenticated -->
+      <div ng-if="vm.PrincipalService.isAuthenticated()">
+        <ul class="mb-0">
+           <li><a href="site.user.home">Control Center</a></li>
+           <li ng-if="vm.currentPrincipal.fire_department__id" class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Apps</a>
+             <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+               <ul>
+                 <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
+                 <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
+                 <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.report.today','Reporting')">Reporting</a></li>
+                 <li><a href="#" ng-click="vm.goto('site.incident.search','Incident Analysis')">Incident Analysis</a></li>
+               </ul>
+               <!-- <div class="footer"> An optional footer </div> -->
+             </div>
+           </li>
+           <li ng-if="!vm.appConfig.on_premise"><a href="/marketplace/home">Marketplace</a></li>
+           <!--<li><a href="/data-quality">Installation</a></li>-->
+           <li ng-if="vm.currentPrincipal.isAdmin"><a href="/admin">Admin</a></li>
+           <li ng-if="vm.currentPrincipal.isDepartmentAdmin && !vm.currentPrincipal.isAdmin"><a href="/departmentAdmin">Admin</a></li>
+        </ul>
       </div>
     </div>
 
     <!-- Secondary Nav -->
-    <div id="navbar-button" class="col-auto ml-auto pl-0">
+    <div id="navbar-button" class="mx-3">
 
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
@@ -85,7 +69,7 @@
       </div>
     </div>
 
-    <div class="hamburger col-auto ml-auto">
+    <div class="hamburger">
       <a ng-click="vm.showMobileNav()" span class="fa fa-2x fa-bars"></span></a>
     </div>
 
