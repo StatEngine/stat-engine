@@ -61,6 +61,13 @@ $ionicons-font-path: '/assets/fonts/Ionicons/';
   padding: 0.2em 0;
 }
 
+@mixin ie11 {
+  // HACK: IE11 only
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content
+  }
+}
+
 /////////////////////////////////
 // GLOBAL //
 ////////////////////////////////

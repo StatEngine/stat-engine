@@ -17,6 +17,10 @@ header {
     bottom: -1px;
     width: 100%;
     height: auto;
+
+    @include ie11 {
+      bottom: -191px;
+    }
   }
 }
 
