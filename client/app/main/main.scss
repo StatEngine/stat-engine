@@ -11,22 +11,34 @@ header {
   @include media-breakpoint-down(xs) {
     height: 760px;
   }
-
-  svg {
-    position: absolute;
-    bottom: -1px;
-    width: 100%;
-    height: auto;
-
-    @include ie11 {
-      bottom: -191px;
-    }
-  }
 }
 
 #wave {
   filter: drop-shadow(0px -3px 6px hsla(0, 0%, 0%, 0.15));
   -webkit-filter: drop-shadow(0px -3px 6px hsla(0, 0%, 0%, 0.15));
+
+  position: absolute;
+  bottom: -1px;
+  width: 100vw;
+  height: auto;
+
+  @include ie11 {
+    display: none;
+  }
+}
+
+#block-ie {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: 100px;
+  background: white;
+  box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.15);
+
+  @include ie11 {
+    display: block;
+  }
 }
 
 header section {
