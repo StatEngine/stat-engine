@@ -81,6 +81,10 @@
         grid-template-areas: unset !important;
         grid-template-columns: auto !important;
 
+        &:first-child {
+          padding-top: 4rem;
+        }
+
         > *,
         > :first-child::before {
           grid-area: unset !important;
