@@ -5,7 +5,7 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.4.0",
     "@mapbox/geojson-extent": "^0.3.2",
-    "@statengine/se-fixtures": "~2.0.2",
+    "@statengine/se-fixtures": "~2.0.3",
     "@statengine/se-grpc-proto": "~0.0.2",
     "@statengine/shiftly": "~0.0.54",
     "@uirouter/angularjs": "^1.0.13",
