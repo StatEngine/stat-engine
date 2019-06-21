@@ -33,35 +33,35 @@ export const getMatrix = async incident => {
     return results;
   }
 
-  await Promise.map(_.chunk(pairs, 24), async splitPairs => {
-    // Add destination.
-    splitPairs.push({ longitude, latitude });
-
-    const coordinates = _.map(splitPairs, p => `${p.longitude},${p.latitude}`).join(';');
-    const options = {
-      uri: `https://api.mapbox.com/directions-matrix/v1/mapbox/driving/${coordinates}`,
-      qs: {
-        access_token: config.mapbox.token,
-        annotations: 'distance,duration'
-      },
-      json: true,
-    };
-
-    let destinationIndex = splitPairs.length - 1;
-    const body = await rp(options);
-
-    if(_.isEmpty(body) || _.isEmpty(body.distances) || _.isEmpty(body.durations)) {
-      throw new Error('Unknown format from mapbox');
-    }
-    for(let i = 0; i < destinationIndex; i += 1) {
-      let unit = splitPairs[i].unit_id;
-      if(!results[unit]) results[unit] = {};
-
-      // use mapbox distance if not set by cad
-      if(!results[unit].distance) results[unit].distance = body.distances[i][destinationIndex] * 0.000621371;
-      results[unit].duration = body.durations[i][destinationIndex];
-    }
-  });
+  // await Promise.map(_.chunk(pairs, 24), async splitPairs => {
+  //   // Add destination.
+  //   splitPairs.push({ longitude, latitude });
+  //
+  //   const coordinates = _.map(splitPairs, p => `${p.longitude},${p.latitude}`).join(';');
+  //   const options = {
+  //     uri: `https://api.mapbox.com/directions-matrix/v1/mapbox/driving/${coordinates}`,
+  //     qs: {
+  //       access_token: config.mapbox.token,
+  //       annotations: 'distance,duration'
+  //     },
+  //     json: true,
+  //   };
+  //
+  //   let destinationIndex = splitPairs.length - 1;
+  //   const body = await rp(options);
+  //
+  //   if(_.isEmpty(body) || _.isEmpty(body.distances) || _.isEmpty(body.durations)) {
+  //     throw new Error('Unknown format from mapbox');
+  //   }
+  //   for(let i = 0; i < destinationIndex; i += 1) {
+  //     let unit = splitPairs[i].unit_id;
+  //     if(!results[unit]) results[unit] = {};
+  //
+  //     // use mapbox distance if not set by cad
+  //     if(!results[unit].distance) results[unit].distance = body.distances[i][destinationIndex] * 0.000621371;
+  //     results[unit].duration = body.durations[i][destinationIndex];
+  //   }
+  // });
 
   return results;
 };

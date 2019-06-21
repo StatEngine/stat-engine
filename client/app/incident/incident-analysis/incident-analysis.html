@@ -7,510 +7,519 @@
       <span class="breadcrumb-item active">{{ vm.incident.description.incident_number }}</span>
     </nav>
   </div><!-- br-pageheader -->
-  <div class="br-pagetitle bg-white d-flex justify-content-between flex-wrap">
-    <h2 class="m-0">Incident {{ vm.incident.description.incident_number }}</h2>
-    <button class="print-button btn btn-primary" ng-click="vm.print()">
-      Print
-    </button>
+
+  <div class="br-pagetitle bg-white">
+    <div class="d-flex justify-content-between flex-wrap">
+      <h2 class="my-0 mr-3">Incident {{ vm.incident.description.incident_number }}</h2>
+      <button class="print-button btn btn-primary" ng-click="vm.print()">
+        Print
+      </button>
+    </div>
   </div>
-  <div class="incident-analysis-tabs">
-    <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist">
-      <li class="nav-item tx-medium pl-0"><a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a></li>
-      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#location')">Location</a></li>
-      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#situationalAwareness')">Situational
-          Awareness</a></li>
-      <li class="nav-item tx-medium"><a class="nav-link" data-toggle="tab" href="#" role="tab" ng-click="vm.scrollTo('#response')">Response</a></li>
-    </ul>
-  </div>
+
+  <nav class="section-nav">
+    <div class="section-nav-links">
+      <a href="" ng-click="vm.scrollTo('#overview')">
+        Overview
+      </a>
+      <a href="" ng-click="vm.scrollTo('#location')">
+        Location
+      </a>
+      <a href="" ng-click="vm.scrollTo('#situationalAwareness')">
+        Situational Awareness
+      </a>
+      <a href="" ng-click="vm.scrollTo('#response')">
+        Response
+      </a>
+    </div>
+  </nav>
+
   <section class="br-pagebody">
     <div class="incident-analysis-content data-spy" data-spy="scroll" data-target="#navbar-example">
-      <div class="mb-5 row">
-        <!-- BEGIN: Tab Panes/Content -->
-        <div class="col-md-12">
-
-          <!-- Overview -->
-          <section class="overview" id="overview">
-            <!-- Overview Intro -->
-            <div class="overview-intro card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-2 pb-4 pb-md-0">
-                    <logo department="vm.currentPrincipal.FireDepartment"></logo>
-                  </div>
-                  <div class="col-md-8 overview-intro-summary">
-                    <div ng-if="vm.incident.description.suppressed">
-                      <div class="alert alert-danger text-center mx-5 my-2" role="alert">
-                        <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText">
-                            because {{ vm.incident.description.suppressionText }} </span>.
-                          <br>If you think this has occurred in error, please let us know.
-                      </div>
-                      <hr>
-                    </div>
-                    <div ng-if="vm.suppressedUnits">
-                      <div class="alert alert-danger text-center mx-5 my-2" role="alert">
-                        <p>Some responses have been suppressed from analysis due to these irregularities: <span ng-if="vm.incident.description.suppressionText"> </span>
-                          <ul>
-                            <li ng-repeat="unit in vm.suppressedUnits"><strong>{{unit.suppressedText}}</strong></li>
-                          </ul>
-                          If you think this has occurred in error, please let us know.
-                      </div>
-                      <hr>
-                    </div>
-                    <h6 class="heavyheader"> {{ vm.type }} <span ng-if="vm.subtype"> - {{ vm.subtype }} </span> </h6>
-                    <p>{{ vm.textSummaries.incidentSummary }}</p>
-                  </div>
+      <!-- Overview -->
+      <section class="overview" id="overview">
+        <!-- Overview Intro -->
+        <div class="overview-intro card">
+          <div class="card-body">
+            <logo department="vm.currentPrincipal.FireDepartment"></logo>
+            <div class="overview-intro-summary">
+              <div ng-if="vm.incident.description.suppressed">
+                <div class="alert alert-danger" role="alert">
+                  <p>This incident has been suppressed from analysis<span ng-if="vm.incident.description.suppressionText">
+                      because {{ vm.incident.description.suppressionText }} </span>.
+                    <br>If you think this has occurred in error, please let us know.
                 </div>
+                <hr>
               </div>
-            </div>
-
-            <!-- Incident Summary -->
-            <div class="incident-summary card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Incident Summary</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                  <span class="light-label mb-0">Incident Number:</span>
-                  <span>{{ vm.incident.description.incident_number }}</span>
-                </p>
-                <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                  <span class="light-label mb-0">Event Type:</span>
-                  <span>{{ vm.incident.description.type }}</span>
-                </p>
-                <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                  <span class="light-label mb-0">Event Sub-Type:</span>
-                  <span>{{ vm.incident.description.subtype }}</span>
-                </p>
-                <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                  <span class="light-label mb-0">Date:</span>
-                  <span>{{ vm.incident.description.event_opened |
-                    amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM Do YYYY' }}</span>
-                </p>
-                <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                  <span class="light-label mb-0">Dispatch Time:</span>
-                  <span>{{ vm.incident.description.first_unit_dispatched |
-                    amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'HH:mm' }}</span>
-                </p>
-                <p class="d-flex justify-content-between mg-b-5 bd-b pd-y-5">
-                  <span class="light-label mb-0">Location:</span>
-                  <span>{{ vm.incident.address.address_line1 }}</span>
-                </p>
-                <p class="d-flex justify-content-between mg-b-5 pd-y-5">
-                  <span class="light-label mb-0">Event Duration:</span>
-                  <span>{{ vm.humanizeDuration(vm.incident.durations.total_event.seconds*1000) }}</span>
-                </p>
-              </div>
-            </div>
-
-            <!-- Dispatch Comments -->
-            <div class="dispatch-comments card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Dispatch Comments</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div ng-if="!vm.incident.description.comments" class="d-flex h-100">
-                  <h5 class="tx-gray-500 m-auto pd-b-20">No dispatch comments available</h5>
-                </div>
-                <p ng-if="!vm.isShowingFullComments">{{ vm.commentsTruncated }}</p>
-                <p ng-if="vm.isShowingFullComments">{{ vm.incident.description.comments }}</p>
-                <div class="dispatch-comments-show-hide text-center">
-                  <span ng-if="vm.isCommentsTruncated && !vm.isShowingFullComments">
-                    <a href="#" ng-click="vm.showFullComments(true)">Show All</a>
-                  </span>
-                  <span ng-if="vm.isCommentsTruncated && vm.isShowingFullComments">
-                    <a href="#" ng-click="vm.showFullComments(false)">Hide</a>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Performance Analysis -->
-            <div class="performance-analysis card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">StatEngine&trade; Performance Analysis</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div ng-show="!vm.incident.description.suppressed" class="performance-analysis">
-                  <div class="row">
-                    <div ng-repeat="analysis in vm.analysis" class="col-lg-2" ng-init="$last && vm.initTippy()">
-                      <div class="card ruletippy h-100" ng-attr-title="{{vm.formatEvidence(analysis.evidence)}}"
-                        ng-class="{ 'nfpa-standard': analysis.category === 'NFPA'}">
-                        <span ng-class="{ 'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
-                                                  'se-icon-circle-exclamation caution': analysis.grade === 'WARNING',
-                                                  'se-icon-circle-x fail': analysis.grade === 'DANGER'}"></span>
-                        <h6 class="tx-13 tx-medium mg-b-20">{{analysis.description}}</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Location -->
-          <section class="location" id="location">
-            <!-- Map -->
-            <div class="location-map card">
-              <div class="row">
-                <div class="col-md-8">
-                  <incident-map incidents="[vm.incident]"></incident-map>
-                </div>
-                <div class="col-md-4 pd-30 location-summary">
-                  <div class="row mr-3">
-                    <dl>
-                      <dt>Overview</dt>
-                      <dd>{{ vm.textSummaries.locationSummary }}</dd>
-                    </dl>
-                  </div>
-                  <div class="row mr-3">
-                    <dl>
-                      <dt>Address</dt>
-                      <dd>
-                        {{ vm.incident.address.address_line1 }} <br>
-                        {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
-                      </dd>
-                    </dl>
-                  </div>
-                  <div class="row mr-4">
-                    <dl>
-                      <dt>Response Zone</dt>
-                      <dd>
-                        {{ vm.incident.address.response_zone }}
-                      </dd>
-                    </dl>
-                  </div>
-                  <div class="row mr-3">
-                    <dl>
-                      <dt>First Due</dt>
-                      <dd>
-                        {{ vm.incident.address.first_due }}
-                      </dd>
-                    </dl>
-                  </div>
-                  <div class="row mr-3" ng-if="vm.incident.address.battalion">
-                    <dl>
-                      <dt>Battalion</dt>
-                      <dd>
-                        {{ vm.incident.address.battalion }}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Census Data -->
-            <div class="census-data card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Census Data</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div ng-if="!vm.incident.address.location.census" class="d-flex h-100">
-                  <div class="m-auto pd-b-20">
-                    <h5 class="tx-gray-500">No census data available.</h5>
-                    <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
-                  </div>
-                </div>
-                <div ng-if="vm.incident.address.location.census">
-                  <div class="row">
-                    <div class="col-sm-6 stat d-flex">
-                      <i class="se-icon-year fa-3x"></i>
-                      <span>
-                        <h2>2010</h2>
-                        <h4>Year</h4>
-                      </span>
-                    </div>
-                    <div ng-if="vm.incident.address.population_density === 'Urban'" class="col-sm-6 stat d-flex">
-                      <i class="se-icon-buildings fa-3x"></i>
-                      <span>
-                        <h2>{{ vm.incident.address.population_density }}</h2>
-                        <h4>Density</h4>
-                      </span>
-                    </div>
-                    <div ng-if="vm.incident.address.population_density === 'Rural'" class="col-sm-6 stat d-flex">
-                      <i class="se-icon-census-tract fa-3x"></i>
-                      <span>
-                        <h2>{{ vm.incident.address.population_density }}</h2>
-                        <h4>Density</h4>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6 stat d-flex pb-5 pb-md-3">
-                      <i class="se-icon-census-tract fa-3x"></i>
-                      <span>
-                        <h2>{{ vm.incident.address.location.census.census_2010.tract }}</h2>
-                        <h4>Tract</h4>
-                      </span>
-                    </div>
-                    <div class="col-sm-6 stat d-flex pb-5 pb-md-3">
-                      <i class="se-icon-census-block fa-3x"></i>
-                      <span>
-                        <h2>{{ vm.incident.address.location.census.census_2010.block }}</h2>
-                        <h4>Block</h4>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Parcel Data -->
-            <div class="parcel-data card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Parcel Data</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div ng-if="vm.incident.address.location.parcel">
-                  <div class="row">
-                    <div class="col-sm-7 stat d-flex">
-                      <i class="se-icon-land-use fa-3x"></i>
-                      <span>
-                        <h2>{{ vm.incident.address.location.parcel.land_use }}</h2>
-                        <h4>Land Use</h4>
-                      </span>
-                    </div>
-                    <div class="col-sm-5 stat d-flex">
-                      <i class="se-icon-land-area fa-3x"></i>
-                      <span>
-                        <h2><span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{
-                          vm.incident.address.location.parcel.land_area | number:0 }}</h2>
-                        <h4>Land Area (ft&sup2;)</h4>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-7 stat d-flex pb-3 pb-md-0">
-                      <i class="se-icon-dwelling-value fa-3x"></i>
-                      <span>
-                        <h2> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h2>
-                        <h4>Dwelling Value</h4>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  ng-if="!vm.incident.address.location.parcel"
-                  class="d-flex h-100 tx-center"
-                >
-                  <h5 class="tx-gray-500 m-auto pd-b-20">
-                    <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
-                    No parcel data available
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Situational Awareness -->
-          <section class="situational-awareness" id="situationalAwareness">
-            <!-- Weather Conditions -->
-            <div class="weather-conditions card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Weather Conditions</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div ng-if="vm.incident.weather.currently">
-                  <div class="row">
-                    <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
-                      amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }}
-                      the following weather conditions were observed:</p>
-                    <div class="col-md-12">
-                      <current-weather weather="vm.incident.weather.currently"></current-weather>
-                    </div>
-                  </div>
-                </div>
-                <div ng-if="!vm.incident.weather.currently" class="d-flex">
-                  <div class="d-flex h-100 tx-center">
-                    <h5 class="tx-gray-500 m-auto pd-b-20">
-                      <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
-                      No weather data available at this time.
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Traffic Conditions -->
-            <div class="traffic-conditions card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Traffic Conditions</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div class="d-flex h-100 tx-center">
-                  <h5 class="tx-gray-500 m-auto pd-b-20">
-                    <i class="fa fa-bar-chart tx-80 tx-gray-300 mg-b-20"></i><br>
-                    No traffic data available
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Response -->
-          <section class="response" id="response" ng-show="!vm.incident.description.suppressed">
-            <!-- Response Overview -->
-            <div class="response-overview card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Overview</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div class="row tx-center">
-                  <div class="col-12 col-md-4 pd-y-20 pd-md-y-0 tx-left">
-                    <p class="lh-8 mg-b-0">{{ vm.textSummaries.responseSummary }}</p>
-                  </div><!-- col-4 -->
-                  <div class="col-6 col-md-2 pd-y-20 pd-md-y-0">
-                    <p class="light-label">Call answered in</p>
-                    <h4 class="tx-info tx-normal mg-b-0">{{
-                      vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}</h4>
-                  </div><!-- col-2 -->
-                  <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
-                    <p class="light-label">First unit dispatched</p>
-                    <h4 class="tx-info tx-normal mg-b-0">{{
-                      vm.humanizeDuration(vm.incident.durations.alarm_processing.seconds*1000) }}</h4>
-                  </div><!-- col-2 -->
-                  <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-md-l-0 bd-color-gray-lighter">
-                    <p class="light-label">First unit on scene</p>
-                    <h4 class="tx-info tx-normal mg-b-0">{{
-                      vm.humanizeDuration(vm.incident.durations.response.minutes*1000*60) }}</h4>
-                  </div><!-- col-2 -->
-                  <div class="col-6 col-md-2 pd-y-20 pd-md-y-0 bd-l bd-color-gray-lighter">
-                    <p class="light-label">Resolved in</p>
-                    <h4 class="tx-info tx-normal mg-b-0">{{
-                      vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}</h4>
-                  </div><!-- col-2 -->
-                </div><!-- row -->
-              </div>
-            </div>
-
-            <!-- Events Timeline -->
-            <div class="events-timeline card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Events Timeline</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-10">
-                    <incident-timeline incident="vm.incident" timezone="vm.incident.fire_department.timezone"></incident-timeline>
-                  </div>
-                  <div class="col-lg-2 pl-2">
-                    <ul class="events-timeline-legend">
-                      <li class="alarm-answer">Alarm Answer</li>
-                      <li class="alarm-processing">Alarm Processing</li>
-                      <li class="turnout-time">Turnout Time</li>
-                      <li class="travel-time">Travel Time</li>
-                      <li class="intervention-time">Intervention Time</li>
-                      <li class="transport">Transport</li>
-                      <li class="post-transport">Post Transport</li>
-                      <li class="cancelled">Out-of-Service/Cancelled</li>
+              <div ng-if="vm.suppressedUnits">
+                <div class="alert alert-danger" role="alert">
+                  <p>Some responses have been suppressed from analysis due to these irregularities: <span ng-if="vm.incident.description.suppressionText"> </span>
+                    <ul>
+                      <li ng-repeat="unit in vm.suppressedUnits"><strong>{{unit.suppressedText}}</strong></li>
                     </ul>
-                  </div>
+                    If you think this has occurred in error, please let us know.
+                </div>
+                <hr>
+              </div>
+              <h6 class="heavyheader"> {{ vm.type }} <span ng-if="vm.subtype"> - {{ vm.subtype }} </span> </h6>
+              <p>{{ vm.textSummaries.incidentSummary }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Incident Summary -->
+        <div class="incident-summary card">
+          <div class="card-header">
+            <h6 class="card-title">Incident Summary</h6>
+          </div>
+          <div class="card-body">
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Incident Number:</span>
+              <span>{{ vm.incident.description.incident_number }}</span>
+            </div>
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Event Type:</span>
+              <span>{{ vm.incident.description.type }}</span>
+            </div>
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Event Sub-Type:</span>
+              <span>{{ vm.incident.description.subtype }}</span>
+            </div>
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Date:</span>
+              <span>{{ vm.incident.description.event_opened |
+                amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM Do YYYY' }}</span>
+            </div>
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Dispatch Time:</span>
+              <span>{{ vm.incident.description.first_unit_dispatched |
+                amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'HH:mm' }}</span>
+            </div>
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Location:</span>
+              <span>{{ vm.incident.address.address_line1 }}</span>
+            </div>
+            <div class="incident-summary-row">
+              <span class="incident-summary-row-label">Event Duration:</span>
+              <span>{{ vm.humanizeDuration(vm.incident.durations.total_event.seconds*1000) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dispatch Comments -->
+        <div class="dispatch-comments card">
+          <div class="card-header">
+            <h6 class="card-title">Dispatch Comments</h6>
+          </div>
+          <div class="card-body">
+            <div ng-if="!vm.incident.description.comments" class="d-flex h-100">
+              <h5 class="no-data">No dispatch comments available</h5>
+            </div>
+            <div ng-if="!vm.isShowingAllComments">
+              <div
+                class="dispatch-comments-comment truncated"
+                ng-repeat="comment in vm.commentsTruncated track by $index"
+                ng-attr-title="{{ comment }}"
+              >
+                {{ comment }}
+              </div>
+              <div ng-if="vm.isCommentsTruncated">...</div>
+            </div>
+            <div ng-if="vm.isShowingAllComments">
+              <div class="dispatch-comments-comment" ng-repeat="comment in vm.comments track by $index">
+                {{ comment }}
+              </div>
+            </div>
+            <div class="dispatch-comments-show-hide text-center">
+              <span ng-if="vm.isCommentsTruncated && !vm.isShowingAllComments">
+                <a href="#" ng-click="vm.showFullComments(true)">Show All</a>
+              </span>
+              <span ng-if="vm.isCommentsTruncated && vm.isShowingAllComments">
+                <a href="#" ng-click="vm.showFullComments(false)">Hide</a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Analysis -->
+        <div class="performance-analysis card">
+          <div class="card-header">
+            <h6 class="card-title">StatEngine&trade; Performance Analysis</h6>
+          </div>
+          <div class="card-body">
+            <div class="performance-analysis-items" ng-show="!vm.incident.description.suppressed">
+              <div ng-repeat="analysis in vm.analysis" ng-init="$last && vm.initTippy()">
+                <div
+                  class="card ruletippy h-100"
+                  ng-class="{ 'nfpa-standard': analysis.category === 'NFPA' }"
+                  ng-attr-title="{{ vm.formatEvidence(analysis.evidence) }}"
+                >
+                  <span
+                    ng-class="{
+                      'se-icon-circle-checkmark pass': analysis.grade === 'SUCCESS',
+                      'se-icon-circle-exclamation caution': analysis.grade === 'WARNING',
+                      'se-icon-circle-x fail': analysis.grade === 'DANGER'
+                    }"
+                  ></span>
+                  <h6 class="tx-13 tx-medium mg-b-20">{{ analysis.description }}</h6>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <!-- Alarm Answering Duration -->
-            <div class="alarm-answering-duration card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Alarm Answering Duration</h6>
-                <div class="card-option">
-                  <a href="" data-tippy-html='#alarmAnswerTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
-                </div><!-- card-option -->
-              </div><!-- card-header -->
-              <div class="card-body">
-                <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
+      <!-- Location -->
+      <section class="location" id="location">
+        <!-- Map -->
+        <div class="location-map card">
+          <div class="card-body">
+            <incident-map incidents="[vm.incident]"></incident-map>
+            <div class="location-summary">
+              <dl>
+                <dt>Overview</dt>
+                <dd>{{ vm.textSummaries.locationSummary }}</dd>
+              </dl>
+              <dl>
+                <dt>Address</dt>
+                <dd>
+                  {{ vm.incident.address.address_line1 }} <br>
+                  {{ vm.incident.address.city }}, {{ vm.incident.address.state }}
+                </dd>
+              </dl>
+              <dl>
+                <dt>Response Zone</dt>
+                <dd>
+                  {{ vm.incident.address.response_zone }}
+                </dd>
+              </dl>
+              <dl>
+                <dt>First Due</dt>
+                <dd>
+                  {{ vm.incident.address.first_due }}
+                </dd>
+              </dl>
+              <dl ng-if="vm.incident.address.battalion">
+                <dt>Battalion</dt>
+                <dd>
+                  {{ vm.incident.address.battalion }}
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Census Data -->
+        <div class="census-data card">
+          <div class="card-header">
+            <h6 class="card-title">Census Data</h6>
+          </div>
+          <div class="card-body">
+            <div class="d-flex h-100" ng-if="!vm.incident.address.location.census">
+              <div class="no-data">
+                <h5>No census data available.</h5>
+                <a href="#" class="btn btn-alt-2 btn-sm" ui-sref="site.marketplace.home">Request to Add Now</a>
               </div>
             </div>
-
-            <!-- Alarm Processing Duration -->
-            <div class="alarm-processing-duration card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Alarm Processing Duration</h6>
-                <div class="card-option">
-                  <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
-                </div><!-- card-option -->
-              </div><!-- card-header -->
-              <div class="card-body">
-                <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
+            <div ng-if="vm.incident.address.location.census">
+              <div class="census-data-stats-row">
+                <div class="census-data-stat">
+                  <i class="se-icon-year fa-3x"></i>
+                  <span>
+                    <h2>2010</h2>
+                    <h4>Year</h4>
+                  </span>
+                </div>
+                <div class="census-data-stat" ng-if="vm.incident.address.population_density === 'Urban'">
+                  <i class="se-icon-buildings fa-3x"></i>
+                  <span>
+                    <h2>{{ vm.incident.address.population_density }}</h2>
+                    <h4>Density</h4>
+                  </span>
+                </div>
+                <div class="census-data-stat" ng-if="vm.incident.address.population_density === 'Rural'">
+                  <i class="se-icon-census-tract fa-3x"></i>
+                  <span>
+                    <h2>{{ vm.incident.address.population_density }}</h2>
+                    <h4>Density</h4>
+                  </span>
+                </div>
               </div>
-            </div>
-
-            <!-- Travel Distances -->
-            <div class="travel-distances card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Travel Distances</h6>
-                <div class="card-option">
-                  <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
-                </div><!-- card-option -->
-              </div><!-- card-header -->
-              <div class="card-body">
-                <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
-              </div>
-            </div>
-
-            <!-- Travel Durations -->
-            <div class="travel-durations card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Travel Durations</h6>
-                <div class="card-option">
-                  <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
-                </div><!-- card-option -->
-              </div><!-- card-header -->
-              <div class="card-body">
-                <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
-              </div>
-            </div>
-
-            <!-- Response Duration -->
-            <div class="response-duration card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Response Duration</h6>
-                <div class="card-option">
-                  <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
-                </div><!-- card-option -->
-              </div><!-- card-header -->
-              <div class="card-body">
-                <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
-              </div>
-            </div>
-
-            <!-- Response Duration Comparisons -->
-            <div class="response-duration-comparisons card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Response Duration Comparisons</h6>
-                <div class="card-option">
-                  <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
-                </div><!-- card-option -->
-              </div><!-- card-header -->
-              <div class="card-body">
-                <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
-              </div>
-            </div>
-
-            <!-- Concurrent Incidents -->
-            <div class="concurrent-incidents card">
-              <div class="card-header bg-white bd-0 d-flex align-items-center justify-content-between">
-                <h6 class="card-title tx-medium mg-b-0 tx-spacing-1">Concurrent Incidents</h6>
-              </div><!-- card-header -->
-              <div class="card-body">
-                <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14">
-                  {{ vm.concurrentIncidents.length }} </span> incidents also in
-                  progress during this timeframe</p>
-                <div class="concurrent-incidents-table" ui-grid="vm.concurrentIncidentTableOptions">
-                  <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">
-                    No concurrent incidents
-                  </div>
+              <div class="census-data-stats-row">
+                <div class="census-data-stat">
+                  <i class="se-icon-census-tract fa-3x"></i>
+                  <span>
+                    <h2>{{ vm.incident.address.location.census.census_2010.tract }}</h2>
+                    <h4>Tract</h4>
+                  </span>
+                </div>
+                <div class="census-data-stat">
+                  <i class="se-icon-census-block fa-3x"></i>
+                  <span>
+                    <h2>{{ vm.incident.address.location.census.census_2010.block }}</h2>
+                    <h4>Block</h4>
+                  </span>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </div>
 
-          <section class="response" id="response" ng-show="vm.incident.description.suppressed">
-            <h5>No response data available.</h5>
-          </section>
-        </div> <!-- END: Tab Panes/Content -->
-      </div>
-    </div>
+        <!-- Parcel Data -->
+        <div class="parcel-data card">
+          <div class="card-header">
+            <h6 class="card-title">Parcel Data</h6>
+          </div>
+          <div class="card-body">
+            <div ng-if="vm.incident.address.location.parcel">
+              <div class="parcel-data-stats-row">
+                <div class="parcel-data-stat">
+                  <i class="se-icon-land-use fa-3x"></i>
+                  <span>
+                    <h2>{{ vm.incident.address.location.parcel.land_use }}</h2>
+                    <h4>Land Use</h4>
+                  </span>
+                </div>
+                <div class="parcel-data-stat">
+                  <i class="se-icon-land-area fa-3x"></i>
+                  <span>
+                    <h2><span ng-if="!vm.incident.address.location.parcel.land_area"> - </span> {{
+                      vm.incident.address.location.parcel.land_area | number:0 }}</h2>
+                    <h4>Land Area (ft&sup2;)</h4>
+                  </span>
+                </div>
+              </div>
+              <div class="parcel-data-stats-row">
+                <div class="parcel-data-stat">
+                  <i class="se-icon-dwelling-value fa-3x"></i>
+                  <span>
+                    <h2> {{ vm.incident.address.location.parcel.dwelling_value | currency:"$":0 }} </h2>
+                    <h4>Dwelling Value</h4>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              ng-if="!vm.incident.address.location.parcel"
+              class="d-flex h-100 tx-center"
+            >
+              <h5 class="no-data">
+                <i class="no-data-icon fa fa-bar-chart"></i><br>
+                No parcel data available
+              </h5>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Situational Awareness -->
+      <section class="situational-awareness" id="situationalAwareness">
+        <!-- Weather Conditions -->
+        <div class="weather-conditions card">
+          <div class="card-header">
+            <h6 class="card-title">Weather Conditions</h6>
+          </div>
+          <div class="card-body">
+            <div ng-if="vm.incident.weather.currently">
+              <div class="row">
+                <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
+                  amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }}
+                  the following weather conditions were observed:</p>
+                <div class="col-md-12">
+                  <current-weather weather="vm.incident.weather.currently"></current-weather>
+                </div>
+              </div>
+            </div>
+            <div ng-if="!vm.incident.weather.currently" class="d-flex">
+              <div class="d-flex h-100 tx-center">
+                <h5 class="no-data">
+                  <i class="no-data-icon fa fa-bar-chart"></i><br>
+                  No weather data available at this time.
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Traffic Conditions -->
+        <div class="traffic-conditions card">
+          <div class="card-header">
+            <h6 class="card-title">Traffic Conditions</h6>
+          </div>
+          <div class="card-body">
+            <div class="d-flex h-100 tx-center">
+              <h5 class="no-data">
+                <i class="no-data-icon fa fa-bar-chart"></i><br>
+                No traffic data available
+              </h5>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Response -->
+      <section class="response" id="response" ng-show="!vm.incident.description.suppressed">
+        <!-- Response Overview -->
+        <div class="response-overview card">
+          <div class="card-header">
+            <h6 class="card-title">Overview</h6>
+          </div>
+          <div class="card-body">
+            <div class="response-overview-summary">
+              {{ vm.textSummaries.responseSummary }}
+            </div>
+            <div class="response-overview-stats">
+              <div class="response-overview-stat">
+                <p class="response-overview-stat-label">Call answered in</p>
+                <h4 class="response-overview-stat-value">
+                  {{ vm.humanizeDuration(vm.incident.durations.alarm_answer.seconds*1000) }}
+                </h4>
+              </div>
+              <div class="response-overview-stat">
+                <p class="response-overview-stat-label">First unit dispatched</p>
+                <h4 class="response-overview-stat-value">
+                  {{ vm.humanizeDuration(vm.incident.durations.alarm_processing.seconds*1000) }}
+                </h4>
+              </div>
+              <div class="response-overview-stat">
+                <p class="response-overview-stat-label">First unit on scene</p>
+                <h4 class="response-overview-stat-value">
+                  {{ vm.humanizeDuration(vm.incident.durations.response.minutes*1000*60) }}
+                </h4>
+              </div>
+              <div class="response-overview-stat">
+                <p class="response-overview-stat-label">Resolved in</p>
+                <h4 class="response-overview-stat-value">
+                  {{ vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Events Timeline -->
+        <div class="events-timeline card">
+          <div class="card-header">
+            <h6 class="card-title">Events Timeline</h6>
+          </div>
+          <div class="card-body">
+            <incident-timeline
+              incident="vm.incident"
+              timezone="vm.incident.fire_department.timezone"
+            ></incident-timeline>
+            <div class="events-timeline-legend">
+              <div class="alarm-answer">Alarm Answer</div>
+              <div class="alarm-processing">Alarm Processing</div>
+              <div class="turnout-time">Turnout Time</div>
+              <div class="travel-time">Travel Time</div>
+              <div class="intervention-time">Intervention Time</div>
+              <div class="transport">Transport</div>
+              <div class="post-transport">Post Transport</div>
+              <div class="cancelled">Out-of-Service/Cancelled</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alarm Answering Duration -->
+        <div class="alarm-answering-duration card">
+          <div class="card-header">
+            <h6 class="card-title">Alarm Answering Duration</h6>
+            <div class="card-option">
+              <a href="" data-tippy-html='#alarmAnswerTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <incident-alarm-answering-graph incident="vm.incident"></incident-alarm-answering-graph>
+          </div>
+        </div>
+
+        <!-- Alarm Processing Duration -->
+        <div class="alarm-processing-duration card">
+          <div class="card-header">
+            <h6 class="card-title">Alarm Processing Duration</h6>
+            <div class="card-option">
+              <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <incident-alarm-processing-graph incident="vm.incident"></incident-alarm-processing-graph>
+          </div>
+        </div>
+
+        <!-- Travel Distances -->
+        <div class="travel-distances card">
+          <div class="card-header">
+            <h6 class="card-title">Travel Distances</h6>
+            <div class="card-option">
+              <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <incident-unit-travel-distance-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-distance-graph>
+          </div>
+        </div>
+
+        <!-- Travel Durations -->
+        <div class="travel-durations card">
+          <div class="card-header">
+            <h6 class="card-title">Travel Durations</h6>
+            <div class="card-option">
+              <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <incident-unit-travel-duration-graph incident="vm.incident" travel-matrix="vm.travelMatrix"></incident-unit-travel-duration-graph>
+          </div>
+        </div>
+
+        <!-- Response Duration -->
+        <div class="response-duration card">
+          <div class="card-header">
+            <h6 class="card-title">Response Duration</h6>
+            <div class="card-option">
+              <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <incident-unit-response-graph incident="vm.incident"></incident-unit-response-graph>
+          </div>
+        </div>
+
+        <!-- Response Duration Comparisons -->
+        <div class="response-duration-comparisons card">
+          <div class="card-header">
+            <h6 class="card-title">Response Duration Comparisons</h6>
+            <div class="card-option">
+              <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <incident-comparison-graph incident="vm.incident" comparison="vm.comparison"></incident-comparison-graph>
+          </div>
+        </div>
+
+        <!-- Concurrent Incidents -->
+        <div class="concurrent-incidents card">
+          <div class="card-header">
+            <h6 class="card-title">Concurrent Incidents</h6>
+          </div>
+          <div class="card-body">
+            <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14">
+              {{ vm.concurrentIncidents.length }} </span> incidents also in
+              progress during this timeframe</p>
+            <div class="concurrent-incidents-table" ui-grid="vm.concurrentIncidentTableOptions">
+              <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">
+                No concurrent incidents
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="response" id="response" ng-show="vm.incident.description.suppressed">
+        <h5>No response data available.</h5>
+      </section>
+    </div> <!-- END: Tab Panes/Content -->
   </section>
 
   <!--- tooltips -->

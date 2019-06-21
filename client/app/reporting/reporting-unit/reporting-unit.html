@@ -42,45 +42,33 @@
               </select>
             </div>
 
-            <div class="section-tabs">
-              <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" ng-if="vm.isDataAvailable()">
-                <li class="nav-item tx-medium pl-0">
-                  <a class="nav-link" href="" ng-click="vm.scrollTo('#incidentTypesHeader')">
-                    Incident Types
-                  </a>
-                </li>
-                <li class="nav-item tx-medium">
-                  <a class="nav-link" href="" ng-click="vm.scrollTo('#travelTimeHeader')">
-                    Travel
-                  </a>
-                </li>
-                <li class="nav-item tx-medium">
-                  <a class="nav-link" href="" ng-click="vm.scrollTo('#turnoutTimeHeader')">
-                    Turnout
-                  </a>
-                </li>
-                <li class="nav-item tx-medium">
-                  <a
-                    class="nav-link"
-                    href=""
-                    ng-click="vm.showOverlay('timeline')"
-                    ng-disabled="vm.incidentsTimeline.incidents.length === 0"
-                  >
-                    Timeline
-                  </a>
-                </li>
-                <li class="nav-item tx-medium">
-                  <a
-                    class="nav-link"
-                    href=""
-                    ng-click="vm.showOverlay('incidents')"
-                    ng-disabled="vm.incidentsTable.incidents.length === 0"
-                  >
-                    Incidents
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <nav class="section-nav">
+              <div class="section-nav-links" ng-if="vm.isDataAvailable()">
+                <a href="" ng-click="vm.scrollTo('#incidentTypesHeader')">
+                  Incident Types
+                </a>
+                <a href="" ng-click="vm.scrollTo('#travelTimeHeader')">
+                  Travel
+                </a>
+                <a href="" ng-click="vm.scrollTo('#turnoutTimeHeader')">
+                  Turnout
+                </a>
+                <a
+                  href=""
+                  ng-click="vm.showOverlay('timeline')"
+                  ng-disabled="vm.incidentsTimeline.incidents.length === 0"
+                >
+                  Timeline
+                </a>
+                <a
+                  href=""
+                  ng-click="vm.showOverlay('incidents')"
+                  ng-disabled="vm.incidentsTable.incidents.length === 0"
+                >
+                  Incidents
+                </a>
+              </div>
+            </nav>
 
             <div class="card-body bg-white" ng-if="!vm.isDataAvailable()">
               <h2>No Data Available</h2>

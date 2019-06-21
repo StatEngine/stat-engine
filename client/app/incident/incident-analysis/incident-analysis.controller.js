@@ -56,12 +56,16 @@ export default class IncidentAnalysisController {
     this.subtype = this.incident.description.subtype;
     this.firstUnitDispatched = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
     this.firstUnitArrived = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
-    let comments = _.get(this.incident, 'description.comments');
-    if(comments) {
-      let limit = 500;
-      this.isShowingFullComments = false;
-      this.commentsTruncated = comments.substring(0, limit);
-      this.isCommentsTruncated = comments.length > limit;
+    this.comments = _.get(this.incident, 'description.comments');
+    if(this.comments) {
+      const limit = 8;
+      this.comments = this.comments.split('**').slice(1);
+      this.comments.forEach((comment, i) => {
+        this.comments[i] = comment.trim();
+      });
+      this.isShowingAllComments = false;
+      this.commentsTruncated = this.comments.slice(0, limit);
+      this.isCommentsTruncated = this.comments.length > limit;
     }
 
     this.textSummaries = this.incidentData.textSummaries;
@@ -212,7 +216,7 @@ export default class IncidentAnalysisController {
       $('#fullComments').collapse('hide');
     }
 
-    this.isShowingFullComments = show;
+    this.isShowingAllComments = show;
   }
 
   humanizeDuration(ms) {
