@@ -56,12 +56,12 @@ export default class IncidentAnalysisController {
     this.subtype = this.incident.description.subtype;
     this.firstUnitDispatched = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
     this.firstUnitArrived = _.get(_.find(this.incident.apparatus, u => _.get(u, 'unit_status.dispatched.order') === 1), 'unit_id');
-    let comments = _.get(this.incident, 'description.comments');
-    if(comments) {
-      let limit = 500;
-      this.isShowingFullComments = false;
-      this.commentsTruncated = comments.substring(0, limit);
-      this.isCommentsTruncated = comments.length > limit;
+    this.comments = _.get(this.incident, 'description.comments');
+    if(this.comments) {
+      const limit = 500;
+      this.isShowingAllComments = false;
+      this.commentsTruncated = this.comments.substr(0, limit) + ' ...';
+      this.isCommentsTruncated = this.comments.length > limit;
     }
 
     this.textSummaries = this.incidentData.textSummaries;
@@ -76,9 +76,7 @@ export default class IncidentAnalysisController {
     });
 
     const incident = this.incident;
-    this.concurrentIncidentTableOptions = {
-      data: [],
-      columnDefs: [{
+    this.concurrentIncidentsUiGridColumnDefs = [{
         field: 'description.incident_number',
         displayName: 'Incident Number',
         cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col )}}</a></div>',
@@ -117,11 +115,12 @@ export default class IncidentAnalysisController {
       }, {
         field: 'description.type',
         displayName: 'Type',
-      }],
-      onRegisterApi: (uiGridApi) => {
-        this.uiGridApi = uiGridApi;
-      },
+    }];
+
+    this.onUiGridInit = ({ uiGridApi }) => {
+      this.uiGridApi = uiGridApi;
     };
+
     this.formatSearchResults(this.concurrentIncidents);
 
     this.initialized = true;
@@ -196,13 +195,14 @@ export default class IncidentAnalysisController {
 
     _.forEach(results, r => searchResults.push(r._source));
 
-    this.concurrentIncidentTableOptions.data = searchResults;
-    this.concurrentIncidentTableOptions.minRowsToShow = searchResults.length || 5;
+    this.concurrentIncidents = searchResults;
   }
 
 
   scrollTo(location) {
-    $('.content-view').animate({ scrollTop: $(location).offset().top }, 1000);
+    const paddingTop = parseInt($(location).css('paddingTop')) || 0;
+    const scrollTop = $(location).offset().top - paddingTop;
+    $('.content-view').animate({ scrollTop }, 1000);
   }
 
   showFullComments(show) {
@@ -212,12 +212,12 @@ export default class IncidentAnalysisController {
       $('#fullComments').collapse('hide');
     }
 
-    this.isShowingFullComments = show;
+    this.isShowingAllComments = show;
   }
 
   humanizeDuration(ms) {
     if (_.isNil(ms) || _.isNaN(ms)) return 'N/A';
-    return shortEnglishHumanizer(ms, { round: true });
+    return shortEnglishHumanizer(ms, { round: true, spacer: '' });
   }
 
   print() {

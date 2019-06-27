@@ -81,18 +81,6 @@
       width: 10rem;
     }
 
-    .section-tabs {
-      display: flex;
-      align-items: center;
-      justify-content: start;
-      padding: 1rem 25px 0;
-      border-bottom: solid 1px $input-border-color;
-
-      @include media-breakpoint-down(xs) {
-        padding: 1rem 15px 0;
-      }
-    }
-
     .card {
       margin: 1rem 0;
     }

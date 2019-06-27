@@ -75,7 +75,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
     data.push(actualTrace);
 
     var layout = {
-      height: 290,
+      height: 320,
       shapes,
       annotations,
       margin: {
@@ -93,7 +93,13 @@ export default class IncidentUnitTravelDurationGraphComponent {
         title: 'Seconds',
         linecolor: '#d7dee3',
       },
-
+      legend: {
+        orientation: 'h',
+        xanchor: 'center',
+        yanchor: 'bottom',
+        x: 0.5,
+        y: 1.05,
+      },
     };
     PlotlyBasic.newPlot(this.id, data, layout, {
       displayModeBar: false,

@@ -93,7 +93,7 @@ export default class IncidentUnitResponseGraphComponent {
     const layout = {
       barmode: 'stack',
       shapes,
-      height: 290,
+      height: 320,
       margin: {
         l: 55,
         r: 5,
@@ -105,6 +105,13 @@ export default class IncidentUnitResponseGraphComponent {
         title: 'Seconds',
         linecolor: '#d7dee3',
         zerolinecolor: '#d7dee3',
+      },
+      legend: {
+        orientation: 'h',
+        xanchor: 'center',
+        yanchor: 'bottom',
+        x: 0.5,
+        y: 1.05,
       },
       annotations: [{
         x: threshold,

@@ -1,7 +1,7 @@
 <div ng-if="vm.initialized">
   <div class="incidents-table-desktop">
     <div
-      class="search-grid"
+      class="ui-grid-table"
       ui-grid="vm.uiGridOptions"
       ui-grid-resize-column
     >
@@ -15,6 +15,7 @@
     </div>
 
     <table-controls
+      ng-if="vm.showControls"
       pagination="vm.pagination"
       on-pagination-change="vm.handlePaginationChange({ pagination })"
       position="bottom"
@@ -25,6 +26,7 @@
   <!-- Incidents (mobile) -->
   <div class="incidents-table-mobile">
     <table-controls
+      ng-if="vm.showControls"
       pagination="vm.pagination"
       sort="vm.sortSelect"
       on-pagination-change="vm.handlePaginationChange({ pagination })"
@@ -62,7 +64,7 @@
     </div>
 
     <table-controls
-      ng-if="!vm.isLoadingFirst"
+      ng-if="vm.showControls && !vm.isLoadingFirst"
       pagination="vm.pagination"
       sort="vm.sortSelect"
       on-pagination-change="vm.handlePaginationChange({ pagination })"

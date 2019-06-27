@@ -19,6 +19,13 @@
     }
   }
 
+  .card {
+    .info-icon {
+      float: right;
+      font-size: 22px;
+    }
+  }
+
   .incident-analysis-tabs {
     @extend .ht-md-60;
     @extend .pb-3;
@@ -37,9 +44,12 @@
   }
 
   .incident-analysis-content {
-    @extend .container-fluid;
+    @include container-fluid-max-width;
 
-    max-width: 1230px;
+    @include media-breakpoint-down(sm) {
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     @media print {
       display: block;
@@ -59,22 +69,11 @@
       display: grid;
       grid-template-columns: 50%;
       grid-gap: 2rem;
-      padding-top: 2rem;
+      padding-top: 4rem;
+      position: relative;
 
       &:not(:first-child) {
-        @extend .mt-5;
-      }
-
-      > :first-child::before {
-        @extend .tx-13;
-        @extend .tx-spacing-1;
-        @extend .tx-gray-500;
-        @extend .tx-uppercase;
-        @extend .tx-medium;
-        font-family: 'Montserrat', sans-serif;
-        grid-area: section-header;
-        margin-bottom: -1rem;
-        transform: translateY(-200%);
+        margin-top: 2rem;
       }
 
       @include media-breakpoint-down(md) {
@@ -89,6 +88,14 @@
         > :first-child::before {
           grid-area: unset !important;
         }
+      }
+
+      @include media-breakpoint-down(sm) {
+        grid-gap: 25px;
+      }
+
+      @include media-breakpoint-down(xs) {
+        grid-gap: 15px;
       }
 
       @media print {
@@ -111,9 +118,21 @@
         }
       }
 
+      > :first-child::before {
+        @extend .tx-13;
+        @extend .tx-spacing-1;
+        @extend .tx-gray-500;
+        @extend .tx-uppercase;
+        @extend .tx-medium;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-family: 'Montserrat', sans-serif;
+        transform: translateY(-200%);
+      }
+
       &.overview {
         grid-template-areas:
-          'section-header       section-header'
           'overview-intro       overview-intro'
           'incident-summary     dispatch-comments'
           'performance-analysis performance-analysis';
@@ -125,13 +144,35 @@
         .overview-intro {
           grid-area: overview-intro;
 
+          .card-body {
+            display: flex;
+
+            @include media-breakpoint-down(sm) {
+              flex-direction: column;
+            }
+          }
+
+          logo {
+            margin-bottom: 1rem;
+          }
+
           .overview-intro-summary {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            margin: 0 3rem;
 
-            @media (min-width: 768px) and (max-width: 1200px) {
-              padding-left: 6rem;
+            @include media-breakpoint-down(sm) {
+              margin: 0 1rem;
+            }
+
+            .alert {
+              text-align: center;
+              margin: 0.5rem 3rem;
+
+              @include media-breakpoint-down(xs) {
+                margin: 0.5rem 1rem;
+              }
             }
           }
 
@@ -147,16 +188,29 @@
 
         .incident-summary {
           grid-area: incident-summary;
+
+          .incident-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: solid 1px $border-color;
+
+            &:last-child {
+              border-bottom: none;
+              padding-bottom: 0;
+            }
+
+            .incident-summary-row-label {
+              @extend .light-label;
+              margin-bottom: 0;
+            }
+          }
         }
 
         .dispatch-comments {
           grid-area: dispatch-comments;
           page-break-before: always;
-
-          p {
-            font-family: monospace;
-            font-size: 15px;
-          }
 
           .dispatch-comments-show-hide {
             @media print {
@@ -201,6 +255,39 @@
             }
           }
 
+          .performance-analysis-items {
+            display: flex;
+
+            @include media-breakpoint-down(lg) {
+              flex-direction: column;
+            }
+
+            > * {
+              flex: 1;
+              margin: 0 0.5rem;
+
+              &:first-child {
+                margin-left: 0;
+              }
+
+              &:last-child {
+                margin-right: 0;
+              }
+
+              @include media-breakpoint-down(lg) {
+                margin: 0.5rem 0;
+
+                &:first-child {
+                  margin-top: 0;
+                }
+
+                &:last-child {
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+
           .pass {
             color: #85c02f;
           }
@@ -223,7 +310,6 @@
 
       &.location {
         grid-template-areas:
-          'section-header section-header'
           'map            map'
           'census-data    parcel-data';
 
@@ -250,17 +336,35 @@
         .location-map {
           grid-area: map;
 
-          .incident-map {
-            border-right: 1px solid $color-geyser;
-            height: 100%;
-            max-height: 500px;
-            width: 100%;
+          .card-body {
+            display: flex;
+            padding: 0;
 
-            @media (max-width: 768px) {
-              border-bottom: 1px solid $color-geyser;
-              border-right: 0;
-              height: 300px;
+            @include media-breakpoint-down(sm) {
+              flex-direction: column;
             }
+          }
+
+          incident-map {
+            flex: 0 0 66.6%;
+
+            .incident-map {
+              border-right: 1px solid $color-geyser;
+              height: 100%;
+              max-height: 500px;
+              width: 100%;
+
+              @media (max-width: 768px) {
+                border-bottom: 1px solid $color-geyser;
+                border-right: 0;
+                height: 300px;
+              }
+            }
+          }
+
+          .location-summary {
+            flex: 0 0 33.3%;
+            padding: 1rem;
           }
         }
 
@@ -279,8 +383,7 @@
 
       &.situational-awareness {
         grid-template-areas:
-          'section-header     section-header'
-          'weather-conditions traffic-conditions';
+          'weather-conditions weather-conditions';
 
         > :first-child::before {
           content: 'Situational Awareness';
@@ -322,15 +425,10 @@
             }
           }
         }
-
-        .traffic-conditions {
-          grid-area: traffic-conditions;
-        }
       }
 
       &.response {
         grid-template-areas:
-          'section-header           section-header'
           'response-overview        response-overview'
           'events-timeline          events-timeline'
           'alarm-answering-duration alarm-processing-duration'
@@ -344,6 +442,65 @@
 
         .response-overview {
           grid-area: response-overview;
+
+          .card-body {
+            display: flex;
+            flex-wrap: wrap;
+          }
+
+          .response-overview-summary {
+            flex: 0.333;
+            margin-right: 1rem;
+
+            @include media-breakpoint-down(lg) {
+              flex: 0 0 100%;
+              margin-right: 0;
+            }
+          }
+
+          .response-overview-stats {
+            flex: 0.666;
+            display: flex;
+            flex-wrap: wrap;
+
+            @include media-breakpoint-down(lg) {
+              flex: 0 0 100%;
+              margin-top: 1rem;
+            }
+
+            .response-overview-stat {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              padding: 1rem;
+              text-align: center;
+              border-right: solid 1px $border-color;
+
+              &:last-child {
+                border-right: none;
+              }
+
+              @include media-breakpoint-down(xs) {
+                flex: 0 0 50%;
+
+                &:nth-child(even) {
+                  border-right: none;
+                }
+              }
+
+              .response-overview-stat-label {
+                @extend .light-label;
+              }
+
+              .response-overview-stat-value {
+                @extend .tx-info;
+                @extend .tx-normal;
+                margin-bottom: 0;
+              }
+            }
+          }
         }
 
         .events-timeline {
@@ -366,60 +523,80 @@
           }
 
           .events-timeline-legend {
+            display: flex;
+            justify-content: center;
             font-size: 13px;
+            margin-bottom: 1rem;
 
-            @media (max-width: 991px) {
-              margin: 3rem 3rem 0;
+            .events-timeline-legend-items {
+              display: flex;
+              justify-content: center;
+              flex-wrap: wrap-reverse;
+              max-width: 46rem;
+
+              @include media-breakpoint-down(xs) {
+                justify-content: start;
+              }
+
+              > * {
+                margin: 0.25rem 0.5rem;
+                white-space: nowrap;
+
+                @include media-breakpoint-down(xs) {
+                  margin: 0.25rem 0;
+                  flex: 0 0 50%;
+                }
+
+                &::before {
+                  content: '\25A0';
+                  font-size: 29px;
+                  line-height: 0;
+                  margin-right: 0.4rem;
+                  position: relative;
+                  top: 4px;
+                }
+
+                &.alarm-answer::before {
+                  color: $color-celery;
+                }
+
+                &.alarm-processing::before {
+                  color: $color-wisteria;
+                }
+
+                &.turnout-time::before {
+                  color: $color-tulip-tree;
+                }
+
+                &.travel-time::before {
+                  color: $color-di-serria;
+                }
+
+                &.intervention-time::before {
+                  color: $color-pelorous;
+                }
+
+                &.cancelled::before {
+                  color: $color-cranberry;
+                }
+
+                &.transport::before {
+                  color: $color-pickled-bluewood;
+                }
+
+                &.post-transport::before {
+                  color: $color-pale-sky;
+                }
+              }
             }
+          }
 
-            li {
-              margin-bottom: .65rem;
+          .vis-inner {
+            padding-left: 0;
 
-              @media (max-width: 991px) {
-                display: block;
-                margin-bottom: .65rem;
-              }
-
-              &::before {
-                content: '\25A0';
-                font-size: 29px;
-                line-height: 0;
-                margin-right: 0.5rem;
-                position: relative;
-                top: 4px;
-              }
-
-              &.alarm-answer::before {
-                color: $color-celery;
-              }
-
-              &.alarm-processing::before {
-                color: $color-wisteria;
-              }
-
-              &.turnout-time::before {
-                color: $color-tulip-tree;
-              }
-
-              &.travel-time::before {
-                color: $color-di-serria;
-              }
-
-              &.intervention-time::before {
-                color: $color-pelorous;
-              }
-
-              &.cancelled::before {
-                color: $color-cranberry;
-              }
-
-              &.transport::before {
-                color: $color-pickled-bluewood;
-              }
-
-              &.post-transport::before {
-                color: $color-pale-sky;
-              }
+            @include media-breakpoint-down(xs) {
+              font-size: 0.75rem;
+              padding-right: 12px;
             }
           }
         }
@@ -454,18 +631,29 @@
       }
     }
 
-    .no-data-available {
+    .no-data {
       @extend .tx-gray-500;
-      @extend .tx-center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @extend .m-auto;
+      @extend .pd-b-20;
     }
 
-    // Baseline style for statistical units found in the card layout
-    .stat {
-      align-items: center;
+    .no-data-icon {
+      @extend .tx-80;
+      @extend .tx-gray-300;
+      @extend .mg-b-20;
+    }
+
+    .census-data-stats-row,
+    .parcel-data-stats-row {
       display: flex;
+      flex-wrap: wrap;
+    }
+
+    .census-data-stat,
+    .parcel-data-stat {
+      flex: 1 1 50%;
+      display: flex;
+      align-items: center;
       padding: 0 1.5rem 3rem;
 
       @media (max-width: 768px) {

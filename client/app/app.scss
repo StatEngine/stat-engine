@@ -956,6 +956,16 @@ $btn-sm-padding: 6px 12px;
   font-size: 86%;
 }
 
+// Containers
+@mixin container-fluid-max-width($max-width: 1230px) {
+  @extend .container-fluid;
+  max-width: $max-width;
+}
+
+.container-fluid-max-width {
+  @include container-fluid-max-width;
+}
+
 /////////////////////////////////
 // Sticky Footer //
 /////////////////////////////////
@@ -1444,11 +1454,24 @@ span+.logged-name {
 // Cards
 .card {
   border-color: lighten($color-cloudy-sky, 10%);
+  line-height: 1.75;
+
   .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: none;
     padding: 1.25rem 0 0;
-    // border-bottom: 1px solid #cbd6df;
     margin: 0 1.25rem;
   }
+
+  .card-title {
+    margin-bottom: 0;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
   .card-option>a {
     color: lighten($color-pale-sky, 23%);
     &:hover {
@@ -1596,6 +1619,51 @@ span+.logged-name {
   }
 }
 
+nav.section-nav {
+  padding: 1.5rem 25px 0.5rem;
+  border-bottom: solid 1px $input-border-color;
+  background: white;
+
+  @include media-breakpoint-down(xs) {
+    padding: 1rem 15px 0;
+  }
+
+  .section-nav-links {
+    display: flex;
+    align-items: start;
+
+    @media print {
+      display: none;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    a {
+      color: #697983;
+      margin: 0 1rem;
+      font-weight: 500;
+
+      &:hover {
+        color: #202e36;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @include media-breakpoint-down(sm) {
+        margin: 0.5rem 0;
+      }
+    }
+  }
+}
+
 /////////////////////////////////
 // IMPORT COMPONENTS //
 ////////////////////////////////
@@ -1633,4 +1701,5 @@ span+.logged-name {
 @import '../components/reporting-unit-list/reporting-unit-list';
 @import '../components/plotly-wrapper/plotly-wrapper';
 @import '../components/toggle-switch/toggle-switch';
+@import '../components/weather/current-weather';
 // endinject //

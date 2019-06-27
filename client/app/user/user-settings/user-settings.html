@@ -52,8 +52,10 @@
     <!-- My Profile -->
     <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
       <div class="card mg-b-25">
+        <div class="card-header mb-3">
+          <h6 class="card-title">My Profile</h6>
+        </div>
         <div class="card-body">
-          <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">My Profile</h6>
           <form name="profileForm" id="profileForm" ng-submit="vm.saveProfile(profileForm)" novalidate>
             <div class="form-layout">
               <div class="row">
@@ -106,8 +108,10 @@
     <!-- Email -->
     <div class="tab-pane fade" id="nav-email" role="tabpanel" aria-labelledby="nav-email-tab">
       <div class="card mg-b-25">
+        <div class="card-header mb-3">
+          <h6 class="card-title">Email</h6>
+        </div>
         <div class="card-body">
-          <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">Email</h6>
           <form name="emailForm" id="emailForm" ng-submit="vm.saveEmail(emailForm)" novalidate>
             <div class="form-layout">
               <div class="row" ng-repeat="reportName in vm.reportNames">
@@ -155,11 +159,13 @@
 
     <div class="tab-pane fade " id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
       <div class="card mg-b-25 tab-pane" role="tabpanel">
+        <div class="card-header mb-3">
+          <h6 class="card-title">Password</h6>
+        </div>
         <div class="card-body">
-          <h6 class="card-title tx-spacing-1 tx-medium mg-b-35">Password</h6>
           <form name="passwordForm" id="passwordForm" ng-submit="vm.changePassword(passwordForm)" novalidate>
             <div class="form-layout">
-              <div class="row mg-t-30 mg-b-15">
+              <div class="row mg-b-15">
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label">Current Password:

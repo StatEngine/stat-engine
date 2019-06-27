@@ -94,7 +94,7 @@ export default class IncidentComparisonGraphComponent {
           color: '#e91276'
         },
       }],
-      height: 290,
+      height: 320,
       margin: {
         l: 100,
         r: 2,
@@ -108,6 +108,13 @@ export default class IncidentComparisonGraphComponent {
       },
       yaxis: {
         linecolor: '#d7dee3',
+      },
+      legend: {
+        orientation: 'h',
+        xanchor: 'center',
+        yanchor: 'bottom',
+        x: 0.5,
+        y: 1.05,
       },
     }, {
       displayModeBar: false,
