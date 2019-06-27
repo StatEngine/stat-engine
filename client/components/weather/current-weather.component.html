@@ -1,27 +1,22 @@
-<div class="row">
-  <div class="col-sm-5">
-    <div class="weather-cube">
-      <skycon icon="vm.weather.icon" size="110"></skycon>
-      <h3> {{ vm.textSummaries.situationalAwarenessSummary }}</h3>
-    </div>
-  </div>
-  <div class="col-sm-7 weather-summary">
-    <h1 class="heavyheader"> {{ vm.weather.temperature | number : 0 }} &deg;</h1>
-    <h4>{{ vm.incident.description.day_of_week }}</h4>
-    <hr>
-    <div>
-      <label class="tx-semibold">Feels Like:</label>
-      <span>{{ vm.weather.apparentTemperature | number : 0  }} &deg;</span>
-    </div>
+<div class="weather-cube">
+  <skycon icon="vm.weather.icon" size="110"></skycon>
+  <h3> {{ vm.textSummaries.situationalAwarenessSummary }}</h3>
+</div>
 
-    <div ng-if="vm.weather.precipProbability">
-      <label class="tx-semibold">Precipitation:</label>
-      <span>{{ vm.weather.precipProbability*100 | number : 0 }}% chance of {{ vm.weather.precipType }}</span>
-    </div>
-
-    <div>
-      <label class="tx-semibold">Wind:</label>
-      <span>{{ vm.weather.windSpeed | number : 0 }} mph with gusts up to {{ vm.weather.windGust | number : 0  }} mph</span>
-    </div>
-  </div>
+<div class="weather-summary">
+  <h1 class="heavyheader"> {{ vm.weather.temperature | number : 0 }} &deg;</h1>
+  <h4>{{ vm.incident.description.day_of_week }}</h4>
+  <hr>
+  <dl>
+    <dt>Feels Like</dt>
+    <dd>{{ vm.weather.apparentTemperature | number : 0  }} &deg;</dd>
+  </dl>
+  <dl ng-if="vm.weather.precipProbability">
+    <dt>Precipitation</dt>
+    <dd>{{ vm.weather.precipProbability*100 | number : 0 }}% chance of {{ vm.weather.precipType }}</dd>
+  </dl>
+  <dl>
+    <dt>Wind</dt>
+    <dd>{{ vm.weather.windSpeed | number : 0 }} mph with gusts up to {{ vm.weather.windGust | number : 0  }} mph</dd>
+  </dl>
 </div>

@@ -1,21 +1,22 @@
-<div class="br-pageheader">
-  <nav class="breadcrumb pd-0 mg-0 tx-12">
-    <a class="breadcrumb-item" href="index.html">Home</a>
-    <a class="breadcrumb-item" href="#">Reports</a>
-    <span class="breadcrumb-item active">Incidents</span>
-  </nav>
-</div><!-- br-pageheader -->
-<div class="br-pagetitle d-flex justify-content-between flex-wrap">
-  <h2 class="m-0">Incidents</h2>
-  <div class="input-group wd-300">
-    <input
-      class="form-control"
-      type="text"
-      placeholder="Search Incidents"
-      ng-model="vm.searchInputValue"
-      on-enter-pressed="vm.searchButtonClick()"
-    >
-    <span class="input-group-btn">
+<div class="incident-search">
+  <div class="br-pageheader">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="index.html">Home</a>
+      <a class="breadcrumb-item" href="#">Reports</a>
+      <span class="breadcrumb-item active">Incidents</span>
+    </nav>
+  </div><!-- br-pageheader -->
+  <div class="br-pagetitle d-flex justify-content-between flex-wrap">
+    <h2 class="m-0">Incidents</h2>
+    <div class="input-group wd-300">
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Search Incidents"
+        ng-model="vm.searchInputValue"
+        on-enter-pressed="vm.searchButtonClick()"
+      >
+      <span class="input-group-btn">
       <button
         class="btn bd-0 btn-primary py-2 px-3 rounded-0"
         type="button"
@@ -24,21 +25,22 @@
         <i class="fa fa-search"></i>
       </button>
     </span>
+    </div>
+  </div><!-- br-pagetitle -->
+  <div class="br-pagebody">
+    <section>
+      <incidents-table
+        incidents="vm.incidents"
+        ui-grid-column-defs="vm.uiGridColumnDefs"
+        pagination="vm.pagination"
+        sort="vm.sort"
+        is-loading="vm.isLoading"
+        is-loading-first="vm.isLoadingFirst"
+        on-pagination-change="vm.handlePaginationChange()"
+        on-sort-change="vm.handleSortChange()"
+        use-external-pagination="true"
+        use-external-sorting="true"
+      ></incidents-table>
+    </section>
   </div>
-</div><!-- br-pagetitle -->
-<div class="br-pagebody">
-  <section>
-    <incidents-table
-      incidents="vm.incidents"
-      ui-grid-column-defs="vm.uiGridColumnDefs"
-      pagination="vm.pagination"
-      sort="vm.sort"
-      is-loading="vm.isLoading"
-      is-loading-first="vm.isLoadingFirst"
-      on-pagination-change="vm.handlePaginationChange()"
-      on-sort-change="vm.handleSortChange()"
-      use-external-pagination="true"
-      use-external-sorting="true"
-    ></incidents-table>
-  </section>
 </div>

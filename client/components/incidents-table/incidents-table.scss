@@ -4,18 +4,12 @@ incidents-table {
       display: none;
     }
 
-    .search-grid {
-      height: 61vh;
-
+    .ui-grid-table {
       .ui-grid-top-panel {
         background-color: white;
         color: #adb2b7;
         text-transform: uppercase;
         font-size: 12px;
-
-        .ui-grid-cell-contents {
-          padding: 10px;
-        }
       }
 
       .ui-grid-row:nth-child(odd):not(:hover) .ui-grid-cell {

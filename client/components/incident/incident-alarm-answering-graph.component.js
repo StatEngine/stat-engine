@@ -82,7 +82,7 @@ export default class IncidentAlarmAnsweringGraphComponent {
     const layout = {
       barmode: 'overlay',
       shapes,
-      height: 290,
+      height: 320,
       margin: {
         l: 5,
         r: 5,

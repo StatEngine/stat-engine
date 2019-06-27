@@ -116,19 +116,10 @@
               <h5 class="no-data">No dispatch comments available</h5>
             </div>
             <div ng-if="!vm.isShowingAllComments">
-              <div
-                class="dispatch-comments-comment truncated"
-                ng-repeat="comment in vm.commentsTruncated track by $index"
-                ng-attr-title="{{ comment }}"
-              >
-                {{ comment }}
-              </div>
-              <div ng-if="vm.isCommentsTruncated">...</div>
+              {{ vm.commentsTruncated }}
             </div>
             <div ng-if="vm.isShowingAllComments">
-              <div class="dispatch-comments-comment" ng-repeat="comment in vm.comments track by $index">
-                {{ comment }}
-              </div>
+              {{ vm.comments }}
             </div>
             <div class="dispatch-comments-show-hide text-center">
               <span ng-if="vm.isCommentsTruncated && !vm.isShowingAllComments">
@@ -321,14 +312,12 @@
           </div>
           <div class="card-body">
             <div ng-if="vm.incident.weather.currently">
-              <div class="row">
-                <p class="col-md-12 mb-4">On {{ vm.incident.weather.currently.time |
+                <p>
+                  On {{ vm.incident.weather.currently.time |
                   amTimezone:vm.currentPrincipal.FireDepartment.timezone | amDateFormat:'MMMM D, YYYY HH:mm' }}
-                  the following weather conditions were observed:</p>
-                <div class="col-md-12">
-                  <current-weather weather="vm.incident.weather.currently"></current-weather>
-                </div>
-              </div>
+                  the following weather conditions were observed:
+                </p>
+                <current-weather weather="vm.incident.weather.currently"></current-weather>
             </div>
             <div ng-if="!vm.incident.weather.currently" class="d-flex">
               <div class="d-flex h-100 tx-center">
@@ -337,21 +326,6 @@
                   No weather data available at this time.
                 </h5>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Traffic Conditions -->
-        <div class="traffic-conditions card">
-          <div class="card-header">
-            <h6 class="card-title">Traffic Conditions</h6>
-          </div>
-          <div class="card-body">
-            <div class="d-flex h-100 tx-center">
-              <h5 class="no-data">
-                <i class="no-data-icon fa fa-bar-chart"></i><br>
-                No traffic data available
-              </h5>
             </div>
           </div>
         </div>
@@ -403,20 +377,22 @@
             <h6 class="card-title">Events Timeline</h6>
           </div>
           <div class="card-body">
+            <div class="events-timeline-legend">
+              <div class="events-timeline-legend-items">
+                <div class="alarm-answer">Alarm Answer</div>
+                <div class="alarm-processing">Alarm Processing</div>
+                <div class="turnout-time">Turnout Time</div>
+                <div class="travel-time">Travel Time</div>
+                <div class="intervention-time">Intervention Time</div>
+                <div class="transport">Transport</div>
+                <div class="post-transport">Post Transport</div>
+                <div class="cancelled">Out-of-Service/Cancelled</div>
+              </div>
+            </div>
             <incident-timeline
               incident="vm.incident"
               timezone="vm.incident.fire_department.timezone"
             ></incident-timeline>
-            <div class="events-timeline-legend">
-              <div class="alarm-answer">Alarm Answer</div>
-              <div class="alarm-processing">Alarm Processing</div>
-              <div class="turnout-time">Turnout Time</div>
-              <div class="travel-time">Travel Time</div>
-              <div class="intervention-time">Intervention Time</div>
-              <div class="transport">Transport</div>
-              <div class="post-transport">Post Transport</div>
-              <div class="cancelled">Out-of-Service/Cancelled</div>
-            </div>
           </div>
         </div>
 
@@ -425,7 +401,7 @@
           <div class="card-header">
             <h6 class="card-title">Alarm Answering Duration</h6>
             <div class="card-option">
-              <a href="" data-tippy-html='#alarmAnswerTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+              <a class="info-icon se-icon-info tippy" href="" data-tippy-html='#alarmAnswerTippy'>&nbsp;</a>
             </div>
           </div>
           <div class="card-body">
@@ -438,7 +414,7 @@
           <div class="card-header">
             <h6 class="card-title">Alarm Processing Duration</h6>
             <div class="card-option">
-              <a href="" data-tippy-html='#alarmProcessingTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+              <a class="info-icon se-icon-info tippy" href="" data-tippy-html='#alarmProcessingTippy'>&nbsp;</a>
             </div>
           </div>
           <div class="card-body">
@@ -451,7 +427,7 @@
           <div class="card-header">
             <h6 class="card-title">Travel Distances</h6>
             <div class="card-option">
-              <a href="" data-tippy-html='#travelDistanceTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+              <a class="info-icon se-icon-info tippy" href="" data-tippy-html='#travelDistanceTippy'>&nbsp;</a>
             </div>
           </div>
           <div class="card-body">
@@ -464,7 +440,7 @@
           <div class="card-header">
             <h6 class="card-title">Travel Durations</h6>
             <div class="card-option">
-              <a href="" data-tippy-html='#travelDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+              <a class="info-icon se-icon-info tippy" href="" data-tippy-html='#travelDurationTippy'>&nbsp;</a>
             </div>
           </div>
           <div class="card-body">
@@ -477,7 +453,7 @@
           <div class="card-header">
             <h6 class="card-title">Response Duration</h6>
             <div class="card-option">
-              <a href="" data-tippy-html='#responseDurationTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+              <a class="info-icon se-icon-info tippy" href="" data-tippy-html='#responseDurationTippy'>&nbsp;</a>
             </div>
           </div>
           <div class="card-body">
@@ -490,7 +466,7 @@
           <div class="card-header">
             <h6 class="card-title">Response Duration Comparisons</h6>
             <div class="card-option">
-              <a href="" data-tippy-html='#responseDurationComparisonTippy' class="se-icon-info pull-right tippy tx-22">&nbsp;</a>
+              <a class="info-icon se-icon-info tippy" href="" data-tippy-html='#responseDurationComparisonTippy'>&nbsp;</a>
             </div>
           </div>
           <div class="card-body">
@@ -507,11 +483,13 @@
             <p class="card-subtitle tx-normal mg-b-15">There were <span class="badge badge-secondary tx-14">
               {{ vm.concurrentIncidents.length }} </span> incidents also in
               progress during this timeframe</p>
-            <div class="concurrent-incidents-table" ui-grid="vm.concurrentIncidentTableOptions">
-              <div class="watermark" ng-show="!vm.concurrentIncidentTableOptions.data.length">
-                No concurrent incidents
-              </div>
-            </div>
+            <incidents-table
+              incidents="vm.concurrentIncidents"
+              min-rows-to-show="vm.concurrentIncidents.length || 5"
+              ui-grid-column-defs="vm.concurrentIncidentsUiGridColumnDefs"
+              on-ui-grid-init="vm.onUiGridInit({ uiGridApi })"
+              show-controls="false"
+            ></incidents-table>
           </div>
         </div>
       </section>

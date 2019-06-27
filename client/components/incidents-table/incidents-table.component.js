@@ -8,6 +8,7 @@ let _;
 export class IncidentsTableController {
   incidents;
   uiGridColumnDefs;
+  onUiGridInit;
   pagination;
   sort;
   isLoading;
@@ -16,6 +17,8 @@ export class IncidentsTableController {
   onSortChange;
   useExternalPagination;
   useExternalSorting;
+  showControls;
+  minRowsToShow;
 
   initialized = false;
   sortSelect;
@@ -34,6 +37,8 @@ export class IncidentsTableController {
 
   async $onInit() {
     await this.loadModules();
+
+    this.showControls = (!_.isUndefined(this.showControls)) ? this.showControls : true;
 
     if(!this.pagination) {
       this.pagination = {
@@ -81,6 +86,7 @@ export class IncidentsTableController {
       useExternalPagination: this.useExternalPagination,
       useExternalSorting: this.useExternalSorting,
       enableHorizontalScrollbar: false,
+      minRowsToShow: this.minRowsToShow,
       onRegisterApi: (uiGridApi) => {
         this.uiGridApi = uiGridApi;
         uiGridApi.core.on.sortChanged(this.$scope, (uiGrid, sortColumns) => {
@@ -91,8 +97,16 @@ export class IncidentsTableController {
           this.sortSelect.selectedColumn = this.sort.columns[0];
           this.fireOnSortChange();
         });
+
+        if (this.onUiGridInit) {
+          this.onUiGridInit({ uiGridApi });
+        }
       },
     };
+
+    this.$scope.$watch('minRowsToShow', () => {
+      this.uiGridOptions.minRowsToShow = this.minRowsToShow;
+    });
 
     // In sort select only show columns with sorting enabled.
     this.sortSelect.columnDefs = this.uiGridOptions.columnDefs.filter((columnDef) => {
@@ -172,6 +186,7 @@ export default angular.module('incidentsTable', [tableControls])
     bindings: {
       incidents: '<',
       uiGridColumnDefs: '<',
+      onUiGridInit: '&?',
       pagination: '=?',
       sort: '=?',
       isLoading: '<?',
@@ -180,6 +195,8 @@ export default angular.module('incidentsTable', [tableControls])
       onSortChange: '&?',
       useExternalPagination: '<?',
       useExternalSorting: '<?',
+      showControls: '<?',
+      minRowsToShow: '<?',
     },
   })
   .name

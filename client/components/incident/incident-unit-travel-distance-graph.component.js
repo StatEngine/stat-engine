@@ -66,7 +66,7 @@ export default class IncidentUnitTravelDistanceGraphComponent {
 
       var data = [estimatedTrace];
       var layout = {
-        height: 290,
+        height: 320,
         margin: {
           l: 40,
           r: 1,
