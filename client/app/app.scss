@@ -134,15 +134,32 @@ body {
   }
 }
 
-.content-view {
-  @extend .medium-bg;
-  @extend .ios-scroll-fix;
+.app-content-container {
+  // This container and its child are a workaround to allow the content view to escape
+  // from the flexbox layout, so that descendants can size using height percentages
+  // if need be. It also fixes some auto-resizing issues.
+  position: relative;
   flex: 1;
-  overflow: auto;
 
-  @media print {
-    display: block;
-    overflow: visible;
+  .app-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    @media print {
+      height: auto;
+    }
+
+    .app-content-view {
+      @extend .medium-bg;
+      @extend .ios-scroll-fix;
+      height: 100%;
+      overflow: auto;
+
+      @media print {
+        overflow: visible;
+      }
+    }
   }
 }
 

@@ -25,7 +25,11 @@
       <div class="sidebar-view" ui-view="sidebar"></div>
       <div class="app-view">
         <div class="appbar-view" ui-view="appbar"></div>
-        <div class="content-view" ui-view="content"></div>
+        <div class="app-content-container">
+          <div class="app-content">
+            <div class="app-content-view" ui-view="content"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div ui-view="landing"></div>
