@@ -11,7 +11,7 @@
   <div class="reporting-unit-content-container" ng-class="{'unit-selected': (vm.selectedUnitId != null)}">
     <div class="reporting-unit-content">
       <div class="br-pageheader">
-        <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <nav class="breadcrumb">
           <a class="breadcrumb-item" ui-sref="site.user.home">Home</a>
           <a class="breadcrumb-item" href="" ng-disabled="true">Reports</a>
           <a class="breadcrumb-item" ng-class="{'active': (vm.selectedUnitId == null)}" href="" ui-sref="site.reporting.unit" ng-disabled="vm.isLargeScreen()">Units</a>
