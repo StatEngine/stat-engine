@@ -1,8 +1,5 @@
 .workspace-edit {
-  @extend .container-fluid;
-
   padding-top: 15px;
-  max-width: 1230px;
 
   .form-inputs {
     display: grid;
@@ -46,11 +43,6 @@
 }
 
 .workspace-users {
-  @extend .container-fluid;
-
-  max-width: 1230px;
-  padding: 0;
-
   .workspace-users-table {
     $workspace-users-table-width: 1300px;
     @include table($workspace-users-table-width);

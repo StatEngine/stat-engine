@@ -11,73 +11,78 @@
   </div>
 
   <section class="department-users">
-    <h3 class="mb-2">Department Users</h3>
-    <div class="department-users-table mb-5">
-      <div class="table-row header">
-        <div class="cell">
-          Username
-        </div>
-        <div class="cell">
-          Name
-        </div>
-        <div class="cell">
-          Email
-        </div>
-        <div class="cell">
-          Permissions
-        </div>
-        <div class="cell">
-          Status
-        </div>
-        <div class="cell">
-          Action
-        </div>
-      </div>
+    <div class="br-pagetitle">
+      <h2 class="mb-2">Department Users</h2>
+    </div>
 
-      <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
-        <div class="cell username" data-title="Username">
-          {{ user.username }}
-        </div>
-        <div class="cell name" data-title="Name" ng-attr-title="{{ user.name }}">
-          {{ user.first_name }} {{ user.last_name }}
-        </div>
-        <div class="cell email" data-title="Email" ng-attr-title="{{ user.email }}">
-          {{ user.email }}
-        </div>
-        <div class="cell permissions" data-title="Permissions">
-          <div class="space-nowrap" ng-if="user.isDepartmentAdmin">
-            <i class="fa fa-check text-success"></i> Admin
+    <div class="br-pagebody">
+      <div class="department-users-table mb-5">
+        <div class="table-row header">
+          <div class="cell">
+            Username
           </div>
-          <div class="space-nowrap" ng-if="user.isIngest">
-            <i class="fa fa-check text-success"></i> Ingest
+          <div class="cell">
+            Name
+          </div>
+          <div class="cell">
+            Email
+          </div>
+          <div class="cell">
+            Permissions
+          </div>
+          <div class="cell">
+            Status
+          </div>
+          <div class="cell">
+            Action
           </div>
         </div>
-        <div class="cell status" data-title="Status">
-          <span class="badge badge-success" ng-if="user.isDashboardUser">Approved</span>
-          <span class="badge badge-warning" ng-if="!user.isDashboardUser">Pending</span>
-        </div>
-        <div
-          class="cell action"
-          ng-class="{'current-user': user._id === vm.principal._id}"
-          data-title="Action"
-        >
-          <div class="dropdown d-inline-block">
-            <div class="dropdown-button" data-toggle="dropdown">
-              <i class="fa fa-angle-down"></i>
+
+        <div class="table-row" ng-repeat="user in vm.users | orderBy:'first_name'">
+          <div class="cell username" data-title="Username">
+            {{ user.username }}
+          </div>
+          <div class="cell name" data-title="Name" ng-attr-title="{{ user.name }}">
+            {{ user.first_name }} {{ user.last_name }}
+          </div>
+          <div class="cell email" data-title="Email" ng-attr-title="{{ user.email }}">
+            {{ user.email }}
+          </div>
+          <div class="cell permissions" data-title="Permissions">
+            <div class="space-nowrap" ng-if="user.isDepartmentAdmin">
+              <i class="fa fa-check text-success"></i> Admin
             </div>
-            <div class="dropdown-menu">
-              <nav class="nav nav-style-2 flex-column">
-                <div class="nav-link" ng-show="!user.isDashboardUser" ng-click="vm.approveAccess(user)">
-                  <i class="fa fa-2x fa-check-circle"></i>
-                  <span>Approve Access</span>
-                </div>
-                <div class="nav-link" ng-show="!user.isIngest" ng-click="vm.revokeAccess(user)">
-                  <i class="fa fa-2x fa-times-circle"></i>
-                  <span>Revoke Access</span>
-                </div>
-              </nav>
-            </div><!-- dropdown-menu -->
-          </div><!-- dropdown -->
+            <div class="space-nowrap" ng-if="user.isIngest">
+              <i class="fa fa-check text-success"></i> Ingest
+            </div>
+          </div>
+          <div class="cell status" data-title="Status">
+            <span class="badge badge-success" ng-if="user.isDashboardUser">Approved</span>
+            <span class="badge badge-warning" ng-if="!user.isDashboardUser">Pending</span>
+          </div>
+          <div
+            class="cell action"
+            ng-class="{'current-user': user._id === vm.principal._id}"
+            data-title="Action"
+          >
+            <div class="dropdown d-inline-block">
+              <div class="dropdown-button" data-toggle="dropdown">
+                <i class="fa fa-angle-down"></i>
+              </div>
+              <div class="dropdown-menu">
+                <nav class="nav nav-style-2 flex-column">
+                  <div class="nav-link" ng-show="!user.isDashboardUser" ng-click="vm.approveAccess(user)">
+                    <i class="fa fa-2x fa-check-circle"></i>
+                    <span>Approve Access</span>
+                  </div>
+                  <div class="nav-link" ng-show="!user.isIngest" ng-click="vm.revokeAccess(user)">
+                    <i class="fa fa-2x fa-times-circle"></i>
+                    <span>Revoke Access</span>
+                  </div>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </div><!-- dropdown -->
+          </div>
         </div>
       </div>
     </div>

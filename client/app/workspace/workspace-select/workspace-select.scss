@@ -25,10 +25,6 @@
     }
   }
   .workspaces-content {
-    @extend .container-fluid;
-
-    max-width: 1230px;
-
     .workspace-card {
       @extend .card;
 

@@ -1255,6 +1255,7 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
 }
 
 .br-pagebody {
+  @include container-fluid-max-width;
   padding-bottom: 5.5rem !important;
 }
 
@@ -1444,6 +1445,8 @@ span+.logged-name {
 }
 
 .br-pagetitle {
+  @include container-fluid-max-width;
+
   > div {
     margin-top: 0;
   }
@@ -1636,9 +1639,14 @@ span+.logged-name {
   }
 }
 
-nav.section-nav {
-  padding: 1.5rem 25px 0.5rem;
+.header-white {
+  background: white;
   border-bottom: solid 1px $input-border-color;
+}
+
+nav.section-nav {
+  @include container-fluid-max-width;
+  padding: 1.5rem 25px 0.5rem;
   background: white;
 
   @include media-breakpoint-down(xs) {
@@ -1679,6 +1687,11 @@ nav.section-nav {
       }
     }
   }
+}
+
+nav.section-nav-tabs {
+  @extend nav.section-nav;
+  padding-bottom: 0;
 }
 
 /////////////////////////////////

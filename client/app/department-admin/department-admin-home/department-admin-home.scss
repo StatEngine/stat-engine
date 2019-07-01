@@ -21,15 +21,6 @@
   }
 
   .department-users {
-    @extend .container-fluid;
-
-    padding-top: 2.5rem;
-    max-width: 1230px;
-
-    @media screen and (max-width: 1300px) {
-      max-width: 580px;
-    }
-
     @include media-breakpoint-down(sm) {
       padding-top: 1.5rem;
     }
