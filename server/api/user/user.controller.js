@@ -165,10 +165,10 @@ async function sendRequestDepartmentAccessEmail(user, department) {
           content: user.last_name,
         }, {
           name: 'APPROVE_ACCESS_URL',
-          content: `http://localhost:3000/departmentAdmin?action=approve_access&action_username=${user.username}`,
+          content: `https://statengine.io/departmentAdmin?action=approve_access&action_username=${user.username}`,
         }, {
           name: 'REJECT_ACCESS_URL',
-          content: `http://localhost:3000/departmentAdmin?action=revoke_access&action_username=${user.username}`,
+          content: `https://statengine.io/departmentAdmin?action=revoke_access&action_username=${user.username}`,
         }],
       },
     },
