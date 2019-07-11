@@ -20,9 +20,9 @@
       </div>
 
       <div class="reporting-unit-content-body" ng-class="{'unit-selected': (vm.selectedUnitId != null)}">
-        <div class="container-fluid">
-          <div class="position-relative" ng-if="vm.didFetchInitial">
-            <div class="br-pagetitle bg-white">
+        <div class="position-relative" ng-if="vm.didFetchInitial">
+          <div class="header-white">
+            <div class="br-pagetitle">
               <div class="d-flex align-items-center justify-content-between">
                 <h2 class="unit-name">{{ vm.selectedUnitId }}</h2>
                 <span class="fa fa-close hidden-lg-up" ng-click="vm.deselectUnit()"></span>
@@ -69,13 +69,15 @@
                 </a>
               </div>
             </nav>
+          </div>
 
+          <div class="br-pagebody">
             <div class="card-body bg-white" ng-if="!vm.isDataAvailable()">
               <h2>No Data Available</h2>
             </div>
 
             <div ng-if="vm.isDataAvailable()">
-              <div class="card-body bg-white">
+              <div class="card-body px-0 bg-white">
                 <div class="d-flex mg-b-20">
                   <h4 id="incidentTypesHeader" class="flex-1 tx-spacing-1 tx-medium m-0">Incident Types</h4>
                   <h5 class="tx-inverse tx-lato tx-bold m-0">
@@ -239,13 +241,13 @@
                   aria-controls="turnoutTimeCollapse"
                   ng-click="vm.handleTurnoutTimeHeaderClick()"
                 >
-              <span
-                class="fa"
-                ng-class="{
-                  'fa-angle-up': vm.isTurnoutTimeCollapsed,
-                  'fa-angle-down': !vm.isTurnoutTimeCollapsed
-                }"
-              ></span>
+                  <span
+                    class="fa"
+                    ng-class="{
+                      'fa-angle-up': vm.isTurnoutTimeCollapsed,
+                      'fa-angle-down': !vm.isTurnoutTimeCollapsed
+                    }"
+                  ></span>
                   <div class="flex-1">Turnout Time</div>
                   <div class="time flex-1">
                     <span class="fa fa-clock-o fa">&nbsp;</span>

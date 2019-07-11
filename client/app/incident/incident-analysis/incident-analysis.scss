@@ -44,8 +44,6 @@
   }
 
   .incident-analysis-content {
-    @include container-fluid-max-width;
-
     @include media-breakpoint-down(sm) {
       padding-left: 0;
       padding-right: 0;

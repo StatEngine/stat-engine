@@ -8,31 +8,33 @@
     </nav>
   </div><!-- br-pageheader -->
 
-  <div class="br-pagetitle bg-white">
-    <div class="d-flex justify-content-between flex-wrap">
-      <h2 class="my-0 mr-3">Incident {{ vm.incident.description.incident_number }}</h2>
-      <button class="print-button btn btn-primary" ng-click="vm.print()">
-        Print
-      </button>
+  <div class="header-white">
+    <div class="br-pagetitle">
+      <div class="d-flex justify-content-between flex-wrap">
+        <h2 class="my-0 mr-3">Incident {{ vm.incident.description.incident_number }}</h2>
+        <button class="print-button btn btn-primary" ng-click="vm.print()">
+          Print
+        </button>
+      </div>
     </div>
-  </div>
 
-  <nav class="section-nav">
-    <div class="section-nav-links">
-      <a href="" ng-click="vm.scrollTo('#overview')">
-        Overview
-      </a>
-      <a href="" ng-click="vm.scrollTo('#location')">
-        Location
-      </a>
-      <a href="" ng-click="vm.scrollTo('#situationalAwareness')">
-        Situational Awareness
-      </a>
-      <a href="" ng-click="vm.scrollTo('#response')">
-        Response
-      </a>
-    </div>
-  </nav>
+    <nav class="section-nav">
+      <div class="section-nav-links">
+        <a href="" ng-click="vm.scrollTo('#overview')">
+          Overview
+        </a>
+        <a href="" ng-click="vm.scrollTo('#location')">
+          Location
+        </a>
+        <a href="" ng-click="vm.scrollTo('#situationalAwareness')">
+          Situational Awareness
+        </a>
+        <a href="" ng-click="vm.scrollTo('#response')">
+          Response
+        </a>
+      </div>
+    </nav>
+  </div>
 
   <section class="br-pagebody">
     <div class="incident-analysis-content data-spy" data-spy="scroll" data-target="#navbar-example">
