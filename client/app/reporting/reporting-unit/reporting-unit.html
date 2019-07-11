@@ -350,19 +350,19 @@
         </div>
 
         <div class="reporting-unit-overlay-content">
-          <div class="flex-1 d-flex flex-column mb-3">
-            <incident-apparatus-timeline responses="vm.incidentsTimeline.incidents"></incident-apparatus-timeline>
+          <div class="events-timeline-legend">
+            <div class="events-timeline-legend-items">
+              <div class="turnout-time">Turnout Time</div>
+              <div class="travel-time">Travel Time</div>
+              <div class="intervention-time">Intervention Time</div>
+              <div class="transport">Transport</div>
+              <div class="post-transport">Post Transport</div>
+              <div class="cancelled">Out-of-Service/Cancelled</div>
+            </div>
           </div>
 
-          <div>
-            <ul class="events-timeline-legend">
-              <li class="turnout-time">Turnout Time</li>
-              <li class="travel-time">Travel Time</li>
-              <li class="intervention-time">Intervention Time</li>
-              <li class="transport">Transport</li>
-              <li class="post-transport">Post Transport</li>
-              <li class="cancelled">Out-of-Service/Cancelled</li>
-            </ul>
+          <div class="flex-1 d-flex flex-column mb-3">
+            <incident-apparatus-timeline responses="vm.incidentsTimeline.incidents"></incident-apparatus-timeline>
           </div>
         </div>
       </div>
