@@ -658,6 +658,7 @@ export async function me(req, res, next) {
     workspaces = await Workspace.findAll({
       where: {
         fire_department__id: req.user.fire_department__id,
+        is_deleted: false,
       }
     })
   }
