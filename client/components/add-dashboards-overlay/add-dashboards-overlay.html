@@ -1,0 +1,99 @@
+<div class="add-dashboards-overlay" ng-class="{'active': vm.show}">
+  <div class="overlay-window-header">
+    <div class="overlay-window-header-title">
+      <span>Add Dashboards</span>
+    </div>
+    <button class="close-button" ng-click="vm.show = false"></button>
+  </div>
+
+  <div class="overlay-window-content">
+    <div class="view-options">
+      <div class="d-flex align-items-end flex-wrap">
+        <div class="search mr-3">
+          <label>Search</label>
+          <div class="position-relative">
+            <input type="text" ng-model="vm.searchQuery" />
+            <i class="search-icon"></i>
+          </div>
+        </div>
+
+        <div class="sort-by mr-3">
+          <label>Sort By</label>
+          <select
+            ng-model="vm.sortBy"
+          >
+            <option
+              ng-repeat="sortByOption in vm.sortByOptions"
+              value="{{ sortByOption.id }}"
+            >
+              {{ sortByOption.displayName }}
+            </option>>
+          </select>
+        </div>
+
+        <view-mode
+          class="mr-3"
+          mode="vm.viewMode"
+        ></view-mode>
+      </div>
+
+      <div class="add-selected">
+        <label><strong>{{ vm.selectedDashboardCount }}</strong> Selected</label>
+        <button class="btn btn-primary" ng-disabled="vm.isAddSelectedButtonDisabled">
+          Add Selected
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div
+        ng-class="{
+          'dashboards-list': (vm.viewMode === 'list'),
+          'dashboards-grid': (vm.viewMode === 'grid')
+        }"
+      >
+        <div
+          class="dashboard-item"
+          ng-class="{
+            'selected': vm.isDashboardSelected(dashboard),
+            'flipped': dashboard.isFlipped
+          }"
+          ng-repeat="dashboard in vm.dashboards"
+          ng-click="vm.toggleSelectDashboard(dashboard)"
+        >
+          <div class="dashboard-item-inner" ng-class="{'flipped': dashboard.isFlipped}">
+            <div class="dashboard-item-front">
+              <div
+                class="dashboard-item-image-container">
+                <div class="dashboard-item-image"></div>
+              </div>
+              <div class="dashboard-item-content">
+                <div class="dashboard-item-title">{{ dashboard.title }}</div>
+                <div class="dashboard-item-author">By {{ dashboard.author }}</div>
+                <div class="dashboard-item-description">
+                  <p>{{ dashboard.description }}</p>
+                  <div class="read-more">
+                    <span>...&nbsp;</span>
+                    <a href="" ng-click="vm.readMoreClick($event, dashboard)">Read More</a>
+                  </div>
+                </div>
+              </div>
+              <div class="dashboard-item-info">
+                <div class="space-nowrap">
+                  <i class="fa fa-tag"></i>
+                  {{ dashboard.category }}
+                </div>
+                <div>Downloads: {{ dashboard.downloads }}</div>
+                <div>Version: {{ dashboard.version }}</div>
+              </div>
+            </div>
+
+            <div class="dashboard-item-back">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

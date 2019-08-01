@@ -25,7 +25,7 @@
             <div class="br-pagetitle">
               <div class="d-flex align-items-center justify-content-between">
                 <h2 class="unit-name">{{ vm.selectedUnitId }}</h2>
-                <span class="fa fa-close hidden-lg-up" ng-click="vm.deselectUnit()"></span>
+                <button class="close-button hidden-lg-up" ng-click="vm.deselectUnit()"></button>
               </div>
 
               <select
@@ -342,56 +342,52 @@
       </div>
     </div>
 
-    <div class="timeline-overlay" ng-class="{'active': (vm.overlay === 'timeline')}">
-      <div class="reporting-unit-overlay-inner">
-        <div class="reporting-unit-overlay-header">
-          <div class="reporting-unit-overlay-header-title">
-            <span>{{ vm.selectedUnitId }} Timeline</span>
+    <div class="timeline-overlay-window" ng-class="{'active': (vm.overlay === 'timeline')}">
+      <div class="overlay-window-header">
+        <div class="overlay-window-header-title">
+          <span>{{ vm.selectedUnitId }} Timeline</span>
+        </div>
+        <button class="close-button" ng-click="vm.hideOverlay()"></button>
+      </div>
+
+      <div class="overlay-window-content">
+        <div class="events-timeline-legend">
+          <div class="events-timeline-legend-items">
+            <div class="turnout-time">Turnout Time</div>
+            <div class="travel-time">Travel Time</div>
+            <div class="intervention-time">Intervention Time</div>
+            <div class="transport">Transport</div>
+            <div class="post-transport">Post Transport</div>
+            <div class="cancelled">Out-of-Service/Cancelled</div>
           </div>
-          <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
         </div>
 
-        <div class="reporting-unit-overlay-content">
-          <div class="events-timeline-legend">
-            <div class="events-timeline-legend-items">
-              <div class="turnout-time">Turnout Time</div>
-              <div class="travel-time">Travel Time</div>
-              <div class="intervention-time">Intervention Time</div>
-              <div class="transport">Transport</div>
-              <div class="post-transport">Post Transport</div>
-              <div class="cancelled">Out-of-Service/Cancelled</div>
-            </div>
-          </div>
-
-          <div class="flex-1 d-flex flex-column mb-3">
-            <incident-apparatus-timeline responses="vm.incidentsTimeline.incidents"></incident-apparatus-timeline>
-          </div>
+        <div class="flex-1 d-flex flex-column mb-3">
+          <incident-apparatus-timeline responses="vm.incidentsTimeline.incidents"></incident-apparatus-timeline>
         </div>
       </div>
     </div>
 
-    <div class="incidents-overlay" ng-class="{'active': (vm.overlay === 'incidents')}">
-      <div class="reporting-unit-overlay-inner">
-        <div class="reporting-unit-overlay-header">
-          <div class="reporting-unit-overlay-header-title">
-            <span>{{ vm.selectedUnitId }} Incidents</span>
-          </div>
-          <span class="fa fa-close" ng-click="vm.hideOverlay()"></span>
+    <div class="incidents-overlay-window" ng-class="{'active': (vm.overlay === 'incidents')}">
+      <div class="overlay-window-header">
+        <div class="overlay-window-header-title">
+          <span>{{ vm.selectedUnitId }} Incidents</span>
         </div>
+        <button class="close-button" ng-click="vm.hideOverlay()"></button>
+      </div>
 
-        <div class="reporting-unit-overlay-content">
-          <incidents-table
-            incidents="vm.incidentsTable.incidents"
-            pagination="vm.incidentsTable.pagination"
-            sort="vm.incidentsTable.sort"
-            ui-grid-column-defs="vm.incidentsTable.uiGridColumnDefs"
-            on-pagination-change="vm.handleIncidentsPaginationChange()"
-            on-sort-change="vm.handleIncidentsTableSortChange()"
-            use-external-pagination="true"
-            use-external-sorting="true"
-            is-loading="vm.isFetchingIncidentsTableResponses"
-          ></incidents-table>
-        </div>
+      <div class="overlay-window-content">
+        <incidents-table
+          incidents="vm.incidentsTable.incidents"
+          pagination="vm.incidentsTable.pagination"
+          sort="vm.incidentsTable.sort"
+          ui-grid-column-defs="vm.incidentsTable.uiGridColumnDefs"
+          on-pagination-change="vm.handleIncidentsPaginationChange()"
+          on-sort-change="vm.handleIncidentsTableSortChange()"
+          use-external-pagination="true"
+          use-external-sorting="true"
+          is-loading="vm.isFetchingIncidentsTableResponses"
+        ></incidents-table>
       </div>
     </div>
   </div>

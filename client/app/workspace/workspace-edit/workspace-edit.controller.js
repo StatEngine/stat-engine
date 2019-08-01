@@ -1,15 +1,15 @@
 'use strict';
 
-import angular from 'angular';
-// eslint-disable-next-line no-unused-vars
-import parsleyjs from 'parsleyjs';
+import 'parsleyjs';
 
 let _;
+
 export default class WorkspaceEditController {
   workspace = {};
   errors = [];
   message = '';
   seed = true;
+  isShowingAddDashboardsOverlay = true;
 
   /*@ngInject*/
   constructor(Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal) {
@@ -41,11 +41,15 @@ export default class WorkspaceEditController {
     await this.refresh();
   }
 
+  get isNewWorkspace() {
+    return (this.inputWorkspace._id == null);
+  }
+
   get pageTitle() {
     if(!this.inputWorkspace) {
       return undefined;
     } else {
-      return this.inputWorkspace._id ? 'Edit Workspace' : 'New Workspace';
+      return this.isNewWorkspace ? 'New Workspace' : 'Edit Workspace';
     }
   }
 
@@ -53,7 +57,7 @@ export default class WorkspaceEditController {
     if(!this.inputWorkspace) {
       return undefined;
     } else {
-      return this.inputWorkspace._id ? 'Save' : 'Create';
+      return this.isNewWorkspace ? 'Create' : 'Save';
     }
   }
 
@@ -61,7 +65,7 @@ export default class WorkspaceEditController {
     if(!this.inputWorkspace) {
       return undefined;
     } else {
-      return this.inputWorkspace._id ? 'Saving...' : 'Creating...';
+      return this.isNewWorkspace ? 'Creating...' : 'Saving...';
     }
   }
 
@@ -76,7 +80,7 @@ export default class WorkspaceEditController {
     }
     const departmentUsers = await this.UserService.query().$promise;
 
-    this.seed = this.inputWorkspace._id == undefined;
+    this.seed = this.isNewWorkspace;
 
     const users = _.filter(departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
     this.inputUsers = _.values(_.merge(
@@ -120,39 +124,42 @@ export default class WorkspaceEditController {
   }
 
   saveDisabled() {
-    if(this.isSaving) {
-      return true;
-    }
+    return this.isSaving;
+    // if(this.isSaving) {
+    //   return true;
+    // }
 
-    let noChanges = true;
-    let noUserChanges = true;
-    if (!this.origWorkspace || !this.inputWorkspace) {
-      return true;
-    }
-    if (this.origWorkspace.name !== this.inputWorkspace.name ||
-        this.origWorkspace.description !== this.inputWorkspace.description ||
-        this.origWorkspace.color !== this.inputWorkspace.color) {
-      noChanges = false;
-    }
-
-    if (this.inputUsers) {
-      this.inputUsers.forEach(u => {
-        const origUser = _.find(this.origWorkspace.users, ou => ou._id === u._id);
-        // user either was added as owner, or permissions given
-        if (!origUser && (u.is_owner || u.permission)) {
-          noUserChanges = false;
-        }
-        // user ownership or permission changed
-        if (origUser && (u.is_owner !== origUser.is_owner || u.permission !== origUser.permission)) {
-          noUserChanges = false;
-        }
-      });
-    }
-
-    return (
-     (noChanges && noUserChanges) ||
-     this.isSaving
-    )
+    // console.log(this.inputWorkspace.name);
+    //
+    // if(this.isNewWorkspace) {
+    //   return (!this.inputWorkspace.name || !this.inputWorkspace.description);
+    // }
+    //
+    // if (!this.origWorkspace || !this.inputWorkspace) {
+    //   return true;
+    // }
+    //
+    // if (this.origWorkspace.name !== this.inputWorkspace.name ||
+    //   this.origWorkspace.description !== this.inputWorkspace.description ||
+    //   `${this.origWorkspace.color}`.toLowerCase() !== `${this.inputWorkspace.color}`.toLowerCase()) {
+    //   return false;
+    // }
+    //
+    // if (this.inputUsers) {
+    //   for (const user of this.inputUsers) {
+    //     const origUser = _.find(this.origWorkspace.users, u => u._id === user._id);
+    //     // user either was added as owner, or permissions given
+    //     if (!origUser && (user.is_owner || user.permission)) {
+    //       return false;
+    //     }
+    //     // user ownership or permission changed
+    //     if (origUser && (user.is_owner !== origUser.is_owner || user.permission !== origUser.permission)) {
+    //       return false;
+    //     }
+    //   }
+    // }
+    //
+    // return true;
   }
 
   async updateWorkspace(form) {
@@ -166,7 +173,7 @@ export default class WorkspaceEditController {
       id: this.inputWorkspace._id
     };
 
-    if(!this.inputWorkspace._id) {
+    if(this.isNewWorkspace) {
       fnc = this.WorkspaceService.create;
       if (this.seed) {
         params.seedVisualizations = true;
@@ -214,5 +221,9 @@ export default class WorkspaceEditController {
       title: 'User Access',
       content: $('#userAccessInfo')[0].innerHTML,
     }).present();
+  }
+
+  showAddDashboardsOverlay() {
+    this.isShowingAddDashboardsOverlay = true;
   }
 }

@@ -32,7 +32,7 @@ export default function routes($stateProvider) {
           template: require('./workspace-edit/workspace-edit.html'),
           controller: 'WorkspaceEditController',
           controllerAs: 'vm'
-        }
+        },
       },
       data: {
         roles: ['dashboard_user','department_admin']

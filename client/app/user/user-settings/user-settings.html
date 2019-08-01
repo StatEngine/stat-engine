@@ -3,51 +3,43 @@
     <h2 class="m-0">Settings</h2>
   </div>
 
-  <nav class="section-nav-tabs">
-    <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist" id="nav-tab">
-      <li class="nav-item tx-medium pl-0">
-        <a
-          class="nav-link active"
-          data-toggle="tab"
-          href="#nav-profile"
-          role="tab"
-          id="nav-profile-tab"
-          aria-controls="nav-profile"
-          aria-selected="true"
-          ng-click="vm.handleTabClick('profile')"
-        >
-          My Profile
-        </a>
-      </li>
-      <li class="nav-item tx-medium">
-        <a
-          class="nav-link"
-          data-toggle="tab"
-          href="#nav-email"
-          role="tab"
-          id="nav-email-tab"
-          aria-controls="nav-email"
-          aria-selected="false"
-          ng-click="vm.handleTabClick('email')"
-        >
-          Email
-        </a>
-      </li>
-      <li class="nav-item tx-medium">
-        <a
-          class="nav-link"
-          data-toggle="tab"
-          href="#nav-password"
-          role="tab"
-          id="nav-password-tab"
-          aria-controls="nav-password"
-          aria-selected="false"
-          ng-click="vm.handleTabClick('password')"
-        >
-          Password
-        </a>
-      </li>
-    </ul>
+  <nav class="section-nav">
+    <div class="section-nav-tabs nav" role="tablist" id="nav-tab">
+      <a
+        class="active"
+        data-toggle="tab"
+        href="#nav-profile"
+        role="tab"
+        id="nav-profile-tab"
+        aria-controls="nav-profile"
+        aria-selected="true"
+        ng-click="vm.handleTabClick('profile')"
+      >
+        My Profile
+      </a>
+      <a
+        data-toggle="tab"
+        href="#nav-email"
+        role="tab"
+        id="nav-email-tab"
+        aria-controls="nav-email"
+        aria-selected="false"
+        ng-click="vm.handleTabClick('email')"
+      >
+        Email
+      </a>
+      <a
+        data-toggle="tab"
+        href="#nav-password"
+        role="tab"
+        id="nav-password-tab"
+        aria-controls="nav-password"
+        aria-selected="false"
+        ng-click="vm.handleTabClick('password')"
+      >
+        Password
+      </a>
+    </div>
   </nav>
 </div>
 
