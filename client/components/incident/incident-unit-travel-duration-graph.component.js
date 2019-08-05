@@ -87,6 +87,7 @@ export default class IncidentUnitTravelDurationGraphComponent {
       yaxis: {
         zerolinecolor: '#d7dee3',
         linecolor: '#d7dee3',
+        type: 'category',
       },
       xaxis: {
         // zerolinecolor: '#d7dee3',

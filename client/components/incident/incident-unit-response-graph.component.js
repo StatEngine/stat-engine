@@ -106,6 +106,9 @@ export default class IncidentUnitResponseGraphComponent {
         linecolor: '#d7dee3',
         zerolinecolor: '#d7dee3',
       },
+      yaxis: {
+        type: 'category',
+      },
       legend: {
         orientation: 'h',
         xanchor: 'center',
