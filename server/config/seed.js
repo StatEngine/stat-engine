@@ -373,6 +373,28 @@ if(process.env.NODE_ENV === 'development') {
       include: [FireDepartment.Users]
     }))
     .then(() => FireDepartment.create({
+      fd_id: '0173',
+      firecares_id: '85063',
+      name: 'Jackson County Fire District 3',
+      state: 'OR',
+      timezone: 'US/Pacific',
+      integration_complete: true,
+      latitude: 37.7772,
+      longitude: -77.5161,
+      Users: [{
+        provider: 'local',
+        role: 'user,department_admin',
+        username: 'jacksonOR',
+        first_name: 'jacksonOR',
+        last_name: 'User',
+        email: 'jacksonOR@prominentedge.com',
+        password: 'password',
+        api_key: uuidv4(),
+      }],
+    }, {
+      include: [FireDepartment.Users]
+    }))
+    .then(() => FireDepartment.create({
       fd_id: '01032',
       firecares_id: '88539',
       name: 'Miami-Dade Fire Rescue Department',
