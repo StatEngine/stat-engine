@@ -3,7 +3,7 @@
     <div class="overlay-window-header-title">
       <span>Add Dashboards</span>
     </div>
-    <button class="close-button" ng-click="vm.show = false"></button>
+    <button class="close-button" ng-click="vm.closeButtonClick()"></button>
   </div>
 
   <div class="overlay-window-content">
@@ -12,7 +12,12 @@
         <div class="search mr-3">
           <label>Search</label>
           <div class="position-relative">
-            <input type="text" ng-model="vm.searchQuery" />
+            <input
+              type="text"
+              ng-model="vm.searchQuery"
+              ng-model-options="{ debounce: 500 }"
+              ng-change="vm.searchChange()"
+            />
             <i class="search-icon"></i>
           </div>
         </div>
@@ -53,20 +58,20 @@
         }"
       >
         <div
+          id="dashboardItem{{ dashboard.id }}"
           class="dashboard-item"
-          ng-class="{
-            'selected': vm.isDashboardSelected(dashboard),
-            'flipped': dashboard.isFlipped
-          }"
+          ng-class="{'selected': vm.isDashboardSelected(dashboard)}"
           ng-repeat="dashboard in vm.dashboards"
-          ng-click="vm.toggleSelectDashboard(dashboard)"
+          ng-click="vm.handleDashboardItemClick($event, dashboard)"
+          ng-mouseleave="vm.handleDashboardItemMouseLeave($event, dashboard)"
         >
-          <div class="dashboard-item-inner" ng-class="{'flipped': dashboard.isFlipped}">
+          <div class="dashboard-item-inner">
             <div class="dashboard-item-front">
               <div
                 class="dashboard-item-image-container">
                 <div class="dashboard-item-image"></div>
               </div>
+
               <div class="dashboard-item-content">
                 <div class="dashboard-item-title">{{ dashboard.title }}</div>
                 <div class="dashboard-item-author">By {{ dashboard.author }}</div>
@@ -78,6 +83,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="dashboard-item-info">
                 <div class="space-nowrap">
                   <i class="fa fa-tag"></i>
@@ -89,7 +95,22 @@
             </div>
 
             <div class="dashboard-item-back">
+              <div class="dashboard-item-content">
+                <div class="dashboard-item-title">{{ dashboard.title }}</div>
+                <div class="dashboard-item-author">By {{ dashboard.author }}</div>
+                <div class="dashboard-item-description">
+                  <p>{{ dashboard.description }}</p>
+                </div>
+              </div>
 
+              <div class="dashboard-item-info">
+                <div class="space-nowrap">
+                  <i class="fa fa-tag"></i>
+                  {{ dashboard.category }}
+                </div>
+                <div>Downloads: {{ dashboard.downloads }}</div>
+                <div>Version: {{ dashboard.version }}</div>
+              </div>
             </div>
           </div>
         </div>

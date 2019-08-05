@@ -1765,12 +1765,12 @@ nav.section-nav {
   overflow-x: hidden;
   overflow-y: auto;
   opacity: 0;
-  transform: translateY(100%);
+  transform: scale(0);
   pointer-events: none;
 
   &.active {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
     pointer-events: unset;
   }
 

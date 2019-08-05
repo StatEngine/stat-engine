@@ -9,7 +9,7 @@ export default class WorkspaceEditController {
   errors = [];
   message = '';
   seed = true;
-  isShowingAddDashboardsOverlay = true;
+  isShowingAddDashboardsOverlay = false;
 
   /*@ngInject*/
   constructor(Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal) {
