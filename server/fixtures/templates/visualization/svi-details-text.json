@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:svi-details-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "SVI Details text",
+      "visState": "{\"title\":\"SVI Details text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"# SVI Details\\nThe overall SVI is composed of rankings from four sub-rankings formed by groupings of similar ACS variables:\\n- Socioeconomic, composed of the following: # of persons with income below poverty line in the past 12 months, # who are unemployed, # with no high school diploma, and per capita income\\n\\n- Household Composition, composed of the # of persons aged 65 or older, # who are 17 or younger, # who have a disability, and the # of households that are single-parent\\n\\n- Minority/Language, composed of # of racial minorities, defined by the SVI as 'Non-white', and the # of persons who speak English \\\"Less than well.\\\" (the phrasing used on the ACS questionnaire)\\n\\n- Housing and Transportation, composed of # of housing units that are part of a building composed of 10 or more units (high density housing), # of mobile homes, # of housing units where the number of residents is greater than the number of rooms,  # of households with no vehicle, and # of persons in institutionalized group quarters (e.g. Nursing/Skilled nursing facilities or correctional facilities).\\n\\nThe below Tables display these underlying values by theme, using percentage rather than the raw values for comparability, for the census tracts your jurisdiction has responded to.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

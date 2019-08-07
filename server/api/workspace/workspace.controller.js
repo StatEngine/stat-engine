@@ -8,7 +8,7 @@ import {
   seedKibanaDashboards,
   seedKibanaIndexPatterns,
   seedKibanaVisualizations,
-} from '@statengine/se-fixtures';
+} from '../../fixtures';
 
 const seedTemplate = Promise.promisify(seedKibanaTemplate);
 const seedIndexPatterns = Promise.promisify(seedKibanaIndexPatterns);

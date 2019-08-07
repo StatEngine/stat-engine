@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:alarm-processing-definition",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Alarm Processing Definition",
+      "visState": "{\"title\":\"Alarm Processing Definition\",\"type\":\"markdown\",\"params\":{\"markdown\":\"# Alarm Processing\\n\\nThe time duration between when the call is entered into CAD and the first unit is dispatched. \\n\\n### NFPA1710 Recommendation\\n\\n> 90%: 64 secs\\n\\n> 95%: 106 secs\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
+    }
+  }
+}

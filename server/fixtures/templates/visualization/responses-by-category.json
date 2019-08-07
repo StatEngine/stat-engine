@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:responses-by-category",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Responses By Category",
+      "visState": "{\"title\":\"Responses By Category\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"description.category\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.apparatus-fire-incident }}\",\"query\":{\"match_all\":{}},\"filter\":[{\"meta\":{\"index\":\"{{ fire_department.es_indices.apparatus-fire-incident }}\",\"type\":\"phrases\",\"key\":\"description.suppressed\",\"value\":\"false\",\"params\":[\"false\"],\"negate\":false,\"disabled\":false,\"alias\":null},\"query\":{\"bool\":{\"should\":[{\"match_phrase\":{\"description.suppressed\":\"false\"}}],\"minimum_should_match\":1}},\"$state\":{\"store\":\"globalState\"}}]}"
+      }
+    }
+  }
+}

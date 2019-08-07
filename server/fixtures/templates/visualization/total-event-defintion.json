@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:total-event-defintion",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Total Event Definition",
+      "visState": "{\"title\":\"Total Event Definition\",\"type\":\"markdown\",\"params\":{\"markdown\":\"# Total Event\\n\\nThe time duration between when the call is opened in CAD and the call is closed in CAD\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
+    }
+  }
+}

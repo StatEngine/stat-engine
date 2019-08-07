@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:svi-introduction-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "SVI introduction text",
+      "visState": "{\"aggs\":[],\"params\":{\"fontSize\":12,\"markdown\":\"Social Vulnerability Index (SVI) is a measure developed by the Centers for Disease Control (CDC) that primarily uses relevant fields from the American Community Survey (ACS) to identify census tracts where the population is vulnerable to disasters.\\n\\nIt is measured on a scale from 0 to 1 with **0 being the least vulnerable** and **1 being the most vulnerable.**\\n\\nA population that is more vulnerable is considered to be more greatly affected by catastrophic events, such as losing their home, and to have less capability and resources to recover from such events.\\n\\nThe summary fields of the SVI present overall and thematic percentile rankings for census tracts across the U.S. So for example, a tract whose summary.overall ranking is 0.9 or higher is a tract whose particular combination of 15 underlying ACS variables places it in the top 10% most vulnerable tracts in the U.S.\\n\\nMore information concerning the SVI data and its calculation can be found in the [CDC's documentation](https://svi.cdc.gov/Documents/Data/2016_SVI_Data/SVI2016Documentation.pdf).\",\"openLinksInNewTab\":true},\"title\":\"SVI introduction text\",\"type\":\"markdown\"}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

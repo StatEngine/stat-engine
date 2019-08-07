@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:95th-percentile-alarm-answering",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "95th Percentile Alarm Answering",
+      "visState": "{\"title\":\"95th Percentile Alarm Answering\",\"type\":\"metric\",\"params\":{\"addLegend\":false,\"addTooltip\":true,\"gauge\":{\"autoExtend\":false,\"backStyle\":\"Full\",\"colorSchema\":\"Green to Red\",\"colorsRange\":[{\"from\":0,\"to\":15},{\"from\":15,\"to\":60}],\"gaugeColorMode\":\"None\",\"gaugeStyle\":\"Full\",\"gaugeType\":\"Arc\",\"invertColors\":false,\"labels\":{\"color\":\"black\",\"show\":false},\"orientation\":\"vertical\",\"percentageMode\":false,\"scale\":{\"color\":\"#333\",\"labels\":false,\"show\":true,\"width\":2},\"style\":{\"bgColor\":false,\"fontSize\":60,\"labelColor\":false,\"subText\":\"secs\"},\"type\":\"meter\",\"useRange\":false,\"verticalSplit\":false},\"type\":\"gauge\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"percentiles\",\"schema\":\"metric\",\"params\":{\"field\":\"NFPA.alarm_answering_duration_seconds\",\"percents\":[95],\"customLabel\":\"alarm answering (sec)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 15\":\"rgb(0,104,55)\",\"15 - 60\":\"rgb(165,0,38)\"},\"legendOpen\":false}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
+    }
+  }
+}

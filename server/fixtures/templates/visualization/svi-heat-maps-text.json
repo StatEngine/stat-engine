@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:svi-heat-maps-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "SVI Heat Maps text",
+      "visState": "{\"title\":\"SVI Heat Maps text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"# Heat Maps\\nHeat maps can be used to help tease out relationships between variables within the SVI and ACS data with respect to call volume.\\n\\n- Bottom Left: A heat map displaying call volume as a function of both Per Capita Income and  % Non-white Population\\n\\n- Bottom Right: A heat map displaying call volume as a function of % of population living with a disability and % of population over the age of 65. Can be used to determine whether there are any anomalies in reaching especially vulnerable older/disabled populations\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:median-response-time-by-disabilities-and-elderly",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Median Response Time by % of Population with Disabilities and % of Population 65 or over",
+      "visState": "{\"title\":\"Median Response Time by % of Population with Disabilities and % of Population 65 or over\",\"type\":\"heatmap\",\"params\":{\"type\":\"heatmap\",\"addTooltip\":true,\"addLegend\":true,\"enableHover\":false,\"legendPosition\":\"right\",\"times\":[],\"colorsNumber\":4,\"colorSchema\":\"Green to Red\",\"setColorRange\":false,\"colorsRange\":[],\"invertColors\":false,\"percentageMode\":false,\"valueAxes\":[{\"show\":false,\"id\":\"ValueAxis-1\",\"type\":\"value\",\"scale\":{\"type\":\"linear\",\"defaultYExtents\":false},\"labels\":{\"show\":false,\"rotate\":0,\"overwriteColor\":false,\"color\":\"#555\"}}]},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"median\",\"schema\":\"metric\",\"params\":{\"field\":\"durations.total_response.seconds\",\"percents\":[50]},\"hidden\":false},{\"id\":\"3\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"group\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.household_composition.disabled_percentage\",\"interval\":5,\"extended_bounds\":{},\"customLabel\":\"% with Disability\"},\"hidden\":false},{\"id\":\"2\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.household_composition.over_age_65_percentage\",\"interval\":5,\"extended_bounds\":{},\"customLabel\":\"% 65 or Older\"},\"hidden\":false}]}",
+      "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 125\":\"rgb(0,104,55)\",\"125 - 250\":\"rgb(135,203,103)\",\"250 - 375\":\"rgb(255,255,190)\",\"375 - 500\":\"rgb(249,142,82)\"}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:alarm-answering-definition",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Alarm Answering Definition",
+      "visState": "{\"title\":\"Alarm Answering Definition\",\"type\":\"markdown\",\"params\":{\"markdown\":\"# Alarm Answering\\n\\nThe time duration between when the call is answered and when the call is entered into CAD.  \\n\\n### NFPA1710 Recommendation\\n\\n> 95%: 15 secs\\n\\n> 99%: 40 secs\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
+    }
+  }
+}
