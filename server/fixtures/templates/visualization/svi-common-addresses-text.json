@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:svi-common-addresses-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "SVI Common Addresses Text",
+      "visState": "{\"title\":\"SVI Common Addresses Text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"# Common Addresses\\nThis table can be used to explore call volume to particular addresses in a region along with a few of their surrounding demographic characteristics.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

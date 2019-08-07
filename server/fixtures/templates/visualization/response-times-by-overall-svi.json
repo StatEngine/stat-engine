@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:response-times-by-overall-svi",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Response Time Percentiles by Overall SVI",
+      "visState": "{\"title\":\"Response Time Percentiles by Overall SVI\",\"type\":\"line\",\"params\":{\"type\":\"line\",\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"truncate\":100,\"rotate\":0},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Response Time (s)\"}}],\"seriesParams\":[{\"show\":\"true\",\"type\":\"line\",\"mode\":\"normal\",\"data\":{\"label\":\"Response Time (s)\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true,\"interpolate\":\"linear\"}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"orderBucketsBySum\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"percentiles\",\"schema\":\"metric\",\"params\":{\"field\":\"durations.response.seconds\",\"percents\":[25,50,75,95,99],\"customLabel\":\"Response Time (s)\"},\"hidden\":false},{\"id\":\"2\",\"enabled\":true,\"type\":\"filters\",\"schema\":\"segment\",\"params\":{\"filters\":[{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[-.010 TO 0.1]\"},\"label\":\"0\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.1001 TO 0.2]\"},\"label\":\"0.1\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.2001 TO 0.3]\"},\"label\":\"0.2\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.3001 TO 0.4]\"},\"label\":\"0.3\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.4001 TO 0.5]\"},\"label\":\"0.4\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.5001 TO 0.6]\"},\"label\":\"0.5\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.6001 TO 0.7]\"},\"label\":\"0.6\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.7001 TO 0.8]\"},\"label\":\"0.7\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.8001 TO 0.9]\"},\"label\":\"0.8\"},{\"input\":{\"query\":\"address.location.social_vulnerability_2016.summary.overall:[0.9001 TO 1.001]\"},\"label\":\"0.9\"}]},\"hidden\":false}]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

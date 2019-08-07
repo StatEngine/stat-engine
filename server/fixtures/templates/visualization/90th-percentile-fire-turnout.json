@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:90th-percentile-fire-turnout",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "90th Percentile Fire Turnout",
+      "visState": "{\"title\":\"90th Percentile Fire Turnout\",\"type\":\"metric\",\"params\":{\"addLegend\":false,\"addTooltip\":true,\"gauge\":{\"autoExtend\":false,\"backStyle\":\"Full\",\"colorSchema\":\"Green to Red\",\"colorsRange\":[{\"from\":0,\"to\":80},{\"from\":80,\"to\":160}],\"gaugeColorMode\":\"None\",\"gaugeStyle\":\"Full\",\"gaugeType\":\"Arc\",\"invertColors\":false,\"labels\":{\"color\":\"black\",\"show\":false},\"orientation\":\"vertical\",\"percentageMode\":false,\"scale\":{\"color\":\"#333\",\"labels\":false,\"show\":true,\"width\":2},\"style\":{\"bgColor\":false,\"fontSize\":60,\"labelColor\":false,\"subText\":\"\"},\"type\":\"meter\",\"useRange\":false,\"verticalSplit\":false},\"type\":\"gauge\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"percentiles\",\"schema\":\"metric\",\"params\":{\"field\":\"NFPA.turnout_durations_seconds\",\"percents\":[90],\"customLabel\":\"fire turnout (sec)\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 80\":\"rgb(0,104,55)\",\"80 - 160\":\"rgb(165,0,38)\"}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"match_all\":{}},\"filter\":[{\"meta\":{\"index\":\"{{ fire_department.es_indices.fire-incident }}*\",\"type\":\"phrases\",\"key\":\"description.category\",\"value\":\"FIRE\",\"params\":[\"FIRE\"],\"negate\":false,\"disabled\":false,\"alias\":null},\"query\":{\"bool\":{\"should\":[{\"match_phrase\":{\"description.category\":\"FIRE\"}}],\"minimum_should_match\":1}},\"$state\":{\"store\":\"appState\"}}]}"
+      }
+    }
+  }
+}

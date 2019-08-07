@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:location-section",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Location",
+      "visState": "{\"title\":\"Location\",\"type\":\"markdown\",\"params\":{\"markdown\":\"# Location\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
+    }
+  }
+}

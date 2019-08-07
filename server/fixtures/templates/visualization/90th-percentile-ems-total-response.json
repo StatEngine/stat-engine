@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:90th-percentile-ems-total-response",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "90th Percentile EMS Total Response",
+      "visState": "{\"aggs\":[{\"enabled\":true,\"id\":\"1\",\"params\":{\"customLabel\":\"EMS total response (min)\",\"field\":\"durations.total_response.minutes\",\"percents\":[90]},\"schema\":\"metric\",\"type\":\"percentiles\"}],\"listeners\":{},\"params\":{\"addLegend\":false,\"addTooltip\":true,\"gauge\":{\"autoExtend\":false,\"backStyle\":\"Full\",\"colorSchema\":\"Green to Red\",\"colorsRange\":[{\"from\":0,\"to\":100}],\"gaugeColorMode\":\"None\",\"gaugeStyle\":\"Full\",\"gaugeType\":\"Metric\",\"invertColors\":false,\"labels\":{\"color\":\"black\",\"show\":true},\"orientation\":\"vertical\",\"percentageMode\":false,\"scale\":{\"color\":\"#333\",\"labels\":false,\"show\":false,\"width\":2},\"style\":{\"bgColor\":false,\"fontSize\":60,\"labelColor\":false,\"subText\":\"\"},\"type\":\"simple\",\"useRange\":false,\"verticalSplit\":false},\"type\":\"gauge\"},\"title\":\"90th Percentile EMS Total Response\",\"type\":\"metric\"}",
+      "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 100\":\"rgb(0,104,55)\"}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"key\":\"description.category\",\"negate\":false,\"params\":[\"EMS\"],\"type\":\"phrases\",\"value\":\"EMS\"},\"query\":{\"bool\":{\"minimum_should_match\":1,\"should\":[{\"match_phrase\":{\"description.category\":\"EMS\"}}]}}}]}"
+      }
+    }
+  }
+}

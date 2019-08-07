@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:svi-graph-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "SVI Graph text",
+      "visState": "{\"title\":\"SVI Graph text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"# Graphs\\nSVI Data can be used to construct graphs examining the impact of demographics on a jurisdiction's fire problem.\\n\\n- Below-Left: Incident count by overall SVI (0 is least vulnerable, 1 is most vulnerable) and type of Incident. At a glance, this graph indicates how much service demand there is in regions with varying levels of vulnerability. Then one can examine using the bar on the right how demand for particular types calls varies with vulnerability in their jurisdiction.\\n\\n- Below-Right: 25th, 50th, 75th, 95th, and 99th percentile response times as a function of Overall SVI. This graph can be used to explore potential differences in response times to areas with different levels of vulnerability and, coupled with the maps and tables above, can be used to explain any significant differences that are found.\\n\\n- Below: Incidents by Call Category and Percentage of Housing Units in Buildings with 10 or more Units - As an example, this graph examines EMS, Fire, and all other call volume by increasing level of housing density. On the left side of the graph would be the lowest density housing areas, such as single-family residential neighborhoods. On the right side of the graph would be areas that mostly consist of apartments or condominiums in very urban sections of the city.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

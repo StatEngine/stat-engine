@@ -1,0 +1,13 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "index-pattern:{{ fire_department.es_indices.apparatus-fire-incident }}",
+  "_type": "doc",
+  "_source": {
+    "type": "index-pattern",
+    "index-pattern": {
+      "title": "{{ fire_department.es_indices.apparatus-fire-incident }}",
+      "timeFieldName": "description.event_opened"
+    },
+    "updated_at": "2018-12-11T20:56:17.913Z"
+  }
+}

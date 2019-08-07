@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:nfpa-1710-ems-turnout-time-compliance",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "NFPA 1710 EMS Turnout Time Compliance",
+      "visState": "{\"title\":\"NFPA 1710 EMS Turnout Time Compliance\",\"type\":\"table\",\"params\":{\"perPage\":20,\"showPartialRows\":false,\"showMeticsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"percentile_ranks\",\"schema\":\"metric\",\"params\":{\"field\":\"apparatus_data.extended_data.turnout_duration\",\"values\":[60],\"customLabel\":\"1710 Turnout Compliance\"}},{\"id\":\"4\",\"enabled\":true,\"type\":\"percentiles\",\"schema\":\"metric\",\"params\":{\"field\":\"apparatus_data.extended_data.turnout_duration\",\"percents\":[90],\"customLabel\":\"Turnout Duration\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"apparatus_data.unit_id\",\"size\":50,\"order\":\"desc\",\"orderBy\":\"_term\",\"customLabel\":\"Unit\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.apparatus-fire-incident }}\",\"query\":{\"match_all\":{}},\"filter\":[{\"meta\":{\"index\":\"93345-va-richmond_fire_and_emergency_services-apparatus-fire-incident*\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"NFPA.type\",\"value\":\"EMS\"},\"query\":{\"match\":{\"NFPA.type\":{\"query\":\"EMS\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}]}"
+      }
+    }
+  }
+}

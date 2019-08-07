@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:svi-summary-table-by-census-tract",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "SVI Summary Table by Census Tract",
+      "visState": "{\"title\":\"SVI Summary Table by Census Tract\",\"type\":\"enhanced-table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMetricsAtAllLevels\":false,\"sort\":{\"columnIndex\":3,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\",\"computedColumns\":[],\"computedColsPerSplitCol\":false,\"hideExportLinks\":false,\"showFilterBar\":false,\"filterCaseSensitive\":false,\"filterBarHideable\":false,\"filterAsYouType\":false,\"filterTermsSeparately\":false,\"filterHighlightResults\":false,\"filterBarWidth\":\"25%\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{},\"hidden\":false},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.general.fips\",\"size\":500,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Census Tract FIPS Code\"},\"hidden\":false},{\"id\":\"3\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.summary.overall\",\"customLabel\":\"SVI Overall\"},\"hidden\":false},{\"id\":\"4\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.summary.socioeconomic\",\"customLabel\":\"SVI Socioeconomic Theme\"},\"hidden\":false},{\"id\":\"5\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.summary.household_composition\",\"customLabel\":\"SVI Household Composition Theme\"},\"hidden\":false},{\"id\":\"6\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.summary.minority_status_language\",\"customLabel\":\"SVI Non-white and Language Theme\"},\"hidden\":false},{\"id\":\"7\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.summary.housing_transport\",\"customLabel\":\"SVI Housing and Transportation Theme\"},\"hidden\":false}]}",
+      "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":3,\"direction\":null}}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

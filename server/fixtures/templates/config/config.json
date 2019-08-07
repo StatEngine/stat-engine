@@ -1,0 +1,18 @@
+{
+  "_type": "doc",
+  "_id": "config:6.4.1",
+  "_index": "{{ kibana.tenancy }}",
+  "_source": {
+    "type": "config",
+    "config": {
+      "buildNum": 15497,
+      "dateFormat:tz": "{{ fire_department.timezone }}",
+      "timelion:es.timefield": "description.event_opened",
+      "state:storeInSessionStorage": true,
+      "defaultIndex": "{{ fire_department.es_indices.fire-incident }}",
+      "format:number:defaultPattern": "0,0.[0]",
+      "telemetry:optIn": false
+    },
+    "updated_at": "2018-12-11T20:56:17.913Z"
+  }
+}
