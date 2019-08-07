@@ -109,7 +109,7 @@ export default function routes($stateProvider) {
           if(currentPrincipal.FireDepartment) return Safety.getRandomMessage().$promise;
         },
         weatherForecast(currentPrincipal, Weather) {
-          if(currentPrincipal.FireDepartment) return Weather.getForecast().$promise;
+          if(currentPrincipal.FireDepartment) return Weather.getForecast().$promise.catch(e => console.error(e));
         },
         //todayStatSummary(currentPrincipal, Stats) {
         // if (currentPrincipal.FireDepartment) return Stats.get({}).$promise;
