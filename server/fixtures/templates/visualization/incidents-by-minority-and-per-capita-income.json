@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:incidents-by-minority-and-per-capita-income",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Incidents By Minority Percentage and Per Capita income",
+      "visState": "{\"title\":\"Incidents By Minority Percentage and Per Capita income\",\"type\":\"heatmap\",\"params\":{\"type\":\"heatmap\",\"addTooltip\":true,\"addLegend\":true,\"enableHover\":false,\"legendPosition\":\"right\",\"times\":[],\"colorsNumber\":4,\"colorSchema\":\"Greens\",\"setColorRange\":false,\"colorsRange\":[],\"invertColors\":false,\"percentageMode\":false,\"valueAxes\":[{\"show\":false,\"id\":\"ValueAxis-1\",\"type\":\"value\",\"scale\":{\"type\":\"linear\",\"defaultYExtents\":false},\"labels\":{\"show\":false,\"rotate\":0,\"overwriteColor\":false,\"color\":\"#555\"}}]},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{},\"hidden\":false},{\"id\":\"3\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"group\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.socioeconomic.per_capita_income\",\"interval\":10000,\"extended_bounds\":{},\"customLabel\":\"Per Capita Income\"},\"hidden\":false},{\"id\":\"2\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.minority_status_language.minority_percentage\",\"interval\":10,\"extended_bounds\":{},\"customLabel\":\"% of population that is non-white\"},\"hidden\":false}]}",
+      "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 5,000\":\"rgb(247,252,245)\",\"5,000 - 10,000\":\"rgb(199,233,192)\",\"10,000 - 15,000\":\"rgb(116,196,118)\",\"15,000 - 20,000\":\"rgb(35,139,69)\"}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

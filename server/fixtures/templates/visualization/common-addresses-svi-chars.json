@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:common-addresses-svi-chars",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Common Addresses with Census Tract Characteristics",
+      "visState": "{\"title\":\"Common Addresses with Census Tract Characteristics\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\",\"showMetricsAtAllLevels\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{},\"hidden\":false},{\"id\":\"3\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.household_composition.over_age_65_percentage\",\"customLabel\":\"% Over Age 65\"},\"hidden\":false},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"address.address_line1\",\"size\":50,\"order\":\"desc\",\"orderBy\":\"1\",\"otherBucket\":false,\"otherBucketLabel\":\"Other\",\"missingBucket\":false,\"missingBucketLabel\":\"Missing\",\"customLabel\":\"Address\"},\"hidden\":false},{\"id\":\"4\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.socioeconomic.poverty_percentage\",\"customLabel\":\"% In Poverty\"},\"hidden\":false},{\"id\":\"5\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.household_composition.disabled_percentage\",\"customLabel\":\"% Disabled Individuals\"},\"hidden\":false},{\"id\":\"6\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"address.location.social_vulnerability_2016.minority_status_language.minority_percentage\",\"customLabel\":\"% Non-white\"},\"hidden\":false}]}",
+      "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":0,\"direction\":null}}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"query\":{\"match_all\":{}},\"language\":\"lucene\"},\"filter\":[{\"meta\":{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"negate\":true,\"type\":\"phrase\",\"key\":\"address.address_line1\",\"value\":\"\",\"params\":{\"query\":\"\",\"type\":\"phrase\"},\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"address.address_line1\":{\"query\":\"\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

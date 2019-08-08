@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:fixtures-readme",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "README",
+      "visState": "{\"title\":\"README\",\"type\":\"markdown\",\"params\":{\"markdown\":\"# Overview\\n\\nWelcome to a sample **Dashboard**! \\nHere you'll find many example visualizations to get you started.\\n\\nPlease do not make any modifications to this  **Dashboard**, as the system overwrites this dashboard periodically with new and exciting visualizations.  Be sure to check back from time to time to see whats new!\\n\\nTo modify, you can either utilize the Clone feature or create an entire new dashboard.\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
+    }
+  }
+}

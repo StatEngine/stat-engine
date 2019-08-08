@@ -5,7 +5,6 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.4.0",
     "@mapbox/geojson-extent": "^0.3.2",
-    "@statengine/se-fixtures": "~2.0.3",
     "@statengine/se-grpc-proto": "~0.0.2",
     "@statengine/shiftly": "~0.0.58",
     "@uirouter/angularjs": "^1.0.13",
@@ -33,6 +32,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.7.2",
     "babel-runtime": "^6.6.1",
+    "bluebird": "^3.5.5",
     "body-parser": "^1.13.3",
     "bodybuilder": "^2.2.11",
     "bootstrap": "^4.1.3",
@@ -69,6 +69,7 @@
     "jquery": "^3.2.1",
     "jquery-sparkline": "^2.4.0",
     "jquery-ui": "^1.12.1",
+    "json-templates": "^1.9.0",
     "jsonwebtoken": "^8.4.0",
     "jwks-rsa": "^1.3.0",
     "lodash": "^4.6.1",

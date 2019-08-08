@@ -7,7 +7,6 @@
 'use strict';
 
 import uuidv4 from 'uuid/v4';
-import { seedKibanaAll, seedIndexTemplates } from '@statengine/se-fixtures';
 
 import sqldb from '../sqldb';
 import { TimeUnit } from '../components/constants/time-unit';
@@ -1036,17 +1035,17 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then(fireDepartment => {
-      const locals = {
-        FireDepartment: fireDepartment.get(),
-      };
-      seedIndexTemplates({}, locals, err => {
-        if(err) throw err;
-
-        seedKibanaAll({}, locals, err => {
-          if(err) throw err;
-        });
-      });
-    })
+    // .then(fireDepartment => {
+    //   const locals = {
+    //     FireDepartment: fireDepartment.get(),
+    //   };
+    //   seedIndexTemplates({}, locals, err => {
+    //     if(err) throw err;
+    //
+    //     seedKibanaAll({}, locals, err => {
+    //       if(err) throw err;
+    //     });
+    //   });
+    // })
     .then(() => console.log('finished populating demo data'));
 }
