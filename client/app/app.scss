@@ -28,6 +28,8 @@ $primary: $color-cerulean;
 
 $gray-550: #99a4ab;
 
+$font-weight-semibold: 500;
+
 /////////////////////////////////
 // IMPORTS //
 ////////////////////////////////
@@ -744,7 +746,7 @@ input[type="radio"]:focus {
 }
 
 .font-weight-semibold {
-  font-weight: 500 !important;
+  font-weight: $font-weight-semibold !important;
 }
 
 // Hover.css Overrides
@@ -1934,4 +1936,5 @@ nav.section-nav {
 @import '../components/weather/current-weather';
 @import '../components/add-dashboards-overlay/add-dashboards-overlay';
 @import '../components/view-mode/view-mode';
+@import '../components/chip/chip';
 // endinject //

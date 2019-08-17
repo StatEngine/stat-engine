@@ -101,6 +101,7 @@
     "pg": "^6.4.2",
     "plotly.js": "^1.38.0",
     "popper.js": "^1.14.4",
+    "regenerator-runtime": "^0.13.3",
     "request-promise": "^4.2.4",
     "require-all": "^2.2.0",
     "save-dev": "^2.0.0",

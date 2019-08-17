@@ -53,13 +53,16 @@
             </div>
 
             <div class="card-body">
-              <div class="form-layout form-inputs">
-                <div>
-                  <a class="d-inline-flex align-items-center" href="" ng-click="vm.showAddDashboardsOverlay()">
-                    <i class="fa fa-2x fa-plus-circle tx-22 mr-2"></i>
-                    <span class="font-weight-semibold">Add Dashboards</span>
-                  </a>
-                </div>
+              <div class="dashboards-list">
+                <chip
+                  ng-repeat="dashboard in vm.inputWorkspace.dashboards"
+                  on-remove-click="vm.removeDashboard(dashboard)"
+                  text="dashboard.title"
+                ></chip>
+                <a class="add-dashboards-button" href="" ng-click="vm.showAddDashboardsOverlay()">
+                  <i class="fa fa-2x fa-plus-circle tx-22 mr-2"></i>
+                  <span class="font-weight-semibold">Add Dashboards</span>
+                </a>
               </div>
             </div>
           </div>
@@ -232,5 +235,6 @@
 
   <add-dashboards-overlay
     show="vm.isShowingAddDashboardsOverlay"
+    on-confirm="vm.handleAddDashboardsOverlayConfirm({ selectedDashboards })"
   ></add-dashboards-overlay>
 </div>

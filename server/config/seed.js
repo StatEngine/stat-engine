@@ -10,6 +10,7 @@ import uuidv4 from 'uuid/v4';
 
 import sqldb from '../sqldb';
 import { TimeUnit } from '../components/constants/time-unit';
+import { addFixtureTemplatesToDatabase } from '../fixtures';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
@@ -20,6 +21,7 @@ const App = sqldb.App;
 const AppInstallation = sqldb.AppInstallation;
 const Workspace = sqldb.Workspace;
 const UserWorkspace = sqldb.UserWorkspace;
+const FixtureTemplate = sqldb.FixtureTemplate;
 
 const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
 const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
@@ -963,6 +965,8 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
+    .then(() => FixtureTemplate.destroy({ where: {} }))
+    .then(() => addFixtureTemplatesToDatabase())
     .then(() => console.log('finished populating data'));
 } else {
   console.info('Seeding Demo Data');

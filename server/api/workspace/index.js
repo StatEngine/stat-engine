@@ -16,7 +16,6 @@ router.post(
   auth.hasFireDepartment,
   bodyParser.json(),
   asyncMiddleware(controller.create),
-  asyncMiddleware(controller.loadFixtures),
 );
 
 router.get(
@@ -44,7 +43,7 @@ router.put(
   bodyParser.json(),
   asyncMiddleware(controller.hasWorkspaceOwnerAccess),
   asyncMiddleware(controller.edit)
-)
+);
 
 router.delete(
   '/:id',
@@ -53,7 +52,7 @@ router.delete(
   auth.hasFireDepartment,
   asyncMiddleware(controller.hasWorkspaceOwnerAccess),
   asyncMiddleware(controller.markAsDeleted),
-)
+);
 
 router.delete(
   '/:id/users/:userId',

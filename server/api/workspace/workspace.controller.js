@@ -1,80 +1,92 @@
 import _ from 'lodash';
-import { Promise } from 'bluebird';
-import { sequelize, Workspace, FireDepartment, UserWorkspace, User} from '../../sqldb';
+import { sequelize, Workspace, FireDepartment, UserWorkspace, User, FixtureTemplate } from '../../sqldb';
+import esConnection from '../../elasticsearch/connection';
+import bodybuilder from 'bodybuilder';
+import Promise from 'bluebird';
+import parseJsonTemplate from 'json-templates';
 
-import {
-  seedKibanaTemplate,
-  seedKibanaConfig,
-  seedKibanaDashboards,
-  seedKibanaIndexPatterns,
-  seedKibanaVisualizations,
-} from '../../fixtures';
+export async function create(req, res) {
+  const name = req.body.name;
+  const description = req.body.description;
+  const color = req.body.color;
+  const dashboardIds = req.body.dashboardIds;
+  const users = req.body.users;
 
-const seedTemplate = Promise.promisify(seedKibanaTemplate);
-const seedIndexPatterns = Promise.promisify(seedKibanaIndexPatterns);
-const seedConfig = Promise.promisify(seedKibanaConfig);
-const seedVisualizations = Promise.promisify(seedKibanaVisualizations);
-const seedDashboards = Promise.promisify(seedKibanaDashboards);
-
-export async function loadFixtures(req, res) {
-  const options = {
-    force: true
-  };
-
-  let fire_department = req.fireDepartment.get();
-  const locals = {
-    fire_department,
-    kibana: { tenancy: `.kibana_${fire_department.firecares_id}_${req.wkspace.slug}` }
-  };
-
-  await seedTemplate(options, locals);
-  await seedIndexPatterns(options, locals);
-  await seedConfig(options, locals);
-
-  if(req.query.seedVisualizations) await seedVisualizations(options, locals);
-  if(req.query.seedDashboards) await seedDashboards(options, locals);
-
-  res.json(req.wkspace).send();
-}
-
-export async function create(req, res, next) {
-  const workspace = Workspace.build({
-    name: req.body.name,
-    description: req.body.description,
-    color: req.body.color,
+  let workspace = Workspace.build({
+    name,
+    description,
+    color,
   });
 
   // force this all so user cannot overwrite in request
   workspace.setDataValue('fire_department__id', req.user.FireDepartment._id);
-  let wkspace;
-  await sequelize.transaction(t =>
-    workspace.save({transaction: t}).then(saved => {
-      wkspace = saved;
-      // make the user an owner
-      let permissionPromises = [UserWorkspace.create({
-        user__id: req.user._id,
-        workspace__id: saved._id,
-        permission: 'admin',
-        is_owner: true,
-      }, { transaction: t })];
+  await sequelize.transaction(async transaction => {
+    // TODO: Maybe remove this assignment... it might not be necessary.
+    workspace = await workspace.save({ transaction });
 
-      // update any other user permissions
-      req.body.users.forEach(u => {
-        if (u._id !== req.user._id && (u.is_owner || u.permission)) {
-          permissionPromises.push(UserWorkspace.create({
-            user__id: u._id,
-            workspace__id: saved._id,
-            permission: u.permission,
-            is_owner: u.is_owner,
-          }, { transaction: t }));
-        }
-      });
-      return Promise.all(permissionPromises);
-    })
-  ).then(() => {
-    req.wkspace = wkspace;
-    next();
+    // make the user an owner
+    const permissionPromises = [UserWorkspace.create({
+      user__id: req.user._id,
+      workspace__id: workspace._id,
+      permission: 'admin',
+      is_owner: true,
+    }, { transaction })];
+
+    // update any other user permissions
+    users.forEach(u => {
+      if (u._id !== req.user._id && (u.is_owner || u.permission)) {
+        permissionPromises.push(UserWorkspace.create({
+          user__id: u._id,
+          workspace__id: workspace._id,
+          permission: u.permission,
+          is_owner: u.is_owner,
+        }, { transaction }));
+      }
+    });
+
+    await Promise.all(permissionPromises);
   });
+
+  //
+  // Update Kibana.
+  //
+  const fireDepartment = req.fireDepartment.get();
+
+  // Kibana Template.
+  await seedWorkspaceKibanaTemplate({
+    workspace,
+    fireDepartment,
+  });
+
+  // Index Patterns.
+  await addFixturesToWorkspaceByType({
+    type: 'index-pattern',
+    workspace,
+    fireDepartment,
+  });
+
+  // Config.
+  await addFixturesToWorkspaceByType({
+    type: 'config',
+    workspace,
+    fireDepartment,
+  });
+
+  // Visualizations.
+  await addFixturesToWorkspaceByType({
+    type: 'visualization',
+    workspace,
+    fireDepartment,
+  });
+
+  // Dashboards.
+  await addFixturesToWorkspaceByIds({
+    ids: dashboardIds,
+    workspace,
+    fireDepartment,
+  });
+
+  res.json(workspace);
 }
 
 export async function edit(req, res) {
@@ -125,7 +137,24 @@ export async function edit(req, res) {
 }
 
 export async function get(req, res) {
-  let workspace = req.workspace.get();
+  const workspace = req.workspace.get();
+
+  // Get the workspace's dashboards.
+  // TODO: Replace with Kibana API call.
+  const esResponse = await esConnection.getClient().search({
+    index: req.workspace.getIndex(req.fireDepartment),
+    body: bodybuilder()
+      .query('match', 'type', 'dashboard')
+      .build(),
+  });
+
+  workspace.dashboards = [];
+  for (const dashboard of esResponse.hits.hits) {
+    workspace.dashboards.push({
+      id: dashboard._id,
+      title: dashboard._source.dashboard.title,
+    })
+  }
 
   // cleanup api call
   let users = workspace.Users;
@@ -142,7 +171,7 @@ export async function get(req, res) {
       is_owner: _.get(u, 'UserWorkspace.is_owner') || false,
       permission: _.get(u, 'UserWorkspace.permission') || null,
     })
-  })
+  });
 
   res.json(req.workspace);
 }
@@ -367,3 +396,323 @@ export async function load(req, res, next) {
     })
 }
 
+//
+// Helpers
+//
+
+async function addFixturesToWorkspaceByIds({ ids, workspace, fireDepartment }) {
+  const fixtureTemplates = await FixtureTemplate.findAll({
+    where: { _id: ids },
+  });
+
+  await addFixturesToWorkspace({
+    fixtureTemplates,
+    workspace,
+    fireDepartment,
+  });
+}
+
+async function addFixturesToWorkspaceByType({ type, workspace, fireDepartment }) {
+  const fixtureTemplates = await FixtureTemplate.findAll({
+    where: { type },
+  });
+
+  await addFixturesToWorkspace({
+    workspace,
+    fireDepartment,
+    fixtureTemplates,
+  });
+}
+
+async function addFixturesToWorkspace({ fixtureTemplates, workspace, fireDepartment }) {
+  console.log('ADDING FIXTURES');
+  console.log(fixtureTemplates.map(t => t._id));
+
+  // Get the Kibana template data from the fixture template.
+  const kibanaTemplates = [];
+  for (const fixtureTemplate of fixtureTemplates) {
+    kibanaTemplates.push(fixtureTemplate.kibana_template);
+  }
+
+  // Apply variables to the Kibana templates.
+  const kibanaTemplateVariables = {
+    fire_department: fireDepartment,
+    kibana: {
+      tenancy: workspace.getIndex(fireDepartment),
+    },
+  };
+
+  const appliedKibanaTemplates = [];
+  for (const kibanaTemplate of kibanaTemplates) {
+    const parsedTemplate = parseJsonTemplate(JSON.stringify(kibanaTemplate));
+    const appliedTemplate = JSON.parse(parsedTemplate(kibanaTemplateVariables));
+
+    if (Array.isArray(appliedTemplate)) {
+      appliedTemplate.forEach(obj => appliedKibanaTemplates.push(obj));
+    } else {
+      appliedKibanaTemplates.push(appliedTemplate);
+    }
+  }
+
+  // Update docs in ES.
+  const index = workspace.getIndex(fireDepartment);
+  for (const doc of appliedKibanaTemplates) {
+    console.info(`Loading: ${doc._id}`);
+
+    // await esConnection.getClient().update({
+    //   index: index,
+    //   type: doc._type,
+    //   id: doc._id,
+    //   body: {
+    //     doc: doc._source,
+    //     doc_as_upsert: true,
+    //   },
+    // });
+  }
+}
+
+async function seedWorkspaceKibanaTemplate({ workspace, fireDepartment }) {
+  const index = workspace.getIndex(fireDepartment);
+  await esConnection.getClient().indices.putTemplate({
+    name: `kibana_index_template:${index}`,
+    order: 0,
+    body: {
+      index_patterns: [ index ],
+      index: {
+        number_of_shards: '1',
+        auto_expand_replicas: '0-1',
+      },
+      mappings: {
+        doc: {
+          dynamic: 'strict',
+          properties: {
+            type: {
+              type: 'keyword',
+            },
+            updated_at: {
+              type: 'date',
+            },
+            config: {
+              dynamic: true,
+              properties: {
+                buildNum: {
+                  type: 'keyword',
+                },
+              },
+            },
+            'timelion-sheet': {
+              properties: {
+                description: {
+                  type: 'text',
+                },
+                hits: {
+                  type: 'integer',
+                },
+                kibanaSavedObjectMeta: {
+                  properties: {
+                    searchSourceJSON: {
+                      type: 'text',
+                    },
+                  },
+                },
+                timelion_chart_height: {
+                  type: 'integer',
+                },
+                timelion_columns: {
+                  type: 'integer',
+                },
+                timelion_interval: {
+                  type: 'keyword',
+                },
+                timelion_other_interval: {
+                  type: 'keyword',
+                },
+                timelion_rows: {
+                  type: 'integer',
+                },
+                timelion_sheet: {
+                  type: 'text',
+                },
+                title: {
+                  type: 'text',
+                },
+                version: {
+                  type: 'integer',
+                },
+              },
+            },
+            'index-pattern': {
+              properties: {
+                fieldFormatMap: {
+                  type: 'text',
+                },
+                fields: {
+                  type: 'text',
+                },
+                intervalName: {
+                  type: 'keyword',
+                },
+                notExpandable: {
+                  type: 'boolean',
+                },
+                sourceFilters: {
+                  type: 'text',
+                },
+                timeFieldName: {
+                  type: 'keyword',
+                },
+                title: {
+                  type: 'text',
+                },
+              },
+            },
+            visualization: {
+              properties: {
+                description: {
+                  type: 'text',
+                },
+                kibanaSavedObjectMeta: {
+                  properties: {
+                    searchSourceJSON: {
+                      type: 'text',
+                    },
+                  },
+                },
+                savedSearchId: {
+                  type: 'keyword',
+                },
+                title: {
+                  type: 'text',
+                },
+                uiStateJSON: {
+                  type: 'text',
+                },
+                version: {
+                  type: 'integer',
+                },
+                visState: {
+                  type: 'text',
+                },
+              },
+            },
+            search: {
+              properties: {
+                columns: {
+                  type: 'keyword',
+                },
+                description: {
+                  type: 'text',
+                },
+                hits: {
+                  type: 'integer',
+                },
+                kibanaSavedObjectMeta: {
+                  properties: {
+                    searchSourceJSON: {
+                      type: 'text',
+                    },
+                  },
+                },
+                sort: {
+                  type: 'keyword',
+                },
+                title: {
+                  type: 'text',
+                },
+                version: {
+                  type: 'integer',
+                },
+              },
+            },
+            dashboard: {
+              properties: {
+                description: {
+                  type: 'text',
+                },
+                hits: {
+                  type: 'integer',
+                },
+                kibanaSavedObjectMeta: {
+                  properties: {
+                    searchSourceJSON: {
+                      type: 'text',
+                    },
+                  },
+                },
+                optionsJSON: {
+                  type: 'text',
+                },
+                panelsJSON: {
+                  type: 'text',
+                },
+                refreshInterval: {
+                  properties: {
+                    display: {
+                      type: 'keyword',
+                    },
+                    pause: {
+                      type: 'boolean',
+                    },
+                    section: {
+                      type: 'integer',
+                    },
+                    value: {
+                      type: 'integer',
+                    },
+                  },
+                },
+                timeFrom: {
+                  type: 'keyword',
+                },
+                timeRestore: {
+                  type: 'boolean',
+                },
+                timeTo: {
+                  type: 'keyword',
+                },
+                title: {
+                  type: 'text',
+                },
+                uiStateJSON: {
+                  type: 'text',
+                },
+                version: {
+                  type: 'integer',
+                },
+              },
+            },
+            url: {
+              properties: {
+                accessCount: {
+                  type: 'long',
+                },
+                accessDate: {
+                  type: 'date',
+                },
+                createDate: {
+                  type: 'date',
+                },
+                url: {
+                  type: 'text',
+                  fields: {
+                    keyword: {
+                      type: 'keyword',
+                      ignore_above: 2048,
+                    },
+                  },
+                },
+              },
+            },
+            server: {
+              properties: {
+                uuid: {
+                  type: 'keyword',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}

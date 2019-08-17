@@ -28,6 +28,7 @@ export default function(app) {
   app.use('/api/shift', require('./api/shift'));
   app.use('/api/stats', require('./api/stats'));
   app.use('/api/workspaces', require('./api/workspace'));
+  app.use('/api/fixture-template', require('./api/fixture-template'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));
@@ -57,4 +58,16 @@ export default function(app) {
     .get((req, res) => {
       res.sendFile(path.resolve(`${app.get('appPath')}/app.html`));
     });
+
+  // app.use((req, res, next) => {
+  //   res.status(500).json({
+  //     data: {
+  //       errors: [{
+  //         message: 'Something went wrong.',
+  //       }]
+  //     }
+  //   }).send();
+  //
+  //   next();
+  // })
 }

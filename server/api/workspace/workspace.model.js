@@ -69,7 +69,11 @@ export default function(sequelize, DataTypes) {
       },
     },
 
-    instanceMethods: {},
+    instanceMethods: {
+      getIndex(fireDepartment) {
+        return `.kibana_${fireDepartment.firecares_id}_${this.slug}`;
+      },
+    },
 
     underscored: true,
   });

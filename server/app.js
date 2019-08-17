@@ -6,6 +6,7 @@
 
 import express from 'express';
 import http from 'http';
+import 'regenerator-runtime/runtime';
 
 import sqldb from './sqldb';
 import config from './config/environment';

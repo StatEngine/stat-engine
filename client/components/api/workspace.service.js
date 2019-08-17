@@ -50,5 +50,12 @@ export default function WorkspaceResource($resource) {
         controllerId: '@controllerId',
       }
     },
+    getDashboards: {
+      method: 'GET',
+      params: {
+        id: '@id',
+        controller: 'dashboards',
+      },
+    },
   });
 }

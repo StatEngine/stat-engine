@@ -99,5 +99,16 @@
   }
 
   .workspace-dashboards {
+    .dashboards-list {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .add-dashboards-button {
+        display: inline-flex;
+        align-items: center;
+        margin: 0.5rem;
+      }
+    }
   }
 }

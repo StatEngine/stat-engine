@@ -28,6 +28,7 @@ export default class WorkspaceEditController {
     this.inputWorkspace = {
       _id: this.$stateParams.id === 'new' ? undefined : this.$stateParams.id,
       color: this.palette[0][0],
+      dashboards: {},
     };
   }
 
@@ -175,10 +176,6 @@ export default class WorkspaceEditController {
 
     if(this.isNewWorkspace) {
       fnc = this.WorkspaceService.create;
-      if (this.seed) {
-        params.seedVisualizations = true;
-        params.seedDashboards = true;
-      }
 
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'WORKSPACE',
@@ -195,19 +192,25 @@ export default class WorkspaceEditController {
         name: this.inputWorkspace.name,
         description: this.inputWorkspace.description,
         color: this.inputWorkspace.color,
+        dashboardIds: Object.keys(this.inputWorkspace.dashboards).join(','),
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
-      err = err.data;
-      this.errors = err.errors;
-      // clean up validation error
-      let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
-      if(nameError) {
-        this.errors = [{
-          message: 'This name is already in use by someone in your department! Please choose another.'
-        }]
+      if (err.data) {
+        err = err.data;
       }
-      this.showErrors = true;
+      console.error(err);
+      // this.errors = err.errors;
+      // if (this.errors) {
+      //   // clean up validation error
+      //   const hasNameError = !!this.errors.find(e => e.message === 'name must be unique');
+      //   if(hasNameError) {
+      //     this.errors = [{
+      //       message: 'This name is already in use by someone in your department! Please choose another.'
+      //     }]
+      //   }
+      //   this.showErrors = true;
+      // }
       return;
     } finally {
       this.isSaving = false;
@@ -225,5 +228,13 @@ export default class WorkspaceEditController {
 
   showAddDashboardsOverlay() {
     this.isShowingAddDashboardsOverlay = true;
+  }
+
+  handleAddDashboardsOverlayConfirm({ selectedDashboards }) {
+    this.inputWorkspace.dashboards = Object.assign(this.inputWorkspace.dashboards, selectedDashboards);
+  }
+
+  removeDashboard(dashboard) {
+    delete this.inputWorkspace.dashboards[dashboard._id];
   }
 }

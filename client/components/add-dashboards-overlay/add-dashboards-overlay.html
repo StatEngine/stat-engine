@@ -44,7 +44,11 @@
 
       <div class="add-selected">
         <label><strong>{{ vm.selectedDashboardCount }}</strong> Selected</label>
-        <button class="btn btn-primary" ng-disabled="vm.isAddSelectedButtonDisabled">
+        <button
+          class="btn btn-primary"
+          ng-disabled="vm.isAddSelectedButtonDisabled"
+          ng-click="vm.handleAddSelectedClick()"
+        >
           Add Selected
         </button>
       </div>
@@ -58,7 +62,7 @@
         }"
       >
         <div
-          id="dashboardItem{{ dashboard.id }}"
+          id="dashboardItem{{ dashboard.htmlId }}"
           class="dashboard-item"
           ng-class="{'selected': vm.isDashboardSelected(dashboard)}"
           ng-repeat="dashboard in vm.dashboards"
