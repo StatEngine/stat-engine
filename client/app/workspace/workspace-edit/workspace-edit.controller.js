@@ -12,7 +12,10 @@ export default class WorkspaceEditController {
   isShowingAddDashboardsOverlay = false;
 
   /*@ngInject*/
-  constructor(Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal) {
+  constructor(
+    Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, KibanaService,
+  )
+  {
     this.WorkspaceService = Workspace;
     this.UserService = User;
     this.$state = $state;
@@ -21,6 +24,7 @@ export default class WorkspaceEditController {
     this.AnalyticEventNames = AnalyticEventNames;
     this.currentPrincipal = currentPrincipal;
     this.Modal = Modal;
+    this.KibanaService = KibanaService;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
                     ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
@@ -187,7 +191,7 @@ export default class WorkspaceEditController {
     this.isSaving = true;
     this.errors = {};
     try {
-      await fnc(params, {
+      const workspace = await fnc(params, {
         id: this.inputWorkspace._id,
         name: this.inputWorkspace.name,
         description: this.inputWorkspace.description,
@@ -195,6 +199,8 @@ export default class WorkspaceEditController {
         dashboardIds: Object.keys(this.inputWorkspace.dashboards).join(','),
         users: this.inputUsers,
       }).$promise;
+
+      await this.KibanaService.refreshAuth({ workspaceId: workspace._id });
     } catch (err) {
       if (err.data) {
         err = err.data;

@@ -7,7 +7,7 @@ import { asyncMiddleware } from '../../util/async-middleware';
 import * as controller from './workspace.controller';
 import * as auth from '../../auth/auth.service';
 
-var router = new Router();
+const router = new Router();
 
 router.post(
   '/',
