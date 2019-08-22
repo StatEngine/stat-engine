@@ -61,63 +61,13 @@
           'dashboards-grid': (vm.viewMode === 'grid')
         }"
       >
-        <div
-          id="dashboardItem{{ dashboard.htmlId }}"
-          class="dashboard-item"
-          ng-class="{'selected': vm.isDashboardSelected(dashboard)}"
+        <dashboard-card
           ng-repeat="dashboard in vm.dashboards"
-          ng-click="vm.handleDashboardItemClick($event, dashboard)"
-          ng-mouseleave="vm.handleDashboardItemMouseLeave($event, dashboard)"
-        >
-          <div class="dashboard-item-inner">
-            <div class="dashboard-item-front">
-              <div
-                class="dashboard-item-image-container">
-                <div class="dashboard-item-image"></div>
-              </div>
-
-              <div class="dashboard-item-content">
-                <div class="dashboard-item-title">{{ dashboard.title }}</div>
-                <div class="dashboard-item-author">By {{ dashboard.author }}</div>
-                <div class="dashboard-item-description">
-                  <p>{{ dashboard.description }}</p>
-                  <div class="read-more">
-                    <span>...&nbsp;</span>
-                    <a href="" ng-click="vm.readMoreClick($event, dashboard)">Read More</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="dashboard-item-info">
-                <div class="space-nowrap">
-                  <i class="fa fa-tag"></i>
-                  {{ dashboard.category }}
-                </div>
-                <div>Downloads: {{ dashboard.downloads }}</div>
-                <div>Version: {{ dashboard.version }}</div>
-              </div>
-            </div>
-
-            <div class="dashboard-item-back">
-              <div class="dashboard-item-content">
-                <div class="dashboard-item-title">{{ dashboard.title }}</div>
-                <div class="dashboard-item-author">By {{ dashboard.author }}</div>
-                <div class="dashboard-item-description">
-                  <p>{{ dashboard.description }}</p>
-                </div>
-              </div>
-
-              <div class="dashboard-item-info">
-                <div class="space-nowrap">
-                  <i class="fa fa-tag"></i>
-                  {{ dashboard.category }}
-                </div>
-                <div>Downloads: {{ dashboard.downloads }}</div>
-                <div>Version: {{ dashboard.version }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
+          dashboard="dashboard"
+          is-selected="vm.isDashboardSelected(dashboard)"
+          view-mode="vm.viewMode"
+          on-click="vm.toggleDashboardSelected(dashboard)"
+        ></dashboard-card>
       </div>
     </div>
   </div>

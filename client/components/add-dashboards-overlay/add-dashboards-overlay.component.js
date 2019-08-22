@@ -2,6 +2,7 @@
 
 import angular from 'angular';
 import viewMode from '../view-mode/view-mode.component';
+import dashboardCard from '../dashboard-card/dashboard-card.component';
 
 export class AddDashboardsOverlay {
   show;
@@ -30,36 +31,12 @@ export class AddDashboardsOverlay {
     this.Modal = Modal;
     this.FixtureTemplate = FixtureTemplate;
 
-    $window.addEventListener('resize', () => {
-      this.updateReadMoreLinks();
-    });
-
     $scope.$watch('vm.sortBy', (newValue, oldValue) => {
       if (newValue === oldValue) {
         return;
       }
 
       this.loadDashboards();
-    });
-
-    $scope.$watch('vm.viewMode', (newValue, oldValue) => {
-      if (newValue === oldValue) {
-        return;
-      }
-
-      setTimeout(() => {
-        this.updateReadMoreLinks();
-      });
-    });
-
-    $scope.$watch('vm.dashboards', (newValue, oldValue) => {
-      if (newValue === oldValue) {
-        return;
-      }
-
-      setTimeout(() => {
-        this.updateReadMoreLinks();
-      });
     });
 
     $scope.$watch('vm.show', (newValue, oldValue) => {
@@ -90,19 +67,6 @@ export class AddDashboardsOverlay {
     this.dashboards.forEach(d => d.rotation = 0);
   }
 
-  updateReadMoreLinks() {
-    // Show "Read More" links for descriptions that overflow.
-    $(`.dashboard-item-description`).each(function() {
-      const $this = $(this);
-      const $p = $this.find('p');
-      if ($p.height() > $this.height()) {
-        $this.find('.read-more').addClass('show');
-      } else {
-        $this.find('.read-more').removeClass('show');
-      }
-    });
-  }
-
   get isAddSelectedButtonDisabled() {
     return (this.selectedDashboardCount === 0);
   }
@@ -111,44 +75,11 @@ export class AddDashboardsOverlay {
     return Object.keys(this.selectedDashboards).length
   }
 
-  readMoreClick(e, dashboard) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // TODO
-    this.flipDashboard(e, dashboard);
-  }
-
-  flipDashboard(e, dashboard) {
-    const $item = $(`#dashboardItem${dashboard.htmlId} .dashboard-item-inner`);
-    const itemRect = $item[0].getBoundingClientRect();
-    const itemMid = itemRect.top + itemRect.height / 2;
-
-    dashboard.rotation += (e.clientY < itemMid) ? 180 : -180;
-    dashboard.isFlipped = !dashboard.isFlipped;
-
-    $item.css({ transform: `rotateX(${dashboard.rotation}deg)` });
-  }
-
   isDashboardSelected(dashboard) {
     return !!this.selectedDashboards[dashboard._id];
   }
 
-  handleDashboardItemClick(e, dashboard) {
-    if (dashboard.isFlipped) {
-      this.flipDashboard(e, dashboard);
-    } else {
-      this.toggleSelectDashboard(dashboard);
-    }
-  }
-
-  handleDashboardItemMouseLeave(e, dashboard) {
-    if (dashboard.isFlipped) {
-      this.flipDashboard(e, dashboard);
-    }
-  }
-
-  toggleSelectDashboard(dashboard) {
+  toggleDashboardSelected(dashboard) {
     if (this.selectedDashboards[dashboard._id]) {
       delete this.selectedDashboards[dashboard._id];
     } else {
@@ -186,7 +117,7 @@ export class AddDashboardsOverlay {
   }
 }
 
-export default angular.module('addDashboardsOverlay', [viewMode])
+export default angular.module('addDashboardsOverlay', [viewMode, dashboardCard])
   .component('addDashboardsOverlay', {
     template: require('./add-dashboards-overlay.html'),
     controller: AddDashboardsOverlay,
