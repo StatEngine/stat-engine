@@ -87,28 +87,7 @@ export class AddDashboardsOverlay {
 
   async loadDashboards() {
     this.dashboards = await this.FixtureTemplate.getDashboards().$promise;
-    console.log('dashboards', this.dashboards);
-    for (const dashboard of this.dashboards) {
-      const dashboardData = dashboard.kibana_template._source.dashboard;
-      dashboard.htmlId = dashboard._id.replace(/:/g, '-');
-      dashboard.title = dashboardData.title;
-      dashboard.description = dashboardData.description || '- No Description -';
-      dashboard.author = dashboardData.author || 'StatEngine';
-      dashboard.rotation = 0;
-    }
-
-    // for (let i = 0; i < 10; i++) {
-    //   this.dashboards.push({
-    //     id: i,
-    //     title: `Dashboard ${i}`,
-    //     author: 'Bobby Ross Jr.',
-    //     description: 'Dashboard descruption praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae msan porttitor, facilisis luctus, metus. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah. Dashboard descruption blah blah blah blah blah.',
-    //     category: 'Accreditation',
-    //     downloads: 22,
-    //     version: '1.4',
-    //     rotation: 0,
-    //   })
-    // }
+    this.dashboards.forEach(d => d.rotation = 0);
   }
 
   updateReadMoreLinks() {
@@ -116,8 +95,11 @@ export class AddDashboardsOverlay {
     $(`.dashboard-item-description`).each(function() {
       const $this = $(this);
       const $p = $this.find('p');
-      const opacity = ($p.height() > $this.height()) ? 1 : 0;
-      $this.find('.read-more').css({ opacity });
+      if ($p.height() > $this.height()) {
+        $this.find('.read-more').addClass('show');
+      } else {
+        $this.find('.read-more').removeClass('show');
+      }
     });
   }
 

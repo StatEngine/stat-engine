@@ -81,6 +81,13 @@ export default class WorkspaceEditController {
 
     if(this.inputWorkspace._id) {
       this.origWorkspace = await this.WorkspaceService.get({ id: this.inputWorkspace._id }).$promise;
+
+      // Convert dashboards array to object.
+      const dashboards = {};
+      this.origWorkspace.dashboards.forEach(d => dashboards[d._id] = d);
+      this.origWorkspace.dashboards = dashboards;
+
+      // Clone workspace for editing.
       this.inputWorkspace = _.cloneDeep(this.origWorkspace);
     }
     const departmentUsers = await this.UserService.query().$promise;
@@ -130,44 +137,9 @@ export default class WorkspaceEditController {
 
   saveDisabled() {
     return this.isSaving;
-    // if(this.isSaving) {
-    //   return true;
-    // }
-
-    // console.log(this.inputWorkspace.name);
-    //
-    // if(this.isNewWorkspace) {
-    //   return (!this.inputWorkspace.name || !this.inputWorkspace.description);
-    // }
-    //
-    // if (!this.origWorkspace || !this.inputWorkspace) {
-    //   return true;
-    // }
-    //
-    // if (this.origWorkspace.name !== this.inputWorkspace.name ||
-    //   this.origWorkspace.description !== this.inputWorkspace.description ||
-    //   `${this.origWorkspace.color}`.toLowerCase() !== `${this.inputWorkspace.color}`.toLowerCase()) {
-    //   return false;
-    // }
-    //
-    // if (this.inputUsers) {
-    //   for (const user of this.inputUsers) {
-    //     const origUser = _.find(this.origWorkspace.users, u => u._id === user._id);
-    //     // user either was added as owner, or permissions given
-    //     if (!origUser && (user.is_owner || user.permission)) {
-    //       return false;
-    //     }
-    //     // user ownership or permission changed
-    //     if (origUser && (user.is_owner !== origUser.is_owner || user.permission !== origUser.permission)) {
-    //       return false;
-    //     }
-    //   }
-    // }
-    //
-    // return true;
   }
 
-  async updateWorkspace(form) {
+  async updateWorkspace() {
     if(!this.workspaceForm.isValid()) {
       return;
     }
@@ -191,16 +163,16 @@ export default class WorkspaceEditController {
     this.isSaving = true;
     this.errors = {};
     try {
-      const workspace = await fnc(params, {
+      await fnc(params, {
         id: this.inputWorkspace._id,
         name: this.inputWorkspace.name,
         description: this.inputWorkspace.description,
         color: this.inputWorkspace.color,
-        dashboardIds: Object.keys(this.inputWorkspace.dashboards).join(','),
+        dashboardIds: Object.keys(this.inputWorkspace.dashboards),
         users: this.inputUsers,
       }).$promise;
 
-      await this.KibanaService.refreshAuth({ workspaceId: workspace._id });
+      // await this.KibanaService.refreshAuth({ workspaceId: workspace._id });
     } catch (err) {
       if (err.data) {
         err = err.data;
@@ -241,6 +213,8 @@ export default class WorkspaceEditController {
   }
 
   removeDashboard(dashboard) {
+    console.log(`Removing dashboard: ${dashboard._id}`);
     delete this.inputWorkspace.dashboards[dashboard._id];
+    console.log('inputWorkspace.dashboards', this.inputWorkspace.dashboards);
   }
 }

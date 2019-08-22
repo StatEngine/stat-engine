@@ -1,10 +1,8 @@
 'use strict';
 
 import _ from 'lodash';
-import { sequelize, Workspace, FireDepartment, UserWorkspace, User, FixtureTemplate } from '../../sqldb';
+import { sequelize, Workspace, FireDepartment, UserWorkspace, User } from '../../sqldb';
 import esConnection from '../../elasticsearch/connection';
-import bodybuilder from 'bodybuilder';
-import parseJsonTemplate from 'json-templates';
 import slugify from 'slugify';
 
 export async function create(req, res) {
@@ -68,34 +66,15 @@ export async function create(req, res) {
   // Update Kibana
   //
 
-  // Kibana Template.
-  await seedWorkspaceKibanaTemplate({ workspace });
+  await seedWorkspaceKibanaTemplate(workspace);
+  await workspace.addFixturesByType('index-pattern');
+  await workspace.addFixturesByType('config');
 
-  // Index Patterns.
-  await addFixturesToWorkspaceByType({
-    type: 'index-pattern',
-    workspace,
-  });
-
-  // Config.
-  await addFixturesToWorkspaceByType({
-    type: 'config',
-    workspace,
-  });
-
-  // Visualizations.
   // TODO: Only add the visualizations that are necessary for the dashboards we're adding.
-  await addFixturesToWorkspaceByType({
-    type: 'visualization',
-    workspace,
-  });
+  await workspace.addFixturesByType('visualization');
 
-  // Dashboards.
-  if (dashboardIds && dashboardIds.length > 0) {
-    await addFixturesToWorkspaceByIds({
-      ids: dashboardIds,
-      workspace,
-    });
+  if (dashboardIds.length > 0) {
+    await workspace.addFixturesByIds(dashboardIds);
   }
 
   res.json(workspace);
@@ -105,24 +84,22 @@ export async function edit(req, res) {
   const name = req.body.name;
   const description = req.body.description;
   const color = req.body.color;
+  const dashboardIds = req.body.dashboardIds;
   const users = req.body.users;
-  const workspaceId = req.params.id;
+  const workspace = req.workspace;
 
   await sequelize.transaction(async transaction => {
-    await Workspace.update({
+    await workspace.update({
       name,
       description,
       color,
-    }, {
-      where: { _id: workspaceId },
-      transaction,
-    });
+    }, { transaction });
 
     // update permissions
     for (const user of users) {
       const userWorkspace = await UserWorkspace.findOne({
         where: {
-          workspace__id: workspaceId,
+          workspace__id: workspace._id,
           user__id: user._id,
         },
         transaction,
@@ -136,7 +113,7 @@ export async function edit(req, res) {
       } else {
         await UserWorkspace.create({
           user__id: user._id,
-          workspace__id: workspaceId,
+          workspace__id: workspace._id,
           permission: user.permission,
           is_owner: user.is_owner,
         }, { transaction });
@@ -144,47 +121,58 @@ export async function edit(req, res) {
     }
   });
 
+  //
+  // Update Kibana
+  //
+
+  // Remove dashboards that aren't in our updated dashboard ids list.
+  const currentDashboards = await workspace.getDashboards();
+  const dashboardIdsLookup = {};
+  dashboardIds.forEach(id => dashboardIdsLookup[id] = true);
+
+  const dashboardRemovalIds = currentDashboards
+    .filter(d => !dashboardIdsLookup[d._id])
+    .map(d => d._id);
+
+  await workspace.removeFixturesByIds(dashboardRemovalIds);
+
+  // Add any new dashboards.
+  const currentDashboardsIdsLookup = {};
+  currentDashboards.forEach(d => currentDashboardsIdsLookup[d._id] = true);
+
+  const dashboardAdditionIds = dashboardIds
+    .filter(id => !currentDashboardsIdsLookup[id]);
+
+  await workspace.addFixturesByIds(dashboardAdditionIds);
+
   res.status(204).send();
 }
 
 export async function get(req, res) {
-  const workspace = req.workspace.get();
+  const workspace = req.workspace;
+  const workspaceData = workspace.get();
 
-  // Get the workspace's dashboards.
-  // TODO: Replace with Kibana API call.
-  const esResponse = await esConnection.getClient().search({
-    index: req.workspace.index,
-    body: bodybuilder()
-      .query('match', 'type', 'dashboard')
-      .build(),
-  });
-
-  workspace.dashboards = [];
-  for (const dashboard of esResponse.hits.hits) {
-    workspace.dashboards.push({
-      id: dashboard._id,
-      title: dashboard._source.dashboard.title,
-    })
-  }
+  workspaceData.dashboards = await workspace.getDashboards();
 
   // cleanup api call
-  let users = workspace.Users;
-  delete workspace.FireDepartment;
-  delete workspace.Users;
-  workspace.users = [];
+  let users = workspaceData.Users;
+  delete workspaceData.FireDepartment;
+  delete workspaceData.Users;
+  workspaceData.users = [];
 
   users.forEach((u) => {
-    if (!u.isAdmin && !u.isGlobal && u.isDashboardUser)
-    workspace.users.push({
-      _id: u._id,
-      email: u.email,
-      username: u.username,
-      is_owner: _.get(u, 'UserWorkspace.is_owner') || false,
-      permission: _.get(u, 'UserWorkspace.permission') || null,
-    })
+    if (!u.isAdmin && !u.isGlobal && u.isDashboardUser) {
+      workspaceData.users.push({
+        _id: u._id,
+        email: u.email,
+        username: u.username,
+        is_owner: _.get(u, 'UserWorkspace.is_owner') || false,
+        permission: _.get(u, 'UserWorkspace.permission') || null,
+      });
+    }
   });
 
-  res.json(req.workspace);
+  res.json(workspaceData);
 }
 
 export async function markAsDeleted(req, res) {
@@ -411,78 +399,20 @@ export async function load(req, res, next) {
 // Helpers
 //
 
-async function addFixturesToWorkspaceByIds({ ids, workspace }) {
-  const fixtureTemplates = await FixtureTemplate.findAll({
-    where: { _id: ids },
-  });
+async function addWorkspaceFixturesByIds({ ids, workspace }) {
 
-  await addFixturesToWorkspace({
-    fixtureTemplates,
-    workspace,
-  });
 }
 
-async function addFixturesToWorkspaceByType({ type, workspace }) {
-  const fixtureTemplates = await FixtureTemplate.findAll({
-    where: { type },
-  });
+async function addWorkspaceFixturesByType({ type, workspace }) {
 
-  await addFixturesToWorkspace({
-    workspace,
-    fixtureTemplates,
-  });
 }
 
-async function addFixturesToWorkspace({ fixtureTemplates, workspace }) {
-  // Get the Kibana template data from the fixture template.
-  const kibanaTemplates = [];
-  for (const fixtureTemplate of fixtureTemplates) {
-    kibanaTemplates.push(fixtureTemplate.kibana_template);
-  }
+async function addWorkspaceFixtures({ fixtureTemplates, workspace }) {
 
-  // Apply variables to the Kibana templates.
-  if (!workspace.FireDepartment) {
-    workspace.FireDepartment = await FireDepartment.find({
-      where: { _id: workspace.fire_department__id },
-    });
-  }
-
-  const kibanaTemplateVariables = {
-    fire_department: workspace.FireDepartment.get(),
-    kibana: {
-      tenancy: workspace.index,
-    },
-  };
-
-  const appliedKibanaTemplates = [];
-  for (const kibanaTemplate of kibanaTemplates) {
-    const parsedTemplate = parseJsonTemplate(JSON.stringify(kibanaTemplate));
-    const appliedTemplate = JSON.parse(parsedTemplate(kibanaTemplateVariables));
-
-    if (Array.isArray(appliedTemplate)) {
-      appliedTemplate.forEach(obj => appliedKibanaTemplates.push(obj));
-    } else {
-      appliedKibanaTemplates.push(appliedTemplate);
-    }
-  }
-
-  // Update docs in ES.
-  for (const doc of appliedKibanaTemplates) {
-    console.info(`Loading: ${doc._id}`);
-
-    await esConnection.getClient().update({
-      index: workspace.index,
-      type: doc._type,
-      id: doc._id,
-      body: {
-        doc: doc._source,
-        doc_as_upsert: true,
-      },
-    });
-  }
 }
 
-async function seedWorkspaceKibanaTemplate({ workspace }) {
+async function seedWorkspaceKibanaTemplate(workspace) {
+  // TODO: Replace with Kibana API call.
   await esConnection.getClient().indices.putTemplate({
     name: `kibana_index_template:${workspace.index}`,
     order: 0,

@@ -15,7 +15,7 @@
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
         <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
-        <form name="workspaceForm" id="workspace-form" ng-submit="vm.updateWorkspace(workspaceForm)" novalidate>
+        <form name="workspaceForm" id="workspace-form" ng-submit="vm.updateWorkspace()" novalidate>
           <!-- Workspace Details -->
           <div class="workspace-details card">
             <div class="card-header">
@@ -55,7 +55,7 @@
             <div class="card-body">
               <div class="dashboards-list">
                 <chip
-                  ng-repeat="dashboard in vm.inputWorkspace.dashboards"
+                  ng-repeat="(dashboardId, dashboard) in vm.inputWorkspace.dashboards"
                   on-remove-click="vm.removeDashboard(dashboard)"
                   text="dashboard.title"
                 ></chip>

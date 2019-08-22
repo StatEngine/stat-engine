@@ -298,10 +298,13 @@
       position: absolute;
       bottom: 0;
       right: 0;
-      display: inline-block;
-      opacity: 0;
+      display: none;
       background: linear-gradient(to right, transparent, white 25%);
       padding-left: 40px;
+
+      &.show {
+        display: inline-block;
+      }
     }
   }
 }
