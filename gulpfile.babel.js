@@ -660,7 +660,8 @@ gulp.task('copy:server', () => {
     return gulp.src([
         'package.json',
         'server/api/incident/templates/*',
-        'node_modules/@statengine/se-grpc-proto/*'
+        'node_modules/@statengine/se-grpc-proto/*',
+        'server/fixtures/templates/**/*',
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });
