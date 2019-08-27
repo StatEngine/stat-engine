@@ -13,7 +13,7 @@ export default class WorkspaceEditController {
 
   /*@ngInject*/
   constructor(
-    Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, KibanaService,
+    Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate,
   )
   {
     this.WorkspaceService = Workspace;
@@ -24,7 +24,7 @@ export default class WorkspaceEditController {
     this.AnalyticEventNames = AnalyticEventNames;
     this.currentPrincipal = currentPrincipal;
     this.Modal = Modal;
-    this.KibanaService = KibanaService;
+    this.FixtureTemplate = FixtureTemplate;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
                     ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
@@ -79,7 +79,11 @@ export default class WorkspaceEditController {
 
     this.origWorkspace = {};
 
-    if(this.inputWorkspace._id) {
+    if (this.isNewWorkspace) {
+      // Add all of the dashboards automatically by default.
+      const dashboards = await this.FixtureTemplate.getDashboards().$promise;
+      this.addDashboards(dashboards);
+    } else {
       this.origWorkspace = await this.WorkspaceService.get({ id: this.inputWorkspace._id }).$promise;
 
       // Convert dashboards array to object.
@@ -90,6 +94,7 @@ export default class WorkspaceEditController {
       // Clone workspace for editing.
       this.inputWorkspace = _.cloneDeep(this.origWorkspace);
     }
+
     const departmentUsers = await this.UserService.query().$promise;
 
     this.seed = this.isNewWorkspace;
@@ -171,13 +176,12 @@ export default class WorkspaceEditController {
         dashboardIds: Object.keys(this.inputWorkspace.dashboards),
         users: this.inputUsers,
       }).$promise;
-
-      // await this.KibanaService.refreshAuth({ workspaceId: workspace._id });
     } catch (err) {
       if (err.data) {
         err = err.data;
       }
       console.error(err);
+      // TODO: Replace existing name error while also showing other errors.
       // this.errors = err.errors;
       // if (this.errors) {
       //   // clean up validation error
@@ -209,12 +213,16 @@ export default class WorkspaceEditController {
   }
 
   handleAddDashboardsOverlayConfirm({ selectedDashboards }) {
-    this.inputWorkspace.dashboards = Object.assign(this.inputWorkspace.dashboards, selectedDashboards);
+    this.addDashboards(selectedDashboards);
+  }
+
+  addDashboards(dashboards) {
+    dashboards.forEach(dashboard => {
+      this.inputWorkspace.dashboards[dashboard._id] = dashboard;
+    });
   }
 
   removeDashboard(dashboard) {
-    console.log(`Removing dashboard: ${dashboard._id}`);
     delete this.inputWorkspace.dashboards[dashboard._id];
-    console.log('inputWorkspace.dashboards', this.inputWorkspace.dashboards);
   }
 }

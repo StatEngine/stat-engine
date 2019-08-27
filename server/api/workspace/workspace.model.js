@@ -1,8 +1,8 @@
 'use strict';
 
 import esConnection from '../../elasticsearch/connection';
-import bodybuilder from 'bodybuilder';
 import parseJsonTemplate from 'json-templates';
+import kibanaApi from '../../kibana/kibana-api';
 
 export default function(sequelize, DataTypes) {
   const FixtureTemplate = sequelize.import('../fixture-template/fixture-template.model');
@@ -62,37 +62,27 @@ export default function(sequelize, DataTypes) {
 
     instanceMethods: {
       async getDashboards() {
-        // TODO: Replace with Kibana API call.
-        const esResponse = await esConnection.getClient().search({
-          index: this.index,
-          body: bodybuilder()
-            .query('match', 'type', 'dashboard')
-            .build(),
+        const response = await kibanaApi.get({
+          uri: '/api/saved_objects/_find',
+          qs: {
+            type: 'dashboard',
+            fields: 'id',
+            per_page: 10000,
+          },
         });
 
-        // Transform and simplify the ES data.
-        const dashboards = [];
-        for (const dashboard of esResponse.hits.hits) {
-          dashboards.push({
-            _id: dashboard._id,
-            title: dashboard._source.dashboard.title,
-          });
-        }
+        const fixtureTemplateIds = response.saved_objects.map(so => so.id);
 
-        return dashboards;
+        const fixtureTemplates = await FixtureTemplate.findAll({
+          where: { _id: fixtureTemplateIds },
+        });
+
+        return fixtureTemplates;
       },
 
-      async addFixturesByIds(ids) {
+      async addFixturesWithIds(ids) {
         const fixtureTemplates = await FixtureTemplate.findAll({
           where: { _id: ids },
-        });
-
-        await this.addFixtures(fixtureTemplates);
-      },
-
-      async addFixturesByType(type) {
-        const fixtureTemplates = await FixtureTemplate.findAll({
-          where: { type },
         });
 
         await this.addFixtures(fixtureTemplates);
@@ -119,45 +109,49 @@ export default function(sequelize, DataTypes) {
           },
         };
 
-        const appliedKibanaTemplates = [];
+        const savedObjects = [];
         for (const kibanaTemplate of kibanaTemplates) {
           const parsedTemplate = parseJsonTemplate(JSON.stringify(kibanaTemplate));
-          const appliedTemplate = JSON.parse(parsedTemplate(kibanaTemplateVariables));
+          let appliedTemplates = JSON.parse(parsedTemplate(kibanaTemplateVariables));
 
-          if (Array.isArray(appliedTemplate)) {
-            appliedTemplate.forEach(obj => appliedKibanaTemplates.push(obj));
-          } else {
-            appliedKibanaTemplates.push(appliedTemplate);
+          if (!Array.isArray(appliedTemplates)) {
+            appliedTemplates = [appliedTemplates];
           }
+
+          appliedTemplates.forEach(template => {
+            const type = template._source.type;
+            savedObjects.push({
+              type,
+              id: template._id.split(':')[1],
+              attributes: template._source[type],
+            });
+          });
         }
 
-        // Update docs in ES.
-        for (const doc of appliedKibanaTemplates) {
-          // TODO: Replace with Kibana API call.
-          await esConnection.getClient().update({
-            index: this.index,
-            type: doc._type,
-            id: doc._id,
-            body: {
-              doc: doc._source,
-              doc_as_upsert: true,
-            },
+        // Update Kibana.
+        if (savedObjects.length > 0) {
+          await kibanaApi.post({
+            uri: '/api/saved_objects/_bulk_create',
+            body: savedObjects,
           });
         }
       },
 
-      async removeFixturesByIds(ids) {
-        // Get fixture templates so we have access to "kibana_template._type".
+      async removeFixturesWithIds(ids) {
+        // Get fixture templates so we have access to the types.
         const fixtureTemplates = await FixtureTemplate.findAll({
           where: { _id: ids },
         });
 
+        // Update Kibana.
         for (const fixtureTemplate of fixtureTemplates) {
-          console.log(`Removing fixture: ${fixtureTemplate._id}`);
-          await esConnection.getClient().delete({
-            index: this.index,
-            type: fixtureTemplate.kibana_template._type,
-            id: fixtureTemplate._id,
+          const type = fixtureTemplate.type;
+          const id = fixtureTemplate._id;
+
+          console.log(`Removing fixture: ${id}`);
+
+          await kibanaApi.delete({
+            uri: `/api/saved_objects/${type}/${id}`,
           });
         }
       },

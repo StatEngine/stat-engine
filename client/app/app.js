@@ -47,7 +47,6 @@ import {
 import _Auth from '../components/auth/auth.module';
 import api from '../components/api/api.module';
 import amplitudeService from '../components/amplitude/amplitude.module';
-import kibanaService from '../components/kibana/kibana.module';
 
 // modules
 import account from './account';
@@ -160,7 +159,6 @@ angular.module('statEngineApp', [
   analyticEventConstants,
   constants,
   amplitudeService,
-  kibanaService,
   util,
   humanizeComponents,
   reporting,

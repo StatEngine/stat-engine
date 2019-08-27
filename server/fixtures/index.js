@@ -21,8 +21,11 @@ export async function addFixtureTemplatesToDatabase() {
       const dataStr = await fsReadFileAsync(path.join(templatePath, file), 'utf8');
       const data = JSON.parse(dataStr);
       await FixtureTemplate.create({
-        _id: data._id,
+        _id: data._id.split(':')[1], // The part before the ':' appears to be stripped out in all Kibana saved objects.
         type,
+        title: data._source[type].title || null,
+        description: data._source[type].description || null,
+        author: 'StatEngine',
         kibana_template: data,
       });
     }

@@ -64,7 +64,14 @@ export class AddDashboardsOverlay {
 
   async loadDashboards() {
     this.dashboards = await this.FixtureTemplate.getDashboards().$promise;
-    this.dashboards.forEach(d => d.rotation = 0);
+    this.dashboards.forEach(dashboard => {
+      dashboard.htmlId = dashboard._id.replace(/:/g, '-');
+      dashboard.rotation = 0;
+      dashboard.description += dashboard.description;
+      dashboard.description += dashboard.description;
+      dashboard.description += dashboard.description;
+      dashboard.description += dashboard.description;
+    });
   }
 
   get isAddSelectedButtonDisabled() {
@@ -85,10 +92,6 @@ export class AddDashboardsOverlay {
     } else {
       this.selectedDashboards[dashboard._id] = dashboard;
     }
-  }
-
-  searchChange() {
-    console.log('search')
   }
 
   closeButtonClick() {
@@ -112,7 +115,11 @@ export class AddDashboardsOverlay {
   handleAddSelectedClick() {
     this.show = false;
     if (this.onConfirm) {
-      this.onConfirm({ selectedDashboards: this.selectedDashboards });
+      // Convert selected dashboards to an array.
+      this.onConfirm({
+        selectedDashboards: Object.keys(this.selectedDashboards)
+          .map(id => this.selectedDashboards[id]),
+      });
     }
   }
 }

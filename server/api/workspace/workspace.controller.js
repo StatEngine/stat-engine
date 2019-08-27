@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { sequelize, Workspace, FireDepartment, UserWorkspace, User } from '../../sqldb';
 import esConnection from '../../elasticsearch/connection';
 import slugify from 'slugify';
+import kibanaApi from '../../kibana/kibana-api';
+import { FixtureTemplate } from '../../sqldb';
 
 export async function create(req, res) {
   const name = req.body.name;
@@ -34,15 +36,17 @@ export async function create(req, res) {
     slug,
     index: `.kibana_${fireDepartment.firecares_id}_${slug}`,
   });
+  req.workspace = workspace;
 
   // force this all so user cannot overwrite in request
-  workspace.setDataValue('fire_department__id', req.user.FireDepartment._id);
+  workspace.FireDepartment = req.user.FireDepartment;
+  workspace.setDataValue('fire_department__id', workspace.FireDepartment._id);
 
   await sequelize.transaction(async transaction => {
     await workspace.save({ transaction });
 
     // make the user an owner
-    await UserWorkspace.create({
+    req.userWorkspace = await UserWorkspace.create({
       user__id: req.user._id,
       workspace__id: workspace._id,
       permission: 'admin',
@@ -50,32 +54,43 @@ export async function create(req, res) {
     }, { transaction });
 
     // update any other user permissions
+    const promises = [];
     for (const user of users) {
       if (user._id !== req.user._id && (user.is_owner || user.permission)) {
-        await UserWorkspace.create({
+        promises.push(UserWorkspace.create({
           user__id: user._id,
           workspace__id: workspace._id,
           permission: user.permission,
           is_owner: user.is_owner,
-        }, { transaction });
+        }, { transaction }));
       }
     }
+
+    await Promise.all(promises);
   });
 
   //
   // Update Kibana
   //
 
+  // We can't connect to the Kibana API with middleware when creating a workspace, since
+  // the workspace doesn't exist yet to build the JWT. So manually connect now that it exists.
+  await kibanaApi.connect(req, res);
+
   await seedWorkspaceKibanaTemplate(workspace);
-  await workspace.addFixturesByType('index-pattern');
-  await workspace.addFixturesByType('config');
 
   // TODO: Only add the visualizations that are necessary for the dashboards we're adding.
-  await workspace.addFixturesByType('visualization');
+  let fixtureTemplates = await FixtureTemplate.findAll({
+    where: { type: ['index-pattern', 'config', 'visualization'] },
+  });
 
   if (dashboardIds.length > 0) {
-    await workspace.addFixturesByIds(dashboardIds);
+    fixtureTemplates = fixtureTemplates.concat(await FixtureTemplate.findAll({
+      where: { _id: dashboardIds },
+    }));
   }
+
+  workspace.addFixtures(fixtureTemplates);
 
   res.json(workspace);
 }
@@ -96,6 +111,7 @@ export async function edit(req, res) {
     }, { transaction });
 
     // update permissions
+    const promises = [];
     for (const user of users) {
       const userWorkspace = await UserWorkspace.findOne({
         where: {
@@ -106,19 +122,21 @@ export async function edit(req, res) {
       });
 
       if (userWorkspace) {
-        await userWorkspace.update({
+        promises.push(userWorkspace.update({
           permission: user.permission,
           is_owner: user.is_owner,
-        }, { transaction });
+        }, { transaction }));
       } else {
-        await UserWorkspace.create({
+        promises.push(UserWorkspace.create({
           user__id: user._id,
           workspace__id: workspace._id,
           permission: user.permission,
           is_owner: user.is_owner,
-        }, { transaction });
+        }, { transaction }));
       }
     }
+
+    await Promise.all(promises);
   });
 
   //
@@ -134,7 +152,7 @@ export async function edit(req, res) {
     .filter(d => !dashboardIdsLookup[d._id])
     .map(d => d._id);
 
-  await workspace.removeFixturesByIds(dashboardRemovalIds);
+  await workspace.removeFixturesWithIds(dashboardRemovalIds);
 
   // Add any new dashboards.
   const currentDashboardsIdsLookup = {};
@@ -143,12 +161,13 @@ export async function edit(req, res) {
   const dashboardAdditionIds = dashboardIds
     .filter(id => !currentDashboardsIdsLookup[id]);
 
-  await workspace.addFixturesByIds(dashboardAdditionIds);
+  await workspace.addFixturesWithIds(dashboardAdditionIds);
 
   res.status(204).send();
 }
 
 export async function get(req, res) {
+  console.log('get()');
   const workspace = req.workspace;
   const workspaceData = workspace.get();
 
@@ -371,6 +390,7 @@ export async function hasWorkspaceOwnerAccess(req, res, next) {
   })
     .then(result => {
       if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have owner access to this workspace'));
+      req.userWorkspace = result;
       return next();
     })
 }
@@ -399,20 +419,7 @@ export async function load(req, res, next) {
 // Helpers
 //
 
-async function addWorkspaceFixturesByIds({ ids, workspace }) {
-
-}
-
-async function addWorkspaceFixturesByType({ type, workspace }) {
-
-}
-
-async function addWorkspaceFixtures({ fixtureTemplates, workspace }) {
-
-}
-
 async function seedWorkspaceKibanaTemplate(workspace) {
-  // TODO: Replace with Kibana API call.
   await esConnection.getClient().indices.putTemplate({
     name: `kibana_index_template:${workspace.index}`,
     order: 0,

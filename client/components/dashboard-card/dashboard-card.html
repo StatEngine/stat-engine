@@ -5,7 +5,6 @@
     'list-item': (vm.viewMode === 'list')
   }"
   ng-click="vm.handleClick($event)"
-  ng-mouseleave="vm.handleMouseLeave($event)"
 >
   <div class="dashboard-card-inner">
     <div class="dashboard-card-front">
@@ -18,7 +17,7 @@
         <div class="dashboard-card-title">{{ vm.dashboard.title }}</div>
         <div class="dashboard-card-author">By {{ vm.dashboard.author }}</div>
         <div class="dashboard-card-description">
-          <p>{{ vm.dashboard.description }}</p>
+          <p>{{ vm.dashboard.description || '- No Description -' }}</p>
           <div class="read-more">
             <span>...&nbsp;</span>
             <a href="" ng-click="vm.readMoreClick($event)">Read More</a>
@@ -26,14 +25,14 @@
         </div>
       </div>
 
-      <div class="dashboard-card-info">
-        <div class="space-nowrap">
-          <i class="fa fa-tag"></i>
-          {{ dashboard.category }}
-        </div>
-        <div>Downloads: {{ vm.dashboard.downloads }}</div>
-        <div>Version: {{ vm.dashboard.version }}</div>
-      </div>
+<!--      <div class="dashboard-card-info">-->
+<!--        <div class="space-nowrap">-->
+<!--          <i class="fa fa-tag"></i>-->
+<!--          {{ dashboard.category }}-->
+<!--        </div>-->
+<!--        <div>Downloads: {{ vm.dashboard.downloads }}</div>-->
+<!--        <div>Version: {{ vm.dashboard.version }}</div>-->
+<!--      </div>-->
     </div>
 
     <div class="dashboard-card-back">
@@ -41,18 +40,18 @@
         <div class="dashboard-card-title">{{ vm.dashboard.title }}</div>
         <div class="dashboard-card-author">By {{ vm.dashboard.author }}</div>
         <div class="dashboard-card-description">
-          <p>{{ vm.dashboard.description }}</p>
+          <p>{{ vm.dashboard.description || '- No Description -' }}</p>
         </div>
       </div>
 
-      <div class="dashboard-card-info">
-        <div class="space-nowrap">
-          <i class="fa fa-tag"></i>
-          {{ vm.dashboard.category }}
-        </div>
-        <div>Downloads: {{ vm.dashboard.downloads }}</div>
-        <div>Version: {{ vm.dashboard.version }}</div>
-      </div>
+<!--      <div class="dashboard-card-info">-->
+<!--        <div class="space-nowrap">-->
+<!--          <i class="fa fa-tag"></i>-->
+<!--          {{ vm.dashboard.category }}-->
+<!--        </div>-->
+<!--        <div>Downloads: {{ vm.dashboard.downloads }}</div>-->
+<!--        <div>Version: {{ vm.dashboard.version }}</div>-->
+<!--      </div>-->
     </div>
   </div>
 </div>

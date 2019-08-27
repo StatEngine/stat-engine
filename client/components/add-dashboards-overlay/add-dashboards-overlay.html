@@ -9,32 +9,32 @@
   <div class="overlay-window-content">
     <div class="view-options">
       <div class="d-flex align-items-end flex-wrap">
-        <div class="search mr-3">
-          <label>Search</label>
-          <div class="position-relative">
-            <input
-              type="text"
-              ng-model="vm.searchQuery"
-              ng-model-options="{ debounce: 500 }"
-              ng-change="vm.searchChange()"
-            />
-            <i class="search-icon"></i>
-          </div>
-        </div>
+<!--        <div class="search mr-3">-->
+<!--          <label>Search</label>-->
+<!--          <div class="position-relative">-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              ng-model="vm.searchQuery"-->
+<!--              ng-model-options="{ debounce: 500 }"-->
+<!--              ng-change="vm.searchChange()"-->
+<!--            />-->
+<!--            <i class="search-icon"></i>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="sort-by mr-3">
-          <label>Sort By</label>
-          <select
-            ng-model="vm.sortBy"
-          >
-            <option
-              ng-repeat="sortByOption in vm.sortByOptions"
-              value="{{ sortByOption.id }}"
-            >
-              {{ sortByOption.displayName }}
-            </option>>
-          </select>
-        </div>
+<!--        <div class="sort-by mr-3">-->
+<!--          <label>Sort By</label>-->
+<!--          <select-->
+<!--            ng-model="vm.sortBy"-->
+<!--          >-->
+<!--            <option-->
+<!--              ng-repeat="sortByOption in vm.sortByOptions"-->
+<!--              value="{{ sortByOption.id }}"-->
+<!--            >-->
+<!--              {{ sortByOption.displayName }}-->
+<!--            </option>>-->
+<!--          </select>-->
+<!--        </div>-->
 
         <view-mode
           class="mr-3"

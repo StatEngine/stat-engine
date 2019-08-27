@@ -94,7 +94,7 @@
   .dashboard-card-content {
     flex: 1;
     padding: 1.25rem;
-    border-bottom: solid 1px $input-border-color;
+    //border-bottom: solid 1px $input-border-color;
   }
 
   .dashboard-card-title {
@@ -116,11 +116,15 @@
     position: relative;
     display: -webkit-box;
     line-height: $dashboard-card-description-line-height;
-    height: 3 * $dashboard-card-description-line-height;
+    height: 5 * $dashboard-card-description-line-height;
     overflow: hidden;
     text-align: justify;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+
+    p {
+      margin: 0;
+    }
   }
 
   .dashboard-card-info {
@@ -140,6 +144,12 @@
     .dashboard-card-content {
       flex: 1;
       border-bottom-color: white;
+    }
+
+    .dashboard-card-description {
+      height: 13 * $dashboard-card-description-line-height;
+      line-clamp: 13;
+      -webkit-line-clamp: 13;
     }
   }
 

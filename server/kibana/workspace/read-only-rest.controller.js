@@ -1,30 +1,25 @@
 import nJwt from 'njwt';
 import _ from 'lodash';
-import axios from 'axios';
 
 import config from '../../config/environment';
 
-// Logins to ReadOnlyRest
-export async function login(req, res) {
-  const redirect = (req.query.redirect === 'true');
+// Builds ReadOnlyRest JWT token.
+export function buildJWT({ user, workspace, userWorkspace }) {
+  if(_.isNil(workspace)) throw new Error('workspace not set');
 
-  res.clearCookie("rorCookie");
-
-  if(_.isNil(req.workspace)) throw new Error('req.workspace not set');
-
-  // firecares_id is acting as tenant until renamed in ROR settings
-  const firecares_id = `${req.workspace.FireDepartment.firecares_id}_${req.workspace.slug}`;
+  // firecares_id is acting as tenant unti renamed in ROR settings
+  let firecares_id = `${workspace.FireDepartment.firecares_id}_${workspace.slug}`;
   let roles;
 
-  if(!req.user.isGlobal) {
-    if (_.isNil(req.userWorkspace)) throw new Error('req.userWorkspace not set');
-    roles = `kibana_${req.userWorkspace.permission}`;
+  if(!user.isGlobal) {
+    if (_.isNil(userWorkspace)) throw new Error('userWorkspace not set');
+    roles = `kibana_${userWorkspace.permission}`;
   } else {
     roles = 'kibana_admin';
   }
 
   const claims = {
-    sub: req.user.username,
+    sub: user.username,
     iss: 'https://statengine.io',
     roles,
     firecares_id,
@@ -32,17 +27,22 @@ export async function login(req, res) {
 
   const jwt = nJwt.create(claims, config.ror.secret);
   jwt.setExpiration(new Date().getTime() + (86400 * 1000 * 30)); // 30d
-  const key = jwt.compact();
 
-  const kibanaLoginUrl = `${config.kibana.appPath}/login`;
+  return jwt.compact();
+}
 
-  // const nextUrl = '/api/saved_objects/_find?type=dashboard&search_fields=title&search=*';
-  // const response = await axios.get(`http://localhost:3000/${kibanaLoginUrl}?jwt=${key}&nextUrl=${encodeURIComponent(nextUrl)}`);
-  // console.log(response.data);
+// redirects user to kibana login page.  By attaching the rorJWT this will affectively login in the user seamlessly, and store rorCookie in the browser
+export function login(req, res) {
+  const rorJwt = buildJWT({
+    user: req.user,
+    workspace: req.workspace,
+    userWorkspace: req.userWorkspace,
+  });
+  return res.redirect(`${config.kibana.appPath}/login?jwt=${rorJwt}`);
+}
 
-  if (redirect) {
-    res.redirect(`${kibanaLoginUrl}?jwt=${key}`);
-  } else {
-    res.json({ kibanaLoginUrl: `${kibanaLoginUrl}?jwt=${key}` });
-  }
+// logouts a kibana session by clearing the rorCookie
+export function logout(req, res, next) {
+  res.clearCookie("rorCookie");
+  next();
 }

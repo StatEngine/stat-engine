@@ -14,6 +14,30 @@ export default function(sequelize, DataTypes) {
         notEmpty: true,
       },
     },
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    author: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    image_url: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
     kibana_template: {
       type: DataTypes.JSONB,
       allowNull: false,

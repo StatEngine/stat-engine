@@ -35,12 +35,6 @@ export class DashboardCard {
     }
   }
 
-  handleMouseLeave(e) {
-    if (this.isFlipped) {
-      this.flip(e);
-    }
-  }
-
   flip(e) {
     const $inner = this.$element.find('.dashboard-card-inner');
     const innerRect = $inner[0].getBoundingClientRect();
