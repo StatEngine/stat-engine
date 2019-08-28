@@ -14,8 +14,31 @@
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
-          <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
-          <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></li>
+          <li>
+            <div data-toggle="dropdown">
+              <a id='navbar-links-products' href="#">Products</a>
+            </div>
+            <div class="dropdown-menu">
+              <nav class="nav nav-style-2 flex-column">
+                <a href="/statEngine" class="nav-link">StatEngine</a>
+                <a href="/spade" class="nav-link">Spade</a>
+              </nav>
+            </div><!-- dropdown-menu -->
+          </li>
+          <li>
+            <div data-toggle="dropdown">
+              <a id='navbar-links-company' href="#">Products</a>
+            </div>
+            <div class="dropdown-menu">
+              <nav class="nav nav-style-2 flex-column">
+                <a href="#" ui-sref="site.main.about" class="nav-link">About us</a>
+                <a href="https://medium.com/statengine" target="_blank" class="nav-link">Blog</a>
+                <a href="#" ui-sref="site.main.funding" class="nav-link">Funding</a>
+                <a href="#" ui-sref="site.main.partners" class="nav-link">Partners</a>
+                <a href="mailto:{{vm.appConfig.contact_email}}" target="_blank" class="nav-link">Contact us</a>
+              </nav>
+            </div><!-- dropdown-menu -->
+          </li>
         </ul>
       </div>
 
