@@ -26,6 +26,7 @@ export async function addFixtureTemplatesToDatabase() {
         title: data._source[type].title || null,
         description: data._source[type].description || null,
         author: 'StatEngine',
+        image_url: 'https://s3.amazonaws.com/statengine-public-assets/fixture-templates/placeholder.png',
         kibana_template: data,
       });
     }

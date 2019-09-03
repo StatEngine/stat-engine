@@ -152,7 +152,10 @@ export async function edit(req, res) {
     .filter(d => !dashboardIdsLookup[d._id])
     .map(d => d._id);
 
-  await workspace.removeFixturesWithIds(dashboardRemovalIds);
+  await workspace.removeFixtures({
+    type: 'dashboard',
+    ids: dashboardRemovalIds,
+  });
 
   // Add any new dashboards.
   const currentDashboardsIdsLookup = {};
@@ -167,7 +170,6 @@ export async function edit(req, res) {
 }
 
 export async function get(req, res) {
-  console.log('get()');
   const workspace = req.workspace;
   const workspaceData = workspace.get();
 

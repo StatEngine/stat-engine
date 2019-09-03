@@ -7,37 +7,40 @@ import dashboardCard from '../dashboard-card/dashboard-card.component';
 export class AddDashboardsOverlay {
   show;
   onConfirm;
-  sortByOptions = [{
-    id: 'popularity',
-    displayName: 'Popularity',
-  }, {
-    id: 'alphabetical',
-    displayName: 'Alphabetical',
-  }, {
-    id: 'newest',
-    displayName: 'Newest',
-  }, {
-    id: 'lastUpdated',
-    displayName: 'Last Updated'
-  }];
-  searchQuery;
-  sortBy;
+  // sortByOptions = [{
+  //   id: 'popularity',
+  //   displayName: 'Popularity',
+  // }, {
+  //   id: 'alphabetical',
+  //   displayName: 'Alphabetical',
+  // }, {
+  //   id: 'newest',
+  //   displayName: 'Newest',
+  // }, {
+  //   id: 'lastUpdated',
+  //   displayName: 'Last Updated'
+  // }];
+  // searchQuery;
+  // sortBy;
   viewMode;
   dashboards;
   selectedDashboards;
+  addedDashboards;
 
   /*@ngInject*/
-  constructor($scope, $window, Modal, FixtureTemplate) {
+  constructor($scope, $window, $timeout, Modal, FixtureTemplate) {
+    this.$window = $window;
+    this.$timeout = $timeout;
     this.Modal = Modal;
     this.FixtureTemplate = FixtureTemplate;
 
-    $scope.$watch('vm.sortBy', (newValue, oldValue) => {
-      if (newValue === oldValue) {
-        return;
-      }
-
-      this.loadDashboards();
-    });
+    // $scope.$watch('vm.sortBy', (newValue, oldValue) => {
+    //   if (newValue === oldValue) {
+    //     return;
+    //   }
+    //
+    //   this.loadDashboards();
+    // });
 
     $scope.$watch('vm.show', (newValue, oldValue) => {
       if (newValue === oldValue) {
@@ -48,6 +51,9 @@ export class AddDashboardsOverlay {
         this.reset();
       }
     });
+
+    this.$window.addEventListener('resize', this.handleResize);
+    this.handleResize();
   }
 
   $onInit() {
@@ -55,9 +61,18 @@ export class AddDashboardsOverlay {
     this.loadDashboards();
   }
 
+  handleResize = () => {
+    this.$timeout(() => {
+      // On small screens, force 'grid' view mode.
+      if (this.$window.innerWidth < 576) {
+        this.viewMode = 'grid';
+      }
+    });
+  };
+
   reset() {
-    this.searchQuery = '';
-    this.sortBy = this.sortByOptions[0].id;
+    // this.searchQuery = '';
+    // this.sortBy = this.sortByOptions[0].id;
     this.viewMode = 'grid';
     this.selectedDashboards = {};
   }
@@ -86,7 +101,16 @@ export class AddDashboardsOverlay {
     return !!this.selectedDashboards[dashboard._id];
   }
 
+  isDashboardAdded(dashboard) {
+    return !!this.addedDashboards[dashboard._id];
+  }
+
   toggleDashboardSelected(dashboard) {
+    // Don't select dashboards that are already added.
+    if (this.addedDashboards[dashboard._id]) {
+      return;
+    }
+
     if (this.selectedDashboards[dashboard._id]) {
       delete this.selectedDashboards[dashboard._id];
     } else {
@@ -131,6 +155,7 @@ export default angular.module('addDashboardsOverlay', [viewMode, dashboardCard])
     controllerAs: 'vm',
     bindings: {
       show: '=',
+      addedDashboards: '<',
       onConfirm: '&?',
     },
   })

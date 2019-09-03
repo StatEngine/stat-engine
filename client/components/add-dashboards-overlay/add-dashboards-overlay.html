@@ -37,7 +37,7 @@
 <!--        </div>-->
 
         <view-mode
-          class="mr-3"
+          class="mr-3 hidden-xs-down"
           mode="vm.viewMode"
         ></view-mode>
       </div>
@@ -65,6 +65,7 @@
           ng-repeat="dashboard in vm.dashboards"
           dashboard="dashboard"
           is-selected="vm.isDashboardSelected(dashboard)"
+          is-added="vm.isDashboardAdded(dashboard)"
           view-mode="vm.viewMode"
           on-click="vm.toggleDashboardSelected(dashboard)"
         ></dashboard-card>

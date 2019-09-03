@@ -1,6 +1,7 @@
 .add-dashboards-overlay {
   @extend .overlay-window;
   @extend .medium-bg;
+  z-index: 100;
 
   .view-options {
     display: flex;
@@ -71,7 +72,7 @@
     .dashboards-grid {
       display: grid;
       grid-gap: 1.5rem;
-      grid-template-columns: repeat(auto-fill, minmax(350px, auto));
+      grid-template-columns: repeat(auto-fill, minmax(345px, auto));
     }
   }
 }

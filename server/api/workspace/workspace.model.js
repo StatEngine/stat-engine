@@ -63,21 +63,33 @@ export default function(sequelize, DataTypes) {
     instanceMethods: {
       async getDashboards() {
         const response = await kibanaApi.get({
-          uri: '/api/saved_objects/_find',
-          qs: {
-            type: 'dashboard',
-            fields: 'id',
-            per_page: 10000,
-          },
+          uri: `/api/saved_objects/_find?type=dashboard&fields=id&fields=title&per_page=10000`,
         });
-
-        const fixtureTemplateIds = response.saved_objects.map(so => so.id);
 
         const fixtureTemplates = await FixtureTemplate.findAll({
-          where: { _id: fixtureTemplateIds },
+          where: { _id: response.saved_objects.map(so => so.id) },
         });
 
-        return fixtureTemplates;
+        const fixtureTemplatesById = {};
+        fixtureTemplates.forEach(ft => fixtureTemplatesById[ft._id] = ft);
+
+        const dashboards = [];
+        for (const savedObject of response.saved_objects) {
+          const fixtureTemplate = fixtureTemplatesById[savedObject.id];
+          if (fixtureTemplate) {
+            const dashboard = fixtureTemplate;
+            dashboard.isFixtureTemplate = true;
+            dashboards.push(dashboard);
+          } else {
+            dashboards.push({
+              _id: savedObject.id,
+              title: savedObject.attributes.title,
+              isFixtureTemplate: false,
+            });
+          }
+        }
+
+        return dashboards;
       },
 
       async addFixturesWithIds(ids) {
@@ -104,9 +116,6 @@ export default function(sequelize, DataTypes) {
 
         const kibanaTemplateVariables = {
           fire_department: this.FireDepartment.get(),
-          kibana: {
-            tenancy: this.index,
-          },
         };
 
         const savedObjects = [];
@@ -137,17 +146,9 @@ export default function(sequelize, DataTypes) {
         }
       },
 
-      async removeFixturesWithIds(ids) {
-        // Get fixture templates so we have access to the types.
-        const fixtureTemplates = await FixtureTemplate.findAll({
-          where: { _id: ids },
-        });
-
+      async removeFixtures({ type, ids }) {
         // Update Kibana.
-        for (const fixtureTemplate of fixtureTemplates) {
-          const type = fixtureTemplate.type;
-          const id = fixtureTemplate._id;
-
+        for (const id of ids) {
           console.log(`Removing fixture: ${id}`);
 
           await kibanaApi.delete({

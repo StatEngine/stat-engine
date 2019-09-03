@@ -2,7 +2,8 @@
   class="dashboard-card"
   ng-class="{
     'selected': vm.isSelected,
-    'list-item': (vm.viewMode === 'list')
+    'list-item': (vm.viewMode === 'list'),
+    'added': vm.isAdded
   }"
   ng-click="vm.handleClick($event)"
 >
@@ -10,7 +11,10 @@
     <div class="dashboard-card-front">
       <div
         class="dashboard-card-image-container">
-        <div class="dashboard-card-image"></div>
+        <div
+          class="dashboard-card-image"
+          style="background-image: url('{{ vm.dashboard.image_url }}')"
+        ></div>
       </div>
 
       <div class="dashboard-card-content">
@@ -22,6 +26,12 @@
             <span>...&nbsp;</span>
             <a href="" ng-click="vm.readMoreClick($event)">Read More</a>
           </div>
+        </div>
+      </div>
+
+      <div class="dashboard-card-added">
+        <div class="dashboard-card-added-tag">
+          In Workspace
         </div>
       </div>
 

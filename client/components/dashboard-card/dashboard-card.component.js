@@ -5,6 +5,7 @@ import angular from 'angular';
 export class DashboardCard {
   dashboard;
   isSelected;
+  isAdded;
   viewMode;
   onClick;
   rotation = 0;
@@ -12,6 +13,7 @@ export class DashboardCard {
 
   /*@ngInject*/
   constructor($scope, $window, $element) {
+    this.$window = $window;
     this.$element = $element;
 
     $window.addEventListener('resize', () => {
@@ -35,7 +37,9 @@ export class DashboardCard {
     }
   }
 
-  flip(e) {
+  flip = e => {
+    // Figure out which half of the card (top/bottom) the user clicked on and flip
+    // the card in that direction.
     const $inner = this.$element.find('.dashboard-card-inner');
     const innerRect = $inner[0].getBoundingClientRect();
     const innerMid = innerRect.top + innerRect.height / 2;
@@ -44,7 +48,14 @@ export class DashboardCard {
     this.isFlipped = !this.isFlipped;
 
     $inner.css({ transform: `rotateX(${this.rotation}deg)` });
-  }
+
+    // Flip the card back on the next click.
+    if (this.isFlipped) {
+      this.$window.addEventListener('click', this.flip);
+    } else {
+      this.$window.removeEventListener('click', this.flip);
+    }
+  };
 
   updateReadMore() {
     // Show "Read More" link for descriptions that overflow.
@@ -72,6 +83,7 @@ export default angular.module('dashboardCard', [])
     bindings: {
       dashboard: '<',
       isSelected: '<',
+      isAdded: '<',
       viewMode: '<',
       onClick: '&',
     },

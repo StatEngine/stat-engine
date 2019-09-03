@@ -61,7 +61,7 @@
                 ></chip>
                 <a class="add-dashboards-button" href="" ng-click="vm.showAddDashboardsOverlay()">
                   <i class="fa fa-2x fa-plus-circle tx-22 mr-2"></i>
-                  <span class="font-weight-semibold">Add Dashboards</span>
+                  <span>Add Dashboards</span>
                 </a>
               </div>
             </div>
@@ -235,6 +235,7 @@
 
   <add-dashboards-overlay
     show="vm.isShowingAddDashboardsOverlay"
+    added-dashboards="vm.inputWorkspace.dashboards"
     on-confirm="vm.handleAddDashboardsOverlayConfirm({ selectedDashboards })"
   ></add-dashboards-overlay>
 </div>
