@@ -1,11 +1,11 @@
 <div class="root" ng-class="vm.theme">
   <div class="sidebar-overlay" ng-click="vm.hideSidebar()"></div>
 
-  <div class="logo-container" ng-if="vm.theme === 'nfors'">
+  <div class="logo-container" ng-show="!!vm.theme" ng-if="vm.theme === 'nfors'">
     <img class="logo-expanded" src="/assets/images/nfors-branding.png" alt="logo">
     <img class="logo-collapsed" src="/assets/images/nfors-branding-symbol.png" alt="logo">
   </div>
-  <div class="logo-container" ng-if="vm.theme !== 'nfors'">
+  <div class="logo-container" ng-show="!!vm.theme" ng-if="vm.theme !== 'nfors'">
     <img class="logo-expanded" src="/assets/images/branding-alt.svg" alt="logo">
     <img class="logo-collapsed" src="/assets/images/branding-symbol.svg" alt="logo">
   </div>
