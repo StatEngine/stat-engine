@@ -82,10 +82,6 @@ export class AddDashboardsOverlay {
     this.dashboards.forEach(dashboard => {
       dashboard.htmlId = dashboard._id.replace(/:/g, '-');
       dashboard.rotation = 0;
-      dashboard.description += dashboard.description;
-      dashboard.description += dashboard.description;
-      dashboard.description += dashboard.description;
-      dashboard.description += dashboard.description;
     });
   }
 

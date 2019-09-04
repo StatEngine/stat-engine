@@ -11,7 +11,14 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        isIn: [[
+          'visualization',
+          'dashboard',
+          'search',
+          'index-pattern',
+          'config',
+          'timelion-sheet',
+        ]],
       },
     },
     title: {
@@ -32,12 +39,6 @@ export default function(sequelize, DataTypes) {
         notEmpty: true,
       },
     },
-    image_url: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      },
-    },
     kibana_template: {
       type: DataTypes.JSONB,
       allowNull: false,
@@ -46,6 +47,24 @@ export default function(sequelize, DataTypes) {
       },
     },
   }, {
+    validate: {
+      validateDashboardAttributes() {
+        if (this.type === 'dashboard') {
+          if (this.title == null || !this.title.length) {
+            throw new Error('FixtureTemplate with type "dashboard" requires "title" attribute.');
+          }
+
+          if (this.description == null || !this.description.length) {
+            throw new Error('FixtureTemplate with type "dashboard" requires "description" attribute.');
+          }
+
+          if (this.author == null || !this.author.length) {
+            throw new Error('FixtureTemplate with type "dashboard" requires "author" attribute.');
+          }
+        }
+      },
+    },
+
     getterMethods: {},
     indexes: [],
     hooks: {},

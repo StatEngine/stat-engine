@@ -16,5 +16,12 @@ router.get(
   asyncMiddleware(controller.getDashboards),
 );
 
+router.post(
+  '/addFixtureTemplatesToDatabase',
+  // auth.isApiAuthenticated,
+  // auth.hasRole('admin'),
+  asyncMiddleware(controller.addFixtureTemplatesToDatabase),
+);
+
 module.exports = router;
 

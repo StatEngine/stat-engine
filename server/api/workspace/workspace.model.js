@@ -139,6 +139,9 @@ export default function(sequelize, DataTypes) {
 
         // Update Kibana.
         if (savedObjects.length > 0) {
+          console.log('Adding Kibana fixtures:');
+          savedObjects.forEach(so => console.log(`(${so.type}) ${so.id}`));
+
           await kibanaApi.post({
             uri: '/api/saved_objects/_bulk_create',
             body: savedObjects,
@@ -148,8 +151,10 @@ export default function(sequelize, DataTypes) {
 
       async removeFixtures({ type, ids }) {
         // Update Kibana.
+        console.log('Removing Kibana Fixtures:');
+
         for (const id of ids) {
-          console.log(`Removing fixture: ${id}`);
+          console.log(`(${type}) ${id}`);
 
           await kibanaApi.delete({
             uri: `/api/saved_objects/${type}/${id}`,

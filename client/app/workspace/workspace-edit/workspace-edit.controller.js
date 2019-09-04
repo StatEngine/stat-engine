@@ -180,19 +180,17 @@ export default class WorkspaceEditController {
       if (err.data) {
         err = err.data;
       }
-      console.error(err);
-      // TODO: Replace existing name error while also showing other errors.
-      // this.errors = err.errors;
-      // if (this.errors) {
-      //   // clean up validation error
-      //   const hasNameError = !!this.errors.find(e => e.message === 'name must be unique');
-      //   if(hasNameError) {
-      //     this.errors = [{
-      //       message: 'This name is already in use by someone in your department! Please choose another.'
-      //     }]
-      //   }
-      //   this.showErrors = true;
-      // }
+      this.errors = err.errors;
+      if (this.errors) {
+        // clean up validation error
+        const hasNameError = !!this.errors.find(e => e.message === 'name must be unique');
+        if(hasNameError) {
+          this.errors = [{
+            message: 'This name is already in use by someone in your department! Please choose another.'
+          }]
+        }
+        this.showErrors = true;
+      }
       return;
     } finally {
       this.isSaving = false;

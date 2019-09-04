@@ -156,8 +156,9 @@
       background: var(--primary);
       color: white;
       border-radius: 0 4px;
-      transition: transform 0.25s;
+      transition: transform 0.25s, box-shadow 0.25s;
       transform-origin: top right;
+      box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -169,6 +170,7 @@
     &:hover {
       .dashboard-card-added-tag {
         transform: scale(1.05);
+        box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
       }
     }
   }
@@ -262,6 +264,7 @@
       border-radius: 50%;
       border: solid 1px #979797;
       transform: translateY(-1px);
+      background-position: 55% 0;
     }
 
     .dashboard-card-description {
