@@ -18,8 +18,8 @@ router.get(
 
 router.post(
   '/addFixtureTemplatesToDatabase',
-  // auth.isApiAuthenticated,
-  // auth.hasRole('admin'),
+  auth.isApiAuthenticated,
+  auth.hasRole('admin'),
   asyncMiddleware(controller.addFixtureTemplatesToDatabase),
 );
 

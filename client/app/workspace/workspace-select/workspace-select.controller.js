@@ -38,7 +38,7 @@ export default class WorkspaceSelectController {
       app: 'WORKSPACE',
       workspace: workspace.name
     });
-    this.$window.location.href = `/workspaces/${workspace._id}/dashboard?redirect=true`;
+    this.$window.location.href = `/workspaces/${workspace._id}/dashboard`;
   }
 
   dropdownClick(e) {

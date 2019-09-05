@@ -58,16 +58,4 @@ export default function(app) {
     .get((req, res) => {
       res.sendFile(path.resolve(`${app.get('appPath')}/app.html`));
     });
-
-  // app.use((req, res, next) => {
-  //   res.status(500).json({
-  //     data: {
-  //       errors: [{
-  //         message: 'Something went wrong.',
-  //       }]
-  //     }
-  //   }).send();
-  //
-  //   next();
-  // })
 }

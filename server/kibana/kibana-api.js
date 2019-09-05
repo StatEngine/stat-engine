@@ -57,37 +57,32 @@ export class KibanaApi {
     }
   };
 
-  request(options) {
+  get request() {
     if (!this._request) {
       throw new Error('KibanaApi has not been initialized. Make sure that kibanaApi.connectMiddleware has been added, or that kibanaApi.connect() has been called.');
     }
 
-    return this._request(options);
+    return this._request;
   }
 
-  get(options) {
-    options.method = 'GET';
-    return this.request(options);
+  get(...args) {
+    return this.request.get(...args);
   }
 
-  post(options) {
-    options.method = 'POST';
-    return this.request(options);
+  post(...args) {
+    return this.request.post(...args);
   }
 
-  put(options) {
-    options.method = 'PUT';
-    return this.request(options);
+  put(...args) {
+    return this.request.put(...args);
   }
 
-  patch(options) {
-    options.method = 'PATCH';
-    return this.request(options);
+  patch(...args) {
+    return this.request.patch(...args);
   }
 
-  delete(options) {
-    options.method = 'DELETE';
-    return this.request(options);
+  delete(...args) {
+    return this.request.delete(...args);
   }
 }
 

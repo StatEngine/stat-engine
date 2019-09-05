@@ -9,11 +9,7 @@ export function asyncMiddleware(middleware) {
       await middleware(req, res, next)
     } catch (err) {
       console.error(err);
-      res.status(500).json({
-        errors: [{
-          message: err.message,
-        }],
-      });
+      res.status(500).send(err);
     }
   }
 }

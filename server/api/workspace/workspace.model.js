@@ -78,13 +78,11 @@ export default function(sequelize, DataTypes) {
           const fixtureTemplate = fixtureTemplatesById[savedObject.id];
           if (fixtureTemplate) {
             const dashboard = fixtureTemplate;
-            dashboard.isFixtureTemplate = true;
             dashboards.push(dashboard);
           } else {
             dashboards.push({
               _id: savedObject.id,
               title: savedObject.attributes.title,
-              isFixtureTemplate: false,
             });
           }
         }
@@ -142,8 +140,9 @@ export default function(sequelize, DataTypes) {
           console.log('Adding Kibana fixtures:');
           savedObjects.forEach(so => console.log(`(${so.type}) ${so.id}`));
 
-          await kibanaApi.post({
-            uri: '/api/saved_objects/_bulk_create',
+          console.log(typeof savedObjects);
+
+          await kibanaApi.post('/api/saved_objects/_bulk_create', {
             body: savedObjects,
           });
         }
@@ -156,9 +155,7 @@ export default function(sequelize, DataTypes) {
         for (const id of ids) {
           console.log(`(${type}) ${id}`);
 
-          await kibanaApi.delete({
-            uri: `/api/saved_objects/${type}/${id}`,
-          });
+          await kibanaApi.delete(`/api/saved_objects/${type}/${id}`);
         }
       },
     },
