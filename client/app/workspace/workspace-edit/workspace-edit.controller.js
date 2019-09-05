@@ -177,20 +177,16 @@ export default class WorkspaceEditController {
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
-      if (err.data) {
-        err = err.data;
-      }
+      err = err.data;
       this.errors = err.errors;
-      if (this.errors) {
-        // clean up validation error
-        const hasNameError = !!this.errors.find(e => e.message === 'name must be unique');
-        if(hasNameError) {
-          this.errors = [{
-            message: 'This name is already in use by someone in your department! Please choose another.'
-          }]
-        }
-        this.showErrors = true;
+      // clean up validation error
+      let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
+      if(nameError) {
+        this.errors = [{
+          message: 'This name is already in use by someone in your department! Please choose another.'
+        }]
       }
+      this.showErrors = true;
       return;
     } finally {
       this.isSaving = false;
