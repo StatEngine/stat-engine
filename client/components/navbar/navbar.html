@@ -14,8 +14,28 @@
       <!-- Unauthenticated -->
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
-          <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-products' href="#">Products</a></li>
-          <li><a ng-click="vm.scrollTo('#footer')" id='navbar-links-company' href="#">Company</a></li>
+          <li class="with-dropdown">
+            <a href="#" ng-click="is_products_active = !is_products_active;is_company_active = false" ng-init="is_products_active=false">Products</a>
+            <div class="dropdown animated fadeInDownShort" ng-class="{open: is_products_active && !is_company_active}">
+              <ul>
+                <li><a href="/statEngine">StatEngine</a></li>
+                <li><a href="/spade">Spade</a></li>
+              </ul>
+             </div>
+           </li>
+          <li class="with-dropdown">
+            <a href="#" ng-click="is_company_active = !is_company_active;is_products_active = false" ng-init="is_company_active=false">Company</a>
+            <div class="dropdown animated fadeInDownShort" ng-class="{open: is_company_active && !is_products_active}">
+              <ul>
+                <li><a href="#" ui-sref="site.main.about" class="nav-link">About us</a></li>
+                <li><a href="https://medium.com/statengine" target="_blank" class="nav-link">Blog</a></li>
+                <li><a href="#" ui-sref="site.main.funding" class="nav-link">Funding</a></li>
+                <li><a href="#" ui-sref="site.main.partners" class="nav-link">Partners</a></li>
+                <li><a href="mailto:{{vm.appConfig.contact_email}}" target="_blank" class="nav-link">Contact us</a></li>
+              </ul>
+             </div>
+           </li>
+          <li>
         </ul>
       </div>
 

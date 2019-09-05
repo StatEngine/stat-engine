@@ -45,7 +45,8 @@ const paths = {
     server: {
         scripts: [
           `${serverPath}/**/!(*.spec|*.integration).js`,
-          `!${serverPath}/config/local.env.sample.js`
+          `!${serverPath}/config/local.env.sample.js`,
+          `!${serverPath}/fixtures/templates/**/*`
         ],
         json: [`${serverPath}/**/*.json`],
         templates: [`${serverPath}/api/incident/templates`],
@@ -659,7 +660,8 @@ gulp.task('copy:server', () => {
     return gulp.src([
         'package.json',
         'server/api/incident/templates/*',
-        'node_modules/@statengine/se-grpc-proto/*'
+        'node_modules/@statengine/se-grpc-proto/*',
+        'server/fixtures/templates/**/*',
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });

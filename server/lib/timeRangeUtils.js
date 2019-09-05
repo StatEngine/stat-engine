@@ -22,7 +22,7 @@ export function calculateTimeRange(options) {
   }
 
   if(!endDate) {
-    if(options.previous) {
+    if(options.previous && options.previous !== 'false') {
       startDate = moment.parseZone(startDate).subtract(1, timeUnit);
     } else {
       startDate = moment.parseZone(startDate);

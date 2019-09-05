@@ -31,7 +31,7 @@ Ensure the following packages are installed
 
 1.  Navigate to your Elasticsearch install directory  (ex. `cd elasticsearch-6.4.1`)
 
-2.  Download Readonly Rest Plugin here: https://github.com/sscarduzio/elasticsearch-readonlyrest-plugin/archive/v1.16.33_es6.4.1.zip
+2.  Download Readonly Rest Plugin for 6.4.1 by requesting a download at https://readonlyrest.com/download/
 
 3.  Install readonlyrest plugin
 ```
