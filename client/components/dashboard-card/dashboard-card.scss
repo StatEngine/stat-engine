@@ -86,6 +86,7 @@
 
     .dashboard-card-back {
       transform: scale(1.02) rotateZ(180deg) rotateY(180deg);
+      //transform: rotateZ(180deg) rotateY(180deg);
     }
   }
 
@@ -129,6 +130,7 @@
 
     p {
       margin: 0;
+      line-height: $dashboard-card-description-line-height;
     }
   }
 

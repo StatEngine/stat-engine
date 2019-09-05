@@ -61,7 +61,10 @@ export class DashboardCard {
     // Show "Read More" link for descriptions that overflow.
     const $frontDesc = this.$element.find(`.dashboard-card-front .dashboard-card-description`);
     const $readMore = $frontDesc.find('.read-more');
-    if ($frontDesc.find('p').height() > $frontDesc.height()) {
+    const textHeight = $frontDesc.find('p').height();
+    const textAreaHeight = $frontDesc.height();
+    console.log(`${textHeight} > ${textAreaHeight}`);
+    if (textHeight > textAreaHeight) {
       $readMore.addClass('show');
     } else {
       $readMore.removeClass('show');
