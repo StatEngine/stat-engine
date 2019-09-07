@@ -34,7 +34,6 @@ export async function create(req, res) {
     description,
     color,
     slug,
-    index: `.kibana_${fireDepartment.firecares_id}_${slug}`,
   });
   req.workspace = workspace;
 
@@ -77,7 +76,8 @@ export async function create(req, res) {
   // the workspace doesn't exist yet to build the JWT. So manually connect now that it exists.
   await kibanaApi.connect(req, res);
 
-  await seedWorkspaceKibanaTemplate(workspace);
+  const kibanaIndex = workspace.getKibanaIndex(fireDepartment);
+  await seedWorkspaceKibanaTemplate(kibanaIndex);
 
   // TODO: Only add the visualizations that are necessary for the dashboards we're adding.
   let fixtureTemplates = await FixtureTemplate.findAll({
@@ -421,12 +421,12 @@ export async function load(req, res, next) {
 // Helpers
 //
 
-async function seedWorkspaceKibanaTemplate(workspace) {
+async function seedWorkspaceKibanaTemplate(kibanaIndex) {
   await esConnection.getClient().indices.putTemplate({
-    name: `kibana_index_template:${workspace.index}`,
+    name: `kibana_index_template:${kibanaIndex}`,
     order: 0,
     body: {
-      index_patterns: [workspace.index],
+      index_patterns: [kibanaIndex],
       index: {
         number_of_shards: '1',
         auto_expand_replicas: '0-1',

@@ -40,12 +40,6 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    index: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      },
-    },
   }, {
 
     getterMethods: {},
@@ -61,6 +55,10 @@ export default function(sequelize, DataTypes) {
     hooks: {},
 
     instanceMethods: {
+      getKibanaIndex(fireDepartment) {
+        return `.kibana_${fireDepartment.firecares_id}_${this.slug}`;
+      },
+
       async getDashboards() {
         const response = await kibanaApi.get({
           uri: `/api/saved_objects/_find?type=dashboard&fields=id&fields=title&per_page=10000`,
