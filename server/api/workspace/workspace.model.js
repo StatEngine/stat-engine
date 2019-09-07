@@ -1,6 +1,5 @@
 'use strict';
 
-import esConnection from '../../elasticsearch/connection';
 import parseJsonTemplate from 'json-templates';
 import kibanaApi from '../../kibana/kibana-api';
 
