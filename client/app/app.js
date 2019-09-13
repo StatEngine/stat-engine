@@ -108,6 +108,7 @@ import humanizeComponents from '../components/humanize/humanize-duration.filter'
 
 import reportingUnitList from '../components/reporting-unit-list/reporting-unit-list.component';
 import toggleSwitch from '../components/toggle-switch/toggle-switch.component';
+import unsupportedBrowser from '../components/unsupported-browser/unsupported-browser.service';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -173,6 +174,7 @@ angular.module('statEngineApp', [
   loadingOverlay,
   toggleSwitch,
   print,
+  unsupportedBrowser,
 ])
   .config(routeConfig)
   .config((appConfig, amplitudeConfig) => {

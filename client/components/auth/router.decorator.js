@@ -2,7 +2,9 @@
 
 import moment from 'moment';
 
-export default function routerDecorator($transitions, $rootScope, $cookies, $window, $state, Authorization, Principal, FireDepartment, Modal) {
+export default function routerDecorator(
+  $transitions, $rootScope, $cookies, $window, $state, Authorization, Principal, FireDepartment, Modal, Util, UnsupportedBrowser,
+) {
   'ngInject';
 
   let currentPrincipal;
@@ -121,9 +123,23 @@ export default function routerDecorator($transitions, $rootScope, $cookies, $win
       });
   });
 
-  $transitions.onSuccess({}, function() {
+  $transitions.onSuccess({}, function(trans) {
     if(Principal.isAuthenticated()) {
       checkSubscriptionExpiry();
+    }
+
+    // Show warning dialog for IE browsers if a user is logged in or navigates to login or signup.
+    if(Principal.isAuthenticated() ||
+       trans.$to().name === 'site.account.login' ||
+       trans.$to().name === 'site.account.signup') {
+      if(Util.isBrowserIE()) {
+        const shownAt = moment(parseInt($cookies.get('unsupported_browser_warning_shown_at')) || 0);
+        const daysSinceShown = moment().diff(shownAt, 'days');
+        if(daysSinceShown >= 7) {
+          UnsupportedBrowser.showWarningDialog();
+          $cookies.put('unsupported_browser_warning_shown_at', moment().valueOf());
+        }
+      }
     }
   });
 }

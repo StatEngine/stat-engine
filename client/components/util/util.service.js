@@ -61,6 +61,11 @@ export function UtilService($window) {
         return hostnameCheck && protocolCheck && portCheck;
       });
       return origins.length >= 1;
+    },
+
+    isBrowserIE() {
+      const isConditionalCompilationOn = /*@cc_on!@*/false;
+      return (isConditionalCompilationOn || !!document.documentMode);
     }
   };
 

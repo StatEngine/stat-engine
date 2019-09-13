@@ -1,0 +1,129 @@
+.unsupported-browser-modal {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-lg;
+
+    .modal-content {
+      width: 100%;
+      height: 100%;
+      max-width: 688px;
+      max-height: 833px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.unsupported-browser-content-container {
+  flex: 1 0 0;
+  padding: 3rem;
+  text-align: center;
+  overflow: auto;
+
+  .unsupported-browser-content {
+    h1, h2 {
+      color: #123151;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.15px;
+    }
+
+    h2 {
+      font-size: 1.43rem;
+      font-weight: 400;
+      letter-spacing: 0.66px;
+    }
+
+    p {
+      font-family: "Open Sans", sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.21px;
+      color: $color-oxford-blue;
+    }
+
+    .sad-browser-image {
+      margin-bottom: 2.5rem;
+    }
+
+    .supported-browsers-list {
+      margin-top: 2.5rem;
+    }
+
+    .supported-browser {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.75rem;
+      margin-bottom: 1.375rem;
+      font-family: "Open Sans", sans-serif;
+      font-size: 1.125rem;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        justify-content: start;
+        margin-bottom: 2rem;
+
+        img {
+          margin-bottom: 1rem;
+        }
+      }
+
+      img {
+        margin-right: 1rem;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        font-weight: $font-weight-bold;
+
+        .fa {
+          margin-left: 0.5em;
+          font-size: 1.375em;
+        }
+      }
+
+      .included-message {
+        font-size: 1rem;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+.unsupported-browser-footer {
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: $color-porcelain;
+  border-bottom-left-radius: $border-radius-lg;
+  border-bottom-right-radius: $border-radius-lg;
+  border-top: solid 1px $input-border-color;
+
+  a {
+    position: relative;
+    top: -2px;
+    font-size: 1rem;
+    color: $color-oxford-blue;
+    opacity: 0.65;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
