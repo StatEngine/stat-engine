@@ -82,7 +82,7 @@ readonlyrest:
 
 1.  Run the preconfigured Kibana instance
 ```
-docker run -p 5601:5601 prominentedgestatengine/kibana:HEAD-c7f45bd-development
+docker run -e ELASTICSEARCH_URI=http://localhost:9200 --net=host
 ```
 
 ### Loading Elasticsearch Test Data
