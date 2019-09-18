@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:station-cross-staffing-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Station Cross-staffing Text",
+      "visState": "{\"title\":\"Station Cross-staffing Text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"Station Cross-staffing\\n----\\nOne application of this type of metric would be to aid with potential decisions related to cross-staffing, decisions where a station is understaffed with personnel and must choose whether to field, for example, its engine or its ALS.\\n\\nTo help shed light on how often this would result in an inability to cover an incoming incident in the first due areas, the two graphs below were constructed.\\n\\n**The graph on the left** displays the number of FIRE incidents that were in progress in a given station's first due area when an EMS call came in for that first due.\\n\\n**The graph on the right** displays the converse situation, the number of EMS incidents that were in progress in a given station's first due area when a FIRE call came in for that first due.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

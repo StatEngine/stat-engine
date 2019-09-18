@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:simultaneous-intro-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Simultaneous-intro Text",
+      "visState": "{\"title\":\"Simultaneous-intro Text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"Fire Department Call Load and Overlapping Incidents\\n----\\nThis dashboard highlights two new data enrichments: Number of incidents in progress when a given incident came in, and number of incidents with which a given incident overlapped over its duration.\\n\\n**Number of incidents in progress when a given incident comes in**, also referred to as **call load**, is a useful metric for examining department drawdown. Although it does not necessarily convey true loading on the apparatus deployment of the fire department, since any given incident can require between 1 (e.g. low priority EMS response) and a lot (e.g. high-rise building fire in a downtown area) of apparatus/personnel, it conveys the typical historical demand the department has faced in terms of number of incidents in progress at any given time and serves as a good indicator of loading.\\n\\n**Number of overlapping incidents** is a metric that provides another indicator of resource drain on the fire department. Although the number of units dedicated to a given incident can fluctuate with time, the number of overlapping incidents can provide another way to discuss commitment to incidents, since at least one apparatus with its associated personnel are committed until the incident is closed.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}
