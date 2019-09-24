@@ -15,7 +15,7 @@ Ensure the following packages are installed
 
 1.  Run `npm install --global gulp`
 
-1.  Run `npm install --global elasticdump`
+1.  Run `npm install --global elasticdump@4.4.0`
 
 1.  Run `brew install pkg-config cairo pango libpng jpeg giflib`
 
