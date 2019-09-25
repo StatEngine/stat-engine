@@ -16,6 +16,11 @@ export function UnsupportedBrowser($rootScope, $uibModal, AmplitudeService, Anal
   }
 
   function showWarningDialog() {
+    AmplitudeService.track(AnalyticEventNames.APP_ACTION, {
+      app: 'Unsupported Browser',
+      action: 'show warning',
+    });
+
     const modal = openModal({
       scope: {
         modal: {
@@ -49,7 +54,7 @@ export function UnsupportedBrowser($rootScope, $uibModal, AmplitudeService, Anal
             modal.dismiss();
             AmplitudeService.track(AnalyticEventNames.APP_ACTION, {
               app: 'Unsupported Browser',
-              action: 'ignore',
+              action: 'ignore warning',
             });
           },
         },
