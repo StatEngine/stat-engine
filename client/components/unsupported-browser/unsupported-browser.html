@@ -1,0 +1,37 @@
+<div class="unsupported-browser-content-container">
+  <div class="unsupported-browser-content">
+    <img class="sad-browser-image" src="../assets/images/sad-browser.png" width="100" alt="sad browser" />
+    <h1>Well, this is awkward.</h1>
+    <h2>It appears you're using an unsupported browser.</h2>
+    <p>
+      Continuing may result in unexpected behavior. To get the most out of StatEngine, please sign in using one of these
+      supported browsers:
+    </p>
+    <div class="supported-browsers-list">
+      <div class="supported-browser" ng-repeat="browser in modal.supportedBrowsers">
+        <div>
+          <img src="{{ browser.imageUrl }}" width="65" alt="{{ browser.name }} icon" />
+          {{ browser.name }}
+        </div>
+        <div>
+          <a
+            href="{{ browser.downloadUrl }}"
+            target="_blank"
+            ng-click="modal.download(browser)"
+            ng-show="browser.downloadUrl"
+          >
+            Download {{ browser.name }}
+            <i class="fa fa-arrow-circle-down"></i>
+          </a>
+          <div class="included-message" ng-show="browser.includedMessage">
+            {{ browser.includedMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="unsupported-browser-footer">
+  <a href="" ng-click="modal.close()">Ignore</a>
+</div>
