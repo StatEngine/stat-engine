@@ -3,17 +3,16 @@
 import { Router } from 'express';
 
 import { asyncMiddleware } from '../../util/async-middleware';
-import * as controller from './fixture-template.controller';
+import * as controller from './admin.controller';
 import * as auth from '../../auth/auth.service';
 
 const router = new Router();
 
-router.get(
-  '/dashboards',
+router.post(
+  '/addFixtureTemplatesToDatabase',
   auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  asyncMiddleware(controller.getDashboards),
+  auth.hasRole('admin'),
+  asyncMiddleware(controller.addFixtureTemplatesToDatabase),
 );
 
 module.exports = router;
