@@ -156,8 +156,6 @@ export default function(sequelize, DataTypes) {
           console.log('Adding Kibana fixtures:');
           savedObjects.forEach(so => console.log(`(${so.type}) ${so.id}`));
 
-          console.log(typeof savedObjects);
-
           await kibanaApi.post('/api/saved_objects/_bulk_create', {
             body: savedObjects,
           });

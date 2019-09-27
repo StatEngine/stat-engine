@@ -74,7 +74,7 @@ export async function create(req, res) {
     }));
   }
 
-  workspace.addFixtures(fixtureTemplates);
+  await workspace.addFixtures(fixtureTemplates);
 
   res.json(workspace);
 }
