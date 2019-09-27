@@ -217,6 +217,16 @@ export default class WorkspaceEditController {
   }
 
   removeDashboard(dashboard) {
-    delete this.inputWorkspace.dashboards[dashboard._id];
+    this.Modal.confirm({
+      title: 'Remove Dashboard',
+      content: `Are you sure you want to remove <strong>${dashboard.title}</strong>?`,
+      confirmButtonStyle: this.Modal.buttonStyle.danger,
+      confirmButtonText: 'Remove',
+      showCloseButton: false,
+      enableBackdropDismiss: false,
+      onConfirm: () => {
+        delete this.inputWorkspace.dashboards[dashboard._id];
+      },
+    }).present();
   }
 }
