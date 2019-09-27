@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import { asyncMiddleware } from '../../util/async-middleware';
 import * as controller from './workspace.controller';
 import * as auth from '../../auth/auth.service';
-import kibanaApi from '../../kibana/kibana-api';
+import { KibanaApi } from '../../kibana/kibana-api';
 
 const router = new Router();
 
@@ -33,7 +33,7 @@ router.get(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   asyncMiddleware(controller.hasWorkspaceAccess),
-  asyncMiddleware(kibanaApi.connectMiddleware),
+  asyncMiddleware(KibanaApi.connect),
   asyncMiddleware(controller.get)
 );
 
@@ -44,7 +44,7 @@ router.put(
   auth.hasFireDepartment,
   bodyParser.json(),
   asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(kibanaApi.connectMiddleware),
+  asyncMiddleware(KibanaApi.connect),
   asyncMiddleware(controller.edit)
 );
 

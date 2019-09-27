@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import { sequelize, Workspace, FireDepartment, UserWorkspace, User } from '../../sqldb';
 import esConnection from '../../elasticsearch/connection';
-import kibanaApi from '../../kibana/kibana-api';
+import { KibanaApi } from '../../kibana/kibana-api';
 import { FixtureTemplate } from '../../sqldb';
 
 export async function create(req, res) {
@@ -56,10 +56,6 @@ export async function create(req, res) {
   // Update Kibana
   //
 
-  // We can't connect to the Kibana API with middleware when creating a workspace, since
-  // the workspace doesn't exist yet to build the JWT. So manually connect now that it exists.
-  await kibanaApi.connect(req, res);
-
   const kibanaIndex = workspace.getKibanaIndex(fireDepartment);
   await seedWorkspaceKibanaTemplate(kibanaIndex);
 
@@ -74,7 +70,14 @@ export async function create(req, res) {
     }));
   }
 
-  await workspace.addFixtures(fixtureTemplates);
+  // We can't connect to the Kibana API with middleware when creating a workspace, since
+  // the workspace doesn't exist yet to build the JWT. So manually connect now that it exists.
+  await KibanaApi.connect(req);
+
+  await workspace.addFixtures({
+    fixtureTemplates,
+    kibanaApi: req.kibanaApi,
+  });
 
   res.json(workspace);
 }
@@ -128,7 +131,7 @@ export async function edit(req, res) {
   //
 
   // Remove dashboards that aren't in our updated dashboard ids list.
-  const currentDashboards = await workspace.getDashboards();
+  const currentDashboards = await workspace.getDashboards(req.kibanaApi);
   const dashboardIdsLookup = {};
   dashboardIds.forEach(id => dashboardIdsLookup[id] = true);
 
@@ -139,6 +142,7 @@ export async function edit(req, res) {
   await workspace.removeFixtures({
     type: 'dashboard',
     ids: dashboardRemovalIds,
+    kibanaApi: req.kibanaApi,
   });
 
   // Add any new dashboards.
@@ -148,7 +152,10 @@ export async function edit(req, res) {
   const dashboardAdditionIds = dashboardIds
     .filter(id => !currentDashboardsIdsLookup[id]);
 
-  await workspace.addFixturesWithIds(dashboardAdditionIds);
+  await workspace.addFixturesWithIds({
+    ids: dashboardAdditionIds,
+    kibanaApi: req.kibanaApi,
+  });
 
   res.status(204).send();
 }
@@ -157,7 +164,7 @@ export async function get(req, res) {
   const workspace = req.workspace;
   const workspaceData = workspace.get();
 
-  workspaceData.dashboards = await workspace.getDashboards();
+  workspaceData.dashboards = await workspace.getDashboards(req.kibanaApi);
 
   // cleanup api call
   let users = workspaceData.Users;

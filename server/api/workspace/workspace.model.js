@@ -1,7 +1,6 @@
 'use strict';
 
 import parseJsonTemplate from 'json-templates';
-import kibanaApi from '../../kibana/kibana-api';
 import slugify from 'slugify';
 
 export default function(sequelize, DataTypes) {
@@ -77,7 +76,7 @@ export default function(sequelize, DataTypes) {
         return `.kibana_${fireDepartment.firecares_id}_${this.slug}`;
       },
 
-      async getDashboards() {
+      async getDashboards(kibanaApi) {
         const response = await kibanaApi.get({
           uri: `/api/saved_objects/_find?type=dashboard&fields=id&fields=title&per_page=10000`,
         });
@@ -106,15 +105,18 @@ export default function(sequelize, DataTypes) {
         return dashboards;
       },
 
-      async addFixturesWithIds(ids) {
+      async addFixturesWithIds({ ids, kibanaApi }) {
         const fixtureTemplates = await FixtureTemplate.findAll({
           where: { _id: ids },
         });
 
-        await this.addFixtures(fixtureTemplates);
+        await this.addFixtures({
+          fixtureTemplates,
+          kibanaApi,
+        });
       },
 
-      async addFixtures(fixtureTemplates) {
+      async addFixtures({ fixtureTemplates, kibanaApi }) {
         // Get the Kibana template data from the fixture template.
         const kibanaTemplates = [];
         for (const fixtureTemplate of fixtureTemplates) {
@@ -162,7 +164,7 @@ export default function(sequelize, DataTypes) {
         }
       },
 
-      async removeFixtures({ type, ids }) {
+      async removeFixtures({ type, ids, kibanaApi }) {
         // Update Kibana.
         console.log('Removing Kibana Fixtures:');
 
