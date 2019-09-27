@@ -3,7 +3,6 @@
 import _ from 'lodash';
 import { sequelize, Workspace, FireDepartment, UserWorkspace, User } from '../../sqldb';
 import esConnection from '../../elasticsearch/connection';
-import slugify from 'slugify';
 import kibanaApi from '../../kibana/kibana-api';
 import { FixtureTemplate } from '../../sqldb';
 
@@ -15,25 +14,10 @@ export async function create(req, res) {
   const users = req.body.users;
   const fireDepartment = req.fireDepartment.get();
 
-  /* ES Rules for index names
-    Lowercase only
-    Cannot include \, /, *, ?, ", <, >, |, ` ` (space character), ,, #
-    Indices prior to 7.0 could contain a colon (:), but that’s been deprecated and won’t be supported in 7.0+
-    Cannot start with -, _, +
-    Cannot be . or ..
-    Cannot be longer than 255 bytes (note it is bytes, so multi-byte characters will count towards the 255 limit faster)
-  */
-  const slug = slugify(name, {
-    replacement: '-', // replace spaces with replacement
-    remove: /[*:?"<>|#\/\\,]/g, // regex to remove characters, TODO test this
-    lower: true // result in lower case
-  });
-
   const workspace = Workspace.build({
     name,
     description,
     color,
-    slug,
   });
   req.workspace = workspace;
 

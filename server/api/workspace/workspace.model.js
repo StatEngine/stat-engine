@@ -2,6 +2,7 @@
 
 import parseJsonTemplate from 'json-templates';
 import kibanaApi from '../../kibana/kibana-api';
+import slugify from 'slugify';
 
 export default function(sequelize, DataTypes) {
   const FixtureTemplate = sequelize.import('../fixture-template/fixture-template.model');
@@ -51,7 +52,25 @@ export default function(sequelize, DataTypes) {
       fields: ['name', 'fire_department__id']
     }],
 
-    hooks: {},
+    hooks: {
+      beforeCreate(workspace, fields, cb) {
+        /* ES Rules for index names
+
+          Lowercase only
+          Cannot include \, /, *, ?, ", <, >, |, ` ` (space character), ,, #
+          Indices prior to 7.0 could contain a colon (:), but that’s been deprecated and won’t be supported in 7.0+
+          Cannot start with -, _, +
+          Cannot be . or ..
+          Cannot be longer than 255 bytes (note it is bytes, so multi-byte characters will count towards the 255 limit faster)
+        */
+        workspace.slug = slugify(workspace.name, {
+          replacement: '-', // replace spaces with replacement
+          remove: /[*:?"<>|#\/\\,]/g, // regex to remove characters, TODO test this
+          lower: true // result in lower case
+        });
+        cb();
+      },
+    },
 
     instanceMethods: {
       getKibanaIndex(fireDepartment) {
