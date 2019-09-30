@@ -25,7 +25,7 @@ export default class IncidentTurnoutCategoryChartComponent {
     this.updatePlot();
 
     this.layout = {
-      barmode: 'stack',
+      barmode: 'group',
       xaxis: {
         title: 'Datetime',
       },
