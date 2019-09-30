@@ -20,7 +20,7 @@ export default class IncidentTravelCategoryChartComponent {
     await this.loadModules();
 
     this.layout = {
-      barmode: 'stack',
+      barmode: 'group',
       xaxis: {
         title: 'Datetime',
       },
