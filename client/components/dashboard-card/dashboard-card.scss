@@ -4,7 +4,7 @@
   background: transparent;
   outline: none !important;
 
-  &:not(.added):hover {
+  &:hover {
     cursor: pointer;
   }
 
@@ -53,7 +53,7 @@
     }
   }
 
-  &:not(.added):hover {
+  &:hover {
     .dashboard-card-front {
       box-shadow:
         0 0 0 1px $color-turquoise-blue,
@@ -139,42 +139,6 @@
     justify-content: space-between;
     padding: 1.25rem;
     color: $gray-550;
-  }
-
-  .dashboard-card-added {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
-    pointer-events: none;
-    background: rgba(0, 0, 0, 0.2);
-
-    .dashboard-card-added-tag {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0.5rem 1.5rem;
-      font-weight: $font-weight-semibold;
-      background: var(--primary);
-      color: white;
-      border-radius: 0 4px;
-      transition: transform 0.25s, box-shadow 0.25s;
-      transform-origin: top right;
-      box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  &.added {
-    .dashboard-card-added {
-      display: block;
-    }
-
-    &:hover {
-      .dashboard-card-added-tag {
-        transform: scale(1.05);
-        box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.2);
-      }
-    }
   }
 
   .dashboard-card-back {
@@ -285,10 +249,6 @@
       > * {
         margin: 3px 0;
       }
-    }
-
-    .dashboard-card-added-tag {
-      opacity: 0.9;
     }
   }
 }

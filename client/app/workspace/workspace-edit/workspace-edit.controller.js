@@ -1,6 +1,7 @@
 'use strict';
 
 import 'parsleyjs';
+import randomstring from 'randomstring';
 
 let _;
 
@@ -173,7 +174,7 @@ export default class WorkspaceEditController {
         name: this.inputWorkspace.name,
         description: this.inputWorkspace.description,
         color: this.inputWorkspace.color,
-        dashboardIds: Object.keys(this.inputWorkspace.dashboards),
+        dashboards: this.inputWorkspace.dashboards,
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
@@ -210,8 +211,33 @@ export default class WorkspaceEditController {
     this.addDashboards(selectedDashboards);
   }
 
+  templateIdToUniqueId(templateId) {
+    // This has to exactly match FixtureTemplate.templateIdToUniqueId() on the server, since the
+    // template id needs to be extracted using FixtureTemplate.uniqueIdToTemplateId().
+    return `${templateId}--${randomstring.generate(8)}`;
+  }
+
   addDashboards(dashboards) {
+    // Build existing dashboard title lookup to avoid confusing duplicate titles.
+    const dashboardTitlesLookup = {};
+    Object.keys(this.inputWorkspace.dashboards).forEach(dashboardId => {
+      const dashboard = this.inputWorkspace.dashboards[dashboardId];
+      dashboardTitlesLookup[dashboard.title] = dashboard;
+    });
+
     dashboards.forEach(dashboard => {
+      // Generate a unique id so that we can add multiple of the same type of dashboard.
+      // NOTE: The dashboard id will be regenerated on the backend during dashboard creation.
+      dashboard._id = this.templateIdToUniqueId(dashboard._id);
+
+      // Make sure we don't have any duplicate titles.
+      const origTitle = dashboard.title;
+      let count = 0;
+      while (dashboardTitlesLookup[dashboard.title]) {
+        count++;
+        dashboard.title = `${origTitle} (${count})`;
+      }
+
       this.inputWorkspace.dashboards[dashboard._id] = dashboard;
     });
   }

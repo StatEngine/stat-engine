@@ -1,7 +1,9 @@
 'use strict';
 
+import querystring from 'querystring';
 import parseJsonTemplate from 'json-templates';
 import slugify from 'slugify';
+import _ from 'lodash';
 
 export default function(sequelize, DataTypes) {
   const FixtureTemplate = sequelize.import('../fixture-template/fixture-template.model');
@@ -77,50 +79,63 @@ export default function(sequelize, DataTypes) {
       },
 
       async getDashboards(kibanaApi) {
-        const response = await kibanaApi.get({
-          uri: `/api/saved_objects/_find?type=dashboard&fields=id&fields=title&per_page=10000`,
+        const qs = querystring.stringify({
+          type: 'dashboard',
+          fields: ['id', 'title'],
+          per_page: 10000,
         });
 
+        const response = await kibanaApi.get(`/api/saved_objects/_find?${qs}`);
+
+        return response.saved_objects.map(so => ({
+          _id: so.id,
+          title: so.attributes.title,
+        }));
+      },
+
+      async addDashboards({ dashboards, kibanaApi }) {
         const fixtureTemplates = await FixtureTemplate.findAll({
-          where: { _id: response.saved_objects.map(so => so.id) },
+          where: {
+            _id: Object.keys(dashboards).map(id => FixtureTemplate.uniqueIdToTemplateId(id)),
+          },
         });
 
+        // Duplicate dashboard templates may have been passed in, but the database request will have trimmed
+        // them out. In order to support adding multiple of the same template, we need to make sure the duplicates
+        // get added back in.
         const fixtureTemplatesById = {};
         fixtureTemplates.forEach(ft => fixtureTemplatesById[ft._id] = ft);
 
-        const dashboards = [];
-        for (const savedObject of response.saved_objects) {
-          const fixtureTemplate = fixtureTemplatesById[savedObject.id];
-          if (fixtureTemplate) {
-            const dashboard = fixtureTemplate;
-            dashboards.push(dashboard);
-          } else {
-            dashboards.push({
-              _id: savedObject.id,
-              title: savedObject.attributes.title,
-            });
-          }
-        }
+        const fixtureTemplatesWithDupes = [];
+        Object.keys(dashboards).forEach(dashboardId => {
+          const dashboard = dashboards[dashboardId];
+          const templateId = FixtureTemplate.uniqueIdToTemplateId(dashboardId);
+          const fixtureTemplate = _.cloneDeep(fixtureTemplatesById[templateId]);
 
-        return dashboards;
-      },
+          // Apply custom data passed in with the dashboards.
+          fixtureTemplate.title = dashboard.title;
 
-      async addFixturesWithIds({ ids, kibanaApi }) {
-        const fixtureTemplates = await FixtureTemplate.findAll({
-          where: { _id: ids },
+          fixtureTemplatesWithDupes.push(fixtureTemplate);
         });
 
         await this.addFixtures({
-          fixtureTemplates,
+          fixtureTemplates: fixtureTemplatesWithDupes,
+          generateUniqueId: true,
           kibanaApi,
         });
       },
 
-      async addFixtures({ fixtureTemplates, kibanaApi }) {
-        // Get the Kibana template data from the fixture template.
+      async addFixtures({ fixtureTemplates, generateUniqueId = false, kibanaApi }) {
+        // Get the Kibana template data from the fixture template and apply any custom data.
         const kibanaTemplates = [];
         for (const fixtureTemplate of fixtureTemplates) {
-          kibanaTemplates.push(fixtureTemplate.kibana_template);
+          const kibanaTemplate = fixtureTemplate.kibana_template;
+
+          // Update any attributes with custom data.
+          const type = kibanaTemplate._source.type;
+          kibanaTemplate._source[type].title = fixtureTemplate.title;
+
+          kibanaTemplates.push(kibanaTemplate);
         }
 
         // Apply variables to the Kibana templates.
@@ -144,12 +159,13 @@ export default function(sequelize, DataTypes) {
           }
 
           appliedTemplates.forEach(template => {
+            const templateId = template._id.split(':')[1];
+
+            const id = (generateUniqueId) ? FixtureTemplate.templateIdToUniqueId(templateId) : templateId;
             const type = template._source.type;
-            savedObjects.push({
-              type,
-              id: template._id.split(':')[1],
-              attributes: template._source[type],
-            });
+            const attributes = template._source[type];
+
+            savedObjects.push({ id, type, attributes });
           });
         }
 

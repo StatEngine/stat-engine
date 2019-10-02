@@ -10,7 +10,7 @@ export async function create(req, res) {
   const name = req.body.name;
   const description = req.body.description;
   const color = req.body.color;
-  const dashboardIds = req.body.dashboardIds;
+  const dashboards = req.body.dashboards;
   const users = req.body.users;
   const fireDepartment = req.fireDepartment.get();
 
@@ -56,28 +56,32 @@ export async function create(req, res) {
   // Update Kibana
   //
 
+  // We can't connect to the Kibana API with middleware when creating a workspace, since
+  // the workspace doesn't exist yet to build the JWT. So manually connect now that it exists.
+  await KibanaApi.connect(req);
+
   const kibanaIndex = workspace.getKibanaIndex(fireDepartment);
   await seedWorkspaceKibanaTemplate(kibanaIndex);
 
   // TODO: Only add the visualizations that are necessary for the dashboards we're adding.
-  let fixtureTemplates = await FixtureTemplate.findAll({
+  // Add all non-dashboard fixtures.
+  const fixtureTemplates = await FixtureTemplate.findAll({
     where: { type: ['index-pattern', 'config', 'visualization'] },
   });
-
-  if (dashboardIds.length > 0) {
-    fixtureTemplates = fixtureTemplates.concat(await FixtureTemplate.findAll({
-      where: { _id: dashboardIds },
-    }));
-  }
-
-  // We can't connect to the Kibana API with middleware when creating a workspace, since
-  // the workspace doesn't exist yet to build the JWT. So manually connect now that it exists.
-  await KibanaApi.connect(req);
 
   await workspace.addFixtures({
     fixtureTemplates,
     kibanaApi: req.kibanaApi,
   });
+
+  // Add dashboard fixtures separately, since we need to generate unique ids for them.
+  if (Object.keys(dashboards).length > 0) {
+    await workspace.addDashboards({
+      dashboards,
+      // templateIds: dashboardIds.map(id => FixtureTemplate.uniqueIdToTemplateId(id)),
+      kibanaApi: req.kibanaApi,
+    });
+  }
 
   res.json(workspace);
 }
@@ -86,7 +90,7 @@ export async function edit(req, res) {
   const name = req.body.name;
   const description = req.body.description;
   const color = req.body.color;
-  const dashboardIds = req.body.dashboardIds;
+  const dashboards = req.body.dashboards;
   const users = req.body.users;
   const workspace = req.workspace;
 
@@ -131,31 +135,36 @@ export async function edit(req, res) {
   //
 
   // Remove dashboards that aren't in our updated dashboard ids list.
-  const currentDashboards = await workspace.getDashboards(req.kibanaApi);
-  const dashboardIdsLookup = {};
-  dashboardIds.forEach(id => dashboardIdsLookup[id] = true);
+  const workspaceDashboards = await workspace.getDashboards(req.kibanaApi);
+  const dashboardRemovals = workspaceDashboards.filter(d => !dashboards[d._id]);
 
-  const dashboardRemovalIds = currentDashboards
-    .filter(d => !dashboardIdsLookup[d._id])
-    .map(d => d._id);
-
-  await workspace.removeFixtures({
-    type: 'dashboard',
-    ids: dashboardRemovalIds,
-    kibanaApi: req.kibanaApi,
-  });
+  if (dashboardRemovals.length > 0) {
+    await workspace.removeFixtures({
+      type: 'dashboard',
+      ids: dashboardRemovals.map(d => d._id),
+      kibanaApi: req.kibanaApi,
+    });
+  }
 
   // Add any new dashboards.
-  const currentDashboardsIdsLookup = {};
-  currentDashboards.forEach(d => currentDashboardsIdsLookup[d._id] = true);
+  const workspaceDashboardsById = {};
+  workspaceDashboards.forEach(d => workspaceDashboardsById[d._id] = true);
 
-  const dashboardAdditionIds = dashboardIds
-    .filter(id => !currentDashboardsIdsLookup[id]);
+  const dashboardAdditions = {};
+  Object.keys(dashboards).forEach(dashboardId => {
+    if (workspaceDashboardsById[dashboardId]) {
+      return;
+    }
 
-  await workspace.addFixturesWithIds({
-    ids: dashboardAdditionIds,
-    kibanaApi: req.kibanaApi,
+    dashboardAdditions[dashboardId] = dashboards[dashboardId];
   });
+
+  if (Object.keys(dashboardAdditions).length > 0) {
+    await workspace.addDashboards({
+      dashboards: dashboardAdditions,
+      kibanaApi: req.kibanaApi,
+    });
+  }
 
   res.status(204).send();
 }

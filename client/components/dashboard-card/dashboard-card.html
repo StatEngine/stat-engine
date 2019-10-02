@@ -3,7 +3,6 @@
   ng-class="{
     'selected': vm.isSelected,
     'list-item': (vm.viewMode === 'list'),
-    'added': vm.isAdded
   }"
   ng-click="vm.handleClick($event)"
 >
@@ -27,21 +26,6 @@
           </div>
         </div>
       </div>
-
-      <div class="dashboard-card-added">
-        <div class="dashboard-card-added-tag">
-          In Workspace
-        </div>
-      </div>
-
-<!--      <div class="dashboard-card-info">-->
-<!--        <div class="space-nowrap">-->
-<!--          <i class="fa fa-tag"></i>-->
-<!--          {{ dashboard.category }}-->
-<!--        </div>-->
-<!--        <div>Downloads: {{ vm.dashboard.downloads }}</div>-->
-<!--        <div>Version: {{ vm.dashboard.version }}</div>-->
-<!--      </div>-->
     </div>
 
     <div class="dashboard-card-back">
@@ -52,15 +36,6 @@
           <p>{{ vm.dashboard.description || '- No Description -' }}</p>
         </div>
       </div>
-
-<!--      <div class="dashboard-card-info">-->
-<!--        <div class="space-nowrap">-->
-<!--          <i class="fa fa-tag"></i>-->
-<!--          {{ vm.dashboard.category }}-->
-<!--        </div>-->
-<!--        <div>Downloads: {{ vm.dashboard.downloads }}</div>-->
-<!--        <div>Version: {{ vm.dashboard.version }}</div>-->
-<!--      </div>-->
     </div>
   </div>
 </div>

@@ -1,5 +1,7 @@
 'use strict';
 
+import randomstring from 'randomstring';
+
 export default function(sequelize, DataTypes) {
   const FixtureTemplate = sequelize.define('FixtureTemplate', {
     _id: {
@@ -71,6 +73,19 @@ export default function(sequelize, DataTypes) {
     instanceMethods: {},
     underscored: true,
   });
+
+  FixtureTemplate.templateIdToUniqueId = function(templateId) {
+    return `${templateId}--${randomstring.generate(8)}`;
+  };
+
+  FixtureTemplate.uniqueIdToTemplateId = function(uniqueId) {
+    const idParts = uniqueId.split('--');
+    if (idParts.length < 2) {
+      throw new Error(`Fixture template unique id must be in the format "{templateId}--{hash}" (invalid id = "${uniqueId}")`);
+    }
+
+    return idParts.slice(0, -1).join('--');
+  };
 
   return FixtureTemplate;
 }

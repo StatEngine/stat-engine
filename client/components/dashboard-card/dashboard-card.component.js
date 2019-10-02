@@ -5,7 +5,6 @@ import angular from 'angular';
 export class DashboardCard {
   dashboard;
   isSelected;
-  isAdded;
   viewMode;
   onClick;
   rotation = 0;
@@ -85,7 +84,6 @@ export default angular.module('dashboardCard', [])
     bindings: {
       dashboard: '<',
       isSelected: '<',
-      isAdded: '<',
       viewMode: '<',
       onClick: '&',
     },

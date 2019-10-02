@@ -21,7 +21,7 @@ export class KibanaApi {
     kibanaApi._request = request.defaults({
       baseUrl: `${config.kibana.uri}`,
       headers: {
-        'kbn-xsrf': 'reporting',
+        'kbn-xsrf': 'true', // Kibana requires 'kbn-xsrf' to be set or it will return an error. It can be any string.
       },
       json: true,
       jar: request.jar(),

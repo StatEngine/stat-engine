@@ -7,25 +7,9 @@ import dashboardCard from '../dashboard-card/dashboard-card.component';
 export class AddDashboardsOverlay {
   show;
   onConfirm;
-  // sortByOptions = [{
-  //   id: 'popularity',
-  //   displayName: 'Popularity',
-  // }, {
-  //   id: 'alphabetical',
-  //   displayName: 'Alphabetical',
-  // }, {
-  //   id: 'newest',
-  //   displayName: 'Newest',
-  // }, {
-  //   id: 'lastUpdated',
-  //   displayName: 'Last Updated'
-  // }];
-  // searchQuery;
-  // sortBy;
   viewMode;
   dashboards;
   selectedDashboards;
-  addedDashboards;
 
   /*@ngInject*/
   constructor($scope, $window, $timeout, Modal, FixtureTemplate) {
@@ -33,14 +17,6 @@ export class AddDashboardsOverlay {
     this.$timeout = $timeout;
     this.Modal = Modal;
     this.FixtureTemplate = FixtureTemplate;
-
-    // $scope.$watch('vm.sortBy', (newValue, oldValue) => {
-    //   if (newValue === oldValue) {
-    //     return;
-    //   }
-    //
-    //   this.loadDashboards();
-    // });
 
     $scope.$watch('vm.show', (newValue, oldValue) => {
       if (newValue === oldValue) {
@@ -71,8 +47,6 @@ export class AddDashboardsOverlay {
   };
 
   reset() {
-    // this.searchQuery = '';
-    // this.sortBy = this.sortByOptions[0].id;
     this.viewMode = 'grid';
     this.selectedDashboards = {};
   }
@@ -97,16 +71,7 @@ export class AddDashboardsOverlay {
     return !!this.selectedDashboards[dashboard._id];
   }
 
-  isDashboardAdded(dashboard) {
-    return !!this.addedDashboards[dashboard._id];
-  }
-
   toggleDashboardSelected(dashboard) {
-    // Don't select dashboards that are already added.
-    if (this.addedDashboards[dashboard._id]) {
-      return;
-    }
-
     if (this.selectedDashboards[dashboard._id]) {
       delete this.selectedDashboards[dashboard._id];
     } else {
@@ -136,10 +101,10 @@ export class AddDashboardsOverlay {
     this.show = false;
     if (this.onConfirm) {
       // Convert selected dashboards to an array.
-      this.onConfirm({
-        selectedDashboards: Object.keys(this.selectedDashboards)
-          .map(id => this.selectedDashboards[id]),
-      });
+      const selectedDashboards = Object.keys(this.selectedDashboards)
+        .map(id => this.selectedDashboards[id]);
+
+      this.onConfirm({ selectedDashboards: _.cloneDeep(selectedDashboards) });
     }
   }
 }
@@ -151,7 +116,6 @@ export default angular.module('addDashboardsOverlay', [viewMode, dashboardCard])
     controllerAs: 'vm',
     bindings: {
       show: '=',
-      addedDashboards: '<',
       onConfirm: '&?',
     },
   })
