@@ -78,7 +78,6 @@ export async function create(req, res) {
   if (Object.keys(dashboards).length > 0) {
     await workspace.addDashboards({
       dashboards,
-      // templateIds: dashboardIds.map(id => FixtureTemplate.uniqueIdToTemplateId(id)),
       kibanaApi: req.kibanaApi,
     });
   }
