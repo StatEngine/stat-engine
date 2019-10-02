@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:overlapping-incidents-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Overlapping Incidents Text",
+      "visState": "{\"title\":\"Overlapping Incidents Text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"markdown\":\"Number of Overlapping Incidents\\n----\\n**Number of overlapping incidents** is the number of other incidents' durations with which a given incident overlaps. This metric can be thought of as the operational combination of incident arrival times and event durations, indicating the extent to which a given incident ties up fire department resources.\\n\\nThe two graphs below display some relevant facets of this metric. **The graph on the left** shows the general relation for your department between the number of overlapping incidents and incident duration. Although it says \\\"90th percentile\\\" generally the incidents on the far right side of the graph will reflect results from 1-2 incidents, as is seen in the graph on the right.\\n\\n**The graph on the right** provides a histogram of the number of overlapping incidents for a given incident. As can likely be seen, this histogram tends to have a very long tail due to either very long incidents or incidents where there was an error in the underlying timestamps resulting in a prodigious length, like 3 months. Thus **it is recommended that you filter out incidents of extreme duration when using this metric**\",\"openLinksInNewTab\":false},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

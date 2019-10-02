@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:first-due-incident-load-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "First Due Incident Load Text",
+      "visState": "{\"title\":\"First Due Incident Load Text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"First Due Incident Load\\n------\\nThe following two graphs below mirror the histograms at the top of this dashboard, but for all or a subset of **first due areas** rather than department-wide.\\n\\nThus, the values for the number of incidents in progress at the alarm time of a given incident are the number of incidents in progress **in that given incident's first due area** at its alarm time, rather than the number of incidents already in progress across the entire jurisdiction of the fire department.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}
