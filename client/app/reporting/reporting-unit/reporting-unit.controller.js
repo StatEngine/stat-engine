@@ -131,6 +131,12 @@ export default class ReportingUnitController {
     this.$scope.$on('$destroy', () => {
       this.removeResizeEventListener();
     });
+
+    // HACK: The Edge browser doesn't render graphs in overlays until a 'resize' event occurs.
+    //       This seems like a flexbox-related bug in Edge. It doesn't occur in any other browser.
+    setTimeout(() => {
+      this.$window.dispatchEvent(new Event('resize'));
+    });
   }
 
   get selectedTimeFilterId() {

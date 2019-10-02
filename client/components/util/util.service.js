@@ -61,6 +61,13 @@ export function UtilService($window) {
         return hostnameCheck && protocolCheck && portCheck;
       });
       return origins.length >= 1;
+    },
+
+    isBrowserIE() {
+      // Use feature detection since it's more reliable than userAgent.
+      // https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser/9851769
+      const isConditionalCompilationOn = /*@cc_on!@*/false;
+      return (isConditionalCompilationOn || !!document.documentMode);
     }
   };
 

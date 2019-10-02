@@ -15,7 +15,7 @@ Ensure the following packages are installed
 
 1.  Run `npm install --global gulp`
 
-1.  Run `npm install --global elasticdump`
+1.  Run `npm install --global elasticdump@4.4.0`
 
 1.  Run `brew install pkg-config cairo pango libpng jpeg giflib`
 
@@ -82,7 +82,7 @@ readonlyrest:
 
 1.  Run the preconfigured Kibana instance
 ```
-docker run -p 5601:5601 prominentedgestatengine/kibana:HEAD-c7f45bd-development
+docker run -e ELASTICSEARCH_URI=http://localhost:9200 --net=host prominentedgestatengine/kibana:HEAD-c7f45bd-development
 ```
 
 ### Loading Elasticsearch Test Data
