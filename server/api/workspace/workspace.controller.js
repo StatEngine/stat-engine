@@ -14,6 +14,21 @@ export async function create(req, res) {
   const users = req.body.users;
   const fireDepartment = req.fireDepartment.get();
 
+  // Check for an existing workspace in our department with this name.
+  const existingWorkspace = await Workspace.find({
+    where: {
+      fire_department__id: req.user.FireDepartment._id,
+      name: req.body.name,
+    },
+  });
+
+  if (existingWorkspace) {
+    res.status(400).json({
+      errors: [{ message: 'This name is already in use by someone in your department! Please choose another.' }],
+    });
+    return;
+  }
+
   const workspace = Workspace.build({
     name,
     description,
