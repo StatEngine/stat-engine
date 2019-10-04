@@ -55,6 +55,7 @@ export class BulletChartComponent {
         axis: { range: [null, this.steps.slice(-1)[0].value] },
         bar: {
           color: this.bar.color,
+          thickness: 0.4,
         },
         threshold: {
           line: { color: this.threshold.color, width: 3 },
