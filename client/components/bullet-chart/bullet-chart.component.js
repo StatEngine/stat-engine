@@ -4,34 +4,84 @@
 
 import angular from 'angular';
 
+let Plotly;
+
 export class BulletChartComponent {
-  constructor($interval) {
+  text;
+  value;
+  threshold;
+  steps;
+  bar;
+
+  isInitialized = false;
+
+  constructor($element) {
     'ngInject';
 
-    this.$interval = $interval;
+    this.$element = $element;
   }
 
-  $onInit() {
-    const correctedValues = this.values;
-    for(let i = 0; i < correctedValues.length; i++) {
-      if(correctedValues[i] > this.max) correctedValues[i] = this.max;
+  async loadModules() {
+    Plotly = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly.js');
+  }
+
+  async $onInit() {
+    await this.loadModules();
+
+    Plotly.newPlot(this.$element.find('.bullet-chart-graph')[0], this.data, this.layout, {
+      displayModeBar: false,
+      responsive: true,
+    });
+
+    this.isInitialized = true;
+  }
+
+  $onChanges() {
+    if (!this.isInitialized) {
+      return;
     }
-    this.valuesStr = correctedValues.join(',');
 
-    const options = this.options || {};
-    options.width = '150px';
-    options.height = '20px';
-    options.type = 'bullet';
-
-    $('.inlinesparkline').sparkline('html', options);
-
-    // eslint-disable-next-line no-warning-comments
-    // TODO - find more efficient way to refresh
-    this.interval = this.$interval(() => { $.sparkline_display_visible(); }, 1000);
+    Plotly.react(this.$element.find('.bullet-chart-graph')[0], this.data, this.layout);
   }
 
-  $onDestroy() {
-    if(this.interval) this.$interval.cancel(this.interval);
+  get data() {
+    return [{
+      type: 'indicator',
+      mode: 'gauge',
+      value: this.bar.value,
+      domain: { x: [0, 1], y: [0, 1] },
+      gauge: {
+        shape: 'bullet',
+        axis: { range: [null, this.steps.slice(-1)[0].value] },
+        bar: {
+          color: this.bar.color,
+        },
+        threshold: {
+          line: { color: this.threshold.color, width: 3 },
+          thickness: 0.75,
+          value: this.threshold.value,
+        },
+        steps: this.steps.map((step, i) => {
+          const start = (i > 0) ? this.steps[i-1].value : 0;
+          return {
+            range: [start, step.value],
+            color: step.color,
+          };
+        }),
+      }
+    }]
+  }
+
+  get layout() {
+    return {
+      height: 20,
+      margin: {
+        t: 0,
+        r: 0,
+        b: 0,
+        l: 0,
+      },
+    };
   }
 }
 
@@ -41,11 +91,11 @@ export default angular.module('directives.bulletChart', [])
     controller: BulletChartComponent,
     controllerAs: 'vm',
     bindings: {
-      options: '<',
-      values: '<',
       text: '@',
-      id: '@',
-      max: '<'
+      value: '<',
+      threshold: '<',
+      steps: '<',
+      bar: '<',
     },
   })
   .name;
