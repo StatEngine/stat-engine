@@ -182,6 +182,11 @@
   .badge-warning {
     background-color: #ffc107;
   }
+
+  .nav-pills {
+    border: solid 1px theme-color('info');
+    border-radius: 5px;
+  }
 }
 
 // Fine Tuning Actions
