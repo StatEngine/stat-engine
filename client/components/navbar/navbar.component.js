@@ -5,18 +5,22 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($state, $scope, $window, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
+  isProductsDropdownOpen = false;
+  isCompanyDropdownOpen = false;
+  isAppsDropdownOpen = false;
+  isUserDropdownOpen = false;
+
+  constructor($state, $scope, $window, $timeout, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
     'ngInject';
 
     this.$state = $state;
     this.$window = $window;
+    this.$timeout = $timeout;
     this.PrincipalService = Principal;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
 
     this.appConfig = appConfig;
-
-    this.userDropDownActive = false;
 
     this.currentPrincipal = undefined;
     this.PrincipalService.identity()
@@ -76,6 +80,82 @@ export class NavbarComponent {
   hideMobileNav() {
     angular.element('body').removeClass('show-mobile-nav');
   }
+
+  showProductsDropdown() {
+    if (this.isProductsDropdownOpen) {
+      return;
+    }
+
+    this.isProductsDropdownOpen = true;
+
+    this.$timeout(() => {
+      this.$window.addEventListener('click', this.hideProductsDropdown);
+    });
+  }
+
+  hideProductsDropdown = () => {
+    this.$window.removeEventListener('click', this.hideProductsDropdown);
+    this.$timeout(() => {
+      this.isProductsDropdownOpen = false;
+    });
+  };
+
+  showCompanyDropdown() {
+    if (this.isCompanyDropdownOpen) {
+      return;
+    }
+
+    this.isCompanyDropdownOpen = true;
+
+    this.$timeout(() => {
+      this.$window.addEventListener('click', this.hideCompanyDropdown);
+    });
+  }
+
+  hideCompanyDropdown = () => {
+    this.$window.removeEventListener('click', this.hideCompanyDropdown);
+    this.$timeout(() => {
+      this.isCompanyDropdownOpen = false;
+    });
+  };
+
+  showAppsDropdown() {
+    if (this.isAppsDropdownOpen) {
+      return;
+    }
+
+    this.isAppsDropdownOpen = true;
+
+    this.$timeout(() => {
+      this.$window.addEventListener('click', this.hideAppsDropdown);
+    });
+  }
+
+  hideAppsDropdown = () => {
+    this.$window.removeEventListener('click', this.hideAppsDropdown);
+    this.$timeout(() => {
+      this.isAppsDropdownOpen = false;
+    });
+  };
+
+  showUserDropdown() {
+    if (this.isUserDropdownOpen) {
+      return;
+    }
+
+    this.isUserDropdownOpen = true;
+
+    this.$timeout(() => {
+      this.$window.addEventListener('click', this.hideUserDropdown);
+    });
+  }
+
+  hideUserDropdown = () => {
+    this.$window.removeEventListener('click', this.hideUserDropdown);
+    this.$timeout(() => {
+      this.isUserDropdownOpen = false;
+    });
+  };
 }
 
 export default angular.module('directives.nav', [])
