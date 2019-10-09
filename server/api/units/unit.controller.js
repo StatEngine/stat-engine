@@ -14,7 +14,7 @@ export function getUnits(req, res) {
       .aggregation('terms', 'apparatus.unit_id', { size: 10000 }))
     .build();
 
-  connection.getClient().search({
+  return connection.getClient().search({
     index: getIncidentIndex(req),
     body: searchBody,
   })

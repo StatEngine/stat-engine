@@ -74,7 +74,7 @@ export function getResponses(req, res) {
     esBodyBuilder.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }
 
-  connection.getClient().search({
+  return connection.getClient().search({
     index: getApparatusIndex(req),
     body: esBodyBuilder.build(),
   })
@@ -123,7 +123,7 @@ export function getMetrics(req, res) {
     .size(0)
     .build();
 
-  connection.getClient().search({
+  return connection.getClient().search({
     index: getIncidentIndex(req),
     body: esBody,
   })
@@ -199,7 +199,7 @@ export function getMetricsTotal(req, res) {
     .size(0)
     .build();
 
-  connection.getClient().search({
+  return connection.getClient().search({
     index: getApparatusIndex(req),
     body: esBody,
   })

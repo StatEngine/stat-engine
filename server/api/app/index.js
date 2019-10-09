@@ -1,9 +1,11 @@
 'use strict';
 
+import 'babel-polyfill';
 import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
 import * as appInstallationController from './app-installation.controller';
+import { asyncMiddleware } from '../../util/async-middleware';
 
 const router = new Router();
 
@@ -11,19 +13,19 @@ const router = new Router();
 router.get(
   '/installations/:installationId/access_tokens',
   auth.checkOauthJwt,
-  appInstallationController.generateToken,
+  asyncMiddleware(appInstallationController.generateToken),
 );
 
 router.get(
   '/installations/:installationId/',
   auth.checkOauthJwt,
-  appInstallationController.get,
+  asyncMiddleware(appInstallationController.get),
 );
 
 router.get(
   '/installations',
   auth.checkOauthJwt,
-  appInstallationController.search,
+  asyncMiddleware(appInstallationController.search),
 );
 
 // future call

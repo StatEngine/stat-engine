@@ -4,6 +4,8 @@ import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
 import * as controller from './incident.controller';
+import { asyncMiddleware } from '../../util/async-middleware';
+import { asyncParam } from '../../util/async-param';
 
 const router = new Router();
 
@@ -11,46 +13,46 @@ router.get(
   '/active',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getActiveIncidents,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.getActiveIncidents),
 );
 
 router.get(
   '/top',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getTopIncidents,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.getTopIncidents),
 );
 
 router.get(
   '/summary',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getSummary,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.getSummary),
 );
 
 router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.loadMatrix,
-  controller.loadComparison,
-  controller.loadConcurrent,
-  controller.getIncident,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.loadMatrix),
+  asyncMiddleware(controller.loadComparison),
+  asyncMiddleware(controller.loadConcurrent),
+  asyncMiddleware(controller.getIncident),
 );
 
 router.get(
   '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getIncidents,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.getIncidents),
 );
 
-router.param('id', controller.loadIncident);
+router.param('id', asyncParam(controller.loadIncident));
 
 module.exports = router;
 

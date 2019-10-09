@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 
 import config from '../../config/environment';
+import { InternalServerError, UnauthorizedError } from '../../util/error';
 
 const router = express.Router();
 
@@ -13,14 +14,14 @@ const router = express.Router();
 router.post('/', bodyParser.json(), (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(err) {
-      return next(err);
+      return next(new InternalServerError(err.message));
     }
     if(!user) {
-      return res.status(401).send(info);
+      return next(new UnauthorizedError(info));
     }
     req.logIn(user, err => {
       if(err) {
-        return next(err);
+        return next(new InternalServerError(err.message));
       }
       const u = user.get();
       delete u.salt;

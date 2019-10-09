@@ -4,6 +4,7 @@ import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
 import * as controller from './apps.controller';
+import { asyncMiddleware } from '../../util/async-middleware';
 
 const router = new Router();
 
@@ -11,40 +12,40 @@ router.get(
   '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.search
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.search)
 );
 
 router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.get
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.get)
 );
 
 router.get(
   '/:id/status',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.status
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.status)
 );
 
 router.post(
   '/:id/install',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  auth.hasFireDepartment,
-  controller.install
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.install)
 );
 
 router.post(
   '/:id/uninstall',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  auth.hasFireDepartment,
-  controller.uninstall
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.uninstall)
 );
 
 module.exports = router;

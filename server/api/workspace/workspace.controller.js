@@ -9,6 +9,7 @@ import {
   seedKibanaIndexPatterns,
   seedKibanaVisualizations,
 } from '../../fixtures';
+import { BadRequestError, ForbiddenError } from '../../util/error';
 
 const seedTemplate = Promise.promisify(seedKibanaTemplate);
 const seedIndexPatterns = Promise.promisify(seedKibanaIndexPatterns);
@@ -155,7 +156,7 @@ export async function markAsDeleted(req, res) {
     }
   });
 
-  if(wkspace.slug === 'default') return res.send(500);
+  if(wkspace.slug === 'default') throw new ForbiddenError('Deleting the default workspace is forbidden');
 
   return await Workspace.update({
     is_deleted: true
@@ -200,9 +201,9 @@ export async function getAll(req, res) {
 }
 
 export async function updateUser(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
-  if(_.isNil(req.body.user.permission)) throw new Error('req.body.user.permission not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
+  if(_.isNil(req.body.user.permission)) throw new BadRequestError('req.body.user.permission not set');
 
   return await UserWorkspace
     .findOne({
@@ -229,9 +230,9 @@ export async function updateUser(req, res) {
 }
 
 export async function updateOwner(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
-  if(_.isNil(req.body.user.is_owner)) throw new Error('req.body.user.is_owner not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
+  if(_.isNil(req.body.user.is_owner)) throw new BadRequestError('req.body.user.is_owner not set');
 
   return await UserWorkspace
     .findOne({
@@ -258,8 +259,8 @@ export async function updateOwner(req, res) {
 }
 
 export async function revokeUser(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
 
   return await UserWorkspace
     .findOne({
@@ -286,8 +287,8 @@ export async function revokeUser(req, res) {
 }
 
 export async function revokeOwner(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
 
   return await UserWorkspace
     .findOne({
@@ -314,7 +315,7 @@ export async function revokeOwner(req, res) {
 }
 
 export async function hasWorkspaceAccess(req, res, next) {
-  if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
 
   if (req.user.isGlobal) return next();
   return UserWorkspace.find({
@@ -324,14 +325,14 @@ export async function hasWorkspaceAccess(req, res, next) {
     },
   })
     .then(result => {
-      if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have access to this workspace'));
+      if(_.isEmpty(result) || _.isNil(result)) throw new BadRequestError('User does not have access to this workspace');
       req.userWorkspace = result;
       return next();
     })
 }
 
 export async function hasWorkspaceOwnerAccess(req, res, next) {
-  if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
 
   if (req.user.isAdmin) return next();
   return UserWorkspace.find({
@@ -342,7 +343,7 @@ export async function hasWorkspaceOwnerAccess(req, res, next) {
     },
   })
     .then(result => {
-      if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have owner access to this workspace'));
+      if(_.isEmpty(result) || _.isNil(result)) throw new BadRequestError('User does not have owner access to this workspace');
       return next();
     })
 }

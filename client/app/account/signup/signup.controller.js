@@ -47,9 +47,11 @@ export default class SignupController {
           this.$state.go('site.account.login');
         })
         .catch(err => {
-          err = err.data;
-          this.errors = err.errors;
-          console.dir(this.errors);
+          if (err.data && err.data.errors) {
+            this.errors = err.data.errors;
+          } else {
+            this.errors = [{ message: 'An error occurred.' }];
+          }
         });
     }
   }

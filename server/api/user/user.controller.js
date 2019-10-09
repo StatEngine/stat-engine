@@ -10,11 +10,11 @@ import Sequelize from 'sequelize';
 import config from '../../config/environment';
 import { FireDepartment, User, UserWorkspace, Workspace } from '../../sqldb';
 
-import { validationError, handleError } from '../../util/error';
+import { BadRequestError, ForbiddenError, UnprocessableEntityError, NotFoundError, InternalServerError } from '../../util/error';
 
 async function getDepartmentAdmins(departmentId) {
   if(departmentId == null) {
-    throw new Error('departmentId cannot be null or undefined!');
+    throw new InternalServerError('departmentId cannot be null or undefined!');
   }
 
   return await User.findAll({
@@ -61,7 +61,7 @@ export async function getAll(req, res) {
     }]
   });
 
-  if(!fd) return res.status(404).end();
+  if(!fd) throw new NotFoundError('Fire department not found');
 
   let users = fd.Users;
   if(req.query.includeRequested && req.user.isDepartmentAdmin) {
@@ -349,7 +349,7 @@ export async function edit(req, res) {
   try {
     await user.save();
   } catch (err) {
-    return validationError(res)(err)
+    throw new UnprocessableEntityError(err.message);
   }
 
   res.status(200).send({ user });
@@ -453,9 +453,11 @@ export function changePassword(req, res) {
       .then(() => {
         res.status(204).end();
       })
-      .catch(validationError(res));
+      .catch(err => {
+        throw new UnprocessableEntityError(err.message);
+      });
   } else {
-    return res.status(403).send({ password: 'Wrong password'});
+    throw new ForbiddenError('Wrong password');
   }
 }
 
@@ -467,7 +469,7 @@ export function updatePassword(req, res) {
   var newPass = String(req.body.newPassword);
 
   if(!pass_token || !newPass) {
-    return res.status(400).send({ error: 'Password was not able to reset.' });
+    throw new BadRequestError('Password was not able to reset')
   } else {
     return User.find({
       where: {
@@ -484,9 +486,11 @@ export function updatePassword(req, res) {
             .then(() => {
               res.status(204).end();
             })
-            .catch(validationError(res));
+            .catch(err => {
+              throw new UnprocessableEntityError(err.message);
+            });
         } else {
-          return res.status(400).send({ error: 'Password was not able to reset.' });
+          throw new BadRequestError('Password was not able to reset');
         }
       });
   }
@@ -496,49 +500,51 @@ export function requestUsername(req, res) {
   const userEmail = req.body.useremail;
 
   if(!userEmail) {
-    return res.status(400).send({ error: 'Email must be included in request.' });
+    throw new BadRequestError('Email must be included in request.');
   } else {
     return User.find({
       where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
     })
       .then(user => {
-        if(user) {
-          if(config.mailSettings.mandrillAPIKey) {
-            const mailOptions = {};
-            mailOptions.from = config.mailSettings.serverEmail;
-            mailOptions.to = user.email;
-
-            // Mailing service
-            const mailTransport = nodemailer.createTransport(mandrillTransport({
-              auth: {
-                apiKey: config.mailSettings.mandrillAPIKey
-              }
-            }));
-
-            mailOptions.mandrillOptions = {
-              template_name: config.mailSettings.requestUsernameTemplate,
-              template_content: [],
-              message: {
-                merge: true,
-                merge_language: 'handlebars',
-                global_merge_vars: [{
-                  name: 'USERNAME',
-                  content: user.username
-                }]
-              }
-            };
-
-            return mailTransport.sendMail(mailOptions)
-              .then(() => {
-                res.status(204).end();
-              })
-              .catch(validationError(res));
-          } else {
-            return res.status(403).end();
-          }
-        } else {
-          res.status(400).send({ error: 'No user matches that Email.' });
+        if(!user) {
+          throw new NotFoundError('User not found');
         }
+
+        if(!config.mailSettings.mandrillAPIKey) {
+          throw new ForbiddenError('Mandrill API key is invalid');
+        }
+
+        const mailOptions = {};
+        mailOptions.from = config.mailSettings.serverEmail;
+        mailOptions.to = user.email;
+
+        // Mailing service
+        const mailTransport = nodemailer.createTransport(mandrillTransport({
+          auth: {
+            apiKey: config.mailSettings.mandrillAPIKey
+          }
+        }));
+
+        mailOptions.mandrillOptions = {
+          template_name: config.mailSettings.requestUsernameTemplate,
+          template_content: [],
+          message: {
+            merge: true,
+            merge_language: 'handlebars',
+            global_merge_vars: [{
+              name: 'USERNAME',
+              content: user.username
+            }]
+          }
+        };
+
+        return mailTransport.sendMail(mailOptions)
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(err => {
+            throw new UnprocessableEntityError(err.message);
+          });
       });
   }
 }
@@ -546,62 +552,66 @@ export function requestUsername(req, res) {
 /**
  * Sends email to reset a users password
  */
-export function resetPassword(req, res) {
+export async function resetPassword(req, res) {
   var userEmail = req.body.useremail;
 
   if(!userEmail) {
-    return res.status(400).send({ error: 'Email must be included in request.' });
-  } else {
-    return User.find({
-      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
-    })
-      .then(user => {
-        if(user) {
-          if(config.mailSettings.mandrillAPIKey) {
-            user.password_token = uuidv4();
-            user.password_reset_expire = Date.now() + 5 * 3600000;
-
-            return user.save()
-              .then(() => {
-                var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword?password_token=${user.password_token}`;
-                var mailOptions = {};
-                mailOptions.from = config.mailSettings.serverEmail;
-                mailOptions.to = user.email;
-
-                // Mailing service
-                var mailTransport = nodemailer.createTransport(mandrillTransport({
-                  auth: {
-                    apiKey: config.mailSettings.mandrillAPIKey
-                  }
-                }));
-
-                mailOptions.mandrillOptions = {
-                  template_name: config.mailSettings.resetPasswordTemplate,
-                  template_content: [],
-                  message: {
-                    merge: true,
-                    merge_language: 'handlebars',
-                    global_merge_vars: [{
-                      name: 'RESETPASSWORDURL',
-                      content: resetUrl
-                    }]
-                  }
-                };
-                return mailTransport.sendMail(mailOptions)
-                  .then(() => {
-                    res.status(204).end();
-                  })
-                  .catch(validationError(res));
-              })
-              .catch(validationError(res));
-          } else {
-            return res.status(403).end();
-          }
-        } else {
-          res.status(400).send({ error: 'No user matches that Email.' });
-        }
-      });
+    throw BadRequestError('Email must be included in request');
   }
+
+  const user = await User.find({
+    where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
+  });
+
+  if(!user) {
+    throw new NotFoundError('User not found');
+  }
+
+  if(!config.mailSettings.mandrillAPIKey) {
+    throw new ForbiddenError('Mandrill API key is invalid');
+  }
+
+  user.password_token = uuidv4();
+  user.password_reset_expire = Date.now() + 5 * 3600000;
+
+  try {
+    user.save()
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  var resetUrl = `${req.protocol}://${req.get('host')}/updatepassword?password_token=${user.password_token}`;
+  var mailOptions = {};
+  mailOptions.from = config.mailSettings.serverEmail;
+  mailOptions.to = user.email;
+
+  // Mailing service
+  var mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  mailOptions.mandrillOptions = {
+    template_name: config.mailSettings.resetPasswordTemplate,
+    template_content: [],
+    message: {
+      merge: true,
+      merge_language: 'handlebars',
+      global_merge_vars: [{
+        name: 'RESETPASSWORDURL',
+        content: resetUrl
+      }]
+    }
+  };
+
+  try {
+    await mailTransport.sendMail(mailOptions);
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).end();
 }
 
 /**
@@ -648,9 +658,9 @@ export async function me(req, res, next) {
       },
       required: false,
     }]
-  })
+  });
 
-  if(!user) return res.status(401).end();
+  if(!user) throw new NotFoundError('User not found');
 
   let workspaces = _.filter(user.Workspaces, uw => uw.UserWorkspace.permission !== null);
   // Globals have access to all workspaces, regardless of permissions
@@ -683,7 +693,7 @@ export function hasEditPermisssion(req, res, next) {
   if(req.user.isDepartmentAdmin && req.loadedUser.requested_fire_department_id === req.user.FireDepartment._id) return next();
   if(req.user.isDepartmentAdmin && req.loadedUser.FireDepartment._id === req.user.FireDepartment._id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
 /**
@@ -694,18 +704,18 @@ export function authCallback(req, res) {
 }
 
 export function loadUser(req, res, next, id) {
-  User.find({
+  return User.find({
     where: {
       _id: id
     },
     include: [FireDepartment]
   })
     .then(user => {
-      if(user) {
-        req.loadedUser = user;
-        return next();
+      if(!user) {
+        throw new NotFoundError('User not found');
       }
-      return res.status(404).send({ error: 'User not found'});
-    })
-    .catch(err => next(err));
+
+      req.loadedUser = user;
+      next();
+    });
 }

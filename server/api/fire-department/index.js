@@ -6,27 +6,29 @@ import bodyParser from 'body-parser';
 import * as auth from '../../auth/auth.service';
 
 import * as controller from './fire-department.controller';
+import { asyncMiddleware } from '../../util/async-middleware';
+import { asyncParam } from '../../util/async-param';
 
 const router = new Router();
 
 router.get(
   '/',
-  controller.search
+  asyncMiddleware(controller.search)
 );
 
 router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.get
+  asyncMiddleware(controller.get)
 );
 
 router.get(
   '/:id/users',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getUsers
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.getUsers)
 );
 
 router.post(
@@ -34,7 +36,7 @@ router.post(
   auth.isApiAuthenticated,
   bodyParser.json(),
   auth.hasRole('admin'),
-  controller.create
+  asyncMiddleware(controller.create)
 );
 
 router.put(
@@ -42,33 +44,33 @@ router.put(
   auth.isApiAuthenticated,
   bodyParser.json(),
   auth.hasRole('admin'),
-  controller.edit
+  asyncMiddleware(controller.edit)
 );
 
 router.get(
   '/:id/:type/data-quality',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.hasAdminPermission,
-  controller.dataQuality
+  asyncMiddleware(controller.hasAdminPermission),
+  asyncMiddleware(controller.dataQuality)
 );
 
 router.get(
   '/:id/:type/nfpa',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  controller.hasReadPermission,
-  controller.nfpa
+  asyncMiddleware(controller.hasReadPermission),
+  asyncMiddleware(controller.nfpa)
 );
 
 router.get(
   '/:id/subscription',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.getSubscription,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.getSubscription),
 );
 
-router.param('id', controller.loadFireDepartment);
+router.param('id', asyncParam(controller.loadFireDepartment));
 
 module.exports = router;

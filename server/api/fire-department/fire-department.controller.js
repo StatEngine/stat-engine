@@ -1,6 +1,5 @@
 'use strict';
 
-import async from 'async';
 import _ from 'lodash';
 import Promise from 'bluebird';
 
@@ -22,13 +21,13 @@ import {
 } from './fire-department-nfpa.controller';
 
 import { createCustomer, retrieveSubscription } from '../../subscription/chargebee';
-import { validationError, handleError } from '../../util/error';
+import { UnprocessableEntityError, NotFoundError, ForbiddenError } from '../../util/error';
 
 
 /**
  * Search for fire departments
  */
-export function search(req, res) {
+export async function search(req, res) {
   const attributes = [
     'firecares_id',
     '_id',
@@ -46,17 +45,21 @@ export function search(req, res) {
     attributes.push('customer_id');
   }
 
-  return FireDepartment.findAll({
-    where: req.query,
-    attributes
-  })
-    .then(fireDepartments => {
-      if(!fireDepartments) {
-        return res.status(404).end();
-      }
-      return res.json(fireDepartments);
-    })
-    .catch(validationError(res));
+  let fireDepartments;
+  try {
+    fireDepartments = FireDepartment.findAll({
+      where: req.query,
+      attributes
+    });
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  if(!fireDepartments) {
+    throw new NotFoundError('Fire department not found');
+  }
+
+  res.json(fireDepartments);
 }
 
 /**
@@ -68,7 +71,9 @@ export function create(req, res) {
   return newFireDepartment.save()
     .then(fd => Promise.all([createCustomer(fd)]))
     .then(() => res.status(204).send())
-    .catch(() => validationError(res));
+    .catch(err => {
+      throw new UnprocessableEntityError(err.message);
+    });
 }
 
 export function edit(req, res) {
@@ -76,11 +81,13 @@ export function edit(req, res) {
 
   fireDepartment = _.merge(fireDepartment, req.body);
 
-  fireDepartment.save()
+  return fireDepartment.save()
     .then(savedFireDepartment => {
       res.status(204).send({savedFireDepartment});
     })
-    .catch(validationError(res));
+    .catch(err => {
+      throw new UnprocessableEntityError(err.message);
+    });
 }
 
 /**
@@ -90,26 +97,30 @@ export function get(req, res) {
   return res.json(req.fireDepartment);
 }
 
-export function getUsers(req, res) {
-  return FireDepartment.find({
-    where: {
-      _id: req.user.FireDepartment._id
-    },
-    attributes: [
-      '_id',
-    ],
-    include: [{
-      model: User,
-      attributes: ['first_name', 'last_name', 'role']
-    }]
-  })
-    .then(users => {
-      if(!users) {
-        return res.status(404).end();
-      }
-      return res.json(users);
+export async function getUsers(req, res) {
+  let users;
+  try {
+    users = FireDepartment.find({
+      where: {
+        _id: req.user.FireDepartment._id
+      },
+      attributes: [
+        '_id',
+      ],
+      include: [{
+        model: User,
+        attributes: ['first_name', 'last_name', 'role']
+      }]
     })
-    .catch(validationError(res));
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  if(!users) {
+    throw new NotFoundError('Users not found');
+  }
+
+  return res.json(users);
 }
 
 
@@ -129,8 +140,7 @@ export function dataQuality(req, res) {
     return runQA(_.merge(qaConfig, { index: fireIndex }))
       .then(out => _.set(results, name, out));
   }, {})
-    .then(r => res.json(gradeQAResults(r)))
-    .catch(handleError(res));
+    .then(r => res.json(gradeQAResults(r)));
 }
 
 /**
@@ -148,8 +158,7 @@ export function nfpa(req, res) {
     const [name, qaConfig] = qa;
     return runNFPA(_.merge(qaConfig, { index: fireIndex }))
       .then(out => res.json(out));
-  }, {})
-    .catch(handleError(res));
+  }, {});
 }
 
 /*
@@ -158,42 +167,44 @@ export function nfpa(req, res) {
 export function getSubscription(req, res) {
   return retrieveSubscription(req.fireDepartment)
     .then(subscription => res.json(subscription))
-    .catch(validationError(res));
+    .catch(err => {
+      throw new UnprocessableEntityError(err.message);
+    });
 }
 
 export function hasAdminPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.isDepartmentAdmin && req.user.FireDepartment._id.toString() === req.params.id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
 export function hasReadPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.FireDepartment._id.toString() === req.params.id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
 export function hasIngestPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.isIngest && req.user.FireDepartment._id.toString() === req.params.id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
 export function loadFireDepartment(req, res, next, id) {
-  FireDepartment.find({
+  return FireDepartment.find({
     where: {
       _id: id
     },
   })
     .then(fd => {
-      if(fd) {
-        req.fireDepartment = fd;
-        return next();
+      if(!fd) {
+        throw new NotFoundError('Fire department not found');
       }
-      return res.status(404).send({ error: 'Fire Department not found'});
+
+      req.fireDepartment = fd;
+      next();
     })
-    .catch(err => next(err));
 }

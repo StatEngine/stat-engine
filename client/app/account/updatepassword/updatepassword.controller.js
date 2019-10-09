@@ -27,10 +27,11 @@ export default class UpdatePasswordController {
           this.$state.go('site.account.login');
         })
         .catch(err => {
-          if(err.data.error) this.errors.newPassword = err.data.error;
-          else this.errors.newPassword = 'Error resetting New Password. ';
-
-          form.newPassword.$setValidity('mongoose', false);
+          if(err.data && err.data.errors) {
+            this.errors = err.data.errors
+          } else {
+            this.errors = [{ message: 'An error occurred.' }]
+          }
         });
     }
   }

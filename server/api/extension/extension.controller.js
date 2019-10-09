@@ -2,14 +2,7 @@ import {
   Extension,
   ExtensionRequest,
 } from '../../sqldb';
-
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
-  return function(err) {
-    console.error(err);
-    return res.status(statusCode).send(err);
-  };
-}
+import { NotFoundError } from '../../util/error';
 
 export function search(req, res) {
   return Extension.findAll({})
@@ -18,8 +11,7 @@ export function search(req, res) {
         extensions = extensions[0];
       }
       return res.json(extensions);
-    })
-    .catch(handleError(res));
+    });
 }
 
 export function findRequest(req, res) {
@@ -38,8 +30,7 @@ export function findRequest(req, res) {
       if(requested) response.requested = true;
 
       res.json(response);
-    })
-    .catch(handleError(res));
+    });
 }
 
 
@@ -51,8 +42,7 @@ export function request(req, res) {
   })
     .then(extensionRequest => {
       res.json(extensionRequest);
-    })
-    .catch(handleError(res));
+    });
 }
 
 export function get(req, res) {
@@ -60,17 +50,17 @@ export function get(req, res) {
 }
 
 export function loadExtension(req, res, next, id) {
-  Extension.find({
+  return Extension.find({
     where: {
       _id: id
     },
   })
     .then(extension => {
-      if(extension) {
-        req.extension = extension;
-        return next();
+      if(!extension) {
+        throw new NotFoundError('Extension not found');
       }
-      return res.status(404).send({ error: 'Extension not found'});
-    })
-    .catch(err => next(err));
+
+      req.extension = extension;
+      next();
+    });
 }

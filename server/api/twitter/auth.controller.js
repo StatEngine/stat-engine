@@ -2,6 +2,7 @@ import LoginWithTwitter from 'login-with-twitter';
 import Twitter from 'twitter';
 
 import config from '../../config/environment';
+import { InternalServerError, UnauthorizedError } from '../../util/error';
 
 const tw = new LoginWithTwitter({
   consumerKey: config.twitter.consumerKey,
@@ -12,28 +13,25 @@ const tw = new LoginWithTwitter({
 export function login(req, res) {
   tw.login((err, secret, url) => {
     if(err) {
-      console.error(err);
-      return res.status(500).end();
+      throw new InternalServerError(err.message);
     }
 
     // save request secret in session
     req.session.twitterRequestSecret = secret;
 
-    // redirect user to twitter
+    // redirect user to twitters
     res.send(url);
   });
 }
 
 export function loginCallback(req, res) {
   if(!req.session.twitterRequestSecret) {
-    console.error('No twitterRequestSecret found in session');
-    return res.status(500).end();
+    throw new InternalServerError('No twitterRequestSecret found in session');
   }
 
   tw.callback(req.query, req.session.twitterRequestSecret, (err, data) => {
     if(err) {
-      console.error(err);
-      return res.status(500).end();
+      throw new InternalServerError(err.message);
     }
 
     /*
@@ -50,7 +48,7 @@ export function loginCallback(req, res) {
 }
 
 export function profile(req, res) {
-  if(!req.session.twitter) return res.status(401).end();
+  if(!req.session.twitter) throw new UnauthorizedError('twitter not found in session')
 
   const auth = {
     consumer_key: config.twitter.consumerKey,
@@ -64,7 +62,7 @@ export function profile(req, res) {
   client.get('account/verify_credentials', (err, response) => {
     if(err) {
       delete req.session.twitter;
-      return res.status(401).end();
+      throw new UnauthorizedError(err.message)
     } else {
       res.send(response);
     }

@@ -1,12 +1,12 @@
 import 'babel-polyfill';
 
 import _ from 'lodash';
-import config from '../../config/environment';
 
 import {
   App,
   AppInstallation,
 } from '../../sqldb';
+import { BadRequestError, NotFoundError } from '../../util/error';
 
 export function search(req, res) {
   return App.findAll({
@@ -23,15 +23,11 @@ export function search(req, res) {
       'hidden',
     ],
   })
-    .then(apps => res.json(apps))
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
-    })
+    .then(apps => res.json(apps));
 }
 
 export function get(req, res) {
-  if(_.isEmpty(req.params.id)) return res.send(500);
+  if(_.isEmpty(req.params.id)) throw new BadRequestError('Param "id" is required');
 
   return App.find({
     where: {
@@ -50,15 +46,11 @@ export function get(req, res) {
       'hidden',
     ],
   })
-    .then(app => res.json(app))
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
-    });
+    .then(app => res.json(app));
 }
 
 export const install = async(req, res) => {
-  if(_.isEmpty(req.params.id)) return res.send(500);
+  if(_.isEmpty(req.params.id)) throw new BadRequestError('Param "id" is required');
 
   const existing = await AppInstallation.findOne({
     where: {
@@ -66,7 +58,7 @@ export const install = async(req, res) => {
       fire_department__id: req.user.FireDepartment._id
     },
   });
-  if(existing) return res.sendStatus(500);
+  if(existing) throw new BadRequestError('App installation already exists');
 
   return AppInstallation.create({
     app__id: req.params.id,
@@ -74,16 +66,12 @@ export const install = async(req, res) => {
   })
     .then((appInstall) => {
       res.json(appInstall);
-    })
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
     });
-}
+};
 
 
 export const uninstall = async(req, res) => {
-  if(_.isEmpty(req.params.id)) return res.send(500);
+  if(_.isEmpty(req.params.id)) throw new BadRequestError('Param "id" is required');
 
   const existing = await AppInstallation.findOne({
     where: {
@@ -91,20 +79,16 @@ export const uninstall = async(req, res) => {
       fire_department__id: req.user.FireDepartment._id
     },
   });
-  if(!existing) return res.sendStatus(500);
+  if(!existing) throw new NotFoundError('App installation not found');
 
   return existing.destroy()
     .then(() => {
       res.json({});
     })
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
-    });
-}
+};
 
 export const status = async(req, res) => {
-  if(_.isEmpty(req.params.id)) return res.send(500);
+  if(_.isEmpty(req.params.id)) throw new BadRequestError('Param "id" is required');
 
   await AppInstallation.findOne({
     where: {
@@ -113,8 +97,4 @@ export const status = async(req, res) => {
     },
   })
   .then((appInstall) => res.json(appInstall))
-  .catch(e => {
-    console.error(e);
-    res.sendStatus(500);
-  });
 };

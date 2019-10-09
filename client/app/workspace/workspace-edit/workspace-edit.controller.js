@@ -191,14 +191,10 @@ export default class WorkspaceEditController {
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
-      err = err.data;
-      this.errors = err.errors;
-      // clean up validation error
-      let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
-      if(nameError) {
-        this.errors = [{
-          message: 'This name is already in use by someone in your department! Please choose another.'
-        }]
+      if (err.data && err.data.errors) {
+        this.errors = err.data.errors;
+      } else {
+        this.errors = [{ message: 'An error occurred.' }];
       }
       this.showErrors = true;
       return;

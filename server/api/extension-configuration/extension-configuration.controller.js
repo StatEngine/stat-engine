@@ -5,14 +5,7 @@ import {
   ExtensionConfiguration,
   FireDepartment
 } from '../../sqldb';
-
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
-  return function(err) {
-    console.error(err);
-    return res.status(statusCode).send(err);
-  };
-}
+import { NotFoundError } from '../../util/error';
 
 export function search(req, res) {
   let where = {};
@@ -29,8 +22,7 @@ export function search(req, res) {
       where: { name: req.query.name }
     }]
   })
-    .then(extensionConfigurations => res.json(extensionConfigurations))
-    .catch(handleError(res));
+    .then(extensionConfigurations => res.json(extensionConfigurations));
 }
 
 export function update(req, res) {
@@ -55,7 +47,7 @@ export function updateOptions(req, res) {
       model: FireDepartment,
     }]
   }).then(config => {
-    if(!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
+    if(!config) throw new NotFoundError('Extension configuration not found');
 
     config.config_json = _.merge(config.config_json, req.body);
     config.changed('config_json', true);
@@ -63,8 +55,7 @@ export function updateOptions(req, res) {
     return config.save()
       .then(updated => {
         return res.status(204).send();
-      })
-      .catch(handleError(res));
+      });
   });
 }
 
@@ -80,15 +71,14 @@ export function enable(req, res) {
       model: FireDepartment,
     }]
   }).then(config => {
-    if(!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
+    if(!config) throw new NotFoundError('Extension configuration not found');
 
     config.enabled = true;
 
     return config.save()
       .then(updated => {
         return res.status(204).send();
-      })
-      .catch(handleError(res));
+      });
   });
 }
 
@@ -104,7 +94,7 @@ export function disable(req, res) {
       model: FireDepartment,
     }]
   }).then(config => {
-    if(!config) return res.status(500).end({ msg: 'Could not find extension configuration'});
+    if(!config) throw new NotFoundError('Extension configuration not found');
 
     config.enabled = false;
 
@@ -112,7 +102,6 @@ export function disable(req, res) {
       .then(updated => {
         return res.status(204).send();
       })
-      .catch(handleError(res));
   });
 }
 
@@ -127,11 +116,10 @@ export function get(req, res) {
   })
     .then(extensionConfiguration => {
       if(!extensionConfiguration) {
-        return res.status(404).end();
+        throw new NotFoundError('Extension configuration not found');
       }
       res.json(extensionConfiguration);
-    })
-    .catch(handleError(res));
+    });
 }
 
 // This should probably move to factory, a lib, or maybe be stored in db as default?
@@ -268,7 +256,7 @@ export function create(req, res) {
     }
   })
     .then(extension => {
-      if(!extension) return res.status(500).end({ msg: 'Could not find extension'});
+      if(!extension) throw new NotFoundError('Extension not found');
 
       return ExtensionConfiguration.create({
         extension__id: extension._id,
@@ -278,7 +266,6 @@ export function create(req, res) {
       })
         .then(extensionConfiguration => {
           res.json(extensionConfiguration);
-        })
-        .catch(handleError(res));
+        });
     });
 }

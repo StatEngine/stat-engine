@@ -20,13 +20,12 @@ export function getStats(req, res) {
     timeRange,
   });
 
-  Analysis.compare()
+  return Analysis.compare()
     .then(results => {
       res.json({
         summary: results,
       });
     })
-    .catch(() => res.send(500));
 }
 
 export default getStats;

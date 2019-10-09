@@ -6,10 +6,9 @@ export function asyncMiddleware(middleware) {
   // async middleware, causing the client to hang if an uncaught exception occurs on the server.
   return async (req, res, next) => {
     try {
-      await middleware(req, res, next)
+      await middleware(req, res, next);
     } catch (err) {
-      console.error(err);
-      res.status(500).send(err);
+      next(err);
     }
   }
 }

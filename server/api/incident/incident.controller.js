@@ -14,6 +14,7 @@ import {
 import {
   getMatrix
 } from './mapbox.helpers';
+import { NotFoundError } from '../../util/error';
 
 export function getActiveIncidents(req, res) {
   req.esBody = bodybuilder()
@@ -23,7 +24,7 @@ export function getActiveIncidents(req, res) {
     .filter('range', 'description.event_opened', { gte: 'now-24h' })
     .build();
 
-  connection.getClient().search({
+  return connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: req.esBody,
   })
@@ -34,8 +35,7 @@ export function getActiveIncidents(req, res) {
       });
 
       res.json(data);
-    })
-    .catch(() => res.status(500).send());
+    });
 }
 
 export function getTopIncidents(req, res) {
@@ -63,7 +63,7 @@ export function getTopIncidents(req, res) {
   req.esBody = base
     .build();
 
-  connection.getClient().search({
+  return connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: req.esBody,
   })
@@ -86,8 +86,7 @@ export function getTopIncidents(req, res) {
         });
       }
       res.json(top);
-    })
-    .catch(() => res.status(500).send());
+    });
 }
 
 export function getSummary(req, res) {
@@ -101,9 +100,10 @@ export function getSummary(req, res) {
     },
   });
 
-  Analysis.compare()
+  return Analysis.compare()
     .then(results => res.json(results));
 }
+
 export function getIncidents(req, res) {
   const sort = req.query.sort || 'description.event_closed,desc';
 
@@ -150,14 +150,13 @@ export function getIncidents(req, res) {
     };
   }
 
-  connection.getClient().search(params)
+  return connection.getClient().search(params)
     .then(searchResults => {
       res.json({
         items: searchResults.hits.hits,
         totalItems: searchResults.hits.total,
       });
-    })
-    .catch(() => res.status(500).send());
+    });
 }
 
 export function getIncident(req, res) {
@@ -177,7 +176,6 @@ export function loadMatrix(req, res, next) {
       req.travelMatrix = matrix;
       next();
     })
-    .catch(next);
 }
 
 export function loadConcurrent(req, res, next) {
@@ -342,7 +340,7 @@ export function loadComparison(req, res, next) {
 export function loadIncident(req, res, next, id) {
   const client = connection.getClient();
 
-  client.search({
+  return client.search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: {
       query: {
@@ -359,10 +357,9 @@ export function loadIncident(req, res, next, id) {
     .then(searchResult => {
       const hits = _.get(searchResult, 'hits.hits');
 
-      if(!hits || hits.length === 0) return res.status(404).send();
+      if(!hits || hits.length === 0) throw new NotFoundError('Incident not found');
 
       req.incident = hits[0]._source;
       next();
     })
-    .catch(err => next(err));
 }

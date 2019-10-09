@@ -42,7 +42,7 @@ export default class LoginController {
           this.$state.go('site.user.home');
         })
         .catch(err => {
-          this.errors = [{ message: err.data.message }];
+          this.errors = err.data.errors;
         });
     }
   }

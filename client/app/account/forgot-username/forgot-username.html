@@ -20,11 +20,15 @@
           <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
             What's your email address?
           </p>
-          <p class="help-block" ng-show="form.email.$error.mongoose">
-            {{ vm.errors.email }}
-          </p>
         </div>
         <div>
+          <div class="help-block" ng-show="vm.errors">
+            <ul>
+              <li ng-repeat="error in vm.errors">
+                <p class="text-danger">{{ error.message }}</p>
+              </li>
+            </ul>
+          </div>
           <button class="btn btn-primary btn-lg btn-oblong hvr-float w180 reset" type="submit">
             Request
           </button>

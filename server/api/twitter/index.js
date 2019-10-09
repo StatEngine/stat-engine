@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import * as auth from '../../auth/auth.service';
 import * as twitterAuth from './auth.controller';
 import * as controller from './tweet.controller';
+import { asyncMiddleware } from '../../util/async-middleware';
 
 //import * as extensionConfiguration from '../extension-configuration/extension-configuration.service';
 
@@ -16,55 +17,55 @@ router.get(
   '/account/login',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  twitterAuth.login
+  asyncMiddleware(twitterAuth.login)
 );
 
 router.get(
   '/account/login/_callback',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  twitterAuth.loginCallback
+  asyncMiddleware(twitterAuth.loginCallback)
 );
 
 router.get(
   '/account/profile',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  twitterAuth.profile
+  asyncMiddleware(twitterAuth.profile)
 );
 
 router.get(
   '/tweets/recommendations',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.recommendations
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.recommendations)
 );
 
 router.get(
   '/tweets/recent',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
-  controller.recent
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(controller.recent)
 );
 
 router.post(
   '/tweets/preview',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
+  asyncMiddleware(auth.hasFireDepartment),
   bodyParser.json(),
-  controller.preview
+  asyncMiddleware(controller.preview)
 );
 
 router.post(
   '/tweets/tweet',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  auth.hasFireDepartment,
+  asyncMiddleware(auth.hasFireDepartment),
   bodyParser.json(),
-  controller.tweetTweet
+  asyncMiddleware(controller.tweetTweet)
 );
 
 module.exports = router;

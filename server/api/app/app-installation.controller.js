@@ -7,9 +7,10 @@ import {
   AppInstallation,
   FireDepartment,
 } from '../../sqldb';
+import { BadRequestError, NotFoundError } from '../../util/error';
 
 export function search(req, res) {
-  if(_.isEmpty(req.user.client_id)) return res.send(404);
+  if(_.isEmpty(req.user.client_id)) throw new BadRequestError('User client_id is required');
 
   return AppInstallation.findAll({
     include: [{
@@ -32,19 +33,15 @@ export function search(req, res) {
       ]
     }]
   })
-    .then(appInstallations => res.json(appInstallations))
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
-    })
+    .then(appInstallations => res.json(appInstallations));
 }
 
 const EXPIRES_IN = 60 * 60;
 export function generateToken(req, res) {
-  if(_.isEmpty(req.user.client_id)) return res.send(404);
-  if(_.isEmpty(req.params.installationId)) return res.send(404);
+  if(_.isEmpty(req.user.client_id)) throw new BadRequestError('User client_id is required');
+  if(_.isEmpty(req.params.installationId)) throw new BadRequestError('Param "installationId" is required');
 
-  AppInstallation.find({
+  return AppInstallation.find({
     where: {
       _id: req.params.installationId
     },
@@ -64,7 +61,7 @@ export function generateToken(req, res) {
     }]
   })
     .then(installation => {
-      if(_.isNil(installation)) return res.sendStatus(404);
+      if(_.isNil(installation)) throw new NotFoundError('App installation not found');
       return res.json({
         token_type: 'Bearer',
         access_token: jwt.sign({
@@ -74,18 +71,14 @@ export function generateToken(req, res) {
         }, config.oauth.secret, { expiresIn: EXPIRES_IN }),
         expires_in: EXPIRES_IN
       })
-    })
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
-    })
+    });
 }
 
 export function get(req, res) {
-  if(_.isEmpty(req.user.client_id)) return res.send(404);
-  if(_.isEmpty(req.params.installationId)) return res.send(404);
+  if(_.isEmpty(req.user.client_id)) throw new BadRequestError('User client_id is required');
+  if(_.isEmpty(req.params.installationId)) throw new BadRequestError('Param "installationId" is required');
 
-  AppInstallation.find({
+  return AppInstallation.find({
     where: {
       _id: req.params.installationId
 
@@ -100,11 +93,7 @@ export function get(req, res) {
     }]
   })
     .then(installation => {
-      if(_.isNil(installation)) return res.sendStatus(404);
+      if(_.isNil(installation)) throw new NotFoundError('App installation not found');
       return res.json(installation)
-    })
-    .catch(e => {
-      console.error(e);
-      res.sendStatus(500);
     });
 }

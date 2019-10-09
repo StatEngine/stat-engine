@@ -15,6 +15,7 @@ import {
 } from '../../sqldb';
 import config from '../../config/environment';
 import { TimeUnit } from '../../components/constants/time-unit';
+import { BadRequestError, InternalServerError } from '../../util/error';
 
 export async function sendTimeRangeAnalysis(req, res) {
   const configId = req.query.configurationId;
@@ -24,7 +25,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   const test = !!(req.query.test && req.query.test.toLowerCase() === 'true');
 
   if(!configId) {
-    throw new Error('configurationId is required');
+    throw new BadRequestError('Query param "configurationId" is required');
   }
 
   //
@@ -52,7 +53,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   }
 
   if(_.isNil(reportOptions)) {
-    throw new Error('No report options found');
+    throw new InternalServerError('No report options found!');
   }
 
   //

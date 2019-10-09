@@ -7,6 +7,8 @@ import proxy from 'http-proxy-middleware';
 import * as auth from '../../auth/auth.service';
 import * as rorController from './read-only-rest.controller';
 import * as workspaceController from '../../api/workspace/workspace.controller';
+import { asyncParam } from '../../util/async-param';
+import { asyncMiddleware } from '../../util/async-middleware';
 
 const ensureLoggedIn = connectEnsureLoggedIn.ensureLoggedIn;
 
@@ -17,11 +19,11 @@ router.get(
   ensureLoggedIn('/login'),
   auth.isAuthenticated,
   auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  workspaceController.hasWorkspaceAccess,
-  rorController.login,
+  asyncMiddleware(auth.hasFireDepartment),
+  asyncMiddleware(workspaceController.hasWorkspaceAccess),
+  asyncMiddleware(rorController.login),
 );
 
-router.param('id', workspaceController.load);
+router.param('id', asyncParam(workspaceController.load));
 
 module.exports = router;

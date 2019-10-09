@@ -12,9 +12,10 @@ import {
 } from '../../sqldb';
 
 import config from '../../config/environment';
+import { NotFoundError } from '../../util/error';
 
 export function search(req, res) {
-  Report.findAll({
+  return Report.findAll({
     attributes: ['name', 'type', 'updated_by', 'updated_at'],
     where: {
       fire_department__id: req.user.FireDepartment._id
@@ -32,7 +33,7 @@ export function search(req, res) {
 }
 
 export function get(req, res) {
-  Report.findOne({
+  return Report.findOne({
     where: {
       name: req.params.name,
       type: req.params.type.toUpperCase(),
@@ -44,7 +45,7 @@ export function get(req, res) {
     }],
   }).then(report => {
     if(report) return res.json(report);
-    else return res.status(404).send();
+    else throw new NotFoundError('Report not found');
   });
 }
 
@@ -61,7 +62,7 @@ export function upsert(req, res) {
 }
 
 export function view(req, res) {
-  ReportMetric.find({
+  return ReportMetric.find({
     where: {
       report__id: req.report._id,
       user__id: req.user._id,
@@ -80,14 +81,11 @@ export function view(req, res) {
   })
     .then(() => {
       res.status(204).send();
-    })
-    .catch(() => {
-      res.status(500).send();
     });
 }
 
 export function getMetrics(req, res) {
-  ReportMetric.findAll({
+  return ReportMetric.findAll({
     attributes: ['views', 'user__id'],
     where: {
       report__id: req.report._id,
@@ -105,14 +103,11 @@ export function getMetrics(req, res) {
         },
         metrics: reportMetrics,
       });
-    })
-    .catch(() => {
-      res.status(500).send();
     });
 }
 
 export function findReport(req, res, next) {
-  Report.findOne({
+  return Report.findOne({
     attributes: ['_id', 'updated_at', 'updated_by', 'name'],
     where: {
       name: req.params.name,
@@ -128,10 +123,7 @@ export function findReport(req, res, next) {
       if(report) {
         req.report = report;
         return next();
-      } else return res.status(404).send();
-    })
-    .catch(() => {
-      res.status(500).send();
+      } else throw new NotFoundError('Report not found');
     });
 }
 
@@ -152,8 +144,7 @@ export function loadNofiticationDestinations(req, res, next) {
       req.emails = [];
       fd.Users.forEach(u => req.emails.push(u.email));
       next();
-    })
-    .catch(err => next(err));
+    });
 }
 
 export function notify(req, res) {
@@ -190,9 +181,8 @@ export function notify(req, res) {
         }]
       }
     };
-    mailTransport.sendMail(mailOptions)
-      .then(() => res.status(204).send())
-      .catch(() => res.status(500).send());
+    return mailTransport.sendMail(mailOptions)
+      .then(() => res.status(204).send());
   } else {
     return new Promise(resolve => {
       setTimeout(resolve, 0);

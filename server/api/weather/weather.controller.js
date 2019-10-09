@@ -24,8 +24,7 @@ export function getForecast(req, res) {
     },
     json: true
   })
-    .then(results => res.json(results))
-    .catch(() => res.status(500).send());
+    .then(results => res.json(results));
 }
 
 export default getForecast;

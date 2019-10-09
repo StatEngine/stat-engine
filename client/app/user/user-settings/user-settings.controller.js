@@ -101,10 +101,10 @@ export default class UserSettingsController {
         last_name: this.profile.inputs.lastName,
       }).$promise;
     } catch (err) {
-      if(err.data.error) {
-        this.profile.errors.push({ message: err.data.error });
+      if (err.data && err.data.errors) {
+        this.profile.errors = err.data.errors;
       } else {
-        this.profile.errors.push({ message: 'Error saving data.' });
+        this.profile.errors = [{ message: 'An error occurred.' }];
       }
       return;
     } finally {
@@ -152,10 +152,10 @@ export default class UserSettingsController {
         unsubscribed_emails: unsubscribedEmails.join(','),
       }).$promise;
     } catch (err) {
-      if(err.data.error) {
-        this.email.errors.push({ message: err.data.error });
+      if (err.data && err.data.errors) {
+        this.email.errors = err.data.errors;
       } else {
-        this.email.errors.push({ message: 'Error saving data.' });
+        this.email.errors = [{ message: 'An error occurred.' }];
       }
       return;
     } finally {
@@ -208,12 +208,10 @@ export default class UserSettingsController {
         newPassword: this.password.inputs.newPassword,
       }).$promise
     } catch (err) {
-      if(err.data.password) {
-        this.password.errors.push({ message: err.data.password });
-      } else if(err.data.error) {
-        this.password.errors.push({ message: err.data.error });
+      if (err.data && err.data.errors) {
+        this.password.errors = err.data.errors;
       } else {
-        this.password.errors.push({ message: 'Error saving data.' });
+        this.password.errors = [{ message: 'An error occurred.' }];
       }
       return;
     } finally {
