@@ -30,7 +30,7 @@ export class NavbarComponent {
     };
 
     this.scrollTo = function(location) {
-      $('.content-view').animate({ scrollTop: $(location).offset().top }, 1000);
+      $('.app-content-view').animate({ scrollTop: $(location).offset().top }, 1000);
     };
 
     this.dashboard = function(location) {
