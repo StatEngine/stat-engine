@@ -288,7 +288,12 @@ export async function create(req, res) {
   }
   user.setDataValue('api_key', uuidv4());
 
-  await user.save();
+  try {
+    await user.save();
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
   addToMailingList(user);
 
   if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
