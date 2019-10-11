@@ -412,22 +412,21 @@ export async function approveAccess(req, res) {
   await user.save();
 
   // assign to default workspaces
-  await Workspace
-    .findOne({
-      where: {
-        slug: 'default',
-        fire_department__id: user.fire_department__id,
-      }
-    }).then(workspace => {
-      if(workspace) {
-        return UserWorkspace.create({
-          user__id: user._id,
-          workspace__id: workspace._id,
-          permission: 'ro_strict',
-          is_owner: false,
-        });
-      }
+  const workspace = await Workspace.findOne({
+    where: {
+      slug: 'default',
+      fire_department__id: user.fire_department__id,
+    }
+  });
+
+  if(workspace) {
+    await UserWorkspace.create({
+      user__id: user._id,
+      workspace__id: workspace._id,
+      permission: 'ro_strict',
+      is_owner: false,
     });
+  }
 
   const department = await FireDepartment.find({
     where: {
@@ -441,112 +440,111 @@ export async function approveAccess(req, res) {
 /**
  * Change a users password
  */
-export function changePassword(req, res) {
+export async function changePassword(req, res) {
   const user = req.loadedUser;
 
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  if(user.authenticate(oldPass)) {
-    user.password = newPass;
-    return user.save()
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch(err => {
-        throw new UnprocessableEntityError(err.message);
-      });
-  } else {
+  if(!user.authenticate(oldPass)) {
     throw new ForbiddenError('Wrong password');
   }
+
+  user.password = newPass;
+
+  try {
+    await user.save();
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).end();
 }
 
 /**
  * Updates a users password with token
  */
-export function updatePassword(req, res) {
+export async function updatePassword(req, res) {
   var pass_token = String(req.body.password_token);
   var newPass = String(req.body.newPassword);
 
   if(!pass_token || !newPass) {
     throw new BadRequestError('Password was not able to reset')
-  } else {
-    return User.find({
-      where: {
-        password_token: pass_token
-      }
-    })
-      .then(user => {
-        if(user) {
-          user.password = newPass;
-          user.password_token = null;
-          user.password_reset_expire = null;
-
-          return user.save()
-            .then(() => {
-              res.status(204).end();
-            })
-            .catch(err => {
-              throw new UnprocessableEntityError(err.message);
-            });
-        } else {
-          throw new BadRequestError('Password was not able to reset');
-        }
-      });
   }
+
+  const user = await User.find({
+    where: {
+      password_token: pass_token
+    }
+  });
+
+  if(!user) {
+    throw new BadRequestError('Password was not able to reset');
+  }
+
+  user.password = newPass;
+  user.password_token = null;
+  user.password_reset_expire = null;
+
+  try {
+    await user.save();
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).end();
 }
 
-export function requestUsername(req, res) {
+export async function requestUsername(req, res) {
   const userEmail = req.body.useremail;
 
   if(!userEmail) {
     throw new BadRequestError('Email must be included in request.');
-  } else {
-    return User.find({
-      where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
-    })
-      .then(user => {
-        if(!user) {
-          throw new NotFoundError('User not found');
-        }
-
-        if(!config.mailSettings.mandrillAPIKey) {
-          throw new ForbiddenError('Mandrill API key is invalid');
-        }
-
-        const mailOptions = {};
-        mailOptions.from = config.mailSettings.serverEmail;
-        mailOptions.to = user.email;
-
-        // Mailing service
-        const mailTransport = nodemailer.createTransport(mandrillTransport({
-          auth: {
-            apiKey: config.mailSettings.mandrillAPIKey
-          }
-        }));
-
-        mailOptions.mandrillOptions = {
-          template_name: config.mailSettings.requestUsernameTemplate,
-          template_content: [],
-          message: {
-            merge: true,
-            merge_language: 'handlebars',
-            global_merge_vars: [{
-              name: 'USERNAME',
-              content: user.username
-            }]
-          }
-        };
-
-        return mailTransport.sendMail(mailOptions)
-          .then(() => {
-            res.status(204).end();
-          })
-          .catch(err => {
-            throw new UnprocessableEntityError(err.message);
-          });
-      });
   }
+
+  const user = await User.find({
+    where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), userEmail.toLowerCase()),
+  });
+
+  if(!user) {
+    throw new NotFoundError('User not found');
+  }
+
+  if(!config.mailSettings.mandrillAPIKey) {
+    throw new ForbiddenError('Mandrill API key is invalid');
+  }
+
+  const mailOptions = {};
+  mailOptions.from = config.mailSettings.serverEmail;
+  mailOptions.to = user.email;
+
+  // Mailing service
+  const mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  mailOptions.mandrillOptions = {
+    template_name: config.mailSettings.requestUsernameTemplate,
+    template_content: [],
+    message: {
+      merge: true,
+      merge_language: 'handlebars',
+      global_merge_vars: [{
+        name: 'USERNAME',
+        content: user.username
+      }]
+    }
+  };
+
+  try {
+    await mailTransport.sendMail(mailOptions);
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).end();
 }
 
 /**
@@ -575,7 +573,7 @@ export async function resetPassword(req, res) {
   user.password_reset_expire = Date.now() + 5 * 3600000;
 
   try {
-    user.save()
+    await user.save();
   } catch (err) {
     throw new UnprocessableEntityError(err.message);
   }
@@ -703,19 +701,18 @@ export function authCallback(req, res) {
   res.redirect('/');
 }
 
-export function loadUser(req, res, next, id) {
-  return User.find({
+export async function loadUser(req, res, next, id) {
+  const user = await User.find({
     where: {
       _id: id
     },
     include: [FireDepartment]
-  })
-    .then(user => {
-      if(!user) {
-        throw new NotFoundError('User not found');
-      }
+  });
 
-      req.loadedUser = user;
-      next();
-    });
+  if(!user) {
+    throw new NotFoundError('User not found');
+  }
+
+  req.loadedUser = user;
+  next();
 }

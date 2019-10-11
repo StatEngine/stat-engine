@@ -16,7 +16,7 @@ import {
 } from './mapbox.helpers';
 import { NotFoundError } from '../../util/error';
 
-export function getActiveIncidents(req, res) {
+export async function getActiveIncidents(req, res) {
   req.esBody = bodybuilder()
     .size(100)
     .filter('term', 'description.suppressed', false)
@@ -24,21 +24,20 @@ export function getActiveIncidents(req, res) {
     .filter('range', 'description.event_opened', { gte: 'now-24h' })
     .build();
 
-  return connection.getClient().search({
+  const searchResults = await connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: req.esBody,
-  })
-    .then(searchResults => {
-      let data = [];
-      _.forEach(searchResults.hits.hits, h => {
-        data.push(h._source);
-      });
+  });
 
-      res.json(data);
-    });
+  let data = [];
+  _.forEach(searchResults.hits.hits, h => {
+    data.push(h._source);
+  });
+
+  res.json(data);
 }
 
-export function getTopIncidents(req, res) {
+export async function getTopIncidents(req, res) {
   let fd = req.user.FireDepartment.get();
   const timeRange = calculateTimeRange({
     startDate: req.query.startDate
@@ -63,33 +62,33 @@ export function getTopIncidents(req, res) {
   req.esBody = base
     .build();
 
-  return connection.getClient().search({
+  const searchResults = await connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: req.esBody,
-  })
-    .then(searchResults => {
-      const top = {};
+  });
 
-      if(_.get(searchResults, 'aggregations')) {
-        _.forEach(searchResults.aggregations['agg_terms_description.category'].buckets, b => {
-          top[b.key] = [];
-          _.forEach(b.agg_top_hits_undefined.hits.hits, h => {
-            let analysis = generateAnalysis(h._source);
-            analysis = _.filter(analysis, a => a.category === 'NFPA');
-            top[b.key].push({
-              incident_number: _.get(h, '_source.description.incident_number'),
-              event_duration: _.get(h, '_source.durations.total_event.minutes'),
-              type: _.get(h, '._source.description.type'),
-              analysis: _.keyBy(analysis, 'name')
-            });
-          });
+  const top = {};
+
+  if(_.get(searchResults, 'aggregations')) {
+    _.forEach(searchResults.aggregations['agg_terms_description.category'].buckets, b => {
+      top[b.key] = [];
+      _.forEach(b.agg_top_hits_undefined.hits.hits, h => {
+        let analysis = generateAnalysis(h._source);
+        analysis = _.filter(analysis, a => a.category === 'NFPA');
+        top[b.key].push({
+          incident_number: _.get(h, '_source.description.incident_number'),
+          event_duration: _.get(h, '_source.durations.total_event.minutes'),
+          type: _.get(h, '._source.description.type'),
+          analysis: _.keyBy(analysis, 'name')
         });
-      }
-      res.json(top);
+      });
     });
+  }
+
+  res.json(top);
 }
 
-export function getSummary(req, res) {
+export async function getSummary(req, res) {
   let Analysis = new IncidentAnalysisTimeRange({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     timeRange: {
@@ -100,11 +99,11 @@ export function getSummary(req, res) {
     },
   });
 
-  return Analysis.compare()
-    .then(results => res.json(results));
+  const results = await Analysis.compare();
+  res.json(results);
 }
 
-export function getIncidents(req, res) {
+export async function getIncidents(req, res) {
   const sort = req.query.sort || 'description.event_closed,desc';
 
   const params = {
@@ -150,13 +149,12 @@ export function getIncidents(req, res) {
     };
   }
 
-  return connection.getClient().search(params)
-    .then(searchResults => {
-      res.json({
-        items: searchResults.hits.hits,
-        totalItems: searchResults.hits.total,
-      });
-    });
+  const searchResults = await connection.getClient().search(params);
+
+  res.json({
+    items: searchResults.hits.hits,
+    totalItems: searchResults.hits.total,
+  });
 }
 
 export function getIncident(req, res) {
@@ -170,19 +168,18 @@ export function getIncident(req, res) {
   });
 }
 
-export function loadMatrix(req, res, next) {
-  return getMatrix(req.incident)
-    .then(matrix => {
-      req.travelMatrix = matrix;
-      next();
-    })
+export async function loadMatrix(req, res, next) {
+  const matrix = await getMatrix(req.incident);
+
+  req.travelMatrix = matrix;
+  next();
 }
 
-export function loadConcurrent(req, res, next) {
+export async function loadConcurrent(req, res, next) {
   let eventOpened = _.get(req.incident, 'description.event_opened');
   let eventClosed = _.get(req.incident, 'description.event_closed');
 
-  return connection.getClient().search({
+  const response = await connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: {
       size: 100,
@@ -260,14 +257,13 @@ export function loadConcurrent(req, res, next) {
         },
       }
     }
-  })
-    .then(response => {
-      req.concurrentIncidents = response.hits.hits;
-      next();
-    });
+  });
+
+  req.concurrentIncidents = response.hits.hits;
+  next();
 }
 
-export function loadComparison(req, res, next) {
+export async function loadComparison(req, res, next) {
   let responseZone = _.get(req.incident, 'address.response_zone');
   let battalion = _.get(req.incident, 'address.battalion');
   let firstDue = _.get(req.incident, 'address.first_due');
@@ -312,7 +308,7 @@ export function loadComparison(req, res, next) {
       return acc;
     }, {});
 
-  return connection.getClient().search({
+  const response = await connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     size: 0,
     body: {
@@ -327,20 +323,19 @@ export function loadComparison(req, res, next) {
       },
       aggs
     }
-  })
-    .then(response => {
-      req.incidentComparison = response.aggregations;
-      _.forOwn(req.incidentComparison, (value, label) => {
-        req.incidentComparison[label].comparison_value = compValues[label];
-      });
-      next();
-    });
+  });
+
+  req.incidentComparison = response.aggregations;
+  _.forOwn(req.incidentComparison, (value, label) => {
+    req.incidentComparison[label].comparison_value = compValues[label];
+  });
+  next();
 }
 
-export function loadIncident(req, res, next, id) {
+export async function loadIncident(req, res, next, id) {
   const client = connection.getClient();
 
-  return client.search({
+  const searchResult = await client.search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     body: {
       query: {
@@ -353,13 +348,12 @@ export function loadIncident(req, res, next, id) {
         }
       }
     }
-  })
-    .then(searchResult => {
-      const hits = _.get(searchResult, 'hits.hits');
+  });
 
-      if(!hits || hits.length === 0) throw new NotFoundError('Incident not found');
+  const hits = _.get(searchResult, 'hits.hits');
 
-      req.incident = hits[0]._source;
-      next();
-    })
+  if(!hits || hits.length === 0) throw new NotFoundError('Incident not found');
+
+  req.incident = hits[0]._source;
+  next();
 }

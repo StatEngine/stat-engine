@@ -93,27 +93,29 @@ export function hasPermission(permissions) {
 /**
  * Checks if user has fire deparment and sets in request
  */
-export function hasFireDepartment(req, res, next) {
+export async function hasFireDepartment(req, res, next) {
   if(req.user.isAdmin && req.query.firecaresId) {
-    return FireDepartment.find({
+    const fireDepartment = await FireDepartment.find({
       where: {
         firecaresId: req.query.firecaresId
       },
-    }).then(fireDepartment => {
-      if(!fireDepartment) throw new NotFoundError('Fire department not found');
-      req.fireDepartment = fireDepartment;
-      return next();
     });
+
+    if(!fireDepartment) throw new NotFoundError('Fire department not found');
+
+    req.fireDepartment = fireDepartment;
+    return next();
   } else if(req.user.isAdmin && req.query.fireDepartmentId) {
-    return FireDepartment.find({
+    const fireDepartment = await FireDepartment.find({
       where: {
         _id: req.query.fireDepartmentId
       },
-    }).then(fireDepartment => {
-      if(!fireDepartment) throw new NotFoundError('Fire department not found!');
-      req.fireDepartment = fireDepartment;
-      return next();
     });
+
+    if(!fireDepartment) throw new NotFoundError('Fire department not found!');
+
+    req.fireDepartment = fireDepartment;
+    return next();
   } else if(req.user.isAdmin) {
     req.fireDepartment = req.user.FireDepartment;
     return next();

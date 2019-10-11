@@ -31,7 +31,7 @@ function setUnitMetricGroups(agg) {
     .aggregation('sum', 'apparatus_data.extended_data.event_duration');
 }
 
-export function getResponses(req, res) {
+export async function getResponses(req, res) {
   const timeStart = req.query.timeStart;
   const timeEnd = req.query.timeEnd;
   const from = req.query.from || 0;
@@ -74,19 +74,18 @@ export function getResponses(req, res) {
     esBodyBuilder.filter('range', 'description.event_opened', { gte: timeStart, lt: timeEnd });
   }
 
-  return connection.getClient().search({
+  const esRes = await connection.getClient().search({
     index: getApparatusIndex(req),
     body: esBodyBuilder.build(),
-  })
-    .then(esRes => {
-      res.json({
-        items: esRes.hits.hits.map(h => h._source),
-        totalItems: esRes.hits.total,
-      });
-    });
+  });
+
+  res.json({
+    items: esRes.hits.hits.map(h => h._source),
+    totalItems: esRes.hits.total,
+  });
 }
 
-export function getMetrics(req, res) {
+export async function getMetrics(req, res) {
   const unitId = req.params.id;
   const timeStart = req.query.timeStart;
   const timeEnd = req.query.timeEnd;
@@ -123,72 +122,71 @@ export function getMetrics(req, res) {
     .size(0)
     .build();
 
-  return connection.getClient().search({
+  const esRes = await connection.getClient().search({
     index: getIncidentIndex(req),
     body: esBody,
-  })
-    .then(esRes => {
-      const api_response = {
-        total_data: {},
-        grouped_data: {
-          category: {},
-          population_density: {}
-        },
-        time_series_data: {
-          total_data: {},
-          grouped_data: {
-            category: {}
-          },
-        },
-      };
+  });
 
-      // total data
-      const apparatusBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
-      const totalMetrics = {};
-      _.forEach(apparatusBuckets, b => {
-        totalMetrics[b.key] = getMetricsFromBucket(metrics, b);
-      });
-      const rankedMetrics = rankBuckets(totalMetrics);
-      api_response.total_data = rankedMetrics[unitId];
+  const api_response = {
+    total_data: {},
+    grouped_data: {
+      category: {},
+      population_density: {}
+    },
+    time_series_data: {
+      total_data: {},
+      grouped_data: {
+        category: {}
+      },
+    },
+  };
 
-      // grouped data
-      const categoryBuckets = _.get(esRes, 'aggregations["agg_terms_description.category"]buckets');
-      _.forEach(categoryBuckets, categoryBucket => {
-        if(_.isNil(api_response.grouped_data.category[categoryBucket.key])) api_response.grouped_data.category[categoryBucket.key] = {};
-        const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-        const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
-        api_response.grouped_data.category[categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
-      });
+  // total data
+  const apparatusBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
+  const totalMetrics = {};
+  _.forEach(apparatusBuckets, b => {
+    totalMetrics[b.key] = getMetricsFromBucket(metrics, b);
+  });
+  const rankedMetrics = rankBuckets(totalMetrics);
+  api_response.total_data = rankedMetrics[unitId];
 
-      // time series data
-      const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
-      _.forEach(timeSeriesBuckets, timeBucket => {
-        if(_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
-        const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-        const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
-        api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(metrics, myTimeBucket);
-      });
+  // grouped data
+  const categoryBuckets = _.get(esRes, 'aggregations["agg_terms_description.category"]buckets');
+  _.forEach(categoryBuckets, categoryBucket => {
+    if(_.isNil(api_response.grouped_data.category[categoryBucket.key])) api_response.grouped_data.category[categoryBucket.key] = {};
+    const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
+    const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
+    api_response.grouped_data.category[categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
+  });
 
-      const timeSeriesCategoryBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened_by_category"]buckets');
-      _.forEach(timeSeriesCategoryBuckets, timeCategoryBucket => {
-        if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string])) api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string] = {};
-        const tcategoryBuckets = _.get(timeCategoryBucket, '["agg_terms_description.category"]buckets');
+  // time series data
+  const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
+  _.forEach(timeSeriesBuckets, timeBucket => {
+    if(_.isNil(api_response.time_series_data.total_data[timeBucket.key_as_string])) api_response.time_series_data.total_data[timeBucket.key_as_string] = {};
+    const timeSeriesApparatusBuckets = _.get(timeBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
+    const myTimeBucket = _.find(timeSeriesApparatusBuckets, b => b.key === unitId);
+    api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(metrics, myTimeBucket);
+  });
 
-        _.forEach(tcategoryBuckets, categoryBucket => {
-          if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key])) {
-            api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = {};
-          }
-          const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
-          const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
-          api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
-        });
-      });
+  const timeSeriesCategoryBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened_by_category"]buckets');
+  _.forEach(timeSeriesCategoryBuckets, timeCategoryBucket => {
+    if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string])) api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string] = {};
+    const tcategoryBuckets = _.get(timeCategoryBucket, '["agg_terms_description.category"]buckets');
 
-      res.json(api_response);
+    _.forEach(tcategoryBuckets, categoryBucket => {
+      if(_.isNil(api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key])) {
+        api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = {};
+      }
+      const categoryApparatusBuckets = _.get(categoryBucket, 'apparatus["agg_terms_apparatus.unit_id"].buckets');
+      const myCatBucket = _.find(categoryApparatusBuckets, b => b.key === unitId);
+      api_response.time_series_data.grouped_data.category[timeCategoryBucket.key_as_string][categoryBucket.key] = getMetricsFromBucket(metrics, myCatBucket);
     });
+  });
+
+  res.json(api_response);
 }
 
-export function getMetricsTotal(req, res) {
+export async function getMetricsTotal(req, res) {
   const base = bodybuilder()
     .filter('term', 'description.suppressed', false)
     .filter('term', 'apparatus_data.unit_id', req.params.id);
@@ -199,32 +197,31 @@ export function getMetricsTotal(req, res) {
     .size(0)
     .build();
 
-  return connection.getClient().search({
+  const esRes = await connection.getClient().search({
     index: getApparatusIndex(req),
     body: esBody,
-  })
-    .then(esRes => {
-      // total data
-      const api_response = {
-        total_data: {},
-        grouped_data: {
-          category: {}
-        },
-        time_series_data: {
-          total_data: {},
-          grouped_data: {
-            category: {}
-          },
-        },
-      };
+  });
 
-      const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
-      _.forEach(timeSeriesBuckets, timeBucket => {
-        api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(unitMetrics, timeBucket);
-      });
+  // total data
+  const api_response = {
+    total_data: {},
+    grouped_data: {
+      category: {}
+    },
+    time_series_data: {
+      total_data: {},
+      grouped_data: {
+        category: {}
+      },
+    },
+  };
 
-      res.json(api_response);
-    });
+  const timeSeriesBuckets = _.get(esRes, 'aggregations["agg_date_histogram_description.event_opened"]buckets');
+  _.forEach(timeSeriesBuckets, timeBucket => {
+    api_response.time_series_data.total_data[timeBucket.key_as_string] = getMetricsFromBucket(unitMetrics, timeBucket);
+  });
+
+  res.json(api_response);
 }
 
 const metrics = [

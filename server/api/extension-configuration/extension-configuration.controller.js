@@ -7,7 +7,7 @@ import {
 } from '../../sqldb';
 import { NotFoundError } from '../../util/error';
 
-export function search(req, res) {
+export async function search(req, res) {
   let where = {};
   if(req.user.fire_department__id) {
     where = {
@@ -15,14 +15,15 @@ export function search(req, res) {
     };
   }
 
-  return ExtensionConfiguration.findAll({
+  const extensionConfigurations = await ExtensionConfiguration.findAll({
     where,
     include: [{
       model: Extension,
       where: { name: req.query.name }
     }]
-  })
-    .then(extensionConfigurations => res.json(extensionConfigurations));
+  });
+
+  res.json(extensionConfigurations);
 }
 
 export function update(req, res) {
@@ -35,8 +36,8 @@ export function update(req, res) {
   }
 }
 
-export function updateOptions(req, res) {
-  return ExtensionConfiguration.find({
+export async function updateOptions(req, res) {
+  const config = await ExtensionConfiguration.find({
     where: {
       _id: req.params.id,
       fire_department__id: req.fire_department._id,
@@ -46,21 +47,20 @@ export function updateOptions(req, res) {
     }, {
       model: FireDepartment,
     }]
-  }).then(config => {
-    if(!config) throw new NotFoundError('Extension configuration not found');
-
-    config.config_json = _.merge(config.config_json, req.body);
-    config.changed('config_json', true);
-
-    return config.save()
-      .then(updated => {
-        return res.status(204).send();
-      });
   });
+
+  if(!config) throw new NotFoundError('Extension configuration not found');
+
+  config.config_json = _.merge(config.config_json, req.body);
+  config.changed('config_json', true);
+
+  await config.save();
+
+  return res.status(204).send();
 }
 
-export function enable(req, res) {
-  return ExtensionConfiguration.find({
+export async function enable(req, res) {
+  const config = await ExtensionConfiguration.find({
     where: {
       _id: req.params.id,
       fire_department__id: req.fire_department._id,
@@ -70,20 +70,19 @@ export function enable(req, res) {
     }, {
       model: FireDepartment,
     }]
-  }).then(config => {
-    if(!config) throw new NotFoundError('Extension configuration not found');
-
-    config.enabled = true;
-
-    return config.save()
-      .then(updated => {
-        return res.status(204).send();
-      });
   });
+
+  if(!config) throw new NotFoundError('Extension configuration not found');
+
+  config.enabled = true;
+
+  await config.save();
+
+  return res.status(204).send();
 }
 
-export function disable(req, res) {
-  return ExtensionConfiguration.find({
+export async function disable(req, res) {
+  const config = await ExtensionConfiguration.find({
     where: {
       _id: req.params.id,
       fire_department__id: req.fire_department._id,
@@ -93,33 +92,32 @@ export function disable(req, res) {
     }, {
       model: FireDepartment,
     }]
-  }).then(config => {
-    if(!config) throw new NotFoundError('Extension configuration not found');
-
-    config.enabled = false;
-
-    return config.save()
-      .then(updated => {
-        return res.status(204).send();
-      })
   });
+
+  if(!config) throw new NotFoundError('Extension configuration not found');
+
+  config.enabled = false;
+
+  await config.save();
+
+  return res.status(204).send();
 }
 
-export function get(req, res) {
+export async function get(req, res) {
   var id = req.params.id;
 
-  return ExtensionConfiguration.find({
+  const extensionConfiguration = await ExtensionConfiguration.find({
     where: {
       _id: id,
       fire_department__id: req.fire_department._id,
     }
-  })
-    .then(extensionConfiguration => {
-      if(!extensionConfiguration) {
-        throw new NotFoundError('Extension configuration not found');
-      }
-      res.json(extensionConfiguration);
-    });
+  });
+
+  if(!extensionConfiguration) {
+    throw new NotFoundError('Extension configuration not found');
+  }
+
+  res.json(extensionConfiguration);
 }
 
 // This should probably move to factory, a lib, or maybe be stored in db as default?
@@ -249,23 +247,21 @@ function createDefaultConfig(fire_department, extensionType) {
   return {};
 }
 
-export function create(req, res) {
-  return Extension.find({
+export async function create(req, res) {
+  const extension = await Extension.find({
     where: {
       name: req.query.name
     }
-  })
-    .then(extension => {
-      if(!extension) throw new NotFoundError('Extension not found');
+  });
 
-      return ExtensionConfiguration.create({
-        extension__id: extension._id,
-        fire_department__id: req.fire_department._id,
-        config_json: createDefaultConfig(req.fire_department, req.query.name),
-        enabled: true,
-      })
-        .then(extensionConfiguration => {
-          res.json(extensionConfiguration);
-        });
-    });
+  if(!extension) throw new NotFoundError('Extension not found');
+
+  const extensionConfiguration = await ExtensionConfiguration.create({
+    extension__id: extension._id,
+    fire_department__id: req.fire_department._id,
+    config_json: createDefaultConfig(req.fire_department, req.query.name),
+    enabled: true,
+  });
+
+  res.json(extensionConfiguration);
 }

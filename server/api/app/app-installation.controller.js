@@ -9,10 +9,10 @@ import {
 } from '../../sqldb';
 import { BadRequestError, NotFoundError } from '../../util/error';
 
-export function search(req, res) {
+export async function search(req, res) {
   if(_.isEmpty(req.user.client_id)) throw new BadRequestError('User client_id is required');
 
-  return AppInstallation.findAll({
+  const appInstallations = await AppInstallation.findAll({
     include: [{
       model: App,
       attributes: [
@@ -32,16 +32,17 @@ export function search(req, res) {
         'timezone',
       ]
     }]
-  })
-    .then(appInstallations => res.json(appInstallations));
+  });
+
+  res.json(appInstallations);
 }
 
 const EXPIRES_IN = 60 * 60;
-export function generateToken(req, res) {
+export async function generateToken(req, res) {
   if(_.isEmpty(req.user.client_id)) throw new BadRequestError('User client_id is required');
   if(_.isEmpty(req.params.installationId)) throw new BadRequestError('Param "installationId" is required');
 
-  return AppInstallation.find({
+  const installation = await AppInstallation.find({
     where: {
       _id: req.params.installationId
     },
@@ -59,26 +60,26 @@ export function generateToken(req, res) {
         'timezone',
       ]
     }]
-  })
-    .then(installation => {
-      if(_.isNil(installation)) throw new NotFoundError('App installation not found');
-      return res.json({
-        token_type: 'Bearer',
-        access_token: jwt.sign({
-          roles: ['app'],
-          permissions: installation.App.permissions || [],
-          FireDepartment: installation.FireDepartment.get(),
-        }, config.oauth.secret, { expiresIn: EXPIRES_IN }),
-        expires_in: EXPIRES_IN
-      })
-    });
+  });
+
+  if(_.isNil(installation)) throw new NotFoundError('App installation not found');
+
+  return res.json({
+    token_type: 'Bearer',
+    access_token: jwt.sign({
+      roles: ['app'],
+      permissions: installation.App.permissions || [],
+      FireDepartment: installation.FireDepartment.get(),
+    }, config.oauth.secret, { expiresIn: EXPIRES_IN }),
+    expires_in: EXPIRES_IN
+  });
 }
 
-export function get(req, res) {
+export async function get(req, res) {
   if(_.isEmpty(req.user.client_id)) throw new BadRequestError('User client_id is required');
   if(_.isEmpty(req.params.installationId)) throw new BadRequestError('Param "installationId" is required');
 
-  return AppInstallation.find({
+  const installation = await AppInstallation.find({
     where: {
       _id: req.params.installationId
 
@@ -91,9 +92,9 @@ export function get(req, res) {
         'slug',
       ],
     }]
-  })
-    .then(installation => {
-      if(_.isNil(installation)) throw new NotFoundError('App installation not found');
-      return res.json(installation)
-    });
+  });
+
+  if(_.isNil(installation)) throw new NotFoundError('App installation not found');
+
+  return res.json(installation);
 }

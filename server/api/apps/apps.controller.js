@@ -8,8 +8,8 @@ import {
 } from '../../sqldb';
 import { BadRequestError, NotFoundError } from '../../util/error';
 
-export function search(req, res) {
-  return App.findAll({
+export async function search(req, res) {
+  const apps = await App.findAll({
     attributes: [
       '_id',
       'name',
@@ -22,14 +22,15 @@ export function search(req, res) {
       'featured',
       'hidden',
     ],
-  })
-    .then(apps => res.json(apps));
+  });
+
+  res.json(apps);
 }
 
-export function get(req, res) {
+export async function get(req, res) {
   if(_.isEmpty(req.params.id)) throw new BadRequestError('Param "id" is required');
 
-  return App.find({
+  const app = await App.find({
     where: {
       _id: req.params.id
     },
@@ -45,8 +46,9 @@ export function get(req, res) {
       'featured',
       'hidden',
     ],
-  })
-    .then(app => res.json(app));
+  });
+
+  res.json(app);
 }
 
 export const install = async(req, res) => {
@@ -60,13 +62,12 @@ export const install = async(req, res) => {
   });
   if(existing) throw new BadRequestError('App installation already exists');
 
-  return AppInstallation.create({
+  const appInstall = await AppInstallation.create({
     app__id: req.params.id,
     fire_department__id: req.user.FireDepartment._id,
-  })
-    .then((appInstall) => {
-      res.json(appInstall);
-    });
+  });
+
+  res.json(appInstall);
 };
 
 
@@ -81,20 +82,20 @@ export const uninstall = async(req, res) => {
   });
   if(!existing) throw new NotFoundError('App installation not found');
 
-  return existing.destroy()
-    .then(() => {
-      res.json({});
-    })
+  await existing.destroy();
+
+  res.json({});
 };
 
 export const status = async(req, res) => {
   if(_.isEmpty(req.params.id)) throw new BadRequestError('Param "id" is required');
 
-  await AppInstallation.findOne({
+  const appInstall = await AppInstallation.findOne({
     where: {
       app__id: req.params.id,
       fire_department__id: req.user.FireDepartment._id
     },
-  })
-  .then((appInstall) => res.json(appInstall))
+  });
+
+  res.json(appInstall);
 };

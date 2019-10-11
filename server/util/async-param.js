@@ -1,9 +1,9 @@
 'use strict';
 
 export function asyncParam(paramFunc) {
-  // Wrap the param function with a try/catch block. This will deal with exceptions thrown in async function calls.
-  // Without this, the server won't send an error to the client if one occurs within an async function call, causing
-  // the client to hang if an uncaught exception occurs on the server.
+  // This is essentially the same as asyncMiddleware but specifically for route.param(), which requires
+  // a different function signature. Attempting to use asyncMiddleware and asyncParam interchangeably will
+  // cause errors.
   return async (req, res, next, id) => {
     try {
       await paramFunc(req, res, next, id);

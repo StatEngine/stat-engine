@@ -48,7 +48,7 @@ export function loginCallback(req, res) {
 }
 
 export function profile(req, res) {
-  if(!req.session.twitter) throw new UnauthorizedError('twitter not found in session')
+  if(!req.session.twitter) throw new UnauthorizedError('twitter not found in session');
 
   const auth = {
     consumer_key: config.twitter.consumerKey,

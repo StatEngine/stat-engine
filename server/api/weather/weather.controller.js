@@ -1,7 +1,7 @@
 import request from 'request-promise';
 import moment from 'moment';
 
-export function getForecast(req, res) {
+export async function getForecast(req, res) {
   const now = moment.tz(req.user.FireDepartment.timezone);
   let requestedTime = now;
   let today;
@@ -17,14 +17,15 @@ export function getForecast(req, res) {
 
   console.dir(uri);
 
-  return request({
+  const results = await request({
     uri,
     qs: {
       exclude: 'minutely'
     },
     json: true
-  })
-    .then(results => res.json(results));
+  });
+
+  res.json(results);
 }
 
 export default getForecast;

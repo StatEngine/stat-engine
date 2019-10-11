@@ -47,7 +47,7 @@ export async function search(req, res) {
 
   let fireDepartments;
   try {
-    fireDepartments = FireDepartment.findAll({
+    fireDepartments = await FireDepartment.findAll({
       where: req.query,
       attributes
     });
@@ -65,29 +65,32 @@ export async function search(req, res) {
 /**
  * Creates a new fire department
  */
-export function create(req, res) {
+export async function create(req, res) {
   const newFireDepartment = FireDepartment.build(req.body);
 
-  return newFireDepartment.save()
-    .then(fd => Promise.all([createCustomer(fd)]))
-    .then(() => res.status(204).send())
-    .catch(err => {
-      throw new UnprocessableEntityError(err.message);
-    });
+  try {
+    const fd = await newFireDepartment.save();
+    await createCustomer(fd);
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).send();
 }
 
-export function edit(req, res) {
+export async function edit(req, res) {
   let fireDepartment = req.fireDepartment;
 
   fireDepartment = _.merge(fireDepartment, req.body);
 
-  return fireDepartment.save()
-    .then(savedFireDepartment => {
-      res.status(204).send({savedFireDepartment});
-    })
-    .catch(err => {
-      throw new UnprocessableEntityError(err.message);
-    });
+  let savedFireDepartment;
+  try {
+    savedFireDepartment = await fireDepartment.save();
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).send({savedFireDepartment});
 }
 
 /**
@@ -100,7 +103,7 @@ export function get(req, res) {
 export async function getUsers(req, res) {
   let users;
   try {
-    users = FireDepartment.find({
+    users = await FireDepartment.find({
       where: {
         _id: req.user.FireDepartment._id
       },
@@ -127,7 +130,7 @@ export async function getUsers(req, res) {
 /**
  * Gets data quality stats
  */
-export function dataQuality(req, res) {
+export async function dataQuality(req, res) {
   const fireIndex = req.fireDepartment.es_indices[req.params.type];
 
   const qaChecks = {
@@ -135,12 +138,13 @@ export function dataQuality(req, res) {
     unTypedApparatus
   };
 
-  return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+  const r = await Promise.reduce(_.toPairs(qaChecks), async (results, qa) => {
     const [name, qaConfig] = qa;
-    return runQA(_.merge(qaConfig, { index: fireIndex }))
-      .then(out => _.set(results, name, out));
-  }, {})
-    .then(r => res.json(gradeQAResults(r)));
+    const out = await runQA(_.merge(qaConfig, { index: fireIndex }));
+    _.set(results, name, out);
+  }, {});
+
+  res.json(gradeQAResults(r));
 }
 
 /**
@@ -153,23 +157,26 @@ export function nfpa(req, res) {
     nfpa1710,
   };
 
-  return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+  return Promise.reduce(_.toPairs(qaChecks), async (results, qa) => {
     // eslint-disable-next-line
     const [name, qaConfig] = qa;
-    return runNFPA(_.merge(qaConfig, { index: fireIndex }))
-      .then(out => res.json(out));
+    const out = await runNFPA(_.merge(qaConfig, { index: fireIndex }));
+    res.json(out);
   }, {});
 }
 
 /*
  * Gets the fire department's chargebee subscription data.
  */
-export function getSubscription(req, res) {
-  return retrieveSubscription(req.fireDepartment)
-    .then(subscription => res.json(subscription))
-    .catch(err => {
-      throw new UnprocessableEntityError(err.message);
-    });
+export async function getSubscription(req, res) {
+  let subscription;
+  try {
+    subscription = await retrieveSubscription(req.fireDepartment);
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.json(subscription);
 }
 
 export function hasAdminPermission(req, res, next) {
@@ -193,18 +200,17 @@ export function hasIngestPermission(req, res, next) {
   else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
-export function loadFireDepartment(req, res, next, id) {
-  return FireDepartment.find({
+export async function loadFireDepartment(req, res, next, id) {
+  const fd = await FireDepartment.find({
     where: {
       _id: id
     },
-  })
-    .then(fd => {
-      if(!fd) {
-        throw new NotFoundError('Fire department not found');
-      }
+  });
 
-      req.fireDepartment = fd;
-      next();
-    })
+  if(!fd) {
+    throw new NotFoundError('Fire department not found');
+  }
+
+  req.fireDepartment = fd;
+  next();
 }
