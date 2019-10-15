@@ -13,18 +13,18 @@
           <h4 ng-if="vm.fireDepartment" class="heavyheader">
             {{ vm.fireDepartment.name }}
           </h4>
-          <div ng-if="vm.principal.isGlobal">
+          <div class="mt-4" ng-if="vm.principal.isGlobal">
             <div class="row">
               <div class="col col-xl-7">
-                <div ng-if="!vm.assignedFireDepartment">
-                  <p class='text-danger text-center'>
-                  Not currently assigned to a department.
+                <div class="mb-2" ng-if="!vm.assignedFireDepartment">
+                  <p class="text-danger">
+                    Not currently assigned to a department.
                   <br>
                 </div>
-                <div class="form-group form-inline">
+                <div class="form-group form-inline mb-2">
                   <select ng-options="fd as (fd.name + ', ' + fd.state) for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
-                  <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
                 </div>
+                <button id='user-home-dashboard' class="btn btn-primary" ng-click="vm.setFireDepartment(vm.assignedFireDepartment)">Switch</button>
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@
               </div>
               <div ng-if="vm.selectedTab === 'units'">
                 <div>
-                  <p>Here's a quick look at some of your more busier units.  Click any unit number to see a detailed analysis.<br>
+                  <p>Here's a quick look at some of your busier units.  Click any unit number to see a detailed analysis.<br>
                       Unit not listed? Search for more <a href="#" ui-sref="site.reporting.unit">here</a><br><br>
 
                       <strong>Note:</strong>
