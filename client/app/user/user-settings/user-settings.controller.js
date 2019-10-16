@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import { getErrors } from '../../../util/error';
 
 export default class UserSettingsController {
   profile = {
@@ -101,11 +102,7 @@ export default class UserSettingsController {
         last_name: this.profile.inputs.lastName,
       }).$promise;
     } catch (err) {
-      if (err.data && err.data.errors) {
-        this.profile.errors = err.data.errors;
-      } else {
-        this.profile.errors = [{ message: 'An error occurred.' }];
-      }
+      this.profile.errors = getErrors(err);
       return;
     } finally {
       this.profile.isSaving = false;
@@ -152,11 +149,7 @@ export default class UserSettingsController {
         unsubscribed_emails: unsubscribedEmails.join(','),
       }).$promise;
     } catch (err) {
-      if (err.data && err.data.errors) {
-        this.email.errors = err.data.errors;
-      } else {
-        this.email.errors = [{ message: 'An error occurred.' }];
-      }
+      this.email.errors = getErrors(err);
       return;
     } finally {
       this.email.isSaving = false;
@@ -208,11 +201,7 @@ export default class UserSettingsController {
         newPassword: this.password.inputs.newPassword,
       }).$promise
     } catch (err) {
-      if (err.data && err.data.errors) {
-        this.password.errors = err.data.errors;
-      } else {
-        this.password.errors = [{ message: 'An error occurred.' }];
-      }
+      this.password.errors = getErrors(err);
       return;
     } finally {
       this.password.isSaving = false;

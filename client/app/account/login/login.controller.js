@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import { getErrors } from '../../../util/error';
 
 export default class LoginController {
   user = {
@@ -42,11 +43,7 @@ export default class LoginController {
           this.$state.go('site.user.home');
         })
         .catch(err => {
-          if (err.data && err.data.errors) {
-            this.errors = err.data.errors;
-          } else {
-            this.errors = [{ error: 'An error occurred.' }];
-          }
+          this.errors = getErrors(err);
         });
     }
   }

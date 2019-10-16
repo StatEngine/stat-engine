@@ -1,5 +1,7 @@
 'use strict';
 
+import { getErrors } from '../../../util/error';
+
 export default class ForgotUsernameController {
   user = {
     email: ''
@@ -35,11 +37,7 @@ export default class ForgotUsernameController {
           }).present();
         })
         .catch(err => {
-          if(err.data && err.data.errors) {
-            this.errors = err.data.errors;
-          } else {
-            this.errors = [{ message: 'An error occurred.' }];
-          }
+          this.errors = getErrors(err);
         });
     }
   }

@@ -3,6 +3,7 @@
 import angular from 'angular';
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import { getErrors } from '../../../util/error';
 
 let _;
 export default class WorkspaceEditController {
@@ -181,7 +182,7 @@ export default class WorkspaceEditController {
     }
 
     this.isSaving = true;
-    this.errors = {};
+    this.errors = [];
     try {
       await fnc(params, {
         id: this.inputWorkspace._id,
@@ -191,11 +192,7 @@ export default class WorkspaceEditController {
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
-      if (err.data && err.data.errors) {
-        this.errors = err.data.errors;
-      } else {
-        this.errors = [{ message: 'An error occurred.' }];
-      }
+      this.errors = getErrors(err);
       this.showErrors = true;
       return;
     } finally {

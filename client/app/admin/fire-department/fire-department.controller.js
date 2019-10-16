@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import { getErrors } from '../../../util/error';
 
 export default class FireDepartmentController {
   fireDepartment = {};
@@ -46,11 +47,7 @@ export default class FireDepartmentController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            if(err.data && err.data.errors) {
-              this.errors = err.data.errors
-            } else {
-              this.errors = [{ message: 'An error occurred.' }]
-            }
+            this.error = getErrors(err);
           });
       } else {
         this.FireDepartmentService.create(this.fireDepartment).$promise
@@ -58,11 +55,7 @@ export default class FireDepartmentController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            if(err.data && err.data.errors) {
-              this.errors = err.data.errors
-            } else {
-              this.errors = [{ message: 'An error occurred.' }]
-            }
+            this.errors = getErrors(err);
           });
       }
     }

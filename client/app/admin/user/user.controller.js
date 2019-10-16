@@ -1,5 +1,7 @@
 'use strict';
 
+import { getErrors } from '../../../util/error';
+
 let _;
 
 export default class UserController {
@@ -61,11 +63,7 @@ export default class UserController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            if (err.data && err.data.errors) {
-              this.errors = err.data.errors;
-            } else {
-              this.errors = [{ message: 'An error occurred.' }];
-            }
+            this.errors = getErrors(err);
           });
       } else {
         this.UserService.create(this.user).$promise
@@ -73,11 +71,7 @@ export default class UserController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            if (err.data && err.data.errors) {
-              this.errors = err.data.errors;
-            } else {
-              this.errors = [{ message: 'An error occurred.' }];
-            }
+            this.errors = getErrors(err);
           });
       }
     }
