@@ -202,7 +202,7 @@ export default class IncidentAnalysisController {
   scrollTo(location) {
     const paddingTop = parseInt($(location).css('paddingTop')) || 0;
     const scrollTop = $(location).offset().top - paddingTop;
-    $('.content-view').animate({ scrollTop }, 1000);
+    $('.app-content-view').animate({ scrollTop }, 1000);
   }
 
   showFullComments(show) {

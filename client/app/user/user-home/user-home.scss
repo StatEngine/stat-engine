@@ -183,6 +183,73 @@
     background-color: #ffc107;
   }
 
+  .br-pagebody {
+    margin-top: 15px;
+    padding: 0 10px;
+  }
+
+  .overview {
+    display: flex;
+    flex-wrap: wrap;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
+
+    .card {
+      margin: 15px;
+
+      @include media-breakpoint-down(xs) {
+        margin: 5px;
+      }
+    }
+
+    .yesterday {
+      flex: 1 0.6 600px;
+
+      @include media-breakpoint-down(md) {
+        flex: 1;
+      }
+    }
+
+    .today {
+      flex: 1 0.4 400px;
+
+      @include media-breakpoint-down(md) {
+        flex: 1;
+      }
+    }
+  }
+
+  .units-table {
+    $max-width: 768px;
+    @include table($max-width, $vertical-borders: true);
+
+    .cell {
+      padding: 0.8rem !important;
+      font-size: 0.875rem;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+
+    .header {
+      .cell {
+        font-size: 10px !important;
+        font-weight: $font-weight-bold;
+      }
+    }
+
+    .bullet-chart-cell {
+      @include media-breakpoint-up(lg) {
+        width: 30%;
+      }
+    }
+  }
+
+  .weather-cube {
+    height: 180px;
+  }
+
   .nav-pills {
     border: solid 1px theme-color('info');
     border-radius: 5px;
