@@ -87,13 +87,19 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
     },
   }, {
+    indexes: [{
+      unique: true,
+      name: 'users_email_lower',
+      fields: [sequelize.fn('lower', sequelize.col('email'))],
+    }],
+
     validate: {
       async validateEmail() {
         // Sequelize's unique constraint is case-sensitive, so we need to do a manual
         // case-insensitive check for an existing email here.
         const user = await User.find({
           where: sequelize.where(
-            sequelize.fn('LOWER', sequelize.col('email')),
+            sequelize.fn('lower', sequelize.col('email')),
             this.email.toLowerCase(),
           ),
         });
