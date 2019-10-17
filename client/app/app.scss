@@ -300,7 +300,7 @@ table td {
 }
 
 // Table Imposter Styles
-@mixin table($max-width) {
+@mixin table($max-width: 0, $vertical-borders: false) {
   display: table;
   margin: 0;
   width: 100%;
@@ -361,6 +361,14 @@ table td {
       padding: 1.2rem;
       display: table-cell;
       border-bottom: 1px solid $color-geyser;
+
+      @if $vertical-borders {
+        @media screen and (min-width: $max-width + 1) {
+          &:not(:last-child) {
+            border-right: 1px solid $color-geyser;
+          }
+        }
+      }
 
       @media screen and (max-width: $max-width) {
         padding: 2px 16px;
@@ -1930,6 +1938,7 @@ nav.section-nav {
 @import '../components/toggle-switch/toggle-switch';
 @import '../components/weather/current-weather';
 @import '../components/unsupported-browser/unsupported-browser';
+@import '../components/bullet-chart/bullet-chart';
 @import '../components/add-dashboards-overlay/add-dashboards-overlay';
 @import '../components/view-mode/view-mode';
 @import '../components/chip/chip';

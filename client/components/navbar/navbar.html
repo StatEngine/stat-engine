@@ -15,8 +15,8 @@
       <div ng-if="!vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
           <li class="with-dropdown">
-            <a href="#" ng-click="is_products_active = !is_products_active;is_company_active = false" ng-init="is_products_active=false">Products</a>
-            <div class="dropdown animated fadeInDownShort" ng-class="{open: is_products_active && !is_company_active}">
+            <a href="#" ng-click="vm.openDropdown('products')">Products</a>
+            <div class="dropdown animated fadeInDownShort" ng-class="{'open': vm.openDropdowns['products']}">
               <ul>
                 <li><a href="/statEngine">StatEngine</a></li>
                 <li><a href="/spade">Spade</a></li>
@@ -24,8 +24,8 @@
              </div>
            </li>
           <li class="with-dropdown">
-            <a href="#" ng-click="is_company_active = !is_company_active;is_products_active = false" ng-init="is_company_active=false">Company</a>
-            <div class="dropdown animated fadeInDownShort" ng-class="{open: is_company_active && !is_products_active}">
+            <a href="#" ng-click="vm.openDropdown('company')">Company</a>
+            <div class="dropdown animated fadeInDownShort" ng-class="{'open': vm.openDropdowns['company']}">
               <ul>
                 <li><a href="#" ui-sref="site.main.about" class="nav-link">About us</a></li>
                 <li><a href="https://medium.com/statengine" target="_blank" class="nav-link">Blog</a></li>
@@ -43,8 +43,8 @@
       <div ng-if="vm.PrincipalService.isAuthenticated()">
         <ul class="mb-0">
            <li><a href="site.user.home">Control Center</a></li>
-           <li ng-if="vm.currentPrincipal.fire_department__id" class="with-dropdown"> <a class="" href="#" ng-click="is_active = !is_active" ng-init="is_active=false">Apps</a>
-             <div class="dropdown animated fadeInDownShort" ng-class="{open: is_active}">
+           <li ng-if="vm.currentPrincipal.fire_department__id" class="with-dropdown"> <a class="" href="#" ng-click="vm.openDropdown('apps')">Apps</a>
+             <div class="dropdown animated fadeInDownShort" ng-class="{'open': vm.openDropdowns['apps']}">
                <ul>
                  <li><a href="#" ng-click="vm.dashboard('navbar-dropdown')">Dashboard</a></li>
                  <li ng-if="!vm.appConfig.on_premise"><a href="#" ng-click="vm.goto('site.twitter.home','Twitter')">Twitter</a></li>
@@ -76,8 +76,8 @@
         <ul class="secondary-nav">
           <li><a href="" ng-click="vm.dashboard('navbar-icon')" class="se-icon-dashboard"></a></li>
           <li><a href="https://statengine.github.io/se-documentation/" target="_blank" class="se-icon-help"></a></li>
-          <li class="with-dropdown"><a href="" ng-click="vm.userDropDownActive = !vm.userDropDownActive" class="se-icon-user"></a>
-            <div class="settings dropdown animated fadeInDownShort" ng-class="{open: vm.userDropDownActive}">
+          <li class="with-dropdown"><a href="" ng-click="vm.openDropdown('user')" class="se-icon-user"></a>
+            <div class="settings dropdown animated fadeInDownShort" ng-class="{'open': vm.openDropdowns['user']}">
               <ul>
                 <li><a href="#" ng-click="vm.goto('site.user.settings')">Settings</a></li>
                 <li><a href="#" ng-click="vm.logout()">Sign Out</a></li>

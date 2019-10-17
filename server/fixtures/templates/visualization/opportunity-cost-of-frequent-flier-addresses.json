@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:opportunity-cost-of-frequent-flier-addresses",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Opportunity Cost of frequent-flier addresses",
+      "visState": "{\"title\":\"Opportunity Cost of frequent-flier addresses\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"Opportunity Cost of frequent-flier addresses\\n-----\\nBelow is a table showing the addresses most frequented by your department, along with the top three most common call types involved with that address, and the total number of incidents that have overlapped _within the same first due_  during calls to those addresses. In one example, a medium-sized department in the past 2 years had over 300 calls to one address in their city, of which over 200 of them were alarm calls. 86 Other incidents overlapped with those alarm calls within the first due area, representing 86 situations at this address alone in which first due area responders were tied up when another call in their area came in.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}

@@ -1,0 +1,18 @@
+{
+  "_id": "visualization:another-way-to-view-demand-text",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "Another way to view demand Text",
+      "visState": "{\"title\":\"Another way to view demand Text\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"Another way to view demand\\n---\\nThe two graphs to the right depict a more practical way to view demand at a department-wide level.\\n\\n**The graph on the top** displays the maximum observed number of incidents overlapping with a given incident for each hour of day and day of the week. These numbers represent the largest observed number of other incidents that have occurred while resources were tied up with a given incident, useful for discussions related to FD load.\\n\\nIf this graph seems to display an impossibly large number, in the thousands or tens of thousands, it is possibly due to errors in the underlying timing of incidents as described in the above overview for Number of Overlapping Incidents. To correct, introduce a filter that provides a reasonable cap to the total event duration, such as 60 minutes. \\n\\n**The graph on the bottom** displays the average number of incidents overlapping with a given incident for each hour of day and day of the week. These numbers display the average number of other incidents that will start, be ongoing, or end over the duration of a given incident. Subject to the stipulations concerning extreme outliers discussed above, this graph is useful for envisioning the \\\"opportunity cost\\\" of responding to a given incident in terms of other incidents that occur in the same period of time.\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  },
+  "_index": "{{ kibana.tenancy }}"
+}
