@@ -90,6 +90,14 @@
             </p>
           </div>
 
+          <div class="form-group">
+            <button type="button" class="btn btn-alt-2 btn-sm" ngf-select="vm.upload($file)" ng-model="file">Upload Logo</button>
+          </div>
+
+          <div class="form-group" ng-show="!file.$error && file">
+            <img ngf-src="!file.$error && file" ngf-resize="{width: 100, height: 100, quality: 0.9}"/>
+          </div>
+
           <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
             <label>Timezone</label>
             <select name="timezone" class="form-control input-md" ng-model="vm.fireDepartment.timezone" required>

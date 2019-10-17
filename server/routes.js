@@ -28,6 +28,7 @@ export default function(app) {
   app.use('/api/shift', require('./api/shift'));
   app.use('/api/stats', require('./api/stats'));
   app.use('/api/workspaces', require('./api/workspace'));
+  app.use('/api/image-upload', require('./api/image-upload'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));

@@ -12,12 +12,13 @@ export default class FireDepartmentController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(FireDepartment, Modal, currentFireDepartment, $state) {
+  constructor(FireDepartment, Modal, currentFireDepartment, $state, Upload) {
     this.FireDepartmentService = FireDepartment;
     this.ModalService = Modal;
 
     this.fireDepartment = currentFireDepartment || {};
     this.$state = $state;
+    this.Upload = Upload;
     this.timezones = [
       'US/Alaska',
       'US/Aleutian',
@@ -68,5 +69,17 @@ export default class FireDepartmentController {
           });
       }
     }
+  }
+
+  upload(file) {
+    this.Upload.upload({
+      url: '/api/image-upload',
+      data: { file: file }
+    }).then((res) => {
+      const imgURL = res.data.file.location;
+      this.fireDepartment.logo_link = imgURL;
+    }, () => {
+      this.errors.error = 'Error uploading logo.';
+    });    
   }
 }
