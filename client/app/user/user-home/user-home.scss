@@ -249,6 +249,11 @@
   .weather-cube {
     height: 180px;
   }
+
+  .nav-pills {
+    border: solid 1px theme-color('info');
+    border-radius: 5px;
+  }
 }
 
 // Fine Tuning Actions
