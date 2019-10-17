@@ -105,9 +105,9 @@ A nightly dump of elasticdump data is availabe in S3.   Please contact a team me
 
 3.  Run `npm install`
 
-4.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
+4.  Run `gulp seed:dev` to populate the database.
 
-5.  Run `gulp seed:dev` to populate the database.
+5.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
 6.  Login with username: `richmond`, password: `password`.
 

@@ -22,7 +22,6 @@ import gulpWebpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
 import b2v from 'buffer-to-vinyl';
 import seedDev from './server/config/seedDev'
-import seedDemo from './server/config/seedDemo'
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -720,8 +719,4 @@ gulp.task('buildcontrol:openshift', function(done) {
 
 gulp.task('seed:dev', (done) => {
   seedDev().then(done)
-});
-
-gulp.task('seed:demo', (done) => {
-  seedDemo().then(done)
 });

@@ -31,6 +31,10 @@ let emailReportEnrichment;
 let whosOnApp;
 
 export default function seedDev() {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Cannot seed a production database');
+  }
+
   console.info('Seeding development data...');
 
   return Extension
