@@ -143,4 +143,22 @@
       }
     }
   }
+  .categories {
+    li {
+      .nav-link {
+        margin: 4px 8px;
+        padding: 4px;
+        border-radius: 0;
+        border-bottom: solid 2px;
+        border-color: rgba(0, 0, 0, 0);
+        transition: border-color 0.25s;
+      }
+
+      &.active {
+        .nav-link {
+          border-color: $color-bondi-blue;
+        }
+      }
+    }
+  }
 }
