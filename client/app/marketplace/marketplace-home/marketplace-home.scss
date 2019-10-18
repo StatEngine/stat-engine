@@ -91,6 +91,10 @@
     flex-direction: row;
     padding: 1rem;
 
+    @include media-breakpoint-down(xs) {
+      height: 8rem;
+    }
+
     &:hover, &:active, &:focus {
       text-decoration: none;
     }
