@@ -8,15 +8,20 @@ import * as auth from '../../auth/auth.service';
 
 const router = new Router();
 
-const s3 = new aws.S3({
-  endpoint: process.env.FILE_UPLOAD_ENDPOINT || 'http://127.0.0.1:9090',
+const S3Config = {
   s3ForcePathStyle: true,
   signatureVersion: 'v4'
-});
+};
+
+if (process.env.FILE_UPLOAD_ENDPOINT) {
+  S3Config.endpoint = process.env.FILE_UPLOAD_ENDPOINT;
+}
+
+const s3 = new aws.S3(S3Config);
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'uploads',
+    bucket: process.env.FILE_UPLOAD_BUCKET || 'uploads',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
