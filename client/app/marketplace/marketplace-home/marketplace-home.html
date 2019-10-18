@@ -19,7 +19,7 @@
           <div class="marketplace-search input-group mb-3">
             <input ng-model="query" class="search-input form-control" type="text" placeholder="Name or description">
           </div>
-          <div class="pd-t-10">
+          <div class="categories pd-t-10">
             <h6 class="text-uppercase heavyheader tx-13 mg-b-15">CATEGORIES</h6>
             <ul class="nav nav-pills flex-column align-items-start">
               <li ng-repeat="category in vm.categories" ng-class="{'active' : vm.selectedCategory === category}">
@@ -39,41 +39,53 @@
             </a>
           </div>
         </div>
-        <div class="extensions-content col-md-8">
-          <section class="featured-extensions">
-            <h4 class="mt-0 pb-4">Featured</h4>
-            <div class="row align-items-center">
-              <div ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured" class="col">
-                <a ng-click="vm.goto(extension)" href="#" class="card hvr-float">
-                  <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
-                  <h5 class="heavyheader text-truncate text-">{{extension.name}}
-                    <span ng-if="extension.type !== 'app'" class="pull-right badge badge-success">ENRICHMENT</span>
-                    <span ng-if="extension.type === 'app'" class="pull-right badge badge-primary">APPLICATION</span>
-                  </h5>
-                  <p>{{extension.short_description}}</p>
+        <div class="col-md-8">
+          <section class="extension-section">
+            <h4>Featured</h4>
+              <div
+                class="extension-card-list"
+                ng-repeat="extension in vm.filteredFeaturedExtensions | filter:query as filteredFeatured"
+              >
+                <a class="extension-card" ng-click="vm.goto(extension)" href="#">
+                  <img class="extension-card-icon" ng-src="{{vm.loadImage(extension.image)}}" alt="extension icon">
+                  <div class="extension-card-content">
+                    <div class="extension-card-title">
+                      <h5>{{extension.name}}</h5>
+                      <div>
+                        <span class="badge badge-success" ng-if="extension.type !== 'app'">ENRICHMENT</span>
+                        <span class="badge badge-primary" ng-if="extension.type === 'app'">APPLICATION</span>
+                      </div>
+                    </div>
+                    <p class="extension-card-description">{{extension.short_description}}</p>
+                  </div>
                 </a>
               </div>
               <div ng-if="filteredFeatured.length == 0" class="col">
                 <p class="text-danger">No featured extensions available </p>
               </div>
-            </div>
           </section>
-          <section class="extensions code-quality mt-md-3 pt-5">
-            <h4 class="mt-0 pb-4">{{vm.selectedCategory}}</h4>
-            <div class="row align-items-center">
-              <div ng-repeat="extension in vm.filteredExtensions | filter:query as filtered" class="col">
-                <a ng-click="vm.goto(extension)" href="#" class="card hvr-float">
-                  <img ng-src="{{vm.loadImage(extension.image)}}" alt="">
-                  <h5 class="heavyheader text-truncate">{{extension.name}}
-                    <span ng-if="extension.type !== 'app'" class="pull-right badge badge-success">ENRICHMENT</span>
-                    <span ng-if="extension.type === 'app'" class="pull-right badge badge-primary">APPLICATION</span>
-                  </h5>
-                  <p>{{extension.short_description}}</p>
-                </a>
-              </div>
-              <div ng-if="filtered.length == 0" class="col">
-                <p class="text-danger">No extensions available </p>
-              </div>
+          <section class="extension-section">
+            <h4>{{vm.selectedCategory}}</h4>
+            <div
+              class="extension-card-list"
+              ng-repeat="extension in vm.filteredExtensions | filter:query as filtered"
+            >
+              <a class="extension-card" ng-click="vm.goto(extension)" href="#">
+                <img class="extension-card-icon" ng-src="{{vm.loadImage(extension.image)}}" alt="extension icon">
+                <div class="extension-card-content">
+                  <div class="extension-card-title">
+                    <h5>{{extension.name}}</h5>
+                    <div>
+                      <span class="badge badge-success" ng-if="extension.type !== 'app'">ENRICHMENT</span>
+                      <span class="badge badge-primary" ng-if="extension.type === 'app'">APPLICATION</span>
+                    </div>
+                  </div>
+                  <p class="extension-card-description">{{extension.short_description}}</p>
+                </div>
+              </a>
+            </div>
+            <div ng-if="filtered.length == 0" class="col">
+              <p class="text-danger">No extensions available </p>
             </div>
           </section>
         </div>
