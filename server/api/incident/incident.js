@@ -138,7 +138,10 @@ export class Incident {
   }
 
   get firstEngineUnitArrived() {
-    let arrivedEngines = _.filter(this.apparatus, u => u.unit_type === 'Engine' && _.get(u, 'unit_status.arrived.timestamp'));
+    // Also include  Ladders and Quints because they provide engine capabilites
+    let arrivedEngines = _.filter(this.apparatus, u =>
+      (u.unit_type === 'Engine' || u.unit_type === 'Ladder' || u.unit_type === 'Quint')
+      && _.get(u, 'unit_status.arrived.timestamp'));
 
     if(arrivedEngines.length === 0) return;
     const sorted = _.sortBy(arrivedEngines, [e => moment(e.unit_status.arrived.timestamp).valueOf()]);
