@@ -1,27 +1,27 @@
 'use strict';
 
-import {Router} from 'express';
 import aws from 'aws-sdk';
+import config from '../config/environment';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import * as auth from '../../auth/auth.service';
+import * as auth from '../auth/auth.service';
+import combineMiddleware from './combine-middleware';
 
-const router = new Router();
-
+const { minio } = config;
 const S3Config = {
   s3ForcePathStyle: true,
   signatureVersion: 'v4'
 };
 
-if (process.env.FILE_UPLOAD_ENDPOINT) {
-  S3Config.endpoint = process.env.FILE_UPLOAD_ENDPOINT;
+if (minio) {
+  S3Config.endpoint = minio.endpoint;
 }
 
 const s3 = new aws.S3(S3Config);
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: process.env.FILE_UPLOAD_BUCKET || 'uploads',
+    bucket: minio.bucket || 'uploads',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
@@ -35,15 +35,10 @@ const uploadController = (req, res) => {
   if (!req.file) {
     return res.status(500).send({ error: 'Error while uploading department logo'});
   }
-  return res.status(200).json({ file: req.file });
+  return res.status(200).send({ uri: req.file.location });
 };
 
-router.post(
-  '/',
-  auth.isApiAuthenticated,
-  auth.hasRole('department_admin'),
+export default combineMiddleware([
   upload.single('file'),
   uploadController,
-);
-
-module.exports = router;
+]);

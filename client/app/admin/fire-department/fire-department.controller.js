@@ -72,11 +72,12 @@ export default class FireDepartmentController {
   }
 
   upload(file) {
+    const id = this.fireDepartment._id;
     this.Upload.upload({
-      url: '/api/image-upload',
+      url: `/api/fire-departments/${id}/logo`,
       data: { file: file }
     }).then((res) => {
-      const imgURL = res.data.file.location;
+      const imgURL = res.data.uri;
       this.fireDepartment.logo_link = imgURL;
     }, () => {
       this.errors.error = 'Error uploading logo.';

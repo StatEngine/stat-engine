@@ -19,4 +19,10 @@ module.exports = {
 
   // Seed database on startup
   seedDB: true,
+
+  // Local MinIO for image upload
+  minio: {
+    endpoint: 'http://localhost:9090',
+    bucket: 'uploads', 
+  }
 };
