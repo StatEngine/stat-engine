@@ -3,18 +3,19 @@
 import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
-import * as controller from './weather.controller';
+import * as controller from './predictions.controller';
 
 import { asyncMiddleware } from '../../util/async-middleware';
+
 
 const router = new Router();
 
 router.get(
-  '/forecast',
+  '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  asyncMiddleware(controller.getForecast),
+  asyncMiddleware(controller.getPrediction)
 );
 
 module.exports = router;

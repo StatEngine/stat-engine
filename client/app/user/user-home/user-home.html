@@ -235,6 +235,13 @@
               <p class="tx-light">{{vm.safetyMessage.message}}</p>
             </div>
           </div>
+          <hr>
+          <div class="row mt-3">
+            <div class="col-12">
+              <h4 class="heavyheader"> Predicted Call Volume </h4>
+              <h5>EMS:</label>&nbsp;<strong class="tx-heavy"> {{ vm.predictions.daily_ems_incidents| number:0 }} </strong>
+            </div>
+          </div>
         </div>
       </div>
     </section>

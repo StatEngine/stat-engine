@@ -123,6 +123,9 @@ export default function routes($stateProvider) {
         activeIncidents(currentPrincipal, Incident) {
           if(currentPrincipal.FireDepartment) return Incident.active({ id: 'active' }).$promise;
         },
+        predictions(currentPrincipal, Prediction) {
+          if(currentPrincipal.FireDepartment) return Prediction.get({ id: 'daily_ems_incidents' }).$promise;
+        }
       }
     })
     .state('site.user.settings', {

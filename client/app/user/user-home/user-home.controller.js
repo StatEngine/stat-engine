@@ -23,7 +23,7 @@ export default class UserHomeController {
   /*@ngInject*/
   constructor(
     $window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService,
-    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary
+    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary, predictions
   ) {
     this.$filter = $filter;
     this.$window = $window;
@@ -41,6 +41,7 @@ export default class UserHomeController {
     this.AnalyticEventNames = AnalyticEventNames;
     this.appConfig = appConfig;
     this.activeIncidents = activeIncidents;
+    this.predictions = predictions;
 
     this.interestingIncidents = interestingIncidents;
     if(this.principal.isGlobal) {

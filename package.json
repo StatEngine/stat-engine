@@ -28,7 +28,7 @@
     "animate.css": "^3.5.2",
     "async": "^2.6.0",
     "aws": "0.0.3-2",
-    "aws-sdk": "^2.144.0",
+    "aws-sdk": "^2.555.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.7.2",
     "babel-runtime": "^6.6.1",
