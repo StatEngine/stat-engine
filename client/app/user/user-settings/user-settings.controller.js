@@ -95,7 +95,7 @@ export default class UserSettingsController {
     }
 
     this.profile.isSaving = true;
-    this.profile.errors = [];
+    this.profile.errors = null;
     try {
       await this.UserService.update({ id: this.user._id }, {
         first_name: this.profile.inputs.firstName,
@@ -143,7 +143,7 @@ export default class UserSettingsController {
       .filter(emailName => (!this.user.unsubscribed_emails || !this.user.unsubscribed_emails.includes(emailName)));
 
     this.email.isSaving = true;
-    this.email.errors = [];
+    this.email.errors = null;
     try {
       await this.UserService.update({ id: this.user._id }, {
         unsubscribed_emails: unsubscribedEmails.join(','),
@@ -193,7 +193,7 @@ export default class UserSettingsController {
     }
 
     this.password.isSaving = true;
-    this.password.errors = [];
+    this.password.errors = null;
     try {
       await this.UserService.changePassword({ id: this.user._id }, {
         username: this.user.username,

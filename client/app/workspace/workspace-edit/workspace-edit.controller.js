@@ -8,7 +8,7 @@ import { getErrors } from '../../../util/error';
 let _;
 export default class WorkspaceEditController {
   workspace = {};
-  errors = [];
+  errors = null;
   message = '';
   seed = true;
 
@@ -182,7 +182,7 @@ export default class WorkspaceEditController {
     }
 
     this.isSaving = true;
-    this.errors = [];
+    this.errors = null;
     try {
       await fnc(params, {
         id: this.inputWorkspace._id,
@@ -193,7 +193,6 @@ export default class WorkspaceEditController {
       }).$promise;
     } catch (err) {
       this.errors = getErrors(err);
-      this.showErrors = true;
       return;
     } finally {
       this.isSaving = false;
