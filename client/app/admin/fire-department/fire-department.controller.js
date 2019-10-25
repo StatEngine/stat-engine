@@ -47,7 +47,7 @@ export default class FireDepartmentController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            this.error = getErrors(err);
+            this.errors = getErrors(err);
           });
       } else {
         this.FireDepartmentService.create(this.fireDepartment).$promise
