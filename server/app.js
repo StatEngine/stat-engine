@@ -5,6 +5,7 @@
 'use strict';
 
 import 'babel-polyfill';
+import 'express-async-errors';
 import express from 'express';
 import http from 'http';
 

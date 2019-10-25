@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
 import * as controller from './email.controller';
-import { asyncMiddleware } from '../../util/async-middleware';
 
 const router = new Router();
 
@@ -15,7 +14,7 @@ router.post(
   auth.hasRole('department_admin'),
   bodyParser.json(),
   auth.hasFireDepartment,
-  asyncMiddleware(controller.sendTimeRangeAnalysis),
+  controller.sendTimeRangeAnalysis,
 );
 
 module.exports = router;

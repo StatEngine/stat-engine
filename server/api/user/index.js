@@ -3,10 +3,8 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 
-import { asyncMiddleware } from '../../util/async-middleware';
 import * as controller from './user.controller';
 import * as auth from '../../auth/auth.service';
-import { asyncParam } from '../../util/async-param';
 
 var router = new Router();
 
@@ -14,73 +12,73 @@ var router = new Router();
 router.post(
   '/',
   bodyParser.json(),
-  asyncMiddleware(controller.create),
+  controller.create,
 );
 
 router.put(
   '/requestUsername',
   bodyParser.json(),
-  asyncMiddleware(controller.requestUsername),
+  controller.requestUsername,
 );
 
 router.put(
   '/resetPassword',
   bodyParser.json(),
-  asyncMiddleware(controller.resetPassword),
+  controller.resetPassword,
 );
 
 router.put(
   '/updatePassword',
   bodyParser.json(),
-  asyncMiddleware(controller.updatePassword),
+  controller.updatePassword,
 );
 
 // authenticated routes
 router.get(
   '/',
   auth.isApiAuthenticated,
-  asyncMiddleware(auth.hasFireDepartment),
-  asyncMiddleware(controller.getAll),
+  auth.hasFireDepartment,
+  controller.getAll,
 );
 
 router.get(
   '/me',
   auth.isApiAuthenticated,
-  asyncMiddleware(controller.me),
+  controller.me,
 );
 
 router.put(
   '/:id',
   auth.isApiAuthenticated,
   bodyParser.json(),
-  asyncMiddleware(controller.hasEditPermisssion),
-  asyncMiddleware(controller.edit),
+  controller.hasEditPermisssion,
+  controller.edit,
 );
 
 router.put(
   '/:id/password',
   auth.isApiAuthenticated,
   bodyParser.json(),
-  asyncMiddleware(controller.hasEditPermisssion),
-  asyncMiddleware(controller.changePassword),
+  controller.hasEditPermisssion,
+  controller.changePassword,
 );
 
 router.put(
   '/:id/requestAccess',
   auth.isApiAuthenticated,
   bodyParser.json(),
-  asyncMiddleware(controller.hasEditPermisssion),
-  asyncMiddleware(controller.requestAccess),
+  controller.hasEditPermisssion,
+  controller.requestAccess,
 );
 
-router.param('id', asyncParam(controller.loadUser));
+router.param('id', controller.loadUser);
 
 // department admin routes
 router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  asyncMiddleware(controller.get),
+  controller.get,
 );
 
 router.put(
@@ -88,8 +86,8 @@ router.put(
   bodyParser.json(),
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  asyncMiddleware(controller.hasEditPermisssion),
-  asyncMiddleware(controller.revokeAccess),
+  controller.hasEditPermisssion,
+  controller.revokeAccess,
 );
 
 router.put(
@@ -97,8 +95,8 @@ router.put(
   bodyParser.json(),
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  asyncMiddleware(controller.hasEditPermisssion),
-  asyncMiddleware(controller.approveAccess),
+  controller.hasEditPermisssion,
+  controller.approveAccess,
 );
 
 module.exports = router;

@@ -5,7 +5,6 @@ import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';
 import * as appInstallationController from './app-installation.controller';
-import { asyncMiddleware } from '../../util/async-middleware';
 
 const router = new Router();
 
@@ -13,19 +12,19 @@ const router = new Router();
 router.get(
   '/installations/:installationId/access_tokens',
   auth.checkOauthJwt,
-  asyncMiddleware(appInstallationController.generateToken),
+  appInstallationController.generateToken,
 );
 
 router.get(
   '/installations/:installationId/',
   auth.checkOauthJwt,
-  asyncMiddleware(appInstallationController.get),
+  appInstallationController.get,
 );
 
 router.get(
   '/installations',
   auth.checkOauthJwt,
-  asyncMiddleware(appInstallationController.search),
+  appInstallationController.search,
 );
 
 // future call

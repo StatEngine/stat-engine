@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
 import * as controller from './extension-configuration.controller';
-import { asyncMiddleware } from '../../util/async-middleware';
 
 const router = new Router();
 
@@ -13,34 +12,34 @@ router.get(
   '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  asyncMiddleware(auth.hasFireDepartment),
-  asyncMiddleware(controller.search)
+  auth.hasFireDepartment,
+  controller.search
 );
 
 router.get(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  asyncMiddleware(auth.hasFireDepartment),
-  asyncMiddleware(controller.get)
+  auth.hasFireDepartment,
+  controller.get
 );
 
 router.post(
   '/',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  asyncMiddleware(auth.hasFireDepartment),
+  auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.create)
+  controller.create
 );
 
 router.put(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
-  asyncMiddleware(auth.hasFireDepartment),
+  auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.update)
+  controller.update
 );
 
 module.exports = router;
