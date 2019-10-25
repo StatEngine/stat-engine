@@ -101,6 +101,13 @@
             <input type="checkbox" name="nfors" class="form-control input-md" ng-model="vm.user.nfors"/>
           </div>
           <div>
+            <div class="help-block" ng-if="vm.errors">
+              <ul>
+                <li ng-repeat="error in vm.errors">
+                  <span class="text-danger">{{ error.message }}</span>
+                </li>
+              </ul>
+            </div>
             <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
           </div>
         </form>
