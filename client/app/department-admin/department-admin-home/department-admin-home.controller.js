@@ -4,7 +4,8 @@ let _;
 
 export default class DepartmentAdminHomeController {
   /*@ngInject*/
-  constructor($location, currentPrincipal, User) {
+  constructor($state, $location, currentPrincipal, User) {
+    this.$state = $state;
     this.$location = $location;
     this.principal = currentPrincipal;
     this.fireDepartment = currentPrincipal.FireDepartment;    this.UserService = User;
@@ -96,5 +97,9 @@ export default class DepartmentAdminHomeController {
       .finally(() => {
         this.refreshUsers();
       });
+  }
+
+  createNewUser() {
+    this.$state.go('site.departmentAdmin.createNewUser');
   }
 }

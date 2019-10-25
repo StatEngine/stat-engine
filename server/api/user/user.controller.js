@@ -123,6 +123,54 @@ function sendWelcomeEmail(user) {
   }
 }
 
+function sendNewUserByDepartmentAdminEmail(user, department) {
+  if(config.mailSettings.mandrillAPIKey && department) {
+    var mailOptions = {};
+    mailOptions.from = config.mailSettings.serverEmail;
+    mailOptions.to = user.email;
+
+    // Mailing service
+    var mailTransport = nodemailer.createTransport(mandrillTransport({
+      auth: {
+        apiKey: config.mailSettings.mandrillAPIKey
+      }
+    }));
+
+    mailOptions.mandrillOptions = {
+      template_name: config.mailSettings.newUserByDepartmentAdminTemplate,
+      template_content: [],
+      message: {
+        merge: false,
+        merge_language: 'handlebars',
+        global_merge_vars: [{
+          name: 'DEPARTMENT_NAME',
+          content: department.name,
+        }, {
+          name: 'DEPARTMENT_IMAGE_URL',
+          content: department.logo_link || statEngineLogoLink,
+        }, {
+          name: 'USER_USERNAME',
+          content: user.username,
+        }, {
+          name: 'USER_EMAIL',
+          content: user.email,
+        }, {
+          name: 'USER_FIRST_NAME',
+          content: user.first_name,
+        }, {
+          name: 'USER_LAST_NAME',
+          content: user.last_name,
+        }],
+      }
+    };
+    return mailTransport.sendMail(mailOptions);
+  } else {
+    return new Promise(resolve => {
+      setTimeout(resolve, 0);
+    });
+  }
+}
+
 async function sendRequestDepartmentAccessEmail(user, department) {
   if(!config.mailSettings.mandrillAPIKey) {
     return
@@ -303,6 +351,15 @@ export async function create(req, res) {
       }
     });
     sendRequestDepartmentAccessEmail(user, department);
+  }
+
+  if (req.body.new_user_by_department_admin) {
+    const department = await FireDepartment.find({
+      where: {
+        _id: req.body.fire_department_id,
+      }
+    });
+    sendNewUserByDepartmentAdminEmail(user, department);
   }
 
   res.status(204).send({ user });
