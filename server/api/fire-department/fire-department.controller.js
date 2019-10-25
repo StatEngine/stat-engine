@@ -45,15 +45,10 @@ export async function search(req, res) {
     attributes.push('customer_id');
   }
 
-  let fireDepartments;
-  try {
-    fireDepartments = await FireDepartment.findAll({
-      where: req.query,
-      attributes
-    });
-  } catch (err) {
-    throw new UnprocessableEntityError(err.message);
-  }
+  const fireDepartments = await FireDepartment.findAll({
+    where: req.query,
+    attributes
+  });
 
   if(!fireDepartments) {
     throw new NotFoundError('Fire department not found');
@@ -101,23 +96,18 @@ export function get(req, res) {
 }
 
 export async function getUsers(req, res) {
-  let users;
-  try {
-    users = await FireDepartment.find({
-      where: {
-        _id: req.user.FireDepartment._id
-      },
-      attributes: [
-        '_id',
-      ],
-      include: [{
-        model: User,
-        attributes: ['first_name', 'last_name', 'role']
-      }]
-    })
-  } catch (err) {
-    throw new UnprocessableEntityError(err.message);
-  }
+  const users = await FireDepartment.find({
+    where: {
+      _id: req.user.FireDepartment._id
+    },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: ['first_name', 'last_name', 'role']
+    }]
+  });
 
   if(!users) {
     throw new NotFoundError('Users not found');
