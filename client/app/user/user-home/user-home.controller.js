@@ -1,6 +1,7 @@
 'use strict';
 
 import humanizeDuration from 'humanize-duration';
+import { getErrors } from '../../../util/error';
 
 let _;
 
@@ -20,6 +21,8 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
   }
 });
 export default class UserHomeController {
+  errors = null;
+
   /*@ngInject*/
   constructor(
     $window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService,
@@ -115,7 +118,8 @@ export default class UserHomeController {
       this.pending = false;
     }
 
-    this.setFireDepartment = function(fd) {
+    this.setFireDepartment = (fd) => {
+      this.errors = null;
       this.principal.fire_department__id = fd._id;
       this.UserService.update({ id: this.principal._id }, this.principal).$promise
         .then(() => {
@@ -125,6 +129,7 @@ export default class UserHomeController {
         .catch(err => {
           console.error('error switching fire departments');
           console.error(err);
+          this.errors = getErrors(err);
         });
     };
 
