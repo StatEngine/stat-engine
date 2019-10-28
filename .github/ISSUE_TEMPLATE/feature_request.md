@@ -9,7 +9,7 @@ assignees: ''
 ## Overview
 
 
-## Acceptance Criterias
+## Acceptance Criteria
 -
 
 ## Mockups / Screenshots
