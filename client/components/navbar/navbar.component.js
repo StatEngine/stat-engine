@@ -34,19 +34,11 @@ export class NavbarComponent {
       $('.app-content-view').animate({ scrollTop: $(location).offset().top }, 1000);
     };
 
-    this.dashboard = function(location) {
-      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
-        app: 'Dashboard',
-        location
-      });
-      this.$window.location.href = '/workspace';
-    };
-
-    this.goto = (state, appName) => {
+    this.goto = (state, appName, location = 'navbar-dropdown') => {
       if(appName) {
         this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
           app: appName,
-          location: 'navbar-dropdown'
+          location,
         });
       }
       $state.go(state);
