@@ -177,6 +177,9 @@ angular.module('statEngineApp', [
   unsupportedBrowser,
 ])
   .config(routeConfig)
+  .config(buildConfig => {
+    console.debug(`Currently running version: ${buildConfig.version} (${buildConfig.versionDate})`)
+  })
   .config((appConfig, amplitudeConfig) => {
     if(amplitudeConfig.key) {
       import(/* webpackChunkName: "amplitude-js" */ 'amplitude-js')
