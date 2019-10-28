@@ -2,10 +2,9 @@
 FROM node:10
 
 ARG AMPLITUDE_API_KEY
-RUN echo $AMPLITUDE_API_KEY
-
 ARG MAPBOX_TOKEN
-RUN echo $MAPBOX_TOKEN
+ARG BUILD_VERSION
+ARG BUILD_DATE
 
 RUN apt-get update && apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
 
@@ -28,7 +27,7 @@ COPY . /usr/src/stat-engine
 
 # Build dist
 ARG ON_PREMISE
-RUN if [ "x$ON_PREMISE" = "x" ] ; then AMPLITUDE_API_KEY=${AMPLITUDE_API_KEY} MAPBOX_TOKEN=${MAPBOX_TOKEN} /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
+RUN if [ "x$ON_PREMISE" = "x" ] ; then AMPLITUDE_API_KEY=${AMPLITUDE_API_KEY} MAPBOX_TOKEN=${MAPBOX_TOKEN} BUILD_VERSION=${BUILD_VERSION} BUILD_DATE=${BUILD_DATE} /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build; else /usr/src/stat-engine/node_modules/gulp/bin/gulp.js build:onPremise; fi
 
 # Run
 ENV NODE_ENV=production
