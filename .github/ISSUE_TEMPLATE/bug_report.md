@@ -1,24 +1,19 @@
 ---
-name: Bug report
+name: Bug Report
 about: Use this to report bugs
 title: "[BUG] "
 labels: bug
 assignees: ''
-
 ---
 
-**Description:**
+## Overview
 
 
-**Expected Behavior**
+## Expected Behavior
 
+
+## Environment
 -
 
-**Environment**
-
--
-
-**Steps to reproduce**
-
--
+## Steps to Reproduce
 -
