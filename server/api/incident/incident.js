@@ -50,10 +50,6 @@ export class Incident {
     return _.get(this.incident, 'durations');
   }
 
-  get NFPA() {
-    return _.get(this.incident, 'NFPA');
-  }
-
   get weather() {
     return _.get(this.incident, 'weather');
   }
@@ -166,15 +162,16 @@ export class Incident {
   }
 
   get alarmProcessingDurationSeconds() {
-    return _.get(this.incident, 'NFPA.alarm_processing_duration_seconds');
+    return _.get(this.incident, 'durations.alarm_processing.seconds');
   }
 
   get alarmAnsweringDurationSeconds() {
-    return _.get(this.incident, 'NFPA.alarm_answering_duration_seconds');
+    return _.get(this.incident, 'durations.alarm_answering_duration_seconds');
   }
 
   get firstEngineTravelSeconds() {
-    return _.get(this.incident, 'NFPA.first_engine_travel_duration_seconds');
+    console.dir(this.firstEngineUnitArrived)
+    return this.firstEngineUnitArrived ? _.get(this.firstEngineUnitArrived, 'extended_data.travel_duration')  : undefined;
   }
 
   get travelMatrix() {
