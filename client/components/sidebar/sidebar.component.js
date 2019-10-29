@@ -35,7 +35,7 @@ export class SidebarComponent {
 
   dashboard() {
     this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
-      app: 'Dashboard',
+      app: 'Workspaces',
       location: 'sidebar',
     });
     this.$state.go('site.workspace.home');
