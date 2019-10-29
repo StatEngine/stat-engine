@@ -5,18 +5,19 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor($state, $scope, $window, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
+  openDropdowns = {};
+
+  constructor($state, $scope, $window, $timeout, Principal, AmplitudeService, AnalyticEventNames, appConfig) {
     'ngInject';
 
     this.$state = $state;
     this.$window = $window;
+    this.$timeout = $timeout;
     this.PrincipalService = Principal;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
 
     this.appConfig = appConfig;
-
-    this.userDropDownActive = false;
 
     this.currentPrincipal = undefined;
     this.PrincipalService.identity()
@@ -30,24 +31,14 @@ export class NavbarComponent {
     };
 
     this.scrollTo = function(location) {
-      $('.content-view').animate({ scrollTop: $(location).offset().top }, 1000);
+      $('.app-content-view').animate({ scrollTop: $(location).offset().top }, 1000);
     };
 
-    this.dashboard = function(location) {
-      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
-        app: 'Dashboard',
-        location
-      });
-      this.$window.location.href = '/workspace';
-    };
-
-    this.goto = function(state, appName) {
-      this.userDropDownActive = false;
-
+    this.goto = (state, appName, location = 'navbar-dropdown') => {
       if(appName) {
         this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
           app: appName,
-          location: 'navbar-dropdown'
+          location,
         });
       }
       $state.go(state);
@@ -75,6 +66,25 @@ export class NavbarComponent {
 
   hideMobileNav() {
     angular.element('body').removeClass('show-mobile-nav');
+  }
+
+  openDropdown(dropdownId) {
+    if (this.openDropdowns[dropdownId]) {
+      return;
+    }
+
+    this.openDropdowns[dropdownId] = {
+      close: () => {
+        this.$window.removeEventListener('click', this.openDropdowns[dropdownId].close);
+        this.$timeout(() => {
+          delete this.openDropdowns[dropdownId];
+        });
+      },
+    };
+
+    this.$timeout(() => {
+      this.$window.addEventListener('click', this.openDropdowns[dropdownId].close);
+    });
   }
 }
 

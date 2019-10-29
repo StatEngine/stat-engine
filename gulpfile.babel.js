@@ -21,6 +21,7 @@ import webpack from 'webpack';
 import gulpWebpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
 import b2v from 'buffer-to-vinyl';
+import moment from 'moment-timezone';
 import seedDev from './server/config/seedDev'
 
 var plugins = gulpLoadPlugins();
@@ -422,7 +423,11 @@ gulp.task('ngConfig:dev', cb => {
            },
            mapboxConfig: {
              token: process.env.MAPBOX_TOKEN || ''
-           }
+           },
+           buildConfig: {
+             version: 'development',
+             versionDate: moment().format(),
+          }
          }
       }))
       .pipe(gulp.dest(`${clientPath}/app`))
@@ -439,6 +444,10 @@ gulp.task('ngConfig:cloud', cb => {
            },
            mapboxConfig: {
              token: process.env.MAPBOX_TOKEN || ''
+           },
+           buildConfig: {
+            version: process.env.BUILD_VERSION,
+            versionDate: process.env.BUILD_DATE,
            }
          }
       }))
