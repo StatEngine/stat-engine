@@ -170,8 +170,7 @@ export class Incident {
   }
 
   get firstEngineTravelSeconds() {
-    console.dir(this.firstEngineUnitArrived)
-    return this.firstEngineUnitArrived ? _.get(this.firstEngineUnitArrived, 'extended_data.travel_duration')  : undefined;
+    return this.firstEngineUnitArrived ? _.get(this.firstEngineUnitArrived, 'extended_data.travel_duration') : undefined;
   }
 
   get travelMatrix() {
