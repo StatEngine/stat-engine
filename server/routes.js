@@ -11,7 +11,7 @@ import errors from './components/errors';
 import config from './config/environment';
 
 export default function(app) {
-  // Kubernetes uses this route to ensure the servie is up
+  // Kubernetes uses this route to ensure the service is up
   app.route('/heartbeat')
   .get((res, req) => {
     req.status(204).send();
