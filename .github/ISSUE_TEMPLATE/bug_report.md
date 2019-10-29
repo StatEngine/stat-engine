@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: Use this to report bugs
-title: "[BUG] "
+title: ""
 labels: bug
 assignees: ''
 ---
@@ -17,3 +17,5 @@ assignees: ''
 
 ## Steps to Reproduce
 -
+
+## Screenshots
