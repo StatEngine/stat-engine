@@ -12,11 +12,6 @@ import http from 'http';
 import sqldb from './sqldb';
 import config from './config/environment';
 
-// Populate databases with sample data
-if(config.seedDB) {
-  require('./config/seed');
-}
-
 // Setup server
 var app = express();
 var server = http.createServer(app);

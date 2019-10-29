@@ -22,6 +22,7 @@ import gulpWebpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
 import b2v from 'buffer-to-vinyl';
 import moment from 'moment-timezone';
+import seedDev from './server/config/seedDev'
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -719,4 +720,12 @@ gulp.task('buildcontrol:openshift', function(done) {
         {gruntfile: false}, //don't look for a Gruntfile - there is none. :-)
         function() {done();}
     );
+});
+
+/********************
+ * Seed
+ ********************/
+
+gulp.task('seed:dev', (done) => {
+  seedDev().then(done)
 });
