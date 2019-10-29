@@ -166,7 +166,7 @@ export class Incident {
   }
 
   get alarmAnsweringDurationSeconds() {
-    return _.get(this.incident, 'durations.alarm_answering.seconds');
+    return _.get(this.incident, 'durations.alarm_answer.seconds');
   }
 
   get firstEngineTravelSeconds() {
