@@ -26,7 +26,11 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class IncidentAnalysisController {
   /*@ngInject*/
-  constructor($scope, AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData, Print) {
+  constructor($scope, AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData, Print, modules) {
+    _ = modules._;
+    tippy = modules.tippy;
+    PlotlyBasic = modules.PlotlyBasic;
+
     this.$scope = $scope;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
@@ -35,16 +39,7 @@ export default class IncidentAnalysisController {
     this.Print = Print;
   }
 
-  async loadModules() {
-    _ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-    tippy = await import(/* webpackChunkName: "tippy" */ 'tippy.js');
-    tippy = tippy.default;
-    PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
-  }
-
-  async $onInit() {
-    await this.loadModules();
-
+  $onInit() {
     this.groupedUnits = _.groupBy(this.incidentData.incident.apparatus, u => u.suppressed);
 
     this.suppressedUnits = this.groupedUnits.true;
@@ -123,7 +118,6 @@ export default class IncidentAnalysisController {
 
     this.formatSearchResults(this.concurrentIncidents);
 
-    this.initialized = true;
     this.initTippy();
 
     this.Print.addBeforePrintListener(this.beforePrint);

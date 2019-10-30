@@ -11,6 +11,12 @@ import errors from './components/errors';
 import config from './config/environment';
 
 export default function(app) {
+  // Kubernetes uses this route to ensure the service is up
+  app.route('/heartbeat')
+  .get((res, req) => {
+    req.status(204).send();
+  });
+
   // Insert API routes below
   app.use('/api/app', require('./api/app'));
   app.use('/api/apps', require('./api/apps'));
@@ -39,11 +45,6 @@ export default function(app) {
   app.use(lusca.csrf({
     angular: true,
   }));
-
-  app.route('/heartbeat')
-    .post((res, req) => {
-      req.status(204).send();
-    });
 
   // Authentication
   app.use('/auth', require('./auth').default);
