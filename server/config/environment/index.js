@@ -70,9 +70,6 @@ var all = {
   // Server IP
   ip: process.env.IP || '0.0.0.0',
 
-  // Should we populate the DB with sample data?
-  seedDB: process.env.SEED_DB || false,
-
   session: {
     secret: process.env.SESSION_SECRET || '123456',
     secure: _.isUndefined(process.env.SESSION_SECURE) ? true : process.env.SESSION_SECURE.toLowerCase() !== 'false',
