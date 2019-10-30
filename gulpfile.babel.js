@@ -308,8 +308,7 @@ gulp.task('clean:tmp', () => del(['.tmp/**/*'], {dot: true}));
 
 gulp.task('start:client', cb => {
     whenServerReady(() => {
-        open('http://localhost:' + config.browserSyncPort);
-        cb();
+        open('http://localhost:' + config.browserSyncPort).then(() => cb());
     });
 });
 
