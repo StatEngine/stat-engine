@@ -2,6 +2,7 @@ import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 
 import { FireDepartment } from '../../sqldb';
+import { UnauthorizedError } from '../../util/error';
 
 function httpAuthenticate(User, username, password, done) {
   User.find({
@@ -11,18 +12,16 @@ function httpAuthenticate(User, username, password, done) {
     include: [FireDepartment]
   }).nodeify((err, user) => {
     if(err) {
-      return done(err);
+      throw err;
     } else if(!user) {
-      return done(null, false, {
-        message: 'This username is not registered.'
-      });
+      throw new UnauthorizedError('This username is not registered.');
     }
 
     user.authenticate(password, (authError, authenticated) => {
       if(authError) {
-        return done(authError);
+        throw authError;
       } else if(!authenticated) {
-        return done(null, false, { message: 'This password is not correct.' });
+        throw new UnauthorizedError('This password is not correct. and stuff');
       }
 
       return done(null, user);

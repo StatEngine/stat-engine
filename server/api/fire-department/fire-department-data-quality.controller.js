@@ -6,29 +6,25 @@ import connection from '../../elasticsearch/connection';
 const noActionMessage = 'No action required.';
 const qaGradeStops = [10, 33];
 
-export function runQA(options) {
+export async function runQA(options) {
   const params = _.merge({
     index: options.index
   }, options.payload);
 
   const client = connection.getClient();
 
-  return Promise.all([
+  const responses = await Promise.all([
     client.count({ index: options.index })
       .then(res => res.count),
     client[options.method](params)
       .then(res => options.parser(res, options))
-  ])
-    .then(responses => {
-      const [total, results] = responses;
-      results.totalDocuments = total;
-      results.percentViolation = _.round(results.violations / total, 2);
-      results.grade = gradeFromPercentage(results.percentViolation);
-      return results;
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  ]);
+
+  const [total, results] = responses;
+  results.totalDocuments = total;
+  results.percentViolation = _.round(results.violations / total, 2);
+  results.grade = gradeFromPercentage(results.percentViolation);
+  return results;
 }
 
 export const noApparatus = {

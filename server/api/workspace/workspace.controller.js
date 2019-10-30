@@ -9,6 +9,7 @@ import {
   seedKibanaIndexPatterns,
   seedKibanaVisualizations,
 } from '../../fixtures';
+import { BadRequestError, ForbiddenError } from '../../util/error';
 
 const seedTemplate = Promise.promisify(seedKibanaTemplate);
 const seedIndexPatterns = Promise.promisify(seedKibanaIndexPatterns);
@@ -47,38 +48,39 @@ export async function create(req, res, next) {
   // force this all so user cannot overwrite in request
   workspace.setDataValue('fire_department__id', req.user.FireDepartment._id);
   let wkspace;
-  await sequelize.transaction(t =>
-    workspace.save({transaction: t}).then(saved => {
-      wkspace = saved;
-      // make the user an owner
-      let permissionPromises = [UserWorkspace.create({
-        user__id: req.user._id,
-        workspace__id: saved._id,
-        permission: 'admin',
-        is_owner: true,
-      }, { transaction: t })];
+  await sequelize.transaction(async t => {
+    const saved = await workspace.save({ transaction: t });
 
-      // update any other user permissions
-      req.body.users.forEach(u => {
-        if (u._id !== req.user._id && (u.is_owner || u.permission)) {
-          permissionPromises.push(UserWorkspace.create({
-            user__id: u._id,
-            workspace__id: saved._id,
-            permission: u.permission,
-            is_owner: u.is_owner,
-          }, { transaction: t }));
-        }
-      });
-      return Promise.all(permissionPromises);
-    })
-  ).then(() => {
-    req.wkspace = wkspace;
-    next();
+    wkspace = saved;
+    // make the user an owner
+    let permissionPromises = [UserWorkspace.create({
+      user__id: req.user._id,
+      workspace__id: saved._id,
+      permission: 'admin',
+      is_owner: true,
+    }, { transaction: t })];
+
+    // update any other user permissions
+    req.body.users.forEach(u => {
+      if(u._id !== req.user._id && (u.is_owner || u.permission)) {
+        permissionPromises.push(UserWorkspace.create({
+          user__id: u._id,
+          workspace__id: saved._id,
+          permission: u.permission,
+          is_owner: u.is_owner,
+        }, { transaction: t }));
+      }
+    });
+
+    await Promise.all(permissionPromises);
   });
+
+  req.wkspace = wkspace;
+  next();
 }
 
 export async function edit(req, res) {
-  await sequelize.transaction(t => {
+  await sequelize.transaction(async t => {
     const calls = [];
     calls.push(Workspace.update({
       name: req.body.name,
@@ -119,7 +121,7 @@ export async function edit(req, res) {
         }));
     });
 
-    return Promise.all(calls);
+    await Promise.all(calls);
   });
   res.status(204).send();
 }
@@ -155,16 +157,17 @@ export async function markAsDeleted(req, res) {
     }
   });
 
-  if(wkspace.slug === 'default') return res.send(500);
+  if(wkspace.slug === 'default') throw new ForbiddenError('Deleting the default workspace is forbidden');
 
-  return await Workspace.update({
+  await Workspace.update({
     is_deleted: true
   }, {
     where: {
       _id: req.params.id
-    }}).then(() => {
-    res.status(204).send();
+    }
   });
+
+  res.status(204).send();
 }
 
 export async function getAll(req, res) {
@@ -176,179 +179,179 @@ export async function getAll(req, res) {
     attributes: []
   }];
 
-  return Workspace.findAll({
+  const workspaces = await Workspace.findAll({
     where: {
       fire_department__id: req.user.FireDepartment._id,
       is_deleted: false,
     },
     include,
-  })
-    .then(workspaces => {
-      // now fetch each workpace, including users
-      if(!workspaces || workspaces.length === 0) return res.json([]).send();
-      return Workspace.findAll({
-        where: {
-          fire_department__id: req.user.FireDepartment._id,
-          _id: _.map(workspaces, w => w._id),
-        },
-        include: [{
-          model: User,
-          attributes: [ 'username', 'email', 'role' ]
-        }]
-      }).then(result => res.json(result));
-    });
+  });
+
+  // now fetch each workpace, including users
+  if(!workspaces || workspaces.length === 0) return res.json([]).send();
+
+  const result = await Workspace.findAll({
+    where: {
+      fire_department__id: req.user.FireDepartment._id,
+      _id: _.map(workspaces, w => w._id),
+    },
+    include: [{
+      model: User,
+      attributes: [ 'username', 'email', 'role' ]
+    }]
+  });
+
+  res.json(result);
 }
 
 export async function updateUser(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
-  if(_.isNil(req.body.user.permission)) throw new Error('req.body.user.permission not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
+  if(_.isNil(req.body.user.permission)) throw new BadRequestError('req.body.user.permission not set');
 
-  return await UserWorkspace
-    .findOne({
-      where: {
-        workspace__id: req.params.id,
-        user__id: req.params.userId,
-      }
-    })
-    .then(userWorkspace => {
-      if(userWorkspace) {
-        return userWorkspace.update({
-          permission: req.body.user.permission
-        });
-      } else {
-        return UserWorkspace.create({
-          user__id: req.params.userId,
-          workspace__id: req.params.id,
-          permission: req.body.user.permission,
-          is_owner: false,
-        });
-      }
-    })
-    .then(() => res.status(204).send());
+  const userWorkspace = await UserWorkspace.findOne({
+    where: {
+      workspace__id: req.params.id,
+      user__id: req.params.userId,
+    }
+  });
+
+  if(userWorkspace) {
+    await userWorkspace.update({
+      permission: req.body.user.permission
+    });
+  } else {
+    await UserWorkspace.create({
+      user__id: req.params.userId,
+      workspace__id: req.params.id,
+      permission: req.body.user.permission,
+      is_owner: false,
+    });
+  }
+
+  res.status(204).send();
 }
 
 export async function updateOwner(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
-  if(_.isNil(req.body.user.is_owner)) throw new Error('req.body.user.is_owner not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
+  if(_.isNil(req.body.user.is_owner)) throw new BadRequestError('req.body.user.is_owner not set');
 
-  return await UserWorkspace
-    .findOne({
-      where: {
-        workspace__id: req.params.id,
-        user__id: req.params.userId,
-      }
-    })
-    .then(userWorkspace => {
-      if(userWorkspace) {
-        return userWorkspace.update({
-          is_owner: req.body.user.is_owner
-        });
-      } else {
-        return UserWorkspace.create({
-          user__id: req.params.userId,
-          workspace__id: req.params.id,
-          permission: 'admin',
-          is_owner: true,
-        });
-      }
-    })
-    .then(() => res.status(204).send())
+  const userWorkspace = await UserWorkspace.findOne({
+    where: {
+      workspace__id: req.params.id,
+      user__id: req.params.userId,
+    }
+  });
+
+  if(userWorkspace) {
+    await userWorkspace.update({
+      is_owner: req.body.user.is_owner
+    });
+  } else {
+    await UserWorkspace.create({
+      user__id: req.params.userId,
+      workspace__id: req.params.id,
+      permission: 'admin',
+      is_owner: true,
+    });
+  }
+
+  res.status(204).send();
 }
 
 export async function revokeUser(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
 
-  return await UserWorkspace
-    .findOne({
-      where: {
-        workspace__id: req.params.id,
-        user__id: req.params.userId,
-      }
-    })
-    .then(userWorkspace => {
-      if(userWorkspace) {
-        return userWorkspace.update({
-          permission: null,
-        });
-      } else {
-        return UserWorkspace.create({
-          user__id: req.params.userId,
-          workspace__id: req.params.id,
-          permission: null,
-          is_owner: false,
-        });
-      }
-    })
-    .then(() => res.status(204).send())
+  const userWorkspace = await UserWorkspace.findOne({
+    where: {
+      workspace__id: req.params.id,
+      user__id: req.params.userId,
+    }
+  });
+
+  if(userWorkspace) {
+    await userWorkspace.update({
+      permission: null,
+    });
+  } else {
+    await UserWorkspace.create({
+      user__id: req.params.userId,
+      workspace__id: req.params.id,
+      permission: null,
+      is_owner: false,
+    });
+  }
+
+  res.status(204).send();
 }
 
 export async function revokeOwner(req, res) {
-  if(_.isNil(req.params.id)) throw new Error('req.params.id not set');
-  if(_.isNil(req.params.userId)) throw new Error('req.params.userId not set');
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
+  if(_.isNil(req.params.userId)) throw new BadRequestError('req.params.userId not set');
 
-  return await UserWorkspace
-    .findOne({
-      where: {
-        workspace__id: req.params.id,
-        user__id: req.params.userId,
-      }
-    })
-    .then(userWorkspace => {
-      if(userWorkspace) {
-        return userWorkspace.update({
-          is_owner: false,
-        });
-      } else {
-        return UserWorkspace.create({
-          user__id: req.params.userId,
-          workspace__id: req.params.id,
-          permission: null,
-          is_owner: false,
-        });
-      }
-    })
-    .then(() => res.status(204).send())
+  const userWorkspace = await UserWorkspace.findOne({
+    where: {
+      workspace__id: req.params.id,
+      user__id: req.params.userId,
+    }
+  });
+
+  if(userWorkspace) {
+    await userWorkspace.update({
+      is_owner: false,
+    });
+  } else {
+    await UserWorkspace.create({
+      user__id: req.params.userId,
+      workspace__id: req.params.id,
+      permission: null,
+      is_owner: false,
+    });
+  }
+
+  res.status(204).send();
 }
 
 export async function hasWorkspaceAccess(req, res, next) {
-  if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
 
   if (req.user.isGlobal) return next();
-  return UserWorkspace.find({
+
+  const result = await UserWorkspace.find({
     where: {
       workspace__id: req.params.id,
       user__id: req.user._id,
     },
-  })
-    .then(result => {
-      if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have access to this workspace'));
-      req.userWorkspace = result;
-      return next();
-    })
+  });
+
+  if(_.isEmpty(result) || _.isNil(result)) throw new BadRequestError('User does not have access to this workspace');
+
+  req.userWorkspace = result;
+  return next();
 }
 
 export async function hasWorkspaceOwnerAccess(req, res, next) {
-  if(_.isNil(req.params.id)) return next(new Error('req.params.id not set'));
+  if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
 
   if (req.user.isAdmin) return next();
-  return UserWorkspace.find({
+
+  const result = await UserWorkspace.find({
     where: {
       workspace__id: req.params.id,
       user__id: req.user._id,
       is_owner: true,
     },
-  })
-    .then(result => {
-      if(_.isEmpty(result) || _.isNil(result)) return next(new Error('User does not have owner access to this workspace'));
-      return next();
-    })
+  });
+
+  if(_.isEmpty(result) || _.isNil(result)) throw new BadRequestError('User does not have owner access to this workspace');
+
+  return next();
 }
 
 export async function load(req, res, next) {
-  return Workspace.find({
+  const result = await Workspace.find({
     where: {
       _id: req.params.id,
       is_deleted: false,
@@ -360,10 +363,9 @@ export async function load(req, res, next) {
       model: FireDepartment,
       attributes: ['firecares_id']
     }]
-  })
-    .then(result => {
-      req.workspace = result;
-      next();
-    })
+  });
+
+  req.workspace = result;
+  next();
 }
 

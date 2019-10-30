@@ -3,7 +3,6 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 
-import { asyncMiddleware } from '../../util/async-middleware';
 import * as controller from './workspace.controller';
 import * as auth from '../../auth/auth.service';
 
@@ -15,8 +14,8 @@ router.post(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.create),
-  asyncMiddleware(controller.loadFixtures),
+  controller.create,
+  controller.loadFixtures,
 );
 
 router.get(
@@ -24,7 +23,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  asyncMiddleware(controller.getAll)
+  controller.getAll
 );
 
 router.get(
@@ -32,8 +31,8 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  asyncMiddleware(controller.hasWorkspaceAccess),
-  asyncMiddleware(controller.get)
+  controller.hasWorkspaceAccess,
+  controller.get
 );
 
 router.put(
@@ -42,18 +41,18 @@ router.put(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(controller.edit)
-)
+  controller.hasWorkspaceOwnerAccess,
+  controller.edit
+);
 
 router.delete(
   '/:id',
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(controller.markAsDeleted),
-)
+  controller.hasWorkspaceOwnerAccess,
+  controller.markAsDeleted,
+);
 
 router.delete(
   '/:id/users/:userId',
@@ -61,8 +60,8 @@ router.delete(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(controller.revokeUser),
+  controller.hasWorkspaceOwnerAccess,
+  controller.revokeUser,
 );
 
 router.post(
@@ -71,8 +70,8 @@ router.post(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(controller.updateUser),
+  controller.hasWorkspaceOwnerAccess,
+  controller.updateUser,
 );
 
 router.post(
@@ -81,8 +80,8 @@ router.post(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(controller.updateOwner)
+  controller.hasWorkspaceOwnerAccess,
+  controller.updateOwner
 );
 
 router.delete(
@@ -91,8 +90,8 @@ router.delete(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  asyncMiddleware(controller.hasWorkspaceOwnerAccess),
-  asyncMiddleware(controller.revokeOwner),
+  controller.hasWorkspaceOwnerAccess,
+  controller.revokeOwner,
 );
 
 router.param('id', controller.load);

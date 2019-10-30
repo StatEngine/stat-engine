@@ -4,10 +4,11 @@ import {
   Extension,
   ExtensionConfiguration
 } from '../../sqldb';
+import { InternalServerError } from '../../util/error';
 
 export function hasExtensionConfiguration(extension_name) {
   if(!extension_name) {
-    throw new Error('extension_name needs to be set');
+    throw new InternalServerError('extension_name needs to be set');
   }
 
   return compose()
@@ -22,9 +23,9 @@ export function hasExtensionConfiguration(extension_name) {
       }]
     }).nodeify((err, extensionConfiguration) => {
       if(err) {
-        return res.status(500);
+        return next(new InternalServerError(err.message));
       } else if(!extensionConfiguration) {
-        return res.status(500).send('No Extension Configuration Found');
+        return next(new InternalServerError('No Extension Configuration Found'));
       }
 
       req.extensionConfiguration = extensionConfiguration;

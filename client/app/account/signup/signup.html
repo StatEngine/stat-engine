@@ -48,13 +48,13 @@
         </div>
 
         <div>
-          <p class="help-block" ng-show="vm.errors">
+          <div class="help-block" ng-show="vm.errors">
             <ul>
               <li ng-repeat="error in vm.errors">
                 <p class="text-danger">{{ error.message }}</p>
               </li>
             </ul>
-          </p>
+          </div>
           <button id='signup-sign-up' class="btn btn-primary btn-lg btn-oblong hvr-float w180 signup" type="submit">
             Sign up
           </button>
