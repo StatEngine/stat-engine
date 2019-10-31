@@ -1,6 +1,5 @@
 'use strict';
 
-import async from 'async';
 import _ from 'lodash';
 import Promise from 'bluebird';
 
@@ -22,13 +21,13 @@ import {
 } from './fire-department-nfpa.controller';
 
 import { createCustomer, retrieveSubscription } from '../../subscription/chargebee';
-import { validationError, handleError } from '../../util/error';
+import { UnprocessableEntityError, NotFoundError, ForbiddenError } from '../../util/error';
 
 
 /**
  * Search for fire departments
  */
-export function search(req, res) {
+export async function search(req, res) {
   const attributes = [
     'firecares_id',
     '_id',
@@ -46,41 +45,47 @@ export function search(req, res) {
     attributes.push('customer_id');
   }
 
-  return FireDepartment.findAll({
+  const fireDepartments = await FireDepartment.findAll({
     where: req.query,
     attributes
-  })
-    .then(fireDepartments => {
-      if(!fireDepartments) {
-        return res.status(404).end();
-      }
-      return res.json(fireDepartments);
-    })
-    .catch(validationError(res));
+  });
+
+  if(!fireDepartments) {
+    throw new NotFoundError('Fire department not found');
+  }
+
+  res.json(fireDepartments);
 }
 
 /**
  * Creates a new fire department
  */
-export function create(req, res) {
+export async function create(req, res) {
   const newFireDepartment = FireDepartment.build(req.body);
 
-  return newFireDepartment.save()
-    .then(fd => Promise.all([createCustomer(fd)]))
-    .then(() => res.status(204).send())
-    .catch(() => validationError(res));
+  try {
+    const fd = await newFireDepartment.save();
+    await createCustomer(fd);
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).send();
 }
 
-export function edit(req, res) {
+export async function edit(req, res) {
   let fireDepartment = req.fireDepartment;
 
   fireDepartment = _.merge(fireDepartment, req.body);
 
-  fireDepartment.save()
-    .then(savedFireDepartment => {
-      res.status(204).send({savedFireDepartment});
-    })
-    .catch(validationError(res));
+  let savedFireDepartment;
+  try {
+    savedFireDepartment = await fireDepartment.save();
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.status(204).send({savedFireDepartment});
 }
 
 /**
@@ -90,8 +95,8 @@ export function get(req, res) {
   return res.json(req.fireDepartment);
 }
 
-export function getUsers(req, res) {
-  return FireDepartment.find({
+export async function getUsers(req, res) {
+  const users = await FireDepartment.find({
     where: {
       _id: req.user.FireDepartment._id
     },
@@ -102,21 +107,20 @@ export function getUsers(req, res) {
       model: User,
       attributes: ['first_name', 'last_name', 'role']
     }]
-  })
-    .then(users => {
-      if(!users) {
-        return res.status(404).end();
-      }
-      return res.json(users);
-    })
-    .catch(validationError(res));
+  });
+
+  if(!users) {
+    throw new NotFoundError('Users not found');
+  }
+
+  return res.json(users);
 }
 
 
 /**
  * Gets data quality stats
  */
-export function dataQuality(req, res) {
+export async function dataQuality(req, res) {
   const fireIndex = req.fireDepartment.es_indices[req.params.type];
 
   const qaChecks = {
@@ -124,13 +128,13 @@ export function dataQuality(req, res) {
     unTypedApparatus
   };
 
-  return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+  const r = await Promise.reduce(_.toPairs(qaChecks), async (results, qa) => {
     const [name, qaConfig] = qa;
-    return runQA(_.merge(qaConfig, { index: fireIndex }))
-      .then(out => _.set(results, name, out));
-  }, {})
-    .then(r => res.json(gradeQAResults(r)))
-    .catch(handleError(res));
+    const out = await runQA(_.merge(qaConfig, { index: fireIndex }));
+    _.set(results, name, out);
+  }, {});
+
+  res.json(gradeQAResults(r));
 }
 
 /**
@@ -143,57 +147,60 @@ export function nfpa(req, res) {
     nfpa1710,
   };
 
-  return Promise.reduce(_.toPairs(qaChecks), (results, qa) => {
+  return Promise.reduce(_.toPairs(qaChecks), async (results, qa) => {
     // eslint-disable-next-line
     const [name, qaConfig] = qa;
-    return runNFPA(_.merge(qaConfig, { index: fireIndex }))
-      .then(out => res.json(out));
-  }, {})
-    .catch(handleError(res));
+    const out = await runNFPA(_.merge(qaConfig, { index: fireIndex }));
+    res.json(out);
+  }, {});
 }
 
 /*
  * Gets the fire department's chargebee subscription data.
  */
-export function getSubscription(req, res) {
-  return retrieveSubscription(req.fireDepartment)
-    .then(subscription => res.json(subscription))
-    .catch(validationError(res));
+export async function getSubscription(req, res) {
+  let subscription;
+  try {
+    subscription = await retrieveSubscription(req.fireDepartment);
+  } catch (err) {
+    throw new UnprocessableEntityError(err.message);
+  }
+
+  res.json(subscription);
 }
 
 export function hasAdminPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.isDepartmentAdmin && req.user.FireDepartment._id.toString() === req.params.id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
 export function hasReadPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.FireDepartment._id.toString() === req.params.id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
 export function hasIngestPermission(req, res, next) {
   if(req.user.isAdmin) return next();
   if(req.user.isIngest && req.user.FireDepartment._id.toString() === req.params.id) return next();
 
-  else res.status(403).send({ error: 'User is not authorized to perform this function' });
+  else throw new ForbiddenError('User is not authorized to perform this function');
 }
 
-export function loadFireDepartment(req, res, next, id) {
-  FireDepartment.find({
+export async function loadFireDepartment(req, res, next, id) {
+  const fd = await FireDepartment.find({
     where: {
       _id: id
     },
-  })
-    .then(fd => {
-      if(fd) {
-        req.fireDepartment = fd;
-        return next();
-      }
-      return res.status(404).send({ error: 'Fire Department not found'});
-    })
-    .catch(err => next(err));
+  });
+
+  if(!fd) {
+    throw new NotFoundError('Fire department not found');
+  }
+
+  req.fireDepartment = fd;
+  next();
 }

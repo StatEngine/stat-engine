@@ -171,18 +171,19 @@ export function runAllQueries(options, cb) {
   });
 }
 
-export function runQuery(query, options, cb) {
+export async function runQuery(query, options, cb) {
   const params = _.merge({
     index: options.index
   }, query.payload);
 
   const client = connection.getClient();
 
-  return client[query.method](params)
-    .then(res => query.parser(res, options))
-    .then(parsed => cb(null, parsed))
-    .catch(err => {
-      console.error(err);
-      cb(err);
-    });
+  try {
+    const res = await client[query.method](params);
+    const parsed = await query.parser(res, options);
+    cb(null, parsed);
+  } catch (err) {
+    console.error(err);
+    cb(err);
+  }
 }

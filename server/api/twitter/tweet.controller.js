@@ -9,6 +9,7 @@ import { createCanvas, Image } from 'canvas';
 import config from '../../config/environment';
 
 import { runAllQueries } from './twitter-queries.controller';
+import { InternalServerError, NotFoundError } from '../../util/error';
 
 const MEDIA_BASE_PATH = '../../../client/assets/images/twitter-media';
 
@@ -41,9 +42,9 @@ function prepareMedia(previewTweet, dataURL, cb) {
   });
 }
 
-export function mediaSearch(req, res) {
+export function mediaSearch(req, res, next) {
   fs.readdir(path.join(__dirname, MEDIA_BASE_PATH), (err, files) => {
-    if(err) return res.status(500).end();
+    if(err) throw new InternalServerError(err.message);
 
     let media = [];
     files.forEach(file => media.push({
@@ -67,11 +68,11 @@ export function recommendations(req, res) {
     name: req.user.FireDepartment.name,
   }, (err, tweets) => {
     if(err) {
-      return res.status(500).end();
+      throw new InternalServerError(err.message);
     }
 
     if(!tweets) {
-      return res.status(404).end();
+      throw new NotFoundError('Tweets not found');
     }
 
     let recTweets = [];
@@ -120,10 +121,9 @@ export function tweetTweet(req, res) {
     },
   ], (err, apiTweet, apiResponse) => {
     if(err) {
-      console.error(err);
-      return res.status(500).end();
+      throw new InternalServerError(err.message);
     } else if(apiResponse.errors) {
-      return res.status(500).send(apiResponse.errors);
+      throw new InternalServerError(apiResponse.errors);
     }
     res.status(200).json(apiResponse);
   });
@@ -141,8 +141,7 @@ export function recent(req, res) {
 
   client.get('statuses/user_timeline', (err, timeline) => {
     if(err) {
-      console.error(err);
-      return res.status(500).send();
+      throw new InternalServerError(err.message);
     }
     return res.json(timeline);
   });

@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import { getErrors } from '../../../util/error';
 
 export default class UserSettingsController {
   profile = {
@@ -94,18 +95,14 @@ export default class UserSettingsController {
     }
 
     this.profile.isSaving = true;
-    this.profile.errors = [];
+    this.profile.errors = null;
     try {
       await this.UserService.update({ id: this.user._id }, {
         first_name: this.profile.inputs.firstName,
         last_name: this.profile.inputs.lastName,
       }).$promise;
     } catch (err) {
-      if(err.data.error) {
-        this.profile.errors.push({ message: err.data.error });
-      } else {
-        this.profile.errors.push({ message: 'Error saving data.' });
-      }
+      this.profile.errors = getErrors(err);
       return;
     } finally {
       this.profile.isSaving = false;
@@ -146,17 +143,13 @@ export default class UserSettingsController {
       .filter(emailName => (!this.user.unsubscribed_emails || !this.user.unsubscribed_emails.includes(emailName)));
 
     this.email.isSaving = true;
-    this.email.errors = [];
+    this.email.errors = null;
     try {
       await this.UserService.update({ id: this.user._id }, {
         unsubscribed_emails: unsubscribedEmails.join(','),
       }).$promise;
     } catch (err) {
-      if(err.data.error) {
-        this.email.errors.push({ message: err.data.error });
-      } else {
-        this.email.errors.push({ message: 'Error saving data.' });
-      }
+      this.email.errors = getErrors(err);
       return;
     } finally {
       this.email.isSaving = false;
@@ -200,7 +193,7 @@ export default class UserSettingsController {
     }
 
     this.password.isSaving = true;
-    this.password.errors = [];
+    this.password.errors = null;
     try {
       await this.UserService.changePassword({ id: this.user._id }, {
         username: this.user.username,
@@ -208,13 +201,7 @@ export default class UserSettingsController {
         newPassword: this.password.inputs.newPassword,
       }).$promise
     } catch (err) {
-      if(err.data.password) {
-        this.password.errors.push({ message: err.data.password });
-      } else if(err.data.error) {
-        this.password.errors.push({ message: err.data.error });
-      } else {
-        this.password.errors.push({ message: 'Error saving data.' });
-      }
+      this.password.errors = getErrors(err);
       return;
     } finally {
       this.password.isSaving = false;

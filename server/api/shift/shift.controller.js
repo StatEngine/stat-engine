@@ -1,5 +1,6 @@
 import { FirecaresLookup } from '@statengine/shiftly';
 import moment from 'moment-timezone';
+import { NotFoundError } from '../../util/error';
 
 export function getShift(req, res) {
   let fd = req.fireDepartment;
@@ -10,5 +11,5 @@ export function getShift(req, res) {
 
     res.json({ shift: shiftly.calculateShift(moment.tz(fd.timezone).format()) });
   }
-  else res.send(500);
+  else throw new NotFoundError('Shift configuration not found')
 }

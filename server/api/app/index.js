@@ -1,5 +1,6 @@
 'use strict';
 
+import 'babel-polyfill';
 import { Router } from 'express';
 
 import * as auth from '../../auth/auth.service';

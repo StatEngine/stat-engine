@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import { getErrors } from '../../../util/error';
 
 export default class SignupController {
   user = {
@@ -47,9 +48,7 @@ export default class SignupController {
           this.$state.go('site.account.login');
         })
         .catch(err => {
-          err = err.data;
-          this.errors = err.errors;
-          console.dir(this.errors);
+          this.errors = getErrors(err);
         });
     }
   }

@@ -1,5 +1,7 @@
 'use strict';
 
+import { getErrors } from '../../../util/error';
+
 export default class ForgotUsernameController {
   user = {
     email: ''
@@ -35,9 +37,7 @@ export default class ForgotUsernameController {
           }).present();
         })
         .catch(err => {
-          if(err.data.error) this.errors.email = err.data.error;
-          else this.errors.email = 'There was an error sending email. ';
-          form.email.$setValidity('mongoose', false);
+          this.errors = getErrors(err);
         });
     }
   }

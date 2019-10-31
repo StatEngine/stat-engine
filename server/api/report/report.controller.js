@@ -12,9 +12,10 @@ import {
 } from '../../sqldb';
 
 import config from '../../config/environment';
+import { NotFoundError } from '../../util/error';
 
-export function search(req, res) {
-  Report.findAll({
+export async function search(req, res) {
+  const reports = await Report.findAll({
     attributes: ['name', 'type', 'updated_by', 'updated_at'],
     where: {
       fire_department__id: req.user.FireDepartment._id
@@ -26,13 +27,13 @@ export function search(req, res) {
       model: User,
       attributes: ['first_name', 'last_name', 'role']
     }],
-  }).then(reports => {
-    res.send(reports);
   });
+
+  res.send(reports);
 }
 
-export function get(req, res) {
-  Report.findOne({
+export async function get(req, res) {
+  const report = await Report.findOne({
     where: {
       name: req.params.name,
       type: req.params.type.toUpperCase(),
@@ -42,13 +43,16 @@ export function get(req, res) {
       model: User,
       attributes: ['first_name', 'last_name', 'role']
     }],
-  }).then(report => {
-    if(report) return res.json(report);
-    else return res.status(404).send();
   });
+
+  if(!report) {
+    throw new NotFoundError('Report not found');
+  }
+
+  res.json(report);
 }
 
-export function upsert(req, res) {
+export async function upsert(req, res) {
   const motd = {
     name: req.params.name,
     type: req.params.type.toUpperCase(),
@@ -57,37 +61,34 @@ export function upsert(req, res) {
     updated_by: req.user._id,
   };
 
-  return Report.upsert(motd).then(message => res.json(message));
+  const message = await Report.upsert(motd);
+  res.json(message);
 }
 
-export function view(req, res) {
-  ReportMetric.find({
+export async function view(req, res) {
+  const reportMetric = await ReportMetric.find({
     where: {
       report__id: req.report._id,
       user__id: req.user._id,
     }
-  }).then(reportMetric => {
-    if(!reportMetric) {
-      const newReportMetric = ReportMetric.build({
-        report__id: req.report._id,
-        user__id: req.user._id,
-        views: 1,
-      });
-      return newReportMetric.save();
-    } else {
-      return reportMetric.increment('views', { by: 1 });
-    }
-  })
-    .then(() => {
-      res.status(204).send();
-    })
-    .catch(() => {
-      res.status(500).send();
+  });
+
+  if(!reportMetric) {
+    const newReportMetric = ReportMetric.build({
+      report__id: req.report._id,
+      user__id: req.user._id,
+      views: 1,
     });
+    await newReportMetric.save();
+  } else {
+    await reportMetric.increment('views', { by: 1 });
+  }
+
+  res.status(204).send();
 }
 
-export function getMetrics(req, res) {
-  ReportMetric.findAll({
+export async function getMetrics(req, res) {
+  const reportMetrics = await ReportMetric.findAll({
     attributes: ['views', 'user__id'],
     where: {
       report__id: req.report._id,
@@ -96,23 +97,19 @@ export function getMetrics(req, res) {
       model: User,
       attributes: ['first_name', 'last_name']
     }],
-  })
-    .then(reportMetrics => {
-      res.json({
-        views: {
-          uniqueUsers: reportMetrics.length,
-          totalViews: _.sumBy(reportMetrics, rm => rm.views),
-        },
-        metrics: reportMetrics,
-      });
-    })
-    .catch(() => {
-      res.status(500).send();
-    });
+  });
+
+  res.json({
+    views: {
+      uniqueUsers: reportMetrics.length,
+      totalViews: _.sumBy(reportMetrics, rm => rm.views),
+    },
+    metrics: reportMetrics,
+  });
 }
 
-export function findReport(req, res, next) {
-  Report.findOne({
+export async function findReport(req, res, next) {
+  const report = await Report.findOne({
     attributes: ['_id', 'updated_at', 'updated_by', 'name'],
     where: {
       name: req.params.name,
@@ -123,20 +120,18 @@ export function findReport(req, res, next) {
       model: User,
       attributes: ['first_name', 'last_name']
     }],
-  })
-    .then(report => {
-      if(report) {
-        req.report = report;
-        return next();
-      } else return res.status(404).send();
-    })
-    .catch(() => {
-      res.status(500).send();
-    });
+  });
+
+  if(!report) {
+    throw new NotFoundError('Report not found');
+  }
+
+  req.report = report;
+  return next();
 }
 
-export function loadNofiticationDestinations(req, res, next) {
-  return FireDepartment.find({
+export async function loadNofiticationDestinations(req, res, next) {
+  const fd = await FireDepartment.find({
     where: {
       _id: req.user.FireDepartment._id
     },
@@ -147,16 +142,14 @@ export function loadNofiticationDestinations(req, res, next) {
       model: User,
       attributes: ['first_name', 'last_name', 'email']
     }]
-  })
-    .then(fd => {
-      req.emails = [];
-      fd.Users.forEach(u => req.emails.push(u.email));
-      next();
-    })
-    .catch(err => next(err));
+  });
+
+  req.emails = [];
+  fd.Users.forEach(u => req.emails.push(u.email));
+  next();
 }
 
-export function notify(req, res) {
+export async function notify(req, res) {
   if(config.mailSettings.mandrillAPIKey) {
     var mailOptions = {};
     mailOptions.from = config.mailSettings.serverEmail;
@@ -190,11 +183,10 @@ export function notify(req, res) {
         }]
       }
     };
-    mailTransport.sendMail(mailOptions)
-      .then(() => res.status(204).send())
-      .catch(() => res.status(500).send());
+    await mailTransport.sendMail(mailOptions);
+    res.status(204).send();
   } else {
-    return new Promise(resolve => {
+    await new Promise(resolve => {
       setTimeout(resolve, 0);
     });
   }

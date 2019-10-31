@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Promise from 'bluebird';
 
 import connection from '../../elasticsearch/connection';
 
@@ -9,19 +8,15 @@ const GRADE = {
   GOOD: 'GOOD',
 };
 
-export function runNFPA(options) {
+export async function runNFPA(options) {
   const params = _.merge({
     index: options.index
   }, options.payload);
 
   const client = connection.getClient();
 
-  return Promise.all([
-    client[options.method](params)
-      .then(res => options.parser(res, options))
-  ])
-    .then(responses => responses)
-    .catch(err => console.error(err));
+  const res = await client[options.method](params);
+  return options.parser(res, options);
 }
 
 function getAction(rule, grade, value) {

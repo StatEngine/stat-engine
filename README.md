@@ -142,9 +142,11 @@ Go to the Department Admin page and click on Upload Logo then go to `minIO` dash
 
 3.  Run `npm install`
 
-4.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
+4.  Run `gulp seed:dev` to populate the database.
 
-5.  Login with username: `richmond`, password: `password`.
+5.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
+
+6.  Login with username: `richmond`, password: `password`.
 
 ### Testing
 Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing. 

@@ -1,5 +1,7 @@
 'use strict';
 
+import { getErrors } from '../../../util/error';
+
 export default class UpdatePasswordController {
   user = {
     newPassword: '',
@@ -27,10 +29,7 @@ export default class UpdatePasswordController {
           this.$state.go('site.account.login');
         })
         .catch(err => {
-          if(err.data.error) this.errors.newPassword = err.data.error;
-          else this.errors.newPassword = 'Error resetting New Password. ';
-
-          form.newPassword.$setValidity('mongoose', false);
+          this.errors = getErrors(err);
         });
     }
   }
