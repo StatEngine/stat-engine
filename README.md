@@ -97,6 +97,43 @@ A nightly dump of elasticdump data is availabe in S3.   Please contact a team me
 
 2. Run `multielasticdump --input="./es-test-data" --output="http://kibana:kibana@localhost:9200" --direction="load"`
 
+### MinIO
+MinIO is an object storage server released under Apache License v2.0. It is compatible with Amazon S3 cloud storage service and therefore the `aws-sdk` module can be pointed to it locally without the need of having a dedicated S3 bucket for development purposes.
+
+#### Run minIO
+The recommended way to set up MinIO is to run it from a docker container.
+
+```bash
+docker run -p 9090:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e"MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
+```
+
+#### Go to minIO dashboard
+```http://localhost:9090```
+Create a new bucket called `uploads`.
+
+#### Set up default AWS credentials to minIO
+`~/.aws/credentials`
+```
+[default]
+aws_access_key_id = AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
+
+#### Set up upload URL to minIO
+`server/config/environment/development.js`
+```js
+  ...
+  // Local MinIO for image upload
+  minio: {
+    endpoint: 'http://localhost:9090',
+    bucket: 'uploads', 
+  }
+```
+if `config.minio.endpoint` is omitted `aws-sdk` module automatically sends the request to the default AWS endpoint configured locally. Therefore it's recommended to remove this line in staging/production environments.
+
+#### Upload Image
+Go to the Department Admin page and click on Upload Logo then go to `minIO` dashboard and check if the referred bucket contains the uploaded image.
+
 ### Developing
 
 1.  Run `git clone https://github.com/StatEngine/stat-engine.git`
