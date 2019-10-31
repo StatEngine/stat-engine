@@ -40,7 +40,7 @@ export default class DepartmentAdminCreateNewUserController {
         email: this.user.email,
         password: this.generatePassword(),
         nfors: true,
-        fire_department_id: 25035 || this.fireDepartment._id,
+        fire_department__id: this.fireDepartment._id,
         new_user_by_department_admin: true,
       }).$promise
         .then(() => {
@@ -51,7 +51,6 @@ export default class DepartmentAdminCreateNewUserController {
         .catch(err => {
           err = err.data;
           this.errors = err.errors;
-          console.dir(this.errors);
         });
     }
   }
@@ -65,7 +64,7 @@ export default class DepartmentAdminCreateNewUserController {
 
   showModal() {
     this.Modal.custom({
-      title: 'Email Sent',
+      title: 'User created',
       content: "An email was sent to the newly registered user with instructions to login.",
       buttons: [{
         text: 'Ok',

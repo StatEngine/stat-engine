@@ -124,51 +124,50 @@ function sendWelcomeEmail(user) {
 }
 
 function sendNewUserByDepartmentAdminEmail(user, department) {
-  if(config.mailSettings.mandrillAPIKey && department) {
-    var mailOptions = {};
-    mailOptions.from = config.mailSettings.serverEmail;
-    mailOptions.to = user.email;
-
-    // Mailing service
-    var mailTransport = nodemailer.createTransport(mandrillTransport({
-      auth: {
-        apiKey: config.mailSettings.mandrillAPIKey
-      }
-    }));
-
-    mailOptions.mandrillOptions = {
-      template_name: config.mailSettings.newUserByDepartmentAdminTemplate,
-      template_content: [],
-      message: {
-        merge: false,
-        merge_language: 'handlebars',
-        global_merge_vars: [{
-          name: 'DEPARTMENT_NAME',
-          content: department.name,
-        }, {
-          name: 'DEPARTMENT_IMAGE_URL',
-          content: department.logo_link || statEngineLogoLink,
-        }, {
-          name: 'USER_USERNAME',
-          content: user.username,
-        }, {
-          name: 'USER_EMAIL',
-          content: user.email,
-        }, {
-          name: 'USER_FIRST_NAME',
-          content: user.first_name,
-        }, {
-          name: 'USER_LAST_NAME',
-          content: user.last_name,
-        }],
-      }
-    };
-    return mailTransport.sendMail(mailOptions);
-  } else {
-    return new Promise(resolve => {
-      setTimeout(resolve, 0);
-    });
+  if (!config.mailSettings.mandrillAPIKey || !department) {
+    return Promise.reject();
   }
+
+  var mailOptions = {};
+  mailOptions.from = config.mailSettings.serverEmail;
+  mailOptions.to = user.email;
+
+  // Mailing service
+  var mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  mailOptions.mandrillOptions = {
+    template_name: config.mailSettings.newUserByDepartmentAdminTemplate,
+    template_content: [],
+    message: {
+      merge: false,
+      merge_language: 'handlebars',
+      global_merge_vars: [{
+        name: 'DEPARTMENT_NAME',
+        content: department.name,
+      }, {
+        name: 'DEPARTMENT_IMAGE_URL',
+        content: department.logo_link || statEngineLogoLink,
+      }, {
+        name: 'USER_USERNAME',
+        content: user.username,
+      }, {
+        name: 'USER_EMAIL',
+        content: user.email,
+      }, {
+        name: 'USER_FIRST_NAME',
+        content: user.first_name,
+      }, {
+        name: 'USER_LAST_NAME',
+        content: user.last_name,
+      }],
+    }
+  };
+
+  return mailTransport.sendMail(mailOptions);
 }
 
 async function sendRequestDepartmentAccessEmail(user, department) {
@@ -332,7 +331,16 @@ export async function create(req, res) {
   if(!req.user || !req.user.isAdmin) {
     user.setDataValue('provider', 'local');
     user.setDataValue('role', 'user');
-    user.setDataValue('fire_department__id', undefined);
+
+    // as deafult behaviour we are expected to invalidate the department_id
+    let fire_department__id = undefined;
+    // but if it is requested by a departmentAdmin and the given department is the same as where
+    // this user is departmentAdmin
+    if (req.user.isDepartmentAdmin && req.user.fire_department__id === req.body.fire_department__id) {
+      fire_department__id = req.body.fire_department__id;
+    }
+
+    user.setDataValue('fire_department__id', fire_department__id);
   }
   user.setDataValue('api_key', uuidv4());
 
@@ -356,7 +364,7 @@ export async function create(req, res) {
   if (req.body.new_user_by_department_admin) {
     const department = await FireDepartment.find({
       where: {
-        _id: req.body.fire_department_id,
+        _id: req.body.fire_department__id,
       }
     });
     sendNewUserByDepartmentAdminEmail(user, department);
