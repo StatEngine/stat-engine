@@ -26,6 +26,7 @@
     "angular-ui-grid": "^4.4.10",
     "angularjs-color-picker": "^3.4.8",
     "animate.css": "^3.5.2",
+    "ansi-colors": "^4.1.1",
     "async": "^2.6.0",
     "aws": "0.0.3-2",
     "aws-sdk": "^2.144.0",
@@ -39,6 +40,7 @@
     "canvas": "2.0.0-alpha.9",
     "chargebee": "^2.4.6",
     "codemirror": "^5.38.0",
+    "colors": "^1.4.0",
     "composable-middleware": "^0.3.0",
     "compression": "^1.7.3",
     "connect-ensure-login": "^0.1.1",
@@ -116,7 +118,9 @@
     "twitter": "^1.7.1",
     "ui-bootstrap4": "^3.0.5",
     "uuid": "^3.1.0",
-    "vis": "^4.21.0"
+    "vis": "^4.21.0",
+    "winston": "^3.2.1",
+    "winston-timestamp-colorize": "^1.0.4"
   },
   "devDependencies": {
     "@ljharb/eslint-config": "^12.2.1",

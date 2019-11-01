@@ -1,6 +1,7 @@
 import { buildTotalQuery, runTotalQuery } from './unit-metrics.controller';
 import 'chai/register-should';
 import util from 'util';
+import { Log } from '../../util/log';
 
 
 describe('buildQuery()', () => {
@@ -8,7 +9,7 @@ describe('buildQuery()', () => {
     let req = {};
     buildQuery(req, {}, () => {
       const util = require('util')
-      console.log(util.inspect(req, {showHidden: false, depth: null}))
+      Log.info(util.inspect(req, {showHidden: false, depth: null}))
     })
   });
 
@@ -19,14 +20,14 @@ describe('buildQuery()', () => {
       }
     };
     buildQuery(req, {}, () => {
-      console.log(util.inspect(req, {showHidden: false, depth: null}))
+      Log.info(util.inspect(req, {showHidden: false, depth: null}))
 
       runQuery(req, {}, (res) => {
-        console.info();
-        console.info();
-        console.info();
-        console.info();
-        console.log(util.inspect(res, {showHidden: false, depth: null}))
+        Log.info();
+        Log.info();
+        Log.info();
+        Log.info();
+        Log.info(util.inspect(res, {showHidden: false, depth: null}))
       })
     })
   }).timeout(200000);*/
@@ -38,14 +39,14 @@ describe('buildQuery()', () => {
         }
       };
       buildTotalQuery(req, {}, () => {
-        console.log(util.inspect(req, { showHidden: false, depth: null }))
+        Log.info(util.inspect(req, { showHidden: false, depth: null }))
 
         runTotalQuery(req, {}, (res) => {
-          console.info();
-          console.info();
-          console.info();
-          console.info();
-          console.log(util.inspect(res, { showHidden: false, depth: null }))
+          Log.info();
+          Log.info();
+          Log.info();
+          Log.info();
+          Log.info(util.inspect(res, { showHidden: false, depth: null }))
         })
       })
     }).timeout(200000);

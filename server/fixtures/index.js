@@ -8,6 +8,7 @@ import {
 import {
   loadTemplates,
 } from './lib/load-templates';
+import { Log } from '../util/log';
 
 const loadTemplateType = (index, type, options, locals, cb) => loadTemplates({
   index,
@@ -19,7 +20,7 @@ const loadTemplateType = (index, type, options, locals, cb) => loadTemplates({
 // Creates a Kibana Index
 export function createKibanaIndex(options, locals, cb) {
   const index = locals.kibana.tenancy;
-  console.info(`Creating Kibana index: ${index}`);
+  Log.info(`Creating Kibana index: ${index}`);
   return createIndex({
     index,
   }, cb);
@@ -27,7 +28,7 @@ export function createKibanaIndex(options, locals, cb) {
 
 // export function createKibanaIndexTemplate(options, locals, cb) {
 //   const index = locals.kibana.tenancy;
-//   console.info(`Creating Kibana index: ${index}`);
+//   Log.info(`Creating Kibana index: ${index}`);
 //   return createIndexTemplate({
 //     index,
 //   }, cb);
@@ -36,7 +37,7 @@ export function createKibanaIndex(options, locals, cb) {
 // Deletes a Kibana Index
 export function deleteKibanaIndex(options, locals, cb) {
   const index = locals.kibana.tenancy;
-  console.info(`Deleting Kibana index: ${index}`);
+  Log.info(`Deleting Kibana index: ${index}`);
   return deleteIndex({
     index,
   }, cb);
@@ -45,28 +46,28 @@ export function deleteKibanaIndex(options, locals, cb) {
 // Seeds configurations settings in Kibana
 export function seedKibanaConfig(options, locals, cb) {
   const index = locals.kibana.tenancy;
-  console.info(`Seeding Kibana config: ${index}`);
+  Log.info(`Seeding Kibana config: ${index}`);
   return loadTemplateType(index, 'config', options, locals, cb);
 }
 
 // Seeds index patterns in Kibana
 export function seedKibanaIndexPatterns(options, locals, cb) {
   const index = locals.kibana.tenancy;
-  console.info(`Seeding Kibana index patterns: ${index}`);
+  Log.info(`Seeding Kibana index patterns: ${index}`);
   return loadTemplateType(index, 'index-pattern', options, locals, cb);
 }
 
 // Seeds visualizations in Kibana
 export function seedKibanaVisualizations(options, locals, cb) {
   const index = locals.kibana.tenancy;
-  console.info(`Seeding Kibana visualizations: ${index}`);
+  Log.info(`Seeding Kibana visualizations: ${index}`);
   return loadTemplateType(index, 'visualization', options, locals, cb);
 }
 
 // Seeds dashboards in Kibana
 export function seedKibanaDashboards(options, locals, cb) {
   const index = locals.kibana.tenancy;
-  console.info(`Seeding Kibana dashboards: ${index}`);
+  Log.info(`Seeding Kibana dashboards: ${index}`);
   return loadTemplateType(index, 'dashboard', options, locals, cb);
 }
 // Seeds kibana template

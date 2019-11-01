@@ -7,6 +7,8 @@
 // import config from './environment';
 
 // When the user disconnects.. perform this
+import { Log } from '../util/log';
+
 function onDisconnect(/*socket*/) {}
 
 // When the user connects.. perform this
@@ -41,7 +43,7 @@ export default function(socketio) {
     socket.connectedAt = new Date();
 
     socket.log = function(...data) {
-      console.log(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
+      Log.info(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
     };
 
     // Call onDisconnect.

@@ -6,6 +6,7 @@ import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { FireDepartment, User } from '../sqldb';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../util/error';
+import { Log } from '../util/log';
 
 /*
  * Serialize user into session
@@ -81,7 +82,7 @@ export function hasPermission(permissions) {
     .use(function meetsRequirements(req, res, next) {
       // Currently, permissions only apply to apps, so pass if the request is a user
       if(req.user.roles.indexOf('app') < 0) return next();
-      console.dir(req.user)
+      Log.info('user', req.user);
       if(req.user.permissions.indexOf(permissions) >= 0) {
         return next();
       } else {

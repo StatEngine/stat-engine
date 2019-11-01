@@ -9,6 +9,7 @@ import lusca from 'lusca';
 
 import errors from './components/errors';
 import config from './config/environment';
+import { Log } from './util/log';
 
 export default function(app) {
   // Kubernetes uses this route to ensure the service is up
@@ -57,7 +58,7 @@ export default function(app) {
 
   // Error handler
   app.use((err, req, res, next) => {
-    console.error(err);
+    Log.error(err);
 
     // Send an error response if one hasn't already been sent. Otherwise the reqeust will
     // fail and make the client hang.
