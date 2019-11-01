@@ -95,17 +95,19 @@ export default function(sequelize, DataTypes) {
 
     validate: {
       async validateEmail() {
-        // Sequelize's unique constraint is case-sensitive, so we need to do a manual
-        // case-insensitive check for an existing email here.
-        const user = await User.find({
-          where: sequelize.where(
-            sequelize.fn('lower', sequelize.col('email')),
-            this.email.toLowerCase(),
-          ),
-        });
+        if(this.isNewRecord) {
+          // Sequelize's unique constraint is case-sensitive, so we need to do a manual
+          // case-insensitive check for an existing email here.
+          const user = await User.find({
+            where: sequelize.where(
+              sequelize.fn('lower', sequelize.col('email')),
+              this.email.toLowerCase(),
+            ),
+          });
 
-        if(user) {
-          throw new Error(`The specified email address is already in use.`);
+          if(user) {
+            throw new Error(`The specified email address is already in use.`);
+          }
         }
       },
     },
