@@ -49,6 +49,12 @@ export default function(app) {
   // Authentication
   app.use('/auth', require('./auth').default);
 
+  // Heatbeat POST (used to add CSRF token on login)
+  app.route('/heartbeat')
+  .post((res, req) => {
+    req.status(204).send();
+  });
+
   // Error handler
   app.use((err, req, res, next) => {
     console.error(err);
