@@ -89,7 +89,7 @@ docker run -e ELASTICSEARCH_URI=http://localhost:9200 --net=host prominentedgest
 
 #### Nightly Dump
 
-A nightly dump of elasticdump data is availabe in S3.   Please contact a team member for access. 
+A nightly dump of elasticdump data is availabe in S3.   Please contact a team member for access.
 
 #### Loading data
 
@@ -109,30 +109,9 @@ docker run -p 9090:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e"MINIO_SECR
 
 #### Go to minIO dashboard
 ```http://localhost:9090```
-Create a new bucket called `uploads`.
+Create a new bucket called `statengine-public-assets-dev`.
 
-#### Set up default AWS credentials to minIO
-`~/.aws/credentials`
-```
-[default]
-aws_access_key_id = AKIAIOSFODNN7EXAMPLE
-aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-```
-
-#### Set up upload URL to minIO
-`server/config/environment/development.js`
-```js
-  ...
-  // Local MinIO for image upload
-  minio: {
-    endpoint: 'http://localhost:9090',
-    bucket: 'uploads', 
-  }
-```
-if `config.minio.endpoint` is omitted `aws-sdk` module automatically sends the request to the default AWS endpoint configured locally. Therefore it's recommended to remove this line in staging/production environments.
-
-#### Upload Image
-Go to the Department Admin page and click on Upload Logo then go to `minIO` dashboard and check if the referred bucket contains the uploaded image.
+Edit the policy, allowing Read and Write access with prefix `*`
 
 ### Developing
 
@@ -149,7 +128,7 @@ Go to the Department Admin page and click on Upload Logo then go to `minIO` dash
 6.  Login with username: `richmond`, password: `password`.
 
 ### Testing
-Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing. 
+Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing.
 ![](https://s3.amazonaws.com/statengine-public-assets/Browserstack-logo%402x.png)
 
 

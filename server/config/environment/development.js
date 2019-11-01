@@ -17,9 +17,19 @@ module.exports = {
     }
   },
 
-  // Local MinIO for image upload
-  minio: {
+  aws: {
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+      secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    },
+  },
+
+  s3: {
     endpoint: 'http://localhost:9090',
-    bucket: 'uploads', 
+    logosConfig: {
+      bucket: 'statengine-public-assets-dev',
+      prefix: 'logos/',
+    }
   }
 };

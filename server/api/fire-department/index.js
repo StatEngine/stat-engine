@@ -7,7 +7,7 @@ import * as auth from '../../auth/auth.service';
 
 import * as controller from './fire-department.controller';
 
-import imageUploadMiddleware from '../../util/image-upload-middleware'; 
+import imageUploadMiddleware from '../../util/image-upload-middleware';
 
 const router = new Router();
 
@@ -75,6 +75,8 @@ router.post(
   '/:id/logo',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
+  auth.hasFireDepartment,
+  controller.hasAdminPermission,
   imageUploadMiddleware,
 );
 
