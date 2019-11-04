@@ -1,6 +1,5 @@
 /**
- * Populate DB with sample data on server start
- * to disable, edit config/environment/index.js, and set `seedDB: false`
+ * Populate DB with data for development
  */
 
 
@@ -10,7 +9,6 @@ import uuidv4 from 'uuid/v4';
 
 import sqldb from '../sqldb';
 import { TimeUnit } from '../components/constants/time-unit';
-import { addFixtureTemplatesToDatabase } from '../fixtures';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
@@ -21,21 +19,25 @@ const App = sqldb.App;
 const AppInstallation = sqldb.AppInstallation;
 const Workspace = sqldb.Workspace;
 const UserWorkspace = sqldb.UserWorkspace;
-const FixtureTemplate = sqldb.FixtureTemplate;
 
 const CLIENT_ID = process.env.DEMO_APP_CLIENT_ID || '12345';
 const CLIENT_SECRET = process.env.DEMO_APP_CLIENT_SECRET || '12345';
 
 let richmond;
-let richmondUser;
 let ricmondWkspace;
 let miamiWkspace;
 let rogers;
 let emailReportEnrichment;
 let whosOnApp;
 
-if(process.env.NODE_ENV === 'development') {
-  Extension
+export default function seedDev() {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Cannot seed a production database');
+  }
+
+  console.info('Seeding development data...');
+
+  return Extension
     .sync()
     .then(() => Workspace.sync())
     .then(() => Workspace.destroy({ where: {} }))
@@ -965,91 +967,5 @@ if(process.env.NODE_ENV === 'development') {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then(() => FixtureTemplate.destroy({ where: {} }))
-    .then(() => addFixtureTemplatesToDatabase())
-    .then(() => console.log('finished populating data'));
-} else {
-  console.info('Seeding Demo Data');
-  User.sync()
-    .then(() => FireDepartment.sync())
-    .then(() => FireDepartment.destroy({ where: {} }))
-    .then(() => User.destroy({ where: {} }))
-    .then(() => FireDepartment.create({
-      fd_id: '38005',
-      firecares_id: '94264',
-      name: 'San Francisco Fire Department',
-      state: 'CA',
-      timezone: 'US/Pacific',
-      integration_verified: true,
-      integration_complete: true,
-      latitude: 37.7749,
-      longitude: -122.4194,
-      Users: [{
-        provider: 'local',
-        role: 'user,dashboard_user',
-        username: 'sfUser',
-        first_name: 'Demo',
-        last_name: 'User',
-        email: 'sfUser@example.com',
-        password: 'password',
-        api_key: 'sfUser',
-      }, {
-        provider: 'local',
-        role: 'admin',
-        username: 'sfAdmin',
-        first_name: 'Demo',
-        last_name: 'Admin',
-        email: 'sfAdmin@example.com',
-        password: 'password',
-        api_key: 'sfAdmin',
-      }, {
-        provider: 'local',
-        role: 'ingest',
-        username: 'sfIngest',
-        first_name: 'Demo',
-        last_name: 'Ingest',
-        email: 'sfIngest@example.com',
-        password: 'password',
-        api_key: 'sfIngest',
-        aws_access_key_id: '',
-        aws_secret_access_key: '',
-      }]
-    }, {
-      include: [FireDepartment.Users]
-    }))
-    .then(() => FireDepartment.create({
-      fd_id: '03050',
-      firecares_id: '77989',
-      name: 'Clark County Fire Department',
-      state: 'NV',
-      timezone: 'US/Pacific',
-      integration_complete: true,
-      latitude: 37.7772,
-      longitude: -77.5161,
-      Users: [{
-        provider: 'local',
-        role: 'user,department_admin',
-        username: 'clarkcounty',
-        first_name: 'clarkcounty',
-        last_name: 'User',
-        email: 'clarkcounty@prominentedge.com',
-        password: 'password',
-        api_key: uuidv4(),
-      }],
-    }, {
-      include: [FireDepartment.Users]
-    }))
-    // .then(fireDepartment => {
-    //   const locals = {
-    //     FireDepartment: fireDepartment.get(),
-    //   };
-    //   seedIndexTemplates({}, locals, err => {
-    //     if(err) throw err;
-    //
-    //     seedKibanaAll({}, locals, err => {
-    //       if(err) throw err;
-    //     });
-    //   });
-    // })
-    .then(() => console.log('finished populating demo data'));
+    .then(() => console.log('Finished seeding development data'));
 }

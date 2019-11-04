@@ -1,12 +1,12 @@
 'use strict';
 
-import angular from 'angular';
+import { getErrors } from '../../../util/error';
 
 let _;
 
 export default class UserController {
   user = {};
-  errors = {};
+  errors = [];
   submitted = false;
 
   /*@ngInject*/
@@ -63,8 +63,7 @@ export default class UserController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            if(err.data.error) this.errors.error = err.data.error;
-            else this.errors.error = 'Error saving data.';
+            this.errors = getErrors(err);
           });
       } else {
         this.UserService.create(this.user).$promise
@@ -72,16 +71,7 @@ export default class UserController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            err = err.data;
-            this.errors = {};
-
-            // Update validity of form fields that match the sequelize errors
-            if(err.name) {
-              angular.forEach(err.errors, field => {
-                form[field.path].$setValidity('mongoose', false);
-                this.errors[field.path] = err.message;
-              });
-            }
+            this.errors = getErrors(err);
           });
       }
     }

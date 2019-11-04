@@ -11,9 +11,6 @@
             <p class="help-block" ng-show="fdForm.customer_id.$error.required && vm.submitted">
                 Customer ID is required
             </p>
-            <p class="help-block" ng-show="fdForm.customer_id.$error.mongoose">
-                {{ vm.errors.customer_id }}
-            </p>
           </div>
 
           <div class="form-group " ng-class="{ 'has-success': fdForm.firecares_id.$valid && vm.submitted,'has-error': fdForm.firecares_id.$invalid && vm.submitted }">
@@ -21,9 +18,6 @@
             <input type="text" name="firecares_id" class="form-control input-md" ng-model="vm.fireDepartment.firecares_id" required="required"/>
             <p class="help-block" ng-show="fdForm.firecares_id.$error.required && vm.submitted">
               Firecares ID is required
-            </p>
-            <p class="help-block" ng-show="fdForm.firecares_id.$error.mongoose">
-              {{ vm.errors.firecares_id }}
             </p>
           </div>
 
@@ -33,9 +27,6 @@
             <p class="help-block" ng-show="fdForm.fd_id.$error.required && vm.submitted">
               FD ID is required
             </p>
-            <p class="help-block" ng-show="fdForm.fd_id.$error.mongoose">
-              {{ vm.errors.fd_id }}
-            </p>
           </div>
 
           <div class="form-group " ng-class="{ 'has-success': fdForm.name.$valid && vm.submitted,'has-error': fdForm.name.$invalid && vm.submitted }">
@@ -43,9 +34,6 @@
             <input type="text" name="name" class="form-control input-md" ng-model="vm.fireDepartment.name" required="required"/>
             <p class="help-block" ng-show="fdForm.name.$error.required && vm.submitted">
               Name is required
-            </p>
-            <p class="help-block" ng-show="fdForm.name.$error.mongoose">
-              {{ vm.errors.name }}
             </p>
           </div>
 
@@ -55,9 +43,6 @@
             <p class="help-block" ng-show="fdForm.state.$error.required && vm.submitted">
               State is required
             </p>
-            <p class="help-block" ng-show="fdForm.state.$error.mongoose">
-              {{ vm.errors.state }}
-            </p>
           </div>
 
           <div class="form-group " ng-class="{ 'has-success': fdForm.latitude.$valid && vm.submitted,'has-error': fdForm.latitude.$invalid && vm.submitted }">
@@ -65,9 +50,6 @@
             <input type="number" name="latitude" class="form-control input-md" ng-model="vm.fireDepartment.latitude" required="required"/>
             <p class="help-block" ng-show="fdForm.latitude.$error.required && vm.submitted">
               Latitude is required
-            </p>
-            <p class="help-block" ng-show="fdForm.latitude.$error.mongoose">
-              {{ vm.errors.latitude }}
             </p>
           </div>
 
@@ -77,17 +59,11 @@
             <p class="help-block" ng-show="fdForm.longitude.$error.required && vm.submitted">
               Longitude is required
             </p>
-            <p class="help-block" ng-show="fdForm.longitude.$error.mongoose">
-              {{ vm.errors.longitude }}
-            </p>
           </div>
 
           <div class="form-group " ng-class="{ 'has-success': fdForm.longitude.$valid && vm.submitted,'has-error': fdForm.longitude.$invalid && vm.submitted }">
             <label>Logo Link</label>
             <input type="text" name="logo_link" class="form-control input-md" ng-model="vm.fireDepartment.logo_link"/>
-            <p class="help-block" ng-show="fdForm.logo_link.$error.mongoose">
-              {{ vm.errors.logo_link }}
-            </p>
           </div>
 
           <div class="form-group " ng-class="{ 'has-success': fdForm.timezone.$valid && vm.submitted,'has-error': fdForm.timezone.$invalid && vm.submitted }">
@@ -97,9 +73,6 @@
             </select>
             <p class="help-block" ng-show="fdForm.timezone.$error.required && vm.submitted">
               Timezone is required
-            </p>
-            <p class="help-block" ng-show="fdForm.timezone.$error.mongoose">
-              {{ vm.errors.timezone }}
             </p>
           </div>
 
@@ -114,6 +87,13 @@
           </div>
 
           <div>
+            <div class="help-block" ng-show="vm.errors">
+              <ul>
+                <li ng-repeat="error in vm.errors">
+                  <p class="text-danger">{{ error.message }}</p>
+                </li>
+              </ul>
+            </div>
             <span><button id='save_user_profile_btn' type="submit" class="btn btn-alt-2 btn-sm">Save Changes</button></span>
           </div>
         </form>

@@ -55,7 +55,6 @@
           color: darken($color-cerulean,5%);
         }
       }
-      &.active
       a {
         background-color: lighten($color-pale-sky,50%);
         color: darken($color-cerulean,5%);
@@ -65,57 +64,99 @@
   .extension-request p {
     font-size: 14px;
   }
-  .extensions-content {
-    a.card {
-      color: inherit;
-      padding: 1rem 1rem 1rem 7rem;
-      &:hover, &:active, &:focus {
-        text-decoration: none;
+
+  .extension-section {
+    margin-bottom: 2rem;
+
+    > h4 {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .extension-card-list {
+    @extend .col;
+    width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0;
+  }
+
+  .extension-card {
+    @extend .card;
+    @extend .hvr-float;
+    width: 100%;
+    height: 7rem;
+    color: inherit;
+    flex-direction: row;
+    padding: 1rem;
+
+    @include media-breakpoint-down(xs) {
+      height: 8rem;
+    }
+
+    &:hover, &:active, &:focus {
+      text-decoration: none;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .extension-card-icon {
+      height: 100%;
+      margin-right: 1.5rem;
+      transform: translateY(-0.1rem);
+    }
+
+    .extension-card-content {
+      flex: 1;
+
+      .extension-card-title {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.2rem;
+
+        h5 {
+          @extend .heavyheader;
+          @extend .text-truncate;
+          font-size: 1rem;
+          line-height: 1.25;
+          margin-bottom: 0;
+        }
+
+        .badge {
+          vertical-align: top;
+        }
       }
-      &:hover {
-        transform: translateY(-5px);
-      }
-      img {
-        position: absolute;
-        left: 1rem;
-        top: .8rem;
-        max-height: 4.5rem;
-      }
-      h5 {
-        font-size: 15px;
-        line-height: 1.25;
-        margin-bottom: 0.3rem;
-      }
-      p {
+
+      .extension-card-description {
         font-size: 14px;
         line-height: 1.5;
         margin-bottom: 0;
 
         // Line clamp code (keep it to 3 lines only)
-  			-webkit-box-orient: vertical;
-  			display: -webkit-box;
-  			-webkit-line-clamp: 3;
-  			overflow: hidden;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
       }
     }
-    .featured-extensions,
-    .extensions {
-      .col {
-        width: 100%;
-        max-width: 100%;
-        flex-basis: 100%;
-        margin-bottom: 1.5rem;
+  }
+  .categories {
+    li {
+      .nav-link {
+        margin: 4px 8px;
+        padding: 4px;
+        border-radius: 0;
+        border-bottom: solid 2px;
+        border-color: rgba(0, 0, 0, 0);
+        transition: border-color 0.25s;
       }
-      a.card{
-        width: 100%;
-        height: 125px;
 
-        p {
-          // Line clamp code (keep it to 3 lines only)
-          -webkit-box-orient: vertical;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          overflow: hidden;
+      &.active {
+        .nav-link {
+          border-color: $color-bondi-blue;
         }
       }
     }

@@ -1,8 +1,9 @@
 import angular from 'angular';
 
 export class FooterComponent {
-  constructor(appConfig) {
+  constructor(appConfig, buildConfig) {
     this.appConfig = appConfig;
+    this.buildConfig = buildConfig;
   }
 }
 

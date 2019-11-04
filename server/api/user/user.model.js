@@ -41,9 +41,6 @@ export default function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        msg: 'The specified email address is already in use.'
-      },
       validate: {
         isEmail: true
       }
@@ -90,6 +87,30 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING,
     },
   }, {
+    indexes: [{
+      unique: true,
+      name: 'users_email_lower',
+      fields: [sequelize.fn('lower', sequelize.col('email'))],
+    }],
+
+    validate: {
+      async validateEmail() {
+        if(this.isNewRecord) {
+          // Sequelize's unique constraint is case-sensitive, so we need to do a manual
+          // case-insensitive check for an existing email here.
+          const user = await User.find({
+            where: sequelize.where(
+              sequelize.fn('lower', sequelize.col('email')),
+              this.email.toLowerCase(),
+            ),
+          });
+
+          if(user) {
+            throw new Error(`The specified email address is already in use.`);
+          }
+        }
+      },
+    },
 
     /**
      * Virtual Getters

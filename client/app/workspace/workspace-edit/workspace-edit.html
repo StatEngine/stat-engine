@@ -177,7 +177,13 @@
             </div>
           </div>
 
-          <div class="mb-5"></div>
+              <div class="help-block" ng-if="vm.errors">
+                <ul>
+                  <li ng-repeat="error in vm.errors">
+                    <span class="text-danger">{{ error.message }}</span>
+                  </li>
+                </ul>
+              </div>
 
           <div class="help-block" ng-if="vm.showErrors">
             <ul>

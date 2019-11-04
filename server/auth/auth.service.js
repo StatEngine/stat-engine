@@ -5,6 +5,7 @@ import passport from 'passport';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { FireDepartment, User } from '../sqldb';
+import { BadRequestError, ForbiddenError, NotFoundError } from '../util/error';
 
 /*
  * Serialize user into session
@@ -52,7 +53,7 @@ export function isAuthenticated(req, res, next) {
  */
 export function hasRole(roleRequired) {
   if(!roleRequired) {
-    throw new Error('Required role needs to be set');
+    throw new BadRequestError('Required role needs to be set');
   }
 
   return compose()
@@ -66,14 +67,14 @@ export function hasRole(roleRequired) {
       } else if(req.user.roles.indexOf(roleRequired) >= 0) {
         return next();
       } else {
-        return res.status(403).send('Forbidden. User does not have necessary priviliges to access');
+        return next(new ForbiddenError('User does not have necessary priviliges to access'));
       }
     });
 }
 
 export function hasPermission(permissions) {
   if(!permissions) {
-    throw new Error('Required permissions needs to be set');
+    throw new ForbiddenError('Required permissions needs to be set');
   }
 
   return compose()
@@ -84,7 +85,7 @@ export function hasPermission(permissions) {
       if(req.user.permissions.indexOf(permissions) >= 0) {
         return next();
       } else {
-        return res.status(403).send('Forbidden. App does not have necessary priviliges to access');
+        return next(new ForbiddenError('App does not have necessary priviliges to access'));
       }
     });
 }
@@ -92,32 +93,34 @@ export function hasPermission(permissions) {
 /**
  * Checks if user has fire deparment and sets in request
  */
-export function hasFireDepartment(req, res, next) {
+export async function hasFireDepartment(req, res, next) {
   if(req.user.isAdmin && req.query.firecaresId) {
-    FireDepartment.find({
+    const fireDepartment = await FireDepartment.find({
       where: {
         firecaresId: req.query.firecaresId
       },
-    }).then(fireDepartment => {
-      if(!fireDepartment) return res.status(403).send('FireDepartment not found');
-      req.fireDepartment = fireDepartment;
-      return next();
     });
+
+    if(!fireDepartment) throw new NotFoundError('Fire department not found');
+
+    req.fireDepartment = fireDepartment;
+    return next();
   } else if(req.user.isAdmin && req.query.fireDepartmentId) {
-    FireDepartment.find({
+    const fireDepartment = await FireDepartment.find({
       where: {
         _id: req.query.fireDepartmentId
       },
-    }).then(fireDepartment => {
-      if(!fireDepartment) return res.status(403).send('FireDepartment not found');
-      req.fireDepartment = fireDepartment;
-      return next();
     });
+
+    if(!fireDepartment) throw new NotFoundError('Fire department not found!');
+
+    req.fireDepartment = fireDepartment;
+    return next();
   } else if(req.user.isAdmin) {
     req.fireDepartment = req.user.FireDepartment;
     return next();
   } else if(!req.user || !req.user.FireDepartment || !req.user.FireDepartment._id) {
-    return res.status(403).send('User is not assigned to Fire Department with id');
+    throw new ForbiddenError('User is not assigned to fire department');
   } else {
     req.fireDepartment = req.user.FireDepartment;
     return next();
@@ -129,17 +132,17 @@ export function hasFireDepartment(req, res, next) {
  */
 export function belongsToFireDepartment(req, res, next) {
   if(!req.params.firecaresId) {
-    return next('firecares id not in path');
+    throw new BadRequestError('Param "firecaresId" is required');
   }
   if(!req.user) {
-    return next('user not set');
+    throw new BadRequestError('user not set');
   }
   if(!req.fire_department) {
-    return next('fire_department not set');
+    throw new BadRequestError('fire_department not set');
   }
 
   if(req.params.firecaresId !== req.fire_department.firecares_id) {
-    return res.status(403).send(`User is not assigned to Fire Department with id: ${req.params.firecaresId}`);
+    throw new ForbiddenError(`User is not assigned to Fire Department with id: ${req.params.firecaresId}`);
   }
   return next();
 }

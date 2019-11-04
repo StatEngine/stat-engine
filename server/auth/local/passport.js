@@ -1,5 +1,6 @@
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
+import { UnauthorizedError } from '../../util/error';
 
 function localAuthenticate(User, FireDepartment, username, password, done) {
   User.find({
@@ -11,16 +12,14 @@ function localAuthenticate(User, FireDepartment, username, password, done) {
     if(err) {
       return done(err);
     } else if(!user) {
-      return done(null, false, {
-        message: 'This username is not registered.'
-      });
+      return done(new UnauthorizedError('This username is not registered.'));
     }
 
     user.authenticate(password, (authError, authenticated) => {
       if(authError) {
         return done(authError);
       } else if(!authenticated) {
-        return done(null, false, { message: 'This password is not correct.' });
+        return done(new UnauthorizedError('This password is not correct.'));
       }
 
       return done(null, user);

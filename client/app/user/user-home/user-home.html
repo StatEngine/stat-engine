@@ -21,6 +21,13 @@
                     Not currently assigned to a department.
                   <br>
                 </div>
+                <div class="help-block" ng-if="vm.errors">
+                  <ul>
+                    <li ng-repeat="error in vm.errors">
+                      <span class="text-danger">{{ error.message }}</span>
+                    </li>
+                  </ul>
+                </div>
                 <div class="form-group form-inline mb-2">
                   <select ng-options="fd as (fd.name + ', ' + fd.state) for fd in vm.fireDepartments | orderBy:'name' track by fd._id" ng-model="vm.assignedFireDepartment" class="form-control select-md"></select>
                 </div>
@@ -50,9 +57,9 @@
           </div>
         </div>
         <div class="col-lg actions mg-t-5" ng-if="vm.appAccess">
-          <a href="" ng-click="vm.goto('site.workspace.home','Dashboard')">
+          <a href="" ng-click="vm.goto('site.workspace.home', 'Workspaces')">
             <img src="/assets/images/actions-dashboard.svg"/>
-            <span>Dashboard</span>
+            <span>Workspaces</span>
           </a>
           <a ng-if="!vm.appConfig.on_premise" href="" ng-click="vm.goto('site.twitter.home','Twitter')">
             <img src="/assets/images/actions-twitter.svg"/>

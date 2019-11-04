@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import { getErrors } from '../../../util/error';
 
 export default class FireDepartmentController {
   fireDepartment = {};
@@ -46,8 +47,7 @@ export default class FireDepartmentController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            if(err.data.error) this.errors.error = err.data.error;
-            else this.errors.error = 'Error saving data.';
+            this.errors = getErrors(err);
           });
       } else {
         this.FireDepartmentService.create(this.fireDepartment).$promise
@@ -55,16 +55,7 @@ export default class FireDepartmentController {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
-            err = err.data;
-            this.errors = {};
-
-            // Update validity of form fields that match the sequelize errors
-            if(err.name) {
-              angular.forEach(err.errors, field => {
-                form[field.path].$setValidity('mongoose', false);
-                this.errors[field.path] = err.message;
-              });
-            }
+            this.errors = getErrors(err);
           });
       }
     }

@@ -1,13 +1,16 @@
 'use strict';
 
-import 'parsleyjs';
+import angular from 'angular';
+// eslint-disable-next-line no-unused-vars
+import parsleyjs from 'parsleyjs';
 import randomstring from 'randomstring';
+import { getErrors } from '../../../util/error';
 
 let _;
 
 export default class WorkspaceEditController {
   workspace = {};
-  errors = [];
+  errors = null;
   message = '';
   seed = true;
   isShowingAddDashboardsOverlay = false;
@@ -146,6 +149,7 @@ export default class WorkspaceEditController {
   }
 
   async updateWorkspace() {
+    console.log('updateWorkspace');
     if(!this.workspaceForm.isValid()) {
       return;
     }
@@ -157,6 +161,7 @@ export default class WorkspaceEditController {
     };
 
     if(this.isNewWorkspace) {
+      console.log('isNewWorkspace');
       fnc = this.WorkspaceService.create;
 
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
@@ -167,7 +172,7 @@ export default class WorkspaceEditController {
     }
 
     this.isSaving = true;
-    this.errors = {};
+    this.errors = null;
     try {
       await fnc(params, {
         id: this.inputWorkspace._id,
@@ -178,16 +183,8 @@ export default class WorkspaceEditController {
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
-      err = err.data;
-      this.errors = err.errors;
-      // clean up validation error
-      let nameError = _.filter(this.errors, m => m.message === 'name must be unique');
-      if(nameError) {
-        this.errors = [{
-          message: 'This name is already in use by someone in your department! Please choose another.'
-        }]
-      }
-      this.showErrors = true;
+      console.log('errors');
+      this.errors = getErrors(err);
       return;
     } finally {
       this.isSaving = false;

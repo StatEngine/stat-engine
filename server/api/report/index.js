@@ -49,7 +49,7 @@ router.get(
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
   controller.findReport,
-  controller.getMetrics
+  controller.getMetrics,
 );
 
 router.post(

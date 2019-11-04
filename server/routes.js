@@ -11,6 +11,12 @@ import errors from './components/errors';
 import config from './config/environment';
 
 export default function(app) {
+  // Kubernetes uses this route to ensure the service is up
+  app.route('/heartbeat')
+  .get((res, req) => {
+    req.status(204).send();
+  });
+
   // Insert API routes below
   app.use('/api/app', require('./api/app'));
   app.use('/api/apps', require('./api/apps'));
@@ -42,13 +48,50 @@ export default function(app) {
     angular: true,
   }));
 
-  app.route('/heartbeat')
-    .post((res, req) => {
-      req.status(204).send();
-    });
-
   // Authentication
   app.use('/auth', require('./auth').default);
+
+  // Heatbeat POST (used to add CSRF token on login)
+  app.route('/heartbeat')
+  .post((res, req) => {
+    req.status(204).send();
+  });
+
+  // Error handler
+  app.use((err, req, res, next) => {
+    console.error(err);
+
+    // Send an error response if one hasn't already been sent. Otherwise the reqeust will
+    // fail and make the client hang.
+    if (res.headersSent) {
+      return;
+    }
+
+    let statusCode;
+    let errors;
+
+    if (err.errors) {
+      errors = err.errors;
+    } else {
+      let message;
+      let type;
+
+      if (typeof(err) === 'object') {
+        statusCode = err.statusCode;
+        message = err.message;
+        type = err.type;
+      } else if (typeof(err) === 'string') {
+        message = err;
+      }
+
+      errors = [{
+        message: message || 'An unknown error occurred!',
+        type: type || 'InternalServerError',
+      }];
+    }
+
+    res.status(statusCode || 500).send({ errors });
+  });
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
