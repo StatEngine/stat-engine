@@ -43,13 +43,13 @@ export default function(sequelize, DataTypes) {
     },
   }, {
     validate: {
-      async validateSlug() {
-        // Make sure slug is unique for this fire department.
+      async validateName() {
+        // Make sure name is unique for this fire department.
         // Note: We already have a unique index for this, but having the custom validator
         // allow us to return a custom error message.
         const workspace = await Workspace.find({
           where: {
-            slug: this.buildSlug(),
+            name: this.name,
             fire_department__id: this.fire_department__id,
           },
         });
