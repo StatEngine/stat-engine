@@ -123,7 +123,7 @@ function sendWelcomeEmail(user) {
   }
 }
 
-function sendNewUserByDepartmentAdminEmail(user, department) {
+function sendNewUserByDepartmentAdminEmail(user, department, password) {
   if (!config.mailSettings.mandrillAPIKey || !department) {
     return Promise.reject();
   }
@@ -150,10 +150,13 @@ function sendNewUserByDepartmentAdminEmail(user, department) {
         content: department.name,
       }, {
         name: 'DEPARTMENT_IMAGE_URL',
-        content: department.logo_link || statEngineLogoLink,
+        content: department.logo_link,
       }, {
         name: 'USER_USERNAME',
         content: user.username,
+      }, {
+        name: 'USER_USERPASSWORD',
+        content: password,
       }, {
         name: 'USER_EMAIL',
         content: user.email,
@@ -362,12 +365,13 @@ export async function create(req, res) {
   }
 
   if (req.body.new_user_by_department_admin) {
+    const password = req.body.password;
     const department = await FireDepartment.find({
       where: {
         _id: req.body.fire_department__id,
       }
     });
-    sendNewUserByDepartmentAdminEmail(user, department);
+    sendNewUserByDepartmentAdminEmail(user, department, password);
   }
 
   res.status(204).send({ user });
