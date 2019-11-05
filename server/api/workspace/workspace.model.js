@@ -49,8 +49,13 @@ export default function(sequelize, DataTypes) {
         // allow us to return a custom error message.
         const workspace = await Workspace.find({
           where: {
-            name: this.name,
-            fire_department__id: this.fire_department__id,
+            $and: [
+              { fire_department__id: this.fire_department__id },
+              sequelize.where(
+                sequelize.fn('lower', sequelize.col('name')),
+                this.name.toLowerCase(),
+              ),
+            ],
           },
         });
 
