@@ -27,6 +27,7 @@ const winstonFormatLog = winston.format.printf(info => {
         showHidden: false,
         colors: true,
         compact: false,
+        depth: 10,
         ...info.metadata.inspectOptions,
       });
       message += `\n${formattedData}`;
