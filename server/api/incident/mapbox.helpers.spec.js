@@ -343,7 +343,7 @@ describe.only('getMatrix', () => {
   it('should get travel matrix', done => {
     getMatrix(incident)
       .then(r => {
-        Log.info(r);
+        Log.test('result', r);
         done();
       });
   });

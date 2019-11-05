@@ -9,7 +9,7 @@ describe('buildQuery()', () => {
     let req = {};
     buildQuery(req, {}, () => {
       const util = require('util')
-      Log.info(util.inspect(req, {showHidden: false, depth: null}))
+      Log.test('req', req)
     })
   });
 
@@ -20,14 +20,14 @@ describe('buildQuery()', () => {
       }
     };
     buildQuery(req, {}, () => {
-      Log.info(util.inspect(req, {showHidden: false, depth: null}))
+      Log.test('req', req);
 
       runQuery(req, {}, (res) => {
-        Log.info();
-        Log.info();
-        Log.info();
-        Log.info();
-        Log.info(util.inspect(res, {showHidden: false, depth: null}))
+        Log.test();
+        Log.test();
+        Log.test();
+        Log.test();
+        Log.test('res', res);
       })
     })
   }).timeout(200000);*/
@@ -39,14 +39,14 @@ describe('buildQuery()', () => {
         }
       };
       buildTotalQuery(req, {}, () => {
-        Log.info(util.inspect(req, { showHidden: false, depth: null }))
+        Log.test('req', req);
 
         runTotalQuery(req, {}, (res) => {
-          Log.info();
-          Log.info();
-          Log.info();
-          Log.info();
-          Log.info(util.inspect(res, { showHidden: false, depth: null }))
+          Log.test();
+          Log.test();
+          Log.test();
+          Log.test();
+          Log.test('res', res);
         })
       })
     }).timeout(200000);

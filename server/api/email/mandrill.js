@@ -36,7 +36,7 @@ export function sendEmail(to, subject, templateName, merge_vars, test, metadata)
     }
   };
 
-  Log.info(util.inspect(mailOptions.mandrillOptions, {showHidden: false, depth: null}));
+  Log.debug('mandrillOptions', mailOptions.mandrillOptions);
 
   return mailTransport.sendMail(mailOptions);
 }

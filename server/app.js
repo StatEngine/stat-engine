@@ -30,6 +30,14 @@ require('./grpc');
 function startServer() {
   app.angularFullstack = server.listen(config.port, config.ip, function() {
     Log.info(`Express server listening on ${config.port}, in ${app.get('env')} mode`);
+
+    Log.debug('Some text', {
+      someNumber: 123,
+      someObject: {
+        someString: 'hello',
+        someArray: [1, 2, 3, 4],
+      },
+    });
   });
 }
 

@@ -1107,7 +1107,7 @@ describe('sendEmail()', () => {
   it('should send a test email', (done) => {
     sendEmail('joe.chop@prominentedge.com', 'timerange', mergeVars)
       .then(() => {
-        Log.info('Sent email');
+        Log.test('Sent email');
         done();
       })
       .catch(e => Log.error(e))

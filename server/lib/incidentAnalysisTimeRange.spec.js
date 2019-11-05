@@ -60,7 +60,7 @@ describe('Incident Analysis Time Range', () => {
 
     analysis.run()
       .then(results => {
-        Log.info(util.inspect(results, {showHidden: false, depth: null}))
+        Log.test('results', results);
         done();
       });
   });
@@ -73,7 +73,7 @@ describe('Incident Analysis Time Range', () => {
 
     analysis.analyze()
       .then(results => {
-        Log.info(util.inspect(results, {showHidden: false, depth: null}))
+        Log.test('results', results);
         done();
       });
   });
