@@ -149,7 +149,6 @@ export default class WorkspaceEditController {
   }
 
   async updateWorkspace() {
-    console.log('updateWorkspace');
     if(!this.workspaceForm.isValid()) {
       return;
     }
@@ -161,7 +160,6 @@ export default class WorkspaceEditController {
     };
 
     if(this.isNewWorkspace) {
-      console.log('isNewWorkspace');
       fnc = this.WorkspaceService.create;
 
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
@@ -183,7 +181,6 @@ export default class WorkspaceEditController {
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
-      console.log('errors');
       this.errors = getErrors(err);
       return;
     } finally {
