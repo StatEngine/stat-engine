@@ -9,6 +9,7 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from '@uirouter/angularjs';
+import ngFileUpload from 'ng-file-upload';
 
 // eslint-disable-next-line no-unused-vars
 import uiBootstrap from 'ui-bootstrap4';
@@ -116,6 +117,7 @@ angular.module('statEngineApp', [
   ngResource,
   ngSanitize,
   uiRouter,
+  ngFileUpload,
   'oc.lazyLoad',
   'angular-loading-bar',
   'ngCountTo',
