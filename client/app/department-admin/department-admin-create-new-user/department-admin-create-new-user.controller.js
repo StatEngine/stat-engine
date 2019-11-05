@@ -2,7 +2,6 @@
 
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
-import generator from 'generate-password';
 
 export default class DepartmentAdminCreateNewUserController {
   user = {
@@ -37,8 +36,8 @@ export default class DepartmentAdminCreateNewUserController {
         username: this.user.username,
         first_name: this.user.first_name,
         last_name: this.user.last_name,
+        password: '-',
         email: this.user.email,
-        password: this.generatePassword(),
         nfors: true,
         fire_department__id: this.fireDepartment._id,
         new_user_by_department_admin: true,
@@ -53,13 +52,6 @@ export default class DepartmentAdminCreateNewUserController {
           this.errors = err.errors;
         });
     }
-  }
-
-  generatePassword() {
-    return generator.generate({
-      length: 10,
-      numbers: true
-    });
   }
 
   showModal() {
