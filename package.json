@@ -119,8 +119,7 @@
     "ui-bootstrap4": "^3.0.5",
     "uuid": "^3.1.0",
     "vis": "^4.21.0",
-    "winston": "^3.2.1",
-    "winston-timestamp-colorize": "^1.0.4"
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@ljharb/eslint-config": "^12.2.1",
