@@ -75,6 +75,7 @@ var all = {
     requestUsernameTemplate: 'request-username',
     resetPasswordTemplate: 'resetpassword',
     newUserTemplate: 'getting-started-statengine',
+    newUserByDepartmentAdminTemplate: 'new-user-by-department-admin',
     newReportTemplate: 'new-report',
     departmentAccessRequestedTemplate: `${emailPrefix}department-access-requested`,
     departmentAccessApprovedTemplate: `${emailPrefix}department-access-approved`,
