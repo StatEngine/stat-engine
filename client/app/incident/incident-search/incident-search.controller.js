@@ -92,19 +92,11 @@ export default class IncidentSearchController {
       from: (this.pagination.page - 1) * this.pagination.pageSize,
       sort,
       search: this.search,
+      eventOpened: this.rangeFromDateTz,
+      eventClosed: this.rangeToDateTz,
     }).$promise;
+
     this.incidents = data.items.map(item => item._source);
-
-    this.incidents = this.incidents.filter(incident => {
-      const dateClosed = new Date(incident.description.event_closed);
-      if (this.rangeFromDateTz && dateClosed.getTime() < this.rangeFromDateTz.getTime()) {
-        return false;
-      } else if (this.rangeToDateTz && dateClosed.getTime() > this.rangeToDateTz.getTime()) {
-        return false;
-      }
-      return true;
-    });
-
     this.pagination.totalItems = data.totalItems;
 
     // HACK: Compute 'unitCount' from 'units' (this should be preprocessed in the database).
@@ -165,17 +157,31 @@ export default class IncidentSearchController {
   onDateRangeChanged() {
     const { fromDate, fromTime, toDate,toTime } = this.$scope;
     const { timezone } = this.fireDepartment;
-    this.rangeFromDate = this.getRangeDate(fromTime, fromDate);
-    this.rangeToDate = this.getRangeDate(toTime, toDate);
+    const rangeFromDate = this.getRangeDate(fromTime, fromDate);
+    const rangeToDate = this.getRangeDate(toTime, toDate);
 
-    if (this.rangeFromDate) {
-      this.rangeFromDateTz = new Date(moment.tz(this.rangeFromDate, timezone).format());
+    if (rangeFromDate) {
+      this.rangeFromDateTz = new Date(moment.tz(rangeFromDate, timezone).format());
     }
 
-    if (this.rangeToDate) {
-      this.rangeToDateTz = new Date(moment.tz(this.rangeToDate, timezone).format());
+    if (rangeToDate) {
+      this.rangeToDateTz = new Date(moment.tz(rangeToDate, timezone).format());
     }
 
     this.refreshIncidentsList();
+  }
+
+  clearFromDate() {
+    this.$scope.fromDate = undefined;
+    this.$scope.fromTime = undefined;
+    this.rangeFromDateTz = undefined;
+    this.refreshIncidentsList();
+  }
+
+  clearToDate() {
+    this.$scope.toDate = undefined;
+    this.$scope.toTime = undefined;
+    this.rangeToDateTz = undefined;
+
   }
 }

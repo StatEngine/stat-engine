@@ -105,6 +105,8 @@ export async function getSummary(req, res) {
 
 export async function getIncidents(req, res) {
   const sort = req.query.sort || 'description.event_closed,desc';
+  const eventOpened = req.query.eventOpened;
+  const eventClosed = req.query.eventClosed;
 
   const params = {
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
@@ -144,9 +146,29 @@ export async function getIncidents(req, res) {
           term: {
             'description.suppressed': false,
           }
-        }]
+        }],
       }
     };
+
+    if (eventOpened) {
+      params.body.query.bool.must.push({
+        range: {
+          'description.event_opened': {
+            gte: eventOpened,
+          }
+        },
+      });
+    }
+
+    if (eventClosed) {
+      params.body.query.bool.must.push({
+        range: {
+          'description.event_closed': {
+            lte: eventClosed,
+          }
+        },
+      });
+    }
   }
 
   const searchResults = await connection.getClient().search(params);
