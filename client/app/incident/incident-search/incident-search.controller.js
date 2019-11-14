@@ -27,8 +27,7 @@ export default class IncidentSearchController {
   uiGridColumnDefs;
 
   /*@ngInject*/
-  constructor($window, $scope, AmplitudeService, AnalyticEventNames, Incident, currentPrincipal) {
-    this.$scope = $scope;
+  constructor($window, AmplitudeService, AnalyticEventNames, Incident, currentPrincipal) {
     this.$window = $window;
     this.IncidentService = Incident;
     this.AmplitudeService = AmplitudeService;
@@ -92,8 +91,8 @@ export default class IncidentSearchController {
       from: (this.pagination.page - 1) * this.pagination.pageSize,
       sort,
       search: this.search,
-      eventOpened: this.rangeFromDateTz,
-      eventClosed: this.rangeToDateTz,
+      fromDate: this.rangeFromDateTz,
+      toDate: this.rangeToDateTz,
     }).$promise;
 
     this.incidents = data.items.map(item => item._source);
@@ -137,14 +136,16 @@ export default class IncidentSearchController {
   }
 
   initRangeFilter() {
-    this.$scope.fromDatePopup = { opened: false };
-    this.$scope.openFromDatePopup = () => {
-      this.$scope.fromDatePopup.opened = true;
-    };
-    this.$scope.toDatePopup = { opened: false };
-    this.$scope.openToDatePopup = () => {
-      this.$scope.toDatePopup.opened = true;
-    };
+    this.fromDatePopupOpened = false;
+    this.toDatePopupOpened = false;
+  }
+
+  openFromDatePopup() {
+    this.fromDatePopupOpened = true;
+  }
+
+  openToDatePopup() {
+    this.toDatePopupOpened = true;
   }
 
   getRangeDate(time, date) {
@@ -155,33 +156,32 @@ export default class IncidentSearchController {
   }
 
   onDateRangeChanged() {
-    const { fromDate, fromTime, toDate,toTime } = this.$scope;
     const { timezone } = this.fireDepartment;
-    const rangeFromDate = this.getRangeDate(fromTime, fromDate);
-    const rangeToDate = this.getRangeDate(toTime, toDate);
+    const rangeFromDate = this.getRangeDate(this.fromTime, this.fromDate);
+    const rangeToDate = this.getRangeDate(this.toTime, this.toDate);
 
     if (rangeFromDate) {
-      this.rangeFromDateTz = new Date(moment.tz(rangeFromDate, timezone).format());
+      this.rangeFromDateTz = moment(rangeFromDate).tz(timezone, true).format();
     }
 
     if (rangeToDate) {
-      this.rangeToDateTz = new Date(moment.tz(rangeToDate, timezone).format());
+      this.rangeToDateTz = moment(rangeToDate).tz(timezone, true).format();
     }
 
     this.refreshIncidentsList();
   }
 
   clearFromDate() {
-    this.$scope.fromDate = undefined;
-    this.$scope.fromTime = undefined;
+    this.fromDate = undefined;
+    this.fromTime = undefined;
     this.rangeFromDateTz = undefined;
     this.refreshIncidentsList();
   }
 
   clearToDate() {
-    this.$scope.toDate = undefined;
-    this.$scope.toTime = undefined;
+    this.toDate = undefined;
+    this.toTime = undefined;
     this.rangeToDateTz = undefined;
-
+    this.refreshIncidentsList();
   }
 }

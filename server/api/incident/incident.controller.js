@@ -105,8 +105,7 @@ export async function getSummary(req, res) {
 
 export async function getIncidents(req, res) {
   const sort = req.query.sort || 'description.event_closed,desc';
-  const eventOpened = req.query.eventOpened;
-  const eventClosed = req.query.eventClosed;
+  const { fromDate, toDate } = req.query;
 
   const params = {
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
@@ -150,25 +149,21 @@ export async function getIncidents(req, res) {
       }
     };
 
-    if (eventOpened) {
-      params.body.query.bool.must.push({
+    if (fromDate || toDate) {
+      let dateFilter = {
         range: {
-          'description.event_opened': {
-            gte: eventOpened,
-          }
+          'description.event_opened': {}
         },
-      });
-    }
-
-    if (eventClosed) {
-      params.body.query.bool.must.push({
-        range: {
-          'description.event_closed': {
-            lte: eventClosed,
-          }
-        },
-      });
-    }
+      };
+      
+      if (fromDate) {
+        dateFilter.range['description.event_opened'].gte = fromDate;
+      }
+      if (toDate) {
+        dateFilter.range['description.event_opened'].lte = toDate;
+      }
+      params.body.query.bool.must.push(dateFilter);
+    }    
   }
 
   const searchResults = await connection.getClient().search(params);
