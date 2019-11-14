@@ -27,12 +27,13 @@ export default class IncidentSearchController {
   uiGridColumnDefs;
 
   /*@ngInject*/
-  constructor($window, AmplitudeService, AnalyticEventNames, Incident, currentPrincipal) {
+  constructor($window, AmplitudeService, AnalyticEventNames, Incident, currentPrincipal, Modal) {
     this.$window = $window;
     this.IncidentService = Incident;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
     this.fireDepartment = currentPrincipal.FireDepartment;
+    this.Modal = Modal;
 
     this.uiGridColumnDefs = [{
       field: 'description.incident_number',
@@ -91,8 +92,8 @@ export default class IncidentSearchController {
       from: (this.pagination.page - 1) * this.pagination.pageSize,
       sort,
       search: this.search,
-      fromDate: this.rangeFromDateTz,
-      toDate: this.rangeToDateTz,
+      fromDate: this.rangeFromDateTz && this.rangeFromDateTz.format(),
+      toDate: this.rangeToDateTz && this.rangeToDateTz.format(),
     }).$promise;
 
     this.incidents = data.items.map(item => item._source);
@@ -156,19 +157,39 @@ export default class IncidentSearchController {
   }
 
   onDateRangeChanged() {
+    this.updateDateRange();
+    if (this.checkIfDateRangeValid()) {
+      this.refreshIncidentsList();
+    }
+  }
+
+  updateDateRange() {
     const { timezone } = this.fireDepartment;
     const rangeFromDate = this.getRangeDate(this.fromTime, this.fromDate);
     const rangeToDate = this.getRangeDate(this.toTime, this.toDate);
 
     if (rangeFromDate) {
-      this.rangeFromDateTz = moment(rangeFromDate).tz(timezone, true).format();
+      this.rangeFromDateTz = moment(rangeFromDate).tz(timezone, true);
     }
 
     if (rangeToDate) {
-      this.rangeToDateTz = moment(rangeToDate).tz(timezone, true).format();
+      this.rangeToDateTz = moment(rangeToDate).tz(timezone, true);
     }
+  }
 
-    this.refreshIncidentsList();
+  checkIfDateRangeValid() {
+    if (!this.rangeToDateTz || !this.rangeFromDateTz) return true;
+    if (this.rangeFromDateTz.unix() < this.rangeToDateTz.unix()) return true;
+    this.Modal.custom({
+      title: 'Invalid Date Range',
+      content: "The first date of the time range cannot be later than the second date!",
+      buttons: [{
+        text: 'Ok',
+        style: this.Modal.buttonStyle.primary,
+        onClick: () => this.clearFromDate(),
+      }],
+    }).present();
+    return false;
   }
 
   clearFromDate() {
