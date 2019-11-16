@@ -42,6 +42,7 @@ export default function(app) {
   app.use('/api/third-party', require('./api/third-party'));
   app.use('/api/notify', require('./api/notify'));
   app.use('/api/exposure', require('./api/exposure'));
+  app.use('/api/chargebee', require('./api/chargebee'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));

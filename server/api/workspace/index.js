@@ -14,6 +14,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.create,
 );
@@ -23,6 +24,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   controller.getAll
 );
 
@@ -31,6 +33,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   controller.hasWorkspaceAccess,
   KibanaApi.connect,
   controller.get,
@@ -41,6 +44,7 @@ router.put(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   KibanaApi.connect,
@@ -52,6 +56,7 @@ router.delete(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   controller.hasWorkspaceOwnerAccess,
   controller.markAsDeleted,
 );
@@ -61,6 +66,7 @@ router.delete(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.revokeUser,
@@ -71,6 +77,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.updateUser,
@@ -81,6 +88,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.updateOwner
@@ -91,6 +99,7 @@ router.delete(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.revokeOwner,

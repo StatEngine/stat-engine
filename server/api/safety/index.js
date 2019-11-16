@@ -12,6 +12,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   controller.getRandomMessage
 );
 

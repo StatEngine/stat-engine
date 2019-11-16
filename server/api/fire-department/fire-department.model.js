@@ -67,7 +67,16 @@ export default function(sequelize, DataTypes) {
     },
     customer_id: {
       type: DataTypes.STRING,
-    }
+    },
+    subscription: {
+      type: DataTypes.JSON,
+      set(subscription) {
+        if(subscription) {
+          subscription.grace_period_days = 45;
+        }
+        this.setDataValue('subscription', subscription);
+      },
+    },
   }, {
 
     /**

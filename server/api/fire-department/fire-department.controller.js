@@ -157,12 +157,14 @@ export function nfpa(req, res) {
 }
 
 /*
- * Gets the fire department's chargebee subscription data.
+ * Refreshes the fire department's chargebee subscription data and returns it to the client.
  */
-export async function getSubscription(req, res) {
+export async function refreshSubscription(req, res) {
   let subscription;
   try {
     subscription = await retrieveSubscription(req.fireDepartment);
+    req.fireDepartment.subscription = subscription;
+    await req.fireDepartment.save();
   } catch (err) {
     throw new UnprocessableEntityError(err.message);
   }

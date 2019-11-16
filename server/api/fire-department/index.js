@@ -28,6 +28,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   controller.getUsers
 );
 
@@ -63,12 +64,12 @@ router.get(
   controller.nfpa
 );
 
-router.get(
-  '/:id/subscription',
+router.post(
+  '/:id/refreshSubscription',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getSubscription,
+  controller.refreshSubscription,
 );
 
 router.post(
@@ -76,6 +77,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription(),
   controller.hasAdminPermission,
   imageUploadMiddleware,
 );
