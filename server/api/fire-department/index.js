@@ -28,6 +28,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.getUsers
 );
 
@@ -76,6 +77,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.hasAdminPermission,
   imageUploadMiddleware,
 );

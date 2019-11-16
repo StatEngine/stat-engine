@@ -67,7 +67,10 @@ export default function(sequelize, DataTypes) {
     },
     customer_id: {
       type: DataTypes.STRING,
-    }
+    },
+    subscription_status: {
+      type: DataTypes.STRING,
+    },
   }, {
 
     /**

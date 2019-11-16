@@ -40,5 +40,12 @@ module.exports = {
       bucket: 'statengine-public-assets',
       prefix: 'logos/'
     }
-  }
+  },
+
+  chargebee: {
+    webhook: {
+      username: process.env.CHARGEBEE_WEBHOOK_USERNAME,
+      password: process.env.CHARGEBEE_WEBHOOK_PASSWORD,
+    },
+  },
 };

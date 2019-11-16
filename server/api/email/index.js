@@ -14,6 +14,7 @@ router.post(
   auth.hasRole('department_admin'),
   bodyParser.json(),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.sendTimeRangeAnalysis,
 );
 

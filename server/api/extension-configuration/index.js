@@ -13,6 +13,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.search
 );
 
@@ -21,6 +22,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.get
 );
 
@@ -29,6 +31,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   bodyParser.json(),
   controller.create
 );
@@ -38,6 +41,7 @@ router.put(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   bodyParser.json(),
   controller.update
 );

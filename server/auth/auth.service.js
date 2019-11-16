@@ -6,6 +6,7 @@ import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { FireDepartment, User } from '../sqldb';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../util/error';
+import { SubscriptionStatus } from '../subscription/chargebee';
 
 /*
  * Serialize user into session
@@ -157,3 +158,22 @@ export const checkOauthJwt = jwt({
   }),
   algorithms: ['RS256']
 });
+
+export function hasActiveSubscription(req, res, next) {
+  if(!req.fireDepartment) {
+    throw new BadRequestError('fireDepartment not set');
+  }
+
+  const status = req.fireDepartment.subscription_status;
+  if(!status) {
+    throw new ForbiddenError('Fire department does not have a subscription.');
+  }
+
+  if(status === SubscriptionStatus.Active ||
+     status === SubscriptionStatus.InTrial ||
+     status === SubscriptionStatus.NonRenewing) {
+    next();
+  } else {
+    throw new ForbiddenError(`Fire department subscription status is "${status}".`);
+  }
+}

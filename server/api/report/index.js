@@ -13,6 +13,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.search
 );
 
@@ -21,6 +22,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.get
 );
 
@@ -29,6 +31,7 @@ router.put(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   bodyParser.json(),
   controller.upsert
 );
@@ -38,6 +41,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.findReport,
   controller.loadNofiticationDestinations,
   controller.notify
@@ -48,6 +52,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.findReport,
   controller.getMetrics,
 );
@@ -57,6 +62,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.findReport,
   controller.view
 );

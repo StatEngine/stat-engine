@@ -13,6 +13,7 @@ router.get(
   auth.hasRole('user'),
   auth.hasPermission('shift:read'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription,
   controller.getShift
 );
 
