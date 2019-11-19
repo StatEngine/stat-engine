@@ -4,11 +4,14 @@ let _;
 
 export default class DepartmentAdminHomeController {
   /*@ngInject*/
-  constructor($state, $location, currentPrincipal, User) {
+  constructor($state, $location, currentPrincipal, User, Upload, FireDepartment) {
     this.$state = $state;
     this.$location = $location;
     this.principal = currentPrincipal;
-    this.fireDepartment = currentPrincipal.FireDepartment;    this.UserService = User;
+    this.fireDepartment = currentPrincipal.FireDepartment;
+    this.UserService = User;
+    this.Upload = Upload;
+    this.FireDepartmentService = FireDepartment;
   }
 
   async loadModules() {
@@ -101,5 +104,28 @@ export default class DepartmentAdminHomeController {
 
   createNewUser() {
     this.$state.go('site.departmentAdmin.createNewUser');
+  }
+
+  upload(file) {
+    const id = this.fireDepartment._id;
+    this.Upload.upload({
+      url: `/api/fire-departments/${id}/logo`,
+      data: { file: file }
+    })
+    .then(res => res.data.uri)
+    .then((url) => {
+      this.fireDepartment.logo_link = url;
+      return this.FireDepartmentService.update({ id }, this.fireDepartment).$promise;
+    })
+    .catch(() => {
+      if (!this.errors) {
+        this.errors = {};
+      }
+      this.errors.error = 'Error uploading logo.';
+    });    
+  }
+
+  handleTabClick(tabName) {
+    this.$location.hash(tabName);
   }
 }

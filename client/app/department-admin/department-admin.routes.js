@@ -28,6 +28,9 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
+        fireDepartments(FireDepartment) {
+          return FireDepartment.query().$promise;
+        },
       },
     })
     .state('site.departmentAdmin.email', {
