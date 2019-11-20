@@ -76,7 +76,13 @@ export async function create(req, res) {
 export async function edit(req, res) {
   let fireDepartment = req.fireDepartment;
 
-  fireDepartment = _.merge(fireDepartment, req.body);
+  const { user } = req;
+
+  if (req.user.isAdmin) {
+    fireDepartment = _.merge(fireDepartment, req.body);
+  } else if (req.user.isDepartmentAdmin && req.body.logo_link) {
+    fireDepartment.logo_link = req.body.logo_link;
+  }
 
   let savedFireDepartment;
   try {

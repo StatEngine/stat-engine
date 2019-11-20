@@ -43,7 +43,7 @@ router.put(
   '/:id',
   auth.isApiAuthenticated,
   bodyParser.json(),
-  auth.hasRole('admin'),
+  auth.hasRole('department_admin'),
   controller.edit
 );
 
