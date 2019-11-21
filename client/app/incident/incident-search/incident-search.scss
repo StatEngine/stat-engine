@@ -5,3 +5,30 @@
     }
   }
 }
+
+.incident-filters {
+	.btn {
+		padding: 0.375rem 0.75rem;
+	}
+
+	.uib-timepicker {
+		border: none;
+
+		td {
+			background-color: initial;
+			border: none;
+			padding: 0;
+		}
+
+		input {
+			width: 53px !important;
+		}
+	}
+
+
+
+	.input-group {
+		align-items: center;
+		justify-content: center;
+	}
+}
