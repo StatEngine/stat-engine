@@ -341,8 +341,8 @@ function generatePassword() {
  */
 export async function create(req, res) {
   const { body } = req;
-  body.password = generatePassword();
 
+  if (_.isNil(body.password)) body.password = generatePassword();
   const user = User.build(body);
 
   // force this all so user cannot overwrite in request
@@ -354,7 +354,7 @@ export async function create(req, res) {
     let fire_department__id = undefined;
     // but if it is requested by a departmentAdmin and the given department is the same as where
     // this user is departmentAdmin
-    if (req.user.isDepartmentAdmin && req.user.fire_department__id === body.fire_department__id) {
+    if (req.user && req.user.isDepartmentAdmin && req.user.fire_department__id === body.fire_department__id) {
       fire_department__id = body.fire_department__id;
       user.setDataValue('role', 'user,dashboard_user');
     }

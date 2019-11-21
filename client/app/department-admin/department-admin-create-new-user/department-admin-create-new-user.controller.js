@@ -36,7 +36,7 @@ export default class DepartmentAdminCreateNewUserController {
         username: this.user.username,
         first_name: this.user.first_name,
         last_name: this.user.last_name,
-        password: '-',
+        password: null,
         email: this.user.email,
         nfors: true,
         fire_department__id: this.fireDepartment._id,
