@@ -41,7 +41,7 @@
             </li>
             <li class="sub-item">
               <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.reporting.unit') }" href="#" ui-sref="site.reporting.unit">
-                Units&nbsp;<span class="badge badge-info">New</span>
+                Units&nbsp;
               </a>
             </li>
             <!--li class="sub-item"><a href="#" ui-sref="" class="sub-link">Stations&nbsp;<span class="badge badge-info">Coming Soon</span></a></li>
@@ -55,6 +55,11 @@
             <span class="menu-item-label text-truncate">Applications</span>
           </a>
           <ul class="br-menu-sub">
+              <li class="sub-item">
+                  <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.erf.analysis') }" href="#" ui-sref='site.erf.analysis'>
+                    ERF&nbsp;<span class="badge badge-info">NEW</span>
+                  </a>
+                </li>
             <li class="sub-item">
               <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.twitter.home') }" href="#" ui-sref='site.twitter.home'>
                 Twitter

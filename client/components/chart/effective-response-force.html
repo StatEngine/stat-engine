@@ -1,0 +1,25 @@
+<div ng-if="vm.initialized && vm.data">
+    <plotly-wrapper
+      trace="vm.trace"
+      layout="vm.layout"
+    ></plotly-wrapper>
+    <h5 class="heavyheader">How to read this</h5>
+    <ul class="statengine">
+      <li>First, inspect the series of blue lines along with the left y-axis.  These lines visualize the various ERF metrics vs the number of personnel arriving on scene.  For example, inspecting the solid blue line (ERF Travel), we can conclude:
+          <dl>
+            <dt>90 percent of the time, it takes <strong>{{ vm.erfTravel.y[0].toFixed(2) }}</strong> minutes or less for {{ vm.erfTravel.x[0]}} personnel to travel to the scene</dt>
+            <dt>90 percent of the time, it takes <strong>{{ vm.erfTravel.y[vm.erfTravel.y.length-1].toFixed(2) }}</strong> minutes or less for {{ vm.erfTravel.x[vm.erfTravel.x.length-1]}} personnel to travel to the scene</dt>
+          </dl>
+        </li>
+      <li>Next, inspect the red line along with the right y-axis.  This visualizes the number of historic incidents that were analyzed vs the number of personnel arriving on scene.  For example, we can conclude:
+        <dl>
+            <dt>There has been <strong>{{ vm.incidentCounts.y[0]}}</strong> incidents in which at least <strong>{{ vm.incidentCounts.x[0] }}</strong> personnel arrived</dt>
+            <dt>There has only been <strong>{{ vm.incidentCounts.y[vm.incidentCounts.y.length-1]}}</strong> incidents in which <strong>{{ vm.incidentCounts.x[vm.incidentCounts.x.length-1] }}</strong> personnel arrived</dt>
+        </dl>
+      </li>
+      <li>Finally, look at the shaded green background.  This highlights your currently configured ERF is met when at least <strong> {{ vm.currentConfig.erf }}</strong> personnel arrive on scene.</li>
+
+    </ul>
+    <p></p>
+  </div>
+  </div>
