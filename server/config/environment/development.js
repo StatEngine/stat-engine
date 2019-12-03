@@ -35,7 +35,7 @@ module.exports = {
 
   chargebee: {
     webhook: {
-      username: 'admin',
+      username: 'username',
       password: 'password',
     }
   },

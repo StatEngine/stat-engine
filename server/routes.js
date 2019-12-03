@@ -35,6 +35,7 @@ export default function(app) {
   app.use('/api/stats', require('./api/stats'));
   app.use('/api/workspaces', require('./api/workspace'));
   app.use('/api/admin', require('./api/admin'));
+  app.use('/api/chargebee', require('./api/chargebee'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));

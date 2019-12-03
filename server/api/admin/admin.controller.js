@@ -1,30 +1,22 @@
 'use strict';
 
 import { FireDepartment } from '../../sqldb';
-import { NotFoundError } from '../../util/error';
+import { retrieveSubscription } from '../../subscription/chargebee';
 
-export async function chargebeeWebhook(req, res) {
-  const eventType = req.body.event_type;
-  console.log(`Received Chargebee event "${eventType}"`);
-
-  const customer = req.body.content.customer;
-  if(customer) {
-    const fireDepartment = await FireDepartment.find({
-      where: {
-        customer_id: customer.id,
+export async function refreshAllSubscriptions(req, res) {
+  const departments = await FireDepartment.findAll({
+    where: {
+      customer_id: {
+        $ne: null,
       },
-    });
+    },
+  });
 
-    if(!fireDepartment) {
-      throw new NotFoundError(`Fire department with customer id "${customer.id}" not found.`);
-    }
+  departments.forEach(async department => {
+    console.log(`Updating "${department.name}" subscription...`);
+    department.subscription = await retrieveSubscription(department);
+    await department.save();
+  });
 
-    const subscription = req.body.content.subscription;
-    if(subscription) {
-      fireDepartment.subscription = subscription;
-      await fireDepartment.save();
-    }
-  }
-
-  res.status(200).send('success');
+  res.status(204).send();
 }

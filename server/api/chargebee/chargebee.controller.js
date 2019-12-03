@@ -1,15 +1,7 @@
-import * as basicAuth from 'basic-auth';
-
 import { FireDepartment } from '../../sqldb';
 import { NotFoundError } from '../../util/error';
-import config from '../../config/environment';
 
 export async function webhook(req, res) {
-  const user = basicAuth(req);
-
-
-  console.dir(req.body);
-
   const eventType = req.body.event_type;
   console.log(`Received Chargebee event "${eventType}"`);
 
@@ -21,16 +13,13 @@ export async function webhook(req, res) {
       },
     });
 
-    if (!fireDepartment) {
+    if(!fireDepartment) {
       throw new NotFoundError(`Fire department with customer id "${customer.id}" not found.`);
     }
 
-    // Update the department's subscription status if it changed.
     const subscription = req.body.content.subscription;
-    if(subscription && subscription.status !== fireDepartment.subscription_status) {
-      console.log(`Fire department "${fireDepartment.name}" subscription status changed to "${subscription.status}"`);
-
-      fireDepartment.subscription_status = subscription.status;
+    if(subscription) {
+      fireDepartment.subscription = subscription;
       await fireDepartment.save();
     }
   }
