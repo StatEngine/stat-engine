@@ -7,23 +7,27 @@ export default function routerDecorator(
 ) {
   'ngInject';
 
-  let currentPrincipal;
-  let subscription;
-  const daysToRenewSubscription = 45;
-
-  async function refreshSubscription() {
-    if(currentPrincipal) {
-      subscription = await FireDepartment.getSubscription({ id: currentPrincipal.fire_department__id }).$promise;
+  async function getSubscription({ forceRefresh } = {}) {
+    const currentPrincipal = await Principal.identity();
+    if(!currentPrincipal.FireDepartment) {
+      return null;
     }
+
+    if(!currentPrincipal.FireDepartment.subscription || forceRefresh) {
+      currentPrincipal.FireDepartment.subscription = await FireDepartment.refreshSubscription({
+        id: currentPrincipal.fire_department__id,
+      }).$promise;
+    }
+
+    return currentPrincipal.FireDepartment.subscription;
   }
 
   function getRenewSubscriptionHelpText() {
     return `To renew your subscription, visit the <a href="/subscriptionPortal" target="_blank">Manage Subscription</a> page or contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble <span class="space-nowrap">(<i class="fa fa-comments"></i>)</span> in the lower right corner.`
   }
 
-  function showSubscriptionExpiredWarning(daysSinceCancellation) {
-    const daysRemaining = daysToRenewSubscription - daysSinceCancellation;
-    const daysRemainingText = (daysRemaining === 1) ? `${daysRemaining} day` : `${daysRemaining} days`;
+  function showSubscriptionExpiredWarning(serviceDaysRemaining) {
+    const daysRemainingText = (serviceDaysRemaining === 1) ? `${serviceDaysRemaining} day` : `${serviceDaysRemaining} days`;
     Modal.alert({
       title: 'Subscription Canceled',
       content: `
@@ -37,8 +41,9 @@ export default function routerDecorator(
     }).present();
   }
 
-  function showSubscriptionExpired() {
+  async function showSubscriptionExpired() {
     let content;
+    const currentPrincipal = await Principal.identity();
     if(currentPrincipal.isDepartmentAdmin) {
       content = `
         Your subscription renewal grace period has elapsed and service has been suspended.<br/>
@@ -69,8 +74,8 @@ export default function routerDecorator(
         style: Modal.buttonStyle.primary,
         dismisses: false,
         onClick: async () => {
-          await refreshSubscription();
-          if(subscription.status !== 'cancelled') {
+          const subscription = await getSubscription({ forceRefresh: true });
+          if(subscription && subscription.status !== 'cancelled') {
             modal.dismiss();
           }
         },
@@ -79,34 +84,34 @@ export default function routerDecorator(
     modal.present();
   }
 
-  async function checkSubscriptionExpiry() {
-    currentPrincipal = await Principal.identity();
-
-    // Ignore subscription expiry for global users.
-    if(currentPrincipal.isGlobal) {
+  async function warnIfSubscriptionInGracePeriod() {
+    // Don't show subscription expiry warning to global users and non-admins.
+    const currentPrincipal = await Principal.identity();
+    if(currentPrincipal.isGlobal || !currentPrincipal.isDepartmentAdmin) {
       return;
     }
 
-    // Only get the subscription data when necessary.
-    if(!subscription || subscription.customer_id !== currentPrincipal.FireDepartment.customer_id) {
-      await refreshSubscription();
+    // Don't show the warning if they have don't have an active subscription.
+    const subscription = await getSubscription();
+    if(!subscription || subscription.status !== 'cancelled') {
+      return;
     }
 
-    if(subscription && subscription.status === 'cancelled') {
-      const canceledAt = moment(subscription.cancelled_at * 1000);
-      const daysSinceCancellation = moment().diff(canceledAt, 'days');
-      if(daysSinceCancellation < daysToRenewSubscription) {
-        if(currentPrincipal.isDepartmentAdmin) {
-          // Only show the warning once per day.
-          const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
-          const daysSinceShown = moment().diff(shownAt, 'days');
-          if(daysSinceShown >= 1) {
-            showSubscriptionExpiredWarning(daysSinceCancellation);
-            $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
-          }
-        }
-      } else {
-        showSubscriptionExpired();
+    // Calculate the days remaining before service is suspended.
+    const cancelledAt = moment(subscription.cancelled_at * 1000);
+    const serviceShutoffDate = cancelledAt.clone().add(subscription.grace_period_days, 'days');
+
+    // If we have less than 1 day left, moment.diff() will return 0, so make it round up.
+    const serviceDaysRemaining = serviceShutoffDate.diff(moment(), 'days') + 1;
+
+    // Only show the warning if we fall within the grace period.
+    if(serviceDaysRemaining > 0 && serviceDaysRemaining <= subscription.grace_period_days) {
+      // Only show the warning once per day.
+      const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
+      const daysSinceShown = moment().diff(shownAt, 'days');
+      if(daysSinceShown >= 1) {
+        showSubscriptionExpiredWarning(serviceDaysRemaining);
+        $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
       }
     }
   }
@@ -123,9 +128,20 @@ export default function routerDecorator(
       });
   });
 
-  $transitions.onSuccess({}, function(trans) {
+  $transitions.onError({}, async function(trans) {
+    const transError = trans.error();
+    if(transError.detail.data && transError.detail.data.errors) {
+      transError.detail.data.errors.forEach(async error => {
+        if(error.type === 'SubscriptionCancelled' || error.type === 'SubscriptionNull') {
+          await showSubscriptionExpired();
+        }
+      });
+    }
+  });
+
+  $transitions.onSuccess({}, async function(trans) {
     if(Principal.isAuthenticated()) {
-      checkSubscriptionExpiry();
+      await warnIfSubscriptionInGracePeriod();
     }
 
     // Show warning dialog for IE browsers if a user is logged in or navigates to login or signup.

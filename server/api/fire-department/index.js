@@ -64,12 +64,12 @@ router.get(
   controller.nfpa
 );
 
-router.get(
-  '/:id/subscription',
+router.post(
+  '/:id/refreshSubscription',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  controller.getSubscription,
+  controller.refreshSubscription,
 );
 
 router.post(

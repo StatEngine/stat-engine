@@ -19,12 +19,9 @@ export async function chargebeeWebhook(req, res) {
       throw new NotFoundError(`Fire department with customer id "${customer.id}" not found.`);
     }
 
-    // Update the department's subscription status if it changed.
     const subscription = req.body.content.subscription;
-    if(subscription && subscription.status !== fireDepartment.subscription_status) {
-      console.log(`Fire department "${fireDepartment.name}" subscription status changed to "${subscription.status}"`);
-
-      fireDepartment.subscription_status = subscription.status;
+    if(subscription) {
+      fireDepartment.subscription = subscription;
       await fireDepartment.save();
     }
   }
