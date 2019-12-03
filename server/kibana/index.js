@@ -18,6 +18,7 @@ router.use(
   auth.isAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription({ redirectTo: '/home' }),
   proxy(settings)
 );
 

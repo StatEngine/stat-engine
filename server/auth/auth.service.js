@@ -160,24 +160,34 @@ export const checkOauthJwt = jwt({
   algorithms: ['RS256']
 });
 
-export async function hasActiveSubscription(req, res, next) {
-  if(!req.fireDepartment) {
-    throw new BadRequestError('req.fireDepartment not set.');
-  }
+export function hasActiveSubscription({ redirectTo } = {}) {
+  return function(req, res, next) {
+    try {
+      if(!req.fireDepartment) {
+        throw new BadRequestError('req.fireDepartment not set.');
+      }
 
-  const subscription = req.fireDepartment.subscription;
-  if(!subscription) {
-    throw new ForbiddenError('Fire department does not have a subscription.', 'SubscriptionNull');
-  }
+      const subscription = req.fireDepartment.subscription;
+      if(!subscription) {
+        throw new ForbiddenError('Fire department does not have a subscription.', 'SubscriptionNull');
+      }
 
-  if(subscription.status === SubscriptionStatus.Cancelled) {
-    // Check if the grace period has elapsed.
-    const expiryDate = moment(subscription.cancelled_at * 1000);
-    expiryDate.add(subscription.grace_period_days, 'days');
-    if(expiryDate < moment()) {
-      throw new ForbiddenError(`Fire department subscription has been cancelled and grace period has elapsed.`, 'SubscriptionCancelled');
+      if(subscription.status === SubscriptionStatus.Cancelled) {
+        // Check if the grace period has elapsed.
+        const expiryDate = moment(subscription.cancelled_at * 1000);
+        expiryDate.add(subscription.grace_period_days, 'days');
+        if(expiryDate < moment()) {
+          throw new ForbiddenError(`Fire department subscription has been cancelled and grace period has elapsed.`, 'SubscriptionCancelled');
+        }
+      }
+    } catch (err) {
+      if(redirectTo) {
+        res.redirect(redirectTo);
+      }
+
+      throw err;
     }
-  }
 
-  next();
+    next();
+  }
 }

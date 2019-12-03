@@ -13,7 +13,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.getUnits,
 );
 
@@ -22,7 +22,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   metricsController.getResponses,
 );
 
@@ -31,7 +31,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   metricsController.getMetrics,
 );
 
@@ -40,7 +40,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   metricsController.getMetricsTotal,
 );
 

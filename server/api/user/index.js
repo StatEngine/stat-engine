@@ -38,7 +38,7 @@ router.get(
   '/',
   auth.isApiAuthenticated,
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.getAll,
 );
 

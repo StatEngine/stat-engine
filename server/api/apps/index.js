@@ -12,7 +12,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.search
 );
 
@@ -21,7 +21,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.get
 );
 
@@ -30,7 +30,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.status
 );
 
@@ -39,7 +39,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.install
 );
 
@@ -48,7 +48,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.uninstall
 );
 

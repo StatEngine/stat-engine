@@ -12,7 +12,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.getForecast
 );
 

@@ -38,7 +38,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.recommendations
 );
 
@@ -47,7 +47,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.recent
 );
 
@@ -56,7 +56,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.preview
 );
@@ -66,7 +66,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.tweetTweet
 );

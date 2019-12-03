@@ -13,7 +13,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.create,
   controller.loadFixtures,
@@ -24,7 +24,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.getAll
 );
 
@@ -33,7 +33,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.hasWorkspaceAccess,
   controller.get
 );
@@ -43,7 +43,7 @@ router.put(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.edit
@@ -54,7 +54,7 @@ router.delete(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   controller.hasWorkspaceOwnerAccess,
   controller.markAsDeleted,
 );
@@ -64,7 +64,7 @@ router.delete(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.revokeUser,
@@ -75,7 +75,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.updateUser,
@@ -86,7 +86,7 @@ router.post(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.updateOwner
@@ -97,7 +97,7 @@ router.delete(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  auth.hasActiveSubscription,
+  auth.hasActiveSubscription(),
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.revokeOwner,
