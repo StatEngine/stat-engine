@@ -6,7 +6,7 @@ import percentile from 'percentile';
 
 import connection from '../../elasticsearch/connection';
 
-export async function formData(req, res) {
+export async function formData(req, res, next) {
   let fd = req.user.FireDepartment.get();
 
   let base = bodybuilder()
@@ -21,9 +21,8 @@ export async function formData(req, res) {
     body: req.esBody,
   });
 
-  res.json({
-    uniqueTypes: _.map(searchResults.aggregations['agg_terms_description.type'].buckets, b => b.key),
-  });
+  req.uniqueTypes = _.map(searchResults.aggregations['agg_terms_description.type'].buckets, b => b.key),
+  next();
 }
 
 // Top 5000 incidents, in which 1 unit arrives
@@ -101,6 +100,31 @@ export async function findCurrentConfig(req, res, next) {
     }
   }
   next();
+}
+
+export async function precheck(req, res) {
+  let fd = req.user.FireDepartment.get();
+
+  let body = bodybuilder()
+    .size(1)
+    .filter('exists', 'description.requirements.personnel.total_arriving')
+    .rawOption('_source', [
+      'description.requirements.personnel.total_arriving',
+    ])
+    .build();
+
+  const searchResults = await connection.getClient().search({
+    index: req.user.FireDepartment.get().es_indices['fire-incident'],
+    body,
+  });
+
+  if (!searchResults.hits.hits || searchResults.hits.hits.length < 1) {
+    req.error = "Not currently configured";
+  }
+  res.json({
+    error: req.error,
+    uniqueTypes: req.uniqueTypes,
+  });
 }
 
 export function sendResponse(req, res) {

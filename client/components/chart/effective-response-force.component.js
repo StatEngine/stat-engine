@@ -67,7 +67,7 @@ export default class EffectiveResponseForceComponent {
         type: 'scatter',
         name: '90th Percentile ERF Travel',
         line: {
-          dash: 'solid',
+          dash: 'dot',
           color: '#007bff'
         }
       };
@@ -78,7 +78,7 @@ export default class EffectiveResponseForceComponent {
         type: 'scatter',
         name: '90th Percentile ERF Response',
         line: {
-          dash: 'dot',
+          dash: 'dashdot',
           color: '#007bff'
         }
       };
@@ -89,7 +89,7 @@ export default class EffectiveResponseForceComponent {
         type: 'scatter',
         name: '90th Percentile ERF Total Response',
         line: {
-          dash: 'dashdot',
+          dash: 'solid',
           color: '#007bff'
         }
       };

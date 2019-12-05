@@ -13,7 +13,8 @@ router.get(
   auth.hasRole('user'),
   auth.hasFireDepartment,
   controller.formData,
-);
+  controller.precheck,
+  );
 
 router.get(
   '/analysis',
