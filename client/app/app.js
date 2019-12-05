@@ -63,6 +63,8 @@ import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import report from './report';
 import incident from './incident';
+import erf from './effective-response-force';
+
 import workspace from './workspace';
 
 import marketplace from './marketplace';
@@ -177,6 +179,7 @@ angular.module('statEngineApp', [
   toggleSwitch,
   print,
   unsupportedBrowser,
+  erf,
 ])
   .config(routeConfig)
   .config(buildConfig => {

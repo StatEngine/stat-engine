@@ -5,6 +5,7 @@ import IncidentTurnoutCategoryChartComponent from './incident-turnout-category-c
 import IncidentTravelCategoryChartComponent from './incident-travel-category-chart.component';
 import IncidentFirstDueTravelDurationChartComponent from './incident-first-due-travel-duration-chart.component';
 import IncidentApparatusTimelineComponent from './incident-apparatus-timeline.component';
+import EffectiveResponseForceComponent from './effective-response-force.component';
 
 export default angular.module('chart', [])
   .component('incidentCategoryChart', {
@@ -50,6 +51,15 @@ export default angular.module('chart', [])
     bindings: {
       responses: '<',
       tz: '@'
+    },
+  })
+  .component('effectiveResponseForce', {
+    template: require('./effective-response-force.html'),
+    controller: EffectiveResponseForceComponent,
+    controllerAs: 'vm',
+    bindings: {
+      data: '<',
+      type: '@'
     },
   })
   .name;
