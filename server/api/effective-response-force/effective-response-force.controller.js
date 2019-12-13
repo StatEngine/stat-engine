@@ -6,12 +6,34 @@ import percentile from 'percentile';
 
 import connection from '../../elasticsearch/connection';
 
+function getResponseClassOrder(key) {
+  let upper = key.toUpperCase();
+
+  if (upper === 'EMS') return 0;
+  if (upper === 'FIRE' || upper === 'SUPPRESSION') return 1;
+  if (upper.includes('RESCUE')) return 2;
+  if (upper === 'HAZMAT') return 3;
+  else return 4;
+}
+
+function getRiskOrder(key) {
+  let upper = key.toUpperCase();
+
+  if (upper === 'LOW') return 0;
+  if (upper === 'MEDIUM') return 1;
+  if (upper === 'HIGH') return 2;
+  if (upper.includes('MAX')) return 3;
+  else return 4;
+}
+
 export async function formData(req, res, next) {
   let fd = req.user.FireDepartment.get();
 
   let base = bodybuilder()
     .size(0)
-    .aggregation('terms', 'description.type', { size: 10000, order: { _term: 'asc' }})
+    .aggregation('terms', 'description.response_class', { size: 10, order: { _term: 'asc' }}, responseClass => responseClass
+      .aggregation('terms', 'description.risk_category', { size: 10, order: { _term: 'desc' }}, riskCategory => riskCategory
+        .aggregation('terms', 'description.type', { size: 100, order: { _term: 'asc' }})))
     .sort('description.event_opened', 'desc')
   req.esBody = base
     .build();
@@ -21,7 +43,31 @@ export async function formData(req, res, next) {
     body: req.esBody,
   });
 
-  req.uniqueTypes = _.map(searchResults.aggregations['agg_terms_description.type'].buckets, b => b.key),
+
+  req.response_classes = [];
+  _.map(searchResults.aggregations['agg_terms_description.response_class'].buckets, response_class => {
+    let reponse_class_obj = {
+      key: response_class.key,
+      risk_categories: [],
+      order: getResponseClassOrder(response_class.key)
+    };
+
+    _.map(response_class['agg_terms_description.risk_category'].buckets, risk_category => {
+      let risk_categogry_obj = {
+        key: risk_category.key,
+        order: getRiskOrder(risk_category.key),
+        dispatch_types: []
+      };
+
+      _.map(risk_category['agg_terms_description.type'].buckets, type => risk_categogry_obj.dispatch_types.push(type.key));
+      reponse_class_obj.risk_categories.push(risk_categogry_obj);
+    });
+    reponse_class_obj.risk_categories = _.orderBy(reponse_class_obj.risk_categories, rc => rc.order);
+    req.response_classes.push(reponse_class_obj);
+  });
+
+  req.response_classes = _.orderBy(req.response_classes, rc => rc.order);
+
   next();
 }
 
@@ -123,7 +169,7 @@ export async function precheck(req, res) {
   }
   res.json({
     error: req.error,
-    uniqueTypes: req.uniqueTypes,
+    response_classes: req.response_classes,
   });
 }
 

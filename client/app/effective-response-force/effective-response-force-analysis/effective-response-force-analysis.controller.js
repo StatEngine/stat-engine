@@ -8,7 +8,7 @@ let PlotlyBasic;
 
 export default class EffectiveResponseForceAnalysisController {
   /*@ngInject*/
-  constructor($scope, AmplitudeService, AnalyticEventNames, currentPrincipal, formData, modules, EffectiveResponseForce) {
+  constructor($scope, $location, AmplitudeService, AnalyticEventNames, currentPrincipal, formData, modules, EffectiveResponseForce) {
     _ = modules._;
     tippy = modules.tippy;
     PlotlyBasic = modules.PlotlyBasic;
@@ -23,9 +23,25 @@ export default class EffectiveResponseForceAnalysisController {
   $onInit() {
   }
 
-  async loadERF() {
+  loadResponseClass(responseClass) {
+    this.selectedResponseClass = responseClass;
+  }
+
+  loadRiskCategory(riskCategory) {
+    this.selectedRiskCategory = riskCategory;
+    this.handleMenuClick(this.selectedResponseClass, this.selectedRiskCategory);
+  }
+
+  async loadERF(selectedType) {
+    this.selectedType = selectedType;
     this.EffectiveResponseForceService.analysis({ type: this.selectedType}).$promise.then((data) => {
       this.erfAnalysis = data;
     })
+  }
+
+  handleMenuClick(responseClass, riskCategory) {
+    delete this.erfAnalysis;
+    this.selectedResponseClass = responseClass;
+    this.selectedRiskCategory = riskCategory;
   }
 }

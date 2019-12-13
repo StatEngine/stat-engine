@@ -1,13 +1,8 @@
-<div class="incident-search">
-  <div class="br-pageheader">
-    <nav class="breadcrumb">
-      <a class="breadcrumb-item" href="index.html">Home</a>
-      <a class="breadcrumb-item" href="#">ERF</a>
-    </nav>
-  </div><!-- br-pageheader -->
-  <div class="br-pagetitle d-flex justify-content-between flex-wrap">
-    <h2 class="m-0">Effective Response Force Analysis</h2>
-  </div><!-- br-pagetitle -->
+<div class="header-white">
+    <div class="br-pagetitle">
+      <h2 class="m-0">Effective Response Force</h2>
+    </div>
+  </div>
   <div class="br-pagebody">
     <div class="data-spy" data-spy="scroll" data-target="#navbar-example">
       <!-- Overview -->
@@ -61,14 +56,35 @@
 
                 <br>
                 <br>
-                <strong>To try out the tool, simply select a dispatch type and explore the results.</strong>
+                <strong>To try out the tool, simply select a dispatch type by clicking on the dispatch name.  Navigate to other response categories and risk categories through the drop-down menus below.  </strong>
 
               </div>
 
-              <strong> Dispatch Type: </strong>
-              <select ng-model="vm.selectedType" ng-options="x for x in vm.formData.uniqueTypes"
-                ng-change="vm.loadERF()">
-              </select>
+              <nav class="section-nav-tabs">
+                <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist" id="nav-tab">
+                  <li class="nav-item dropdown tx-medium pl-0" ng-repeat="responseClass in vm.formData.response_classes" ng-init="($first) ? vm.loadResponseClass(responseClass): null">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      ng-class="{'active': vm.selectedResponseClass.key == responseClass.key}"
+                      data-toggle="dropdown"
+                      href="#{{responseClass.key}}-profile"
+                      role="button"
+                      id="nav-{{responseClass.key}}-tab"
+                      aria-controls="{{responseClass.key}}-profile"
+                      aria-selected="true"
+                    >
+                      {{ responseClass.key }}
+                    </a>
+                    <div class="dropdown-menu">
+                      <a ng-class="{'active': vm.selectedRiskCategory.key == riskCategory.key && vm.selectedResponseClass.key == responseClass.key}" class="dropdown-item" href="#" ng-click="vm.handleMenuClick(responseClass, riskCategory)" ng-repeat="riskCategory in responseClass.risk_categories" ng-init="($first) ? vm.loadRiskCategory(riskCategory): null"> {{riskCategory.key}} </a>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+              <nav class="section-nav-tabs nav nav-pills nav-justified nav-fill">
+                <a class="nav-item nav-link" ng-class="{'active': vm.selectedType === type}" ng-repeat="type in vm.selectedRiskCategory.dispatch_types" href="#" ng-click="vm.loadERF(type)" ng-init="($first) ? vm.loadERF(type): null">{{type}}</a>
+              </nav>
+
               <div ng-if="vm.erfAnalysis.current_config">
                 <h2 class="text-center heavyheader">{{ vm.selectedType }}
                   ({{ vm.erfAnalysis.current_config.response_class }} -
