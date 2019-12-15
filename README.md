@@ -89,13 +89,29 @@ docker run -e ELASTICSEARCH_URI=http://localhost:9200 --net=host prominentedgest
 
 #### Nightly Dump
 
-A nightly dump of elasticdump data is availabe in S3.   Please contact a team member for access. 
+A nightly dump of elasticdump data is availabe in S3.   Please contact a team member for access.
 
 #### Loading data
 
 1. Make sure Elasticsearch is running
 
 2. Run `multielasticdump --input="./es-test-data" --output="http://kibana:kibana@localhost:9200" --direction="load"`
+
+### MinIO
+MinIO is an object storage server released under Apache License v2.0. It is compatible with Amazon S3 cloud storage service and therefore the `aws-sdk` module can be pointed to it locally without the need of having a dedicated S3 bucket for development purposes.
+
+#### Run minIO
+The recommended way to set up MinIO is to run it from a docker container.
+
+```bash
+docker run -p 9090:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e"MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
+```
+
+#### Go to minIO dashboard
+```http://localhost:9090```
+Create a new bucket called `statengine-public-assets-dev`.
+
+Edit the policy, allowing Read and Write access with prefix `*`
 
 ### Developing
 
@@ -112,7 +128,7 @@ A nightly dump of elasticdump data is availabe in S3.   Please contact a team me
 6.  Login with username: `richmond`, password: `password`.
 
 ### Testing
-Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing. 
+Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing.
 ![](https://s3.amazonaws.com/statengine-public-assets/Browserstack-logo%402x.png)
 
 

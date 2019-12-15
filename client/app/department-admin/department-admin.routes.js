@@ -50,5 +50,23 @@ export default function routes($stateProvider) {
           return ExtensionConfiguration.query({ name: 'Email Report' }).$promise;
         },
       },
+    })
+    .state('site.departmentAdmin.createNewUser', {
+      url: '/departmentAdmin/create-new-user',
+      views: {
+        'content@': {
+          template: require('./department-admin-create-new-user/department-admin-create-new-user.html'),
+          controller: 'DepartmentAdminCreateNewUserController',
+          controllerAs: 'vm'
+        }
+      },
+      data: {
+        roles: ['department_admin']
+      },
+      resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity(true);
+        },
+      },
     });
 }

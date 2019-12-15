@@ -8,8 +8,8 @@ export class LogoController {
   }
 
   src() {
+    console.dir(this.department.logo_link)
     if(this.department.logo_link) return this.department.logo_link;
-    return `https://s3.amazonaws.com/statengine-public-assets/logos/${this.department.firecares_id}.png`;
   }
 }
 

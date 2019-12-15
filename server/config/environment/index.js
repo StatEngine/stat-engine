@@ -26,11 +26,6 @@ if(process.env.NODE_ENV === 'development') emailPrefix = 'dev-';
 var all = {
   env: process.env.NODE_ENV,
 
-  // AWS Credentials for signing requests to Kibana
-  aws: {
-    region: process.env.AWS_DEFAULT_REGION || 'us-east-1'
-  },
-
   elasticsearch: {
     host: process.env.ELASTICSEARCH_URI || 'localhost:9200',
     httpAuth: process.env.ELASTICSEARCH_USER && process.env.ELASTICSEARCH_PASSWORD ? `${process.env.ELASTICSEARCH_USER}:${process.env.ELASTICSEARCH_PASSWORD}` : undefined,
@@ -80,6 +75,7 @@ var all = {
     requestUsernameTemplate: 'request-username',
     resetPasswordTemplate: 'resetpassword',
     newUserTemplate: 'getting-started-statengine',
+    newUserByDepartmentAdminTemplate: 'new-user-by-department-admin',
     newReportTemplate: 'new-report',
     departmentAccessRequestedTemplate: `${emailPrefix}department-access-requested`,
     departmentAccessApprovedTemplate: `${emailPrefix}department-access-approved`,
@@ -103,7 +99,7 @@ var all = {
 
   mapbox: {
     token: process.env.MAPBOX_TOKEN,
-  }
+  },
 };
 
 

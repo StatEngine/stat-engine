@@ -1,0 +1,45 @@
+<section class="container py-5">
+  <section class="row mb-12 justify-content-md-center">
+    <div class="col-md-auto align-self-center">
+      <h2 class="subheader">Create New Department User</h2>
+      <div class="form-elements">
+        <form class="form form-wrapper ng-pristine ng-invalid ng-invalid-required" name="form" ng-submit="vm.register(form)" id="signup-form" novalidate>
+
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="username" name="username" class="form-control" ng-model="vm.user.username" required minlength='3' maxlength='20' mongoose-error="mongoose-error"/>
+          </div>
+
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="first_name" class="form-control" ng-model="vm.user.first_name" required/>
+          </div>
+
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="last_name" class="form-control" ng-model="vm.user.last_name" required/>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" ng-model="vm.user.email" required mongoose-error="mongoose-error"/>
+          </div>
+
+          <div>
+            <p class="help-block" ng-show="vm.errors">
+              <ul>
+                <li ng-repeat="error in vm.errors">
+                  <p class="text-danger">{{ error.message }}</p>
+                </li>
+              </ul>
+            </p>
+            <button id='signup-sign-up' class="btn btn-primary btn-lg btn-oblong hvr-float w180 signup" type="submit">
+              Create User
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</section>
+
