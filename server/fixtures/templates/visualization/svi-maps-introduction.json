@@ -5,7 +5,7 @@
     "type": "visualization",
     "visualization": {
       "title": "SVI Maps Introduction",
-      "visState": "{\"title\":\"SVI Maps Introduction\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"# Maps\\nSVI data is a ranking based on U.S. Census Tract data.\\nA 'Chloropleth' map is a map with designated regions, such as a census tract, colored by a particular metric, for example the number of fire incidents that occurred within it or its SVI ranking.\\n\\n- Above: An incident response heat map for the jurisdiction.\\n\\n- Top-Right: Chloropleth map depicting the number of incidents per census tract.\\n\\n- Bottom-Right: Chloropleth map depicting the SVI ranking of each census tract responded to by the jurisdiction.\"},\"aggs\":[]}",
+      "visState": "{\"title\":\"SVI Maps Introduction\",\"type\":\"markdown\",\"params\":{\"fontSize\":12,\"openLinksInNewTab\":false,\"markdown\":\"# Maps\\nSVI data is a ranking based on U.S. Census Tract data.\\nA 'Choropleth' map is a map with designated regions, such as a census tract, colored by a particular metric, for example the number of fire incidents that occurred within it or its SVI ranking.\\n\\n- Above: An incident response heat map for the jurisdiction.\\n\\n- Top-Right: Choropleth map depicting the number of incidents per census tract.\\n\\n- Bottom-Right: Choropleth map depicting the SVI ranking of each census tract responded to by the jurisdiction.\"},\"aggs\":[]}",
       "uiStateJSON": "{}",
       "description": "",
       "version": 1,

@@ -1,23 +1,19 @@
 <div class="br-pageheader">
   <nav class="breadcrumb">
     <a class="breadcrumb-item" href="site.user.home">Home</a>
-    <a class="breadcrumb-item" ui-sref="site.workspace.home">Workspaces</a>
+    <a class="breadcrumb-item active" ui-sref="site.workspace.home">Workspaces</a>
   </nav>
 </div>
 <div class="workspace-select">
   <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
-  <section class="masthead-wrapper">
-    <div class="px-4 py-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-12 masthead-content">
-          <h1 class="text-white extraheavyheader">Workspaces</h1>
-          <p class="text-white mb-3">
-            With workspaces, you can organize your dashboards, visualizations, and other saved objects into meaningful categories such as Operations, Accreditation, Battalion, or Station Dashboards.
-            Once inside a workspace, you will only have access to the dashboards and visualizations that have been created in that workspace.
-            When creating a workspace, you can grant other users read/write access, or keep the workspace only visible to yourself.
-          </p>
-        </div>
-      </div>
+  <section class="masthead">
+    <div class="masthead-content">
+      <h1>Workspaces</h1>
+      <p>
+        With workspaces, you can organize your dashboards, visualizations, and other saved objects into meaningful categories such as Operations, Accreditation, Battalion, or Station Dashboards.
+        Once inside a workspace, you will only have access to the dashboards and visualizations that have been created in that workspace.
+        When creating a workspace, you can grant other users read/write access, or keep the workspace only visible to yourself.
+      </p>
     </div>
   </section>
   <section class="workspaces-content">

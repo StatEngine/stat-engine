@@ -2,7 +2,6 @@
 
 import { Router } from 'express';
 import connectEnsureLoggedIn from 'connect-ensure-login';
-import proxy from 'http-proxy-middleware';
 
 import * as auth from '../../auth/auth.service';
 import * as rorController from './read-only-rest.controller';
@@ -19,6 +18,7 @@ router.get(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   workspaceController.hasWorkspaceAccess,
+  rorController.logout,
   rorController.login,
 );
 

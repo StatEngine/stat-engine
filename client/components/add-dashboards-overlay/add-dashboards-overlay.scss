@@ -1,0 +1,78 @@
+.add-dashboards-overlay {
+  @extend .overlay-window;
+  @extend .medium-bg;
+  z-index: 100;
+
+  .view-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    padding-bottom: 2rem;
+
+    select {
+      @extend .form-control;
+      display: block;
+    }
+
+    input {
+      @extend .form-control;
+      display: block;
+    }
+
+    .search,
+    .sort-by,
+    .add-selected {
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: $gray-550;
+      }
+    }
+
+    .add-selected {
+      label {
+        text-align: right;
+      }
+    }
+
+    .search {
+      width: 15rem;
+
+      input {
+        padding-right: 3rem !important;
+      }
+
+      .search-icon {
+        @extend .fa;
+        @extend .fa-search;
+        position: absolute;
+        top: calc(50% - 1px);
+        right: 1rem;
+        transform: translate(0, -50%);
+        font-size: 1.25rem;
+        color: $gray-550;
+      }
+    }
+
+    .sort-by {
+      width: 10rem;
+    }
+  }
+
+  .main-content {
+    .dashboards-list,
+    .dashboards-grid {
+      position: relative;
+    }
+
+    .dashboards-grid {
+      display: grid;
+      grid-gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(345px, auto));
+    }
+  }
+}

@@ -35,6 +35,8 @@ export default function(app) {
   app.use('/api/shift', require('./api/shift'));
   app.use('/api/stats', require('./api/stats'));
   app.use('/api/workspaces', require('./api/workspace'));
+  app.use('/api/fixture-template', require('./api/fixture-template'));
+  app.use('/api/admin', require('./api/admin'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));

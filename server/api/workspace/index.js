@@ -5,8 +5,9 @@ import bodyParser from 'body-parser';
 
 import * as controller from './workspace.controller';
 import * as auth from '../../auth/auth.service';
+import { KibanaApi } from '../../kibana/kibana-api';
 
-var router = new Router();
+const router = new Router();
 
 router.post(
   '/',
@@ -15,7 +16,6 @@ router.post(
   auth.hasFireDepartment,
   bodyParser.json(),
   controller.create,
-  controller.loadFixtures,
 );
 
 router.get(
@@ -32,7 +32,8 @@ router.get(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   controller.hasWorkspaceAccess,
-  controller.get
+  KibanaApi.connect,
+  controller.get,
 );
 
 router.put(
@@ -42,7 +43,8 @@ router.put(
   auth.hasFireDepartment,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
-  controller.edit
+  KibanaApi.connect,
+  controller.edit,
 );
 
 router.delete(

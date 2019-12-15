@@ -1,0 +1,14 @@
+<div class="view-mode" role="group">
+  <button
+    ng-class="{'active': vm.mode === vm.modes.grid}"
+    ng-click="vm.handleGridClick()"
+  >
+    <i class="fa fa-th-large"></i>
+  </button>
+  <button
+    ng-class="{'active': vm.mode === vm.modes.list}"
+    ng-click="vm.handleListClick()"
+  >
+    <i class="fa fa-list-ul"></i>
+  </button>
+</div>

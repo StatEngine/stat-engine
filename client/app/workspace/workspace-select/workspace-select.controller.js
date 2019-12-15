@@ -54,7 +54,7 @@ export default class WorkspaceSelectController {
   deleteWorkspace(workspace) {
     this.ModalService.custom({
       title: 'Confirm Delete',
-      content: 'Are you sure you want to delete this workspace?<br><br><strong class="text-danger">All saved objects, such as dashboards, and visualizations will be deleted.  Workspace users will no longer be able to access!</strong>',
+      content: 'Are you sure you want to delete this workspace?<br><br><strong class="text-danger">All saved objects, such as dashboards and visualizations, will be deleted, and workspace users will no longer have access!</strong>',
       onDismiss: () => console.log('Dismiss'),
       buttons: [{
         text: 'Cancel',

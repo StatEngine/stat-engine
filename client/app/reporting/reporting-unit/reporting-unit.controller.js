@@ -338,7 +338,7 @@ export default class ReportingUnitController {
 
   async handleIncidentsPaginationChange() {
     await this.fetchIncidentsTableData();
-    angular.element('.incidents-overlay')[0].scrollTop = 0;
+    angular.element('.incidents-overlay-window')[0].scrollTop = 0;
   }
 
   handleIncidentsTableSortChange() {
