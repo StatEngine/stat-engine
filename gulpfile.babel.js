@@ -671,6 +671,7 @@ gulp.task('copy:server', () => {
         'server/api/incident/templates/*',
         'node_modules/@statengine/se-grpc-proto/*',
         'server/fixtures/templates/**/*',
+        'server/fixtures/templatesArchive/**/*',
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });
