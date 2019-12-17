@@ -2,6 +2,7 @@ import _ from 'lodash';
 import async from 'async';
 
 import connection from '../../elasticsearch/connection';
+import { Log } from '../../util/log';
 
 export const QUERIES = [{
   name: 'yesterdaysSummary',
@@ -183,7 +184,7 @@ export async function runQuery(query, options, cb) {
     const parsed = await query.parser(res, options);
     cb(null, parsed);
   } catch (err) {
-    console.error(err);
+    Log.error(err);
     cb(err);
   }
 }

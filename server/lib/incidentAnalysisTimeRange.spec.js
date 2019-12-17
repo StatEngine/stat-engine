@@ -6,6 +6,7 @@ import {
   previousTimeRange,
   IncidentAnalysisTimeRange
 } from './incidentAnalysisTimeRange';
+import { Log } from '../util/log';
 
 describe('previousTimeRange', () => {
   it('shoud return previous hour', () => {
@@ -59,7 +60,7 @@ describe('Incident Analysis Time Range', () => {
 
     analysis.run()
       .then(results => {
-        console.log(util.inspect(results, {showHidden: false, depth: null}))
+        Log.test('results', results);
         done();
       });
   });
@@ -72,7 +73,7 @@ describe('Incident Analysis Time Range', () => {
 
     analysis.analyze()
       .then(results => {
-        console.log(util.inspect(results, {showHidden: false, depth: null}))
+        Log.test('results', results);
         done();
       });
   });

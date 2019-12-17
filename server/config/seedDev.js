@@ -9,6 +9,7 @@ import uuidv4 from 'uuid/v4';
 
 import sqldb from '../sqldb';
 import { TimeUnit } from '../components/constants/time-unit';
+import { Log } from '../util/log';
 
 const User = sqldb.User;
 const FireDepartment = sqldb.FireDepartment;
@@ -35,7 +36,7 @@ export default function seedDev() {
     throw new Error('Cannot seed a production database');
   }
 
-  console.info('Seeding development data...');
+  Log.info('Seeding development data...');
 
   return Extension
     .sync()
@@ -967,5 +968,5 @@ export default function seedDev() {
     }, {
       include: [FireDepartment.Users]
     }))
-    .then(() => console.log('Finished seeding development data'));
+    .then(() => Log.info('Finished seeding development data'));
 }

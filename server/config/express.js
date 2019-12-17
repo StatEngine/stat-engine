@@ -19,6 +19,7 @@ import compression from 'compression';
 
 import config from './environment';
 import sqldb from '../sqldb';
+import { Log } from '../util/log';
 
 const SequelizeStore = connectSessionSequelize(session.Store);
 
@@ -134,7 +135,7 @@ export default function(app) {
      * or send a fullscreen error message to the browser instead
      */
     compiler.plugin('done', function(stats) {
-      console.log('webpack done hook');
+      Log.info('webpack done hook');
       if(stats.hasErrors() || stats.hasWarnings()) {
         return browserSync.sockets.emit('fullscreen:message', {
           title: 'Webpack Error:',

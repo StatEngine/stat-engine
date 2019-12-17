@@ -26,6 +26,7 @@
     "angular-ui-grid": "^4.4.10",
     "angularjs-color-picker": "^3.4.8",
     "animate.css": "^3.5.2",
+    "ansi-colors": "^4.1.1",
     "async": "^2.6.0",
     "aws": "0.0.3-2",
     "aws-sdk": "^2.144.0",
@@ -121,7 +122,9 @@
     "tippy.js": "^2.5.4",
     "twitter": "^1.7.1",
     "ui-bootstrap4": "^3.0.5",
-    "vis": "^4.21.0"
+    "uuid": "^3.1.0",
+    "vis": "^4.21.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@ljharb/eslint-config": "^12.2.1",

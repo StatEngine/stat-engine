@@ -4,6 +4,7 @@ import path from 'path';
 import parse from 'json-templates';
 
 import { updateDoc } from './elasticsearch';
+import { Log } from '../../util/log';
 
 export function loadTemplates(params, cb) {
   const templatePath = path.join(__dirname, `../templates/${params.type}`);
@@ -44,7 +45,7 @@ export function loadTemplates(params, cb) {
     // Update docs into ES
     (docs, done) => {
       async.each(docs, (doc, callback) => {
-        console.info(`Loading: ${doc._id}`);
+        Log.info(`Loading: ${doc._id}`);
         updateDoc({
           index: params.index,
           type: doc._type,

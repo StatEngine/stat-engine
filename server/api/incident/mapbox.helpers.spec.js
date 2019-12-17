@@ -2,6 +2,7 @@ import {
   getMatrix,
 } from './mapbox.helpers';
 import 'chai/register-should';
+import { Log } from '../../util/log';
 
 describe.only('getMatrix', () => {
   let incident = {
@@ -342,7 +343,7 @@ describe.only('getMatrix', () => {
   it('should get travel matrix', done => {
     getMatrix(incident)
       .then(r => {
-        console.dir(r);
+        Log.test('result', r);
         done();
       });
   });

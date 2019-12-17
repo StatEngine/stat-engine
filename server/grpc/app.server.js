@@ -8,6 +8,7 @@ import {
   AppInstallation,
   FireDepartment,
 } from '../sqldb';
+import { Log } from '../util/log';
 
 const protoLoader = require('@grpc/proto-loader');
 
@@ -50,7 +51,7 @@ export function listApps(call, cb) {
     }))}
   ))
     .catch(err => {
-      console.error(err);
+      Log.error(err);
       cb(err);
     });
 }

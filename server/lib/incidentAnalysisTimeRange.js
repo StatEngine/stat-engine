@@ -11,6 +11,7 @@ import { OvernightEventsRule } from './rules/overnightEventsRule';
 import { EventDurationSumRule } from './rules/eventDurationSumRule';
 import { TurnoutDurationOutlierRule } from './rules/turnoutDurationOutlierRule';
 import { TravelDurationOutlierRule } from './rules/travelDurationOutlierRule';
+import { Log } from '../util/log';
 
 export function previousTimeRange(timeRange) {
   const sm = moment.parseZone(timeRange.start);
@@ -300,7 +301,7 @@ export class IncidentAnalysisTimeRange {
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);
         comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription"]buckets', incidentTypeMetrics);
 
-        console.dir(comparison);
+        Log.debug('comparison', comparison);
 
         return Promise.resolve(comparison);
       });

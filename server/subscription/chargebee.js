@@ -2,13 +2,14 @@ import chargebee from 'chargebee';
 import 'babel-polyfill';
 
 import _ from 'lodash';
+import { Log } from '../util/log';
 
 chargebee.configure({
   site: process.env.CHARGEBEE_SITE,
   api_key: process.env.CHARGEBEE_API_KEY});
 
 export const createCustomer = async fireDepartment => {
-  console.info('Creating customer');
+  Log.info('Creating customer');
   let skip = _.isEmpty(process.env.CHARGEBEE_API_KEY) || _.isEmpty(fireDepartment);
 
   //if customer id check
@@ -16,7 +17,7 @@ export const createCustomer = async fireDepartment => {
     const customer = await chargebee.customer
       .retrieve(fireDepartment.customer_id)
       .request()
-      .catch(console.log);
+      .catch(Log.error);
 
     if(customer) {
       // this customer already exists in chargebee.
@@ -47,7 +48,7 @@ export const retrieveSubscription = async fireDepartment => {
       'sort_by[desc]': 'created_at',
     })
     .request()
-    .catch(console.log);
+    .catch(Log.error);
 
   return (subscriptions.list.length) ? subscriptions.list[0].subscription : null;
 };

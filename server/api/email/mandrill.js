@@ -3,6 +3,7 @@ import mandrillTransport from 'nodemailer-mandrill-transport';
 import util from 'util';
 
 import config from '../../config/environment';
+import { Log } from '../../util/log';
 
 export function sendEmail(to, subject, templateName, merge_vars, test, metadata) {
   let apiKey;
@@ -35,7 +36,7 @@ export function sendEmail(to, subject, templateName, merge_vars, test, metadata)
     }
   };
 
-  console.log(util.inspect(mailOptions.mandrillOptions, {showHidden: false, depth: null}));
+  Log.debug('mandrillOptions', mailOptions.mandrillOptions);
 
   return mailTransport.sendMail(mailOptions);
 }

@@ -2,6 +2,7 @@
  * Main application file
  */
 
+
 'use strict';
 
 import 'babel-polyfill';
@@ -12,6 +13,7 @@ import 'regenerator-runtime/runtime';
 
 import sqldb from './sqldb';
 import config from './config/environment';
+import { Log } from './util/log';
 
 // Setup server
 var app = express();
@@ -28,14 +30,15 @@ require('./grpc');
 // Start server
 function startServer() {
   app.angularFullstack = server.listen(config.port, config.ip, function() {
-    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+    Log.info(`Express server listening on ${config.port}, in ${app.get('env')} mode`);
   });
 }
 
 sqldb.sequelize.sync()
   .then(startServer)
   .catch(function(err) {
-    console.log('Server failed to start due to error: %s', err);
+    Log.error('Server failed to start due to an error...');
+    Log.error(err);
   });
 
 // Expose app

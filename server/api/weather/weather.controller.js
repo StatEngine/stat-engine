@@ -1,5 +1,6 @@
 import request from 'request-promise';
 import moment from 'moment';
+import { Log } from '../../util/log';
 
 export async function getForecast(req, res) {
   const now = moment.tz(req.user.FireDepartment.timezone);
@@ -15,7 +16,7 @@ export async function getForecast(req, res) {
   let uri = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_TOKEN}/${req.user.FireDepartment.latitude},${req.user.FireDepartment.longitude}`;
   if(today) uri += `,${requestedTime.unix()}`;
 
-  console.dir(uri);
+  Log.info(uri);
 
   const results = await request({
     uri,

@@ -16,6 +16,7 @@ import {
 import config from '../../config/environment';
 import { TimeUnit } from '../../components/constants/time-unit';
 import { BadRequestError, InternalServerError } from '../../util/error';
+import { Log } from '../../util/log';
 
 export async function sendTimeRangeAnalysis(req, res) {
   const configId = req.query.configurationId;
@@ -145,7 +146,7 @@ export async function sendTimeRangeAnalysis(req, res) {
     _formatAggregateMetrics('incidentType', incidentTypeMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('agencyIncidentType', agencyIncidentTypeMetricConfigs, comparison, reportOptions),
   ];
-  console.dir(globalMergeVars);
+  Log.debug('globalMergeVars', globalMergeVars);
   const subject = description.content.title;
 
   //

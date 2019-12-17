@@ -2,6 +2,7 @@ import {
   sendEmail
 } from './mandrill';
 import 'chai/register-should';
+import { Log } from '../../util/log';
 
 
 let mergeVars = [{
@@ -1106,9 +1107,9 @@ describe('sendEmail()', () => {
   it('should send a test email', (done) => {
     sendEmail('joe.chop@prominentedge.com', 'timerange', mergeVars)
       .then(() => {
-        console.info('Sent email');
+        Log.test('Sent email');
         done();
       })
-      .catch(e => console.error(e))
+      .catch(e => Log.error(e))
   }).timeout(5000);
 });
