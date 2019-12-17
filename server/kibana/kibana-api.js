@@ -19,7 +19,7 @@ export class KibanaApi {
 
     // Get a new request object. This object will have its own cookie jar.
     kibanaApi._request = request.defaults({
-      baseUrl: `${config.kibana.uri}`,
+      baseUrl: `${config.nfors.uri}`,
       headers: {
         'kbn-xsrf': 'true', // Kibana requires 'kbn-xsrf' to be set or it will return an error. It can be any string.
       },
@@ -45,6 +45,7 @@ export class KibanaApi {
         uri: `login?jwt=${rorJwt}`,
       });
     } catch (err) {
+      console.error(err);
       throw new Error('Failed to login to Kibana API. Make sure that Kibana is running.');
     }
 
