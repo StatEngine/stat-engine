@@ -20,6 +20,7 @@
       on-pagination-change="vm.handlePaginationChange({ pagination })"
       position="bottom"
       show-sort="false"
+      max-pages="10"
     ></table-controls>
   </div>
 
@@ -33,6 +34,7 @@
       on-sort-change="vm.handleSortChange({ sort })"
       is-loading="vm.isLoading"
       position="top"
+      max-pages="10"
     ></table-controls>
 
     <!-- Incidents table -->
@@ -71,6 +73,7 @@
       on-sort-change="vm.handleSortChange({ sort })"
       is-loading="vm.isLoading"
       position="bottom"
+      max-pages="10"
     ></table-controls>
   </div>
 </div>

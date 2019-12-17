@@ -12,6 +12,7 @@ export class TableControlsController {
   position;
   showSort;
   columnDefs = [];
+  maxPages;
 
   $onInit() {
     this.sort = this.sort || {
@@ -41,7 +42,12 @@ export class TableControlsController {
   }
 
   get totalPages() {
-    return Math.ceil(this.pagination.totalItems / this.pagination.pageSize);
+    let totalPages = Math.ceil(this.pagination.totalItems / this.pagination.pageSize);
+    if(this.maxPages != null) {
+      totalPages = Math.min(this.maxPages, totalPages);
+    }
+
+    return totalPages;
   }
 
   get pageNumbers() {
@@ -129,6 +135,7 @@ export default angular.module('tableControls', [])
       isLoading: '<?',
       position: '@?',
       showSort: '<?',
+      maxPages: '<?',
     },
   })
   .name;
