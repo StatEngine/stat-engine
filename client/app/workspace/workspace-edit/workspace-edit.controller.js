@@ -3,17 +3,23 @@
 import angular from 'angular';
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
+import randomstring from 'randomstring';
 import { getErrors } from '../../../util/error';
 
 let _;
+
 export default class WorkspaceEditController {
   workspace = {};
   errors = null;
   message = '';
   seed = true;
+  isShowingAddDashboardsOverlay = false;
 
   /*@ngInject*/
-  constructor(Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal) {
+  constructor(
+    Workspace, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate,
+  )
+  {
     this.WorkspaceService = Workspace;
     this.UserService = User;
     this.$state = $state;
@@ -22,6 +28,7 @@ export default class WorkspaceEditController {
     this.AnalyticEventNames = AnalyticEventNames;
     this.currentPrincipal = currentPrincipal;
     this.Modal = Modal;
+    this.FixtureTemplate = FixtureTemplate;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
                     ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
@@ -29,6 +36,7 @@ export default class WorkspaceEditController {
     this.inputWorkspace = {
       _id: this.$stateParams.id === 'new' ? undefined : this.$stateParams.id,
       color: this.palette[0][0],
+      dashboards: {},
     };
   }
 
@@ -42,11 +50,15 @@ export default class WorkspaceEditController {
     await this.refresh();
   }
 
+  get isNewWorkspace() {
+    return (this.inputWorkspace._id == null);
+  }
+
   get pageTitle() {
     if(!this.inputWorkspace) {
       return undefined;
     } else {
-      return this.inputWorkspace._id ? 'Edit Workspace' : 'New Workspace';
+      return this.isNewWorkspace ? 'New Workspace' : 'Edit Workspace';
     }
   }
 
@@ -54,7 +66,7 @@ export default class WorkspaceEditController {
     if(!this.inputWorkspace) {
       return undefined;
     } else {
-      return this.inputWorkspace._id ? 'Save' : 'Create';
+      return this.isNewWorkspace ? 'Create' : 'Save';
     }
   }
 
@@ -62,7 +74,7 @@ export default class WorkspaceEditController {
     if(!this.inputWorkspace) {
       return undefined;
     } else {
-      return this.inputWorkspace._id ? 'Saving...' : 'Creating...';
+      return this.isNewWorkspace ? 'Creating...' : 'Saving...';
     }
   }
 
@@ -71,13 +83,25 @@ export default class WorkspaceEditController {
 
     this.origWorkspace = {};
 
-    if(this.inputWorkspace._id) {
+    if (this.isNewWorkspace) {
+      // Add all of the dashboards automatically by default.
+      const dashboards = await this.FixtureTemplate.getDashboards().$promise;
+      this.addDashboards(dashboards);
+    } else {
       this.origWorkspace = await this.WorkspaceService.get({ id: this.inputWorkspace._id }).$promise;
+
+      // Convert dashboards array to object.
+      const dashboards = {};
+      this.origWorkspace.dashboards.forEach(d => dashboards[d._id] = d);
+      this.origWorkspace.dashboards = dashboards;
+
+      // Clone workspace for editing.
       this.inputWorkspace = _.cloneDeep(this.origWorkspace);
     }
+
     const departmentUsers = await this.UserService.query().$promise;
 
-    this.seed = this.inputWorkspace._id == undefined;
+    this.seed = this.isNewWorkspace;
 
     const users = _.filter(departmentUsers, u => !u.isAdmin && !u.isGlobal && u.isDashboardUser);
     this.inputUsers = _.values(_.merge(
@@ -121,42 +145,10 @@ export default class WorkspaceEditController {
   }
 
   saveDisabled() {
-    if(this.isSaving) {
-      return true;
-    }
-
-    let noChanges = true;
-    let noUserChanges = true;
-    if (!this.origWorkspace || !this.inputWorkspace) {
-      return true;
-    }
-    if (this.origWorkspace.name !== this.inputWorkspace.name ||
-        this.origWorkspace.description !== this.inputWorkspace.description ||
-        this.origWorkspace.color !== this.inputWorkspace.color) {
-      noChanges = false;
-    }
-
-    if (this.inputUsers) {
-      this.inputUsers.forEach(u => {
-        const origUser = _.find(this.origWorkspace.users, ou => ou._id === u._id);
-        // user either was added as owner, or permissions given
-        if (!origUser && (u.is_owner || u.permission)) {
-          noUserChanges = false;
-        }
-        // user ownership or permission changed
-        if (origUser && (u.is_owner !== origUser.is_owner || u.permission !== origUser.permission)) {
-          noUserChanges = false;
-        }
-      });
-    }
-
-    return (
-     (noChanges && noUserChanges) ||
-     this.isSaving
-    )
+    return this.isSaving;
   }
 
-  async updateWorkspace(form) {
+  async updateWorkspace() {
     if(!this.workspaceForm.isValid()) {
       return;
     }
@@ -167,12 +159,8 @@ export default class WorkspaceEditController {
       id: this.inputWorkspace._id
     };
 
-    if(!this.inputWorkspace._id) {
+    if(this.isNewWorkspace) {
       fnc = this.WorkspaceService.create;
-      if (this.seed) {
-        params.seedVisualizations = true;
-        params.seedDashboards = true;
-      }
 
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'WORKSPACE',
@@ -189,6 +177,7 @@ export default class WorkspaceEditController {
         name: this.inputWorkspace.name,
         description: this.inputWorkspace.description,
         color: this.inputWorkspace.color,
+        dashboards: this.inputWorkspace.dashboards,
         users: this.inputUsers,
       }).$promise;
     } catch (err) {
@@ -205,6 +194,59 @@ export default class WorkspaceEditController {
     this.Modal.alert({
       title: 'User Access',
       content: $('#userAccessInfo')[0].innerHTML,
+    }).present();
+  }
+
+  showAddDashboardsOverlay() {
+    this.isShowingAddDashboardsOverlay = true;
+  }
+
+  handleAddDashboardsOverlayConfirm({ selectedDashboards }) {
+    this.addDashboards(selectedDashboards);
+  }
+
+  templateIdToUniqueId(templateId) {
+    // This has to exactly match FixtureTemplate.templateIdToUniqueId() on the server, since the
+    // template id needs to be extracted using FixtureTemplate.uniqueIdToTemplateId().
+    return `${templateId}--${randomstring.generate(8)}`;
+  }
+
+  addDashboards(dashboards) {
+    // Build existing dashboard title lookup to avoid confusing duplicate titles.
+    const dashboardTitlesLookup = {};
+    Object.keys(this.inputWorkspace.dashboards).forEach(dashboardId => {
+      const dashboard = this.inputWorkspace.dashboards[dashboardId];
+      dashboardTitlesLookup[dashboard.title] = dashboard;
+    });
+
+    dashboards.forEach(dashboard => {
+      // Generate a unique id so that we can add multiple of the same type of dashboard.
+      // NOTE: The dashboard id will be regenerated on the backend during dashboard creation.
+      dashboard._id = this.templateIdToUniqueId(dashboard._id);
+
+      // Make sure we don't have any duplicate titles.
+      const origTitle = dashboard.title;
+      let count = 0;
+      while (dashboardTitlesLookup[dashboard.title]) {
+        count++;
+        dashboard.title = `${origTitle} (${count})`;
+      }
+
+      this.inputWorkspace.dashboards[dashboard._id] = dashboard;
+    });
+  }
+
+  removeDashboard(dashboard) {
+    this.Modal.confirm({
+      title: 'Remove Dashboard',
+      content: `Are you sure you want to remove <strong>${dashboard.title}</strong>?`,
+      confirmButtonStyle: this.Modal.buttonStyle.danger,
+      confirmButtonText: 'Remove',
+      showCloseButton: false,
+      enableBackdropDismiss: false,
+      onConfirm: () => {
+        delete this.inputWorkspace.dashboards[dashboard._id];
+      },
     }).present();
   }
 }

@@ -28,6 +28,37 @@
     </div>
   </div><!-- br-pagetitle -->
   <div class="br-pagebody">
+    <setion>
+      <h5>Filters</h5>
+      <div class="incident-filters input-group">
+        <div class="input-group wd-50">
+          <span>From:</span>
+        </div>
+        <div class="input-group wd-180">
+          <input type="text" ng-change="vm.onDateRangeChanged()" class="form-control" uib-datepicker-popup ng-model="vm.fromDate" is-open="vm.fromDatePopupOpened" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="vm.openFromDatePopup()"><i class="fa fa-calendar"></i></button>
+          </span>
+        </div>
+        <div class="input-group wd-150" uib-timepicker ng-model="vm.fromTime" hour-step="1" minute-step="1" show-meridian="ismeridian" ng-change="vm.onDateRangeChanged()"></div>
+        <div class="input-group wd-50">
+          <button type="button" class="btn btn-default" ng-click="vm.clearFromDate();"><i class="fa fa-ban"></i></button>
+        </div>
+        <div class="input-group wd-50">
+          <span>To:</span>
+        </div>
+        <div class="input-group wd-180">
+          <input type="text" ng-change="vm.onDateRangeChanged()" class="form-control" uib-datepicker-popup ng-model="vm.toDate" is-open="vm.toDatePopupOpened" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="vm.openToDatePopup()"><i class="fa fa-calendar"></i></button>
+          </span>
+        </div>
+        <div class="input-group wd-150" uib-timepicker ng-model="vm.toTime" hour-step="1" minute-step="1" show-meridian="ismeridian" ng-change="vm.onDateRangeChanged()"></div>
+        <div class="input-group wd-50">
+          <button type="button" class="btn btn-default" ng-click="vm.clearToDate();"><i class="fa fa-ban"></i></button>
+        </div>
+      </div>
+    </setion>
     <section>
       <incidents-table
         incidents="vm.incidents"

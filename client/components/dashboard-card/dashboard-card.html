@@ -1,0 +1,41 @@
+<div
+  class="dashboard-card"
+  ng-class="{
+    'selected': vm.isSelected,
+    'list-item': (vm.viewMode === 'list'),
+  }"
+  ng-click="vm.handleClick($event)"
+>
+  <div class="dashboard-card-inner">
+    <div class="dashboard-card-front">
+      <div class="dashboard-card-image-container">
+        <div
+          class="dashboard-card-image"
+          style="background-image: url('https://s3.amazonaws.com/statengine-public-assets/fixture-templates/{{ vm.dashboard._id }}.jpg'), url('https://s3.amazonaws.com/statengine-public-assets/fixture-templates/fallback.png')"
+        ></div>
+      </div>
+
+      <div class="dashboard-card-content">
+        <div class="dashboard-card-title">{{ vm.dashboard.title }}</div>
+        <div class="dashboard-card-author">By {{ vm.dashboard.author }}</div>
+        <div class="dashboard-card-description">
+          <p>{{ vm.dashboard.description || '- No Description -' }}</p>
+          <div class="read-more">
+            <span>...&nbsp;</span>
+            <a href="" ng-click="vm.readMoreClick($event)">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-card-back">
+      <div class="dashboard-card-content">
+        <div class="dashboard-card-title">{{ vm.dashboard.title }}</div>
+        <div class="dashboard-card-author">By {{ vm.dashboard.author }}</div>
+        <div class="dashboard-card-description">
+          <p>{{ vm.dashboard.description || '- No Description -' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from '@uirouter/angularjs';
+import ngFileUpload from 'ng-file-upload';
 
 // eslint-disable-next-line no-unused-vars
 import uiBootstrap from 'ui-bootstrap4';
@@ -62,6 +63,8 @@ import departmentAdmin from './department-admin';
 import twitter from './twitter';
 import report from './report';
 import incident from './incident';
+import erf from './effective-response-force';
+
 import workspace from './workspace';
 
 import marketplace from './marketplace';
@@ -109,6 +112,7 @@ import humanizeComponents from '../components/humanize/humanize-duration.filter'
 import reportingUnitList from '../components/reporting-unit-list/reporting-unit-list.component';
 import toggleSwitch from '../components/toggle-switch/toggle-switch.component';
 import unsupportedBrowser from '../components/unsupported-browser/unsupported-browser.service';
+import chip from '../components/chip/chip.component';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -116,6 +120,7 @@ angular.module('statEngineApp', [
   ngResource,
   ngSanitize,
   uiRouter,
+  ngFileUpload,
   'oc.lazyLoad',
   'angular-loading-bar',
   'ngCountTo',
@@ -175,6 +180,8 @@ angular.module('statEngineApp', [
   toggleSwitch,
   print,
   unsupportedBrowser,
+  chip,
+  erf,
 ])
   .config(routeConfig)
   .config(buildConfig => {

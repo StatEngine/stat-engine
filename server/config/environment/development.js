@@ -17,4 +17,19 @@ module.exports = {
     }
   },
 
+  aws: {
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+      secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    },
+  },
+
+  s3: {
+    endpoint: 'http://localhost:9090',
+    logosConfig: {
+      bucket: 'statengine-public-assets-dev',
+      prefix: 'logos/',
+    }
+  }
 };

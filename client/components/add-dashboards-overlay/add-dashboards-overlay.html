@@ -1,0 +1,47 @@
+<div class="add-dashboards-overlay" ng-class="{'active': vm.show}">
+  <div class="overlay-window-header">
+    <div class="overlay-window-header-title">
+      <span>Add Dashboards</span>
+    </div>
+    <button class="close-button" ng-click="vm.closeButtonClick()"></button>
+  </div>
+
+  <div class="overlay-window-content">
+    <div class="view-options">
+      <div class="d-flex align-items-end flex-wrap">
+        <view-mode
+          class="mr-3 hidden-xs-down"
+          mode="vm.viewMode"
+        ></view-mode>
+      </div>
+
+      <div class="add-selected">
+        <label><strong>{{ vm.selectedDashboardCount }}</strong> Selected</label>
+        <button
+          class="btn btn-primary"
+          ng-disabled="vm.isAddSelectedButtonDisabled"
+          ng-click="vm.handleAddSelectedClick()"
+        >
+          Add Selected
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div
+        ng-class="{
+          'dashboards-list': (vm.viewMode === 'list'),
+          'dashboards-grid': (vm.viewMode === 'grid')
+        }"
+      >
+        <dashboard-card
+          ng-repeat="dashboard in vm.dashboards"
+          dashboard="dashboard"
+          is-selected="vm.isDashboardSelected(dashboard)"
+          view-mode="vm.viewMode"
+          on-click="vm.toggleDashboardSelected(dashboard)"
+        ></dashboard-card>
+      </div>
+    </div>
+  </div>
+</div>

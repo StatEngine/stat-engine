@@ -48,7 +48,8 @@ const paths = {
         scripts: [
           `${serverPath}/**/!(*.spec|*.integration).js`,
           `!${serverPath}/config/local.env.sample.js`,
-          `!${serverPath}/fixtures/templates/**/*`
+          `!${serverPath}/fixtures/templates/**/*`,
+          `!${serverPath}/fixtures/templatesArchive/**/*`
         ],
         json: [`${serverPath}/**/*.json`],
         templates: [`${serverPath}/api/incident/templates`],
@@ -671,6 +672,7 @@ gulp.task('copy:server', () => {
         'server/api/incident/templates/*',
         'node_modules/@statengine/se-grpc-proto/*',
         'server/fixtures/templates/**/*',
+        'server/fixtures/templatesArchive/**/*',
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });

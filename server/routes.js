@@ -21,6 +21,7 @@ export default function(app) {
   // Insert API routes below
   app.use('/api/app', require('./api/app'));
   app.use('/api/apps', require('./api/apps'));
+  app.use('/api/effective-response-force', require('./api/effective-response-force'));
   app.use('/api/email', require('./api/email'));
   app.use('/api/extensions', require('./api/extension'));
   app.use('/api/extension-configurations', require('./api/extension-configuration'));
@@ -35,6 +36,8 @@ export default function(app) {
   app.use('/api/shift', require('./api/shift'));
   app.use('/api/stats', require('./api/stats'));
   app.use('/api/workspaces', require('./api/workspace'));
+  app.use('/api/fixture-template', require('./api/fixture-template'));
+  app.use('/api/admin', require('./api/admin'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));

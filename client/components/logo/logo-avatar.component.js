@@ -10,8 +10,8 @@ export class LogoAvatarController {
   src() {
     if(this.department) {
       if(this.department.logo_link) return this.department.logo_link;
-      return `https://s3.amazonaws.com/statengine-public-assets/logos/${this.department.firecares_id}.png`;
     }
+
     return '/assets/images/statengine-symbol.svg';
   }
 }
@@ -28,7 +28,7 @@ export default angular.module('logoAvatar', [])
   .directive('errSrc', function() {
     return {
       link: (scope, element, attrs) => {
-        element.bind('error', () => {
+        element.bind('error', (err) => {
           if(attrs.src != attrs.errSrc) {
             attrs.$set('src', attrs.errSrc);
           }

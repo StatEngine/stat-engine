@@ -242,7 +242,7 @@ module.exports = function makeWebpackConfig(options) {
         }),
         // Ignore all locale files of moment.js
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new BundleAnalyzerPlugin({ openAnalyzer: false }),
+        new BundleAnalyzerPlugin({ openAnalyzer: false, analyzerMode: 'static' }),
         new webpack.HashedModuleIdsPlugin()
     ];
 

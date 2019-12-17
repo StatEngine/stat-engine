@@ -1,0 +1,26 @@
+chip {
+  display: inline-flex;
+  align-items: center;
+  border: solid 2px $color-dark-grey-blue;
+  border-radius: 100px;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  max-width: 100%;
+
+  .chip-text {
+    max-width: 15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: $font-weight-semibold;
+  }
+
+  .chip-remove-button {
+    @extend .fa;
+    @extend .fa-close;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+  }
+}

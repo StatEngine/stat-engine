@@ -4,6 +4,7 @@
 
 import angular from 'angular';
 import _ from 'lodash';
+import moment from 'moment-timezone';
 
 export default class IncidentSearchController {
   incidents = [];
@@ -26,11 +27,13 @@ export default class IncidentSearchController {
   uiGridColumnDefs;
 
   /*@ngInject*/
-  constructor($window, $scope, AmplitudeService, AnalyticEventNames, Incident) {
+  constructor($window, AmplitudeService, AnalyticEventNames, Incident, currentPrincipal, Modal) {
     this.$window = $window;
     this.IncidentService = Incident;
     this.AmplitudeService = AmplitudeService;
     this.AnalyticEventNames = AnalyticEventNames;
+    this.fireDepartment = currentPrincipal.FireDepartment;
+    this.Modal = Modal;
 
     this.uiGridColumnDefs = [{
       field: 'description.incident_number',
@@ -69,6 +72,8 @@ export default class IncidentSearchController {
       leading: true,
       trailing: true,
     });
+
+    this.initRangeFilter()
   }
 
   async $onInit() {
@@ -87,7 +92,10 @@ export default class IncidentSearchController {
       from: (this.pagination.page - 1) * this.pagination.pageSize,
       sort,
       search: this.search,
+      fromDate: this.rangeFromDateTz && this.rangeFromDateTz.format(),
+      toDate: this.rangeToDateTz && this.rangeToDateTz.format(),
     }).$promise;
+
     this.incidents = data.items.map(item => item._source);
     this.pagination.totalItems = data.totalItems;
 
@@ -125,6 +133,76 @@ export default class IncidentSearchController {
   }
 
   handleSortChange() {
+    this.refreshIncidentsList();
+  }
+
+  initRangeFilter() {
+    this.fromDatePopupOpened = false;
+    this.toDatePopupOpened = false;
+  }
+
+  openFromDatePopup() {
+    this.fromDatePopupOpened = true;
+  }
+
+  openToDatePopup() {
+    this.toDatePopupOpened = true;
+  }
+
+  getRangeDate(time, date) {
+    if (!date) return null;
+    const fromHoursTime = !time ? 0 : (time.getHours() * 60 * 60 * 1000);
+    const fromMinutesTime = !time ? 0 : (time.getMinutes() * 60 * 1000);
+    return new Date(date.getTime() + fromHoursTime + fromMinutesTime);
+  }
+
+  onDateRangeChanged() {
+    this.updateDateRange();
+    if (this.checkIfDateRangeValid()) {
+      this.refreshIncidentsList();
+    }
+  }
+
+  updateDateRange() {
+    const { timezone } = this.fireDepartment;
+    const rangeFromDate = this.getRangeDate(this.fromTime, this.fromDate);
+    const rangeToDate = this.getRangeDate(this.toTime, this.toDate);
+
+    if (rangeFromDate) {
+      this.rangeFromDateTz = moment(rangeFromDate).tz(timezone, true);
+    }
+
+    if (rangeToDate) {
+      this.rangeToDateTz = moment(rangeToDate).tz(timezone, true);
+    }
+  }
+
+  checkIfDateRangeValid() {
+    if (!this.rangeToDateTz || !this.rangeFromDateTz) return true;
+    if (this.rangeFromDateTz.unix() < this.rangeToDateTz.unix()) return true;
+    this.Modal.custom({
+      title: 'Invalid Date Range',
+      content: "The first date of the time range cannot be later than the second date!",
+      buttons: [{
+        text: 'Ok',
+        style: this.Modal.buttonStyle.primary,
+        onClick: () => this.clearFromDate(),
+      }],
+    }).present();
+    return false;
+  }
+
+  clearFromDate() {
+    this.fromDate = undefined;
+    this.fromTime = undefined;
+    this.rangeFromDateTz = undefined;
+    this.refreshIncidentsList();
+  }
+
+  clearToDate() {
+    this.toDate = undefined;
+    this.toTime = undefined;
+    this.rangeToDateTz = undefined;
     this.refreshIncidentsList();
   }
 }

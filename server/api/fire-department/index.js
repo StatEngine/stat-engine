@@ -7,6 +7,8 @@ import * as auth from '../../auth/auth.service';
 
 import * as controller from './fire-department.controller';
 
+import imageUploadMiddleware from '../../util/image-upload-middleware';
+
 const router = new Router();
 
 router.get(
@@ -67,6 +69,15 @@ router.get(
   auth.hasRole('user'),
   auth.hasFireDepartment,
   controller.getSubscription,
+);
+
+router.post(
+  '/:id/logo',
+  auth.isApiAuthenticated,
+  auth.hasRole('department_admin'),
+  auth.hasFireDepartment,
+  controller.hasAdminPermission,
+  imageUploadMiddleware,
 );
 
 router.param('id', controller.loadFireDepartment);

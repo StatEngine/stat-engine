@@ -1,0 +1,41 @@
+.view-mode {
+  display: flex;
+
+  button {
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    background: $color-ice-blue;
+    color: $color-light-grey-blue;
+    border: solid 1px #cbd6df;
+    outline: none !important;
+    transition: all 0.2s;
+
+    &:first-child {
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    &:not(:first-child) {
+      border-left: none;
+    }
+
+    &.active {
+      background: white;
+      color: $color-turquoise-blue;
+      cursor: default;
+    }
+
+    &:not(.active):hover {
+      color: darken($color-light-grey-blue, 20%);
+    }
+  }
+}

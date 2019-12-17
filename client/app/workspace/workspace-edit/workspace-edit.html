@@ -13,140 +13,160 @@
 
   <div class="br-pagebody">
     <div class="tab-content" id="nav-tabContent">
-      <!-- My Profile -->
       <div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
-        <div class="card mg-b-25">
-          <div class="card-body">
-            <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
-            <form name="workspaceForm" id="workspace-form" ng-submit="vm.updateWorkspace(workspaceForm)" novalidate>
+        <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
+        <form name="workspaceForm" id="workspace-form" ng-submit="vm.updateWorkspace()" novalidate>
+          <!-- Workspace Details -->
+          <div class="workspace-details card">
+            <div class="card-header">
+              <h6 class="card-title">Workspace Details</h6>
+            </div>
+
+            <div class="card-body">
               <div class="form-layout form-inputs">
-                <div class="workspace-name">
-                  <label>Name</label>
+                <div class="workspace-details-name">
+                  <label class="required">Name</label>
                   <input type="text" id="name" name="name" class="form-control" ng-model="vm.inputWorkspace.name" required
                          minlength='3' maxlength='20' size="2  0" mongoose-error="mongoose-error" />
                 </div>
 
-                <div class="workspace-color">
-                  <label>Color</label>
+                <div class="workspace-details-color">
+                  <label class="required">Color</label>
                   <div>
                     <spectrum-colorpicker ng-model="vm.inputWorkspace.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true, hideAfterPaletteSelect:true }"></spectrum-colorpicker>
                   </div>
                 </div>
 
-                <div class="workspace-description">
-                  <label>Description</label>
+                <div class="workspace-details-description">
+                  <label class="required">Description</label>
                   <textarea name="description" rows="4" class="form-control" ng-model="vm.inputWorkspace.description"
                             maxlength="255" required />
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div class="workspace-create-sample" ng-if="!vm.inputWorkspace._id">
-                  <label>Create Sample Dashboards</label>
-                  <div>
-                    <toggle-switch
-                      on="vm.seed"
-                      on-change="emailForm.$setDirty()"
-                      knob-class="knob-yes-no"
-                    ></toggle-switch>
-                  </div>
-                </div>
+          <!-- Dashboards -->
+          <div class="workspace-dashboards card">
+            <div class="card-header">
+              <h6 class="card-title">Dashboards</h6>
+            </div>
 
-                <div class="workspace-users">
-                  <label class="d-flex align-items-center">
-                    <span class="mr-2">User Access</span>
-                    <a href="" class="se-icon-info tx-18" ng-click="vm.showUserAccessInfo()"></a>
-                  </label>
-                  <div class="workspace-users-table">
-                    <div class="table-row header">
-                      <div class="cell">
-                        Username
-                      </div>
-                      <div class="cell">
-                        Email
-                      </div>
-                      <div class="cell">
-                        Owner
-                      </div>
-                      <div class="cell space-nowrap">
-                        Access Permission
-                      </div>
+            <div class="card-body">
+              <div class="dashboards-list">
+                <chip
+                  ng-repeat="(dashboardId, dashboard) in vm.inputWorkspace.dashboards"
+                  on-remove-click="vm.removeDashboard(dashboard)"
+                  text="dashboard.title"
+                ></chip>
+                <a class="add-dashboards-button" href="" ng-click="vm.showAddDashboardsOverlay()">
+                  <i class="fa fa-2x fa-plus-circle tx-22 mr-2"></i>
+                  <span>Add Dashboards</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Access -->
+          <div class="workspace-users card">
+            <div class="card-header">
+              <h6 class="card-title">User Access</h6>
+              <a href="" class="info-icon se-icon-info" ng-click="vm.showUserAccessInfo()"></a>
+            </div>
+
+            <div class="card-body">
+              <div class="form-layout form-inputs">
+                <div class="workspace-users-table">
+                  <div class="table-row header">
+                    <div class="cell">
+                      Username
                     </div>
+                    <div class="cell">
+                      Email
+                    </div>
+                    <div class="cell">
+                      Owner
+                    </div>
+                    <div class="cell space-nowrap">
+                      Access Permission
+                    </div>
+                  </div>
 
-                    <div class="table-row" ng-repeat="user in vm.inputUsers | orderBy:'username'">
-                      <div class="cell username" data-title="Username">
-                        {{ user.username }}
-                      </div>
-                      <div class="cell email" data-title="Email" ng-attr-title="{{ user.email }}">
-                        {{ user.email }}
-                      </div>
-                      <div class="cell owner" data-title="Owner">
-                        <div class="d-flex align-items-center">
-                          <span class="badge badge-success" ng-if="user.is_owner">Yes</span>
-                          <span class="badge badge-danger" ng-if="!user.is_owner">No</span>
-                          <div class="dropdown d-inline-block ml-2" ng-show="user._id !== vm.currentPrincipal._id">
-                            <div class="dropdown-button" data-toggle="dropdown">
-                              <i class="fa fa-angle-down"></i>
-                            </div>
-                            <div class="dropdown-menu">
-                              <nav class="nav nav-style-2 flex-column">
-                                <div
-                                  class="nav-link"
-                                  ng-class="{'active': user.is_owner}"
-                                  ng-click="vm.grantOwnership(workspaceForm, user)"
-                                >
-                                  <i class="fa fa-2x fa-check-circle"></i>
-                                  <span>Yes</span>
-                                </div>
-                                <div
-                                  class="nav-link"
-                                  ng-class="{'active': !user.is_owner || user.username === vm.currentPrincipal.username}"
-                                  ng-click="vm.revokeOwnership(workspaceForm, user)"
-                                >
-                                  <i class="fa fa-2x fa-times-circle"></i>
-                                  <span>No</span>
-                                </div>
-                              </nav>
-                            </div>
+                  <div class="table-row" ng-repeat="user in vm.inputUsers | orderBy:'username'">
+                    <div class="cell username" data-title="Username">
+                      {{ user.username }}
+                    </div>
+                    <div class="cell email" data-title="Email" ng-attr-title="{{ user.email }}">
+                      {{ user.email }}
+                    </div>
+                    <div class="cell owner" data-title="Owner">
+                      <div class="d-flex align-items-center">
+                        <span class="badge badge-success" ng-if="user.is_owner">Yes</span>
+                        <span class="badge badge-danger" ng-if="!user.is_owner">No</span>
+                        <div class="dropdown d-inline-block ml-2" ng-show="user._id !== vm.currentPrincipal._id">
+                          <div class="dropdown-button" data-toggle="dropdown">
+                            <i class="fa fa-angle-down"></i>
+                          </div>
+                          <div class="dropdown-menu">
+                            <nav class="nav nav-style-2 flex-column">
+                              <div
+                                class="nav-link"
+                                ng-class="{'active': user.is_owner}"
+                                ng-click="vm.grantOwnership(workspaceForm, user)"
+                              >
+                                <i class="fa fa-2x fa-check-circle"></i>
+                                <span>Yes</span>
+                              </div>
+                              <div
+                                class="nav-link"
+                                ng-class="{'active': !user.is_owner || user.username === vm.currentPrincipal.username}"
+                                ng-click="vm.revokeOwnership(workspaceForm, user)"
+                              >
+                                <i class="fa fa-2x fa-times-circle"></i>
+                                <span>No</span>
+                              </div>
+                            </nav>
                           </div>
                         </div>
                       </div>
-                      <div class="cell access-permission" data-title="Access Permission">
-                        <div class="d-flex align-items-center">
-                          <span class="badge badge-primary" ng-if="user.permission === 'ro_strict'">Read</span>
-                          <span class="badge badge-success" ng-if="user.permission === 'admin'">Write</span>
-                          <span class="badge badge-danger" ng-if="!user.permission">None</span>
-                          <div class="dropdown d-inline-block ml-2" ng-if="!user.is_owner">
-                            <div class="dropdown-button" data-toggle="dropdown">
-                              <i class="fa fa-angle-down"></i>
-                            </div>
-                            <div class="dropdown-menu">
-                              <nav class="nav nav-style-2 flex-column">
-                                <div
-                                  class="nav-link"
-                                  ng-class="{'active': user.permission === 'ro_strict'}"
-                                  ng-click="vm.grantPermission(workspaceForm, user, 'ro_strict')"
-                                >
-                                  <i class="fa fa-2x fa-check-circle"></i>
-                                  <span>Read</span>
-                                </div>
-                                <div
-                                  class="nav-link"
-                                  ng-class="{'active': user.permission === 'admin'}"
-                                  ng-click="vm.grantPermission(workspaceForm, user, 'admin')"
-                                >
-                                  <i class="fa fa-2x fa-check-circle"></i>
-                                  <span>Write</span>
-                                </div>
-                                <div
-                                  class="nav-link"
-                                  ng-if="!user.is_owner"
-                                  ng-class="{'active': !user.permission}"
-                                  ng-click="vm.revokePermission(workspaceForm, user)"
-                                >
-                                  <i class="fa fa-2x fa-times-circle"></i>
-                                  <span>None</span>
-                                </div>
-                              </nav>
-                            </div>
+                    </div>
+                    <div class="cell access-permission" data-title="Access Permission">
+                      <div class="d-flex align-items-center">
+                        <span class="badge badge-primary" ng-if="user.permission === 'ro_strict'">Read</span>
+                        <span class="badge badge-success" ng-if="user.permission === 'admin'">Write</span>
+                        <span class="badge badge-danger" ng-if="!user.permission">None</span>
+                        <div class="dropdown d-inline-block ml-2" ng-if="!user.is_owner">
+                          <div class="dropdown-button" data-toggle="dropdown">
+                            <i class="fa fa-angle-down"></i>
+                          </div>
+                          <div class="dropdown-menu">
+                            <nav class="nav nav-style-2 flex-column">
+                              <div
+                                class="nav-link"
+                                ng-class="{'active': user.permission === 'ro_strict'}"
+                                ng-click="vm.grantPermission(workspaceForm, user, 'ro_strict')"
+                              >
+                                <i class="fa fa-2x fa-check-circle"></i>
+                                <span>Read</span>
+                              </div>
+                              <div
+                                class="nav-link"
+                                ng-class="{'active': user.permission === 'admin'}"
+                                ng-click="vm.grantPermission(workspaceForm, user, 'admin')"
+                              >
+                                <i class="fa fa-2x fa-check-circle"></i>
+                                <span>Write</span>
+                              </div>
+                              <div
+                                class="nav-link"
+                                ng-if="!user.is_owner"
+                                ng-class="{'active': !user.permission}"
+                                ng-click="vm.revokePermission(workspaceForm, user)"
+                              >
+                                <i class="fa fa-2x fa-times-circle"></i>
+                                <span>None</span>
+                              </div>
+                            </nav>
                           </div>
                         </div>
                       </div>
@@ -154,6 +174,8 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
               <div class="help-block" ng-if="vm.errors">
                 <ul>
@@ -163,20 +185,26 @@
                 </ul>
               </div>
 
-              <div class="d-flex align-items-center">
-                <button id='back_workspace_btn' ui-sref="site.workspace.home" class="btn btn-outline-inverse-alt mr-2">
-                  Cancel
-                </button>
-                <button id='save_workspace_btn' type="submit" class="btn btn-primary" ng-disabled="vm.saveDisabled()">
-                  {{ vm.saveButtonText }}
-                </button>
-                <span ng-show="vm.isSaving" class="mg-b-0 mg-l-20">
-                  {{ vm.savingText }}
-                </span>
-              </div>
-            </form>
+          <div class="help-block" ng-if="vm.showErrors">
+            <ul>
+              <li ng-repeat="error in vm.errors">
+                <span class="text-danger">{{ error.message }}</span>
+              </li>
+            </ul>
           </div>
-        </div>
+
+          <div class="d-flex align-items-center">
+            <button id='back_workspace_btn' ui-sref="site.workspace.home" class="btn btn-outline-inverse-alt mr-2">
+              Cancel
+            </button>
+            <button id='save_workspace_btn' type="submit" class="btn btn-primary" ng-disabled="vm.saveDisabled()">
+              {{ vm.saveButtonText }}
+            </button>
+            <span ng-show="vm.isSaving" class="mg-b-0 mg-l-20">
+              {{ vm.savingText }}
+            </span>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -210,4 +238,9 @@
       </li>
     </ul>
   </div>
+
+  <add-dashboards-overlay
+    show="vm.isShowingAddDashboardsOverlay"
+    on-confirm="vm.handleAddDashboardsOverlayConfirm({ selectedDashboards })"
+  ></add-dashboards-overlay>
 </div>

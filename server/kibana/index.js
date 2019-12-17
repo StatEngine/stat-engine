@@ -12,6 +12,7 @@ const ensureLoggedIn = connectEnsureLoggedIn.ensureLoggedIn;
 
 const router = new Router();
 
+// Proxy client browser to Kibana
 router.use(
   '*',
   ensureLoggedIn('/login'),

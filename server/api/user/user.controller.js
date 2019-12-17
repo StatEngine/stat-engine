@@ -6,6 +6,7 @@ import mandrillTransport from 'nodemailer-mandrill-transport';
 import Mailchimp from 'mailchimp-api-v3';
 import _ from 'lodash';
 import Sequelize from 'sequelize';
+import generator from 'generate-password';
 
 import config from '../../config/environment';
 import { FireDepartment, User, UserWorkspace, Workspace } from '../../sqldb';
@@ -121,6 +122,56 @@ function sendWelcomeEmail(user) {
       setTimeout(resolve, 0);
     });
   }
+}
+
+function sendNewUserByDepartmentAdminEmail(user, department, password) {
+  if (!config.mailSettings.mandrillAPIKey || !department) {
+    return Promise.reject();
+  }
+
+  var mailOptions = {};
+  mailOptions.from = config.mailSettings.serverEmail;
+  mailOptions.to = user.email;
+
+  // Mailing service
+  var mailTransport = nodemailer.createTransport(mandrillTransport({
+    auth: {
+      apiKey: config.mailSettings.mandrillAPIKey
+    }
+  }));
+
+  mailOptions.mandrillOptions = {
+    template_name: config.mailSettings.newUserByDepartmentAdminTemplate,
+    template_content: [],
+    message: {
+      merge: false,
+      merge_language: 'handlebars',
+      global_merge_vars: [{
+        name: 'DEPARTMENT_NAME',
+        content: department.name,
+      }, {
+        name: 'DEPARTMENT_IMAGE_URL',
+        content: department.logo_link,
+      }, {
+        name: 'USER_USERNAME',
+        content: user.username,
+      }, {
+        name: 'USER_USERPASSWORD',
+        content: password,
+      }, {
+        name: 'USER_EMAIL',
+        content: user.email,
+      }, {
+        name: 'USER_FIRST_NAME',
+        content: user.first_name,
+      }, {
+        name: 'USER_LAST_NAME',
+        content: user.last_name,
+      }],
+    }
+  };
+
+  return mailTransport.sendMail(mailOptions);
 }
 
 async function sendRequestDepartmentAccessEmail(user, department) {
@@ -273,18 +324,42 @@ function addToMailingList(user) {
   }
 }
 
+/**
+ * Generates a 10 digit random password
+ *
+ * @returns {string}
+ */
+function generatePassword() {
+  return generator.generate({
+    length: 10,
+    numbers: true
+  });
+}
 
 /**
  * Creates a new user
  */
 export async function create(req, res) {
-  const user = User.build(req.body);
+  const { body } = req;
+
+  if (_.isNil(body.password)) body.password = generatePassword();
+  const user = User.build(body);
 
   // force this all so user cannot overwrite in request
   if(!req.user || !req.user.isAdmin) {
     user.setDataValue('provider', 'local');
     user.setDataValue('role', 'user');
-    user.setDataValue('fire_department__id', undefined);
+
+    // as deafult behaviour we are expected to invalidate the department_id
+    let fire_department__id = undefined;
+    // but if it is requested by a departmentAdmin and the given department is the same as where
+    // this user is departmentAdmin
+    if (req.user && req.user.isDepartmentAdmin && req.user.fire_department__id === body.fire_department__id) {
+      fire_department__id = body.fire_department__id;
+      user.setDataValue('role', 'user,dashboard_user');
+    }
+
+    user.setDataValue('fire_department__id', fire_department__id);
   }
   user.setDataValue('api_key', uuidv4());
 
@@ -296,18 +371,28 @@ export async function create(req, res) {
 
   addToMailingList(user);
 
-  if(!req.body.requested_fire_department_id && !req.body.fire_department__id) {
+  if(!body.requested_fire_department_id && !body.fire_department__id) {
     sendWelcomeEmail(user);
   }
 
   // Send access request to department admin if a department was set.
-  if(req.body.requested_fire_department_id) {
+  if(body.requested_fire_department_id) {
     const department = await FireDepartment.find({
       where: {
-        _id: req.body.requested_fire_department_id,
+        _id: body.requested_fire_department_id,
       }
     });
     sendRequestDepartmentAccessEmail(user, department);
+  }
+
+  if (body.new_user_by_department_admin) {
+    const password = body.password;
+    const department = await FireDepartment.find({
+      where: {
+        _id: body.fire_department__id,
+      }
+    });
+    sendNewUserByDepartmentAdminEmail(user, department, body.password);
   }
 
   res.status(204).send({ user });

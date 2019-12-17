@@ -1,90 +1,111 @@
 .workspace-edit {
   padding-top: 15px;
 
-  .form-inputs {
-    display: grid;
-    grid-template-areas:
-      'name        color'
-      'description create-sample'
-      'users       users';
-    grid-template-columns: 50%;
-    grid-gap: 2rem;
+  .card {
+    margin-bottom: 1.5rem;
 
-    @include media-breakpoint-down(sm) {
-      grid-template-areas:
-        'name'
-        'description'
-        'color'
-        'create-sample'
-        'users';
-      grid-template-columns: 100%;
-    }
+    .card-header {
+      justify-content: start;
 
-    .workspace-name {
-      grid-area: name;
-    }
-
-    .workspace-color {
-      grid-area: color;
-    }
-
-    .workspace-description {
-      grid-area: description;
-    }
-
-    .workspace-create-sample {
-      grid-area: create-sample;
-    }
-
-    .workspace-users {
-      grid-area: users;
+      .info-icon {
+        font-size: 1.125rem;
+        margin: 0 0.5rem;
+      }
     }
   }
-}
 
-.workspace-users {
-  .workspace-users-table {
-    $workspace-users-table-width: 1300px;
-    @include table($workspace-users-table-width);
-    @extend .mb-5;
+  .workspace-details {
+    .form-layout {
+      display: grid;
+      grid-template-areas:
+        'name        color'
+        'description empty'
+      ;
+      grid-template-columns: 50%;
+      grid-gap: 2rem;
 
-    .cell {
-      vertical-align: middle;
-
-      &.name {
-        max-width: 215px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      @include media-breakpoint-down(sm) {
+        grid-template-areas:
+          'name'
+          'description'
+          'color'
+        ;
+        grid-template-columns: 100%;
       }
 
-      &.email {
-        max-width: 300px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      .workspace-details-name {
+        grid-area: name;
       }
 
-      &.owner,
-      &.access-permission {
-        .dropdown {
-          display: inline-block;
-          margin-left: 8px;
+      .workspace-details-color {
+        grid-area: color;
+      }
 
-          @media screen and (max-width: $workspace-users-table-width) {
-            margin-left: 0;
-          }
+      .workspace-details-description {
+        grid-area: description;
+      }
+    }
+  }
+
+  .workspace-users {
+    .workspace-users-table {
+      $workspace-users-table-width: 1300px;
+      @include table($workspace-users-table-width);
+
+      .cell {
+        vertical-align: middle;
+
+        &.name {
+          max-width: 215px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
-        &.current-user {
-          @media screen and (max-width: $workspace-users-table-width) {
-            display: none;
-          }
+        &.email {
+          max-width: 300px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
+        &.owner,
+        &.access-permission {
           .dropdown {
-            display: none !important;
+            display: inline-block;
+            margin-left: 8px;
+
+            @media screen and (max-width: $workspace-users-table-width) {
+              margin-left: 0;
+            }
+          }
+
+          &.current-user {
+            @media screen and (max-width: $workspace-users-table-width) {
+              display: none;
+            }
+
+            .dropdown {
+              display: none !important;
+            }
           }
         }
+      }
+    }
+  }
+
+  .workspace-dashboards {
+    .dashboards-list {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .add-dashboards-button {
+        display: inline-flex;
+        align-items: center;
+        margin: 0.5rem;
+        font-size: 1rem;
+        font-weight: $font-weight-semibold;
       }
     }
   }

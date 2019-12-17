@@ -1,0 +1,104 @@
+<div class="header-white">
+    <div class="br-pagetitle">
+      <h2 class="m-0">Effective Response Force</h2>
+    </div>
+  </div>
+  <div class="br-pagebody">
+    <div class="data-spy" data-spy="scroll" data-target="#navbar-example">
+      <!-- Overview -->
+      <section class="overview" id="overview">
+        <!-- Overview Intro -->
+        <div class="overview-intro card">
+          <div class="card-body">
+            <div class="overview-intro-summary">
+              <h5 class="heavyheader"> Overview </h5>
+              <p>An <strong>effective response force (ERF)</strong> is defined as the minimum number of firefighters and
+                equipment that must reach a specific emergency incident location within a maximum prescribed travel
+                [driving] time. ERF is also referred to as concentration, or first alarm arrival.
+
+                <br>
+                <br>
+                This simplified model only computes ERF based on the number of personnel arriving, and doesn't include
+                the capabilities of the personnel or equipement (e.g. ALS, 1500 GPM pump, etc).
+                <br>
+                <br>
+
+                <h6>Definitions</h6>
+                <strong>ERF Travel - </strong>The time duration between the first apparatus enroute and arrival of the
+                last apparatus to achieve ERF.</strong>
+                <br><strong>ERF Response - </strong>The time duration between first apparatus dispatched and arrival of
+                the last apparatus to achieve ERF (includes turnout).</strong>
+                <br><strong>ERF Total Response - </strong>The time duration between PSAP answer time and arrival of the
+                last apparatus to achieve ERF (includes call answering and turnout).</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="overview-intro card mt-4">
+          <div class="card-body">
+            <h5 class="heavyheader"> Historic ERF Analysis </h5>
+            <div ng-if="vm.formData.error" class="alert alert-warning" role="alert">
+              <p>Whoops! We need some more information from your department to use the tool. ERF requires both ERF configuration and
+                staffing assumptions.
+                Please reach out to <a href="mailto:analytics-help@nfors.org" target="_blank"
+                  nowrap>analytics-help@nfors.org</a> for further instructions.
+              </p>
+            </div>
+            <div ng-if="!vm.formData.error">
+              <div class="alert alert-primary" role="alert">
+                <h5 class="heavyheader">How it works</h5>
+                This tool is used to explore trends of possible ERF values based on your historic call volume.
+                The tool will find the most recent 10,000 incidents for the given incident type, and calculate the
+                arrival times of personnel.
+                The gray highlighted area in the background shows your currently configured ERF for the given incident
+                type.
+
+                <br>
+                <br>
+                <strong>To try out the tool, simply select a dispatch type by clicking on the dispatch name.  Navigate to other response categories and risk categories through the drop-down menus below.  </strong>
+
+              </div>
+
+              <nav class="section-nav-tabs">
+                <ul class="nav nav-outline active-info align-items-start flex-column flex-md-row" role="tablist" id="nav-tab">
+                  <li class="nav-item dropdown tx-medium pl-0" ng-repeat="responseClass in vm.formData.response_classes" ng-init="($first) ? vm.loadResponseClass(responseClass): null">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      ng-class="{'active': vm.selectedResponseClass.key == responseClass.key}"
+                      data-toggle="dropdown"
+                      href="#{{responseClass.key}}-profile"
+                      role="button"
+                      id="nav-{{responseClass.key}}-tab"
+                      aria-controls="{{responseClass.key}}-profile"
+                      aria-selected="true"
+                    >
+                      {{ responseClass.key }}
+                    </a>
+                    <div class="dropdown-menu">
+                      <a ng-class="{'active': vm.selectedRiskCategory.key == riskCategory.key && vm.selectedResponseClass.key == responseClass.key}" class="dropdown-item" href="#" ng-click="vm.handleMenuClick(responseClass, riskCategory)" ng-repeat="riskCategory in responseClass.risk_categories" ng-init="($first) ? vm.loadRiskCategory(riskCategory): null"> {{riskCategory.key}} </a>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+              <nav class="section-nav-tabs nav nav-pills nav-justified nav-fill">
+                <a class="nav-item nav-link" ng-class="{'active': vm.selectedType === type}" ng-repeat="type in vm.selectedRiskCategory.dispatch_types" href="#" ng-click="vm.loadERF(type)" ng-init="($first) ? vm.loadERF(type): null">{{type}}</a>
+              </nav>
+
+              <div ng-if="vm.erfAnalysis.current_config">
+                <h2 class="text-center heavyheader">{{ vm.selectedType }}
+                  ({{ vm.erfAnalysis.current_config.response_class }} -
+                  {{ vm.erfAnalysis.current_config.risk_category }})</h2>
+              </div>
+
+              <effective-response-force data="vm.erfAnalysis" type="{{vm.selectedType}}">
+              </effective-response-force>
+            </div>
+            <br>
+          </div>
+        </div>
+    </div>
+    </section>
+  </div>
+</div>
+</div>
