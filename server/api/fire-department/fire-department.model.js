@@ -71,7 +71,9 @@ export default function(sequelize, DataTypes) {
     subscription: {
       type: DataTypes.JSON,
       set(subscription) {
-        subscription.grace_period_days = 45;
+        if(subscription) {
+          subscription.grace_period_days = 45;
+        }
         this.setDataValue('subscription', subscription);
       },
     },
