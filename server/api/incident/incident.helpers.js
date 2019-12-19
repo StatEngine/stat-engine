@@ -11,7 +11,7 @@ export function generateTextualSummaries(incident) {
 
   const summaries = {};
   _.forOwn(templates, (t, key) => {
-    summaries[key] = templates[key](i);
+    summaries[_.snakeCase(key)] = templates[key](i);
   });
 
   return summaries;
