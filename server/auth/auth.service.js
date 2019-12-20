@@ -163,6 +163,10 @@ export const checkOauthJwt = jwt({
 export function hasActiveSubscription({ redirectTo } = {}) {
   return function(req, res, next) {
     try {
+      if(req.user.isGlobal) {
+        return next();
+      }
+
       if(!req.fireDepartment) {
         throw new BadRequestError('req.fireDepartment not set.');
       }
