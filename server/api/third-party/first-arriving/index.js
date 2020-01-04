@@ -15,4 +15,12 @@ router.get(
   controller.getIncidentAnalysis,
 );
 
+router.get(
+  '/unit-utilization',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getUnitUtilization,
+);
+
 module.exports = router;
