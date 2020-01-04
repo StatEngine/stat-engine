@@ -23,4 +23,12 @@ router.get(
   controller.getUnitUtilization,
 );
 
+router.get(
+  '/turnout-leaderboard',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getTurnoutLeaderboard,
+);
+
 module.exports = router;
