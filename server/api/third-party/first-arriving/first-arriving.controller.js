@@ -67,7 +67,7 @@ export async function getIncidentAnalysis(req, res) {
 }
 
 export async function getUnitUtilization(req, res) {
-  const interval = req.query.interval;
+  const interval = (req.query.interval || '').toLowerCase();
 
   const intervalsAllowed = ['shift', 'day', 'week', 'month', 'quarter', 'year'];
   if(!intervalsAllowed.includes(interval)) {
@@ -191,7 +191,7 @@ export async function getUnitUtilization(req, res) {
 }
 
 export async function getTurnoutLeaderboard(req, res) {
-  const interval = req.query.interval;
+  const interval = (req.query.interval || '').toLowerCase();
 
   const intervalsAllowed = ['shift', 'day', 'week', 'month', 'quarter', 'year', 'all'];
   if(!intervalsAllowed.includes(interval)) {
