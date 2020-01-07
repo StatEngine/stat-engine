@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import {
   FireDepartment,

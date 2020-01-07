@@ -157,7 +157,7 @@
                   <div class="table-row" ng-repeat="unit in vm.yesterdayStatSummary.summary.unit">
                     <div class="cell" data-title="Unit">
                       <strong class="space-nowrap">
-                        <a href="/reporting/units/{{unit.unit_id}}?time=shift">{{unit.unit_id}}</a>
+                        <a href="#" ui-sref="site.reporting.unit({ '#': unit.unit_id })">{{unit.unit_id}}</a>
                       </strong>
                     </div>
                     <div class="cell" data-title="Responses">

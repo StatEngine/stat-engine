@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import moment, { RFC_2822 } from 'moment';
+import moment from 'moment-timezone';
 import bodybuilder from 'bodybuilder';
 import util from 'util';
 import percentile from 'percentile';

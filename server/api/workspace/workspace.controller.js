@@ -364,14 +364,16 @@ export async function revokeOwner(req, res) {
 export async function hasWorkspaceAccess(req, res, next) {
   if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
 
-  if (req.user.isGlobal) return next();
+  const where = {
+    workspace__id: req.params.id,
+  };
 
-  const result = await UserWorkspace.find({
-    where: {
-      workspace__id: req.params.id,
-      user__id: req.user._id,
-    },
-  });
+  // Add ther user clause for non global users
+  if (!req.user.isGlobal) {
+    where.user__id = req.user._id;
+  }
+
+  const result = await UserWorkspace.find({ where });
 
   if(_.isEmpty(result) || _.isNil(result)) throw new BadRequestError('User does not have access to this workspace');
 
@@ -383,15 +385,17 @@ export async function hasWorkspaceOwnerAccess(req, res, next) {
   console.log('hasWorkspaceOwnerAccess');
   if(_.isNil(req.params.id)) throw new BadRequestError('req.params.id not set');
 
-  if (req.user.isAdmin) return next();
+  const where = {
+    workspace__id: req.params.id
+  };
 
-  const result = await UserWorkspace.find({
-    where: {
-      workspace__id: req.params.id,
-      user__id: req.user._id,
-      is_owner: true,
-    },
-  });
+  // Add ther user clause for non admin users
+  if (!req.user.isAdmin) {
+    where.user__id = req.user._id;
+    where.is_owner = true;
+  }
+
+  const result = await UserWorkspace.find({ where });
 
   if(_.isEmpty(result) || _.isNil(result)) throw new ForbiddenError('User does not have owner access to this workspace');
 

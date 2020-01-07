@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { FirecaresLookup } from '@statengine/shiftly';
 
 function _getShiftTimeFrame(firecaresId, date) {
