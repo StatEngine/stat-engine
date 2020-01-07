@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import bodybuilder from 'bodybuilder';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { FirecaresLookup } from '@statengine/shiftly';
 
 import connection from '../../../elasticsearch/connection';
