@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 import { FirecaresLookup } from '@statengine/shiftly';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export class ShiftTextController {
   constructor() {
