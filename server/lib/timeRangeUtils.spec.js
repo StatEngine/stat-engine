@@ -1,6 +1,4 @@
 import 'chai/register-should';
-import util from 'util';
-import moment from 'moment';
 
 import {
   calculateTimeRange,

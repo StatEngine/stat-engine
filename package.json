@@ -84,7 +84,7 @@
     "method-override": "^2.3.10",
     "mobx": "^5.8.0",
     "mobx-state-tree": "^3.10.0",
-    "moment": "^2.22.1",
+    "moment-timezone": "^0.5.27",
     "morgan": "~1.9.0",
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
