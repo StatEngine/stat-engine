@@ -38,8 +38,8 @@ export default function seedDev() {
 
   Log.info('Seeding development data...');
 
-  return Extension
-    .sync()
+  return sqldb.sequelize.sync({ force: true })
+    .then(() => Extension.sync())
     .then(() => Workspace.sync())
     .then(() => Workspace.destroy({ where: {} }))
     .then(() => AppInstallation.sync())
