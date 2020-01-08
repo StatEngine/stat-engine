@@ -24,7 +24,8 @@ export class EventDurationSumRule extends Rule {
           rule: this.constructor.name,
           level: this.params.level,
           description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`
+          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`,
+          default_visibility: true,
         });
       }
     });
