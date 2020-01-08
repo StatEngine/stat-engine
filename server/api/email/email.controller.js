@@ -321,7 +321,7 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
       }
 
       let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
-      if(_.isUndefined(showAlert) || showAlert) mergeVar.content.push(violation);
+      if(showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) mergeVar.content.push(violation);
     });
   });
 

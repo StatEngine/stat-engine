@@ -34,7 +34,8 @@ export class FireIncidentEventDurationRule30 extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: `Units on fire incident > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`
+        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`,
+        default_visibility: false
       });
     });
 

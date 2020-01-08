@@ -34,7 +34,8 @@ export class TravelDurationOutlierRule extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: `Unit travel > ${(this.params.threshold / 60).toFixed(0)} min`,
-        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`
+        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`,
+        default_visibility: true
       });
     });
 

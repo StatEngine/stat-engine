@@ -7,7 +7,7 @@ export class TurnoutDurationOutlierRule extends Rule {
   constructor(params) {
     super(params);
     this.params.threshold = this.params.threshold || 300;
-    this.params.level = 'WARNING';
+    this.params.level = 'DANGER';
 
     let apparatus = bodybuilder()
       .filter('range', 'apparatus.extended_data.turnout_duration', { gte: this.params.threshold})
@@ -33,7 +33,8 @@ export class TurnoutDurationOutlierRule extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: `Unit turnout > ${(this.params.threshold).toFixed(0)} sec`,
-        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`
+        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`,
+        default_visibility: false,
       });
     });
 

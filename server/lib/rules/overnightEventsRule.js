@@ -38,7 +38,8 @@ export class OvernightEventsRule extends Rule {
           rule: this.constructor.name,
           level: this.params.level,
           description: 'Unit response > 2 overnight',
-          details: `Unit: ${unit.key}, Responses: ${count}`
+          details: `Unit: ${unit.key}, Responses: ${count}`,
+          default_visibility: true
         });
       }
     });
