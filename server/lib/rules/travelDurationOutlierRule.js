@@ -30,6 +30,7 @@ export class TravelDurationOutlierRule extends Rule {
         if(travel_duration > this.params.threshold) units.push(`${u.unit_id}:<strong>${(travel_duration / 60).toFixed(2)} m</strong>`);
       });
 
+<<<<<<< HEAD
       if (units.length >= 1) {
         analysis.push({
           rule: this.constructor.name,
@@ -39,6 +40,15 @@ export class TravelDurationOutlierRule extends Rule {
           default_visibility: true
         });
       }
+=======
+      analysis.push({
+        rule: this.constructor.name,
+        level: this.params.level,
+        description: `Unit travel > ${(this.params.threshold / 60).toFixed(0)} min`,
+        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`,
+        default_visibility: true
+      });
+>>>>>>> master
     });
 
     return analysis;

@@ -1,6 +1,6 @@
 'use strict';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export default class ReportsViewController {
   /*@ngInject*/

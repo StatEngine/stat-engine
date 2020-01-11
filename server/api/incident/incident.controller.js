@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import bodybuilder from 'bodybuilder';
 
 import connection from '../../elasticsearch/connection';
@@ -155,7 +155,7 @@ export async function getIncidents(req, res) {
           'description.event_opened': {}
         },
       };
-      
+
       if (fromDate) {
         dateFilter.range['description.event_opened'].gte = fromDate;
       }
@@ -163,7 +163,7 @@ export async function getIncidents(req, res) {
         dateFilter.range['description.event_opened'].lte = toDate;
       }
       params.body.query.bool.must.push(dateFilter);
-    }    
+    }
   }
 
   const searchResults = await connection.getClient().search(params);

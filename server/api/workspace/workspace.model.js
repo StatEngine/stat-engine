@@ -19,7 +19,27 @@ export default function(sequelize, DataTypes) {
     name: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true
+        notEmpty: true,
+        async isUnique() {
+          // Make sure name is unique for this fire department.
+          // Note: We already have a unique index for this, but having the custom validator
+          // allow us to return a custom error message.
+          const workspace = await Workspace.find({
+            where: {
+              $and: [
+                { fire_department__id: this.fire_department__id },
+                sequelize.where(
+                  sequelize.fn('lower', sequelize.col('name')),
+                  this.name.toLowerCase(),
+                ),
+              ],
+            },
+          });
+
+          if(workspace && workspace._id !== this._id) {
+            throw new Error('Name must be unique.');
+          }
+        },
       },
     },
     slug: {
@@ -42,28 +62,7 @@ export default function(sequelize, DataTypes) {
       defaultValue: false,
     },
   }, {
-    validate: {
-      async validateName() {
-        // Make sure name is unique for this fire department.
-        // Note: We already have a unique index for this, but having the custom validator
-        // allow us to return a custom error message.
-        const workspace = await Workspace.find({
-          where: {
-            $and: [
-              { fire_department__id: this.fire_department__id },
-              sequelize.where(
-                sequelize.fn('lower', sequelize.col('name')),
-                this.name.toLowerCase(),
-              ),
-            ],
-          },
-        });
-
-        if(workspace && workspace._id !== this._id) {
-          throw new Error('Name must be unique.');
-        }
-      },
-    },
+    validate: {},
 
     getterMethods: {},
 
