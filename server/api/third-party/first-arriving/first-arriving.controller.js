@@ -215,10 +215,18 @@ export async function getTurnoutLeaderboard(req, res) {
 
   // Unit incident total count / average turnout duration / unit hour utilization.
   bodyBuilder
-    .agg('nested', { path: 'apparatus' }, 'incidents_by_apparatus', a => a
-      .agg('terms', 'apparatus.unit_id', { size: 1000 }, 'unit_id', b => b
-        .agg('avg', 'apparatus.extended_data.turnout_duration', 'avg_turnout_duration')
-        .agg('percentiles', 'apparatus.extended_data.turnout_duration', 'percentiles_turnout_duration', { percents: [90] })
+    .agg('filters', undefined , { 'filters': {
+      // calls that opened 2200 to 0559
+      'evening': { 'query_string': { 'query': 'description.hour_of_day:[ 0 TO 5] OR description.hour_of_day:[22 TO *]' } },
+      // calls that opened 0600 to 2159
+      'day': { 'query_string': { 'query': 'description.hour_of_day:[6 TO 21]' } },
+      // all calls
+      'all': { 'query_string': { 'query': 'description.hour_of_day:[0 TO 24]' } }
+    } }, a => a
+    .agg('nested', { path: 'apparatus' }, 'incidents_by_apparatus', b => b
+      .agg('terms', 'apparatus.unit_id', { size: 1000 }, 'unit_id', c => c
+          .agg('avg', 'apparatus.extended_data.turnout_duration', 'avg_turnout_duration')
+          .agg('percentiles', 'apparatus.extended_data.turnout_duration', 'percentiles_turnout_duration', { percents: [90] }))
       )
     );
 
@@ -231,9 +239,11 @@ export async function getTurnoutLeaderboard(req, res) {
   //
   // Organize received data.
   //
+  const util = require('util')
+  console.log(util.inspect(esIncidents, {showHidden: false, depth: null}))
 
   const apparatus = [];
-
+  // Total Metrics
   for(const bucket of _.get(esIncidents, 'aggregations.incidents_by_apparatus.unit_id.buckets', [])) {
     apparatus.push({
       unit_id: bucket.key,
