@@ -6,10 +6,6 @@ export default {
   target: config.kibana.uri,
   changeOrigin: true,
   logLevel: 'debug',
-  // Strip out the appPath, so kibana sees requested path
-  pathRewrite: (path, req) => {
-    return path.replace(`${config.kibana.appPath}`, '');
-  },
   // add custom headers to request
   onProxyReq: (proxyReq, req) => {
     if(req.user.FireDepartment) {

@@ -7,7 +7,7 @@ import * as auth from '../../auth/auth.service';
 
 const router = new Router();
 
-router.post(
+router.get(
   '/addFixtureTemplatesToDatabase',
   auth.isApiAuthenticated,
   auth.hasRole('admin'),
