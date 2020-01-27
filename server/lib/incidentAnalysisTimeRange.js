@@ -11,6 +11,7 @@ import { OvernightEventsRule } from './rules/overnightEventsRule';
 import { EventDurationSumRule } from './rules/eventDurationSumRule';
 import { TurnoutDurationOutlierRule } from './rules/turnoutDurationOutlierRule';
 import { TurnoutDurationOutlierRule120 } from './rules/turnoutDurationOutlierRule120';
+import { TurnoutDurationOutlierRule150 } from './rules/turnoutDurationOutlierRule150';
 import { TravelDurationOutlierRule } from './rules/travelDurationOutlierRule';
 
 import { Log } from '../util/log';
@@ -217,6 +218,7 @@ export class IncidentAnalysisTimeRange {
       FireIncidentEventDurationRule60,
       TurnoutDurationOutlierRule,
       TurnoutDurationOutlierRule120,
+      TurnoutDurationOutlierRule150,
       TravelDurationOutlierRule,
     ];
 
