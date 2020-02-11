@@ -10,8 +10,8 @@
       "description": "",
       "version": 1,
       "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"index\": \"{{ fire_department.es_indices.fire-incident }}\",\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\": \"{{ fire_department.es_indices.fire-incident }}\",\"key\":\"{{ fire_department.name }}\",\"negate\":false,\"params\":{\"query\":\"{{ fire_department.name }}\",\"type\":\"phrase\"},\"type\":\"phrase\",\"value\":\"{{ fire_department.name }}\"},\"query\":{\"match\":{\"fire_department.name\":{\"query\":\"{{ fire_department.name }}\",\"type\":\"phrase\"}}}}]}"
-      }
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.apparatus-fire-incident }}\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+        }
     }
   },
   "_index": "{{ kibana.tenancy }}"
