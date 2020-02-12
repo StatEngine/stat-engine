@@ -1,3 +1,4 @@
+
 .incident-analysis {
   .br-pageheader {
     @media print {
@@ -209,6 +210,7 @@
         .dispatch-comments {
           grid-area: dispatch-comments;
           page-break-before: always;
+          white-space: pre-wrap;
 
           .dispatch-comments-show-hide {
             @media print {
