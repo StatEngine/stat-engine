@@ -217,7 +217,7 @@ export async function getTurnoutLeaderboard(req, res) {
   bodyBuilder
     .agg('filters', undefined , { 'filters': {
       // calls that opened 2200 to 0559
-      'evening': { 'query_string': { 'query': 'description.hour_of_day:[ 0 TO 5] OR description.hour_of_day:[22 TO *]' } },
+      'night': { 'query_string': { 'query': 'description.hour_of_day:[ 0 TO 5] OR description.hour_of_day:[22 TO *]' } },
       // calls that opened 0600 to 2159
       'day': { 'query_string': { 'query': 'description.hour_of_day:[6 TO 21]' } },
       // all calls
@@ -244,7 +244,8 @@ export async function getTurnoutLeaderboard(req, res) {
 
   const apparatus = [];
   // Total Metrics
-  for(const bucket of _.get(esIncidents, 'aggregations.incidents_by_apparatus.unit_id.buckets', [])) {
+  for(const bucket of _.get(esIncidents, 'aggregations.agg_filters_undefined.buckets.all.incidents_by_apparatus.unit_id.buckets', [])) {
+    console.dir(bucket);
     apparatus.push({
       unit_id: bucket.key,
       metrics: {
@@ -257,6 +258,23 @@ export async function getTurnoutLeaderboard(req, res) {
       },
     });
   }
+
+  for(const bucket of _.get(esIncidents, 'aggregations.agg_filters_undefined.buckets.day.incidents_by_apparatus.unit_id.buckets', [])) {
+    let app = _.find(apparatus, a => a.unit_id == bucket.key);
+    if (app) {
+      _.set(app, 'metrics.day_avg_turnout_duration.seconds', parseFloat(bucket.avg_turnout_duration.value))
+      _.set(app, 'metrics.day_90th_percentile_turnout_duration.seconds', parseFloat(bucket.percentiles_turnout_duration.values['90.0']))
+    }
+  }
+
+  for(const bucket of _.get(esIncidents, 'aggregations.agg_filters_undefined.buckets.night.incidents_by_apparatus.unit_id.buckets', [])) {
+    let app = _.find(apparatus, a => a.unit_id == bucket.key);
+    if (app) {
+      _.set(app, 'metrics.night_avg_turnout_duration.seconds', parseFloat(bucket.avg_turnout_duration.value))
+      _.set(app, 'metrics.night_90th_percentile_turnout_duration.seconds', parseFloat(bucket.percentiles_turnout_duration.values['90.0']))
+    }
+  }
+
 
   // Sort with -Infinity/Infinity/NaN at the end.
   apparatus.sort((a, b) => {
