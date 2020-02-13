@@ -17,7 +17,8 @@ export class FireIncidentEventDurationRule30 extends Rule {
     this.query = bodybuilder()
       .filter('term', 'description.suppressed', false)
       .filter('term', 'description.category', 'FIRE')
-      .filter('nested', apparatus);
+      .filter('nested', apparatus)
+      .size(1000);
   }
 
   analyze() {
@@ -30,12 +31,15 @@ export class FireIncidentEventDurationRule30 extends Rule {
         if(event_duration > this.params.threshold) units.push(u.unit_id);
       });
 
-      analysis.push({
-        rule: this.constructor.name,
-        level: this.params.level,
-        description: `Units on fire incident > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-        details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`
-      });
+      if (units.length >= 1) {
+        analysis.push({
+          rule: this.constructor.name,
+          level: this.params.level,
+          description: `Units on fire incident > ${(this.params.threshold / 60.0).toFixed(0)} min`,
+          details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`,
+          default_visibility: false
+        });
+      }
     });
 
     return analysis;
