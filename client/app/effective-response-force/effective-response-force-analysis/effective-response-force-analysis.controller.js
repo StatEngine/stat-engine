@@ -18,6 +18,15 @@ export default class EffectiveResponseForceAnalysisController {
     this.currentPrincipal = currentPrincipal;
     this.formData = formData;
     this.EffectiveResponseForceService = EffectiveResponseForce;
+
+    this.selectedYear = formData.years[0];
+
+    if (formData.response_classes.length) {
+      this.loadResponseClass(formData.response_classes[0]);
+      this.loadRiskCategory(formData.response_classes[0].risk_categories[0]);
+      this.selectedType = formData.response_classes[0].risk_categories[0].dispatch_types[0];
+      this.loadERF();
+    }
   }
 
   $onInit() {
@@ -33,8 +42,14 @@ export default class EffectiveResponseForceAnalysisController {
   }
 
   async loadERF(selectedType) {
-    this.selectedType = selectedType;
-    this.EffectiveResponseForceService.analysis({ type: this.selectedType}).$promise.then((data) => {
+    if (selectedType) this.selectedType = selectedType;
+
+    this.EffectiveResponseForceService.analysis({
+      type: this.selectedType,
+      risk_category: this.selectedRiskCategory.key,
+      response_class: this.selectedResponseClass.key,
+      year: this.selectedYear,
+    }).$promise.then((data) => {
       this.erfAnalysis = data;
     })
   }
@@ -43,5 +58,6 @@ export default class EffectiveResponseForceAnalysisController {
     delete this.erfAnalysis;
     this.selectedResponseClass = responseClass;
     this.selectedRiskCategory = riskCategory;
+    console.dir(this)
   }
 }
