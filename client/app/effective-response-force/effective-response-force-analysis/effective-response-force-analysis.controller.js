@@ -54,10 +54,6 @@ export default class EffectiveResponseForceAnalysisController {
     })
   }
 
-  async load() {
-    console.dir('loading');
-  }
-
   handleMenuClick(responseClass, riskCategory) {
     delete this.erfAnalysis;
     this.selectedResponseClass = responseClass;
