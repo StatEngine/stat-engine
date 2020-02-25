@@ -56,7 +56,7 @@ export async function formData(req, res, next) {
       let risk_categogry_obj = {
         key: risk_category.key,
         order: getRiskOrder(risk_category.key),
-        dispatch_types: []
+        dispatch_types: ['All']
       };
 
       _.map(risk_category['agg_terms_description.type'].buckets, type => risk_categogry_obj.dispatch_types.push(type.key));
@@ -71,14 +71,13 @@ export async function formData(req, res, next) {
   next();
 }
 
-// Top 5000 incidents, in which 1 unit arrives
+// Top 10000 incidents, in which 1 unit arrives
 export async function queryIncidents(req, res, next) {
   let fd = req.user.FireDepartment.get();
 
   let body = bodybuilder()
-    .size(5000)
+    .size(10000)
     .filter('term', 'description.suppressed', false)
-    .filter('term', 'description.type', req.query.type)
     .filter('exists', 'description.first_unit_arrived')
     .rawOption('_source', [
       'description.incident_number',
@@ -88,8 +87,22 @@ export async function queryIncidents(req, res, next) {
       'apparatus.unit_status.arrived.order',
       'apparatus.resources.personnel.total',
       'apparatus.unit_id',
-      'apparatus.unit_status.arrived.timestamp', ])
-    .build();
+      'apparatus.unit_status.arrived.timestamp', ]);
+
+  if (req.query.type.toLowerCase() !== 'all') {
+    body.filter('term', 'description.type', req.query.type)
+  } else {
+    body.filter('term', 'description.risk_category', req.query.risk_category)
+    body.filter('term', 'description.response_class', req.query.response_class)
+  }
+
+  if (req.query.year.toLowerCase() !== 'all') {
+    const start = moment.tz(`01-05-${req.query.year}`, 'MM-DD-YYYY', fd.timezone).startOf('year').format();
+    const end = moment.tz(`01-05-${req.query.year}`, 'MM-DD-YYYY', fd.timezone).endOf('year').format();
+    body.filter('range', 'description.event_opened', { gte: start, lt: end })
+  }
+
+  body = body.build();
 
   const searchResults = await connection.getClient().search({
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
@@ -121,6 +134,9 @@ export function calculatePercentiles(req, res, next) {
 
 export async function findCurrentConfig(req, res, next) {
   let fd = req.user.FireDepartment.get();
+  if (req.query.type.toLowerCase() !== 'all') {
+    return next();
+  }
 
   let body = bodybuilder()
     .size(1)
@@ -164,12 +180,15 @@ export async function precheck(req, res) {
     body,
   });
 
+  let now = moment().year();
+
   if (!searchResults.hits.hits || searchResults.hits.hits.length < 1) {
     req.error = "Not currently configured";
   }
   res.json({
     error: req.error,
     response_classes: req.response_classes,
+    years: ['All', now, now-1, now-2, now-3, now-4, now-5],
   });
 }
 
@@ -209,8 +228,6 @@ export async function iterateIncidents(req, res, next) {
     apparatus = _.filter(apparatus, app => !_.isNil(_.get(app, 'unit_status.arrived.timestamp')));
     apparatus = _.sortBy(apparatus, app => _.get(app, 'unit_status.arrived.order'));
     let numberArriving = 0;
-
-    console.log(util.inspect(apparatus, {showHidden: false, depth: null}));
 
     apparatus.forEach(app => {
       let temp = numberArriving;
