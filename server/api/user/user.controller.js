@@ -753,12 +753,13 @@ export async function me(req, res, next) {
   let workspaces = _.filter(user.Workspaces, uw => uw.UserWorkspace.permission !== null);
   // Globals have access to all workspaces, regardless of permissions
   if (req.user.isGlobal) {
-    workspaces = await Workspace.findAll({
+    const otherWorkspaces = await Workspace.findAll({
       where: {
         fire_department__id: req.user.fire_department__id,
         is_deleted: false,
       }
     })
+    workspaces = _.uniqBy(workspaces.concat(otherWorkspaces), wkspace => wkspace._id);
   }
 
   const resData = {
