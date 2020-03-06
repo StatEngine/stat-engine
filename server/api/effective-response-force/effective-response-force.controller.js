@@ -134,7 +134,7 @@ export function calculatePercentiles(req, res, next) {
 
 export async function findCurrentConfig(req, res, next) {
   let fd = req.user.FireDepartment.get();
-  if (req.query.type.toLowerCase() !== 'all') {
+  if (req.query.type.toLowerCase() == 'all') {
     return next();
   }
 
