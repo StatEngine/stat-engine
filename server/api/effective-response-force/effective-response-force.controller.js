@@ -158,7 +158,7 @@ export async function findCurrentConfig(req, res, next) {
     req.currentConfig = {
       response_class: searchResults.hits.hits[0]._source.description.response_class,
       risk_category: searchResults.hits.hits[0]._source.description.risk_category,
-      erf: searchResults.hits.hits[0]._source.description.requirements.personnel.total_arriving,
+      erf: Number(searchResults.hits.hits[0]._source.description.requirements.personnel.total_arriving),
     }
   }
   next();
