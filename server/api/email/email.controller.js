@@ -48,6 +48,13 @@ export async function sendTimeRangeAnalysis(req, res) {
 
   const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
 
+  // Set defautls
+  if(_.isUndefined(reportOptions.showPercentChange)) {
+    reportOptions.showPercentChange = true;
+  } else {
+    reportOptions.showPercentChange = false;
+  }
+
   // Override day reports to use shift time.
   if(reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
     reportOptions.timeUnit = TimeUnit.Shift;
