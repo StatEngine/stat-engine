@@ -45,7 +45,8 @@ export function buildFireIncidentQuery(timeFilter) {
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))
         .aggregation('terms', 'apparatus.agency', { size: 500 }, unitAgg => unitAgg
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))))
-    .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }})
+    .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }, missing: "Unknown" })
+    .aggregation('terms', 'address.jurisdiction', { size: 20, order: { _term: 'asc' }, missing: "Unknown" })
     .aggregation('terms', 'description.type', { size: 1000, order: { _term: 'asc' }})
     .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription', { size: 50, order: { _term: 'asc' }})
     .aggregation('percentile_ranks', 'durations.response.seconds', { values: 360 })
@@ -166,6 +167,12 @@ const battalionMetrics = [{
   getter: res => _.get(res, 'doc_count'),
   setter: (obj, res) => _.set(obj, 'incidentCount', res),
 }];
+
+const jurisdictionMetrics = [{
+  getter: res => _.get(res, 'doc_count'),
+  setter: (obj, res) => _.set(obj, 'incidentCount', res),
+}];
+
 
 const incidentTypeMetrics = [{
   getter: res => _.get(res, 'doc_count'),
@@ -303,6 +310,7 @@ export class IncidentAnalysisTimeRange {
         });
 
         comparison.battalion = analyzeAggregate(results, 'aggregations["agg_terms_address.battalion"]buckets', battalionMetrics);
+        comparison.jurisdiction = analyzeAggregate(results, 'aggregations["agg_terms_address.jurisdiction"]buckets', jurisdictionMetrics);
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);
         comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription"]buckets', incidentTypeMetrics);
 

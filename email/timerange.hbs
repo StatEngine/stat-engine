@@ -1122,13 +1122,18 @@
                                                 <tr>
                                                   <td style="text-align: left;"><span style="font-size:14px">{{this.label}}</span></td>
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.val}}</span> {{#if `this.percentchange > 0`}}
+                                                    <span style="font-size:14px">{{this.val}}</span>
+                                                                                                        {{#if options.showpercentchange}}
+
+                                                    {{#if `this.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.percentchange}}%</span> {{elseif `this.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.percentchange}}%</span>
                                                     {{elseif `this.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                                                                    {{/if}}
+
                                                   </td>
                                                 </tr>
                                               {{/each}}
@@ -1255,64 +1260,105 @@
                                                   <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.incidentcount.val}}</span> {{#if `this.incidentcount.percentchange > 0`}}
+                                                    <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                                                    {{#if options.showpercentchange}}
+                                                    {{#if `this.incidentcount.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.incidentcount.percentchange}}%</span>
                                                     {{elseif `this.incidentcount.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                  {{/if}}
                                                   </td>
 
                                                   {{#if options.showtransports}}
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.transportscount.val}}</span> {{#if `this.transportscount.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.transportscount.val}}</span>
+                                                      {{#if options.showpercentchange}}
+                                                      {{#if `this.transportscount.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.transportscount.percentchange}}%</span> {{elseif `this.transportscount.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.transportscount.percentchange}}%</span>
                                                       {{elseif `this.transportscount.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                    {{/if}}
                                                     </td>
                                                   {{/if}} {{#if options.showdistances}}
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span> {{#if `this.distancetoincidentsum.percentchange > 0`}}
+                                                    <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
+                                                                                                        {{#if options.showpercentchange}}
+
+                                                    {{#if `this.distancetoincidentsum.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.distancetoincidentsum.percentchange}}%</span> {{elseif `this.distancetoincidentsum.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.distancetoincidentsum.percentchange}}%</span>
                                                     {{elseif `this.distancetoincidentsum.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                                                                    {{/if}}
+
                                                   </td>
                                                 {{/if}}
 
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.eventdurationsum.val}}</span> {{#if `this.eventdurationsum.percentchange > 0`}}
+                                                    <span style="font-size:14px">{{this.eventdurationsum.val}}</span>
+                                                                                                                                                            {{#if options.showpercentchange}}
+
+                                                     {{#if `this.eventdurationsum.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.eventdurationsum.percentchange}}%</span> {{elseif `this.eventdurationsum.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.eventdurationsum.percentchange}}%</span>
                                                     {{elseif `this.eventdurationsum.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                                                                    {{/if}}
+
                                                   </td>
 
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.fireTurnoutDurationPercentile90.val}}</span> {{#if `this.fireTurnoutDurationPercentile90.percentchange > 0`}}
+                                                                                                                                                                                                                {{#if options.showpercentchange}}
+                                                                                                                                                                                                                                                                    <span style="font-size:14px">{{this.fireTurnoutDurationPercentile90.val}}</span>
+
+
+                                                    {{#if `this.fireTurnoutDurationPercentile90.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.fireTurnoutDurationPercentile90.percentchange}}%</span> {{elseif `this.fireTurnoutDurationPercentile90.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.fireTurnoutDurationPercentile90.percentchange}}%</span>
                                                     {{elseif `this.fireTurnoutDurationPercentile90.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                  {{ else }}
+                                                    {{#if `this.fireTurnoutDurationPercentile90.val < 80`}}
+                                                       <span style="font-size:14px; background-color: #dff0d8">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                    {{elseif `this.fireTurnoutDurationPercentile90.val < 120`}}
+                                                      <span style="font-size:14px; background-color: #fcf8e3">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                     {{ else }}
+                                                      <span style="font-size:14px; background-color: #f2dede">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                    {{/if}}
+                                                  {{/if}}
                                                   </td>
 
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span> {{#if `this.emsTurnoutDurationPercentile90.percentchange > 0`}}
+                                                    {{#if options.showpercentchange}}
+                                                                                                                                                                                                                                                                    <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                    {{#if `this.emsTurnoutDurationPercentile90.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.emsTurnoutDurationPercentile90.percentchange}}%</span> {{elseif `this.emsTurnoutDurationPercentile90.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.emsTurnoutDurationPercentile90.percentchange}}%</span>
                                                     {{elseif `this.emsTurnoutDurationPercentile90.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
+
+                                                  {{/if}}
+                                                                       {{ else }}
+                                                    {{#if `this.emsTurnoutDurationPercentile90.val < 60`}}
+                                                       <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                    {{elseif `this.emsTurnoutDurationPercentile90.val < 100`}}
+                                                      <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                     {{ else }}
+                                                      <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                    {{/if}}
                                                   {{/if}}
                                                   </td>
                                                 </tr>
@@ -1439,65 +1485,94 @@
                                                     <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.incidentcount.val}}</span> {{#if `this.incidentcount.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                                                                                                                                                              {{#if options.showpercentchange}}
+
+                                                      {{#if `this.incidentcount.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.incidentcount.percentchange}}%</span>
                                                       {{elseif `this.incidentcount.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                                                                        {{/if}}
+
                                                     </td>
 
                                                     {{#if options.showtransports}}
                                                       <td style="text-align: left;">
-                                                        <span style="font-size:14px">{{this.transportscount.val}}</span> {{#if `this.transportscount.percentchange > 0`}}
+                                                        <span style="font-size:14px">{{this.transportscount.val}}</span>
+                                                                                                                                                                                                                      {{#if options.showpercentchange}}
+
+                                                         {{#if `this.transportscount.percentchange > 0`}}
                                                         <span style="font-size:10px;color:#28a745">&#9650; {{this.transportscount.percentchange}}%</span> {{elseif `this.transportscount.percentchange
                                                       < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.transportscount.percentchange}}%</span>
                                                         {{elseif `this.transportscount.percentchange = 0`}}
                                                         <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                         <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                       {{/if}}
+                                                                                                            {{/if}}
+
                                                       </td>
                                                     {{/if}} {{#if options.showdistances}}
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span> {{#if `this.distancetoincidentsum.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
+                                                                                                                                                                                                                                                                            {{#if options.showpercentchange}}
+
+                                                      {{#if `this.distancetoincidentsum.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.distancetoincidentsum.percentchange}}%</span> {{elseif `this.distancetoincidentsum.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.distancetoincidentsum.percentchange}}%</span>
                                                       {{elseif `this.distancetoincidentsum.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                                                                          {{/if}}
+
                                                     </td>
                                                   {{/if}}
 
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.eventdurationsum.val}}</span> {{#if `this.eventdurationsum.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.eventdurationsum.val}}</span>
+                                                      {{#if options.showpercentchange}}
+                                                      {{#if `this.eventdurationsum.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.eventdurationsum.percentchange}}%</span> {{elseif `this.eventdurationsum.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.eventdurationsum.percentchange}}%</span>
                                                       {{elseif `this.eventdurationsum.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                                                                        {{/if}}
+
                                                     </td>
 
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.fireTurnoutDurationPercentile90.val}}</span> {{#if `this.fireTurnoutDurationPercentile90.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                                                                            {{#if options.showpercentchange}}
+
+                                                      {{#if `this.fireTurnoutDurationPercentile90.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.fireTurnoutDurationPercentile90.percentchange}}%</span> {{elseif `this.fireTurnoutDurationPercentile90.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.fireTurnoutDurationPercentile90.percentchange}}%</span>
                                                       {{elseif `this.fireTurnoutDurationPercentile90.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                                                                        {{/if}}
+
                                                     </td>
 
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span> {{#if `this.emsTurnoutDurationPercentile90.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                                                                                                                                  {{#if options.showpercentchange}}
+
+                                                       {{#if `this.emsTurnoutDurationPercentile90.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.emsTurnoutDurationPercentile90.percentchange}}%</span> {{elseif `this.emsTurnoutDurationPercentile90.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.emsTurnoutDurationPercentile90.percentchange}}%</span>
                                                       {{elseif `this.emsTurnoutDurationPercentile90.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                                                                        {{/if}}
+
                                                     </td>
                                                   </tr>
                                                 {{/each}}
@@ -1600,13 +1675,18 @@
                                                     <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                                                     <td style="text-align: left;">
-                                                      <span style="font-size:14px">{{this.incidentcount.val}}</span> {{#if `this.incidentcount.percentchange > 0`}}
+                                                      <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                                                                                                                                                                  {{#if options.showpercentchange}}
+
+                                                      {{#if `this.incidentcount.percentchange > 0`}}
                                                       <span style="font-size:10px;color:#28a745">&#9650; {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
                                                     < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.incidentcount.percentchange}}%</span>
                                                       {{elseif `this.incidentcount.percentchange = 0`}}
                                                       <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                       <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                     {{/if}}
+                                                                                                        {{/if}}
+
                                                     </td>
                                                   </tr>
                                                 {{/each}}
@@ -1629,7 +1709,123 @@
                                     </tr>
                                     </tbody>
                                   </table>
-                                {{/if}} {{#if options.sections.showincidenttypesummary}}
+                                {{/if}}
+                                                      {{#if options.sections.showjurisdictionsummary}}
+                                  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
+                                    <!--[if gte mso 9]>
+                                    <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    <![endif]-->
+                                    <tbody class="mcnBoxedTextBlockOuter">
+                                    <tr>
+                                      <td valign="top" class="mcnBoxedTextBlockInner">
+
+                                        <!--[if gte mso 9]>
+                                        <td align="center" valign="top" ">
+                                        <![endif]-->
+                                        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnBoxedTextContentContainer">
+                                          <tbody>
+                                          <tr>
+
+                                            <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
+
+                                              <table border="0" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width: 100% !important;background-color: #616161;">
+                                                <tbody>
+                                                <tr>
+                                                  <td valign="top" class="mcnTextContent" style="padding: 18px;color: #F2F2F2;font-family: Helvetica;font-size: 24px;font-weight: normal;text-align: center;">
+                                                    <div style="text-align: center;"><strong>Jurisdiction Summary</strong></div>
+
+                                                  </td>
+                                                </tr>
+                                                </tbody>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if gte mso 9]>
+                                        </td>
+                                        <![endif]-->
+
+                                        <!--[if gte mso 9]>
+                                        </tr>
+                                        </table>
+                                        <![endif]-->
+                                      </td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
+                                    <tbody class="mcnTextBlockOuter">
+                                    <tr>
+                                      <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
+                                        <!--[if mso]>
+                                        <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
+                                          <tr>
+                                        <![endif]-->
+
+                                        <!--[if mso]>
+                                        <td valign="top" width="598" style="width:598px;">
+                                        <![endif]-->
+                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+                                          <tbody>
+                                          <tr>
+
+                                            <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+
+                                              <table style="width:100%">
+                                                <tbody>
+                                                <tr>
+                                                  <th style="text-align: left;"><span style="font-size:14px"><span style="font-family:arial,helvetica neue,helvetica,sans-serif"><span style="color:#000000"><strong>Jurisdiction</strong></span></span>
+                                                          </span>
+                                                  </th>
+                                                  <th style="text-align: left;"><span style="font-size:14px"><span style="font-family:arial,helvetica neue,helvetica,sans-serif"><span style="color:#000000"><strong>Incidents</strong></span></span>
+                                                          </span>
+                                                  </th>
+
+                                                </tr>
+                                                {{#each jurisdictionMetrics}}
+                                                  <tr>
+                                                    <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
+
+                                                    <td style="text-align: left;">
+                                                      <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                                                                                                                                                                  {{#if options.showpercentchange}}
+
+                                                      {{#if `this.incidentcount.percentchange > 0`}}
+                                                      <span style="font-size:10px;color:#28a745">&#9650; {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
+                                                    < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.incidentcount.percentchange}}%</span>
+                                                      {{elseif `this.incidentcount.percentchange = 0`}}
+                                                      <span style="font-size:10px;color:#6c757d"></span> {{else}}
+                                                      <span style="font-size:10px;color:#6c757d">(NA)</span></div>
+                                                    {{/if}}
+                                                                                                        {{/if}}
+
+                                                    </td>
+                                                  </tr>
+                                                {{/each}}
+                                                </tbody>
+                                              </table>
+
+                                            </td>
+                                          </tr>
+                                          </tbody>
+                                        </table>
+                                        <!--[if mso]>
+                                        </td>
+                                        <![endif]-->
+
+                                        <!--[if mso]>
+                                        </tr>
+                                        </table>
+                                        <![endif]-->
+                                      </td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                {{/if}}
+
+
+                                {{#if options.sections.showincidenttypesummary}}
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                   <!--[if gte mso 9]>
                                   <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -1707,13 +1903,18 @@
                                                   <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.incidentcount.val}}</span> {{#if `this.incidentcount.percentchange > 0`}}
+                                                    <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                                                                                                                                                                                                                      {{#if options.showpercentchange}}
+
+                                                    {{#if `this.incidentcount.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.incidentcount.percentchange}}%</span>
                                                     {{elseif `this.incidentcount.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                                                                    {{/if}}
+
                                                   </td>
                                                 </tr>
                                               {{/each}}
@@ -1814,13 +2015,18 @@
                                                   <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                                                   <td style="text-align: left;">
-                                                    <span style="font-size:14px">{{this.incidentcount.val}}</span> {{#if `this.incidentcount.percentchange > 0`}}
+                                                    <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                                                                                                                                                                                                                                                                          {{#if options.showpercentchange}}
+
+                                                    {{#if `this.incidentcount.percentchange > 0`}}
                                                     <span style="font-size:10px;color:#28a745">&#9650; {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
                                                   < 0`}} <span style="font-size:10px;color:#dc3545">&#9660; {{this.incidentcount.percentchange}}%</span>
                                                     {{elseif `this.incidentcount.percentchange = 0`}}
                                                     <span style="font-size:10px;color:#6c757d"></span> {{else}}
                                                     <span style="font-size:10px;color:#6c757d">(NA)</span></div>
                                                   {{/if}}
+                                                                                                    {{/if}}
+
                                                   </td>
                                                 </tr>
                                               {{/each}}

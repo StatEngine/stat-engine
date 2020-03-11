@@ -150,6 +150,7 @@ export async function sendTimeRangeAnalysis(req, res) {
     _formatAggregateMetrics('unit', unitMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('agencyResponses', unitMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('battalion', battalionMetricConfigs, comparison, reportOptions),
+    _formatAggregateMetrics('jurisdiction', jurisdictionMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('incidentType', incidentTypeMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('agencyIncidentType', agencyIncidentTypeMetricConfigs, comparison, reportOptions),
   ];
@@ -284,6 +285,10 @@ const unitMetricConfigs = [
 ];
 
 const battalionMetricConfigs = [
+  ['incidentCount'],
+];
+
+const jurisdictionMetricConfigs = [
   ['incidentCount'],
 ];
 
