@@ -742,6 +742,7 @@ export async function me(req, res, next) {
       model: Workspace,
       through: {},
       where: {
+        fire_department__id: req.user.fire_department__id,
         is_deleted: false,
       },
       required: false,
@@ -761,7 +762,6 @@ export async function me(req, res, next) {
     })
     workspaces = _.uniqBy(workspaces.concat(otherWorkspaces), wkspace => wkspace._id);
     workspaces = _.filter(workspaces, wkspace => wkspace.fire_department__id === req.user.fire_department__id );
-
   }
 
   const resData = {
