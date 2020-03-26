@@ -1,0 +1,18 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "visualization:covid19-overview",
+  "_type": "doc",
+  "_source": {
+    "type": "visualization",
+    "visualization": {
+      "title": "COVID-19 Overview",
+      "visState": "{\"title\":\"COVID-19 Overview\",\"type\":\"markdown\",\"params\":{\"fontSize\":15,\"openLinksInNewTab\":true,\"markdown\":\"# Overview \\n\\nThis dashboard is intended for identifying, tracking, and exploring trends related to COVID-19.  \\n\\n**Before sharing any data with individuals outside of your organization, please keep in mind the dashboard is only accurate as the incoming data as well as your specific filtering logic to isolate COVID-19 related calls.**\\n  \\n# Instructions\\n\\n1.  To determine COVID-19 related calls, you must first determine the filter you need to apply.  See this [blog post](https://medium.com/statengine/case-study-coronavirus-covid-19-dashboard-in-nfors-statengine-f9093a73b42a) for a detailed description and examples.  One such filter might be `description.comments is \\\"covid\\\"`.\\n2.  Apply the filter at the Dashboard level to filter your view to COVID-19 related calls.\\n3.  You can further filter the data by interacting with other visualization such as clicking a bar on the *Incidents by First Due* visualization.  \\n\\n\\n**Going forward, please consider adding a distinct dispatch call type, or additional field identifiers in CAD to include Contagious Emergency, COVID-19, or similar.  This change will make this call type a first class data element so that you can use the information to assure adequate resources for your department.**\\n\\n# Additional Related Resources\\n\\n1.  [FEMA COVID-19 cost recovery for fire and EMS departments](https://www.usfa.fema.gov/current_events/031820.html)\\n2.  [IAFF Coronavirus Updates](https://www.iaff.org/coronavirus/)\\n3.  [IAFC Coronavirus Updates](https://www.iafc.org/topics-and-tools/coronavirus-covid-19)\\n4.  [IAFF Coronavirus Preperation & PPE](https://www.iaff.org/coronavirus/#preparation-ppe-protection)\"},\"aggs\":[]}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "search:incident-comments",
+  "_type": "doc",
+  "_source": {
+    "type": "search",
+    "updated_at": "2020-03-26T05:01:00.670Z",
+    "search": {
+      "title": "Incident Comments",
+      "description": "",
+      "columns": [
+        "description.incident_number",
+        "description.comments",
+        "description.resources.stations.dispatched",
+        "description.resources.units.dispatched",
+        "description.resources.personnel.dispatched"
+      ],
+      "sort": [
+        "description.event_opened",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"{{ fire_department.es_indices.fire-incident }}\",\"highlightAll\":true,\"version\":true,\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+      }
+    }
+  }
+}

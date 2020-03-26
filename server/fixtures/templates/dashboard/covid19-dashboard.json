@@ -1,0 +1,27 @@
+{
+  "_index": "{{ kibana.tenancy }}",
+  "_id": "dashboard:covid19-dashboard",
+  "_type": "doc",
+  "_source": {
+    "type": "dashboard",
+    "updated_at": "2018-12-11T20:56:17.913Z",
+    "dashboard": {
+      "title": "COVID-19 Dashboard",
+      "hits": 0,
+      "description": "Starter dashboard to explore COVID-19 related calls",
+      "panelsJSON": "[{\"embeddableConfig\":{},\"gridData\":{\"h\":8,\"i\":\"1\",\"w\":14,\"x\":0,\"y\":22},\"id\":\"incidents\",\"panelIndex\":\"1\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":14,\"i\":\"2\",\"w\":14,\"x\":0,\"y\":30},\"id\":\"incident-cumulative-sum\",\"panelIndex\":\"2\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{\"mapCenter\":[{{ fire_department.latitude }}, {{ fire_department.longitude }}],\"mapZoom\":11},\"gridData\":{\"h\":36,\"i\":\"5\",\"w\":18,\"x\":14,\"y\":22},\"id\":\"incident-map-gridded\",\"panelIndex\":\"5\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":14,\"i\":\"6\",\"w\":16,\"x\":32,\"y\":44},\"id\":\"incidents-average-calls-per-day\",\"panelIndex\":\"6\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":22,\"i\":\"8\",\"w\":48,\"x\":0,\"y\":0},\"id\":\"covid19-overview\",\"panelIndex\":\"8\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":14,\"i\":\"11\",\"w\":14,\"x\":0,\"y\":44},\"id\":\"incidents-by-first-due-horizontal\",\"panelIndex\":\"11\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":20,\"i\":\"12\",\"w\":24,\"x\":24,\"y\":58},\"id\":\"incidents-by-units-horizontal\",\"panelIndex\":\"12\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":34,\"i\":\"13\",\"w\":48,\"x\":0,\"y\":78},\"id\":\"incident-comments\",\"panelIndex\":\"13\",\"type\":\"search\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":9,\"i\":\"15\",\"w\":16,\"x\":32,\"y\":22},\"id\":\"yesterday-vs-3-days-ago-metric\",\"panelIndex\":\"15\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":13,\"i\":\"16\",\"w\":16,\"x\":32,\"y\":31},\"id\":\"yesterday-vs-3-days-ago-line\",\"panelIndex\":\"16\",\"type\":\"visualization\",\"version\":\"6.4.1\"},{\"embeddableConfig\":{},\"gridData\":{\"h\":20,\"i\":\"17\",\"w\":24,\"x\":0,\"y\":58},\"id\":\"incident-key-metrics\",\"panelIndex\":\"17\",\"type\":\"visualization\",\"version\":\"6.4.1\"}]",
+      "optionsJSON": "{\"darkTheme\":false,\"hidePanelTitles\":false,\"useMargins\":true}",
+      "version": 1,
+      "timeRestore": true,
+      "timeTo": "now",
+      "timeFrom": "now-45d",
+      "refreshInterval": {
+        "pause": true,
+        "value": 0
+      },
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[]}"
+      }
+    }
+  }
+}

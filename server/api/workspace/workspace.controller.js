@@ -67,7 +67,7 @@ export async function create(req, res) {
   // TODO: Only add the visualizations that are necessary for the dashboards we're adding.
   // Add all non-dashboard fixtures.
   const fixtureTemplates = await FixtureTemplate.findAll({
-    where: { type: ['index-pattern', 'config', 'visualization'] },
+    where: { type: ['index-pattern', 'config', 'visualization', 'search'] },
   });
 
   await workspace.addFixtures({
