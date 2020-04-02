@@ -11,6 +11,7 @@ Ensure the following packages are installed
 - [Node.js and npm](https://nodejs.org) Node >= 8.x.x, npm >= 6.5.x
 - [PostSQL](https://www.postgresql.org/download/) 9.6.5
 - [Elasticsearch](https://www.elastic.co/downloads/past-releases/elasticsearch-6-4-1) 6.4.1
+- [Java JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) 8.x.x
 
 
 1.  Run `npm install --global gulp`
