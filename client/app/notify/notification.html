@@ -1,0 +1,54 @@
+<form class="form" name="form.notification" ng-submit="vm.submitForm()" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="mb-4">
+        <div class="form-group">
+          <h3>Notify Exposure</h3>
+        </div>
+
+        <div class="form-group">
+          <label>Custom Message</label>
+          <textarea 
+            name="message" 
+            rows="3" 
+            cols="30"
+            placeholder="{{ vm.messagePlaceholder }}"
+            class="form-control" 
+            ng-model="vm.payload.message" 
+            maxlength="230">
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Units</label>
+          <div 
+            ng-dropdown-multiselect
+            extra-settings="vm.selectOptions"
+            options="vm.units" 
+            selected-model="vm.payload.units">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Personnel</label>
+          <div
+            ng-dropdown-multiselect
+            disabled="vm.personnel.length === 0"
+            extra-settings="vm.selectOptions"
+            options="vm.personnel" 
+            selected-model="vm.payload.personnel">
+          </div>
+        </div>
+
+        <div class="text-danger" ng-show="vm.error">
+          Error: {{ vm.error }}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" ng-disabled="form.notification.$invalid">Send</button>
+    <button type="submit" class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
+  </div>
+</form>

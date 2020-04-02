@@ -1887,6 +1887,20 @@ nav.section-nav {
   }
 }
 
+// Multi Select //
+.dropdown-menu {
+  padding: 0.5rem;
+
+  .checkbox > label {
+    display: flex;
+    
+    span {
+      margin-left: 5px;
+    }
+  }
+}
+
+
 @mixin multiline-ellipsis($line-count, $line-height) {
   display: -webkit-box;
   line-height: $line-height;

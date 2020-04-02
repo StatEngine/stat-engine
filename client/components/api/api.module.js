@@ -17,6 +17,7 @@ import UserResource from './user.service';
 import IncidentResource from './incident.service';
 import WorkspaceResource from './workspace.service';
 import UnitResource from './unit.service';
+import NotificationResource from './notification.service';
 import FixtureTemplateResource from './fixture-template.service';
 
 export default angular.module('statEngineApp.api', [])
@@ -35,5 +36,6 @@ export default angular.module('statEngineApp.api', [])
   .factory('Incident', IncidentResource)
   .factory('Workspace', WorkspaceResource)
   .factory('Unit', UnitResource)
+  .factory('Notification', NotificationResource)
   .factory('FixtureTemplate', FixtureTemplateResource)
   .name;

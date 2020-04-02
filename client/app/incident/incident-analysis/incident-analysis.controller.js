@@ -3,6 +3,7 @@
 'use strict';
 
 import humanizeDuration from 'humanize-duration';
+import NotificationController from '../../notify/notification.controller';
 
 let _;
 let tippy;
@@ -26,7 +27,7 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 
 export default class IncidentAnalysisController {
   /*@ngInject*/
-  constructor($scope, AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData, Print, modules) {
+  constructor($scope, AmplitudeService, AnalyticEventNames, currentPrincipal, incidentData, Print, modules, $uibModal) {
     _ = modules._;
     tippy = modules.tippy;
     PlotlyBasic = modules.PlotlyBasic;
@@ -37,6 +38,7 @@ export default class IncidentAnalysisController {
     this.currentPrincipal = currentPrincipal;
     this.incidentData = incidentData;
     this.Print = Print;
+    this.$uibModal = $uibModal;
   }
 
   $onInit() {
@@ -192,7 +194,6 @@ export default class IncidentAnalysisController {
     this.concurrentIncidents = searchResults;
   }
 
-
   scrollTo(location) {
     const paddingTop = parseInt($(location).css('paddingTop')) || 0;
     const scrollTop = $(location).offset().top - paddingTop;
@@ -216,6 +217,31 @@ export default class IncidentAnalysisController {
 
   print() {
     this.Print.print();
+  }
+
+  notify() {
+    const incidentData = this.incidentData;
+    const currentPrincipal = this.currentPrincipal;
+
+    const modalInstance = this.$uibModal.open({
+      template: require('../../notify/notification.html'),
+      controller: ['$uibModalInstance', 'Notification', 'incidentData', 'currentPrincipal', NotificationController],
+      controllerAs: 'vm',
+      resolve: {
+        incidentData() {
+          return incidentData;
+        },
+        currentPrincipal() {
+          return currentPrincipal;
+        }
+      }
+    });
+
+    modalInstance.result.then(notification => {
+      // Do nothing
+    }, () => {
+      // modal dismissed
+    });
   }
 
   beforePrint = () => {

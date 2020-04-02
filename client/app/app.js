@@ -32,6 +32,7 @@ import sparkline from 'jquery-sparkline/jquery.sparkline.js';
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
 import 'hammerjs';
+import 'angularjs-dropdown-multiselect';
 import MapBoxGL from 'mapbox-gl';
 
 import '../polyfills';
@@ -126,6 +127,7 @@ angular.module('statEngineApp', [
   'ngCountTo',
   'angularMoment',
   'angularSpectrumColorpicker',
+  'angularjs-dropdown-multiselect',
   _Auth,
   // se modules
   trusted,
