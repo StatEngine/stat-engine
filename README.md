@@ -75,8 +75,20 @@ readonlyrest:
       user_claim: 'firecares_id'
       roles_claim: 'roles'
 ```
+5.  Add the following to config/elasticsearch.yml
+```
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+script.painless.regex.enabled: true
 
-5. Run `.\bin\elasticsearch`
+xpack.graph.enabled: false
+xpack.ml.enabled: false
+xpack.monitoring.enabled: false
+xpack.security.enabled: false
+xpack.watcher.enabled: false
+```
+
+6. Run `.\bin\elasticsearch`
 
 ### Running Kibana
 
