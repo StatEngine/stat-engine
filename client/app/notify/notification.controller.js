@@ -46,16 +46,7 @@ export default class NotificationController {
   }
 
   submitForm() {
-    const units = this.payload.units.includes('ALL') ? [] : this.payload.units;
-    const personnel = this.payload.personnel.includes('ALL') ? [] : this.payload.personnel;
-
-    const payload = {
-      ...this.payload,
-      personnel,
-      units
-    };
-
-    this.notificationService.notify({}, payload, response => {
+    this.notificationService.notify({}, this.payload, response => {
       this.$uibModalInstance.close(response);
     }, error => {
       this.error = error.data;
