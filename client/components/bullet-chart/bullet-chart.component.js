@@ -22,7 +22,7 @@ export class BulletChartComponent {
   }
 
   async loadModules() {
-    Plotly = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly.js');
+    Plotly = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-finance.js');
   }
 
   async $onInit() {
