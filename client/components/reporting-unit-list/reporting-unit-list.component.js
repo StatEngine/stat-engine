@@ -8,6 +8,7 @@ export class ReportingUnitListComponent {
   units;
   onSelect;
   selectedUnitId;
+  sort = 'id';
 
   select(unit) {
     this.onSelect({ selected: unit });

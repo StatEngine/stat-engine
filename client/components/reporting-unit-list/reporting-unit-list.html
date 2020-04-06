@@ -2,8 +2,23 @@
   <div class="br-mailbox-list-header">
     <input id="searchbox" type="text" class="form-control" placeholder="Search" ng-model="allKeyword" />
   </div><!-- br-mailbox-list-header -->
+  <div class="br-mailbox-list-sort border-bottom">
+    <div class="mb-2 bold">Sort by:</div>
+    <label>
+      <input type="radio" ng-model="vm.sort" ng-value="null">
+        Total Responses
+      <br>
+    </label>
+
+    <label>
+      <input type="radio" ng-model="vm.sort" value="id" checked>
+        Alphabetic
+      <br>
+    </label>
+
+  </div><!-- br-mailbox-list-sort -->
   <div class="br-mailbox-list-body">
-    <div ng-repeat="unit in vm.units | filter: allKeyword">
+    <div ng-repeat="unit in vm.units | filter: allKeyword | orderBy:vm.sort">
       <div class="br-mailbox-list-item border-bottom" ng-class="{'selected': (vm.selectedUnitId === unit.id)}" ng-click="vm.select(unit)">
         <h6 class="tx-14 mb-2 mt-2 tx-gray-800"> {{ unit.id }}</h6>
       </div>
