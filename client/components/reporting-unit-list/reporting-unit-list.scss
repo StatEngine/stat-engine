@@ -1,4 +1,5 @@
 reporting-unit-list {
+
   .br-mailbox-list {
     position: unset;
     top: unset;
@@ -23,5 +24,12 @@ reporting-unit-list {
         }
       }
     }
+  }
+
+  .br-mailbox-list-sort {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px 20px;
   }
 }
