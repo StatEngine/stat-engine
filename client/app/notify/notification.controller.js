@@ -9,6 +9,7 @@ export default class NotificationController {
     this.incidentData = incidentData;
     this.currentPrincipal = currentPrincipal;
     this.errors = null;
+    this.notifyAll = true;
 
     this.selectOptions = {
       showCheckAll: false,
@@ -38,7 +39,7 @@ export default class NotificationController {
       personnel: []
     };
 
-    this.messagePlaceholder = `Incident #${this.payload.incident_number} has been added to your career diary! Be sure to log any exposures.`;
+    this.messagePlaceholder = `Incident #${this.payload.incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
   }
 
   cancel() {

@@ -19,7 +19,21 @@
           </textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group flex-center flex-column">
+          <div class="mb-2 bold"></div>
+          <label class="mr-2">
+            <input type="radio" ng-model="vm.notifyAll" ng-value="true">
+              Notify all users
+          </label>
+      
+          <label>
+            <input type="radio" ng-model="vm.notifyAll" ng-value="false">
+              Notify a subset of personnel/units
+          </label>
+      
+        </div>
+
+        <div class="form-group" ng-hide="vm.notifyAll">
           <label>Units</label>
           <div 
             ng-dropdown-multiselect
@@ -29,7 +43,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-hide="vm.notifyAll">
           <label>Personnel</label>
           <div
             ng-dropdown-multiselect
