@@ -6,6 +6,20 @@
   }
 }
 
+.incident-filters-filter {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	width: 50%;
+}
+
+@media (max-width: 1180px) {
+	.incident-filters-filter {
+		width: 100%;
+	}
+}
+
 .incident-filters {
 	.btn {
 		padding: 0.375rem 0.75rem;
@@ -24,8 +38,6 @@
 			width: 53px !important;
 		}
 	}
-
-
 
 	.input-group {
 		align-items: center;
