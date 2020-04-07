@@ -12,7 +12,7 @@ router.post(
   '/',
   bodyParser.json(),
   auth.isApiAuthenticated,
-  auth.hasRole('user'),
+  auth.hasRole('department_admin'),
   controller.notify,
 );
 
