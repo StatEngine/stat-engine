@@ -33,7 +33,7 @@ export default class NotificationController {
       firecaresId: currentPrincipal.FireDepartment.firecares_id,
       incident_number: incidentData.incident.description.incident_number,
       requestor_name: currentPrincipal.name,
-      test: process.env.NOTIFICATION_TEST_MODE,
+      test: true,
       message: null,
       units: [],
       personnel: []
