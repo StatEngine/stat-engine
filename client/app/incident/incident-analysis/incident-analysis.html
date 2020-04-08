@@ -12,9 +12,14 @@
     <div class="br-pagetitle">
       <div class="d-flex justify-content-between flex-wrap">
         <h2 class="my-0 mr-3">Incident {{ vm.incident.description.incident_number }}</h2>
-        <button class="print-button btn btn-primary" ng-click="vm.print()">
-          Print
-        </button>
+        <div>
+          <button class="print-button btn btn-primary " ng-click="vm.print()">
+            Print
+          </button>
+          <button class="print-button btn btn-primary" ng-click="vm.notify()">
+            Notify Exposure
+          </button>
+        </div>
       </div>
     </div>
 
