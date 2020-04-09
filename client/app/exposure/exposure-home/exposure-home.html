@@ -1,0 +1,78 @@
+<div class="header-white">
+    <div class="br-pagetitle">
+        <h2 class="mb-3">Exposure</h2>
+    </div>
+</div>
+
+<div class="br-pagebody">
+    <section ng-if="vm.accessCode || vm.errror">
+        <div class="card">
+            <div class="card-body">
+                <div class="">
+                    <h5 class="heavyheader">NFORS Exposure Incident Access Code:</h5>
+                    <h1 ng-if="vm.accessCode">{{vm.accessCode}}</h1>
+                    <div class="help-block" ng-show="vm.errors">
+                        <ul>
+                          <li ng-repeat="error in vm.errors">
+                            <p class="text-danger">{{ error.message }}</p>
+                          </li>
+                        </ul>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="">
+                    <h5 class="heavyheader">NFORS Exposure Tracking Has Gone Mobile!</h5>
+                    <p>The new National Fire Operations Reporting System (NFORS) exposure tracking module is now available as an app from the Google Play store and the Apple App store. With the
+                        mobile app, any fire fighter, paramedic or officer can access and use the exposure tracker which serves as a personal database providing a detailed history of work and
+                        exposures in a private, encrypted and secure online environment.</p>
+
+                    <b>Benefits of the mobile Exposure Tracker:</b>
+                    <ul class="exposure-list">
+                        <li>Documents both physical and behavioral health exposures throughout your career</li>
+                        <li>Document exposures on-the-go from anywhere</li>
+                        <li>Your data stays with you even into retirement</li>
+                        <li>Track all of your incidents throughout your career with live NFORS CAD integrations in your department</li>
+                        <li>Be part of National Firefighter Cancer studies by opting-in to share your exposure data with researchers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="">
+                    <h5 class="heavyheader">How to Get Started:</h5>
+                    <p>Download the app and complete your NFORS individual profile. This profile will be yours alone. The data you enter will be
+                        encrypted and secure. The department will not have access to your data. If your
+                        department participates in NFORS CAD, the department will receive periodic aggregate
+                        reports about overall exposure trends — not individual reports.
+                        Upon the completion of your profile, you will be assigned a unique NFORS ID Code Number
+                        that will remain your NFORS ID for life. You will keep your NFORS account and all your data
+                        even if you leave the department or retire</p>
+                    <div class="exposure-download-container">
+                        <div class="flex-center-center flex-column">
+                            <img src="/assets/images/android-qr.svg" alt="Download NFORS app for android QR" loading="lazy" />
+                            <a href="https://play.google.com/store/apps/details?id=com.nforsmobile">
+                                <img src="/assets/images/download-android.png" alt="Download NFORS app for android" width="150" loading="lazy" />
+                            </a>
+                        </div>
+                        <div class="flex-center-center flex-column">
+                            <img src="/assets/images/ios-qr.svg" alt="Download NFORS app for android QR" loading="lazy" />
+                            <a href="https://apps.apple.com/ca/app/nfors-career-diary/id1457260349">
+                                <img src="/assets/images/download-ios.svg" alt="Download NFORS app for android" width="150" loading="lazy" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

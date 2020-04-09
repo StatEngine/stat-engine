@@ -62,6 +62,7 @@ import user from './user';
 import reporting from './reporting';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
+import exposure from './exposure';
 import report from './report';
 import incident from './incident';
 import erf from './effective-response-force';
@@ -160,6 +161,7 @@ angular.module('statEngineApp', [
   shift,
   departmentAdmin,
   twitter,
+  exposure,
   'ui.bootstrap',
   footer,
   main,

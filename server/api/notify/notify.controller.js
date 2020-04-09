@@ -1,13 +1,8 @@
 import axios from 'axios';
 
 export async function notify(req, res) {
-  try {
-    const { data } = await axios.post(process.env.NFORS_API_URL + 'auth/local', {
-      email: process.env.NFORS_AUTHENTICATION_USERNAME,
-      password: process.env.NFORS_AUTHENTICATION_PASSWORD
-    });
-    
-    const token = data.token;
+  try {    
+    const token = req.NFORS_TOKEN;
 
     const response = await axios({
       method: 'POST',
