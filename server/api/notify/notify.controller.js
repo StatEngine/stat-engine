@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { InternalServerError } from '../../util/error';
+
 export async function notify(req, res) {
   try {
     const { data } = await axios.post(process.env.NFORS_API_URL + 'auth/local', {
@@ -19,9 +21,9 @@ export async function notify(req, res) {
     if (response.status === 200) {
       return res.send(200);
     } else {
-      return res.send(response.status);
+      return res.send(response && response.status || 500);
     }
-  } catch({ response }) {
-    res.send(response.status);
+  } catch(err) {
+    throw new InternalServerError(err.message);
   }
 }
