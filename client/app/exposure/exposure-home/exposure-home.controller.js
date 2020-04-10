@@ -7,21 +7,19 @@ import { getErrors } from '../../../util/error';
 export default class ExposureHomeController {
   /*@ngInject*/
 
-  constructor($http) {
-    this.$http = $http;
+  constructor(Exposure) {
+    this.exposureService = Exposure;
     this.errors;
     this.accessCode;
     this.fetchIAC();
   }
 
   fetchIAC() {
-    this.$http.get('/api/exposure/iac')
-      .then(({ data }) => {
-        this.accessCode = data.iac;
-      })
-      .catch(err => {
-        console.error(err);
-        this.errors = getErrors(err, 'An error occurred fetching department IAC.');
-      });
+    this.exposureService.iac({}, response => {
+      this.accessCode = response.iac;
+    }, err => {
+      console.error(err);
+      this.errors = getErrors(err, 'An error occurred fetching department IAC.');
+    });
   }
 }

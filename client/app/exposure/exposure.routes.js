@@ -17,9 +17,6 @@ export default function routes($stateProvider) {
           controller: 'ExposureHomeController',
           controllerAs: 'vm'
         },
-      },
-      data: {
-        roles: ['user']
       }
     });
 }
