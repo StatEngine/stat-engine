@@ -3,8 +3,7 @@ import axios from 'axios';
 export async function exposure(req, res) {
   try {    
     const department = req.fireDepartment;
-    const id = department._id;
-
+    const id = department.fd_id;
     const response = await axios({
       method: 'GET',
       url: `${process.env.NFORS_API_URL}api/departments/${id}/iac`,
