@@ -3,7 +3,7 @@ import axios from 'axios';
 export async function exposure(req, res) {
   try {    
     const department = req.fireDepartment;
-    const id = department.fd_id;
+    const id = department.firecares_id;
     const response = await axios({
       method: 'GET',
       url: `${process.env.NFORS_API_URL}api/departments/${id}/iac`,
@@ -18,6 +18,6 @@ export async function exposure(req, res) {
       return res.send(response.status);
     }
   } catch({ response }) {
-    res.send(response.status);
+    res.send(response && response.status || 500);
   }
 }
