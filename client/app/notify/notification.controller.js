@@ -3,8 +3,10 @@
 'use strict';
 
 export default class NotificationController {
-  constructor($uibModalInstance, Notification, incidentData, currentPrincipal) {
+  constructor($uibModalInstance, Notification, incidentData, currentPrincipal, AmplitudeService, AnalyticEventNames) {
     this.$uibModalInstance = $uibModalInstance;
+    this.AmplitudeService = AmplitudeService;
+    this.AnalyticEventNames = AnalyticEventNames;
     this.notificationService = Notification;
     this.incidentData = incidentData;
     this.currentPrincipal = currentPrincipal;
@@ -48,6 +50,10 @@ export default class NotificationController {
 
   submitForm() {
     this.notificationService.notify({}, this.payload, response => {
+      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+        app: 'Notification',
+        action: 'sent',
+      });
       this.$uibModalInstance.close(response);
     }, error => {
       this.error = error.data;
