@@ -121,6 +121,7 @@
                           <span class="tx-muted">{{ incident.type }}</span>
                         </p>
                       </li>
+                      <li ng-if="!vm.interestingIncidents.EMS">Looks like you didn't run any EMS calls yesterday.</li>
                     </ul>
                   </div>
                   <div class="col-6">
@@ -133,6 +134,7 @@
                           <span class="tx-muted">{{ incident.type }}</span>
                         </p>
                       </li>
+                      <li ng-if="!vm.interestingIncidents.FIRE">Looks like you didn't run any fire calls yesterday.</li>
                     </ul>
                   </div>
                 </div>
@@ -207,6 +209,9 @@
                       ></bullet-chart>
                     </div>
                   </div>
+                </div>
+                <div class="table-row-empty" ng-if="vm.yesterdayStatSummary.summary.unit.length === 0">
+                  wow, light day - looks like you didn't run any calls yesterday.
                 </div>
               </div>
             </div>

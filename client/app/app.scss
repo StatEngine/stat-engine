@@ -386,6 +386,14 @@ table td {
   }
 }
 
+.table-row-empty {
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid $color-geyser;
+  border-right: 1px solid $color-geyser;
+  border-left: 1px solid $color-geyser;
+}
+
 .table {
   @include table(580px);
 }
