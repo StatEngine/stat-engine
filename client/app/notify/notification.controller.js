@@ -50,9 +50,11 @@ export default class NotificationController {
 
   submitForm() {
     this.notificationService.notify({}, this.payload, response => {
+      const incident_number = incidentData.incident.description.incident_number;
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'Notification',
         action: 'sent',
+        incident_number
       });
       this.$uibModalInstance.close(response);
     }, error => {
