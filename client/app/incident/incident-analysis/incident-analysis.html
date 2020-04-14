@@ -16,7 +16,7 @@
           <button class="print-button btn btn-primary " ng-click="vm.print()">
             Print
           </button>
-          <button class="print-button btn btn-primary" ng-click="vm.notify()">
+          <button class="print-button btn btn-primary" ng-click="vm.notify()" ng-if="vm.currentPrincipal.isDepartmentAdmin">
             Notify Exposure
           </button>
         </div>
