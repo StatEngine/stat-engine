@@ -225,7 +225,7 @@ export default class IncidentAnalysisController {
 
     const modalInstance = this.$uibModal.open({
       template: require('../../notify/notification.html'),
-      controller: ['$uibModalInstance', 'Notification', 'incidentData', 'currentPrincipal', NotificationController],
+      controller: ['$uibModalInstance', 'Notification', 'incidentData', 'currentPrincipal', 'AmplitudeService', 'AnalyticEventNames', NotificationController],
       controllerAs: 'vm',
       resolve: {
         incidentData() {
