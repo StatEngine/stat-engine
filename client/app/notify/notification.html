@@ -1,4 +1,4 @@
-<form class="form" name="form.notification" ng-submit="vm.submitForm()" novalidate>
+<form class="form notification-form" name="form.notification" ng-submit="vm.submitForm()" novalidate>
   <div class="modal-body">
     <div class="form-group">
       <div class="mb-4">
@@ -35,7 +35,8 @@
 
         <div class="form-group" ng-hide="vm.notifyAll">
           <label>Units</label>
-          <div 
+          <div
+            class="width-100"
             ng-dropdown-multiselect
             extra-settings="vm.selectOptions"
             options="vm.units" 
@@ -46,9 +47,10 @@
         <div class="form-group" ng-hide="vm.notifyAll">
           <label>Personnel</label>
           <div
+            class="width-100"
             ng-dropdown-multiselect
             disabled="vm.personnel.length === 0"
-            extra-settings="vm.selectOptions"
+            extra-settings="vm.selectOptionPersonel"
             options="vm.personnel" 
             selected-model="vm.payload.personnel">
           </div>

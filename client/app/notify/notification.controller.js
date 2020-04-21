@@ -17,11 +17,21 @@ export default class NotificationController {
       showCheckAll: false,
       showUncheckAll: false,
       checkBoxes: true,
-      template: '{{option}}',
       smartButtonTextConverter(skip, option) { return option; }
     };
 
-    this.units = incidentData.incident.description.units;
+    this.selectOptionPersonel = {
+      ...this.selectOptions,
+      template: '{{option}}',
+    };
+
+    this.units = incidentData.incident.apparatus.map(unit => {
+      const personnel = unit.personnel.map(personal => personal.employee_id).join(', ');
+      return {
+        id: unit.unit_id,
+        label: `${unit.unit_id} (${personnel})`
+      };
+    });
 
     this.personnel = incidentData
       .incident
