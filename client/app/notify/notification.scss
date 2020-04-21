@@ -3,4 +3,12 @@
     .multiselect-parent div {
         width: 100%;
     }
+
+    .dropdown-menu [role="menuitem"] > span {
+        display: none;
+    }
+
+    .dropdown-header {
+        padding: 0.5rem 0rem;
+    }
 }

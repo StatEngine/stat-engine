@@ -20,40 +20,11 @@
         </div>
 
         <div class="form-group flex-center flex-column">
-          <div class="mb-2 bold"></div>
-          <label class="mr-2">
-            <input type="radio" ng-model="vm.notifyAll" ng-value="true">
-              Notify all users
-          </label>
-      
-          <label>
-            <input type="radio" ng-model="vm.notifyAll" ng-value="false">
-              Notify a subset of personnel/units
-          </label>
-      
-        </div>
-
-        <div class="form-group" ng-hide="vm.notifyAll">
-          <label>Units</label>
-          <div
+          <div ng-dropdown-multiselect
             class="width-100"
-            ng-dropdown-multiselect
-            extra-settings="vm.selectOptions"
-            options="vm.units" 
-            selected-model="vm.payload.units">
-          </div>
-        </div>
-
-        <div class="form-group" ng-hide="vm.notifyAll">
-          <label>Personnel</label>
-          <div
-            class="width-100"
-            ng-dropdown-multiselect
-            disabled="vm.personnel.length === 0"
-            extra-settings="vm.selectOptionPersonel"
             options="vm.personnel" 
-            selected-model="vm.payload.personnel">
-          </div>
+            selected-model="vm.selected" 
+            extra-settings="vm.selectOptions"></div>
         </div>
 
         <div class="text-danger" ng-show="vm.error">

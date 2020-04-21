@@ -11,47 +11,40 @@ export default class NotificationController {
     this.incidentData = incidentData;
     this.currentPrincipal = currentPrincipal;
     this.errors = null;
-    this.notifyAll = true;
-
-    this.selectOptions = {
-      showCheckAll: false,
-      showUncheckAll: false,
-      checkBoxes: true,
-      smartButtonTextConverter(skip, option) { return option; }
-    };
-
-    this.selectOptionPersonel = {
-      ...this.selectOptions,
-      template: '{{option}}',
-    };
-
-    this.units = incidentData.incident.apparatus.map(unit => {
-      const personnel = unit.personnel.map(personal => personal.employee_id).join(', ');
-      return {
-        id: unit.unit_id,
-        label: `${unit.unit_id} (${personnel})`
-      };
-    });
+    this.selected = [];
+    const incident_number = incidentData.incident.description.incident_number;
+    this.messagePlaceholder = `Incident #${incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
 
     this.personnel = incidentData
       .incident
       .apparatus
-      .map(apparatus => apparatus.personnel)
-      .flat()
-      .filter(personnel => personnel)
-      .map(personnel => personnel.employee_id);
+      .map(unit => {
+        return unit.personnel.map(person => ({
+          id: person.employee_id,
+          label: person.employee_id,
+          unit: unit.unit_id
+        }))
+      })
+      .flat();
+    const units = [...new Set(this.personnel.map(personnel => personnel.unit))];
+
+    this.selectOptions = {
+      checkBoxes: true,
+      groupByTextProvider: group => `Unit ${group}`,
+      groupBy: 'unit',
+      template: '{{option.id}}',
+      selectByGroups: units,
+    };
 
     this.payload = {
       firecaresId: currentPrincipal.FireDepartment.firecares_id,
-      incident_number: incidentData.incident.description.incident_number,
+      incident_number,
       requestor_name: currentPrincipal.name,
       test: false,
       message: null,
       units: [],
       personnel: []
     };
-
-    this.messagePlaceholder = `Incident #${this.payload.incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
   }
 
   cancel() {
