@@ -29,6 +29,16 @@ $num: 0;
   display: flex;
   justify-content: center;
 }
+.flex-start-center {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+// Colors
+.txt-grey {
+  color: #cbd6df;
+}
 
 // Transition
 .transition { @include transition($transition-base); }

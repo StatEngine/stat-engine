@@ -1,0 +1,47 @@
+.moveup-home {
+
+  .dismiss-button {
+    margin: 0 10px 0 0;
+    font-size: 30px;
+  }
+  
+  .model-box i {
+    font-size: 30px;
+    transition: transform 200ms linear;
+  }
+  
+  .model-disabled {
+    opacity: 0.3;
+  
+    i {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .model-grid {
+    border-top: 1px solid #ccc;
+  }
+
+  .model-grid-header {
+    color: #a7aeb4;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+  }
+
+  .model-grid-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    border-bottom: 1px solid #ccc;
+
+    div {
+      padding: 20px;
+    }
+  }
+
+  .card-header {
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+    padding: 20px;
+  }
+
+}
