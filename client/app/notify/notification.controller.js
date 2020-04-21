@@ -59,7 +59,12 @@ export default class NotificationController {
   }
 
   submitForm() {
-    this.notificationService.notify({}, this.payload, response => {
+    const payload = {
+      ...this.payload,
+      units: this.payload.units.map(unit => unit.id)
+    };
+
+    this.notificationService.notify({}, payload, response => {
       const incident_number = incidentData.incident.description.incident_number;
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'Notification',
