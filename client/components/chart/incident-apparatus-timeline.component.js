@@ -11,6 +11,7 @@ let Timeline;
 export default class IncidentApparatusTimelineComponent {
   initialized = false;
   hammers = [];
+  sort = 'incident_number';
 
   constructor($window) {
     'ngInject';
@@ -56,11 +57,32 @@ export default class IncidentApparatusTimelineComponent {
     this.updateTimeline();
   }
 
+  sortByIncidentNumber(a, b) {
+    return 0;
+  }
+
+  sortByResponseTime(a, b) {
+    const first = a.apparatus_data.extended_data.event_duration;
+    const second = b.apparatus_data.extended_data.event_duration;
+
+    if (first < second) {
+      return 1;
+    } else if (first > second) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
   async updateTimeline() {
     const items = [];
     const groups = [];
+    const sortFn = this.sort === 'incident_number' ? this.sortByIncidentNumber : this.sortByResponseTime;
 
-    let orderedResponses = this.responses.slice(0, 99);
+    let orderedResponses = this.responses
+    .slice(0, 99)
+    .sort(sortFn);
+    
     let order = 1;
     _.forEach(orderedResponses, response => {
       let group = response.description.incident_number;
@@ -74,7 +96,7 @@ export default class IncidentApparatusTimelineComponent {
       const appTimelineData = getApparatusTimeData(u);
       const dispatched = _.get(response, 'apparatus_data.unit_status.dispatched.timestamp');
 
-      if(dispatched) {
+      if  (dispatched) {
         _.forEach(appTimelineData.durations, d => {
           const start = moment(d.start).diff(moment(dispatched));
           // normalize start times
