@@ -1,20 +1,19 @@
 'use strict';
 
 import { Router } from 'express';
-import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
-import * as controller from './notify.controller';
+import * as controller from './exposure.controller';
 
 const router = new Router();
 
-router.post(
-  '/',
-  bodyParser.json(),
+router.get(
+  '/iac',
   auth.isApiAuthenticated,
-  auth.hasRole('department_admin'),
+  auth.hasRole('user'),
   auth.authenticateNFORS,
-  controller.notify,
+  auth.hasFireDepartment,
+  controller.exposure,
 );
 
 module.exports = router;

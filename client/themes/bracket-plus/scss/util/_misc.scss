@@ -29,6 +29,11 @@ $num: 0;
   display: flex;
   justify-content: center;
 }
+.flex-center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 // Transition
 .transition { @include transition($transition-base); }

@@ -40,6 +40,7 @@ export default function(app) {
   app.use('/api/admin', require('./api/admin'));
   app.use('/api/third-party', require('./api/third-party'));
   app.use('/api/notify', require('./api/notify'));
+  app.use('/api/exposure', require('./api/exposure'));
 
   // Kibana
   app.use('/workspaces', require('./kibana/workspace'));
