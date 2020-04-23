@@ -45,5 +45,13 @@ export default function FireDepartmentResource($resource) {
         resource: 'subscription',
       },
     },
+    getStations: {
+      method: 'GET',
+      isArray: true,
+      params: {
+        id: '@id',
+        resource: 'stations',
+      },
+    }
   });
 }

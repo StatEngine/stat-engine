@@ -2,6 +2,8 @@
 
 import _ from 'lodash';
 import Promise from 'bluebird';
+import axios from 'axios';
+import ngeohash from 'ngeohash';
 
 import {
   FireDepartment,
@@ -203,4 +205,24 @@ export async function loadFireDepartment(req, res, next, id) {
 
   req.fireDepartment = fd;
   next();
+}
+
+export async function getStations(req, res) {
+  const firecares_id = req.fireDepartment.firecares_id;
+  console.log(firecares_id);
+  const { data } = await axios.get(`https://firecares.org/api/v1/firestations/?department=${firecares_id}`);
+  const { meta, objects } = data;
+  console.log(meta);
+
+  const stations = objects.map(station => {
+    const { geom } = station;
+    const { coordinates } = geom;
+    const geohash = ngeohash.encode(coordinates[0], coordinates[1]);
+    return {
+      ...station,
+      geohash
+    };
+  });
+
+  res.json(stations);
 }

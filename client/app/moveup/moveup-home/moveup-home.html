@@ -44,25 +44,55 @@
             <div>
               <label class="mb-0"><strong>Covered Time</strong></label>
             </div>
-            <div class="w-50 d-flex">
-              <input type="range" ng-model="vm.coverageTime" class="form-control-range w180 mr-3" />
-              <input type="text" ng-model="vm.coverageTime" class="form-control w40 p-2" />
-              Minutes
+            <div class="w-50 flex-start-center">
+              <input type="range" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
+              <input type="text" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
+              <div class="ml-2">Minutes</div>
             </div>
           </div>
 
           <div class="model-grid">
             <div class="model-grid-row model-grid-header">
-              <div>Unit<i class="fa fa-angle-down ml-2"></i></div>
-              <div>Unit Type<i class="fa fa-angle-down ml-2"></i></div>
-              <div>Operational Status<i class="fa fa-angle-down ml-2"></i></div>
-              <div>Current Location<i class="fa fa-angle-down ml-2"></i></div>
+              <div ng-class="{'txt-black': vm.sort.includes('unit_id') }" ng-click="vm.setSort('unit_id')">Unit<i class="fa fa-angle-down ml-2"></i></div>
+              <div ng-class="{'txt-black': vm.sort.includes('type') }" ng-click="vm.setSort('type')">Unit Type<i class="fa fa-angle-down ml-2"></i></div>
+              <div>Operational Status</div>
+              <div ng-class="{'txt-black': vm.sort.includes('station') }" ng-click="vm.setSort('station')">Current Location<i class="fa fa-angle-down ml-2"></i></div>
+            </div>
+
+            <div class="model-grid-row" ng-repeat="unit in vm.payload.unit_status | orderBy: vm.sort ">
+              <div>{{unit.unit_id}}</div>
+              <div>{{unit.type}}</div>
+              <div class="flex-start-center">
+                <label class="switch m-0">
+                  <input type="checkbox" ng-model="unit.status">
+                  <span class="slider round red"></span>
+                </label>
+                <span class="ml-2">
+                  <span ng-hide="unit.status">Available</span>
+                  <span ng-show="unit.status" class="txt-red">Unavailable</span>
+                </span>
+              </div>
+              <div>
+                <select class="w180" ng-model="unit.station">
+                  <option ng-repeat="station in vm.stations | orderBy: 'station_number'" value="{{station.station_number}}" >Station {{station.station_number}}</option>
+                </select>
+              </div>
             </div>
 
           </div>
           
           <div class="d-flex justify-content-between p-4">
-            <div>Pagination Goes Here</div> 
+            <div>
+              <table-controls
+                ng-if="vm.pagination"
+                pagination="vm.pagination"
+                on-pagination-change="vm.handlePaginationChange({ pagination })"
+                position="bottom"
+                show-sort="false"
+                max-pages="100"
+              ></table-controls>
+
+            </div> 
             <button class="btn btn-primary">Run model</button>
           </div>
         </div>
@@ -72,14 +102,30 @@
     <section class="mt-3">
       <div class="card">
         <div class="card-header">
-          <div ng-class="{ 'model-disabled': vm.outputDisabled }" class="d-flex model-box flex-start-center">
-            <i class="fa fa-angle-down"></i>
-            <h4 class="mb-0 ml-2 mr-2">Model Output</h4>
+          <div ng-class="{ 'model-disabled': vm.outputDisabled }" class="d-flex model-box flex-space-between-center w-100">
+            <div class="flex-center-center">
+              <i class="fa fa-angle-down"></i>
+              <h4 class="mb-0 ml-2 mr-2">Model Output</h4>
+            </div>
+
+            <div class="optimize-switcher-container" ng-hide="vm.outputDisabled">
+              Strategy:
+              <div class="optimize-switcher">
+                <button ng-click="vm.setStrategy('current')" ng-class="{ 'active': vm.strategy === 'current' }">Current</button>
+                <button ng-click="vm.setStrategy('optimized')" ng-class="{ 'active': vm.strategy === 'optimized' }">Optimized</button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-0"> <!-- ng-if="vm.outputDisabled" -->
+          <div id="unoptimized-map">
+            
+          </div>
+          <div class="model-ouput-message flex-center-center flex-column p-4">
+            <div>Currently <span class="bold">74.7%</span> units are under {{ vm.payload.covered_time }} minutes travel time. </div>
+            <a>View the optimized strategy.</a>
+          </div>
         </div>
       </div>
     </section>

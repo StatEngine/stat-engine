@@ -16,7 +16,17 @@ export default function routes($stateProvider) {
           template: require('./moveup-home/moveup-home.html'),
           controller: 'MoveupHomeController',
           controllerAs: 'vm'
+        }
+      },
+      resolve: {
+        units(Unit) {
+          return Unit.query().$promise;
         },
-      }
+        stations(Principal, FireDepartment) {
+          return Principal
+            .identity(true)
+            .then(currentPrincipal => FireDepartment.getStations({ id: currentPrincipal.fire_department__id }).$promise);
+        }
+      },
     });
 }

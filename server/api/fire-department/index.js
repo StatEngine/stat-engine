@@ -80,6 +80,14 @@ router.post(
   imageUploadMiddleware,
 );
 
+router.get(
+  '/:id/stations',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getStations,
+);
+
 router.param('id', controller.loadFireDepartment);
 
 module.exports = router;
