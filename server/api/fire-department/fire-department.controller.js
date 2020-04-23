@@ -209,15 +209,15 @@ export async function loadFireDepartment(req, res, next, id) {
 
 export async function getStations(req, res) {
   const firecares_id = req.fireDepartment.firecares_id;
-  console.log(firecares_id);
   const { data } = await axios.get(`https://firecares.org/api/v1/firestations/?department=${firecares_id}`);
   const { meta, objects } = data;
-  console.log(meta);
+  console.log(meta); // todo: fetch paginated results
 
   const stations = objects.map(station => {
     const { geom } = station;
     const { coordinates } = geom;
-    const geohash = ngeohash.encode(coordinates[0], coordinates[1]);
+    const [lat, long] = coordinates;
+    const geohash = ngeohash.encode(lat, long);
     return {
       ...station,
       geohash
