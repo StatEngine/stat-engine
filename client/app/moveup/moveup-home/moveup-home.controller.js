@@ -29,6 +29,10 @@ export default class MoveupHomeController {
         type: unit.unit_type,
         station: unit.station,
         status: false,
+      })),
+      station_status: stations.map(station => ({
+        station_id: station.station_number,
+        location: station.geohash
       }))
     }
   }
@@ -41,6 +45,23 @@ export default class MoveupHomeController {
       pitch: 60,
       // center
     });
+  }
+
+  run() {
+    console.log(this.payload);
+    const payload = {
+      ...this.payload,
+      unit_status: this.payload.unit_status.map(unit_status => {
+        const station_number = parseInt(unit_status.station); 
+        const station = this.stations.find(station => station.station_number === station_number);
+        return {
+          unit_id: unit_status.unit_id,
+          status: unit_status.status ? 'UNAVAILABLE' : 'AVAILABLE',
+          current_location: station && station.geohash || null
+        }
+      })
+    };
+    console.log(payload);
   }
 
   handlePaginationChange(pagination) {

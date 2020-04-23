@@ -74,7 +74,7 @@
               </div>
               <div>
                 <select class="w180" ng-model="unit.station">
-                  <option ng-repeat="station in vm.stations | orderBy: 'station_number'" value="{{station.station_number}}" >Station {{station.station_number}}</option>
+                  <option ng-repeat="station in vm.stations | orderBy: 'station_number'" value="{{station.station_number}}">Station {{station.station_number}}</option>
                 </select>
               </div>
             </div>
@@ -93,7 +93,7 @@
               ></table-controls>
 
             </div> 
-            <button class="btn btn-primary">Run model</button>
+            <button class="btn btn-primary" ng-click="vm.run()">Run model</button>
           </div>
         </div>
       </div>
