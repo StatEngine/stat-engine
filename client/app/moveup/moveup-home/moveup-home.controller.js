@@ -2,9 +2,8 @@
 
 'use strict';
 
-import MapBoxGL from 'mapbox-gl';
 import _ from 'lodash';
-
+import MapBoxGL from 'mapbox-gl';
 import geojsonExtent from '@mapbox/geojson-extent';
 
 const LOCALSTORAGE_DISMISS_KEY = 'move-up-info';
@@ -13,18 +12,27 @@ export default class MoveupHomeController {
   /*@ngInject*/
 
   constructor(units, mapboxConfig, stations) {
+    const stationIds = stations.map(station => station.station_number);
     this.stations = stations;
+    this.units = units.filter(unit => {
+      try {
+        const station = parseInt(unit.station);
+        return stationIds.includes(station);
+      } catch (err) {
+        return false;
+      }
+    });
+
     this.sort = 'unit_id';
     this.ascending = true;
     this.strategy = 'current';
-    this.units = units;
     this.mapboxConfig = mapboxConfig;
     this.outputDisabled = true;
     this.dismissed = !!localStorage.getItem(LOCALSTORAGE_DISMISS_KEY)
 
     this.payload = {
       covered_time: 4,
-      unit_status: units.map(unit => ({
+      unit_status: this.units.map(unit => ({
         unit_id: unit.id,
         type: unit.unit_type,
         station: unit.station,
@@ -38,12 +46,55 @@ export default class MoveupHomeController {
   }
 
   $onInit() {
+    const features = this.stations.map(({ geom, name }) => {
+      const { coordinates } = geom;
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates
+        },
+        properties: {
+          title: name,
+          icon: 'marker'
+        }
+      };
+    })
+
+    const geojson = {
+      type: 'FeatureCollection',
+      features
+    };
+
+    const bounds = geojsonExtent(geojson);
+    const center = this.stations[0].geom.coordinates;
+
     const map = new MapBoxGL.Map({
       container: 'unoptimized-map',
       style: 'mapbox://styles/mapbox/light-v9',
       zoom: 12,
-      pitch: 60,
-      // center
+      pitch: 0,
+      center
+    });
+
+    map.on('load', () => {
+      map.addLayer({
+        id: 'stations',
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: geojson
+        },
+        layout: {
+          'icon-image': '{icon}-15',
+          'text-field': '{title}',
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, 0.6],
+          'text-anchor': 'top'
+        }
+      });
+
+      map.fitBounds(bounds);
     });
   }
 
