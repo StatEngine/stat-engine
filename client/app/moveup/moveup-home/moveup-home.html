@@ -59,9 +59,9 @@
               <div ng-class="{'txt-black': vm.sort.includes('station') }" ng-click="vm.setSort('station')">Current Location<i class="fa fa-angle-down ml-2"></i></div>
             </div>
 
-            <div class="model-grid-row" ng-repeat="unit in vm.payload.unit_status | orderBy: vm.sort ">
-              <div>{{unit.unit_id}}</div>
-              <div>{{unit.type}}</div>
+            <div class="model-grid-row" ng-repeat="unit in vm.payload.unit_status | orderBy: vm.sort | limitTo : vm.pagination.pageSize : vm.paginationBegin">
+              <div class="flex-start-center">{{unit.unit_id}}</div>
+              <div class="flex-start-center">{{unit.type}}</div>
               <div class="flex-start-center">
                 <label class="switch m-0">
                   <input type="checkbox" ng-model="unit.status">
@@ -86,7 +86,6 @@
               <table-controls
                 ng-if="vm.pagination"
                 pagination="vm.pagination"
-                on-pagination-change="vm.handlePaginationChange({ pagination })"
                 position="bottom"
                 show-sort="false"
                 max-pages="100"
@@ -120,7 +119,6 @@
 
         <div class="card-body p-0"> <!-- ng-if="vm.outputDisabled" -->
           <div id="unoptimized-map">
-            
           </div>
           <div class="model-ouput-message flex-center-center flex-column p-4">
             <div>Currently <span class="bold">74.7%</span> units are under {{ vm.payload.covered_time }} minutes travel time. </div>
