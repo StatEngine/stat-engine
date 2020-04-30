@@ -78,7 +78,6 @@
                 </select>
               </div>
             </div>
-
           </div>
           
           <div class="d-flex justify-content-between p-4">
@@ -90,7 +89,6 @@
                 show-sort="false"
                 max-pages="100"
               ></table-controls>
-
             </div> 
             <button class="btn btn-primary" ng-click="vm.run()">Run model</button>
           </div>
@@ -117,7 +115,7 @@
           </div>
         </div>
 
-        <div class="card-body p-0"> <!-- ng-if="vm.outputDisabled" -->
+        <div class="card-body p-0" ng-hide="vm.outputDisabled">
           <div id="unoptimized-map">
           </div>
           <div class="model-ouput-message flex-center-center flex-column p-4">

@@ -8,13 +8,14 @@ import geojsonExtent from '@mapbox/geojson-extent';
 import Buffer from '@turf/buffer';
 import { point } from '@turf/helpers';
 import union from '@turf/union';
+import axios from 'axios';
 
 const LOCALSTORAGE_DISMISS_KEY = 'move-up-info';
 
 export default class MoveupHomeController {
   /*@ngInject*/
 
-  constructor(units, mapboxConfig, stations) {
+  constructor(units, mapboxConfig, stations, incidents) {
     this.sort = 'unit_id';
     this.ascending = true;
     this.strategy = 'current';
@@ -57,7 +58,8 @@ export default class MoveupHomeController {
       station_status: stations.map(station => ({
         station_id: station.station_number,
         location: station.geohash
-      }))
+      })),
+      incident_distribution: incidents.map(incident => incident.address.geohash)
     }
 
     this.pagination = {
@@ -170,10 +172,10 @@ export default class MoveupHomeController {
   }
 
   $onChanges(changes) {
-    console.log(changes)
+    console.log(changes);
   }
 
-  run() {
+  async run() {
     console.log(this.payload);
     const payload = {
       ...this.payload,
@@ -187,8 +189,22 @@ export default class MoveupHomeController {
         }
       })
     };
-    console.log(payload);
     this.modelHasChangedSinceRun = false;
+    this.optimized = await this.optimize(payload);
+    this.outputDisabled = false;
+  }
+
+  async optimize(payload) {
+    const url = 'https://p1l0yizmy0.execute-api.us-east-1.amazonaws.com/dev/move-up-model';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    return response.json();
   }
 
   setSort(sort) {

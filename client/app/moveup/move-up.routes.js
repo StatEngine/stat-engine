@@ -26,6 +26,15 @@ export default function routes($stateProvider) {
           return Principal
             .identity(true)
             .then(currentPrincipal => FireDepartment.getStations({ id: currentPrincipal.fire_department__id }).$promise);
+        },
+        incidents(Incident) {
+          return Incident
+            .get({
+              count: 1000,
+              from: 0,
+            })
+            .$promise
+            .then(data => data.items.map(item => item._source));
         }
       },
     });
