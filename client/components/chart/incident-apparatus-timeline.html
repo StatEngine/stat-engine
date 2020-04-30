@@ -1,5 +1,17 @@
 <div style="flex: 1; display: flex; flex-direction: column;">
   <div class="text-warning mb-3" style="font-size: 0.75rem">This visualization is limited to the first 100 incidents</div>
+  <div class="mb-2">
+    Sort by: 
+    <label class="ml-2">
+      <input type="radio" ng-model="vm.sort" ng-change="vm.updateTimeline()" value="incident_number">
+        Incident Number
+    </label>
+
+    <label class="ml-2">
+      <input type="radio" ng-model="vm.sort" ng-change="vm.updateTimeline()" value="response_time">
+        Total Response Time
+    </label>
+  </div>
   <div style="flex: 1;" id="apparatus-timeline-container">
     <div style="max-height: 100%;" id="apparatus-timeline"></div>
   </div>

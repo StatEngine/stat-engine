@@ -1,0 +1,19 @@
+.exposure-download-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.exposure-list {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+@media (max-width: 500px) {
+  .exposure-download-container {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 10px;
+  }
+}

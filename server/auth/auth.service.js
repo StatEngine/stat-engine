@@ -7,6 +7,7 @@ import jwksRsa from 'jwks-rsa';
 import { FireDepartment, User } from '../sqldb';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../util/error';
 import { Log } from '../util/log';
+import axios from 'axios';
 
 /*
  * Serialize user into session
@@ -146,6 +147,21 @@ export function belongsToFireDepartment(req, res, next) {
     throw new ForbiddenError(`User is not assigned to Fire Department with id: ${req.params.firecaresId}`);
   }
   return next();
+}
+
+export async function authenticateNFORS(req, res, next) {
+  try {
+    const { data } = await axios.post(process.env.NFORS_API_URL + 'auth/local', {
+      email: process.env.NFORS_AUTHENTICATION_USERNAME,
+      password: process.env.NFORS_AUTHENTICATION_PASSWORD
+    });
+
+    req.NFORS_TOKEN = data.token;
+  } catch(err) {
+    throw new ForbiddenError('Error authenticated NFORS');
+  } finally {
+    next();
+  }
 }
 
 export const checkOauthJwt = jwt({
