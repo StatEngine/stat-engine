@@ -20,11 +20,7 @@
         </div>
 
         <div class="form-group flex-center flex-column">
-          <div ng-dropdown-multiselect
-            class="width-100"
-            options="vm.personnel" 
-            selected-model="vm.selected" 
-            extra-settings="vm.selectOptions"></div>
+          <tree-select selected="vm.selected" options="vm.personnel"/>
         </div>
 
         <div class="text-danger" ng-show="vm.error">

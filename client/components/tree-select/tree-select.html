@@ -1,0 +1,12 @@
+<div class="tree-select-container">
+  <div class="tree-parent" ng-repeat="option in vm.options">
+    <div class="parent-option">
+      <input type="checkbox" value="{{option.id}}" name="parent"/>
+      <span class="tx-bold">{{ option.label }}</span>
+    </div>
+    <div class="tree-children" ng-repeat="child in option.children">
+      <input type="checkbox" value="{{child.id}}" name="children"/>
+      {{ child.label }}
+    </div>
+  </div>
+</div>

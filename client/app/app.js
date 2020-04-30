@@ -114,6 +114,7 @@ import reportingUnitList from '../components/reporting-unit-list/reporting-unit-
 import toggleSwitch from '../components/toggle-switch/toggle-switch.component';
 import unsupportedBrowser from '../components/unsupported-browser/unsupported-browser.service';
 import chip from '../components/chip/chip.component';
+import treeSelect from '../components/tree-select/tree-select.component';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -184,6 +185,7 @@ angular.module('statEngineApp', [
   unsupportedBrowser,
   chip,
   erf,
+  treeSelect
 ])
   .config(routeConfig)
   .config(buildConfig => {

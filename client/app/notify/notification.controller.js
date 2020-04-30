@@ -19,13 +19,19 @@ export default class NotificationController {
       .incident
       .apparatus
       .map(unit => {
-        return unit.personnel.map(person => ({
-          id: person.employee_id,
-          label: person.employee_id,
-          unit: unit.unit_id
-        }))
+        return {
+          id: unit.unit_id,
+          label: `Unit ${unit.unit_id}`,
+          type: 'unit',
+          children: unit.personnel.map(person => ({
+            id: person.employee_id,
+            label: person.employee_id,
+            type: 'personnel'
+          }))
+        };
       })
       .flat();
+      
     const units = [...new Set(this.personnel.map(personnel => personnel.unit))];
 
     this.selectOptions = {

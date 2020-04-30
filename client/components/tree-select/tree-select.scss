@@ -1,0 +1,18 @@
+
+.tree-select-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-row-gap: 20px;
+}
+
+.tree-parent {
+
+}
+
+.parent-option {
+}
+
+.tree-children {
+  margin-left: 10px;
+}
