@@ -99,6 +99,8 @@ import logoAvatar from '../components/logo/logo-avatar.component';
 import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
 import bulletChart from '../components/bullet-chart/bullet-chart.component';
 
+import moveUpMap from '../components/move-up-map/move-up-map.component';
+
 import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
 
@@ -162,6 +164,7 @@ angular.module('statEngineApp', [
   departmentAdmin,
   twitter,
   moveup,
+  moveUpMap,
   'ui.bootstrap',
   footer,
   main,
