@@ -1,4 +1,12 @@
+.notification-modal .modal-dialog {
+  max-width: 800px;
+}
+
 .notification-form {
+    input[type="number"]::placeholder {
+      padding-left: 10px;
+    }
+
     .multiselect-parent, 
     .multiselect-parent div {
         width: 100%;
