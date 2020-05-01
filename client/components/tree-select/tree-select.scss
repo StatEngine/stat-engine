@@ -40,3 +40,11 @@
     margin-bottom: 5px;
   }
 }
+
+@media (max-width: 800px) {
+  .tree-select-container { grid-template-columns: 1fr 1fr 1fr 1fr; }
+}
+
+@media (max-width: 450px) {
+  .tree-select-container { grid-template-columns: 1fr 1fr; }
+}
