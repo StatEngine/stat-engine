@@ -1,8 +1,8 @@
 <form class="form notification-form" name="form.notification" ng-submit="vm.submitForm()" novalidate>
   <div class="modal-body">
     <div class="form-group">
-      <div class="mb-4">
-        <div class="form-group">
+      <div>
+        <div class="form-group mb-2">
           <h3>Notify Exposure</h3>
         </div>
 
@@ -20,7 +20,13 @@
         </div>
 
         <div class="form-group flex-center flex-column">
-          <tree-select selected="vm.selected" options="vm.personnel"/>
+          <label>Select who you want to notify:</label>
+          <tree-select selected="vm.selected" options="vm.units" />
+          <label class="mt-3">Add additional personnel:</label>
+          <div class="flex-center">
+            <input class="w-75 mr-2" ng-model="vm.additionalPersonnel" type="number" placeholder="Personel ID"/>
+            <button class="btn btn-primary w-25" ng-click="vm.addPersonel($event)">Add</button>
+          </div>
         </div>
 
         <div class="text-danger" ng-show="vm.error">

@@ -10,37 +10,37 @@ export default class NotificationController {
     this.notificationService = Notification;
     this.incidentData = incidentData;
     this.currentPrincipal = currentPrincipal;
-    this.errors = null;
-    this.selected = [];
+    this.additionalPersonnel = null;
+    this.selected = null;
     const incident_number = incidentData.incident.description.incident_number;
     this.messagePlaceholder = `Incident #${incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
 
-    this.personnel = incidentData
+    this.units = incidentData
       .incident
       .apparatus
-      .map(unit => {
-        return {
-          id: unit.unit_id,
-          label: `Unit ${unit.unit_id}`,
-          type: 'unit',
-          children: unit.personnel.map(person => ({
-            id: person.employee_id,
-            label: person.employee_id,
-            type: 'personnel'
-          }))
-        };
-      })
-      .flat();
-      
-    const units = [...new Set(this.personnel.map(personnel => personnel.unit))];
+      .map(unit => ({
+        id: unit.unit_id,
+        label: `Unit ${unit.unit_id}`,
+        type: 'unit',
+        children: unit.personnel.map(person => ({
+          id: person.employee_id,
+          label: person.employee_id,
+          type: 'personnel'
+        }))
+      }))
+      .flat()
+      .sort((a,b) => {
+        if (a.children.length < b.children.length) {
+          return 1;
+        }
 
-    this.selectOptions = {
-      checkBoxes: true,
-      groupByTextProvider: group => `Unit ${group}`,
-      groupBy: 'unit',
-      template: '{{option.id}}',
-      selectByGroups: units,
-    };
+        if (a.children.length > b.children.length) {
+          return -1;
+        }
+
+        return 0;
+      })
+      .filter(unit => unit.children.length > 0)
 
     this.payload = {
       firecaresId: currentPrincipal.FireDepartment.firecares_id,
@@ -57,10 +57,43 @@ export default class NotificationController {
     this.$uibModalInstance.dismiss('cancel');
   }
 
+  addPersonel(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const personel = this.additionalPersonnel;
+    const units = this.units.filter(unit => unit.type !== 'custom');
+    const custom = this.units.find(unit => unit.type === 'custom');
+    const customChildren = custom && custom.children || [];
+
+    if (!personel) {
+      return;
+    }
+
+    this.units = [
+      ...units,
+      {
+        id: 0,
+        label: `Additonal`,
+        type: 'custom',
+        children: [
+          ...customChildren,
+          {
+            id: personel,
+            label: personel,
+            type: 'personnel'
+          }
+        ]
+      }
+    ];
+
+    this.additionalPersonnel = null;
+  }
+
   submitForm() {
+    const personel = Object.values(this.selected).map(obj => Object.keys(obj)).flat()
     const payload = {
       ...this.payload,
-      units: this.payload.units.map(unit => unit.id)
+      personel
     };
 
     this.notificationService.notify({}, payload, response => {

@@ -1,12 +1,12 @@
 <div class="tree-select-container">
-  <div class="tree-parent" ng-repeat="option in vm.options">
+  <div class="tree-parent" ng-repeat="parent in vm.options">
     <div class="parent-option">
-      <input type="checkbox" value="{{option.id}}" name="parent"/>
-      <span class="tx-bold">{{ option.label }}</span>
+      <input type="checkbox" value="{{parent.id}}" name="{{parent.id}}" ng-model="vm[parent.id]" ng-checked="vm.shouldBeChecked(parent)" ng-change="vm.onCheckParent(parent)" ng-if="parent.type !== 'custom'"/>
+      <label for="{{parent.id}}" class="tx-bold mb-0">{{ parent.label }}</label>
     </div>
-    <div class="tree-children" ng-repeat="child in option.children">
-      <input type="checkbox" value="{{child.id}}" name="children"/>
-      {{ child.label }}
+    <div class="tree-children" ng-repeat="child in parent.children">
+      <input type="checkbox" value="{{child.id}}" name="{{child.id}}" ng-model="vm.selected[parent.id][child.id]"/>
+      <label class="mb-0" for="{{child.id}}">{{ child.label }}</label>
     </div>
   </div>
 </div>
