@@ -32,7 +32,6 @@ import sparkline from 'jquery-sparkline/jquery.sparkline.js';
 import 'angular-filter-count-to/dist/angular-filter-count-to.min.js';
 import 'angular-moment';
 import 'hammerjs';
-import 'angularjs-dropdown-multiselect';
 import MapBoxGL from 'mapbox-gl';
 
 import '../polyfills';
@@ -115,6 +114,7 @@ import toggleSwitch from '../components/toggle-switch/toggle-switch.component';
 import unsupportedBrowser from '../components/unsupported-browser/unsupported-browser.service';
 import chip from '../components/chip/chip.component';
 import treeSelect from '../components/tree-select/tree-select.component';
+import autoComplete from '../components/auto-complete/auto-complete.component';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -128,7 +128,6 @@ angular.module('statEngineApp', [
   'ngCountTo',
   'angularMoment',
   'angularSpectrumColorpicker',
-  'angularjs-dropdown-multiselect',
   _Auth,
   // se modules
   trusted,
@@ -185,7 +184,8 @@ angular.module('statEngineApp', [
   unsupportedBrowser,
   chip,
   erf,
-  treeSelect
+  treeSelect,
+  autoComplete
 ])
   .config(routeConfig)
   .config(buildConfig => {

@@ -3,6 +3,10 @@
 }
 
 .notification-form {
+    .addition-personnel  {
+      height: 35px;
+    }
+
     input[type="number"]::placeholder {
       padding-left: 10px;
     }

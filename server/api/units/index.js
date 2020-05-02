@@ -25,6 +25,14 @@ router.get(
 );
 
 router.get(
+  '/search',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  metricsController.search
+);
+
+router.get(
   '/:id/metrics',
   auth.isApiAuthenticated,
   auth.hasRole('user'),
@@ -39,7 +47,6 @@ router.get(
   auth.hasFireDepartment,
   metricsController.getMetricsTotal,
 );
-
 
 module.exports = router;
 

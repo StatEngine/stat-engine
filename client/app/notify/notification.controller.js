@@ -2,6 +2,8 @@
 
 'use strict';
 
+import { add } from "winston";
+
 export default class NotificationController {
   constructor($uibModalInstance, Notification, incidentData, currentPrincipal, AmplitudeService, AnalyticEventNames) {
     this.$uibModalInstance = $uibModalInstance;
@@ -14,6 +16,21 @@ export default class NotificationController {
     this.selected = null;
     const incident_number = incidentData.incident.description.incident_number;
     this.messagePlaceholder = `Incident #${incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
+
+    this.autoCompleteOptions = {
+      minimumChars: 4,
+      customClasses: "pl-2 addition-personnel",
+      type: "number",
+      placeholder: "Personel ID",
+      data: (searchText) => {
+        return fetch(`/api/units/search?query=${searchText}`)
+        .then(response => response.json())
+        .then(data => data);
+      },
+      onSelect: selected => {
+        this.addPersonel(selected);
+      }
+    };
 
     this.units = incidentData
       .incident
@@ -29,7 +46,7 @@ export default class NotificationController {
         }))
       }))
       .flat()
-      .sort((a,b) => {
+      .sort((a, b) => {
         if (a.children.length < b.children.length) {
           return 1;
         }
@@ -57,10 +74,7 @@ export default class NotificationController {
     this.$uibModalInstance.dismiss('cancel');
   }
 
-  addPersonel(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const personel = this.additionalPersonnel;
+  addPersonel(personel) {
     const units = this.units.filter(unit => unit.type !== 'custom');
     const custom = this.units.find(unit => unit.type === 'custom');
     const customChildren = custom && custom.children || [];
