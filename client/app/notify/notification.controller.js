@@ -2,8 +2,6 @@
 
 'use strict';
 
-import { add } from "winston";
-
 export default class NotificationController {
   constructor($uibModalInstance, Notification, incidentData, currentPrincipal, AmplitudeService, AnalyticEventNames) {
     this.$uibModalInstance = $uibModalInstance;
