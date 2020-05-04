@@ -16,6 +16,9 @@ export default class MoveupHomeController {
     this.mapboxConfig = mapboxConfig;
     this.dirty = false;
     this.dismissed = !!localStorage.getItem(LOCALSTORAGE_DISMISS_KEY)
+    this.filters  = {
+      Engine: true
+    };
 
     const stationIds = stations.map(station => station.station_number);
     this.stations = stations;
@@ -40,14 +43,10 @@ export default class MoveupHomeController {
         }
       });
 
+    this.types = [...new Set(this.units.map(unit => unit.unit_type))];
+
     this.payload = {
       covered_time: 4,
-      unit_status: this.units.map(unit => ({
-        unit_id: unit.id,
-        type: unit.unit_type,
-        station: unit.station,
-        status: false,
-      })),
       station_status: stations.map(station => ({
         station_id: station.station_number,
         location: station.geohash
@@ -55,11 +54,28 @@ export default class MoveupHomeController {
       incident_distribution: incidents.map(incident => incident.address.geohash)
     };
 
+    this.setUnits();
+  }
+
+  setUnits() {
+    const activeFilters = Object.keys(this.filters).filter(key => this.filters[key]);
+    const units = this.units.filter(unit => activeFilters.includes(unit.unit_type));
+
+    this.payload = {
+      ...this.payload,
+      unit_status: units.map(unit => ({
+        unit_id: unit.id,
+        type: unit.unit_type,
+        station: unit.station,
+        status: false,
+      })),
+    };
+
     this.pagination = {
       page: 1,
       pageSize: 25,
       pageSizes: [10, 25, 50, 100],
-      totalItems: this.units.length,
+      totalItems: units.length,
     };
   }
 
@@ -101,51 +117,17 @@ export default class MoveupHomeController {
   }
 
   async optimize(payload) {
-    // const url = 'https://p1l0yizmy0.execute-api.us-east-1.amazonaws.com/dev/move-up-model';
-    // const response = await fetch(url, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(payload)
-    // });
-
-    // return response.json();
-    return {
-      "current": {
-        "metrics": {
-          "percentage_under_4_minute_travel": 74.7
-        }
+    const url = 'https://p1l0yizmy0.execute-api.us-east-1.amazonaws.com/dev/move-up-model';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
-      "move_up": {
-        "strategy": "maximize fraction of incidents within 4 minute travel time",
-        "metrics": {
-          "percentage_under_4_minute_travel": 86.4
-        },
-        "moves": [
-          {
-            "unit_id": "E14",
-            "station": 16
-          },
-          {
-            "unit_id": "E8",
-            "station": 17
-          },
-          {
-            "unit_id": "E25",
-            "station": 23
-          },
-          {
-            "unit_id": "E19",
-            "station": 20
-          },
-          {
-            "unit_id": "E6",
-            "station": 5
-          }
-        ]
-      }
-    };
+      body: JSON.stringify(payload)
+    });
+
+    return response.json();
   }
 
   get paginationBegin() {

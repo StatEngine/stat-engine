@@ -51,6 +51,13 @@
             </div>
           </div>
 
+          <div class="flex-start-center flex-wrap pl-4 pr-4 pb-4">
+            <div class="flex-center-center mr-3" ng-repeat="type in vm.types">
+              <input name="{{type}}" type="checkbox" value="{{type}}" ng-model="vm.filters[type]" ng-change="vm.setUnits()" ng-checked="vm.filters[type]" />
+              <label class="m-0 ml-2" for="{{type}}">{{type}}</label>
+            </div>
+          </div>
+
           <div class="model-grid">
             <div class="model-grid-row model-grid-header">
               <div ng-class="{'txt-black': vm.sort.includes('unit_id') }" ng-click="vm.setSort('unit_id')">Unit<i
@@ -83,6 +90,8 @@
                 </select>
               </div>
             </div>
+
+            <div class="model-grid-row-no-results" ng-if="vm.payload.unit_status.length === 0">No units, try adjusting filters.</div>
           </div>
 
           <div class="d-flex justify-content-between p-4">
@@ -90,7 +99,7 @@
               <table-controls ng-if="vm.pagination" pagination="vm.pagination" position="bottom" show-sort="false"
                 max-pages="100"></table-controls>
             </div>
-            <button class="btn btn-primary" ng-click="vm.run()">Run model</button>
+            <button class="btn btn-primary" ng-click="vm.run()" ng-disabled="vm.payload.unit_status.length === 0">Run model</button>
           </div>
         </div>
       </div>
@@ -130,8 +139,7 @@
           <div ng-if="vm.strategy === 'optimized'">
             <move-up-map stations="vm.stations" units="vm.units" color="#851bc7"/>
             <div class="model-ouput-message flex-center-center flex-column p-4">
-              <div>With the optimized strategy, <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel }}%</span> units
-                would be under 4 minutes travel time. Thats an increase of:</div>
+              <div>With the optimized strategy, An estimated <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel }}%</span> of potential incidents would be within a {{ vm.payload.covered_time }} minute travel time. Thats an increase of:</div>
               <div class="model-pill tx-semibold" ng-class="{ red: vm.modelImprovement < 0 }">
                 <i ng-if="vm.modelImprovement >= 0" class="fa fa-arrow-up"></i>
                 <i ng-if="vm.modelImprovement < 0" class="fa fa-arrow-down"></i>
