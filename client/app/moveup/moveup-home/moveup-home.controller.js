@@ -119,7 +119,14 @@ export default class MoveupHomeController {
         })
       };
   
-      this.optimized = await this.optimize(payload);
+      const response = await this.optimize(payload);
+      if (response.status === 200) {
+        this.optimized = await response.json();
+      } else {
+        this.optimized = null;
+        this.error = await response.json();
+      }
+
     } catch(err) {
       console.error(err);
       this.error = err;
@@ -136,7 +143,7 @@ export default class MoveupHomeController {
       body: JSON.stringify(payload)
     });
 
-    return response.json();
+    return response;
   }
 
   get paginationBegin() {
