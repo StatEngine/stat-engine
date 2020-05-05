@@ -21,7 +21,7 @@ export default class NotificationController {
       type: "number",
       placeholder: "Personel ID",
       data: (searchText) => {
-        return fetch(`/api/units/search?query=${searchText}`)
+        return fetch(`/api/personnel/?query=${searchText}`)
         .then(response => response.json())
         .then(data => data);
       },
