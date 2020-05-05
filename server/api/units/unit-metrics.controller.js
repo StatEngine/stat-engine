@@ -284,7 +284,7 @@ export async function search(req, res) {
     return res.json([]);
   }
 
-  const index = req.fireDepartment.es_indices.all;
+  const index = req.fireDepartment.es_indices['fire-incident'];
   const searchBody = bodybuilder()
     .size(0)
     .aggregation('terms', 'description.resources.personnel.dispatched', { size: 10000 })
