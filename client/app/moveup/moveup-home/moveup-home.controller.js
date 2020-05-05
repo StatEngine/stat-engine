@@ -9,6 +9,8 @@ export default class MoveupHomeController {
 
   constructor($scope, units, mapboxConfig, stations, incidents) {
     this.$scope = $scope;
+    this.error = null;
+    this.loading = false;
     this.sort = 'unit_id';
     this.optimized = null;
     this.ascending = true;
@@ -60,6 +62,7 @@ export default class MoveupHomeController {
   setUnits() {
     const activeFilters = Object.keys(this.filters).filter(key => this.filters[key]);
     const units = this.units.filter(unit => activeFilters.includes(unit.unit_type));
+    this.filteredUnits = units;
 
     this.payload = {
       ...this.payload,
@@ -98,32 +101,38 @@ export default class MoveupHomeController {
   }
 
   async run() {
-    this.dirty = false;
-    const payload = {
-      ...this.payload,
-      unit_status: this.payload.unit_status.map(unit_status => {
-        const station_number = parseInt(unit_status.station);
-        const station = this.stations.find(station => station.station_number === station_number);
-        return {
-          unit_id: unit_status.unit_id,
-          status: unit_status.status ? 'UNAVAILABLE' : 'AVAILABLE',
-          current_location: station && station.geohash || null
-        }
-      })
-    };
-
-    this.optimized = await this.optimize(payload);
-    this.$scope.$apply();
+    try {
+      this.dirty = false;
+      this.loading = true;
+      this.error = null;
+      this.setStrategy('current');
+      const payload = {
+        ...this.payload,
+        unit_status: this.payload.unit_status.map(unit_status => {
+          const station_number = parseInt(unit_status.station);
+          const station = this.stations.find(station => station.station_number === station_number);
+          return {
+            unit_id: unit_status.unit_id,
+            status: unit_status.status ? 'UNAVAILABLE' : 'AVAILABLE',
+            current_location: station && station.geohash || null
+          }
+        })
+      };
+  
+      this.optimized = await this.optimize(payload);
+    } catch(err) {
+      console.error(err);
+      this.error = err;
+    } finally {
+      this.loading = false;
+      this.$scope.$apply();
+    }
   }
 
   async optimize(payload) {
     const url = 'https://p1l0yizmy0.execute-api.us-east-1.amazonaws.com/dev/move-up-model';
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
       body: JSON.stringify(payload)
     });
 

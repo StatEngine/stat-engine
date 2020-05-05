@@ -94,12 +94,13 @@
             <div class="model-grid-row-no-results" ng-if="vm.payload.unit_status.length === 0">No units, try adjusting filters.</div>
           </div>
 
-          <div class="d-flex justify-content-between p-4">
+          <div class="d-flex justify-content-between align-items-center p-3">
             <div>
               <table-controls ng-if="vm.pagination" pagination="vm.pagination" position="bottom" show-sort="false"
                 max-pages="100"></table-controls>
             </div>
-            <button class="btn btn-primary" ng-click="vm.run()" ng-disabled="vm.payload.unit_status.length === 0">Run model</button>
+            <div class="txt-red" ng-if="vm.error">An error occured running the model.</div>
+            <button class="btn btn-primary" ng-click="vm.run()" ng-disabled="vm.loading || vm.payload.unit_status.length === 0">{{ vm.loading ? "Running" : "Run model"}}</button>
           </div>
         </div>
       </div>
@@ -130,16 +131,16 @@
             <move-up-map stations="vm.stations" units="vm.units" />
             <div class="model-ouput-message flex-center-center flex-column p-4">
               <div>Currently <span
-                  class="tx-semibold">{{ vm.optimized.current.metrics.percentage_under_4_minute_travel }}%</span> units are under
-                {{ vm.payload.covered_time }} minutes travel time. </div>
+                  class="tx-semibold">{{ vm.optimized.current.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> units are under
+                {{ vm.payload.covered_time }} minutes travel time.</div>
               <a ng-click="vm.setStrategy('optimized')">View the optimized strategy.</a>
             </div>
           </div>
 
           <div ng-if="vm.strategy === 'optimized'">
-            <move-up-map stations="vm.stations" units="vm.units" color="#851bc7"/>
+            <move-up-map stations="vm.stations" units="vm.filteredUnits" color="#851bc7"/>
             <div class="model-ouput-message flex-center-center flex-column p-4">
-              <div>With the optimized strategy, An estimated <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel }}%</span> of potential incidents would be within a {{ vm.payload.covered_time }} minute travel time. Thats an increase of:</div>
+              <div class="w-50">With the optimized strategy, an estimated <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> of potential incidents would be within a {{ vm.payload.covered_time }} minute travel time. Thats an increase of:</div>
               <div class="model-pill tx-semibold" ng-class="{ red: vm.modelImprovement < 0 }">
                 <i ng-if="vm.modelImprovement >= 0" class="fa fa-arrow-up"></i>
                 <i ng-if="vm.modelImprovement < 0" class="fa fa-arrow-down"></i>
