@@ -256,6 +256,10 @@ h2 {
   }
 }
 
+.width-100 {
+  width: 100%;
+}
+
 // Tables
 table {
   border-collapse: collapse;
@@ -2024,6 +2028,7 @@ input:checked + .slider:before {
 @import '../app/department-admin/department-admin';
 @import '../app/moveup/moveup-home/moveup-home';
 @import '../components/move-up-map/move-up-map.scss';
+@import '../app/notify/notification.scss';
 @import '../components/incident/incident';
 @import '../components/oauth-buttons/oauth-buttons';
 @import '../components/percent-change/percent-change';
@@ -2042,4 +2047,6 @@ input:checked + .slider:before {
 @import '../components/view-mode/view-mode';
 @import '../components/chip/chip';
 @import '../components/dashboard-card/dashboard-card';
+@import '../components/tree-select/tree-select.scss';
+@import '../components/auto-complete/auto-complete.scss';
 // endinject //

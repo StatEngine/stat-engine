@@ -234,7 +234,8 @@ export default class IncidentAnalysisController {
         currentPrincipal() {
           return currentPrincipal;
         }
-      }
+      },
+      windowClass: 'notification-modal'
     });
 
     modalInstance.result.then(notification => {

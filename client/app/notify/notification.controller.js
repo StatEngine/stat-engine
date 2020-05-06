@@ -10,46 +10,105 @@ export default class NotificationController {
     this.notificationService = Notification;
     this.incidentData = incidentData;
     this.currentPrincipal = currentPrincipal;
-    this.errors = null;
-    this.notifyAll = true;
+    this.additionalPersonnel = null;
+    this.selected = null;
+    const incident_number = incidentData.incident.description.incident_number;
+    this.messagePlaceholder = `Incident #${incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
 
-    this.selectOptions = {
-      showCheckAll: false,
-      showUncheckAll: false,
-      checkBoxes: true,
-      template: '{{option}}',
-      smartButtonTextConverter(skip, option) { return option; }
+    this.autoCompleteOptions = {
+      minimumChars: 4,
+      customClasses: "pl-2 addition-personnel",
+      type: "number",
+      placeholder: "Personel ID",
+      data: (searchText) => {
+        return fetch(`/api/personnel/?query=${searchText}`)
+        .then(response => response.json())
+        .then(data => data);
+      },
+      onSelect: selected => {
+        this.addPersonel(selected);
+      }
     };
 
-    this.units = incidentData.incident.description.units;
-
-    this.personnel = incidentData
+    this.units = incidentData
       .incident
       .apparatus
-      .map(apparatus => apparatus.personnel)
+      .map(unit => ({
+        id: unit.unit_id,
+        label: `Unit ${unit.unit_id}`,
+        type: 'unit',
+        children: unit.personnel.map(person => ({
+          id: person.employee_id,
+          label: person.employee_id,
+          type: 'personnel'
+        }))
+      }))
       .flat()
-      .filter(personnel => personnel)
-      .map(personnel => personnel.employee_id);
+      .sort((a, b) => {
+        if (a.children.length < b.children.length) {
+          return 1;
+        }
+
+        if (a.children.length > b.children.length) {
+          return -1;
+        }
+
+        return 0;
+      })
+      .filter(unit => unit.children.length > 0)
 
     this.payload = {
       firecaresId: currentPrincipal.FireDepartment.firecares_id,
-      incident_number: incidentData.incident.description.incident_number,
+      incident_number,
       requestor_name: currentPrincipal.name,
       test: false,
       message: null,
       units: [],
       personnel: []
     };
-
-    this.messagePlaceholder = `Incident #${this.payload.incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
   }
 
   cancel() {
     this.$uibModalInstance.dismiss('cancel');
   }
 
+  addPersonel(personel) {
+    const units = this.units.filter(unit => unit.type !== 'custom');
+    const custom = this.units.find(unit => unit.type === 'custom');
+    const customChildren = custom && custom.children || [];
+
+    if (!personel) {
+      return;
+    }
+
+    this.units = [
+      ...units,
+      {
+        id: 0,
+        label: `Additonal`,
+        type: 'custom',
+        children: [
+          ...customChildren,
+          {
+            id: personel,
+            label: personel,
+            type: 'personnel'
+          }
+        ]
+      }
+    ];
+
+    this.additionalPersonnel = null;
+  }
+
   submitForm() {
-    this.notificationService.notify({}, this.payload, response => {
+    const personel = Object.values(this.selected).map(obj => Object.keys(obj)).flat()
+    const payload = {
+      ...this.payload,
+      personel
+    };
+
+    this.notificationService.notify({}, payload, response => {
       const incident_number = incidentData.incident.description.incident_number;
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'Notification',

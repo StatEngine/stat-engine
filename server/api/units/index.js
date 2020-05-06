@@ -40,7 +40,6 @@ router.get(
   metricsController.getMetricsTotal,
 );
 
-
 module.exports = router;
 
 export default router;
