@@ -24,6 +24,6 @@ export default function UnitResource($resource) {
         resource: 'metrics',
         resource2: 'total',
       },
-    },
+    }
   });
 }
