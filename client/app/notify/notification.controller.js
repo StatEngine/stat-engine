@@ -26,7 +26,13 @@ export default class NotificationController {
         .then(data => data);
       },
       onSelect: selected => {
-        this.addPersonel(selected);
+        const custom = this.units.find(unit => unit.type === 'custom');
+        const personnel = custom && custom.children.find(personnel => personnel.id === selected);
+        if (!personnel) {
+          this.addPersonnel(selected);
+        } else {
+          this.additionalPersonnel = null;
+        }
       }
     };
 
@@ -72,12 +78,12 @@ export default class NotificationController {
     this.$uibModalInstance.dismiss('cancel');
   }
 
-  addPersonel(personel) {
+  addPersonnel(personnel) {
     const units = this.units.filter(unit => unit.type !== 'custom');
     const custom = this.units.find(unit => unit.type === 'custom');
     const customChildren = custom && custom.children || [];
 
-    if (!personel) {
+    if (!personnel) {
       return;
     }
 
@@ -90,8 +96,8 @@ export default class NotificationController {
         children: [
           ...customChildren,
           {
-            id: personel,
-            label: personel,
+            id: personnel,
+            label: personnel,
             type: 'personnel'
           }
         ]
@@ -102,10 +108,10 @@ export default class NotificationController {
   }
 
   submitForm() {
-    const personel = Object.values(this.selected).map(obj => Object.keys(obj)).flat()
+    const personnel = Object.values(this.selected).map(obj => Object.keys(obj)).flat()
     const payload = {
       ...this.payload,
-      personel
+      personnel
     };
 
     this.notificationService.notify({}, payload, response => {

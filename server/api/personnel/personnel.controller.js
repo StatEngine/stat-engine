@@ -22,6 +22,9 @@ export async function search(req, res) {
     });
   
     const buckets = _.get(esRes, 'aggregations["agg_terms_description.resources.personnel.dispatched"].buckets');
-    const personel = buckets.map(bucket => bucket.key).filter(key => key.includes(query));
+    const personel = buckets
+      .map(bucket => bucket.key)
+      .filter(key => key.startsWith(query));
+      
     return res.json(personel);
   };
