@@ -20,12 +20,9 @@ export class AutoCompleteComponent {
     }
   }
 
-  async search() {
-    if (!this.value || !this.options.data) {
-      return;
-    }
-
-    this.results = await this.options.data(this.value);
+  async search(event) {
+    const value = parseInt(event.currentTarget.value);
+    this.results = await this.options.data(value);
   }
 
   onSelect(selected)  {

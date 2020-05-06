@@ -2,9 +2,9 @@
   <input 
     class="{{vm.options.customClasses}}" 
     ng-model="vm.value" 
-    ng-model-options='{ debounce: 200 }'
+    ng-model-options='{ debounce: 500 }'
     type="{{vm.options.type}}"
-    ng-change="vm.search()"
+    ng-keyup="vm.search($event)"
     placeholder="{{vm.options.placeholder}}" />
     <div class="auto-complete-results" ng-show="vm.results.length > 0">
       <div class="auto-complete-result" ng-repeat="result in vm.results" ng-click="vm.onSelect(result)">{{result}}</div>
