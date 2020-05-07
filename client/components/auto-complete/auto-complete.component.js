@@ -21,7 +21,7 @@ export class AutoCompleteComponent {
   }
 
   async search(event) {
-    const value = parseInt(event.currentTarget.value);
+    const value = event.currentTarget.value;
     this.results = await this.options.data(value);
   }
 
