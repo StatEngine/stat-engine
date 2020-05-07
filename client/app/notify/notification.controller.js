@@ -18,7 +18,6 @@ export default class NotificationController {
     this.autoCompleteOptions = {
       minimumChars: 4,
       customClasses: "pl-2 addition-personnel",
-      type: "number",
       placeholder: "Personel ID",
       data: (searchText) => {
         return fetch(`/api/personnel/?query=${searchText}`)
