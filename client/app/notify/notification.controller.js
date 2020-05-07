@@ -13,6 +13,7 @@ export default class NotificationController {
     this.error = null;
     this.additionalPersonnel = null;
     this.selected = null;
+    this.units = [];
     const incident_number = incidentData.incident.description.incident_number;
     this.messagePlaceholder = `Incident #${incident_number} has been identified as a potential exposure by your department. Please be sure to log any exposures`;
 
@@ -22,8 +23,8 @@ export default class NotificationController {
       placeholder: "Personel ID",
       data: (searchText) => {
         return fetch(`/api/personnel/?query=${searchText}`)
-        .then(response => response.json())
-        .then(data => data);
+          .then(response => response.json())
+          .then(data => data);
       },
       onSelect: selected => {
         const custom = this.units.find(unit => unit.type === 'custom');
@@ -36,32 +37,35 @@ export default class NotificationController {
       }
     };
 
-    this.units = incidentData
-      .incident
-      .apparatus
-      .map(unit => ({
-        id: unit.unit_id,
-        label: `Unit ${unit.unit_id}`,
-        type: 'unit',
-        children: unit.personnel.map(person => ({
-          id: person.employee_id,
-          label: person.employee_id,
-          type: 'personnel'
+    // Check if apparatuses exist
+    if (incidentData && incidentData.incident && incidentData.incident.apparatus) {
+      this.units = incidentData
+        .incident
+        .apparatus
+        .map(unit => ({
+          id: unit.unit_id,
+          label: `Unit ${unit.unit_id}`,
+          type: 'unit',
+          children: unit.personnel.map(person => ({
+            id: person.employee_id,
+            label: person.employee_id,
+            type: 'personnel'
+          }))
         }))
-      }))
-      .flat()
-      .sort((a, b) => {
-        if (a.children.length < b.children.length) {
-          return 1;
-        }
+        .flat()
+        .sort((a, b) => {
+          if (a.children.length < b.children.length) {
+            return 1;
+          }
 
-        if (a.children.length > b.children.length) {
-          return -1;
-        }
+          if (a.children.length > b.children.length) {
+            return -1;
+          }
 
-        return 0;
-      })
-      .filter(unit => unit.children.length > 0)
+          return 0;
+        })
+        .filter(unit => unit.children.length > 0)
+    }
 
     this.payload = {
       firecaresId: currentPrincipal.FireDepartment.firecares_id,
@@ -109,7 +113,10 @@ export default class NotificationController {
 
   submitForm() {
     this.error = null;
-    const personnel = Object.values(this.selected).map(obj => Object.keys(obj)).flat()
+    const personnel = Object.values(this.selected)
+      .map(unit => 
+        Object.keys(unit).filter(key => unit[key])
+      ).flat();
     const payload = {
       ...this.payload,
       personnel

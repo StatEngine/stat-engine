@@ -20,7 +20,8 @@
 
         <div class="form-group flex-center flex-column">
           <label>Select who you want to notify:</label>
-          <tree-select selected="vm.selected" options="vm.units" />
+          <tree-select selected="vm.selected" options="vm.units"/>
+          <b ng-if="vm.units.length === 0">No units found in incident. Please add personnel manually below.</b>
           <label class="mt-3">Add additional personnel:</label>
           <auto-complete options="vm.autoCompleteOptions" value="vm.additionalPersonnel"/>
         </div>
