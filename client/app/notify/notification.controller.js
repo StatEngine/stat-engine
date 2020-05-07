@@ -113,7 +113,6 @@ export default class NotificationController {
 
   submitForm() {
     this.error = null;
-    debugger;
     const personnel = Object.values(this.selected)
       .map(unit => 
         Object.keys(unit).filter(key => unit[key])
