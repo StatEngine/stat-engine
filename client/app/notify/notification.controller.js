@@ -114,7 +114,7 @@ export default class NotificationController {
     };
 
     this.notificationService.notify({}, payload, response => {
-      const incident_number = incidentData.incident.description.incident_number;
+      const incident_number = this.incidentData.incident.description.incident_number;
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'Notification',
         action: 'sent',
