@@ -10,6 +10,7 @@ export default class NotificationController {
     this.notificationService = Notification;
     this.incidentData = incidentData;
     this.currentPrincipal = currentPrincipal;
+    this.error = null;
     this.additionalPersonnel = null;
     this.selected = null;
     const incident_number = incidentData.incident.description.incident_number;
@@ -107,6 +108,7 @@ export default class NotificationController {
   }
 
   submitForm() {
+    this.error = null;
     const personnel = Object.values(this.selected).map(obj => Object.keys(obj)).flat()
     const payload = {
       ...this.payload,
@@ -114,7 +116,7 @@ export default class NotificationController {
     };
 
     this.notificationService.notify({}, payload, response => {
-      const incident_number = incidentData.incident.description.incident_number;
+      const incident_number = this.incidentData.incident.description.incident_number;
       this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
         app: 'Notification',
         action: 'sent',
@@ -122,7 +124,7 @@ export default class NotificationController {
       });
       this.$uibModalInstance.close(response);
     }, error => {
-      this.error = error.data;
+      this.error = `An error occured sending notification.`;
     });
   }
 }

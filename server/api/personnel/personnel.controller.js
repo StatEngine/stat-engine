@@ -24,7 +24,11 @@ export async function search(req, res) {
     const buckets = _.get(esRes, 'aggregations["agg_terms_description.resources.personnel.dispatched"].buckets');
     const personel = buckets
       .map(bucket => bucket.key)
-      .filter(key => key.startsWith(query));
+      .filter(key => {
+        const lowercaseKey = key.toLowerCase();
+        const lowercaseQuery = query.toLowerCase();
+        return lowercaseKey.startsWith(lowercaseQuery);
+      });
       
     return res.json(personel);
   };
