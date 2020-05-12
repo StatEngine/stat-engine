@@ -26,17 +26,26 @@ export async function getUnits(req, res) {
   let unitBuckets = _.get(esRes, 'aggregations.apparatus["agg_terms_apparatus.unit_id"].buckets');
 
   if(unitBuckets) {
-    return res.send(unitBuckets.map(({ key, doc_count, ...rest }) => {
-      const typeBucket = rest['agg_terms_apparatus.unit_type'].buckets;
-      const stationBucket = rest['agg_terms_apparatus.station'].buckets;
-      
-      return { 
-        id: key,
-        incidentCount: doc_count,
-        unit_type: typeBucket[0].key,
-        station: stationBucket[0].key
-      }
-    }));
+    const response = unitBuckets
+      .map(({ key, doc_count, ...rest }) => {
+        const typeBucket = rest['agg_terms_apparatus.unit_type'].buckets;
+        const stationBucket = rest['agg_terms_apparatus.station'].buckets;
+        
+        if (typeBucket && typeBucket.length && stationBucket && stationBucket.length) {
+          return { 
+            id: key,
+            incidentCount: doc_count,
+            unit_type: typeBucket[0].key,
+            station: stationBucket[0].key
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter(response => response);
+
+    return res.send(response);
   }
+
   return res.send([]);
 }
