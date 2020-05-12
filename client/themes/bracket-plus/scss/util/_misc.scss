@@ -24,7 +24,6 @@ $num: 0;
 
 // Flex
 .flex-1 { flex: 1; }
-.flex-column { flex-direction: column; }
 .flex-center {
   display: flex;
   justify-content: center;
@@ -34,6 +33,21 @@ $num: 0;
   justify-content: center;
   align-items: center;
 }
+.flex-start-center {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.flex-space-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Colors
+.txt-grey { color: #cbd6df; }
+.txt-red { color: red; }
+.txt-black { color : black; }
 
 // Transition
 .transition { @include transition($transition-base); }

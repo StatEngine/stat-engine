@@ -115,6 +115,7 @@ export async function getIncidents(req, res) {
       _source: [
         'description.incident_number',
         'address.address_line1',
+        'address.geohash',
         'description.event_opened',
         'description.event_closed',
         'description.type',

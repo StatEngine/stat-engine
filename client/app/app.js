@@ -61,6 +61,7 @@ import user from './user';
 import reporting from './reporting';
 import departmentAdmin from './department-admin';
 import twitter from './twitter';
+import moveup from './moveup';
 import exposure from './exposure';
 import report from './report';
 import incident from './incident';
@@ -97,6 +98,8 @@ import logoAvatar from '../components/logo/logo-avatar.component';
 
 import nfpaAnalysis from '../components/nfpa-analysis/nfpa-analysis.component';
 import bulletChart from '../components/bullet-chart/bullet-chart.component';
+
+import moveUpMap from '../components/move-up-map/move-up-map.component';
 
 import trusted from '../components/trusted/trusted.filter';
 import orderObjectBy from '../components/order-object-by/order-object-by.filter';
@@ -161,6 +164,8 @@ angular.module('statEngineApp', [
   shift,
   departmentAdmin,
   twitter,
+  moveup,
+  moveUpMap,
   exposure,
   'ui.bootstrap',
   footer,

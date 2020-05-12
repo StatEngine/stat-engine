@@ -1,0 +1,163 @@
+<div class="moveup-home">
+  <div class="br-pageheader">
+    <nav class="breadcrumb">
+      <a class="breadcrumb-item" href="index.html">Home</a>
+      <a class="breadcrumb-item" href="#">Applications</a>
+      <a class="breadcrumb-item" href="/move-up-model">Move Up Model</a>
+    </nav>
+  </div><!-- br-pageheader -->
+
+  <div class="br-pagetitle d-flex justify-content-between flex-wrap">
+    <h2 class="m-0">Move-up Model</h2>
+    <div>
+      This tool is used to explore possible optimization strategies for a “Move up”. The tool will evaluate each
+      unit’s operational status and current location to assess the impact on coverage area for a specified amount
+      of covered time.
+    </div>
+
+    <div class="alert alert-info alert-dismissible fade show p-3 mt-3" role="alert" ng-hide="vm.dismissed">
+      <strong>How to use this tool</strong>
+      <button type="button" ng-click="vm.dismiss()" class="close dismiss-button p-0" data-dismiss="alert"
+        aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p class="mt-1">To use this tool simply set desired covered time and verify that each unit’s status and current
+        location
+        is correct (the model inputs). Once you are happy with the values, click the “Run model” button to view
+        a map of your current coverage area. Use the “View optimized strategy” link to compare models.</p>
+    </div>
+  </div>
+
+  <div class="br-pagebody">
+    <section>
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex model-box flex-start-center">
+            <i class="fa fa-angle-down"></i>
+            <h4 class="mb-0 ml-2 mr-2">Model Input</h4>
+            <i class="fa fa-info-circle txt-grey">&nbsp;</i>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="form-group d-flex mt-2 pl-4 pt-2 flex-column">
+            <div>
+              <label class="mb-0"><strong>Covered Time</strong></label>
+            </div>
+            <div class="w-50 flex-start-center">
+              <input type="range" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
+              <input type="text" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
+              <div class="ml-2">Minutes</div>
+            </div>
+          </div>
+
+          <div class="flex-start-center flex-wrap pl-4 pr-4 pb-4">
+            <div class="flex-center-center mr-3" ng-repeat="type in vm.types">
+              <input name="{{type}}" type="checkbox" value="{{type}}" ng-model="vm.filters[type]" ng-change="vm.setUnits()" ng-checked="vm.filters[type]" />
+              <label class="m-0 ml-2" for="{{type}}">{{type}}</label>
+            </div>
+          </div>
+
+          <div class="model-grid">
+            <div class="model-grid-row model-grid-header">
+              <div ng-class="{'txt-black': vm.sort.includes('unit_id') }" ng-click="vm.setSort('unit_id')">Unit<i
+                  class="fa fa-angle-down ml-2"></i></div>
+              <div ng-class="{'txt-black': vm.sort.includes('type') }" ng-click="vm.setSort('type')">Unit Type<i
+                  class="fa fa-angle-down ml-2"></i></div>
+              <div>Operational Status</div>
+              <div ng-class="{'txt-black': vm.sort.includes('station') }" ng-click="vm.setSort('station')">Current
+                Location<i class="fa fa-angle-down ml-2"></i></div>
+            </div>
+
+            <div class="model-grid-row"
+              ng-repeat="unit in vm.payload.unit_status | orderBy: vm.sort | limitTo : vm.pagination.pageSize : vm.paginationBegin">
+              <div class="flex-start-center">{{unit.unit_id}}</div>
+              <div class="flex-start-center">{{unit.type}}</div>
+              <div class="flex-start-center">
+                <label class="switch m-0">
+                  <input type="checkbox" ng-model="unit.status" ng-change="vm.setDirty()">
+                  <span class="slider round red"></span>
+                </label>
+                <span class="ml-2">
+                  <span ng-hide="unit.status">Available</span>
+                  <span ng-show="unit.status" class="txt-red">Unavailable</span>
+                </span>
+              </div>
+              <div>
+                <select class="w180" ng-model="unit.station" ng-change="vm.setDirty()">
+                  <option ng-repeat="station in vm.stations | orderBy: 'station_number'"
+                    value="{{station.station_number}}">Station {{station.station_number}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="model-grid-row-no-results" ng-if="vm.payload.unit_status.length === 0">No units, try adjusting filters.</div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center p-3">
+            <div>
+              <table-controls ng-if="vm.pagination" pagination="vm.pagination" position="bottom" show-sort="false"
+                max-pages="100"></table-controls>
+            </div>
+            <div class="txt-red" ng-if="vm.error">An error occured running the model.</div>
+            <button class="btn btn-primary" ng-click="vm.run()" ng-disabled="vm.loading || vm.payload.unit_status.length === 0">{{ vm.loading ? "Running" : "Run model"}}</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-3">
+      <div class="card">
+        <div class="card-header">
+          <div ng-class="{ 'model-disabled': !vm.optimized }" class="d-flex model-box flex-space-between-center w-100">
+            <div class="flex-center-center">
+              <i class="fa fa-angle-down"></i>
+              <h4 class="mb-0 ml-2 mr-2">Model Output</h4>
+            </div>
+
+            <div class="optimize-switcher-container" ng-show="vm.optimized">
+              Strategy:
+              <div class="optimize-switcher">
+                <button ng-click="vm.setStrategy('current')"
+                  ng-class="{ 'active': vm.strategy === 'current' }">Current</button>
+                <button ng-click="vm.setStrategy('optimized')"
+                  ng-class="{ 'active': vm.strategy === 'optimized' }">Optimized</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0 pos-relative" ng-show="vm.optimized">
+          <div ng-if="vm.strategy === 'current'">
+            <move-up-map stations="vm.stations" units="vm.units" />
+            <div class="model-ouput-message flex-center-center flex-column p-4">
+              <div>Currently <span
+                  class="tx-semibold">{{ vm.optimized.current.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> units are under
+                {{ vm.payload.covered_time }} minutes travel time.</div>
+              <a ng-click="vm.setStrategy('optimized')">View the optimized strategy.</a>
+            </div>
+          </div>
+
+          <div ng-if="vm.strategy === 'optimized'">
+            <move-up-map stations="vm.stations" units="vm.filteredUnits" color="#851bc7"/>
+            <div class="model-ouput-message flex-center-center flex-column p-4">
+              <div class="w-50">With the optimized strategy, an estimated <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> of potential incidents would be within a {{ vm.payload.covered_time }} minute travel time. Thats an increase of:</div>
+              <div class="model-pill tx-semibold" ng-class="{ red: vm.modelImprovement < 0 }">
+                <i ng-if="vm.modelImprovement >= 0" class="fa fa-arrow-up"></i>
+                <i ng-if="vm.modelImprovement < 0" class="fa fa-arrow-down"></i>
+                {{ vm.modelImprovement }}
+              </div>
+              <div class="tx-semibold">Here are your recommended moves to realize this optimization:</div>
+              <div class="model-move-list">
+                <span ng-repeat="move in vm.optimized.move_up.moves">
+                  - {{ move.unit_id }} moves to Station {{ move.station }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="vm.dirty" class="model-change-warning">Run the model in order to view your changes on the map.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
