@@ -32,6 +32,7 @@ export default function routes($stateProvider) {
             .get({
               count: 1000,
               from: 0,
+              source: ['address.geohash']
             })
             .$promise
             .then(data => data.items.map(item => item._source));
