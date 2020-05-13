@@ -107,22 +107,24 @@ export async function getIncidents(req, res) {
   const sort = req.query.sort || 'description.event_closed,desc';
   const { fromDate, toDate } = req.query;
 
+  const source = [
+    'description.incident_number',
+    'address.address_line1',
+    'address.geohash',
+    'description.event_opened',
+    'description.event_closed',
+    'description.type',
+    'description.units',
+    'description.category',
+    'durations.total_event.seconds'
+  ];
+
   const params = {
     index: req.user.FireDepartment.get().es_indices['fire-incident'],
     from: req.query.from || 0,
     size: req.query.count || 10,
     body: {
-      _source: [
-        'description.incident_number',
-        'address.address_line1',
-        'address.geohash',
-        'description.event_opened',
-        'description.event_closed',
-        'description.type',
-        'description.units',
-        'description.category',
-        'durations.total_event.seconds'
-      ],
+      _source: req.query.source || source,
       sort: sort.split('+')
         .map((sortItem) => {
           const parts = sortItem.split(',');
