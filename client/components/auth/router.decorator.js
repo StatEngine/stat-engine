@@ -14,6 +14,7 @@ export default function routerDecorator(
   async function refreshSubscription() {
     if(currentPrincipal) {
       subscription = await FireDepartment.getSubscription({ id: currentPrincipal.fire_department__id }).$promise;
+      Principal.setSubscription(subscription);
     }
   }
 

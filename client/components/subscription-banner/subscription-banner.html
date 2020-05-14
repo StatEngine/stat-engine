@@ -1,0 +1,6 @@
+<div class="subscription-banner" ng-if="!vm.isSubscriptionActive && vm.isUserDepartmentAdmin && vm.daysRemaining">
+    <div>
+        <b>Your subscription has been cancelled.</b> There are <b>{{vm.daysRemaining}} days</b> remaining before service is suspended.
+    </div>
+    <a href="/subscriptionPortal" target="_blank" class="btn btn-outline btn-sm ml-4 tx-bold">Take Action</a>
+</div>
