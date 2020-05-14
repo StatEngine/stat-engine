@@ -68,11 +68,10 @@ export async function create(req, res) {
   try {
     const fd = await newFireDepartment.save();
     await createCustomer(fd);
+    return res.json(fd.dataValues);
   } catch (err) {
     throw new UnprocessableEntityError(err.message);
   }
-
-  res.status(204).send();
 }
 
 export async function edit(req, res) {
