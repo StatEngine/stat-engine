@@ -146,7 +146,7 @@ Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source
 
 ### Mandrill Templates
 
-The `email` folder is used for maildrill templates, during CI it deploys and uploads any changes.
+The `email` folder is used for Mandrill templates, during CI it deploys and uploads any changes.
 
 If you want to add a new template, create it in Mandril then create a file in the `email` folder with the filename as the slug then run the upload script, or deploy.
 
