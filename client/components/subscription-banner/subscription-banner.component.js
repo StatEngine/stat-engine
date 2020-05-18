@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 
 export class SubscriptionBannerComponent {
   constructor(Principal) {
-    this.Principal = Principal;
+    this.principal = Principal;
     this.principal
       .identity(true)
       .then(response => this.currentPrincipal = response);
