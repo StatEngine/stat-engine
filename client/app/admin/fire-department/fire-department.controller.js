@@ -16,6 +16,7 @@ export default class FireDepartmentController {
   constructor(FireDepartment, Modal, currentFireDepartment, $state, Upload) {
     this.FireDepartmentService = FireDepartment;
     this.ModalService = Modal;
+    this.file = null;
 
     this.fireDepartment = currentFireDepartment || {};
     this.$state = $state;
@@ -45,6 +46,12 @@ export default class FireDepartmentController {
       if(this.fireDepartment._id) {
         this.FireDepartmentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
           .then(() => {
+            if (this.file) {
+              return this.upload(this.file, this.fireDepartment._id);
+            }
+            return Promise.resolve();
+          })
+          .then(() => {
             this.$state.go('site.admin.home');
           })
           .catch(err => {
@@ -52,6 +59,12 @@ export default class FireDepartmentController {
           });
       } else {
         this.FireDepartmentService.create(this.fireDepartment).$promise
+          .then((department) => {
+            if (this.file) {
+              return this.upload(this.file, department._id);
+            }
+            return Promise.resolve();
+          })
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -62,8 +75,11 @@ export default class FireDepartmentController {
     }
   }
 
-  upload(file) {
-    const id = this.fireDepartment._id;
+  setFile(file) {
+    this.file = file;
+  }
+
+  upload(file, id) {
     this.Upload.upload({
       url: `/api/fire-departments/${id}/logo`,
       data: { file: file }
