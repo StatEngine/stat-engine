@@ -5,14 +5,14 @@ import moment from 'moment-timezone';
 
 export class SubscriptionBannerComponent {
   constructor(Principal) {
-    this.principle = Principal;
-    this.principle
+    this.Principal = Principal;
+    this.principal
       .identity(true)
       .then(response => this.currentPrincipal = response);
   }
 
   get isSubscriptionActive() {
-    const subscription = this.principle.getSubscription();
+    const subscription = this.principal.getSubscription();
     return subscription && subscription.status !== 'cancelled';
   }
 
@@ -21,7 +21,7 @@ export class SubscriptionBannerComponent {
   }
 
   get daysRemaining() {
-    const subscription = this.principle.getSubscription();
+    const subscription = this.principal.getSubscription();
     if (subscription) {
       const daysToRenewSubscription = 45;
       const canceledAt = moment(subscription.cancelled_at * 1000);
