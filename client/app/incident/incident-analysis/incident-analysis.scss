@@ -430,6 +430,7 @@
       &.response {
         grid-template-areas:
           'response-overview        response-overview'
+          'personnel                personnel'
           'events-timeline          events-timeline'
           'alarm-answering-duration alarm-processing-duration'
           'travel-distances         travel-durations'
@@ -438,6 +439,14 @@
 
         > :first-child::before {
           content: 'Response';
+        }
+
+        .personnel {
+          grid-area: personnel;
+
+          .card-body {
+            flex-wrap: wrap;
+          }
         }
 
         .response-overview {
