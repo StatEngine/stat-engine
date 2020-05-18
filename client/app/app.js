@@ -119,6 +119,7 @@ import unsupportedBrowser from '../components/unsupported-browser/unsupported-br
 import chip from '../components/chip/chip.component';
 import treeSelect from '../components/tree-select/tree-select.component';
 import autoComplete from '../components/auto-complete/auto-complete.component';
+import subscriptionBanner from '../components/subscription-banner/subscription-banner.component';
 
 angular.module('statEngineApp', [
   ngAria,
@@ -192,7 +193,8 @@ angular.module('statEngineApp', [
   chip,
   erf,
   treeSelect,
-  autoComplete
+  autoComplete,
+  subscriptionBanner
 ])
   .config(routeConfig)
   .config(buildConfig => {
