@@ -384,13 +384,17 @@
           <div class="card-header">
             <h6 class="card-title">Units & Personnel</h6>
           </div>
-          <div class="card-body d-flex">
-            <div ng-repeat="apparatus in vm.incidentData.incident.apparatus | orderBy:vm.sortByLength" class="mr-5">
-              <b><i class="fa fa-truck mg-r-4"></i> {{ apparatus.unit_id }}</b>
-              <div ng-repeat="personnel in apparatus.personnel" class=ml-2">
-                <i class="fa fa-user mg-r-4"></i> {{ personnel.employee_id }}
+          <div class="card-body">
+            <div ng-repeat="apparatus in vm.incidentData.incident.apparatus | orderBy:vm.sortByLength" class="mt-2 personnel-container">
+              <div class="unit-circle">
+                <i class="fa fa-truck"></i>
               </div>
-              <div ng-if="apparatus.personnel.length === 0">No Personnel</div>
+              <div>
+                <div><b>{{ apparatus.unit_id }}</b></div>
+                <span ng-repeat="personnel in apparatus.personnel" class="personnel-label">
+                  {{ personnel.employee_id }}{{$last ? '' : ($index==Users.length-2) ? ' and ' : ', '}}
+                </span>
+              </div>
             </div>
           </div>
         </div>
