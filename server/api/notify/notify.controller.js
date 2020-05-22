@@ -11,9 +11,11 @@ export async function notify(req, res) {
       url: process.env.NFORS_API_URL + 'api/notify',
       data: { ...req.body },
       headers: { 'Authorization': `Bearer ${token}` }
-    });
+    })
+    .then(() => console.info('Notification successful'))
+    .catch(() => console.info('Notification failed'));
 
-    return res.send(200);
+    return res.send(204);
   } catch(err) {
     throw new InternalServerError(err.message);
   }
