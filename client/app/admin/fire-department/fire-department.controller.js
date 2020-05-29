@@ -44,13 +44,7 @@ export default class FireDepartmentController {
 
     if(form.$valid) {
       if(this.fireDepartment._id) {
-        this.FireDepartmentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
-          .then(() => {
-            if (this.file) {
-              return this.upload(this.file, this.fireDepartment._id);
-            }
-            return Promise.resolve();
-          })
+        this.update()
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -58,13 +52,7 @@ export default class FireDepartmentController {
             this.errors = getErrors(err);
           });
       } else {
-        this.FireDepartmentService.create(this.fireDepartment).$promise
-          .then((department) => {
-            if (this.file) {
-              return this.upload(this.file, department._id);
-            }
-            return Promise.resolve();
-          })
+        this.create()
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -73,6 +61,27 @@ export default class FireDepartmentController {
           });
       }
     }
+  }
+
+  async update() {
+    if (this.file) {
+      await this.upload(this.file, this.fireDepartment._id);
+    }
+
+    return this.FireDepartmentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise;
+  }
+
+  async create() {
+    this.FireDepartmentService.create(this.fireDepartment).$promise
+      .then((department) => {
+        this.fireDepartment = department;
+
+        if (this.file) {
+          return this.update();
+        }
+
+        return Promise.resolve();
+      });
   }
 
   setFile(file) {
