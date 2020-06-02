@@ -6,7 +6,7 @@
     "@grpc/proto-loader": "^0.4.0",
     "@mapbox/geojson-extent": "^0.3.2",
     "@statengine/se-grpc-proto": "~0.0.2",
-    "@statengine/shiftly": "~0.0.70",
+    "@statengine/shiftly": "~0.0.72",
     "@turf/buffer": "^5.1.5",
     "@turf/collect": "^6.0.1",
     "@turf/union": "^6.0.3",
