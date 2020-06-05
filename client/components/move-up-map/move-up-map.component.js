@@ -5,9 +5,6 @@
 import angular from 'angular';
 import MapBoxGL from 'mapbox-gl';
 import geojsonExtent from '@mapbox/geojson-extent';
-import Buffer from '@turf/buffer';
-import { point } from '@turf/helpers';
-import union from '@turf/union';
 
 export class MoveUpMapComponent {
   constructor() {
@@ -17,6 +14,7 @@ export class MoveUpMapComponent {
   $onInit() {
     const mapColor = this.color || '#1bb4c7';
     const center = this.stations[0].geom.coordinates;
+    const isochrones = this.isochrones;
 
     const map = new MapBoxGL.Map({
       container: 'map',
@@ -30,8 +28,8 @@ export class MoveUpMapComponent {
       map.addSource('iso', {
         type: 'geojson',
         data: {
-          'type': 'FeatureCollection',
-          'features': []
+          'type': 'Feature',
+          'geometry': isochrones
         }
       });
      
@@ -88,29 +86,7 @@ export class MoveUpMapComponent {
 
       const controlGroup = document.querySelector('.mapboxgl-ctrl-top-right .mapboxgl-ctrl-group');
       controlGroup.appendChild(layerButton);
-
-      this.fetchIsocrone(this.units, map, this.travel);
     });
-  }
-
-  async fetchIsocrone(units, map, travelTime) {
-    const promises = units.map(unit => {
-      const [lat, long] = unit.geom.coordinates;
-      return fetch(`https://api.mapbox.com/isochrone/v1/mapbox/driving/${lat},${long}?contours_minutes=${travelTime}&polygons=true&access_token=pk.eyJ1IjoicHJvbWluZW50ZWRnZS1pcHNkaSIsImEiOiJja2FpZzg3OXYwMGk3MnhvY2Ric2k4MjdrIn0.zdkP7yOVF_HyWstRyt_QRg`).then(response => response.json());
-    });
-
-    const responses = await Promise.all(promises);
-    const features = responses
-      .map(response => response.features)
-      .flat()
-      .reduce((prev, current) => {
-        debugger;
-        return union(prev, current);
-      });
-
-    console.log(features);
-
-    // map.getSource('iso').setData(features);
   }
 }
 
@@ -123,7 +99,7 @@ export default angular.module('directives.moveUpMap', [])
       stations: '=',
       units: '=',
       color: '@',
-      travel: '='
+      isochrones: '='
     },
   })
   .name;
