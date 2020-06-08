@@ -4,7 +4,6 @@
 
 import angular from 'angular';
 import MapBoxGL from 'mapbox-gl';
-import geojsonExtent from '@mapbox/geojson-extent';
 
 export class MoveUpMapComponent {
   constructor() {
@@ -19,7 +18,7 @@ export class MoveUpMapComponent {
     const map = new MapBoxGL.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      zoom: 15,
+      zoom: 12,
       pitch: 0,
       center
     });

@@ -7,7 +7,8 @@ const LOCALSTORAGE_DISMISS_KEY = 'move-up-info';
 export default class MoveupHomeController {
   /*@ngInject*/
 
-  constructor($scope, units, mapboxConfig, stations, incidents) {
+  constructor($scope, units, mapboxConfig, stations, incidents, $http) {
+    this.$http = $http;
     this.$scope = $scope;
     this.error = null;
     this.loading = false;
@@ -21,6 +22,7 @@ export default class MoveupHomeController {
     this.filters  = {
       Engine: true
     };
+    this.inputMinimized = false;
 
     const stationIds = stations.map(station => station.station_number);
     this.stations = stations;
@@ -66,17 +68,21 @@ export default class MoveupHomeController {
 
     this.payload = {
       ...this.payload,
-      unit_status: units.map(unit => ({
-        unit_id: unit.id,
-        type: unit.unit_type,
-        station: unit.station,
-        status: false,
-      })),
+      unit_status: units.map(unit => {
+        const existing = this.payload.unit_status && this.payload.unit_status.find(item => item.unit_id === unit.id)
+
+        return {
+          unit_id: unit.id,
+          type: unit.unit_type,
+          station: unit.station,
+          status: existing && existing.status || false
+        };
+      }),
     };
 
     this.pagination = {
       page: 1,
-      pageSize: 25,
+      pageSize: this.pagination && this.pagination.pageSize || 25,
       pageSizes: [10, 25, 50, 100],
       totalItems: units.length,
     };
@@ -93,11 +99,21 @@ export default class MoveupHomeController {
   }
 
   dismiss() {
+    this.dismissed = true;
     localStorage.setItem(LOCALSTORAGE_DISMISS_KEY, true);
+  }
+
+  show() {
+    localStorage.removeItem(LOCALSTORAGE_DISMISS_KEY);
+    this.dismissed = false;
   }
 
   setDirty() {
     this.dirty = true;
+  }
+
+  toggleInput() {
+    this.inputMinimized = !this.inputMinimized;
   }
 
   async run() {
@@ -121,10 +137,11 @@ export default class MoveupHomeController {
   
       const response = await this.optimize(payload);
       if (response.status === 200) {
-        this.optimized = await response.json();
+        this.optimized = await response.data;
+        this.inputMinimized = true;
       } else {
         this.optimized = null;
-        this.error = await response.json();
+        this.error = await response.data;
       }
 
     } catch(err) {
@@ -138,12 +155,8 @@ export default class MoveupHomeController {
 
   async optimize(payload) {
     const url = 'https://p1l0yizmy0.execute-api.us-east-1.amazonaws.com/dev/move-up-model';
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
-
-    return response;
+    const data = JSON.stringify(payload);
+    return this.$http.post(url, data);
   }
 
   get paginationBegin() {

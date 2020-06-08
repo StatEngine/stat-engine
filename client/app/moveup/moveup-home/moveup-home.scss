@@ -85,6 +85,7 @@
   .optimize-switcher-container {
     display: flex;
     align-items: center;
+    color: #9da7af;
   }
 
   .optimize-switcher {
@@ -108,11 +109,21 @@
       &.active {
         color: #139eb4;
         border-color: #139eb4;
+        height: calc(100% + 2px);
+
+        &:first-child {
+          margin-left: -1px;
+        }
+
+        &:last-child {
+          margin-right: -1px;
+        }
       }
     }
   }
 
   .model-ouput-message {
+    text-align: center;
     font-size: 18px;
     a {
       color: #139eb4;
