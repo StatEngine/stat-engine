@@ -275,4 +275,8 @@ export default class IncidentAnalysisController {
       action: 'print',
     });
   };
+
+  sortByLength = apparatus => {
+    return apparatus.personnel.length;
+  }
 }

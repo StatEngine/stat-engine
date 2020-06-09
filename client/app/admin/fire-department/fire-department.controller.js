@@ -44,13 +44,7 @@ export default class FireDepartmentController {
 
     if(form.$valid) {
       if(this.fireDepartment._id) {
-        this.FireDepartmentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
-          .then(() => {
-            if (this.file) {
-              return this.upload(this.file, this.fireDepartment._id);
-            }
-            return Promise.resolve();
-          })
+        this.update(this.fireDepartment, this.file)
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -58,13 +52,7 @@ export default class FireDepartmentController {
             this.errors = getErrors(err);
           });
       } else {
-        this.FireDepartmentService.create(this.fireDepartment).$promise
-          .then((department) => {
-            if (this.file) {
-              return this.upload(this.file, department._id);
-            }
-            return Promise.resolve();
-          })
+        this.create(this.fireDepartment)
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -75,19 +63,47 @@ export default class FireDepartmentController {
     }
   }
 
+  async update(fireDepartment, file) {
+    let url = null;
+    if (file) {
+      try {
+        url = await this.upload(file, fireDepartment._id);
+      } catch (err) {
+        this.errors.error = err;
+      }
+    }
+
+    return this.FireDepartmentService.update({ id: fireDepartment._id }, {
+      ...fireDepartment,
+      logo_link: url
+    }).$promise;
+  }
+
+  async create(fireDepartment) {
+    this.FireDepartmentService.create(fireDepartment).$promise
+      .then((department) => {
+        if (this.file) {
+          return this.update(department, this.file);
+        }
+
+        return Promise.resolve();
+      });
+  }
+
   setFile(file) {
     this.file = file;
   }
 
   upload(file, id) {
-    this.Upload.upload({
-      url: `/api/fire-departments/${id}/logo`,
-      data: { file: file }
-    }).then((res) => {
-      const imgURL = res.data.uri;
-      this.fireDepartment.logo_link = imgURL;
-    }, () => {
-      this.errors.error = 'Error uploading logo.';
-    });    
+    return new Promise((resolve, reject) => {
+      this.Upload.upload({
+        url: `/api/fire-departments/${id}/logo`,
+        data: { file }
+      }).then((res) => {
+        return resolve(res.data.uri);
+      }, () => {
+        return reject('Error uploading logo')
+      }); 
+    });   
   }
 }
