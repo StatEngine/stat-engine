@@ -48,8 +48,8 @@
               </label>
             </div>
             <div class="w-50 flex-start-center">
-              <input type="range" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
-              <input type="text" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
+              <input type="range" min="1" max="7" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
+              <input type="text" ng-disabled="true" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
               <div class="ml-2">Minutes</div>
             </div>
           </div>
