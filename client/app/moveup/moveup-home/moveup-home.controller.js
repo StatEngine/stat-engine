@@ -63,14 +63,12 @@ export default class MoveupHomeController {
 
   setUnits() {
     const activeFilters = Object.keys(this.filters).filter(key => this.filters[key]);
-    const units = this.units.filter(unit => activeFilters.includes(unit.unit_type));
-    this.filteredUnits = units;
+    this.filteredUnits = this.units.filter(unit => activeFilters.includes(unit.unit_type));
 
     this.payload = {
       ...this.payload,
-      unit_status: units.map(unit => {
+      unit_status: this.filteredUnits.map(unit => {
         const existing = this.payload.unit_status && this.payload.unit_status.find(item => item.unit_id === unit.id)
-
         return {
           unit_id: unit.id,
           type: unit.unit_type,
@@ -84,7 +82,7 @@ export default class MoveupHomeController {
       page: 1,
       pageSize: this.pagination && this.pagination.pageSize || 25,
       pageSizes: [10, 25, 50, 100],
-      totalItems: units.length,
+      totalItems: this.filteredUnits.length,
     };
   }
 
