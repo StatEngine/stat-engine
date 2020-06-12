@@ -101,7 +101,7 @@
               <table-controls ng-if="vm.pagination" pagination="vm.pagination" position="bottom" show-sort="false"
                 max-pages="100"></table-controls>
             </div>
-            <div class="txt-red" ng-if="vm.error">An error occured running the model.</div>
+            <div class="txt-red" ng-if="vm.error">An error occurred running the model.</div>
             <button class="btn btn-primary" ng-click="vm.run()" ng-disabled="vm.loading || vm.payload.unit_status.length === 0">{{ vm.loading ? "Running" : "Run model"}}</button>
           </div>
         </div>
