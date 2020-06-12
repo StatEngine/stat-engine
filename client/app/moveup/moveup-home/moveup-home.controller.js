@@ -3,6 +3,7 @@
 'use strict';
 
 const LOCALSTORAGE_DISMISS_KEY = 'move-up-info';
+let tippy;
 
 export default class MoveupHomeController {
   /*@ngInject*/
@@ -59,6 +60,27 @@ export default class MoveupHomeController {
     };
 
     this.setUnits();
+  }
+
+  async $onInit() {
+    await this.loadModules();
+    tippy('.tippy', {
+      allowTitleHTML: true,
+      interactive: true,
+      delay: 150,
+      arrow: true,
+      arrowType: 'sharp',
+      theme: 'statengine',
+      duration: 250,
+      animation: 'shift-away',
+      maxWidth: '350px',
+      inertia: false,
+      touch: true,
+    });
+  }
+
+  async loadModules() {
+    tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
   }
 
   setUnits() {

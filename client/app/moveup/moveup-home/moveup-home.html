@@ -42,7 +42,10 @@
         <div class="card-body p-0" ng-hide="vm.inputMinimized">
           <div class="form-group d-flex mt-2 pl-4 pt-2 flex-column">
             <div>
-              <label class="mb-0"><strong>Covered Time</strong></label>
+              <label class="mb-0 d-flex align-items-center">
+                <strong>Covered Time</strong>
+                <a class="info-icon se-icon-info tippy ml-2" href="" data-tippy-html='#coverageTippy'>&nbsp;</a>
+              </label>
             </div>
             <div class="w-50 flex-start-center">
               <input type="range" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
@@ -161,5 +164,9 @@
         </div>
       </div>
     </section>
+  </div>
+
+  <div id="coverageTippy" style="display: none;">
+    Coverage time is the targeted response time the optimiziation will attempt to fulfill.
   </div>
 </div>
