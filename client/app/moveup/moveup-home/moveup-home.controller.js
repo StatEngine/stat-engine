@@ -8,7 +8,9 @@ let tippy;
 export default class MoveupHomeController {
   /*@ngInject*/
 
-  constructor($scope, units, mapboxConfig, stations, incidents, $http) {
+  constructor($scope, units, mapboxConfig, stations, incidents, $http, currentPrincipal, boundary) {
+    this.boundary = boundary;
+    this.FireDepartment = currentPrincipal.FireDepartment;
     this.$http = $http;
     this.$scope = $scope;
     this.error = null;

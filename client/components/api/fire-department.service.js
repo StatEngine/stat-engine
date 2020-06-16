@@ -52,6 +52,13 @@ export default function FireDepartmentResource($resource) {
         id: '@id',
         resource: 'stations',
       },
+    },
+    getJurisdictionalBoundary: {
+      method: 'GET',
+      params: {
+        id: '@id',
+        resource: 'jurisdictional-boundary',
+      },
     }
   });
 }

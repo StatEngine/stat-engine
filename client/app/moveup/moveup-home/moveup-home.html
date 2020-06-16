@@ -133,7 +133,7 @@
         </div>
         <div class="card-body p-0 pos-relative" ng-if="vm.optimized">
           <div ng-if="vm.strategy === 'current'">
-            <move-up-map stations="vm.stations" units="vm.payload.unit_status" isochrones="vm.optimized.current.unoptimized_iso"/>
+            <move-up-map stations="vm.stations" units="vm.payload.unit_status" isochrones="vm.optimized.current.unoptimized_iso" boundary="vm.boundary"/>
             <div class="model-ouput-message flex-center-center flex-column p-4">
               <div>Currently <span
                   class="tx-semibold">{{ vm.optimized.current.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> of potential incidents are under
@@ -143,7 +143,7 @@
           </div>
 
           <div ng-if="vm.strategy === 'optimized'">
-            <move-up-map stations="vm.stations" units="vm.optimized.move_up.moves" color="#851bc7" isochrones="vm.optimized.move_up.optimized_iso"/>
+            <move-up-map stations="vm.stations" units="vm.optimized.move_up.moves" color="#851bc7" isochrones="vm.optimized.move_up.optimized_iso" boundary="vm.boundary"/>
             <div class="model-ouput-message flex-center-center flex-column p-4">
               <div class="w-50">With the optimized strategy, an estimated <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> of potential incidents would be within a {{ vm.payload.covered_time }} minute travel time. Thats an increase of:</div>
               <div class="model-pill tx-semibold" ng-class="{ red: vm.modelImprovement < 0 }">

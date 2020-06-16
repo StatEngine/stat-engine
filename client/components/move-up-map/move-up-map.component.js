@@ -24,6 +24,15 @@ export class MoveUpMapComponent {
     });
 
     map.on('load', () => {
+
+      map.addSource('boundary', {
+        type: 'geojson',
+        data: {
+          'type': 'Feature',
+          'geometry': this.boundary.geom
+        }
+      });
+
       map.addSource('iso', {
         type: 'geojson',
         data: {
@@ -40,6 +49,17 @@ export class MoveUpMapComponent {
         'paint': {
           'fill-color': mapColor,
           'fill-opacity': 0.3
+        }
+      });
+
+      map.addLayer({
+        'id': 'boundaryStroke',
+        'type': 'line',
+        'source': 'boundary',
+        'layout': {},
+        'paint': {
+          'line-color': mapColor,
+          'line-width': 2
         }
       });
 
@@ -98,7 +118,8 @@ export default angular.module('directives.moveUpMap', [])
       stations: '=',
       units: '=',
       color: '@',
-      isochrones: '='
+      isochrones: '=',
+      boundary: '='
     },
   })
   .name;

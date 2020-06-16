@@ -224,3 +224,16 @@ export async function getStations(req, res) {
 
   res.json(stations);
 }
+
+export async function getJurisdictionalBoundary(req, res) {
+  const firecares_id = req.fireDepartment.firecares_id;
+  const { FIRECARE_USERNAME, FIRECARE_API_KEY } = process.env;
+  const url = `https://firecares.org/api/v1/fire-departments/${firecares_id}/?format=json&username=${FIRECARE_USERNAME}&api_key=${FIRECARE_API_KEY}`;
+  
+  try  {
+    const { data } = await axios.get(url);
+    return res.json(data);
+  } catch (err) {
+    return res.status(500);
+  }
+}
