@@ -8,7 +8,6 @@ export class LogoController {
   }
 
   src() {
-    console.dir(this.department.logo_link)
     if(this.department.logo_link) return this.department.logo_link;
   }
 }
