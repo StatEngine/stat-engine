@@ -19,8 +19,16 @@ export default function routes($stateProvider) {
         }
       },
       resolve: {
+        currentPrincipal(Principal) {
+          return Principal.identity();
+        },
         units(Unit) {
           return Unit.query().$promise;
+        },
+        boundary(Principal, FireDepartment) {
+          return Principal
+            .identity(true)
+            .then(currentPrincipal => FireDepartment.getJurisdictionalBoundary({ id: currentPrincipal.fire_department__id }).$promise);
         },
         stations(Principal, FireDepartment) {
           return Principal

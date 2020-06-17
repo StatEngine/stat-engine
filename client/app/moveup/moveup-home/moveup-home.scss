@@ -88,6 +88,11 @@
     color: #9da7af;
   }
 
+  .info-icon {
+    color: #9da7af;
+    font-size: 18px;
+  }
+
   .optimize-switcher {
     width: 10vw;
     height: 35px;
@@ -99,6 +104,7 @@
     justify-content: space-between;
     align-items: center;
     margin-left: 10px;
+    max-width: 165px;
 
     button {
       border-radius: 16px;

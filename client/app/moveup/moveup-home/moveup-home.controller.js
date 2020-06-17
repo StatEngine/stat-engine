@@ -3,11 +3,14 @@
 'use strict';
 
 const LOCALSTORAGE_DISMISS_KEY = 'move-up-info';
+let tippy;
 
 export default class MoveupHomeController {
   /*@ngInject*/
 
-  constructor($scope, units, mapboxConfig, stations, incidents, $http) {
+  constructor($scope, units, mapboxConfig, stations, incidents, $http, currentPrincipal, boundary) {
+    this.boundary = boundary;
+    this.FireDepartment = currentPrincipal.FireDepartment;
     this.$http = $http;
     this.$scope = $scope;
     this.error = null;
@@ -61,16 +64,35 @@ export default class MoveupHomeController {
     this.setUnits();
   }
 
+  async $onInit() {
+    await this.loadModules();
+    tippy('.tippy', {
+      allowTitleHTML: true,
+      interactive: true,
+      delay: 150,
+      arrow: true,
+      arrowType: 'sharp',
+      theme: 'statengine',
+      duration: 250,
+      animation: 'shift-away',
+      maxWidth: '350px',
+      inertia: false,
+      touch: true,
+    });
+  }
+
+  async loadModules() {
+    tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+  }
+
   setUnits() {
     const activeFilters = Object.keys(this.filters).filter(key => this.filters[key]);
-    const units = this.units.filter(unit => activeFilters.includes(unit.unit_type));
-    this.filteredUnits = units;
+    this.filteredUnits = this.units.filter(unit => activeFilters.includes(unit.unit_type));
 
     this.payload = {
       ...this.payload,
-      unit_status: units.map(unit => {
+      unit_status: this.filteredUnits.map(unit => {
         const existing = this.payload.unit_status && this.payload.unit_status.find(item => item.unit_id === unit.id)
-
         return {
           unit_id: unit.id,
           type: unit.unit_type,
@@ -84,7 +106,7 @@ export default class MoveupHomeController {
       page: 1,
       pageSize: this.pagination && this.pagination.pageSize || 25,
       pageSizes: [10, 25, 50, 100],
-      totalItems: units.length,
+      totalItems: this.filteredUnits.length,
     };
   }
 
