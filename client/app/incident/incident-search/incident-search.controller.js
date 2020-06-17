@@ -35,6 +35,25 @@ export default class IncidentSearchController {
     this.fireDepartment = currentPrincipal.FireDepartment;
     this.Modal = Modal;
 
+    this.initUiGridColumnDefs();
+
+    this.refreshIncidentsList = _.debounce(this.refreshIncidentsList, 350, {
+      leading: true,
+      trailing: true,
+    });
+
+    this.initRangeFilter();
+
+    angular.element(this.$window).bind('resize', () => {
+      this.initUiGridColumnDefs();
+    });
+  }
+
+  async $onInit() {
+    this.refreshIncidentsList();
+  }
+
+  initUiGridColumnDefs() {
     this.uiGridColumnDefs = [{
       field: 'description.incident_number',
       displayName: 'Incident Number',
@@ -80,16 +99,17 @@ export default class IncidentSearchController {
       cellTooltip: true,
     }];
 
-    this.refreshIncidentsList = _.debounce(this.refreshIncidentsList, 350, {
-      leading: true,
-      trailing: true,
-    });
-
-    this.initRangeFilter()
-  }
-
-  async $onInit() {
-    this.refreshIncidentsList();
+    // Shorten date formats on mid-size screen widths.
+    if (this.$window.innerWidth >= 1200 && this.$window.innerWidth < 1500) {
+      this.uiGridColumnDefs
+        .filter(columnDef => (
+          columnDef.field === 'description.event_opened' ||
+          columnDef.field === 'description.event_closed'
+        ))
+        .forEach(columnDef => {
+          columnDef.cellFilter = 'date:\'MM/dd/yy HH:mm:ss\'';
+        });
+    }
   }
 
   async refreshIncidentsList() {

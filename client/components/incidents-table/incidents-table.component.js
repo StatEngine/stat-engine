@@ -104,8 +104,16 @@ export class IncidentsTableController {
       },
     };
 
-    this.$scope.$watch('minRowsToShow', () => {
-      this.uiGridOptions.minRowsToShow = this.minRowsToShow;
+    this.$scope.$watch('vm.minRowsToShow', () => {
+      if (this.uiGridOptions) {
+        this.uiGridOptions.minRowsToShow = this.minRowsToShow;
+      }
+    });
+
+    this.$scope.$watch('vm.uiGridColumnDefs', () => {
+      if (this.uiGridOptions) {
+        this.uiGridOptions.columnDefs = this.uiGridColumnDefs;
+      }
     });
 
     // In sort select only show columns with sorting enabled.
