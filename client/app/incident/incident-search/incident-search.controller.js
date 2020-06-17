@@ -39,13 +39,21 @@ export default class IncidentSearchController {
       field: 'description.incident_number',
       displayName: 'Incident Number',
       cellTemplate: '<div class="ui-grid-cell-contents"><a href="#" ui-sref="site.incident.analysis({ id: grid.getCellValue(row, col) })">{{ grid.getCellValue(row, col ) }}</a></div>',
+      cellTooltip: true,
     }, {
       field: 'address.address_line1',
-      displayName: 'Address'
+      displayName: 'Address',
+      cellTooltip: true,
+    }, {
+      field: 'description.event_opened',
+      displayName: 'Event Opened',
+      cellFilter: 'date:\'MMM d, y HH:mm:ss\'',
+      cellTooltip: true,
     }, {
       field: 'description.event_closed',
       displayName: 'Event Closed',
-      cellFilter: 'date:"MMM d, y HH:mm:ss"',
+      cellFilter: 'date:\'MMM d, y HH:mm:ss\'',
+      cellTooltip: true,
       defaultSort: {
         direction: 'desc',
         priority: 0,
@@ -54,18 +62,22 @@ export default class IncidentSearchController {
       field: 'durations.total_event.seconds',
       displayName: 'Event Duration',
       cellFilter: 'humanizeDuration',
+      cellTooltip: true,
     }, {
       field: 'description.units_count',
       displayName: '# Units',
       width: 100,
       enableSorting: false,
+      cellTooltip: true,
     }, {
       field: 'description.category',
       displayName: 'Category',
       width: 100,
+      cellTooltip: true,
     }, {
       field: 'description.type',
       displayName: 'Type',
+      cellTooltip: true,
     }];
 
     this.refreshIncidentsList = _.debounce(this.refreshIncidentsList, 350, {
@@ -107,7 +119,7 @@ export default class IncidentSearchController {
     this.isLoading = false;
     this.isLoadingFirst = false;
 
-    // On mobile, automaticallys scroll back to the top on data refresh.
+    // On mobile, automatically scroll back to the top on data refresh.
     if(this.$window.innerWidth <= 1200) {
       const page = angular.element('html')[0];
       page.scrollTop = 0;
