@@ -39,6 +39,15 @@ router.post(
   controller.create
 );
 
+
+router.get(
+  '/department/:firecares_id',
+  auth.isApiAuthenticated,
+  auth.hasRole('department_admin'),
+  controller.searchFirecaresById,
+);
+
+
 router.put(
   '/:id',
   auth.isApiAuthenticated,
