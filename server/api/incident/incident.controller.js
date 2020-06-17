@@ -212,6 +212,8 @@ export async function loadConcurrent(req, res, next) {
         'description.units',
         'description.category',
         'address.battalion',
+        'address.latitude',
+        'address.longitude',
         'address.response_zone',
         'durations.total_event.seconds'],
       sort: [{

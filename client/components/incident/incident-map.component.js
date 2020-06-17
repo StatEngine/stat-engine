@@ -8,10 +8,30 @@ export default class IncidentMapComponent {
   constructor(mapboxConfig) {
     'ngInject';
 
+    this.map = null;
+    this.showConcurrent = false;
     this.mapboxConfig = mapboxConfig;
   }
 
-  $onInit() {
+  async loadModules() {
+    const tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+    tippy('.tippy', {
+      allowTitleHTML: true,
+      interactive: true,
+      delay: 150,
+      arrow: true,
+      arrowType: 'sharp',
+      theme: 'statengine',
+      duration: 250,
+      animation: 'shift-away',
+      maxWidth: '350px',
+      inertia: false,
+      touch: true,
+    });
+  }
+
+  async $onInit() {
+    await this.loadModules();
     this.initialized = true;
 
     const features = [];
@@ -36,10 +56,25 @@ export default class IncidentMapComponent {
       features
     };
 
+    const concurrent = this.concurrent.map(incident => {
+      const coordinates = [incident.address.longitude, incident.address.latitude];
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates
+        },
+        properties: {
+          title: incident.description.incident_number,
+          icon: 'marker'
+        }
+      };
+    });
+
     const bounds = geojsonExtent(geojson);
     const center = features.length > 0 ? features[0].geometry.coordinates : undefined;
 
-    const map = new MapBoxGL.Map({
+    this.map = new MapBoxGL.Map({
       container: 'incident-map',
       style: 'mapbox://styles/mapbox/light-v9',
       zoom: 12,
@@ -47,13 +82,32 @@ export default class IncidentMapComponent {
       center
     });
 
-    map.on('load', () => {
-      map.addLayer({
+    this.map.on('load', () => {
+      this.map.addLayer({
         id: 'incidents',
         type: 'symbol',
         source: {
           type: 'geojson',
           data: geojson
+        },
+        layout: {
+          'icon-image': '{icon}-15',
+          'text-field': '{title}',
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, 0.6],
+          'text-anchor': 'top'
+        }
+      });
+
+      this.map.addLayer({
+        id: 'concurrent',
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: concurrent
+          }
         },
         layout: {
           'icon-image': '{icon}-15',
@@ -71,7 +125,19 @@ export default class IncidentMapComponent {
       bounds[2] += padding;
       bounds[3] += padding;
 
-      map.fitBounds(bounds);
+      this.map.fitBounds(bounds);
     });
+  }
+
+  toggleConcurrent() {
+    if (this.map.loaded()) {
+      if (this.showConcurrent) {
+        this.showConcurrent = false;
+        this.map.setLayoutProperty('concurrent', 'visibility', 'none');
+      } else {
+        this.showConcurrent = true;
+        this.map.setLayoutProperty('concurrent', 'visibility', 'visible');
+      }
+    }
   }
 }

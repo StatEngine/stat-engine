@@ -16,6 +16,7 @@ export default angular.module('incident', [])
     controllerAs: 'vm',
     bindings: {
       incidents: '<',
+      concurrent: '<'
     },
   })
   .component('incidentTimeline', {
