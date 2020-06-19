@@ -112,7 +112,7 @@ export default class FireDepartmentController {
     const value = event && event.target && event.target.value;
     if (value) {
       const firecares_id = parseInt(value);
-      const url = `/api/fire-departments/department/${firecares_id}`;
+      const url = `/api/third-party/firecares/department/${firecares_id}`;
       const response = await this.$http.get(url);
       if (response && response.data) {
         const [latitude, longitude] = response.data.geom.coordinates;
