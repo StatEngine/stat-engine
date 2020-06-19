@@ -75,7 +75,7 @@ export async function getUnitUtilization(req, res) {
   }
 
   const timeRange = getTimeRange(req.fireDepartment, interval);
-  const timeRangeHours = moment(timeRange.end).diff(timeRange.start, 'hours');
+  const timeRangeSeconds = moment(timeRange.end).diff(timeRange.start, 'seconds');
 
   //
   // Request data from Elasticsearch.
@@ -133,7 +133,7 @@ export async function getUnitUtilization(req, res) {
     const incidentTotal = bucket.doc_count;
     unitLookups.incidentTotal[unitId] = incidentTotal;
     unitLookups.avgTurnoutDuration[unitId] = bucket.avg_turnout_duration.value;
-    unitLookups.hourUtilizationPercent[unitId] = (bucket.sum_event_duration.value / 60 / 60 / timeRangeHours) * 100;
+    unitLookups.hourUtilizationPercent[unitId] = (bucket.sum_event_duration.value / timeRangeSeconds) * 100;
     unitLookups.sumEventDuration[unitId] = bucket.sum_event_duration.value;
   }
 
@@ -239,9 +239,6 @@ export async function getTurnoutLeaderboard(req, res) {
   //
   // Organize received data.
   //
-  const util = require('util')
-  console.log(util.inspect(esIncidents, {showHidden: false, depth: null}))
-
   const apparatus = [];
   // Total Metrics
   for(const bucket of _.get(esIncidents, 'aggregations.agg_filters_undefined.buckets.all.incidents_by_apparatus.unit_id.buckets', [])) {
@@ -304,20 +301,20 @@ function getTimeRange(fireDepartment, interval) {
   if(interval === 'shift') {
     const ShiftConfiguration = FirecaresLookup[fireDepartment.firecares_id];
     const shiftly = new ShiftConfiguration();
-    const shiftTimeframe = shiftly.shiftTimeFrame(moment(now).subtract(1, 'day').format());
+    const shiftTimeframe = shiftly.shiftTimeFrame(now);
     return {
-      start: shiftTimeframe.start,
-      end: shiftTimeframe.end,
+      start: moment(shiftTimeframe.start).tz(fireDepartment.timezone).format(),
+      end: moment(now).format(),
     };
   } else if(['day', 'week', 'month', 'quarter', 'year'].includes(interval)) {
     return {
-      start: moment(now).subtract(1, `${interval}s`).startOf(interval).format(),
-      end: moment(now).startOf(interval).format(),
+      start: moment(now).startOf(interval).format(),
+      end: moment(now).format(),
     };
   } else if(interval === 'all') {
     return {
-      start: moment(0).tz(fireDepartment.timezone),
-      end: moment(now),
+      start: moment(0).tz(fireDepartment.timezone).format(),
+      end: moment(now).format(),
     };
   } else {
     throw new Error(`Interval "${interval}" is not supported.`);
