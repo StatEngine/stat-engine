@@ -3,12 +3,12 @@
 'use strict';
 
 const LOCALSTORAGE_DISMISS_KEY = 'move-up-info';
-let tippy;
 
 export default class MoveupHomeController {
   /*@ngInject*/
 
-  constructor($scope, units, mapboxConfig, stations, incidents, $http, currentPrincipal, boundary) {
+  constructor($scope, units, Unit, mapboxConfig, stations, incidents, $http, currentPrincipal, boundary) {
+    this.Unit = Unit;
     this.boundary = boundary;
     this.FireDepartment = currentPrincipal.FireDepartment;
     this.$http = $http;
@@ -21,6 +21,8 @@ export default class MoveupHomeController {
     this.strategy = 'current';
     this.mapboxConfig = mapboxConfig;
     this.dirty = false;
+    this.autoPopulateDatetime = null;
+    this.unavailableUnits = [];
     this.dismissed = !!localStorage.getItem(LOCALSTORAGE_DISMISS_KEY)
     this.filters  = {
       Engine: true
@@ -65,7 +67,17 @@ export default class MoveupHomeController {
   }
 
   async $onInit() {
-    await this.loadModules();
+    const tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+    const flatpickr = (await import(/* webpackChunkName: "flatpickr" */ 'flatpickr')).default;
+
+    const context = this;
+    flatpickr(".pickr", {
+      enableTime: true,
+      onChange: function ([date]) {
+        context.autoPopulateDatetime = date;
+      },
+    });
+
     tippy('.tippy', {
       allowTitleHTML: true,
       interactive: true,
@@ -81,8 +93,20 @@ export default class MoveupHomeController {
     });
   }
 
-  async loadModules() {
-    tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+  async getAvailableUnit() {
+    let options = {
+      id: 'available'
+    };
+
+    if (this.autoPopulateDatetime) {
+      options = {
+        ...options,
+        datetime: this.autoPopulateDatetime.toISOString()
+      };
+    }
+    const response = await this.Unit.query(options).$promise;
+    this.unavailableUnits = response.map(unit => unit.unit_id);
+    this.setUnits();
   }
 
   setUnits() {
@@ -92,12 +116,14 @@ export default class MoveupHomeController {
     this.payload = {
       ...this.payload,
       unit_status: this.filteredUnits.map(unit => {
-        const existing = this.payload.unit_status && this.payload.unit_status.find(item => item.unit_id === unit.id)
+        const existing = this.payload.unit_status && this.payload.unit_status.find(item => item.unit_id === unit.id);
+        const status = this.unavailableUnits.includes(unit.id);
+
         return {
           unit_id: unit.id,
           type: unit.unit_type,
           station: unit.station,
-          status: existing && existing.status || false
+          status: status || existing && existing.status || false
         };
       }),
     };

@@ -82,6 +82,20 @@
     padding: 20px;
   }
 
+  .move-up-controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+  .pickr {
+    border-radius: 2px;
+    border: solid 1px #cbd6df;
+    padding: 5px 10px;
+  }
+
   .optimize-switcher-container {
     display: flex;
     align-items: center;

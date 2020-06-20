@@ -40,17 +40,27 @@
         </div>
 
         <div class="card-body p-0" ng-hide="vm.inputMinimized">
-          <div class="form-group d-flex mt-2 pl-4 pt-2 flex-column">
+          <div class="form-group mt-2 pl-4 pt-2 flex-column move-up-controls">
+            <div>
+              <div>
+                <label class="mb-0 d-flex align-items-center">
+                  <strong>Covered Time</strong>
+                  <a class="info-icon se-icon-info tippy ml-2" href="" data-tippy-html='#coverageTippy'>&nbsp;</a>
+                </label>
+              </div>
+              <div class="w-50 flex-start-center">
+                <input type="range" min="1" max="7" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
+                <input type="text" ng-disabled="true" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
+                <div class="ml-2">Minutes</div>
+              </div>
+            </div>
             <div>
               <label class="mb-0 d-flex align-items-center">
-                <strong>Covered Time</strong>
-                <a class="info-icon se-icon-info tippy ml-2" href="" data-tippy-html='#coverageTippy'>&nbsp;</a>
+                <strong>Auto-populate Units</strong>
+                <a class="info-icon se-icon-info tippy ml-2" href="" data-tippy-html='#autoPopulateTippy'>&nbsp;</a>
               </label>
-            </div>
-            <div class="w-50 flex-start-center">
-              <input type="range" min="1" max="7" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
-              <input type="text" ng-disabled="true" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
-              <div class="ml-2">Minutes</div>
+              <input class="pickr" placeholder="Select Time Period" />
+              <button class="btn btn-primary btn-sm ml-2" ng-click="vm.getAvailableUnit()">Auto-populate</button>
             </div>
           </div>
 
@@ -168,5 +178,9 @@
 
   <div id="coverageTippy" style="display: none;">
     Coverage time is the targeted response time the optimiziation will attempt to fulfill.
+  </div>
+
+  <div id="autoPopulateTippy"style="display: none;">
+    Auto Populates checks all units availability for the provided date and attempts to assign the availability. If no date is provided, it will default to now.
   </div>
 </div>
