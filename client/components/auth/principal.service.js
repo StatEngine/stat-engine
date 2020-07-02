@@ -1,6 +1,7 @@
 'use strict';
 
 import angular from 'angular';
+import moment from 'moment-timezone';
 
 let _;
 let amplitude;
@@ -11,7 +12,6 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
   var _identity = {};
   var _authenticated = false;
   var _amplitudeIdentify = false;
-  var _subscription = null;
 
   return {
     init() {
@@ -85,14 +85,6 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
       return User.save(user).$promise;
     },
 
-    setSubscription(subscripton) {
-      _subscription = { ...subscripton };
-    },
-
-    getSubscription() {
-      return _subscription;
-    },
-
     identity(force) {
       var deferred = $q.defer();
 
@@ -118,6 +110,23 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
         .catch(err => deferred.reject(err));
 
       return deferred.promise;
+    },
+
+    get serviceDaysRemaining() {
+      const subscription = _identity.FireDepartment && _identity.FireDepartment.subscription;
+      if (!subscription) {
+        return undefined;
+      }
+
+      if (subscription.status !== 'cancelled') {
+        return Number.POSITIVE_INFINITY;
+      }
+
+      console.log('subscription', subscription);
+      const gracePeriodEnd = moment(subscription.grace_period_end * 1000);
+
+      // If we have less than 1 day left, moment.diff() will return 0. So, for clarity, add 1.
+      return gracePeriodEnd.diff(moment(), 'days') + 1;
     },
   };
 }

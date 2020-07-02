@@ -99,20 +99,13 @@ export default function routerDecorator(
       return;
     }
 
-    // Calculate the days remaining before service is suspended.
-    const cancelledAt = moment(subscription.cancelled_at * 1000);
-    const serviceShutoffDate = cancelledAt.clone().add(subscription.grace_period_days, 'days');
-
-    // If we have less than 1 day left, moment.diff() will return 0, so make it round up.
-    const serviceDaysRemaining = serviceShutoffDate.diff(moment(), 'days') + 1;
-
     // Only show the warning if we fall within the grace period.
-    if(serviceDaysRemaining > 0 && serviceDaysRemaining <= subscription.grace_period_days) {
+    if(Principal.serviceDaysRemaining > 0) {
       // Only show the warning once per day.
       const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
       const daysSinceShown = moment().diff(shownAt, 'days');
       if(daysSinceShown >= 1) {
-        showSubscriptionGracePeriodWarning(serviceDaysRemaining);
+        showSubscriptionGracePeriodWarning(Principal.serviceDaysRemaining);
         $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
       }
     }

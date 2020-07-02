@@ -29,7 +29,7 @@ export function routeConfig($urlRouterProvider, $locationProvider, $stateProvide
         template: '<sidebar></sidebar>'
       },
       'banner@': {
-        template: '<subscription-banner></subscription-banner />'
+        template: '<subscription-banner></subscription-banner>'
       }
     },
   });

@@ -1,6 +1,8 @@
 'use strict';
 
 import _ from 'lodash';
+import moment from 'moment-timezone';
+import { SubscriptionStatus } from '../../subscription/chargebee';
 
 export default function(sequelize, DataTypes) {
   const FireDepartment = sequelize.define('FireDepartments', {
@@ -71,8 +73,9 @@ export default function(sequelize, DataTypes) {
     subscription: {
       type: DataTypes.JSON,
       set(subscription) {
-        if(subscription) {
-          subscription.grace_period_days = 45;
+        if(subscription && subscription.status === SubscriptionStatus.Cancelled) {
+          const gracePeriodEnd = moment(subscription.cancelled_at * 1000).add(45, 'days');
+          subscription.grace_period_end = gracePeriodEnd.unix();
         }
         this.setDataValue('subscription', subscription);
       },

@@ -195,9 +195,8 @@ export function hasActiveSubscription({ redirectTo } = {}) {
 
       if(subscription.status === SubscriptionStatus.Cancelled) {
         // Check if the grace period has elapsed.
-        const expiryDate = moment(subscription.cancelled_at * 1000);
-        expiryDate.add(subscription.grace_period_days, 'days');
-        if(expiryDate < moment()) {
+        const gracePeriodEnd = moment(subscription.grace_period_end * 1000);
+        if(gracePeriodEnd < moment()) {
           throw new ForbiddenError(`Fire department subscription has been cancelled and grace period has elapsed.`, 'SubscriptionCancelled');
         }
       }
