@@ -141,6 +141,13 @@ Edit the policy, allowing Read and Write access with prefix `*`
 6.  Login with username: `richmond`, password: `password`.
 
 ### Testing
+
+#### Running Server Tests
+
+- Make sure you have an instance of PostgreSQL running at the address specified in your environment configuration.
+
+- Run `gulp test:server`
+
 Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing.
 ![](https://s3.amazonaws.com/statengine-public-assets/Browserstack-logo%402x.png)
 

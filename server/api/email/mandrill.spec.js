@@ -1,11 +1,15 @@
-import {
-  sendEmail
-} from './mandrill';
-import 'chai/register-should';
-import { Log } from '../../util/log';
+import { sendEmail } from './mandrill';
 
+describe('mandrill', function() {
+  describe('sendEmail()', function() {
+    it('succeeds', async function() {
+      this.timeout(5000);
+      await expect(sendEmail('joe.chop@prominentedge.com', 'Timerange Test', 'timerange', mergeVars, true)).not.to.be.rejected;
+    });
+  });
+});
 
-let mergeVars = [{
+const mergeVars = [{
     name: 'description',
     content: {
       departmentName: 'Richmond Fire and Emergency Services',
@@ -1102,14 +1106,3 @@ let mergeVars = [{
     content: []
   }
 ];
-
-describe('sendEmail()', () => {
-  it('should send a test email', (done) => {
-    sendEmail('joe.chop@prominentedge.com', 'timerange', mergeVars)
-      .then(() => {
-        Log.test('Sent email');
-        done();
-      })
-      .catch(e => Log.error(e))
-  }).timeout(5000);
-});

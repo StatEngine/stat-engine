@@ -1,73 +1,61 @@
 'use strict';
 
-import app from '../..';
-import {User} from '../../sqldb';
-var user;
-var genUser = function() {
-  user = User.build({
-    provider: 'local',
-    name: 'Fake User',
-    email: 'test@example.com',
-    password: 'password'
-  });
-  return user;
-};
+import { User } from '../../sqldb';
+import testUtil from '../../util/test/test-util';
 
-describe('User Model', function() {
-  before(function() {
-    // Sync and clear users before testing
-    return User.sync().then(function() {
-      return User.destroy({ where: {} });
+describe('user.model', function() {
+  describe('create', function() {
+    it('fails if email already exists', async function() {
+      const user0Data = testUtil.buildUserData({
+        email: 'user0@test.com',
+        username: 'user0',
+      });
+      await expect(User.create(user0Data)).to.be.fulfilled;
+
+      const user1Data = testUtil.buildUserData({
+        email: 'user0@test.com',
+        username: 'user1',
+      });
+
+      await expect(User.create(user1Data)).to.be.rejected;
+    });
+
+    it('fails if username already exists', async function() {
+      const user0Data = testUtil.buildUserData({
+        email: 'user0@test.com',
+        username: 'user0',
+      });
+      await expect(User.create(user0Data)).to.be.fulfilled;
+
+      const user1Data = testUtil.buildUserData({
+        email: 'user1@test.com',
+        username: 'user0',
+      });
+
+      await expect(User.create(user1Data)).to.be.rejected;
+    });
+
+    it('fails if email is empty', async function() {
+      const userData = testUtil.buildUserData({
+        email: '',
+      });
+      await expect(User.create(userData)).to.be.rejected;
     });
   });
 
-  beforeEach(function() {
-    genUser();
-  });
+  describe('authentication', function() {
+    let user;
 
-  afterEach(function() {
-    return User.destroy({ where: {} });
-  });
-
-  it('should begin with no users', function() {
-    return expect(User.findAll()).to
-      .eventually.have.length(0);
-  });
-
-  it('should fail when saving a duplicate user', function() {
-    return expect(user.save()
-      .then(function() {
-        var userDup = genUser();
-        return userDup.save();
-      })).to.be.rejected;
-  });
-
-  describe('#email', function() {
-    it('should fail when saving without an email', function() {
-      user.email = '';
-      return expect(user.save()).to.be.rejected;
-    });
-  });
-
-  describe('#password', function() {
-    beforeEach(function() {
-      return user.save();
+    beforeEach(async function() {
+      user = await testUtil.createUser();
     });
 
-    it('should authenticate user if valid', function() {
+    it('succeeds if password is correct', async function() {
       expect(user.authenticate('password')).to.be.true;
     });
 
-    it('should not authenticate user if invalid', function() {
-      expect(user.authenticate('blah')).to.not.be.true;
-    });
-
-    it('should remain the same hash unless the password is updated', function() {
-      user.name = 'Test User';
-      return expect(user.save()
-        .then(function(u) {
-          return u.authenticate('password');
-        })).to.eventually.be.true;
+    it('fails if password is incorrect', async function() {
+      expect(user.authenticate('incorrectpassword')).to.not.be.true;
     });
   });
 });

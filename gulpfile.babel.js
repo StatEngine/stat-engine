@@ -20,9 +20,8 @@ import {Instrumenter} from 'isparta';
 import webpack from 'webpack';
 import gulpWebpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
-import b2v from 'buffer-to-vinyl';
 import moment from 'moment-timezone';
-import seedDev from './server/config/seedDev'
+import {exec} from 'child_process';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -41,22 +40,18 @@ const paths = {
         mainStyle: `${clientPath}/app/app.scss`,
         views: `${clientPath}/{app,components}/**/*.html`,
         mainView: `${clientPath}/app.html`,
-        test: [`${clientPath}/{app,components}/**/*.{spec,mock}.js`],
-        e2e: ['e2e/**/*.spec.js']
+        test: [`${clientPath}/{app,components}/**/*.{spec,mock}.js`]
     },
     server: {
         scripts: [
-          `${serverPath}/**/!(*.spec|*.integration).js`,
+          `${serverPath}/**/!(*.spec).js`,
           `!${serverPath}/config/local.env.sample.js`,
           `!${serverPath}/fixtures/templates/**/*`,
           `!${serverPath}/fixtures/templatesArchive/**/*`
         ],
         json: [`${serverPath}/**/*.json`],
         templates: [`${serverPath}/api/incident/templates`],
-        test: {
-          integration: [`${serverPath}/**/*.integration.js`, 'mocha.global.js'],
-          unit: [`${serverPath}/**/*.spec.js`, 'mocha.global.js']
-        }
+        test: [`${serverPath}/**/*.spec.js`, 'mocha.global.js']
     },
     karma: 'karma.conf.js',
     dist: 'dist'
@@ -96,6 +91,12 @@ function whenServerReady(cb) {
             cb();
         }),
         100);
+}
+
+function handleMochaError(err) {
+    // Catch test errors so that we can show a clean error message without a useless stack.
+    console.error(`${err.message}\n`);
+    this.emit('end');
 }
 
 /********************
@@ -146,6 +147,7 @@ let mocha = lazypipe()
     .pipe(plugins.mocha, {
         reporter: 'spec',
         timeout: 5000,
+        exit: true,
         require: [
             './mocha.conf'
         ]
@@ -342,15 +344,9 @@ gulp.task('start:server:debug', () => {
 });
 
 gulp.task('watch', () => {
-    var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
-
-    plugins.watch(_.union(paths.server.scripts, testFiles))
+    plugins.watch(paths.server.scripts)
         .pipe(plugins.plumber())
         .pipe(lintServerScripts());
-
-    plugins.watch(_.union(paths.server.test.unit, paths.server.test.integration))
-        .pipe(plugins.plumber())
-        .pipe(lintServerTestScripts());
 });
 
 gulp.task('serve', cb => {
@@ -473,30 +469,37 @@ gulp.task('ngConfig:onPremise', cb => {
 
 gulp.task('test:server', cb => {
     runSequence(
+        'test:createDatabase',
         'env:all',
         'env:test',
-        'mocha:unit',
-        'mocha:integration',
+        'mocha',
+        'test:dropDatabase',
         cb);
 });
 
-gulp.task('mocha:unit', () => {
-    return gulp.src(paths.server.test.unit)
-        .pipe(mocha());
+gulp.task('test:createDatabase', () => {
+    return exec('./test-create-database.sh');
 });
 
-gulp.task('mocha:integration', () => {
-    return gulp.src(paths.server.test.integration)
-        .pipe(mocha());
+gulp.task('test:dropDatabase', () => {
+    return exec('./test-drop-database.sh');
+});
+
+gulp.task('mocha', () => {
+    return gulp.src(paths.server.test)
+        .pipe(mocha())
+        .on('error', handleMochaError);
 });
 
 gulp.task('test:server:coverage', cb => {
-  runSequence('coverage:pre',
-              'env:all',
-              'env:test',
-              'coverage:unit',
-              'coverage:integration',
-              cb);
+    runSequence(
+        'test:createDatabase',
+        'coverage:pre',
+        'env:all',
+        'env:test',
+        'coverage',
+        'test:dropDatabase',
+        cb);
 });
 
 gulp.task('coverage:pre', () => {
@@ -510,15 +513,8 @@ gulp.task('coverage:pre', () => {
     .pipe(plugins.istanbul.hookRequire());
 });
 
-gulp.task('coverage:unit', () => {
-    return gulp.src(paths.server.test.unit)
-        .pipe(mocha())
-        .pipe(istanbul())
-        // Creating the reports after tests ran
-});
-
-gulp.task('coverage:integration', () => {
-    return gulp.src(paths.server.test.integration)
+gulp.task('coverage', () => {
+    return gulp.src(paths.server.test)
         .pipe(mocha())
         .pipe(istanbul())
         // Creating the reports after tests ran
@@ -728,5 +724,6 @@ gulp.task('buildcontrol:openshift', function(done) {
  ********************/
 
 gulp.task('seed:dev', (done) => {
+  const seedDev = require('./server/config/seedDev');
   seedDev().then(done)
 });

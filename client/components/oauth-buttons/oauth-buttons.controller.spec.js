@@ -25,8 +25,7 @@ describe('Controller: OauthButtonsController', function() {
     });
   }));
 
-  it('should attach loginOauth', function() {
-    expect(controller.loginOauth)
-      .to.be.a('function');
+  it('attaches loginOauth', function() {
+    expect(controller.loginOauth).to.be.a('function');
   });
 });

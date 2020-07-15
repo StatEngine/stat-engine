@@ -50,9 +50,11 @@ export default function(app) {
   app.use('/subscriptionPortal', require('./subscription'));
 
   // All routes after this point are csrf protected
-  app.use(lusca.csrf({
-    angular: true,
-  }));
+  if (config.env !== 'test') {
+    app.use(lusca.csrf({
+      angular: true,
+    }));
+  }
 
   // Authentication
   app.use('/auth', require('./auth').default);
@@ -64,8 +66,11 @@ export default function(app) {
   });
 
   // Error handler
+  // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
-    Log.error(err);
+    if (config.env !== 'test') {
+      Log.error(err);
+    }
 
     // Send an error response if one hasn't already been sent. Otherwise the reqeust will
     // fail and make the client hang.
