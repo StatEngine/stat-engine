@@ -36,14 +36,10 @@ $state-danger-bg:               lighten($red, 25%);
 $state-danger-border:           lighten($red, 20%);
 
 // Fonts
-$font-family-hind:              'Hind', 'Helvetica Neue', Arial, sans-serif;
 $font-family-firasans:          'Fira Sans', 'Helvetica Neue', Arial, sans-serif;
 $font-family-roboto:            'Roboto', 'Helvetica Neue', Arial, sans-serif;
-$font-family-poppins:           'Poppins', 'Helvetica Neue', Arial, sans-serif;
-$font-family-source:            'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 $font-family-montserrat:        'Montserrat', 'Fira Sans', 'Helvetica Neue', Arial, sans-serif;
 $font-family-lato:              'Lato', 'Helvetica Neue', Arial, sans-serif;
-$font-family-barcode:           'Libre Barcode 39 Extended Text', cursive;
 
 $font-family-base:              $font-family-firasans;
 $font-size-base:                .875rem;
