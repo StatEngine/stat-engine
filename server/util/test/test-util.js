@@ -28,8 +28,7 @@ class TestUtil {
   async createUserWithSession() {
     const userData = this.buildUserData();
     const user = await this.createUser(userData);
-    const response = await request.createSession(userData);
-    Log.test('response.data', response.data);
+    await request.createSession(userData);
     return user;
   }
 
