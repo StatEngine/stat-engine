@@ -404,7 +404,10 @@ gulp.task('serve:onPremise', cb => {
 });
 
 gulp.task('test', cb => {
-    return runSequence('test:server', 'test:client', cb);
+    return runSequence(
+        'test:server',
+        // 'test:client',
+        cb);
 });
 
 
