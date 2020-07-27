@@ -3,6 +3,7 @@
 import MapBoxGL from 'mapbox-gl';
 import _ from 'lodash';
 import geojsonExtent from '@mapbox/geojson-extent';
+import { initTippy } from '../../util/imports';
 
 export default class IncidentMapComponent {
   constructor(mapboxConfig) {
@@ -14,7 +15,7 @@ export default class IncidentMapComponent {
   }
 
   async loadModules() {
-    const tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+    const tippy = await initTippy();
     tippy('.tippy', {
       allowTitleHTML: true,
       interactive: true,
@@ -95,7 +96,9 @@ export default class IncidentMapComponent {
           'text-field': '{title}',
           'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
           'text-offset': [0, 0.6],
-          'text-anchor': 'top'
+          'text-anchor': 'top',
+          'icon-allow-overlap': true,
+          'text-optional': true
         }
       });
 
@@ -114,7 +117,10 @@ export default class IncidentMapComponent {
           'text-field': '{title}',
           'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
           'text-offset': [0, 0.6],
-          'text-anchor': 'top'
+          'text-anchor': 'top',
+          'icon-allow-overlap': true,
+          'text-optional': true,
+          'visibility': (this.showConcurrent) ? 'visible' : 'none',
         }
       });
 

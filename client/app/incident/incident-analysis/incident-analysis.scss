@@ -345,41 +345,6 @@
             }
           }
 
-          incident-map {
-            flex: 0 0 66.6%;
-
-            .incident-map-container {
-              position: relative;
-              height: 100%;
-              width: 100%;
-              max-height: 500px;
-            }
-
-            .incident-map-concurrent-layer {
-              cursor: pointer;
-              position: absolute;
-              right: 10px;
-              top: 10px;
-              width: 30px;
-              height: 30px;
-              border: 1px solid #ccc;
-              background: white url("../assets/images/icon-layers.svg") no-repeat center;
-            }
-
-            .incident-map {
-              border-right: 1px solid $color-geyser;
-              height: 100%;
-              max-height: 500px;
-              width: 100%;
-
-              @media (max-width: 768px) {
-                border-bottom: 1px solid $color-geyser;
-                border-right: 0;
-                height: 300px;
-              }
-            }
-          }
-
           .location-summary {
             flex: 0 0 33.3%;
             padding: 1rem;

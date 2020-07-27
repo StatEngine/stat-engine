@@ -1,3 +1,5 @@
+import { initTippy } from '../../../util/imports';
+
 /* eslint  class-methods-use-this: 0 */
 
 'use strict';
@@ -82,7 +84,7 @@ export default class MoveupHomeController {
   }
 
   async loadModules() {
-    tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+    tippy = await initTippy();
   }
 
   setUnits() {
