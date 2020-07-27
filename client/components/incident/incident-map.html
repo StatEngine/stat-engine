@@ -1,8 +1,9 @@
 <div class="incident-map-container">
-    <div id="incident-map" class="incident-map"></div>
-    <div class="incident-map-concurrent-layer tippy" data-tippy-html='#tippy' ng-if="vm.concurrent && vm.concurrent.length > 0" ng-click="vm.toggleConcurrent()">
-    </div>
-    <div id="tippy" style="display: none;">
-        Toggle Concurrent Incidents
-    </div>
+  <div id="incident-map" class="incident-map"></div>
+  <div class="incident-map-concurrent-layer tippy" data-tippy-html='#tippy' ng-class="{ 'active': vm.showConcurrent }"
+    ng-if="vm.concurrent && vm.concurrent.length > 0" ng-click="vm.toggleConcurrent()">
+  </div>
+  <div id="tippy" style="display: none;">
+    Toggle Concurrent Incidents
+  </div>
 </div>

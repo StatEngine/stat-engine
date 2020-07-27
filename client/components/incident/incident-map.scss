@@ -17,6 +17,14 @@ incident-map {
     height: 30px;
     border: 1px solid #ccc;
     background: white url("../assets/images/icon-layers.svg") no-repeat center;
+
+    &.active {
+      border: 2px solid #00a7dc;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .incident-map {
