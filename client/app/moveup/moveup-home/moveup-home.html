@@ -15,9 +15,9 @@
       of covered time.
     </div>
 
-    <div class="alert alert-info alert-dismissible fade show p-3 mt-3" role="alert" ng-hide="vm.dismissed">
+    <div class="move-up-alert alert alert-info alert-dismissible fade show p-3 mt-3" role="alert" ng-hide="vm.dismissed">
       <strong>How to use this tool</strong>
-      <button type="button" ng-click="vm.dismiss()" class="close dismiss-button p-0" data-dismiss="alert"
+      <button type="button" ng-click="vm.dismiss()" class="close dismiss-button p-0"
         aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -31,22 +31,25 @@
   <div class="br-pagebody">
     <section>
       <div class="card">
-        <div class="card-header">
+        <div class="card-header cursor-pointer" ng-click="vm.toggleInput()">
           <div class="d-flex model-box flex-start-center">
             <i class="fa fa-angle-down"></i>
             <h4 class="mb-0 ml-2 mr-2">Model Input</h4>
-            <i class="fa fa-info-circle txt-grey">&nbsp;</i>
+            <i class="fa fa-info-circle txt-grey cursor-pointer" ng-click="vm.show()">&nbsp;</i>
           </div>
         </div>
 
-        <div class="card-body p-0">
+        <div class="card-body p-0" ng-hide="vm.inputMinimized">
           <div class="form-group d-flex mt-2 pl-4 pt-2 flex-column">
             <div>
-              <label class="mb-0"><strong>Covered Time</strong></label>
+              <label class="mb-0 d-flex align-items-center">
+                <strong>Covered Time</strong>
+                <a class="info-icon se-icon-info tippy ml-2" href="" data-tippy-html='#coverageTippy'>&nbsp;</a>
+              </label>
             </div>
             <div class="w-50 flex-start-center">
-              <input type="range" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
-              <input type="text" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
+              <input type="range" min="1" max="7" ng-model="vm.payload.covered_time" class="form-control-range w180 mr-3" />
+              <input type="text" ng-disabled="true" ng-model="vm.payload.covered_time" class="form-control w40 p-2" />
               <div class="ml-2">Minutes</div>
             </div>
           </div>
@@ -84,10 +87,12 @@
                 </span>
               </div>
               <div>
-                <select class="w180" ng-model="unit.station" ng-change="vm.setDirty()">
-                  <option ng-repeat="station in vm.stations | orderBy: 'station_number'"
-                    value="{{station.station_number}}">Station {{station.station_number}}</option>
-                </select>
+                <div class="station-select-wrapper">
+                  <select ng-model="unit.station" ng-change="vm.setDirty()">
+                    <option ng-repeat="station in vm.stations | orderBy: 'station_number'"
+                      value="{{station.station_number}}">Station {{station.station_number}}</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -99,7 +104,7 @@
               <table-controls ng-if="vm.pagination" pagination="vm.pagination" position="bottom" show-sort="false"
                 max-pages="100"></table-controls>
             </div>
-            <div class="txt-red" ng-if="vm.error">An error occured running the model.</div>
+            <div class="txt-red" ng-if="vm.error">An error occurred running the model.</div>
             <button class="btn btn-primary" ng-click="vm.run()" ng-disabled="vm.loading || vm.payload.unit_status.length === 0">{{ vm.loading ? "Running" : "Run model"}}</button>
           </div>
         </div>
@@ -126,19 +131,19 @@
             </div>
           </div>
         </div>
-        <div class="card-body p-0 pos-relative" ng-show="vm.optimized">
+        <div class="card-body p-0 pos-relative" ng-if="vm.optimized">
           <div ng-if="vm.strategy === 'current'">
-            <move-up-map stations="vm.stations" units="vm.units" />
+            <move-up-map stations="vm.stations" units="vm.payload.unit_status" isochrones="vm.optimized.current.unoptimized_iso" boundary="vm.boundary"/>
             <div class="model-ouput-message flex-center-center flex-column p-4">
               <div>Currently <span
-                  class="tx-semibold">{{ vm.optimized.current.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> units are under
+                  class="tx-semibold">{{ vm.optimized.current.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> of potential incidents are under
                 {{ vm.payload.covered_time }} minutes travel time.</div>
               <a ng-click="vm.setStrategy('optimized')">View the optimized strategy.</a>
             </div>
           </div>
 
           <div ng-if="vm.strategy === 'optimized'">
-            <move-up-map stations="vm.stations" units="vm.filteredUnits" color="#851bc7"/>
+            <move-up-map stations="vm.stations" units="vm.optimized.move_up.moves" color="#851bc7" isochrones="vm.optimized.move_up.optimized_iso" boundary="vm.boundary"/>
             <div class="model-ouput-message flex-center-center flex-column p-4">
               <div class="w-50">With the optimized strategy, an estimated <span class="tx-semibold">{{ vm.optimized.move_up.metrics.percentage_under_4_minute_travel.toFixed(1) }}%</span> of potential incidents would be within a {{ vm.payload.covered_time }} minute travel time. Thats an increase of:</div>
               <div class="model-pill tx-semibold" ng-class="{ red: vm.modelImprovement < 0 }">
@@ -159,5 +164,9 @@
         </div>
       </div>
     </section>
+  </div>
+
+  <div id="coverageTippy" style="display: none;">
+    Coverage time is the targeted response time the optimiziation will attempt to fulfill.
   </div>
 </div>

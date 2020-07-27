@@ -57,6 +57,23 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    position: relative;
+    width: 180px;
+  }
+
+  .station-select-wrapper {
+    position: relative;
+    width: 200px;
+
+    &:before {
+      pointer-events: none;
+      position: absolute;
+      right: 15px;
+      z-index: 1;
+      top: 30px;
+      content: "\F107";
+      font: normal normal normal 14px/1 FontAwesome;
+    }
   }
 
   .card-header {
@@ -68,6 +85,12 @@
   .optimize-switcher-container {
     display: flex;
     align-items: center;
+    color: #9da7af;
+  }
+
+  .info-icon {
+    color: #9da7af;
+    font-size: 18px;
   }
 
   .optimize-switcher {
@@ -81,6 +104,7 @@
     justify-content: space-between;
     align-items: center;
     margin-left: 10px;
+    max-width: 165px;
 
     button {
       border-radius: 16px;
@@ -91,11 +115,21 @@
       &.active {
         color: #139eb4;
         border-color: #139eb4;
+        height: calc(100% + 2px);
+
+        &:first-child {
+          margin-left: -1px;
+        }
+
+        &:last-child {
+          margin-right: -1px;
+        }
       }
     }
   }
 
   .model-ouput-message {
+    text-align: center;
     font-size: 18px;
     a {
       color: #139eb4;
@@ -140,6 +174,20 @@
     border: 1px solid #e1c786;
     border-radius: 4px;
     box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.26);
+  }
+
+  @media (max-width: 768px) {
+    select {
+      width: 100%;
+    }
+  
+    .station-select-wrapper {
+      width: 100%;
+
+      &:before {
+        right: 30px;
+      }
+     }
   }
 
 }

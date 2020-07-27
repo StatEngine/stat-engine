@@ -131,7 +131,7 @@ export default class NotificationController {
       });
       this.$uibModalInstance.close(response);
     }, error => {
-      this.error = `An error occured sending notification.`;
+      this.error = `An error occurred sending notification.`;
     });
   }
 }

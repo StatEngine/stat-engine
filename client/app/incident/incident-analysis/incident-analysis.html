@@ -165,6 +165,7 @@
             </div>
           </div>
         </div>
+
       </section>
 
       <!-- Location -->
@@ -373,6 +374,32 @@
                 <h4 class="response-overview-stat-value">
                   {{ vm.humanizeDuration(vm.incident.durations.total_event.minutes*1000*60) }}
                 </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personnel -->
+        <div class="personnel card">
+          <div class="card-header">
+            <h6 class="card-title">Units & Personnel</h6>
+          </div>
+          <div class="card-body">
+            <div class="h-100 d-flex flex-center-center" ng-if="vm.incidentData.incident.apparatus.length === 0">
+              <h5 class="no-data d-flex flex-center-center flex-column">
+                <i class="no-data-icon fa fa-bar-chart mb-0"></i><br>
+                No unit data available
+              </h5>
+            </div>
+            <div ng-if="vm.incidentData.incident.apparatus.length > 0" ng-repeat="apparatus in vm.incidentData.incident.apparatus | orderBy:vm.sortByLength" class="mt-2 personnel-container">
+              <div class="unit-circle">
+                <i class="fa fa-truck"></i>
+              </div>
+              <div>
+                <div><b>{{ apparatus.unit_id }}</b></div>
+                <span ng-repeat="personnel in apparatus.personnel" class="personnel-label">
+                  {{ personnel.employee_id }}{{$last ? '' : ($index==Users.length-2) ? ' and ' : ', '}}
+                </span>
               </div>
             </div>
           </div>

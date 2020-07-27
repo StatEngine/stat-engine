@@ -16,6 +16,7 @@ export default class FireDepartmentController {
   constructor(FireDepartment, Modal, currentFireDepartment, $state, Upload) {
     this.FireDepartmentService = FireDepartment;
     this.ModalService = Modal;
+    this.file = null;
 
     this.fireDepartment = currentFireDepartment || {};
     this.$state = $state;
@@ -43,7 +44,7 @@ export default class FireDepartmentController {
 
     if(form.$valid) {
       if(this.fireDepartment._id) {
-        this.FireDepartmentService.update({ id: this.fireDepartment._id }, this.fireDepartment).$promise
+        this.update(this.fireDepartment, this.file)
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -51,7 +52,7 @@ export default class FireDepartmentController {
             this.errors = getErrors(err);
           });
       } else {
-        this.FireDepartmentService.create(this.fireDepartment).$promise
+        this.create(this.fireDepartment)
           .then(() => {
             this.$state.go('site.admin.home');
           })
@@ -62,16 +63,47 @@ export default class FireDepartmentController {
     }
   }
 
-  upload(file) {
-    const id = this.fireDepartment._id;
-    this.Upload.upload({
-      url: `/api/fire-departments/${id}/logo`,
-      data: { file: file }
-    }).then((res) => {
-      const imgURL = res.data.uri;
-      this.fireDepartment.logo_link = imgURL;
-    }, () => {
-      this.errors.error = 'Error uploading logo.';
-    });    
+  async update(fireDepartment, file) {
+    let url = null;
+    if (file) {
+      try {
+        url = await this.upload(file, fireDepartment._id);
+      } catch (err) {
+        this.errors.error = err;
+      }
+    }
+
+    return this.FireDepartmentService.update({ id: fireDepartment._id }, {
+      ...fireDepartment,
+      logo_link: url
+    }).$promise;
+  }
+
+  async create(fireDepartment) {
+    this.FireDepartmentService.create(fireDepartment).$promise
+      .then((department) => {
+        if (this.file) {
+          return this.update(department, this.file);
+        }
+
+        return Promise.resolve();
+      });
+  }
+
+  setFile(file) {
+    this.file = file;
+  }
+
+  upload(file, id) {
+    return new Promise((resolve, reject) => {
+      this.Upload.upload({
+        url: `/api/fire-departments/${id}/logo`,
+        data: { file }
+      }).then((res) => {
+        return resolve(res.data.uri);
+      }, () => {
+        return reject('Error uploading logo')
+      }); 
+    });   
   }
 }

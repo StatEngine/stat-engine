@@ -11,7 +11,7 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
   var _identity = {};
   var _authenticated = false;
   var _amplitudeIdentify = false;
-
+  var _subscription = null;
 
   return {
     init() {
@@ -83,6 +83,14 @@ export default function PrincipalService($http, $q, $cookies, $window, User) {
 
     signup(user) {
       return User.save(user).$promise;
+    },
+
+    setSubscription(subscripton) {
+      _subscription = { ...subscripton };
+    },
+
+    getSubscription() {
+      return _subscription;
     },
 
     identity(force) {

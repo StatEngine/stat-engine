@@ -4,10 +4,6 @@
 
 import angular from 'angular';
 import MapBoxGL from 'mapbox-gl';
-import geojsonExtent from '@mapbox/geojson-extent';
-import Buffer from '@turf/buffer';
-import { point } from '@turf/helpers';
-import union from '@turf/union';
 
 export class MoveUpMapComponent {
   constructor() {
@@ -16,66 +12,62 @@ export class MoveUpMapComponent {
 
   $onInit() {
     const mapColor = this.color || '#1bb4c7';
-
-    const units = this.units
-      .filter((unit, index, self) => self.findIndex(u => u.geohash === unit.geohash) === index)
-      .map(unit => {
-        const coordinates = unit.geom.coordinates;
-        const _point = point(coordinates);
-        return Buffer(_point, 2, { units: 'miles' });
-      })
-      .reduce((prev, current) => union(prev, current));
-
-    const geojson = {
-      type: 'FeatureCollection',
-      features: [units]
-    };
-
-    const bounds = geojsonExtent(geojson);
     const center = this.stations[0].geom.coordinates;
+    const isochrones = this.isochrones;
 
     const map = new MapBoxGL.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      zoom: 15,
+      zoom: 11,
       pitch: 0,
       center
     });
 
     map.on('load', () => {
 
+      map.addSource('boundary', {
+        type: 'geojson',
+        data: {
+          'type': 'Feature',
+          'geometry': this.boundary.geom
+        }
+      });
+
+      map.addSource('iso', {
+        type: 'geojson',
+        data: {
+          'type': 'Feature',
+          'geometry': isochrones
+        }
+      });
+     
       map.addLayer({
-        id: 'coverage',
-        type: 'fill',
-        source: {
-          type: 'geojson',
-          data: geojson
-        },
-        paint: {
+        'id': 'isoLayer',
+        'type': 'fill',
+        'source': 'iso',
+        'layout': {},
+        'paint': {
           'fill-color': mapColor,
-          'fill-opacity': 0.2,
-          'fill-outline-color': mapColor
-        },
-        filter: ['==', '$type', 'Polygon']
+          'fill-opacity': 0.3
+        }
       });
 
       map.addLayer({
-        id: 'coverageOutline',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: geojson
-        },
-        paint: {
-          'line-color': mapColor
-        },
-        filter: ['==', '$type', 'Polygon']
+        'id': 'boundaryStroke',
+        'type': 'line',
+        'source': 'boundary',
+        'layout': {},
+        'paint': {
+          'line-color': mapColor,
+          'line-width': 2
+        }
       });
 
       this.stations.forEach(({ geom, name, station_number }) => {
         const units = this.units
+          .filter(unit => !unit.status)
           .filter(({ station }) => parseInt(station) === station_number)
-          .map(({ id }) => `<div>${id}</div>`)
+          .map(({ unit_id }) => `<div>${unit_id}</div>`);
 
         const { coordinates } = geom;
         const popup = new MapBoxGL.Popup({ offset: 25 }).setHTML(`
@@ -83,7 +75,7 @@ export class MoveUpMapComponent {
             <strong>${name}</strong>
             <div class="model-popup-unit-count">There are ${units.length} units currently assigned to this station</div>
             <div class="model-popup-units">
-              ${ units.join('')}
+              ${ units.join('') }
             </div>
           </div>
         `);
@@ -98,7 +90,6 @@ export class MoveUpMapComponent {
           .addTo(map);
       });
 
-      map.fitBounds(bounds);
       map.addControl(new MapBoxGL.NavigationControl());
 
       // Custom Controls
@@ -116,7 +107,6 @@ export class MoveUpMapComponent {
       controlGroup.appendChild(layerButton);
     });
   }
-
 }
 
 export default angular.module('directives.moveUpMap', [])
@@ -127,7 +117,9 @@ export default angular.module('directives.moveUpMap', [])
     bindings: {
       stations: '=',
       units: '=',
-      color: '@'
+      color: '@',
+      isochrones: '=',
+      boundary: '='
     },
   })
   .name;

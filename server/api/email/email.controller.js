@@ -55,6 +55,12 @@ export async function sendTimeRangeAnalysis(req, res) {
     reportOptions.showPercentChange = false;
   }
 
+  if(_.isUndefined(reportOptions.showUtilization)) {
+    reportOptions.showUtilization = true;
+  } else {
+    reportOptions.showUtilization = false;
+  }
+
   // Override day reports to use shift time.
   if(reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
     reportOptions.timeUnit = TimeUnit.Shift;

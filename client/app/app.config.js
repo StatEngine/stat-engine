@@ -28,6 +28,9 @@ export function routeConfig($urlRouterProvider, $locationProvider, $stateProvide
       'sidebar@': {
         template: '<sidebar></sidebar>'
       },
+      'banner@': {
+        template: '<subscription-banner></subscription-banner />'
+      }
     },
   });
 
