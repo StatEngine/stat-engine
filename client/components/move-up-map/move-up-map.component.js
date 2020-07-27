@@ -18,12 +18,21 @@ export class MoveUpMapComponent {
     const map = new MapBoxGL.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      zoom: 12,
+      zoom: 11,
       pitch: 0,
       center
     });
 
     map.on('load', () => {
+
+      map.addSource('boundary', {
+        type: 'geojson',
+        data: {
+          'type': 'Feature',
+          'geometry': this.boundary.geom
+        }
+      });
+
       map.addSource('iso', {
         type: 'geojson',
         data: {
@@ -43,10 +52,22 @@ export class MoveUpMapComponent {
         }
       });
 
+      map.addLayer({
+        'id': 'boundaryStroke',
+        'type': 'line',
+        'source': 'boundary',
+        'layout': {},
+        'paint': {
+          'line-color': mapColor,
+          'line-width': 2
+        }
+      });
+
       this.stations.forEach(({ geom, name, station_number }) => {
         const units = this.units
+          .filter(unit => !unit.status)
           .filter(({ station }) => parseInt(station) === station_number)
-          .map(({ id }) => `<div>${id}</div>`)
+          .map(({ unit_id }) => `<div>${unit_id}</div>`);
 
         const { coordinates } = geom;
         const popup = new MapBoxGL.Popup({ offset: 25 }).setHTML(`
@@ -54,7 +75,7 @@ export class MoveUpMapComponent {
             <strong>${name}</strong>
             <div class="model-popup-unit-count">There are ${units.length} units currently assigned to this station</div>
             <div class="model-popup-units">
-              ${ units.join('')}
+              ${ units.join('') }
             </div>
           </div>
         `);
@@ -69,7 +90,6 @@ export class MoveUpMapComponent {
           .addTo(map);
       });
 
-      // map.fitBounds(bounds);
       map.addControl(new MapBoxGL.NavigationControl());
 
       // Custom Controls
@@ -98,7 +118,8 @@ export default angular.module('directives.moveUpMap', [])
       stations: '=',
       units: '=',
       color: '@',
-      isochrones: '='
+      isochrones: '=',
+      boundary: '='
     },
   })
   .name;

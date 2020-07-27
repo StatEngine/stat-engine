@@ -88,6 +88,14 @@ router.get(
   controller.getStations,
 );
 
+router.get(
+  '/:id/jurisdictional-boundary',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getJurisdictionalBoundary,
+);
+
 router.param('id', controller.loadFireDepartment);
 
 module.exports = router;
