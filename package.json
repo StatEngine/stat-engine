@@ -79,6 +79,7 @@
     "login-with-twitter": "^1.2.0",
     "lusca": "^1.6.0",
     "mailchimp-api-v3": "^1.8.0",
+    "mandrill-api": "^1.0.45",
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^0.45.0",
     "method-override": "^2.3.10",
@@ -232,7 +233,8 @@
     "test": "gulp test",
     "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update",
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "upload-templates": "node ./bin/uploadTemplates.js"
   },
   "private": true
 }
