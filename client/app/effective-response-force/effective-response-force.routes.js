@@ -1,3 +1,5 @@
+import { initTippy } from '../../util/imports';
+
 'use strict';
 
 export default function routes($stateProvider) {
@@ -29,7 +31,7 @@ export default function routes($stateProvider) {
         async modules() {
           const modules = {};
           modules._ = await import(/* webpackChunkName: "lodash" */ 'lodash');
-          modules.tippy = (await import(/* webpackChunkName: "tippy" */ 'tippy.js')).default;
+          modules.tippy = await initTippy()
           modules.PlotlyBasic = await import(/* webpackChunkName: "plotly-basic" */ 'plotly.js/dist/plotly-basic.js');
           return modules;
         },
