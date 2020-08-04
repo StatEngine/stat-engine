@@ -17,6 +17,14 @@ router.get(
 );
 
 router.get(
+  '/available',
+  auth.isApiAuthenticated,
+  auth.hasRole('user'),
+  auth.hasFireDepartment,
+  controller.getAvailableUnits,
+);
+
+router.get(
   '/:id/responses',
   auth.isApiAuthenticated,
   auth.hasRole('user'),

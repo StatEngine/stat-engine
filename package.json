@@ -61,6 +61,7 @@
     "express-sequelize-session": "0.4.0",
     "express-session": "^1.11.3",
     "fast-json-patch": "^2.0.6",
+    "flatpickr": "^4.6.3",
     "font-awesome": ">=4.1.0",
     "generate-password": "^1.4.2",
     "grpc": "^1.18.0",
