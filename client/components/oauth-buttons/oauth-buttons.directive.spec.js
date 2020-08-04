@@ -23,7 +23,7 @@ describe('Directive: oauthButtons', function() {
     parentScope = $rootScope.$new();
   }));
 
-  it('should contain anchor buttons', function() {
+  it('contains anchor buttons', function() {
     compileDirective('<oauth-buttons></oauth-buttons>');
     expect($(element[0])
         .find('a.btn.btn-social')
@@ -31,14 +31,14 @@ describe('Directive: oauthButtons', function() {
       .to.be.at.least(1);
   });
 
-  it('should evaluate and bind the classes attribute to scope.classes', function() {
+  it('evaluates and binds the classes attribute to scope.classes', function() {
     parentScope.scopedClass = 'scopedClass1';
     compileDirective('<oauth-buttons classes="testClass1 {{scopedClass}}"></oauth-buttons>');
     expect(elementScope.classes)
       .to.equal('testClass1 scopedClass1');
   });
 
-  it('should bind scope.classes to class names on the anchor buttons', function() {
+  it('binds scope.classes to class names on the anchor buttons', function() {
     compileDirective('<oauth-buttons></oauth-buttons>');
     // Add classes
     elementScope.classes = 'testClass1 testClass2';

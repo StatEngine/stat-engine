@@ -41,7 +41,10 @@ export default function(app) {
 
   app.set('appPath', path.join(config.root, 'client'));
   app.use(express.static(app.get('appPath'), { maxAge: '365d' }));
-  app.use(morgan('dev'));
+
+  if(env !== 'test') {
+    app.use(morgan('dev'));
+  }
 
   app.set('views', `${config.root}/server/views`);
   app.engine('html', require('ejs').renderFile);

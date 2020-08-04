@@ -3,9 +3,7 @@
 import express from 'express';
 import passport from 'passport';
 import bodyParser from 'body-parser';
-import path from 'path';
 
-import config from '../../config/environment';
 import { InternalServerError, UnauthorizedError } from '../../util/error';
 
 const router = express.Router();
@@ -17,7 +15,7 @@ router.post('/', bodyParser.json(), (req, res, next) => {
       return next(new InternalServerError(err.message));
     }
     if(!user) {
-      return next(new UnauthorizedError(info));
+      return next(new UnauthorizedError(info.message));
     }
     req.logIn(user, err => {
       if(err) {

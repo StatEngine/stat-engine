@@ -63,7 +63,7 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console({
-      level: 'debug',
+      level: (process.env.NODE_ENV === 'test') ? 'test' : 'debug',
     }),
   ],
 });
@@ -77,6 +77,10 @@ export const Log = {
 
   warn(message, data, inspectOptions) {
     logger.warn(message, { data, inspectOptions });
+  },
+
+  test(message, data, inspectOptions) {
+    logger.test(message, { data, inspectOptions });
   },
 
   info(message, data, inspectOptions) {

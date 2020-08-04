@@ -31,7 +31,7 @@ let rogers;
 let emailReportEnrichment;
 let whosOnApp;
 
-export default function seedDev() {
+function seedDev() {
   if (process.env.NODE_ENV === 'production') {
     throw new Error('Cannot seed a production database');
   }
@@ -970,3 +970,5 @@ export default function seedDev() {
     }))
     .then(() => Log.info('Finished seeding development data'));
 }
+
+module.exports = seedDev;
