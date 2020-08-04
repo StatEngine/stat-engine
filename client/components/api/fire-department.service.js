@@ -38,11 +38,11 @@ export default function FireDepartmentResource($resource) {
     update: {
       method: 'PUT',
     },
-    getSubscription: {
-      method: 'GET',
+    refreshSubscription: {
+      method: 'POST',
       params: {
         id: '@id',
-        resource: 'subscription',
+        resource: 'refreshSubscription',
       },
     },
     getStations: {

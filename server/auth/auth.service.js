@@ -4,10 +4,12 @@ import compose from 'composable-middleware';
 import passport from 'passport';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
+import axios from 'axios';
+import moment from 'moment';
 import { FireDepartment, User } from '../sqldb';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../util/error';
 import { Log } from '../util/log';
-import axios from 'axios';
+import { retrieveSubscription, SubscriptionStatus } from '../subscription/chargebee';
 
 /*
  * Serialize user into session
@@ -174,3 +176,38 @@ export const checkOauthJwt = jwt({
   }),
   algorithms: ['RS256']
 });
+
+export function hasActiveSubscription({ redirectTo } = {}) {
+  return function(req, res, next) {
+    try {
+      if(req.user.isGlobal) {
+        return next();
+      }
+
+      if(!req.fireDepartment) {
+        throw new BadRequestError('req.fireDepartment not set.');
+      }
+
+      const subscription = req.fireDepartment.subscription;
+      if(!subscription) {
+        throw new ForbiddenError('Fire department does not have a subscription.', 'SubscriptionNull');
+      }
+
+      if(subscription.status === SubscriptionStatus.Cancelled) {
+        // Check if the grace period has elapsed.
+        const gracePeriodEnd = moment(subscription.grace_period_end * 1000);
+        if(gracePeriodEnd < moment()) {
+          throw new ForbiddenError(`Fire department subscription has been cancelled and grace period has elapsed.`, 'SubscriptionCancelled');
+        }
+      }
+    } catch (err) {
+      if(redirectTo) {
+        res.redirect(redirectTo);
+      }
+
+      throw err;
+    }
+
+    next();
+  }
+}

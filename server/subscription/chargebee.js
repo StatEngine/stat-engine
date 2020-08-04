@@ -8,6 +8,16 @@ chargebee.configure({
   site: process.env.CHARGEBEE_SITE,
   api_key: process.env.CHARGEBEE_API_KEY});
 
+// Enum of Chargebee subscription statuses (https://apidocs.chargebee.com/docs/api/subscriptions).
+export const SubscriptionStatus = {
+  Future: 'future',
+  InTrial: 'in_trial',
+  Active: 'active',
+  NonRenewing: 'non_renewing',
+  Paused: 'paused',
+  Cancelled: 'cancelled',
+};
+
 export const createCustomer = async fireDepartment => {
   Log.info('Creating customer');
   let skip = _.isEmpty(process.env.CHARGEBEE_API_KEY) || _.isEmpty(fireDepartment);

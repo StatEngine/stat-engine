@@ -7,24 +7,12 @@ export default function routerDecorator(
 ) {
   'ngInject';
 
-  let currentPrincipal;
-  let subscription;
-  const daysToRenewSubscription = 45;
-
-  async function refreshSubscription() {
-    if(currentPrincipal) {
-      subscription = await FireDepartment.getSubscription({ id: currentPrincipal.fire_department__id }).$promise;
-      Principal.setSubscription(subscription);
-    }
-  }
-
   function getRenewSubscriptionHelpText() {
-    return `To renew your subscription, visit the <a href="/subscriptionPortal" target="_blank">Manage Subscription</a> page or contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble <span class="space-nowrap">(<i class="fa fa-comments"></i>)</span> in the lower right corner.`
+    return `To renew your subscription, visit the <a href="/subscriptionPortal" target="_blank">Manage Subscription</a> page or contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the chat bubble <span class="space-nowrap">(<i class="fa fa-comments"></i>)</span> in the lower right corner.`;
   }
 
-  function showSubscriptionExpiredWarning(daysSinceCancellation) {
-    const daysRemaining = daysToRenewSubscription - daysSinceCancellation;
-    const daysRemainingText = (daysRemaining === 1) ? `${daysRemaining} day` : `${daysRemaining} days`;
+  function showSubscriptionGracePeriodWarning(serviceDaysRemaining) {
+    const daysRemainingText = (serviceDaysRemaining === 1) ? `${serviceDaysRemaining} day` : `${serviceDaysRemaining} days`;
     Modal.alert({
       title: 'Subscription Canceled',
       content: `
@@ -38,20 +26,34 @@ export default function routerDecorator(
     }).present();
   }
 
-  function showSubscriptionExpired() {
+  async function showSubscriptionError(errorType, transition) {
+    let title;
     let content;
-    if(currentPrincipal.isDepartmentAdmin) {
+
+    const currentPrincipal = await Principal.identity();
+    if(errorType === 'SubscriptionCancelled') {
+      title = 'Subscription Canceled';
+      if(currentPrincipal.isDepartmentAdmin) {
+        content = `
+          Your subscription renewal grace period has elapsed and service has been suspended.<br/>
+          <br/>
+          ${getRenewSubscriptionHelpText()}
+        `
+      } else {
+        content = "Your department's subscription has expired and service has been suspended. Please contact your department administrator to restore service.";
+      }
+    } else if(errorType === 'SubscriptionNull') {
+      title = 'Subscription Not Found';
       content = `
-        Your subscription renewal grace period has elapsed and service has been suspended.<br/>
+        Your department's subscription was not found. Please try clicking the <strong>Refresh</strong> button below.<br/>
         <br/>
-        ${getRenewSubscriptionHelpText()}
-      `
-    } else {
-      content = "Your department's subscription has expired and service has been suspended. Please contact your department administrator to restore service.";
+        If the issue persists, contact us at <a href="mailto:contact@statengine.io">contact@statengine.io</a> or by using the
+        chat bubble <span class="space-nowrap">(<i class="fa fa-comments"></i>)</span> in the lower right corner.
+      `;
     }
 
     const modal = Modal.custom({
-      title: 'Subscription Canceled',
+      title,
       content,
       cancelButtonText: 'Refresh',
       showCloseButton: false,
@@ -70,44 +72,41 @@ export default function routerDecorator(
         style: Modal.buttonStyle.primary,
         dismisses: false,
         onClick: async () => {
-          await refreshSubscription();
-          if(subscription.status !== 'cancelled') {
-            modal.dismiss();
-          }
+          const subscription = await FireDepartment.refreshSubscription({
+            id: currentPrincipal.fire_department__id,
+          }).$promise;
+
+          currentPrincipal.FireDepartment.subscription = subscription;
+
+          modal.dismiss();
+          $state.go(transition.$to().name);
         },
       }],
     });
     modal.present();
   }
 
-  async function checkSubscriptionExpiry() {
-    currentPrincipal = await Principal.identity();
-
-    // Ignore subscription expiry for global users.
-    if(currentPrincipal.isGlobal) {
+  async function warnIfSubscriptionInGracePeriod() {
+    // Don't show subscription expiry warning to global users, non-admins, or users without a department.
+    const currentPrincipal = await Principal.identity();
+    if(currentPrincipal.isGlobal || !currentPrincipal.isDepartmentAdmin || !currentPrincipal.FireDepartment) {
       return;
     }
 
-    // Only get the subscription data when necessary.
-    if(!subscription || subscription.customer_id !== currentPrincipal.FireDepartment.customer_id) {
-      await refreshSubscription();
+    // Don't show the warning if they have don't have an active subscription.
+    const subscription = currentPrincipal.FireDepartment.subscription;
+    if(!subscription || subscription.status !== 'cancelled') {
+      return;
     }
 
-    if(subscription && subscription.status === 'cancelled') {
-      const canceledAt = moment(subscription.cancelled_at * 1000);
-      const daysSinceCancellation = moment().diff(canceledAt, 'days');
-      if(daysSinceCancellation < daysToRenewSubscription) {
-        if(currentPrincipal.isDepartmentAdmin) {
-          // Only show the warning once per day.
-          const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
-          const daysSinceShown = moment().diff(shownAt, 'days');
-          if(daysSinceShown >= 1) {
-            showSubscriptionExpiredWarning(daysSinceCancellation);
-            $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
-          }
-        }
-      } else {
-        showSubscriptionExpired();
+    // Only show the warning if we fall within the grace period.
+    if(Principal.serviceDaysRemaining > 0) {
+      // Only show the warning once per day.
+      const shownAt = moment(parseInt($cookies.get('subscription_expiry_warning_shown_at')) || 0);
+      const daysSinceShown = moment().diff(shownAt, 'days');
+      if(daysSinceShown >= 1) {
+        showSubscriptionGracePeriodWarning(Principal.serviceDaysRemaining);
+        $cookies.put('subscription_expiry_warning_shown_at', moment().valueOf());
       }
     }
   }
@@ -124,9 +123,20 @@ export default function routerDecorator(
       });
   });
 
-  $transitions.onSuccess({}, function(trans) {
+  $transitions.onError({}, async function(trans) {
+    const transError = trans.error();
+    if(transError.detail && transError.detail.data && transError.detail.data.errors) {
+      transError.detail.data.errors.forEach(async error => {
+        if(error.type === 'SubscriptionCancelled' || error.type === 'SubscriptionNull') {
+          await showSubscriptionError(error.type, trans);
+        }
+      });
+    }
+  });
+
+  $transitions.onSuccess({}, async function(trans) {
     if(Principal.isAuthenticated()) {
-      checkSubscriptionExpiry();
+      await warnIfSubscriptionInGracePeriod();
     }
 
     // Show warning dialog for IE browsers if a user is logged in or navigates to login or signup.

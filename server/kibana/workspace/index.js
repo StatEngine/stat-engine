@@ -17,6 +17,7 @@ router.get(
   auth.isAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+  auth.hasActiveSubscription({ redirectTo: '/home' }),
   workspaceController.hasWorkspaceAccess,
   rorController.logout,
   rorController.login,
