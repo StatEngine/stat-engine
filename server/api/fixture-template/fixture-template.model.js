@@ -70,7 +70,6 @@ export default function(sequelize, DataTypes) {
     getterMethods: {},
     indexes: [],
     hooks: {},
-    instanceMethods: {},
     underscored: true,
   });
 

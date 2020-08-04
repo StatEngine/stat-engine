@@ -26,12 +26,6 @@ export default function(sequelize, DataTypes) {
     hooks: {
     },
 
-    /**
-     * Instance Methods
-     */
-    instanceMethods: {
-    },
-
     underscored: true,
   });
 

@@ -114,7 +114,7 @@
     "request-promise": "^4.2.4",
     "require-all": "^2.2.0",
     "seedrandom": "^2.4.4",
-    "sequelize": "^3.23.6",
+    "sequelize": "^4.12",
     "serve-favicon": "^2.3.0",
     "skycons": "^1.0.0",
     "slideout": "^1.0.1",
