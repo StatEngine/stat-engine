@@ -31,7 +31,7 @@ export class EventDurationSumRule extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min summary`,
-        details: unitDetails.join('\r\n'),
+        details: unitDetails.join('<br>'),
         default_visibility: true,
       });
     }

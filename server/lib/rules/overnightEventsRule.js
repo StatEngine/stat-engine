@@ -39,7 +39,7 @@ export class OvernightEventsRule extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
-        details: minOvernightDetails.join('\r\n')
+        details: minOvernightDetails.join('<br>')
       });
     }
 
@@ -48,7 +48,7 @@ export class OvernightEventsRule extends Rule {
         rule: this.constructor.name,
         level: this.params.level,
         description: 'Unit response > 2 overnight',
-        details: greaterThanTwoOvernightDetails.join('\r\n'),
+        details: greaterThanTwoOvernightDetails.join('<br>'),
         default_visibility: true
       });
     }
