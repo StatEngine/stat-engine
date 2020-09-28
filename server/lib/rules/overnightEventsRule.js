@@ -18,31 +18,40 @@ export class OvernightEventsRule extends Rule {
 
   analyze() {
     let analysis = [];
+    let minOvernightDetails = [];
+    let greaterThanTwoOvernightDetails = [];
 
     this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
       let utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
-
       let count = unit.doc_count;
 
       if(utilization > this.params.threshold) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
-          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`
-        });
+        minOvernightDetails.push(`Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`);
       }
 
       if(count > 2) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: 'Unit response > 2 overnight',
-          details: `Unit: ${unit.key}, Responses: ${count}`,
-          default_visibility: true
-        });
+        greaterThanTwoOvernightDetails.push(`Unit: ${unit.key}, Responses: ${count}`);
       }
     });
+
+    if (minOvernightDetails.length > 0) {
+      analysis.push({
+        rule: this.constructor.name,
+        level: this.params.level,
+        description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
+        details: minOvernightDetails.join('\r\n')
+      });
+    }
+
+    if (greaterThanTwoOvernightDetails.length > 0) {
+      analysis.push({
+        rule: this.constructor.name,
+        level: this.params.level,
+        description: 'Unit response > 2 overnight',
+        details: greaterThanTwoOvernightDetails.join('\r\n'),
+        default_visibility: true
+      });
+    }
 
     return analysis;
   }
