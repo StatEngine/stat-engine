@@ -122,7 +122,7 @@ export function calculatePercentiles(req, res, next) {
     const erf_travel_values = _.filter(_.map(req.erfStats[i], 'erf_travel'), val => val > 0);
 
     req.summerizedStats[i] = {
-      num_of_incidents: erf_total_response_values.length,
+      num_of_incidents: erf_response_values.length,
       erf_total_response: percentile(90, erf_total_response_values),
       erf_response: percentile(90, erf_response_values),
       erf_travel: percentile(90, erf_travel_values),
