@@ -23,7 +23,18 @@ export class ShiftTextController {
         date: this.today.format('ddd, MM-DD'),
         shift: this.shiftly.calculateShift(this.today.format()),
       };
+
+      this.shiftString = this.getShiftString();
     }
+  }
+
+  getShiftString(){
+    const { shift } = this.todaysShift;  
+    const shiftNum = parseInt(shift);
+    if (shiftNum === NaN) {
+      return `${shift} Shift`;
+    }
+    return `Shift ${shiftNum}`;
   }
 }
 
