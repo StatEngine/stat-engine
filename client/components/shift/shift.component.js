@@ -31,7 +31,7 @@ export class ShiftTextController {
   getShiftString(){
     const { shift } = this.todaysShift;  
     const shiftNum = parseInt(shift);
-    if (shiftNum === NaN) {
+    if (isNaN(shiftNum)) {
       return `${shift} Shift`;
     }
     return `Shift ${shiftNum}`;
