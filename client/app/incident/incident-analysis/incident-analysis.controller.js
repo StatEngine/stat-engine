@@ -279,8 +279,4 @@ export default class IncidentAnalysisController {
   sortByLength = apparatus => {
     return apparatus && apparatus.personnel && apparatus.personnel.length;
   }
-
-  isEmpty = (someString) => {
-    return (someString === null || someString === undefined || someString === '');
-  }
 }
