@@ -48,7 +48,7 @@ export async function sendTimeRangeAnalysis(req, res) {
 
   const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
 
-  // Set defaults
+  // Set defautls
   if(_.isUndefined(reportOptions.showPercentChange)) {
     reportOptions.showPercentChange = true;
   } else {
@@ -237,7 +237,6 @@ function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, repo
       title,
       subtitle,
       shift: _getShift(fireDepartment.firecares_id, timeRange.start),
-      isShift: timeUnit === TimeUnit.Shift
     }
   };
 }
