@@ -345,10 +345,10 @@ function _formatAlerts(ruleAnalysis, reportOptions) {
 
   if(mergeVar.content.length === 0) {
     mergeVar.content.push({
-      rowColor: alertColors.success.row,
-      rowBorderColor: alertColors.success.rowBorder,
-      description: 'No alerts',
-      details: 'Keep up the good work!'
+      rowColor: alertColors.warning.row,
+      rowBorderColor: alertColors.warning.rowBorder,
+      description: 'No alerts found for today',
+      details: 'If this is unexpected, please contact support.'
     });
   }
 
