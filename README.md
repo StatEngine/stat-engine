@@ -95,7 +95,11 @@ xpack.watcher.enabled: false
 
 1.  Run the preconfigured Kibana instance
 ```
+on Linux:
 docker run -e ELASTICSEARCH_URI=http://localhost:9200 --net=host prominentedgestatengine/kibana:HEAD-c7f45bd-development
+
+on Mac:
+docker run -e ELASTICSEARCH_URI=http://host.docker.internal:9200 -p 5601:5601 prominentedgestatengine/kibana:HEAD-c7f45bd-development
 ```
 
 ### Loading Elasticsearch Test Data
