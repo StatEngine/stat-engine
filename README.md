@@ -9,6 +9,7 @@ StatEngine is a fire service analytical system, the most comprehensive way to ge
 Ensure the following packages are installed
 - [Git](https://git-scm.com/downloads)
 - [Node.js and npm](https://nodejs.org) Node >= 8.x.x, npm >= 6.5.x
+  - installing [NVM](https://github.com/nvm-sh/nvm) is HIGHLY recommended, since running StatEngine requires an older version of Node
 - [PostSQL](https://www.postgresql.org/download/) 9.6.5
 - [Elasticsearch](https://www.elastic.co/downloads/past-releases/elasticsearch-6-4-1) 6.4.1
 - [Java JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) 8.x.x
@@ -143,6 +144,13 @@ Edit the policy, allowing Read and Write access with prefix `*`
 5.  Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
 6.  Login with username: `richmond`, password: `password`.
+
+#### Note
+  - If you get strange errors when running either `npm instal1` or `gulp serve`, your problem is most likely a wrong node version.
+  - You MUST be using v8.x.x
+  - Run `nvm ls` (assuming you are using `nvm`), and see what versions you have installed and what version is currently in use
+  - It will often be set to the `system` version. You just have to change it to whatever 8.x.x you have installed
+  - For example, if you have v8.17.0 installed, then run `nvm use 8.17.0`
 
 ### Testing
 Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing.
