@@ -37,12 +37,20 @@
           grid-area: name;
         }
   
-        .email-details-color {
-          grid-area: color;
+        .email-details-schedule {
+          grid-area: schedule;
+        }
+
+        .email-details-enabled {
+          grid-area: enabled;
         }
   
         .email-details-description {
           grid-area: description;
+        }
+
+        .email-details-sections {
+          grid-area: sections;
         }
       }
     }

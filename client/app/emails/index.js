@@ -8,9 +8,9 @@ import mongooseError from '../../components/mongoose-error/mongoose-error.direct
 
 // modules
 import emailsSelect from './emails-select';
-// import emailEdit from './email-edit';
+import emailEdit from './emails-edit';
 
-export default angular.module('statEngineApp.emails', [uiRouter, emailsSelect, mongooseError])
+export default angular.module('statEngineApp.emails', [uiRouter, emailsSelect, emailEdit, mongooseError])
   .config(routing)
   .name;
 

@@ -12,17 +12,17 @@ export default class EmailsSelectController {
     this.AnalyticEventNames = AnalyticEventNames;
     this.ModalService = Modal;
     this.CustomEmailService = CustomEmail;
-
-    this.emails = [
-      {
-        name: 'email1',
-        description: 'email 1 description',
-      },
-      {
-        name: 'email2',
-        description: 'email 2 description',
-      },
-    ];
+    this.emails = [];
+    // this.emails = [
+    //   {
+    //     name: 'email1',
+    //     description: 'email 1 description',
+    //   },
+    //   {
+    //     name: 'email2',
+    //     description: 'email 2 description',
+    //   },
+    // ];
 
     // this.refresh();
   }
@@ -46,10 +46,10 @@ export default class EmailsSelectController {
       return;
     }
 
-    this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
-      app: 'EMAILS',
-      emails: email.name,
-    });
+    // this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
+    //   app: 'EMAILS',
+    //   emails: email.name,
+    // });
     this.$window.location.href = `/emails/${email._id}/dashboard`;
   }
 
@@ -77,7 +77,7 @@ export default class EmailsSelectController {
 //         style: this.ModalService.buttonStyle.danger,
 //         onClick: async () => {
 //             console.log('Delete Email');
-//         //   this.EmailsService.delete({ id: workspace._id})
+//         //   this.EmailsService.delete({ id: email._id})
 //         //   .$promise.then(() => this.refresh());
 //         },
 //       }],
