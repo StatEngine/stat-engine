@@ -197,7 +197,7 @@ angular.module('statEngineApp', [
   erf,
   treeSelect,
   autoComplete,
-  subscriptionBanner
+  subscriptionBanner,
 ])
   .config(routeConfig)
   .config(buildConfig => {
