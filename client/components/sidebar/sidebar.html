@@ -28,6 +28,12 @@
           </a>
         </li>
         <li class="br-menu-item" ng-show="vm.user.fire_department__id">
+          <a href="#" ng-class="{ active: vm.$state.current.name == 'site.emails.home' }" ng-click='vm.customEmails()' class="br-menu-link">
+            <i class="menu-item-icon fa fa-bar-chart tx-20"></i>
+            <span class="menu-item-label text-truncate">Emails</span>
+          </a>
+        </li>
+        <li class="br-menu-item" ng-show="vm.user.fire_department__id">
           <a href="#" class="br-menu-link with-sub" ng-class="{ 'active': vm.$state.current.name.startsWith('site.incident') || vm.$state.current.name.startsWith('site.reporting') }">
             <i class="menu-item-icon fa fa-newspaper-o tx-20"></i>
             <span class="menu-item-label text-truncate">Reports</span>

@@ -1,0 +1,50 @@
+.email-edit {
+    padding-top: 15px;
+  
+    .card {
+      margin-bottom: 1.5rem;
+  
+      .card-header {
+        justify-content: start;
+  
+        .info-icon {
+          font-size: 1.125rem;
+          margin: 0 0.5rem;
+        }
+      }
+    }
+  
+    .email-details {
+      .form-layout {
+        display: grid;
+        grid-template-areas:
+          'name        color'
+          'description empty'
+        ;
+        grid-template-columns: 50%;
+        grid-gap: 2rem;
+  
+        @include media-breakpoint-down(sm) {
+          grid-template-areas:
+            'name'
+            'description'
+            'color'
+          ;
+          grid-template-columns: 100%;
+        }
+  
+        .email-details-name {
+          grid-area: name;
+        }
+  
+        .email-details-color {
+          grid-area: color;
+        }
+  
+        .email-details-description {
+          grid-area: description;
+        }
+      }
+    }
+  }
+  

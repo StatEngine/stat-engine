@@ -1,0 +1,63 @@
+<div class="br-pageheader">
+    <nav class="breadcrumb">
+      <a class="breadcrumb-item" href="site.user.home">Home</a>
+      <a class="breadcrumb-item active" ui-sref="site.emails.home">Emails</a>
+    </nav>
+  </div>
+  <div class="emails-select">
+    <loading-overlay ng-if="vm.isLoading" show-spinner="true"></loading-overlay>
+    <section class="masthead">
+      <div class="masthead-content">
+        <h1>Custom Emails</h1>
+        <p>
+          Here, you can create custom email reports. You can choose what data will be loaded on to the report
+          as well as the schedule on which the emails will be sent.
+        </p>
+      </div>
+    </section>
+    <section class="emails-content">
+      <div class="br-pagetitle">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+          <h2 class="mb-0 mr-3">My Emails</h2>
+          <button class="btn btn-primary" ui-sref="site.emails.edit({ id: 'new' })">Create New</button>
+        </div>
+      </div>
+      <div class="br-pagebody">
+        <div class="row align-items-center">
+          <div ng-repeat="email in vm.emails | filter:query as filtered" class="col">
+            <div ng-click="vm.select($event, email)" href="#" class="email-card shadow-sm">
+              <div class="dropdown" ng-if="email.is_owner || vm.currentPrincipal.isAdmin">
+                <div
+                  class="dropdown-button icon-btn icon-btn-primary"
+                  data-toggle="dropdown"
+                  ng-click="vm.dropdownClick($event)"
+                >
+                  <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="dropdown-menu dropdown-menu-right" ng-click="vm.dropdownClick($event)">
+                  <nav class="nav nav-style-2 flex-column">
+                    <div class="nav-link" ng-click="vm.editEmail(email)">
+                      <i class="fa fa-2x fa-edit"></i>
+                      <span>Edit</span>
+                    </div>
+                    <div class="nav-link" ng-click="vm.deleteEmail(email)">
+                      <i class="fa fa-2x fa-times-circle"></i>
+                      <span>Delete</span>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              <div class="emails-color" ng-style="{'background-color': emails.color }"></div>
+              <h5 class="heavyheader text-truncate">{{email.name}}</h5>
+              <p>{{email.description}}</p>
+            </div>
+          </div>
+          <div ng-if="filtered.length == 0" class="col">
+            <h6 class="tx-semibold">
+              No emails available! <a ui-sref="site.emails.edit({ id: 'new' })" href="#">Create</a> one now.
+            </h6>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
