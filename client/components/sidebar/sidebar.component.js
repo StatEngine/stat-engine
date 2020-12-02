@@ -41,6 +41,15 @@ export class SidebarComponent {
     this.$state.go('site.workspace.home');
   }
 
+  customEmails() {
+    // this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
+    //   app: 'Emails',
+    //   location: 'sidebar',
+    // });
+    console.log('CLICKED EMAILS');
+    this.$state.go('site.emails.home');
+  }
+
   // eslint-disable-next-line class-methods-use-this
   $onInit() {
     $(document).ready(function() {
