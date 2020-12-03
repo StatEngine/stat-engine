@@ -54,6 +54,7 @@ export default class IncidentSearchController {
   }
 
   initUiGridColumnDefs() {
+    const dateTemplate = `<div class="ui-grid-cell-contents">{{grid.getCellValue(row, col) | amTimezone:'${this.fireDepartment.timezone}' | amDateFormat:'MMM D, YYYY HH:mm:ss' }}</div>`;
     this.uiGridColumnDefs = [{
       field: 'description.incident_number',
       displayName: 'Incident Number',
@@ -67,11 +68,13 @@ export default class IncidentSearchController {
       field: 'description.event_opened',
       displayName: 'Event Opened',
       cellFilter: 'date:\'MMM d, y HH:mm:ss\'',
+      cellTemplate: dateTemplate,
       cellTooltip: true,
     }, {
       field: 'description.event_closed',
       displayName: 'Event Closed',
       cellFilter: 'date:\'MMM d, y HH:mm:ss\'',
+      cellTemplate: dateTemplate,
       cellTooltip: true,
       defaultSort: {
         direction: 'desc',
