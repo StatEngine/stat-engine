@@ -107,7 +107,7 @@ docker run -e ELASTICSEARCH_URI=http://host.docker.internal:9200 -p 5601:5601 pr
 
 #### Nightly Dump
 
-A nightly dump of elasticdump data is availabe in S3.   Please contact a team member for access.
+A nightly dump of elasticdump data is available in S3.   Please contact a team member for access.
 
 #### Loading data
 

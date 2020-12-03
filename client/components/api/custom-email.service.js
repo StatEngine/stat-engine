@@ -3,7 +3,7 @@
 export default function CustomEmailResource($resource) {
   'ngInject';
 
-  return $resource('/api/custom-email/:id/:controller/:controllerId', {
+  return $resource('/api/custom-email/:id', {
     id: '@_id',
   }, {
     create: {
