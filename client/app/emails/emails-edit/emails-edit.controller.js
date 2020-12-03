@@ -32,7 +32,11 @@ export default class EmailsEditController {
 
     this.inputEmail = {
       _id: this.$stateParams.id === 'new' ? undefined : this.$stateParams.id,
-      color: this.palette[0][0],
+      name: '',
+      description: '',
+      schedule: '',
+      enabled: true,
+      sections: {},
     };
   }
 
@@ -41,6 +45,8 @@ export default class EmailsEditController {
   }
 
   async $onInit() {
+    console.dir(this.CustomEmailService);
+
     await this.loadModules();
     this.emailForm = $('#email-form').parsley();
     await this.refresh();
@@ -77,7 +83,7 @@ export default class EmailsEditController {
     this.origEmail = {};
 
     if (!this.isNewEmail) {
-      this.origEmail = await this.EmailService.get({ id: this.inputEmail._id }).$promise;
+      this.origEmail = await this.CustomEmailService.get({ id: this.inputEmail._id }).$promise;
       // Clone email for editing.
       this.inputEmail = _.cloneDeep(this.origEmail);
     }
@@ -109,39 +115,47 @@ export default class EmailsEditController {
       return;
     }
 
-    let fnc = this.EmailService.update;
+    let fnc = this.CustomEmailService.update;
 
     const params = {
       id: this.inputEmail._id,
     };
 
     if (this.isNewEmail) {
-      fnc = this.EmailService.create;
+      console.log('a new email');
+      fnc = this.CustomEmailService.create;
 
-      this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
-        app: 'EMAIL',
-        action: 'create',
-        with_fixtures: this.seed,
-      });
+      // this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
+      //   app: 'EMAIL',
+      //   action: 'create',
+      //   with_fixtures: this.seed,
+      // });
     }
 
     this.isSaving = true;
     this.errors = null;
+
+    console.log('updateEmail');
+    console.dir(this.inputEmail);
     try {
+      console.log('calling api');
       await fnc(params, {
         id: this.inputEmail._id,
         name: this.inputEmail.name,
-        description: this.inputEmail.description,
-        color: this.inputEmail.color,
+        schedule: this.inputEmail.schedule,
+        enabled: this.inputEmail.enabled,
+        sections: this.inputEmail.sections,
       }).$promise;
     } catch (err) {
+      console.log('error calling api');
+      console.dir(err);
       this.errors = getErrors(err);
       return;
     } finally {
       this.isSaving = false;
     }
 
-    this.$state.go('site.emails.home');
+    // this.$state.go('site.emails.home');
   }
 
   templateIdToUniqueId(templateId) {
