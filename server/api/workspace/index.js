@@ -23,7 +23,7 @@ router.get(
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
-  controller.getAll
+  controller.getAll,
 );
 
 router.get(
@@ -83,7 +83,7 @@ router.post(
   auth.hasFireDepartment,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
-  controller.updateOwner
+  controller.updateOwner,
 );
 
 router.delete(

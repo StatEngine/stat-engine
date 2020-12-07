@@ -52,3 +52,5 @@ router.delete(
   bodyParser.json(),
   controller.deleteCustomEmail,
 );
+
+module.exports = router;
