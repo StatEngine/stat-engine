@@ -9,8 +9,8 @@ export default function EmailResource($resource) {
     send: {
       method: 'POST',
       params: {
-        id: '@id'
-      }
+        id: '@id',
+      },
     },
   });
 }
