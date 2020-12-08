@@ -84,6 +84,8 @@ export default class EmailsEditController {
 
     if (!this.isNewEmail) {
       this.origEmail = await this.CustomEmailService.get({ id: this.inputEmail._id }).$promise;
+      console.log('EMAIL EDIT CONTROLLER');
+      console.dir(this.origEmail);
       // Clone email for editing.
       this.inputEmail = _.cloneDeep(this.origEmail);
     }
@@ -139,13 +141,7 @@ export default class EmailsEditController {
     console.dir(this.inputEmail);
     try {
       console.log('calling api');
-      await fnc(params, {
-        id: this.inputEmail._id,
-        name: this.inputEmail.name,
-        schedule: this.inputEmail.schedule,
-        enabled: this.inputEmail.enabled,
-        sections: this.inputEmail.sections,
-      }).$promise;
+      await fnc(params, this.inputEmail).$promise;
     } catch (err) {
       console.log('error calling api');
       console.dir(err);
@@ -155,7 +151,7 @@ export default class EmailsEditController {
       this.isSaving = false;
     }
 
-    // this.$state.go('site.emails.home');
+    this.$state.go('site.emails.home');
   }
 
   templateIdToUniqueId(templateId) {

@@ -6,6 +6,15 @@ export default function CustomEmailResource($resource) {
   return $resource('/api/custom-email/:id', {
     id: '@_id',
   }, {
+    list: {
+      method: 'GET',
+    },
+    find: {
+      method: 'GET',
+      params: {
+        id: '@id',
+      },
+    },
     create: {
       method: 'POST',
     },
@@ -13,7 +22,7 @@ export default function CustomEmailResource($resource) {
       method: 'PUT',
     },
     delete: {
-      method: 'Delete',
+      method: 'DELETE',
     },
   });
 }

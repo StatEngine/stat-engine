@@ -1,7 +1,7 @@
 'use strict';
 
 export default function(sequelize, DataTypes) {
-  const CustomEmail = sequelize.define('CustomEmails', {
+  const CustomEmail = sequelize.define('CustomEmail', {
 
     _id: {
       type: DataTypes.INTEGER,

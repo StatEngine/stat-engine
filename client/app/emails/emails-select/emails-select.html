@@ -26,7 +26,7 @@
         <div class="row align-items-center">
           <div ng-repeat="email in vm.emails | filter:query as filtered" class="col">
             <div ng-click="vm.select($event, email)" href="#" class="email-card shadow-sm">
-              <div class="dropdown" ng-if="email.is_owner || vm.currentPrincipal.isAdmin">
+              <div class="dropdown" vm.currentPrincipal.isAdmin">
                 <div
                   class="dropdown-button icon-btn icon-btn-primary"
                   data-toggle="dropdown"
