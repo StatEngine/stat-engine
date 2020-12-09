@@ -277,6 +277,6 @@ export default class IncidentAnalysisController {
   };
 
   sortByLength = apparatus => {
-    return apparatus.personnel.length;
+    return apparatus && apparatus.personnel && apparatus.personnel.length;
   }
 }
