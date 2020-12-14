@@ -62,6 +62,8 @@ export async function update(req, res) {
   const updatedEmail = dbRes[0].dataValues;
   if (updatedEmail.enabled) {
     await CustomEmailScheduler.scheduleCustomEmail(updatedEmail);
+  } else {
+    CustomEmailScheduler.removeEmailSchedule(updatedEmail);
   }
   res.json(updatedEmail);
 }
