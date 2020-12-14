@@ -49,21 +49,26 @@ export async function create(req, res) {
 }
 
 export async function update(req, res) {
-  const { body } = req;
+  console.log('UPDATE EMAIL');
+  const { body: updatedEmail } = req;
   const { emailId } = req.params;
-  const dbRes = await CustomEmail.update(
-    body,
+  console.dir(updatedEmail);
+  console.log(`UPDATE EMAIL ID: ${emailId}`);
+
+  await CustomEmail.update(
+    updatedEmail,
     {
       where: {
         _id: emailId,
       },
     },
   );
-  const updatedEmail = dbRes[0].dataValues;
+  console.log('UPDATED EMAIL');
+  console.dir(updatedEmail);
   if (updatedEmail.enabled) {
     await CustomEmailScheduler.scheduleCustomEmail(updatedEmail);
   } else {
-    CustomEmailScheduler.removeEmailSchedule(updatedEmail);
+    CustomEmailScheduler.unscheduleEmail(updatedEmail._id);
   }
   res.json(updatedEmail);
 }
@@ -75,6 +80,8 @@ export async function deleteCustomEmail(req, res) {
       _id: emailId,
     },
   });
+  CustomEmailScheduler.unscheduleEmail(emailId);
+
   res.json({
     msg: `email ${emailId} deleted`,
   });

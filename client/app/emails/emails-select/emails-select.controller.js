@@ -20,15 +20,12 @@ export default class EmailsSelectController {
 
   $onInit() {
     $('.dropdown-button').dropdown();
-    console.log('EmailsSelectController onInit');
   }
 
   refresh() {
     this.isLoading = true;
     this.CustomEmailService.listByDeptId().$promise
       .then(resEmail => {
-        console.log('refresh email list');
-        console.dir(resEmail);
         this.emails = resEmail.emails;
         this.isLoading = false;
       })
