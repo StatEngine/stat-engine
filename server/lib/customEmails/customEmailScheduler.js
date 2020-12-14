@@ -33,8 +33,8 @@ export default class CustomEmailScheduler {
     this.customEmailTimers.addInterval(emailData._id, interval);
   }
 
-  static unscheduleEmail(emailData) {
-    this.customEmailTimers.removeInterval(emailData._id);
+  static unscheduleEmail(emailId) {
+    this.customEmailTimers.removeInterval(emailId);
   }
 
   static addAnHour(sched) {
