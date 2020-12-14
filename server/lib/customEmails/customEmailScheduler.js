@@ -33,6 +33,10 @@ export default class CustomEmailScheduler {
     this.customEmailTimers.addInterval(emailData._id, interval);
   }
 
+  static unscheduleEmail(emailData) {
+    this.customEmailTimers.removeInterval(emailData._id);
+  }
+
   static addAnHour(sched) {
     let time = sched.schedules[0].t[0];
     // later uses seconds, not millisecondxs
