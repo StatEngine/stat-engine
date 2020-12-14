@@ -39,7 +39,6 @@ export default function(sequelize, DataTypes) {
     },
     enabled: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
       defaultValue: true,
     },
     sections: {

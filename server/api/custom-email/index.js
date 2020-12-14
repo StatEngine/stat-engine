@@ -14,7 +14,7 @@ router.get(
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
-  controller.list,
+  controller.listByDeptId,
 );
 
 router.get(

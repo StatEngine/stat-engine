@@ -14,6 +14,7 @@ import 'regenerator-runtime/runtime';
 import sqldb from './sqldb';
 import config from './config/environment';
 import { Log } from './util/log';
+import CustomEmailScheduler from './lib/customEmails/customEmailScheduler';
 
 // Setup server
 var app = express();
@@ -27,11 +28,16 @@ require('./config/express').default(app);
 require('./routes').default(app);
 require('./grpc');
 
+
+
+
 // Start server
-function startServer() {
+async function startServer() {
   app.angularFullstack = server.listen(config.port, config.ip, function() {
     Log.info(`Express server listening on ${config.port}, in ${app.get('env')} mode`);
   });
+
+  CustomEmailScheduler.scheduleCustomEmails();
 }
 
 sqldb.sequelize.sync()

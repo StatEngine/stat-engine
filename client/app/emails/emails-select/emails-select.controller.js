@@ -25,7 +25,7 @@ export default class EmailsSelectController {
 
   refresh() {
     this.isLoading = true;
-    this.CustomEmailService.list().$promise
+    this.CustomEmailService.listByDeptId().$promise
       .then(resEmail => {
         console.log('refresh email list');
         console.dir(resEmail);

@@ -6,7 +6,7 @@ export default function CustomEmailResource($resource) {
   return $resource('/api/custom-email/:id', {
     id: '@_id',
   }, {
-    list: {
+    listByDeptId: {
       method: 'GET',
     },
     find: {
