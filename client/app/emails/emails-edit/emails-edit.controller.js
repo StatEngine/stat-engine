@@ -36,7 +36,7 @@ export default class EmailsEditController {
       description: '',
       schedule: '',
       enabled: true,
-      sections: {},
+      sections: [],
     };
   }
 
@@ -112,6 +112,14 @@ export default class EmailsEditController {
     return this.isSaving;
   }
 
+  getSectionsJson() {
+    return [
+      {
+        type: 'alertSummary',
+      },
+    ];
+  }
+
   async updateEmail() {
     if (!this.emailForm.isValid()) {
       return;
@@ -136,9 +144,11 @@ export default class EmailsEditController {
 
     this.isSaving = true;
     this.errors = null;
-
+    const sectionsJson = this.getSectionsJson();
     console.log('updateEmail');
     console.dir(this.inputEmail);
+    console.dir(sectionsJson);
+    this.inputEmail.sections = sectionsJson;
     try {
       console.log('calling api');
       await fnc(params, this.inputEmail).$promise;
