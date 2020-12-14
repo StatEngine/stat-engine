@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { OvernightEventsRule } from './overnightEventsRule';
+import { EventDurationSumRule } from './eventDurationSumRule';
 
-describe('OvernightEventsRule', () => {
+describe('EventDurationSumRule', () => {
   let rule;
   beforeEach(() => {
     const ruleParams = {
@@ -28,24 +28,17 @@ describe('OvernightEventsRule', () => {
         },
       },
     };
-    rule = new OvernightEventsRule(ruleParams);
+    rule = new EventDurationSumRule(ruleParams);
     rule.setResults(twoIncidentOverThreshold);
   });
 
   it('expects two events over the threshold to be consolidated into one detailed event', () => {
-    expect(rule.analyze()).to.deep.equal([
-      {
-        rule: 'OvernightEventsRule',
-        level: 'DANGER',
-        description: 'Unit utilization > 1 min overnight',
-        details: 'Unit: UNIT_100, Utilization: 10.00<br>Unit: UNIT_200, Utilization: 100.00',
-      },
-      {
-        rule: 'OvernightEventsRule',
-        level: 'DANGER',
-        description: 'Unit response > 2 overnight',
-        details: 'Unit: UNIT_200, Responses: 4',
-        default_visibility: true,
-      }]);
+    expect(rule.analyze()).to.deep.equal([{
+      rule: 'EventDurationSumRule',
+      level: 'DANGER',
+      description: 'Unit utilization > 1 min summary',
+      details: 'Unit: UNIT_100, Utilization: 10.00<br>Unit: UNIT_200, Utilization: 100.00',
+      default_visibility: true,
+    }]);
   });
 });
