@@ -112,12 +112,10 @@ export default class EmailsEditController {
     return this.isSaving;
   }
 
-  getSectionsJson() {
-    return [
-      {
-        type: 'alertSummary',
-      },
-    ];
+  getSections() {
+    // TODO: load sections from UI
+    const mockData = ['description', 'alertSummary'];
+    return mockData.map(data => ({ type: data }));
   }
 
   async updateEmail() {
@@ -144,7 +142,7 @@ export default class EmailsEditController {
 
     this.isSaving = true;
     this.errors = null;
-    const sectionsJson = this.getSectionsJson();
+    const sectionsJson = this.getSections();
     console.log('updateEmail');
     console.dir(this.inputEmail);
     console.dir(sectionsJson);

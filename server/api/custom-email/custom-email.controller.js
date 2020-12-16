@@ -10,6 +10,13 @@ export async function queryFindAll(where) {
   return CustomEmail.findAll({ raw: true });
 }
 
+export async function queryFindOne(emailId) {
+  const where = {
+    _id: emailId,
+  };
+  return CustomEmail.findOne({ where, raw: true });
+}
+
 export async function queryUpdate(emailId, updateData) {
   return CustomEmail.update(
     updateData,
@@ -34,28 +41,22 @@ export async function listByDeptId(req, res) {
 
 export async function find(req, res) {
   const { emailId } = req.params;
-  const where = {
-    _id: emailId,
-  };
-  const email = await CustomEmail.findOne({ where, raw: true });
+  const email = await queryFindOne(emailId);
   console.log('CUSTOM EMAIL FIND');
   console.dir(email);
-
   res.json(email);
 }
 
 export async function create(req, res) {
   const { body } = req;
-  console.log('CREATE EMAIL');
   const dept = req.fireDepartment.get();
 
-  // on create, just set lastSent to creation time
+  // on create, set lastSent to creation time
   const lastSent = moment().format();
   const emailData = { ...body, fd_id: dept.fd_id, last_sent: lastSent };
   const dbRes = await CustomEmail.create(emailData);
   const newEmail = dbRes.dataValues;
   newEmail.dept = dept;
-  console.dir(newEmail);
   if (newEmail.enabled) {
     await CustomEmailScheduler.scheduleCustomEmail(newEmail);
   }
@@ -63,16 +64,9 @@ export async function create(req, res) {
 }
 
 export async function update(req, res) {
-  console.log('UPDATE EMAIL');
   const { body: updatedEmail } = req;
   const { emailId } = req.params;
-  console.dir(updatedEmail);
-  console.log(`UPDATE EMAIL ID: ${emailId}`);
-
   await queryUpdate(emailId, updatedEmail);
-  
-  console.log('UPDATED EMAIL');
-  console.dir(updatedEmail);
   if (updatedEmail.enabled) {
     await CustomEmailScheduler.scheduleCustomEmail(updatedEmail);
   } else {
