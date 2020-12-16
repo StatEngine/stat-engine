@@ -1,4 +1,7 @@
 import moment from 'moment';
+import nodemailer from 'nodemailer';
+
+
 import { FireDepartment, User } from '../../sqldb';
 import { queryUpdate } from '../../api/custom-email/custom-email.controller';
 import alertSummary from './sections/alertSummary';
@@ -35,10 +38,21 @@ async function getEmailContent(emailData) {
 }
 
 async function sendEmails(emailData) {
-  // send the email to each user
-  emailData.fireDepartment.Users.forEach(u => {
-    console.log(u.email);
+  const transport = nodemailer.createTransport({
+    host: 'smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+      user: '8e9d8b26252da5',
+      pass: 'a65bd89dada789',
+    },
   });
+  // send the email to each user
+  const user = emailData.fireDepartment.Users[0];
+  console.log('SEND EMAILS');
+  console.dir(user.email);
+  // emailData.fireDepartment.Users.forEach(u => {
+  //   console.log(u.email);
+  // });
   return 'sendEmails';
 }
 
@@ -51,8 +65,8 @@ export default async function buildEmailContentAndSend(emailData) {
   // get the email content
   emailData.emailContent = await getEmailContent(emailData);
 
-  console.log('SECTIONS');
-  console.dir(emailData.emailContent, { depth: null });
+  // console.log('SECTIONS');
+  // console.dir(emailData.emailContent, { depth: null });
 
   // send the emails
   await sendEmails(emailData);
