@@ -1,4 +1,4 @@
-import createCustomEmailContent from '../../customEmails/createCustomEmailContent';
+import buildEmailContentAndSend from '../../customEmails/buildSectionsContentAndSend';
 
 import Action from './action';
 
@@ -8,9 +8,7 @@ class CustomEmail extends Action {
   }
 
   run() {
-    console.info('Running CustomEmail Action');
-    console.dir(this.options);
-    createCustomEmailContent(this.options);
+    buildEmailContentAndSend(this.options);
   }
 }
 

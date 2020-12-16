@@ -10,6 +10,7 @@ import 'express-async-errors';
 import express from 'express';
 import http from 'http';
 import 'regenerator-runtime/runtime';
+import later from '@breejs/later';
 
 import sqldb from './sqldb';
 import config from './config/environment';
@@ -38,6 +39,25 @@ async function startServer() {
   });
 
   CustomEmailScheduler.scheduleCustomEmails();
+
+  // when this container starts up, we want to run scheduleAll on the days that daylight
+  // savings time starts and ends
+  // daylight savings time starts on the second Sunday of March
+  const startDstSchedule = later.parse.recur().on(3).month().on(2)
+    .weekOfMonth()
+    .on(1)
+    .hour();
+  // daylight savings time ends on the first Sunday of November
+  const endDstSchedule = later.parse.recur().on(11).month().on(1)
+    .weekOfMonth()
+    .on(1)
+    .dayOfWeek()
+    .on(1)
+    .hour();
+
+  // we want to reschedule on start and end of DST
+  later.setInterval(CustomEmailScheduler.scheduleCustomEmails, startDstSchedule);
+  later.setInterval(CustomEmailScheduler.scheduleCustomEmails, endDstSchedule);
 }
 
 sqldb.sequelize.sync()
