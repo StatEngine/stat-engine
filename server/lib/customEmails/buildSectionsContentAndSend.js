@@ -1,6 +1,8 @@
 import moment from 'moment';
 import { FireDepartment, User } from '../../sqldb';
 import { queryUpdate } from '../../api/custom-email/custom-email.controller';
+import alertSummary from './sections/alertSummary';
+import description from './sections/description';
 
 async function getFireDepartment(fdId) {
   return FireDepartment.findOne({
@@ -15,9 +17,21 @@ async function getFireDepartment(fdId) {
 }
 
 async function getEmailContent(emailData) {
-  return emailData.sections.map(section => {
-    return section.type;
+  const sectionFuncs = {
+    alertSummary,
+    description,
+  };
+  const end = moment().format();
+  emailData.timeRange = {
+    start: emailData.last_sent,
+    end,
+  };
+  const promises = emailData.sections.map(section => {
+    const { type } = section;
+    return sectionFuncs[type](emailData);
   });
+
+  return Promise.all(promises);
 }
 
 async function sendEmails(emailData) {
@@ -29,13 +43,16 @@ async function sendEmails(emailData) {
 }
 
 export default async function buildEmailContentAndSend(emailData) {
-  console.log('createCustomEmailContent');
-  console.dir(emailData, { depth: null });
+  console.log('buildEmailContentAndSend');
+  // console.dir(emailData, { depth: null });
 
   emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
 
   // get the email content
   emailData.emailContent = await getEmailContent(emailData);
+
+  console.log('SECTIONS');
+  console.dir(emailData.emailContent, { depth: null });
 
   // send the emails
   await sendEmails(emailData);
