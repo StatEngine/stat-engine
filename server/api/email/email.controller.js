@@ -1,3 +1,5 @@
+'use strict';
+
 import moment from 'moment-timezone';
 import _ from 'lodash';
 import { FirecaresLookup } from '@statengine/shiftly';
@@ -23,7 +25,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   const previous = req.query.previous;
   const test = !!(req.query.test && req.query.test.toLowerCase() === 'true');
 
-  if (!configId) {
+  if(!configId) {
     throw new BadRequestError('Query param "configurationId" is required');
   }
 
@@ -47,24 +49,24 @@ export async function sendTimeRangeAnalysis(req, res) {
   const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
 
   // Set defautls
-  if (_.isUndefined(reportOptions.showPercentChange)) {
+  if(_.isUndefined(reportOptions.showPercentChange)) {
     reportOptions.showPercentChange = true;
   } else {
     reportOptions.showPercentChange = false;
   }
 
-  if (_.isUndefined(reportOptions.showUtilization)) {
+  if(_.isUndefined(reportOptions.showUtilization)) {
     reportOptions.showUtilization = true;
   } else {
     reportOptions.showUtilization = false;
   }
 
   // Override day reports to use shift time.
-  if (reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
+  if(reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
     reportOptions.timeUnit = TimeUnit.Shift;
   }
 
-  if (_.isNil(reportOptions)) {
+  if(_.isNil(reportOptions)) {
     throw new InternalServerError('No report options found!');
   }
 
@@ -107,17 +109,17 @@ export async function sendTimeRangeAnalysis(req, res) {
 
   const toUsersByEmail = {};
 
-  if (_.isNil(reportOptions.emailAllUsers) || reportOptions.emailAllUsers) {
+  if(_.isNil(reportOptions.emailAllUsers) || reportOptions.emailAllUsers) {
     fd.Users.forEach(u => {
       toUsersByEmail[u.email] = u;
     });
   }
 
   // Add additional to.
-  if (reportOptions.to) {
+  if(reportOptions.to) {
     reportOptions.to.forEach(u => {
       // Don't add the same email twice.
-      if (toUsersByEmail[u.email]) {
+      if(toUsersByEmail[u.email]) {
         return;
       }
 
@@ -137,7 +139,7 @@ export async function sendTimeRangeAnalysis(req, res) {
   toUsers = toUsers.filter(user => user.isSubscribedToEmail(reportOptions.name));
 
 
-  if (_.isEmpty(toUsers)) {
+  if(_.isEmpty(toUsers)) {
     return res.status(200).send();
   }
 
@@ -195,7 +197,7 @@ export async function sendTimeRangeAnalysis(req, res) {
 function _getShift(firecaresId, date) {
   const ShiftConfiguration = FirecaresLookup[firecaresId];
 
-  if (ShiftConfiguration) {
+  if(ShiftConfiguration) {
     const shiftly = new ShiftConfiguration();
     return shiftly.calculateShift(date);
   }
@@ -213,13 +215,15 @@ function _getTimeRangeEmailId(timeUnit) {
 function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
   let title;
   let subtitle;
-  const timeUnit = reportOptions.timeUnit.toLowerCase();
+  let timeUnit = reportOptions.timeUnit.toLowerCase();
 
   const timeStart = moment.parseZone(timeRange.start);
-  if (timeUnit === TimeUnit.Shift) {
+  if(timeUnit === TimeUnit.Shift) {
     title = `Shift Report - ${timeStart.format('YYYY-MM-DD')}`;
     subtitle = `Shift ${_getShift(fireDepartment.firecares_id, timeRange.start)}`;
-  } else if (timeUnit === TimeUnit.Week) { title = `Weekly Report - W${timeStart.week()}`; } else if (timeUnit === TimeUnit.Month) { title = `Monthly Report - ${timeStart.format('MMMM')}`; } else if (timeUnit === TimeUnit.Year) { title = `Yearly Report - ${timeStart.year()}`; }
+  } else if(timeUnit === TimeUnit.Week) title = `Weekly Report - W${timeStart.week()}`;
+  else if(timeUnit === TimeUnit.Month) title = `Monthly Report - ${timeStart.format('MMMM')}`;
+  else if(timeUnit === TimeUnit.Year) title = `Yearly Report - ${timeStart.year()}`;
 
   return {
     name: 'description',
@@ -233,7 +237,7 @@ function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, repo
       title,
       subtitle,
       shift: _getShift(fireDepartment.firecares_id, timeRange.start),
-    },
+    }
   };
 }
 
@@ -245,9 +249,9 @@ function _formatOptions(options) {
 }
 
 function _formatFireDepartmentMetrics(comparison, options) {
-  const mergeVar = {
+  let mergeVar = {
     name: 'fireDepartmentMetrics',
-    content: [],
+    content: []
   };
 
   const metrics = [
@@ -259,15 +263,15 @@ function _formatFireDepartmentMetrics(comparison, options) {
     ['90% Distance to Incident (mi)', 'distanceToIncidentPercentile90', 'showDistances'],
     ['90% EMS Turnout Duration (sec)', 'emsTurnoutDurationPercentile90'],
     ['90% Fire Turnout Duration (sec)', 'fireTurnoutDurationPercentile90'],
-    ['90% Event Duration (min)', 'eventDurationPercentile90'],
+    ['90% Event Duration (min)', 'eventDurationPercentile90']
   ];
 
   metrics.forEach(metric => {
     const [label, path, condition] = metric;
 
-    const data = _.get(comparison.fireDepartment, path);
+    let data = _.get(comparison.fireDepartment, path);
 
-    if (!condition || (condition && _.get(options, condition))) {
+    if(!condition || (condition && _.get(options, condition))) {
       mergeVar.content.push(_.merge({}, { label }, data));
     }
   });
@@ -318,60 +322,61 @@ const alertColors = {
 };
 
 function _formatAlerts(ruleAnalysis, reportOptions) {
-  const mergeVar = {
+  let mergeVar = {
     name: 'alerts',
-    content: [],
+    content: []
   };
 
   _.forEach(ruleAnalysis, ruleViolations => {
     ruleViolations.forEach(violation => {
-      if (violation.level === 'DANGER') {
+      if(violation.level === 'DANGER') {
         violation.rowColor = alertColors.danger.row;
         violation.rowBorderColor = alertColors.danger.rowBorder;
-      } else if (violation.level === 'WARNING') {
+      }
+      else if(violation.level === 'WARNING') {
         violation.rowColor = alertColors.warning.row;
         violation.rowBorderColor = alertColors.warning.rowBorder;
       }
 
-      const showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
-      if (showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) { mergeVar.content.push(violation); }
+      let showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
+      if(showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) mergeVar.content.push(violation);
     });
   });
 
-  if (mergeVar.content.length === 0) {
+  if(mergeVar.content.length === 0) {
     mergeVar.content.push({
       rowColor: alertColors.success.row,
       rowBorderColor: alertColors.success.rowBorder,
       description: 'No alerts',
-      details: 'Keep up the good work!',
+      details: 'Keep up the good work!'
     });
   }
 
   // Add a space after any comma without one after it.
   mergeVar.content.forEach(alert => {
-    alert.details = alert.details.replace(/(,(?=\S))/g, ', ');
-  });
+    alert.details = alert.details.replace(/(,(?=\S))/g, ', ')
+  })
 
   return mergeVar;
 }
 
 function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
-  const mergeVar = {
+  let mergeVar = {
     name: `${key}Metrics`,
-    content: [],
+    content: []
   };
 
   _.forEach(comparison[key], (metrics, id) => {
-    const obj = {
+    let obj = {
       id,
     };
 
     metricConfigs.forEach(metricConfig => {
       const [path, condition] = metricConfig;
 
-      const data = _.get(metrics, path);
+      let data = _.get(metrics, path);
 
-      if (!condition || (condition && _.get(options, condition))) {
+      if(!condition || (condition && _.get(options, condition))) {
         obj[path] = _.merge({}, data);
       }
     });
