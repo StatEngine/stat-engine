@@ -1,13 +1,14 @@
-'use strict';
+import { Sequelize } from 'sequelize';
+import uuid from 'uuid';
 
 export default function(sequelize, DataTypes) {
   const CustomEmail = sequelize.define('CustomEmail', {
 
     _id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: Sequelize.UUIDV4,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
     },
     fd_id: {
       type: DataTypes.STRING,
@@ -47,6 +48,9 @@ export default function(sequelize, DataTypes) {
       validate: {
         notEmpty: true,
       },
+    },
+    last_sent: {
+      type: DataTypes.DATE,
     },
   }, {
     /**

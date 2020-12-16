@@ -14,18 +14,17 @@ export default class CustomEmailScheduler {
 
   static generateEmailSchedule(emailData) {
     const sched = later.parse.text(emailData.schedule);
-    console.log('SCHEDULE OBJECT');
-    console.dir(sched, { depth: null });
     const deptId = emailData.fd_id;
+
+    // handle Daylight Savings Time
     if (this.shouldAddAnHour(deptId) && sched.schedules[0].t) {
       sched.schedules[0].t = this.addAnHour(sched);
     }
+
     return sched;
   }
 
   static async scheduleCustomEmail(emailData) {
-    console.log('scheduleCustomEmails');
-    console.dir(this.customEmailTimers);
     this.customEmailTimers.removeInterval(emailData._id);
     const watcher = new Watcher('customEmail', emailData);
     const laterSchedule = this.generateEmailSchedule(emailData);
@@ -37,6 +36,18 @@ export default class CustomEmailScheduler {
     this.customEmailTimers.removeInterval(emailId);
   }
 
+  // UTC does not account for DST hence the offset between US Eastern and UTC time changes
+  // from -5hrs to -4 hrs during DST (approx March-Nov)
+  // Hence, if it is not currently DST, then we need to add an hour offset to the schedule
+  // since the clock has "fallen back". It is also important to remember that the times/schedules
+  // specified in the DB configs assume a DST offset.
+  // e.g.
+  // Richmond wants emails at approx 8:00 am EST
+  // Their config specifies approx 12:00 pm UTC
+  // if DST is being observed this is fine and we don't need to do anything,
+  // however if DST is NOT observed then the -5hrs offset kicks-in on Nov 1st
+  // and the email would go out at approx 7 am EST, therefore we add an hour
+  // to the time to make it go out at 8 am EST as desired.
   static addAnHour(sched) {
     let time = sched.schedules[0].t[0];
     // later uses seconds, not millisecondxs
@@ -60,16 +71,12 @@ export default class CustomEmailScheduler {
 
   static async scheduleCustomEmails() {
     // now that the server is running, let's schedule the custom emails
-    // first get all the customEmails
+    // first get all the enabled emails
     const where = {
       enabled: true,
     };
     const enabledEmails = await listCustomEmails(where);
-    console.log('scheduleCustomEmails');
-    console.dir(enabledEmails);
-
     enabledEmails.forEach(emailData => {
-      // make a later schedule for the email
       this.scheduleCustomEmail(emailData);
     });
   }
