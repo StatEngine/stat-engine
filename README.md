@@ -8,7 +8,7 @@ StatEngine is a fire service analytical system, the most comprehensive way to ge
 
 Ensure the following packages are installed
 - [Git](https://git-scm.com/downloads)
-- [Node.js and npm](https://nodejs.org) Node v8.x.x ONLY (see Note at bottom), npm >= 6.5.x
+- [Node.js and npm](https://nodejs.org) Node v8.x.x ONLY (really, just use v8.17.0 specifically. see Note at bottom), npm >= 6.5.x
   - installing [NVM](https://github.com/nvm-sh/nvm) is HIGHLY recommended, since running StatEngine requires an older version of Node
 - [PostSQL](https://www.postgresql.org/download/) 9.6.5
 - [Elasticsearch](https://www.elastic.co/downloads/past-releases/elasticsearch-6-4-1) 6.4.1
