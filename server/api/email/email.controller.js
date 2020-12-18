@@ -321,7 +321,7 @@ const alertColors = {
   },
 };
 
-function _formatAlerts(ruleAnalysis, reportOptions) {
+export function _formatAlerts(ruleAnalysis, reportOptions) {
   let mergeVar = {
     name: 'alerts',
     content: []
