@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import Handlebars from 'handlebars';
+import fs from 'fs';
 import connection from '../../elasticsearch/connection';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { _formatAlerts } from './email.controller';
@@ -100,7 +102,6 @@ describe('Email Notification Formatter', () => {
     ];
     console.log('merge vars', JSON.stringify(globalMergeVars));
 
-
     const mergeVars = globalMergeVars.slice(0);
     mergeVars.push({
       name: 'user',
@@ -109,5 +110,11 @@ describe('Email Notification Formatter', () => {
       },
     });
     console.log('merge vars', JSON.stringify(mergeVars));
+
+
+    const source = fs.readFileSync(`${process.cwd()}/email/timerange.hbs`, 'utf-8');
+    const template = Handlebars.compile(source);
+    const html = template(mergeVars);
+    console.log(html);
   });
 });
