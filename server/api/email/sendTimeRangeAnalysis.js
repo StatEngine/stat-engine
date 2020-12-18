@@ -1,8 +1,10 @@
 import moment from 'moment-timezone';
 import _ from 'lodash';
-import { FirecaresLookup } from '@statengine/shiftly';
+import fs from 'fs';
+import Handlebars from 'handlebars';
 
-import { sendEmail } from './mandrill';
+import { FirecaresLookup } from '@statengine/shiftly';
+import { sendEmail } from './mandrillWithHtmlBody';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import {
@@ -184,7 +186,11 @@ export default async function sendTimeRangeAnalysis(req, res) {
       },
     });
 
-    promises.push(sendEmail(user.email, subject, config.mailSettings.timeRangeTemplate, mergeVars, test, metadata));
+    const hbsTemplate = fs.readFileSync(`${process.cwd()}/email/timerange.hbs`, 'utf-8');
+    const compiledTemplate = Handlebars.compile(hbsTemplate);
+    const html = compiledTemplate(mergeVars);
+
+    promises.push(sendEmail(user.email, subject, html, mergeVars, test, metadata));
   });
 
   await Promise.all(promises);
