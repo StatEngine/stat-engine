@@ -48,6 +48,7 @@
       "anonymous": "never",
       "named": "never",
       "asyncArrow": "always"
-    }]
+    }],
+    "no-use-before-define": ["error", { "functions": false, "classes": true }]
   }
 }
