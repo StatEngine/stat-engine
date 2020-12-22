@@ -4,7 +4,7 @@ import fs from 'fs';
 import Handlebars from 'handlebars';
 
 import { FirecaresLookup } from '@statengine/shiftly';
-import { sendEmail } from './mandrillWithHtmlBody';
+import { sendNotification } from './sendNotification';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import {
@@ -18,7 +18,7 @@ import { TimeUnit } from '../../components/constants/time-unit';
 import { BadRequestError, InternalServerError } from '../../util/error';
 import { Log } from '../../util/log';
 
-export default async function sendTimeRangeAnalysis(req, res) {
+export default async function sendNotificationController(req, res) {
   const configId = req.query.configurationId;
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
@@ -186,7 +186,7 @@ export default async function sendTimeRangeAnalysis(req, res) {
       },
     });
 
-    promises.push(sendEmail(user.email, subject, toHtml(mergeVars), test, metadata));
+    promises.push(sendNotification(user.email, subject, toHtml(mergeVars), test, metadata));
   });
 
   await Promise.all(promises);

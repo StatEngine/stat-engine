@@ -3,6 +3,7 @@ import mandrillTransport from 'nodemailer-mandrill-transport';
 import config from '../../config/environment';
 import { Log } from '../../util/log';
 
+
 /**
  * Send email.
  *
@@ -16,19 +17,19 @@ import { Log } from '../../util/log';
  * @param metadata - The email server user's metadata
  * @returns {*}
  */
-export function sendEmail(to, subject, html, test, metadata) {
+function sendNotification(to, subject, html, test, metadata) {
   const apiKey = (test) ? config.mailSettings.mandrillTestAPIKey : config.mailSettings.mandrillAPIKey;
   if (!apiKey) {
     throw new Error('No mandrill api key set');
   }
 
-  const mailTransport = nodemailer.createTransport(mandrillTransport({
-    auth: {
-      apiKey,
-    },
-  }));
+  return nodemailer
+    .createTransport(transport(apiKey))
+    .sendMail(mailOptions(to, subject, html, metadata));
+}
 
-  return mailTransport.sendMail(mailOptions(to, subject, html, metadata));
+function transport(apiKey) {
+  return mandrillTransport({ auth: { apiKey } });
 }
 
 function mailOptions(to, subject, html, metadata) {
@@ -48,4 +49,4 @@ function mailOptions(to, subject, html, metadata) {
   return options;
 }
 
-export default { sendEmail };
+export default { sendNotification };

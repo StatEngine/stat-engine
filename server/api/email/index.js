@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
 import * as controller from './email.controller';
-import sendTimeRangeAnalysis from './sendTimeRangeAnalysis';
+import sendNotificationController from './sendNotificationController';
 
 const router = new Router();
 
@@ -22,7 +22,7 @@ router.post(
   auth.hasRole('department_admin'),
   bodyParser.json(),
   auth.hasFireDepartment,
-  sendTimeRangeAnalysis,
+  sendNotificationController,
 );
 
 module.exports = router;
