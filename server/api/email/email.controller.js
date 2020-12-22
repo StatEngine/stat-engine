@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 'use strict';
 
 import moment from 'moment-timezone';
