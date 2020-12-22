@@ -49,11 +49,6 @@
       "named": "never",
       "asyncArrow": "always"
     }],
-    "no-use-before-define": ["error", { "functions": false, "classes": true }],
-    "object-curly-newline": ["error", {
-      "ObjectPattern": { "multiline": true },
-      "ImportDeclaration": "never",
-      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
-    }]
+    "no-use-before-define": ["error", { "functions": false, "classes": true }]
   }
 }
