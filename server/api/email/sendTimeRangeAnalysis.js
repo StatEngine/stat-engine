@@ -186,16 +186,17 @@ export default async function sendTimeRangeAnalysis(req, res) {
       },
     });
 
-    const hbsTemplate = fs.readFileSync(`${process.cwd()}/email/timerange.hbs`, 'utf-8');
-    const compiledTemplate = Handlebars.compile(hbsTemplate);
-    const html = compiledTemplate(mergeVars);
-
-    promises.push(sendEmail(user.email, subject, html, mergeVars, test, metadata));
+    promises.push(sendEmail(user.email, subject, toHtml(mergeVars), test, metadata));
   });
 
   await Promise.all(promises);
 
   res.status(204).send();
+}
+
+function toHtml(mergeVars) {
+  const compiledTemplate = Handlebars.compile(fs.readFileSync(`${process.cwd()}/email/timerange.hbs`, 'utf-8'));
+  return compiledTemplate(mergeVars);
 }
 
 function _getShift(firecaresId, date) {
