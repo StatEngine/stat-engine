@@ -22,12 +22,15 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 });
 export default class UserHomeController {
   errors = null;
+  validation = null;
 
   /*@ngInject*/
   constructor(
     $window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService,
-    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary
+    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary,
+    $http
   ) {
+    this.$http = $http;
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
@@ -147,5 +150,20 @@ export default class UserHomeController {
     this.selectTab = function(tabName) {
       this.selectedTab = tabName;
     };
+
+    await this.getValidationHealth();
+  }
+
+  async getValidationHealth() {
+    try {
+      const response = await this.$http.get('/api/admin/getValidationHealth');
+      this.validation = {
+        items: response.data.items,
+        count: response.data.totalItems
+      }
+    } catch (err) {
+      console.error(err);
+      this.validation = null;
+    }
   }
 }

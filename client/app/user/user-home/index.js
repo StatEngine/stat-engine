@@ -2,7 +2,8 @@
 
 import angular from 'angular';
 import UserHomeController from './user-home.controller';
-
-export default angular.module('stateEngineApp.user.home', [])
+import validationCheck from '../../../components/validation-check/validation-check.component';
+  
+export default angular.module('stateEngineApp.user.home', [validationCheck])
   .controller('UserHomeController', UserHomeController)
   .name;
