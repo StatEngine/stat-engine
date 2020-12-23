@@ -7,6 +7,8 @@ import { Log } from '../../util/log';
 /**
  * Send email.
  *
+ * Throws Error('No email server api key set') when the email server API key is not set in the environment
+ *
  * API documentation:
  * - [Mandrill Email Transport]{@link https://www.npmjs.com/package/nodemailer-mandrill-transport}
  * - [Mandrill Send Email]{@link https://mandrillapp.com/api/docs/messages.JSON.html#method=send}
@@ -17,19 +19,22 @@ import { Log } from '../../util/log';
  * @param metadata - The email server user's metadata
  * @returns {*}
  */
-function sendNotification(to, subject, html, test, metadata) {
-  const apiKey = (test) ? config.mailSettings.mandrillTestAPIKey : config.mailSettings.mandrillAPIKey;
-  if (!apiKey) {
-    throw new Error('No mandrill api key set');
-  }
-
+export function sendNotification(to, subject, html, test, metadata) {
   return nodemailer
-    .createTransport(transport(apiKey))
+    .createTransport(transport(apiKey(test)))
     .sendMail(mailOptions(to, subject, html, metadata));
 }
 
-function transport(apiKey) {
-  return mandrillTransport({ auth: { apiKey } });
+function apiKey(test) {
+  const key = (test) ? config.mailSettings.mandrillTestAPIKey : config.mailSettings.mandrillAPIKey;
+  if (!key) {
+    throw new Error('No email server api key set');
+  }
+  return key;
+}
+
+function transport(key) {
+  return mandrillTransport({ auth: { apiKey: key } });
 }
 
 function mailOptions(to, subject, html, metadata) {
@@ -48,5 +53,3 @@ function mailOptions(to, subject, html, metadata) {
   Log.debug('mandrillOptions', options);
   return options;
 }
-
-export default { sendNotification };
