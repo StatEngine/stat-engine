@@ -108,12 +108,24 @@ export default async function sendNotificationController(req, res) {
       content: { isExternal: metadata.userIsExternal },
     });
 
-    promises.push(sendNotification(user.email, subject, toHtml(mergeVars), test, metadata));
+    // convert mergeVars from an array to an object
+    // this is necessary because we are handling the compilation
+    // of the handlebars template into html
+    const mergeVarsObj = _mergeVarsToObj(mergeVars);
+
+    promises.push(sendNotification(user.email, subject, toHtml(mergeVarsObj), test, metadata));
   });
 
   await Promise.all(promises);
 
   res.status(204).send();
+}
+
+function _mergeVarsToObj(mergeVarsArray) {
+  return mergeVarsArray.reduce((acc, mergeVar) => {
+    acc[mergeVar.name] = mergeVar.content;
+    return acc;
+  }, {});
 }
 
 async function emailRecipients(fireDepartment, reportOptions) {
@@ -167,8 +179,19 @@ async function getReportOptions(fireDepartment, configId) {
 }
 
 function toHtml(mergeVars) {
-  const compiledTemplate = Handlebars.compile(fs.readFileSync(`${process.cwd()}/email/timerange.hbs`, 'utf-8'));
+  // load partials here
+  _loadPartial('testPartial');
+
+  const path = `${process.cwd()}/server/api/email/templates/shell.hbs`;
+  const compiledTemplate = Handlebars.compile(fs.readFileSync(path, 'utf-8'));
   return compiledTemplate(mergeVars);
+}
+
+// expects the partial and its hbs file to have the same name
+function _loadPartial(partialName) {
+  const path = `${process.cwd()}/server/api/email/templates/partials/${partialName}.hbs`
+  const sourcePartial = fs.readFileSync(path, 'utf-8');
+  Handlebars.registerPartial(partialName, sourcePartial);
 }
 
 function _getShift(firecaresId, date) {
