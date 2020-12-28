@@ -9,7 +9,7 @@ import { toHtml } from './sendNotificationController';
 // eslint-disable-next-line no-undef
 describe('sendNotification()', () => {
   // eslint-disable-next-line no-undef
-  it('should send a real email', () => {
+  it('should send a real email', async () => {
     const mergeVars = [
       {
         name: 'options',
@@ -32,8 +32,8 @@ describe('sendNotification()', () => {
     ];
 
     const to = process.env.TEST_EMAIL;
-    const subject = 'Arecibo message';
-    const html = toHtml(mergeVars);
+    const subject = 'Test email';
+    const html = await toHtml(mergeVars);
     const test = true;
     const metadata = {};
 
