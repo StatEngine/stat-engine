@@ -11,11 +11,12 @@ import { Extension,
   ExtensionConfiguration,
   FireDepartment,
   User } from '../../sqldb';
-import config from '../../config/environment';
 import { TimeUnit } from '../../components/constants/time-unit';
 import { BadRequestError, InternalServerError } from '../../util/error';
 import { Log } from '../../util/log';
+import { unitMetricConfigs, battalionMetricConfigs, jurisdictionMetricConfigs, incidentTypeMetricConfigs, agencyIncidentTypeMetricConfigs, alertColors } from './sendNotificationControllerConstants';
 
+// eslint-disable-next-line consistent-return
 export default async function sendNotificationController(req, res) {
   const configId = req.query.configurationId;
   const startDate = req.query.startDate;
@@ -149,11 +150,13 @@ async function getReportOptions(fireDepartment, configId) {
     }],
   });
 
-  const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
+  if (!extensionConfig) {
+    Log.error('Unable to find extension for fire department ', fireDepartment);
+    throw new Error(`Unable to find extension for fire department${fireDepartment}`);
+  }
 
-  // Set defautls
+  const reportOptions = extensionConfig.config_json;
   reportOptions.showPercentChange = !!_.isUndefined(reportOptions.showPercentChange);
-
   reportOptions.showUtilization = !!_.isUndefined(reportOptions.showUtilization);
 
   // Override day reports to use shift time.
@@ -175,10 +178,8 @@ function _getShift(firecaresId, date) {
     const shiftly = new ShiftConfiguration();
     return shiftly.calculateShift(date);
   }
-}
-
-function _getTimeRangeEmailId(timeUnit) {
-  return `${config.mailSettings.timeRangeTemplate}_${timeUnit}`.toLowerCase();
+  Log.error('No data found for firecares ID', firecaresId);
+  throw new Error(`No data found for firecares ID ${firecaresId}`);
 }
 
 function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
@@ -245,48 +246,6 @@ function _formatFireDepartmentMetrics(comparison, options) {
 
   return mergeVar;
 }
-
-const unitMetricConfigs = [
-  ['incidentCount'],
-  ['transportsCount', 'showTransports'],
-  ['distanceToIncidentSum', 'showDistances'],
-  ['eventDurationSum'],
-  ['turnoutDurationPercentile90'],
-  ['fireTurnoutDurationPercentile90'],
-  ['emsTurnoutDurationPercentile90'],
-  ['responseDurationPercentile90'],
-];
-
-const battalionMetricConfigs = [
-  ['incidentCount'],
-];
-
-const jurisdictionMetricConfigs = [
-  ['incidentCount'],
-];
-
-const incidentTypeMetricConfigs = [
-  ['incidentCount'],
-];
-
-const agencyIncidentTypeMetricConfigs = [
-  ['incidentCount'],
-];
-
-const alertColors = {
-  success: {
-    row: '#dff0d8',
-    rowBorder: '#83d062',
-  },
-  warning: {
-    row: '#fcf8e3',
-    rowBorder: '#c7ba75',
-  },
-  danger: {
-    row: '#f2dede',
-    rowBorder: '#bb7474',
-  },
-};
 
 function _formatAlerts(ruleAnalysis, reportOptions) {
   const mergeVar = {
