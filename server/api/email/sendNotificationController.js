@@ -7,12 +7,10 @@ import { FirecaresLookup } from '@statengine/shiftly';
 import { sendNotification } from './sendNotification';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
-import {
-  Extension,
+import { Extension,
   ExtensionConfiguration,
   FireDepartment,
-  User,
-} from '../../sqldb';
+  User } from '../../sqldb';
 import config from '../../config/environment';
 import { TimeUnit } from '../../components/constants/time-unit';
 import { BadRequestError, InternalServerError } from '../../util/error';
@@ -23,48 +21,15 @@ export default async function sendNotificationController(req, res) {
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
   const previous = req.query.previous;
+  const fireDepartment = req.fireDepartment.get();
+  const firecaresId = fireDepartment.firecares_id;
+  const index = fireDepartment.es_indices['fire-incident'];
   const test = !!(req.query.test && req.query.test.toLowerCase() === 'true');
 
   if (!configId) {
     throw new BadRequestError('Query param "configurationId" is required');
   }
-
-  //
-  // Set email options.
-  //
-
-  const fireDepartment = req.fireDepartment.get();
-
-  const extensionConfig = await ExtensionConfiguration.find({
-    where: {
-      fire_department__id: fireDepartment._id,
-      _id: configId,
-    },
-    include: [{
-      model: Extension,
-      where: { name: 'Email Report' },
-    }],
-  });
-
-  const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
-
-  // Set defautls
-  if (_.isUndefined(reportOptions.showPercentChange)) {
-    reportOptions.showPercentChange = true;
-  } else {
-    reportOptions.showPercentChange = false;
-  }
-
-  if (_.isUndefined(reportOptions.showUtilization)) {
-    reportOptions.showUtilization = true;
-  } else {
-    reportOptions.showUtilization = false;
-  }
-
-  // Override day reports to use shift time.
-  if (reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
-    reportOptions.timeUnit = TimeUnit.Shift;
-  }
+  const reportOptions = await getReportOptions(fireDepartment, configId);
 
   if (_.isNil(reportOptions)) {
     throw new InternalServerError('No report options found!');
@@ -73,47 +38,13 @@ export default async function sendNotificationController(req, res) {
   //
   // Run comparison and rule analysis.
   //
-
-  const timeRange = calculateTimeRange({
-    startDate,
-    endDate,
-    timeUnit: reportOptions.timeUnit,
-    firecaresId: fireDepartment.firecares_id,
-    previous,
-  });
-
-  const analysis = new IncidentAnalysisTimeRange({
-    index: fireDepartment.es_indices['fire-incident'],
-    timeRange,
-  });
-
+  const timeRangeParams = { startDate, endDate, timeUnit: reportOptions.timeUnit, firecaresId, previous };
+  const timeRange = calculateTimeRange(timeRangeParams);
+  const analysis = new IncidentAnalysisTimeRange({ index, timeRange });
   const comparison = await analysis.compare();
   const ruleAnalysis = await analysis.ruleAnalysis();
 
-  //
-  // Set email recipients.
-  //
-
-  const fd = await FireDepartment.find({
-    where: {
-      _id: fireDepartment._id,
-    },
-    attributes: [
-      '_id',
-    ],
-    include: [{
-      model: User,
-      attributes: ['_id', 'first_name', 'last_name', 'email', 'role', 'unsubscribed_emails'],
-    }],
-  });
-
-  const toUsersByEmail = {};
-
-  if (_.isNil(reportOptions.emailAllUsers) || reportOptions.emailAllUsers) {
-    fd.Users.forEach(u => {
-      toUsersByEmail[u.email] = u;
-    });
-  }
+  const toUsersByEmail = await emailRecipients(fireDepartment, reportOptions);
 
   // Add additional to.
   if (reportOptions.to) {
@@ -143,10 +74,6 @@ export default async function sendNotificationController(req, res) {
     return res.status(200).send();
   }
 
-  //
-  // Set email merge vars.
-  //
-
   const description = _formatDescription(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
   const globalMergeVars = [
     description,
@@ -163,10 +90,6 @@ export default async function sendNotificationController(req, res) {
   Log.debug('globalMergeVars', globalMergeVars);
   const subject = description.content.title;
 
-  //
-  // Send email.
-  //
-
   const promises = [];
   toUsers.forEach(user => {
     const metadata = {
@@ -181,9 +104,7 @@ export default async function sendNotificationController(req, res) {
     const mergeVars = globalMergeVars.slice(0);
     mergeVars.push({
       name: 'user',
-      content: {
-        isExternal: metadata.userIsExternal,
-      },
+      content: { isExternal: metadata.userIsExternal },
     });
 
     promises.push(sendNotification(user.email, subject, toHtml(mergeVars), test, metadata));
@@ -192,6 +113,54 @@ export default async function sendNotificationController(req, res) {
   await Promise.all(promises);
 
   res.status(204).send();
+}
+
+async function emailRecipients(fireDepartment, reportOptions) {
+  const fd = await FireDepartment.find({
+    where: { _id: fireDepartment._id },
+    attributes: [
+      '_id',
+    ],
+    include: [{
+      model: User,
+      attributes: ['_id', 'first_name', 'last_name', 'email', 'role', 'unsubscribed_emails'],
+    }],
+  });
+
+  const toUsersByEmail = {};
+
+  if (_.isNil(reportOptions.emailAllUsers) || reportOptions.emailAllUsers) {
+    fd.Users.forEach(u => {
+      toUsersByEmail[u.email] = u;
+    });
+  }
+  return toUsersByEmail;
+}
+
+async function getReportOptions(fireDepartment, configId) {
+  const extensionConfig = await ExtensionConfiguration.find({
+    where: {
+      fire_department__id: fireDepartment._id,
+      _id: configId,
+    },
+    include: [{
+      model: Extension,
+      where: { name: 'Email Report' },
+    }],
+  });
+
+  const reportOptions = extensionConfig ? extensionConfig.config_json : undefined;
+
+  // Set defautls
+  reportOptions.showPercentChange = !!_.isUndefined(reportOptions.showPercentChange);
+
+  reportOptions.showUtilization = !!_.isUndefined(reportOptions.showUtilization);
+
+  // Override day reports to use shift time.
+  if (reportOptions.timeUnit.toLowerCase() === TimeUnit.Day) {
+    reportOptions.timeUnit = TimeUnit.Shift;
+  }
+  return reportOptions;
 }
 
 function toHtml(mergeVars) {
@@ -207,11 +176,6 @@ function _getShift(firecaresId, date) {
     return shiftly.calculateShift(date);
   }
 }
-
-
-//
-// Helpers
-//
 
 function _getTimeRangeEmailId(timeUnit) {
   return `${config.mailSettings.timeRangeTemplate}_${timeUnit}`.toLowerCase();
@@ -369,9 +333,7 @@ function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
   };
 
   _.forEach(comparison[key], (metrics, id) => {
-    const obj = {
-      id,
-    };
+    const obj = { id };
 
     metricConfigs.forEach(metricConfig => {
       const [path, condition] = metricConfig;
