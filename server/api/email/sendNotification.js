@@ -20,7 +20,7 @@ import config from '../../config/environment';
 export default function sendNotification(to, subject, html, test, metadata) {
   return nodemailer
     .createTransport(transport(apiKey(test)))
-    .sendMail(mailOptions(to, subject, html, metadata));
+    .sendMail(mailOptions(to, subject, html, metadata))
 }
 
 function apiKey(test) {

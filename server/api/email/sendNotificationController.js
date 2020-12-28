@@ -18,7 +18,7 @@ import HtmlReports from './htmlReports';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 // eslint-disable-next-line consistent-return
-export default async function sendNotificationController(req, res) {
+export async function sendNotificationController(req, res) {
   const configId = req.query.configurationId;
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
