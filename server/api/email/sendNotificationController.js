@@ -1,7 +1,6 @@
 import moment from 'moment-timezone';
 import _ from 'lodash';
 import { FirecaresLookup } from '@statengine/shiftly';
-
 import sendNotification from './sendNotification';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
