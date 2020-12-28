@@ -3,7 +3,6 @@ import mandrillTransport from 'nodemailer-mandrill-transport';
 import config from '../../config/environment';
 import { Log } from '../../util/log';
 
-
 /**
  * Send email.
  *
@@ -15,14 +14,14 @@ import { Log } from '../../util/log';
  * @param to - The email recipient
  * @param subject - The email subject
  * @param html - The body of the email in HTML format
- * @param test - Indicate which email server key should be used. If set to ture, then a test key is used, otherwise a production key is used.
+ * @param test - Indicate which email server key should be used. If set to true, then a test key is used, otherwise a production key is used.
  * @param metadata - The email server user's metadata
  * @returns {*}
  */
 export default function sendNotification(to, subject, html, test, metadata) {
   return nodemailer
     .createTransport(transport(apiKey(test)))
-    .sendMail(mailOptions(to, subject, html, metadata));
+    .sendMail(mailOptions(to, subject, html, metadata))
 }
 
 function apiKey(test) {
