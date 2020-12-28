@@ -4,7 +4,7 @@ import fs from 'fs';
 import Handlebars from 'handlebars';
 
 import { FirecaresLookup } from '@statengine/shiftly';
-import { sendNotification } from './sendNotification';
+import sendNotification from './sendNotification';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import { Extension,

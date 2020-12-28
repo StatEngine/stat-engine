@@ -1,4 +1,4 @@
-import { sendNotification } from './sendNotification';
+import sendNotification from './sendNotification';
 
 /**
   In order to run this test set these env properties:
