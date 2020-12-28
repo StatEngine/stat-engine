@@ -19,7 +19,7 @@ import { Log } from '../../util/log';
  * @param metadata - The email server user's metadata
  * @returns {*}
  */
-export function sendNotification(to, subject, html, test, metadata) {
+export default function sendNotification(to, subject, html, test, metadata) {
   return nodemailer
     .createTransport(transport(apiKey(test)))
     .sendMail(mailOptions(to, subject, html, metadata));
