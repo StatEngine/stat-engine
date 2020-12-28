@@ -1,6 +1,13 @@
 import handlebars from 'handlebars';
 import moment from 'moment-timezone';
 import _ from 'lodash';
+import fs from 'fs';
+import util from 'util';
+
+const readdir = util.promisify(fs.readdir);
+
+import Handlebars from 'handlebars';
+
 import { FirecaresLookup } from '@statengine/shiftly';
 import sendNotification from './sendNotification';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
@@ -185,6 +192,36 @@ async function getReportOptions(fireDepartment, configId) {
     reportOptions.timeUnit = TimeUnit.Shift;
   }
   return reportOptions;
+}
+
+export async function toHtml(mergeVars) {
+  // convert mergeVars from an array to an object
+  // this is necessary because we are handling the compilation
+  // of the handlebars template into html
+  const mergeVarsObj = _mergeVarsToObj(mergeVars);
+
+  // load partials here
+  await _loadPartials();
+
+  const path = `${process.cwd()}/server/api/email/templates/shell.hbs`;
+  const compiledTemplate = Handlebars.compile(fs.readFileSync(path, 'utf-8'));
+  return compiledTemplate(mergeVarsObj);
+}
+
+async function _loadPartials() {
+  const partialsPath = `${process.cwd()}/server/api/email/templates/partials`;
+  const files = await readdir(partialsPath);
+  files.forEach(fileName => {
+    const partialName = fileName.split('.')[0];
+    _loadPartial(partialName);
+  });
+}
+
+// expects the partial and its hbs file to have the same name
+function _loadPartial(partialName) {
+  const path = `${process.cwd()}/server/api/email/templates/partials/${partialName}.hbs`
+  const sourcePartial = fs.readFileSync(path, 'utf-8');
+  Handlebars.registerPartial(partialName, sourcePartial);
 }
 
 function _getShift(firecaresId, date) {

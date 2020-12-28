@@ -13,13 +13,8 @@ import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
  */
 
 describe('sendNotification()', () => {
-  it.skip('should send a real email', async () => {
-    const htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
-      handlebars,
-      config.mailSettings.emailShellTemplatePath,
-      config.mailSettings.emailPartialsTemplatePath,
-    ).template());
-
+  // eslint-disable-next-line no-undef
+  it('should send a real email', async () => {
     const mergeVars = [
       {
         name: 'options',
@@ -39,7 +34,7 @@ describe('sendNotification()', () => {
 
     const to = process.env.TEST_EMAIL;
     const subject = 'Test email';
-    const html = htmlReports.report(mergeVars);
+    const html = await toHtml(mergeVars);
     const test = true;
     const metadata = {};
 
