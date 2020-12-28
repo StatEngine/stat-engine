@@ -156,6 +156,10 @@ Edit the policy, allowing Read and Write access with prefix `*`
 Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source) for compatibility testing.
 ![](https://s3.amazonaws.com/statengine-public-assets/Browserstack-logo%402x.png)
 
+Note for running tests for NodeJs code in server - to just run a single test, run this command:
+`npx mocha --compilers js:babel-register path/to/test`
+example: `npx mocha --compilers js:babel-register server/api/email/sendNotification.integration.spec.js`
+
 ### Mandrill Templates
 
 The `email` folder is used for Mandrill templates, during CI it deploys and uploads any changes.
