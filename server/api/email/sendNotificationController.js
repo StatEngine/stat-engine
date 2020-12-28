@@ -130,6 +130,13 @@ export default async function sendNotificationController(req, res) {
   res.status(204).send();
 }
 
+function _mergeVarsToObj(mergeVarsArray) {
+  return mergeVarsArray.reduce((acc, mergeVar) => {
+    acc[mergeVar.name] = mergeVar.content;
+    return acc;
+  }, {});
+}
+
 async function emailRecipients(fireDepartment, reportOptions) {
   const fd = await FireDepartment.find({
     where: { _id: fireDepartment._id },
