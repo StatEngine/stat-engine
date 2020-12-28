@@ -158,6 +158,7 @@ Stat-Engine uses [BrowserStack](https://www.browserstack.com/contact#open-source
 
 Note for running tests for NodeJs code in server - to just run a single test, run this command:
 `npx mocha --compilers js:babel-register path/to/test`
+
 example: `npx mocha --compilers js:babel-register server/api/email/sendNotification.integration.spec.js`
 
 ### Mandrill Templates
