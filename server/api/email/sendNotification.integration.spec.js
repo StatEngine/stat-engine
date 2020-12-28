@@ -1,5 +1,5 @@
 import sendNotification from './sendNotification';
-
+import { toHtml } from './sendNotificationController';
 /**
   In order to run this test set these env properties:
     export MANDRILL_TEST_API_KEY=...
@@ -10,15 +10,41 @@ import sendNotification from './sendNotification';
 describe('sendNotification()', () => {
   // eslint-disable-next-line no-undef
   it('should send a real email', () => {
+    const mergeVars = [
+      {
+        name: 'options',
+        content: {
+          sections: {
+            showalertsummary: true
+          }
+        }
+      },
+      {
+        name: 'alerts',
+        content: [
+          {
+            rowColor: 'red',
+            description: 'Unit utilization > 360 min',
+            details: 'Unit: SP841, Utilization: 366.05'
+          }
+        ]
+      }
+    ];
+
     const to = process.env.TEST_EMAIL;
     const subject = 'Arecibo message';
-    const html = '<p>The <b>Arecibo message</b> is an <a href="/wiki/Interstellar_radio_message" title="Interstellar radio message">' +
-      'interstellar radio message</a> carrying basic information about humanity and Earth that was sent to ' +
-      '<a href="/wiki/Great_Globular_Cluster_in_Hercules" title="Great Globular Cluster in Hercules">' +
-      'globular star cluster M13</a> in 1974.</p>';
+    const html = toHtml(mergeVars);
     const test = true;
     const metadata = {};
 
-    sendNotification(to, subject, html, test, metadata);
+    sendNotification(to, subject, html, test, metadata)
+    .then(res => {
+      console.log('SUCCESS');
+      console.dir(res);
+    })
+    .catch(err => {
+      console.log('ERROR');
+      console.dir(err);
+    });
   });
 });

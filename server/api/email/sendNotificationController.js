@@ -17,7 +17,7 @@ import { Log } from '../../util/log';
 import { unitMetricConfigs, battalionMetricConfigs, jurisdictionMetricConfigs, incidentTypeMetricConfigs, agencyIncidentTypeMetricConfigs, alertColors } from './sendNotificationControllerConstants';
 
 // eslint-disable-next-line consistent-return
-export default async function sendNotificationController(req, res) {
+export async function sendNotificationController(req, res) {
   const configId = req.query.configurationId;
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
@@ -108,12 +108,7 @@ export default async function sendNotificationController(req, res) {
       content: { isExternal: metadata.userIsExternal },
     });
 
-    // convert mergeVars from an array to an object
-    // this is necessary because we are handling the compilation
-    // of the handlebars template into html
-    const mergeVarsObj = _mergeVarsToObj(mergeVars);
-
-    promises.push(sendNotification(user.email, subject, toHtml(mergeVarsObj), test, metadata));
+    promises.push(sendNotification(user.email, subject, toHtml(mergeVars), test, metadata));
   });
 
   await Promise.all(promises);
@@ -178,13 +173,18 @@ async function getReportOptions(fireDepartment, configId) {
   return reportOptions;
 }
 
-function toHtml(mergeVars) {
+export function toHtml(mergeVars) {
+  // convert mergeVars from an array to an object
+  // this is necessary because we are handling the compilation
+  // of the handlebars template into html
+  const mergeVarsObj = _mergeVarsToObj(mergeVars);
+
   // load partials here
-  _loadPartial('testPartial');
+  _loadPartial('alerts');
 
   const path = `${process.cwd()}/server/api/email/templates/shell.hbs`;
   const compiledTemplate = Handlebars.compile(fs.readFileSync(path, 'utf-8'));
-  return compiledTemplate(mergeVars);
+  return compiledTemplate(mergeVarsObj);
 }
 
 // expects the partial and its hbs file to have the same name
