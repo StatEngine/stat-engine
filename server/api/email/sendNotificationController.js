@@ -1,8 +1,6 @@
 import handlebars from 'handlebars';
 import moment from 'moment-timezone';
 import _ from 'lodash';
-import fs from 'fs';
-import Handlebars from 'handlebars';
 import { FirecaresLookup } from '@statengine/shiftly';
 
 import sendNotification from './sendNotification';
@@ -18,7 +16,6 @@ import { Log } from '../../util/log';
 import { unitMetricConfigs, battalionMetricConfigs, jurisdictionMetricConfigs, incidentTypeMetricConfigs, agencyIncidentTypeMetricConfigs, alertColors } from './sendNotificationControllerConstants';
 import config from '../../config/environment';
 import HtmlReports from './htmlReports';
-import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 // eslint-disable-next-line consistent-return
 export async function sendNotificationController(req, res) {
@@ -119,6 +116,8 @@ export async function sendNotificationController(req, res) {
       content: { isExternal: metadata.userIsExternal },
     });
 
+    const htmlReports = new HtmlReports(config.mailSettings.emailTemplatePath);
+
     promises.push(sendNotification(
       user.email,
       subject,
@@ -131,13 +130,6 @@ export async function sendNotificationController(req, res) {
   await Promise.all(promises);
 
   res.status(204).send();
-}
-
-function _mergeVarsToObj(mergeVarsArray) {
-  return mergeVarsArray.reduce((acc, mergeVar) => {
-    acc[mergeVar.name] = mergeVar.content;
-    return acc;
-  }, {});
 }
 
 async function emailRecipients(fireDepartment, reportOptions) {
@@ -188,36 +180,6 @@ async function getReportOptions(fireDepartment, configId) {
     reportOptions.timeUnit = TimeUnit.Shift;
   }
   return reportOptions;
-}
-
-export function toHtml(mergeVars) {
-  // convert mergeVars from an array to an object
-  // this is necessary because we are handling the compilation
-  // of the handlebars template into html
-  const mergeVarsObj = _mergeVarsToObj(mergeVars);
-
-  // load partials here
-  _loadPartials(emailTemplatePath);
-
-  const path = `${emailTemplatePath}/shell.hbs`;
-  const compiledTemplate = Handlebars.compile(fs.readFileSync(path, 'utf-8'));
-  return compiledTemplate(mergeVarsObj);
-}
-
-function _loadPartials(templatePath) {
-  const path = `${templatePath}/partials`;
-  const files = fs.readdirSync(path);
-  files.forEach(fileName => {
-    _loadPartial(templatePath, fileName);
-  });
-}
-
-// expects the partial and its hbs file to have the same name
-function _loadPartial(templatePath, fileName) {
-  const path = `${templatePath}/partials/${fileName}`
-  const sourcePartial = fs.readFileSync(path, 'utf-8');
-  const partialName = fileName.split('.')[0];
-  Handlebars.registerPartial(partialName, sourcePartial);
 }
 
 function _getShift(firecaresId, date) {
