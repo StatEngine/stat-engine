@@ -188,7 +188,7 @@ function _getShift(firecaresId, date) {
   throw new Error(`No data found for firecares ID ${firecaresId}`);
 }
 
-function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
+export function _formatDescription(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
   let title;
   let subtitle;
   const timeUnit = reportOptions.timeUnit.toLowerCase();
@@ -253,7 +253,7 @@ function _formatFireDepartmentMetrics(comparison, options) {
   return mergeVar;
 }
 
-function _formatAlerts(ruleAnalysis, reportOptions) {
+export function _formatAlerts(ruleAnalysis, reportOptions) {
   const mergeVar = {
     name: 'alerts',
     content: [],
