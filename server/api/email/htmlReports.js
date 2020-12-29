@@ -5,8 +5,9 @@ import fs from 'fs';
  * Represents HTML Report which is emailed to the clients
  */
 export default class HtmlReports {
-  constructor(templatePath) {
-    this.templatePath = templatePath;
+  constructor(shellTemplatePath, partialsTemplateLocation) {
+    this.shellTemplatePath = shellTemplatePath;
+    this.patialsTemplateLocation = partialsTemplateLocation;
   }
 
   /**
@@ -15,8 +16,8 @@ export default class HtmlReports {
    * @returns {string} report in html foramt
    */
   report(data) {
-    loadPartials(this.templatePath);
-    const compiledTemplate = shellTemplate(this.templatePath);
+    loadPartials(this.patialsTemplateLocation);
+    const compiledTemplate = shellTemplate(this.shellTemplatePath);
     return compiledTemplate(fromArrayToObject(data));
   }
 }
@@ -24,25 +25,24 @@ export default class HtmlReports {
 /**
  * Load all partial templates into Handlebars framework
  *
- * @param templatePath root location of all the templates
+ * @param partialsTemplateLocation root location of all the templates
  */
-function loadPartials(templatePath) {
-  const files = fs.readdirSync(`${templatePath}/partials`);
+function loadPartials(partialsTemplateLocation) {
+  const files = fs.readdirSync(partialsTemplateLocation);
   files.forEach(fileName => {
-    loadPartial(templatePath, fileName);
+    loadPartial(`${partialsTemplateLocation}/${fileName}`, fileName);
   });
 }
 
 /**
  * Load a partial template into Handlebars framework
  *
- * @param templatePath root location of all templates
- * @param fileName file name of the partial template
+ * @param templatePath full path to the partial template
+ * @param templateFileName file name of the partial template with file extension
  */
-function loadPartial(templatePath, fileName) {
-  const path = `${templatePath}/partials/${fileName}`;
-  const sourcePartial = fs.readFileSync(path, 'utf-8');
-  const partialName = fileName.split('.')[0];
+function loadPartial(templatePath, templateFileName) {
+  const sourcePartial = fs.readFileSync(templatePath, 'utf-8');
+  const partialName = templateFileName.split('.')[0];
   Handlebars.registerPartial(partialName, sourcePartial);
 }
 
@@ -65,11 +65,11 @@ function fromArrayToObject(data) {
 /**
  * Compiles the main shell template
  *
- * @param templatePath root location of all the templates
- * @returns {HandlebarsTemplateDelegate<any>} compiled template
+ * @param shellTemplatePath shell template path
+ * @returns {HandlebarsTemplateDelegate<any>} compiled shell template
  */
-function shellTemplate(templatePath) {
-  const template = fs.readFileSync(`${templatePath}/shell.hbs`, 'utf-8');
+function shellTemplate(shellTemplatePath) {
+  const template = fs.readFileSync(shellTemplatePath, 'utf-8');
   return Handlebars.compile(template);
 }
 
