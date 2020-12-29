@@ -108,7 +108,10 @@ export default async function sendNotificationController(req, res) {
       content: { isExternal: metadata.userIsExternal },
     });
 
-    const htmlReports = new HtmlReports(config.mailSettings.emailTemplatePath);
+    const htmlReports = new HtmlReports(
+      config.mailSettings.emailShellTemplatePath,
+      config.mailSettings.emailPartialsTemplatePath,
+    );
 
     promises.push(sendNotification(
       user.email,
