@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer';
 import mandrillTransport from 'nodemailer-mandrill-transport';
 import config from '../../config/environment';
-import { Log } from '../../util/log';
 
 /**
  * Send email.
@@ -21,7 +20,7 @@ import { Log } from '../../util/log';
 export default function sendNotification(to, subject, html, test, metadata) {
   return nodemailer
     .createTransport(transport(apiKey(test)))
-    .sendMail(mailOptions(to, subject, html, metadata))
+    .sendMail(mailOptions(to, subject, html, metadata));
 }
 
 function apiKey(test) {
