@@ -34,7 +34,7 @@ describe('sendNotification()', () => {
 
     const to = process.env.TEST_EMAIL;
     const subject = 'Test email';
-    const html = await toHtml(mergeVars);
+    const html = toHtml(mergeVars);
     const test = true;
     const metadata = {};
 
