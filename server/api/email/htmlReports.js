@@ -53,6 +53,9 @@ function loadPartial(templatePath, fileName) {
  * @returns {*} reports in the form of an object
  */
 function fromArrayToObject(data) {
+  if (!data || data.length === 0) {
+    throw new Error('Data must be provided');
+  }
   return data.reduce((acc, mergeVar) => {
     acc[mergeVar.name] = mergeVar.content;
     return acc;
