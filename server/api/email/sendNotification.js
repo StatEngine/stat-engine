@@ -49,6 +49,5 @@ function mailOptions(to, subject, html, metadata) {
     },
 
   };
-  Log.debug('mandrillOptions', options);
   return options;
 }
