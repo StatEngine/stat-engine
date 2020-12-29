@@ -84,6 +84,7 @@ var all = {
     timeRangeTemplate: 'timerange',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
     mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
+    emailTemplatePath: `${process.cwd()}/server/api/email/templates`
   },
 
   mailchimp: {
