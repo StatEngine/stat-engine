@@ -14,13 +14,13 @@ describe('HtmlReports()', () => {
     expect(() => htmlReports.report(data)).to.throw();
   });
   it('should generate html report', () => {
-    const htmlReports = new HtmlReports('server/api/email/templates/test/shell.hbs', 'server/api/email/templates/test/partials');
+    const htmlReports = new HtmlReports('server/api/email/templates/test/base/shell.hbs', 'server/api/email/templates/test/base/partials');
     const data = [{}];
     const html = htmlReports.report(data);
     expect(html).to.equal('<div>SHELL<div><p>PARTIAL TEST1</p></div><div><p>PARTIAL TEST2</p></div></div>');
   });
   it('should generate html report', () => {
-    const htmlReports = new HtmlReports('server/api/email/templates/test/shell.hbs', 'server/api/email/templates/test/partials');
+    const htmlReports = new HtmlReports('server/api/email/templates/test/base/shell.hbs', 'server/api/email/templates/test/base/partials');
     const data = [{}];
     const html = htmlReports.report(data);
     expect(html).to.equal('<div>SHELL<div><p>PARTIAL TEST1</p></div><div><p>PARTIAL TEST2</p></div></div>');
