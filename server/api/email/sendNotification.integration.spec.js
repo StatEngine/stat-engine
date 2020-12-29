@@ -47,16 +47,4 @@ describe('sendNotification()', () => {
         console.dir(err);
       });
   });
-
-  it('should load the partials and embed them in the shell template', () => {
-    const htmlReports = new HtmlReports(`${config.mailSettings.emailTemplatePath}/test`);
-    const mergeVars = [
-      {
-        name: 'test',
-        content: 'PARTIAL TEST',
-      },
-    ];
-    const html = htmlReports.report(mergeVars);
-    html.should.equal('<div>SHELL<div><p>PARTIAL TEST1</p></div><div><p>PARTIAL TEST2</p></div></div>');
-  });
 });
