@@ -1,5 +1,7 @@
 import Handlebars from 'handlebars';
 import fs from 'fs';
+import { Log } from '../../util/log';
+
 
 /**
  * Represents HTML Report which is emailed to the clients
@@ -8,7 +10,10 @@ export default class HtmlReports {
   constructor(shellTemplatePath, partialsTemplateLocation) {
     this.shellTemplatePath = shellTemplatePath;
     this.patialsTemplateLocation = partialsTemplateLocation;
+    Log.debug('Shell template', this.shellTemplatePath);
+    Log.debug('Partials template', this.patialsTemplateLocation);
   }
+
 
   /**
    * Merges reports with a template
@@ -41,9 +46,9 @@ function loadPartials(partialsTemplateLocation) {
  * @param templateFileName file name of the partial template with file extension
  */
 function loadPartial(templatePath, templateFileName) {
-  const sourcePartial = fs.readFileSync(templatePath, 'utf-8');
+  const partialFileContent = fs.readFileSync(templatePath, 'utf-8');
   const partialName = templateFileName.split('.')[0];
-  Handlebars.registerPartial(partialName, sourcePartial);
+  Handlebars.registerPartial(partialName, partialFileContent);
 }
 
 /**
