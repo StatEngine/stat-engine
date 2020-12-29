@@ -1,23 +1,23 @@
+/* eslint-disable no-undef */
+import 'chai/register-should';
+
 import sendNotification from './sendNotification';
-import { toHtml } from './sendNotificationController';
+import HtmlReports from './htmlReports';
+import config from '../../config/environment';
+
 /**
   In order to run this test set these env properties:
     export MANDRILL_TEST_API_KEY=...
     export TEST_EMAIL=...
  */
 
-// eslint-disable-next-line no-undef
 describe('sendNotification()', () => {
-  // eslint-disable-next-line no-undef
-  it('should send a real email', async () => {
+  it.skip('should send a real email', async () => {
+    const htmlReports = new HtmlReports(config.mailSettings.emailTemplatePath);
     const mergeVars = [
       {
         name: 'options',
-        content: {
-          sections: {
-            showalertsummary: true
-          }
-        }
+        content: { sections: { showalertsummary: true } },
       },
       {
         name: 'alerts',
@@ -25,26 +25,38 @@ describe('sendNotification()', () => {
           {
             rowColor: 'red',
             description: 'Unit utilization > 360 min',
-            details: 'Unit: SP841, Utilization: 366.05'
-          }
-        ]
-      }
+            details: 'Unit: SP841, Utilization: 366.05',
+          },
+        ],
+      },
     ];
 
     const to = process.env.TEST_EMAIL;
     const subject = 'Test email';
-    const html = toHtml(mergeVars);
+    const html = htmlReports.report(mergeVars);
     const test = true;
     const metadata = {};
 
     sendNotification(to, subject, html, test, metadata)
-    .then(res => {
-      console.log('SUCCESS');
-      console.dir(res);
-    })
-    .catch(err => {
-      console.log('ERROR');
-      console.dir(err);
-    });
+      .then(res => {
+        console.log('SUCCESS');
+        console.dir(res);
+      })
+      .catch(err => {
+        console.log('ERROR');
+        console.dir(err);
+      });
+  });
+
+  it('should load the partials and embed them in the shell template', () => {
+    const htmlReports = new HtmlReports(`${config.mailSettings.emailTemplatePath}/test`);
+    const mergeVars = [
+      {
+        name: 'test',
+        content: 'PARTIAL TEST',
+      },
+    ];
+    const html = htmlReports.report(mergeVars);
+    html.should.equal('<div>SHELL<div><p>PARTIAL TEST1</p></div><div><p>PARTIAL TEST2</p></div></div>');
   });
 });
