@@ -17,7 +17,7 @@ import config from '../../config/environment';
 import HtmlReports from './htmlReports';
 
 // eslint-disable-next-line consistent-return
-export async function sendNotificationController(req, res) {
+export default async function sendNotificationController(req, res) {
   const configId = req.query.configurationId;
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
