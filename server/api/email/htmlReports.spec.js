@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 import { expect } from 'chai';
+import handlebars from 'handlebars';
 import HtmlReports from './htmlReports';
 import { EventDurationSumRule } from '../../lib/rules/eventDurationSumRule';
 import { _formatAlerts } from './sendNotificationController';
+import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 
 describe('HtmlReports()', () => {
@@ -17,9 +19,12 @@ describe('HtmlReports()', () => {
     expect(() => htmlReports.report(data)).to.throw();
   });
   it('should generate html report', () => {
-    const htmlReports = new HtmlReports('server/api/email/templates/test/base/shell.hbs', 'server/api/email/templates/test/base/partials');
     const data = [{}];
-    const html = htmlReports.report(data);
+    const html = new HtmlReports(new HandlebarsEmailTemplate(
+      handlebars,
+      'server/api/email/templates/test/base/shell.hbs',
+      'server/api/email/templates/test/base/partials',
+    ).template()).report(data);
     expect(html).to.equal('<div>SHELL<div><p>PARTIAL TEST1</p></div><div><p>PARTIAL TEST2</p></div></div>');
   });
   describe('Event Duration Report', () => {
@@ -45,12 +50,13 @@ describe('HtmlReports()', () => {
       const analysis = rule.analyze();
       const reportOptions = {};
       const globalMergeVars = [_formatAlerts([analysis], reportOptions)];
-      const htmlReports = new HtmlReports(
+
+      const html = new HtmlReports(new HandlebarsEmailTemplate(
+        handlebars,
         'server/api/email/templates/test/eventDuration/shell.hbs',
         'server/api/email/templates/partials',
-      );
-      const html = htmlReports.report(globalMergeVars);
-      console.log(html);
+      ).template()).report(globalMergeVars);
+
       expect(html).to.equal('<div>This is a shell template\n' +
         '  <div><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">\n' +
         '  <!--[if gte mso 9]>\n' +

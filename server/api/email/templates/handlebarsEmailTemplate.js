@@ -1,5 +1,4 @@
 import fs from 'fs';
-import Handlebars from 'handlebars';
 import { Log } from '../../../util/log';
 import PartialTemplates from './partialTemplates';
 
@@ -10,11 +9,12 @@ import PartialTemplates from './partialTemplates';
 export default class HandlebarsEmailTemplate {
   /**
    * Constructs the email template
+   * @param handlebars handlebars library object
    * @param shellTemplatePath path to shell template
    * @param partialTemplatesPath path to partial templates
    */
-  constructor(shellTemplatePath, partialTemplatesPath) {
-    this.handlebars = Handlebars;
+  constructor(handlebars, shellTemplatePath, partialTemplatesPath) {
+    this.handlebars = handlebars;
     this.shellTemplatePath = shellTemplatePath;
     this.partialTemplates = new PartialTemplates(this.handlebars, partialTemplatesPath);
   }

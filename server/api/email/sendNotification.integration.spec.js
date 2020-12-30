@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 import 'chai/register-should';
-
+import handlebars from 'handlebars';
 import sendNotification from './sendNotification';
 import HtmlReports from './htmlReports';
 import config from '../../config/environment';
+import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 /**
   In order to run this test set these env properties:
@@ -12,8 +13,13 @@ import config from '../../config/environment';
  */
 
 describe('sendNotification()', () => {
-  it('should send a real email', async () => {
-    const htmlReports = new HtmlReports(config.mailSettings.emailTemplatePath);
+  it.skip('should send a real email', async () => {
+    const htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
+      handlebars,
+      config.mailSettings.emailShellTemplatePath,
+      config.mailSettings.emailPartialsTemplatePath,
+    ).template());
+
     const mergeVars = [
       {
         name: 'options',
