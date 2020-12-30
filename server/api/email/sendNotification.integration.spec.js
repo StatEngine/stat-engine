@@ -12,7 +12,7 @@ import config from '../../config/environment';
  */
 
 describe('sendNotification()', () => {
-  it.skip('should send a real email', async () => {
+  it('should send a real email', async () => {
     const htmlReports = new HtmlReports(config.mailSettings.emailTemplatePath);
     const mergeVars = [
       {
