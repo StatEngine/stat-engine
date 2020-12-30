@@ -13,8 +13,13 @@ import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
  */
 
 describe('sendNotification()', () => {
-  it('should send a real email', async () => {
-    const htmlReports = new HtmlReports(config.mailSettings.emailTemplatePath);
+  it.skip('should send a real email', async () => {
+    const htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
+      handlebars,
+      config.mailSettings.emailShellTemplatePath,
+      config.mailSettings.emailPartialsTemplatePath,
+    ).template());
+
     const mergeVars = [
       {
         name: 'options',

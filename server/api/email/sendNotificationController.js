@@ -2,7 +2,6 @@ import handlebars from 'handlebars';
 import moment from 'moment-timezone';
 import _ from 'lodash';
 import { FirecaresLookup } from '@statengine/shiftly';
-
 import sendNotification from './sendNotification';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
@@ -16,6 +15,7 @@ import { Log } from '../../util/log';
 import { unitMetricConfigs, battalionMetricConfigs, jurisdictionMetricConfigs, incidentTypeMetricConfigs, agencyIncidentTypeMetricConfigs, alertColors } from './sendNotificationControllerConstants';
 import config from '../../config/environment';
 import HtmlReports from './htmlReports';
+import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 // eslint-disable-next-line consistent-return
 export default async function sendNotificationController(req, res) {
@@ -115,11 +115,6 @@ export default async function sendNotificationController(req, res) {
       name: 'user',
       content: { isExternal: metadata.userIsExternal },
     });
-
-    const htmlReports = new HtmlReports(
-      config.mailSettings.emailShellTemplatePath,
-      config.mailSettings.emailPartialsTemplatePath,
-    );
 
     promises.push(sendNotification(
       user.email,
