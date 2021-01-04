@@ -854,6 +854,37 @@
                                   <tbody class="mcnTextBlockOuter">
                                   <tr>
                                     <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
+                                                                            <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+                                        <tbody>
+                                        <tr>
+
+                                          <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+
+                                            {{#if options.logo}}
+                                              <h1 style="text-align: center;"><img data-file-id="607505" height="135" src="{{options.logo}}" style="border: 0px  ; width: 134px; height: 135px; margin: 0px;" width="134"></h1>
+                                            {{/if}}
+
+                                            <div style="text-align: center;"><span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif"><span style="color:#000000"><span style="font-size:30px"><strong>{{description.departmentName}}</strong></span></span><br>
+
+                                                    <br>
+                                                    <span style="font-size:24px"><span style="color:#000000"><strong>{{description.title}}</strong></span></span><br> {{#if description.subtitle}}
+                                                <span style="font-size:24px"><span style="color:#000000"><strong>{{description.subtitle}}</strong></span></span><br> {{/if}}
+                                              <br>
+                                                    <span style="color:#808080"><strong><span style="font-size:14px">{{description.timeRange}}</span></strong><br>
+                                                    {{!-- <span style="color:#808080"><span style="font-size:12px">Compared To: {{description.comparisontimerange}}</span> --}}
+
+                                                    </span>
+                                                    </span>
+                                            </div>
+
+                                            <div style="text-align: center;"><span style="color:#808080"><span style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif"><span style="font-size:14px;font-style:italic">As of {{description.runTime}}</span></span>
+                                                    </span>
+                                            </div>
+
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
                                     </td>
                                   </tr>
                                   </tbody>
@@ -861,7 +892,10 @@
 
                                 {{!-- BEGIN PARTIALS --}}
 
-                                {{#if options.sections.showalertsummary}}
+                                {{!-- {{> (lookup . 'alerts') }} --}}
+                                {{!-- {{> alerts }} --}}
+
+                                {{#if options.sections.alerts}}
 
                                     {{> alerts }}
 

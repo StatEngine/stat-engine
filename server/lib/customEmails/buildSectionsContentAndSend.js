@@ -7,7 +7,7 @@ import { queryUpdate } from '../../api/custom-email/custom-email.controller';
 import alertSummary from './sections/alertSummary';
 import description from './sections/description';
 
-async function getFireDepartment(fdId) {
+export async function getFireDepartment(fdId) {
   return FireDepartment.findOne({
     where: {
       fd_id: fdId,
@@ -56,14 +56,22 @@ async function sendEmails(emailData) {
   return 'sendEmails';
 }
 
-export default async function buildEmailContentAndSend(emailData) {
+export async function buildEmailContentAndSend(emailData) {
   console.log('buildEmailContentAndSend');
   // console.dir(emailData, { depth: null });
 
   emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
 
   // get the email content
-  emailData.emailContent = await getEmailContent(emailData);
+  emailData.mergeVars = await getMergeVars(emailData);
+  console.log('MERGE VARS');
+  console.dir(emailData.mergeVars);
+
+  const html = await getEmailHtml(emailData.mergeVars);
+
+  // console.log('GOT HTML');
+  // console.log(html);
+
 
   // console.log('SECTIONS');
   // console.dir(emailData.emailContent, { depth: null });
