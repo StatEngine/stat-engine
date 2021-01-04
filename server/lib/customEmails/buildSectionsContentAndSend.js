@@ -73,13 +73,6 @@ export async function buildEmailContentAndSend(emailData) {
   const html = await getEmailHtml(emailData.mergeVars);
 
   await Promise.all(sendEmails(emailData, subject, html));
-  // console.log('FIRE DEPT');
-  // console.dir(emailData.fireDepartment.Users);
-
-  // send the emails
-  // const to = 'paul@prominentedge.com';
-  // const subject = 'TEST EMAIL';
-  // await sendNotification(to, subject, html);
 
   // finally, update last_sent time
   emailData.last_sent = moment().format();
