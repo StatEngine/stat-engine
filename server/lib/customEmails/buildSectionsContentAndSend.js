@@ -1,12 +1,11 @@
 import moment from 'moment';
-import nodemailer from 'nodemailer';
 
-
-import { FireDepartment, User } from '../../sqldb';
+import { Extension, ExtensionConfiguration, FireDepartment, User } from '../../sqldb';
 import { queryUpdate } from '../../api/custom-email/custom-email.controller';
 import { alertSummary } from './sections/alertSummary';
-import { description } from './sections/description';
 import { getEmailHtml } from '../../api/email/getEmailHtmlController';
+import sendNotification from '../../api/email/sendNotification';
+import { description } from './sections/description';
 
 export async function getFireDepartment(fdId) {
   return FireDepartment.findOne({
@@ -19,10 +18,7 @@ export async function getFireDepartment(fdId) {
 }
 
 async function getMergeVars(emailData) {
-  const sectionFuncs = {
-    alertSummary,
-    description,
-  };
+  const sectionFuncs = { alertSummary };
   console.dir(emailData.sections);
   const end = moment().format();
   emailData.timeRange = {
@@ -36,48 +32,54 @@ async function getMergeVars(emailData) {
   return Promise.all(promises);
 }
 
-async function sendEmails(emailData) {
-  // const transport = nodemailer.createTransport({
-  //   host: 'smtp.mailtrap.io',
-  //   port: 2525,
-  //   auth: {
-  //     user: '8e9d8b26252da5',
-  //     pass: 'a65bd89dada789',
-  //   },
-  // });
-  // send the email to each user
-  const user = emailData.fireDepartment.Users[0];
-  console.log('SEND EMAILS');
-  console.dir(user.email);
-  // emailData.fireDepartment.Users.forEach(u => {
-  //   console.log(u.email);
-  // });
-  return 'sendEmails';
+function sendEmails(emailData, subject, html) {
+  const promises = emailData.fireDepartment.Users.map(u => {
+    const to = u.email;
+    return sendNotification(to, subject, html);
+  });
+  return promises;
 }
 
 export async function buildEmailContentAndSend(emailData) {
-  console.log('buildEmailContentAndSend');
-  // console.dir(emailData, { depth: null });
-
   emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
+
+  const extensionConfig = await ExtensionConfiguration.find({
+    where: { fire_department__id: emailData.fireDepartment._id },
+    include: [{
+      model: Extension,
+      where: { name: 'Email Report' },
+    }],
+  });
+
+  const options = {
+    name: 'options',
+    content: {
+      logo: extensionConfig.config_json.logo,
+      sections: {},
+    },
+  };
 
   // get the email content
   emailData.mergeVars = await getMergeVars(emailData);
-  console.log('MERGE VARS');
-  console.dir(emailData.mergeVars);
+  emailData.mergeVars.forEach(mv => {
+    options.content.sections[mv.name] = true;
+  });
+
+  emailData.mergeVars.push(options);
+  const descriptionVar = await description(emailData);
+  const subject = descriptionVar.content.title;
+  emailData.mergeVars.push(descriptionVar);
 
   const html = await getEmailHtml(emailData.mergeVars);
 
-  // console.log('GOT HTML');
-  // console.log(html);
-
-
-  // console.log('SECTIONS');
-  // console.dir(emailData.emailContent, { depth: null });
+  await Promise.all(sendEmails(emailData, subject, html));
+  // console.log('FIRE DEPT');
+  // console.dir(emailData.fireDepartment.Users);
 
   // send the emails
-  await sendEmails(emailData);
-
+  // const to = 'paul@prominentedge.com';
+  // const subject = 'TEST EMAIL';
+  // await sendNotification(to, subject, html);
 
   // finally, update last_sent time
   emailData.last_sent = moment().format();
