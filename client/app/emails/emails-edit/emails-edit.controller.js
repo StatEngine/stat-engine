@@ -1,5 +1,3 @@
-'use strict';
-
 import angular from 'angular';
 // eslint-disable-next-line no-unused-vars
 import parsleyjs from 'parsleyjs';
@@ -13,10 +11,8 @@ export default class EmailsEditController {
   message = '';
   seed = true;
 
-  /*@ngInject*/
-  constructor(
-    CustomEmail, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate,
-  ) {
+  /* @ngInject */
+  constructor(CustomEmail, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate, $window) {
     this.CustomEmailService = CustomEmail;
     this.UserService = User;
     this.$state = $state;
@@ -26,6 +22,7 @@ export default class EmailsEditController {
     this.currentPrincipal = currentPrincipal;
     this.Modal = Modal;
     this.FixtureTemplate = FixtureTemplate;
+    this.$window = $window;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
       ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
@@ -118,6 +115,20 @@ export default class EmailsEditController {
     return mockData.map(data => ({ type: data }));
   }
 
+  async getPreview() {
+    console.log('getPreview');
+    const getPreviewFunc = this.CustomEmailService.preview;
+    const params = { id: this.inputEmail._id };
+    const sectionsJson = this.getSections();
+    this.inputEmail.sections = sectionsJson;
+    const resPreview = await getPreviewFunc(params, this.inputEmail).$promise;
+    console.log('PREVIEW HTML');
+    console.log(resPreview.html);
+    const tab = window.open('about:blank', '_blank');
+    tab.document.write(resPreview.html);
+    tab.document.close();
+  }
+
   async updateEmail() {
     if (!this.emailForm.isValid()) {
       return;
@@ -125,9 +136,7 @@ export default class EmailsEditController {
 
     let fnc = this.CustomEmailService.update;
 
-    const params = {
-      id: this.inputEmail._id,
-    };
+    const params = { id: this.inputEmail._id };
 
     if (this.isNewEmail) {
       console.log('a new email');

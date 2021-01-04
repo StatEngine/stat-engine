@@ -1,6 +1,4 @@
-'use strict';
-
-/*eslint no-process-env:0*/
+/* eslint no-process-env:0 */
 
 import path from 'path';
 import _ from 'lodash';
@@ -12,18 +10,18 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.INSTALLATION_SIGNING_SECRET = process.env.INSTALLATION_SIGNING_SECRET || 'statengine';
 
 let emailPrefix = '';
-if(process.env.NODE_ENV === 'development') emailPrefix = 'dev-';
+if (process.env.NODE_ENV === 'development') { emailPrefix = 'dev-'; }
 
-/*function requiredProcessEnv(name) {
+/* function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
   }
   return process.env[name];
-}*/
+} */
 
 // All configurations will extend these options
 // ============================================
-var all = {
+const all = {
   env: process.env.NODE_ENV,
 
   elasticsearch: {
@@ -33,9 +31,7 @@ var all = {
   },
 
   // Local vs AWS Kibana
-  ror: {
-    secret: process.env.ROR_JWT_SIGNATURE_KEY || 'woEayHiICafruph^gZJb3EG5Fnl1qou6XUT8xR^7OMwaCYxz^&@rr#Hi5*s*918tQS&iDJO&67xy0hP!F@pThb3#Aymx%XPV3x^'
-  },
+  ror: { secret: process.env.ROR_JWT_SIGNATURE_KEY || 'woEayHiICafruph^gZJb3EG5Fnl1qou6XUT8xR^7OMwaCYxz^&@rr#Hi5*s*918tQS&iDJO&67xy0hP!F@pThb3#Aymx%XPV3x^' },
 
   kibana: {
     // App basepath: make sure your kibana.yml file isn't using the app root or it will mess up the proxy.
@@ -49,9 +45,7 @@ var all = {
     uri: process.env.NFORS_URI ? process.env.NFORS_URI : 'http://localhost:5601',
   },
 
-  oauth: {
-    secret: process.env.INSTALLATION_SIGNING_SECRET
-  },
+  oauth: { secret: process.env.INSTALLATION_SIGNING_SECRET },
 
   // Root path of server
   root: path.normalize(`${__dirname}/../../..`),
@@ -84,6 +78,8 @@ var all = {
     timeRangeTemplate: 'timerange',
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
     mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
+    emailShellTemplatePath: `${process.cwd()}/server/api/email/templates/shell.hbs`,
+    emailPartialsTemplatePath: `${process.cwd()}/server/api/email/templates/partials`,
   },
 
   mailchimp: {
@@ -97,9 +93,7 @@ var all = {
     callbackUrl: process.env.TWITTER_CALLBACK_URL || 'http://localhost:3000/api/twitter/account/login/_callback',
   },
 
-  mapbox: {
-    token: process.env.MAPBOX_TOKEN,
-  },
+  mapbox: { token: process.env.MAPBOX_TOKEN },
 };
 
 

@@ -3,11 +3,11 @@ import _ from 'lodash';
 
 import getRuleAnalysis from '../getRuleAnalysis';
 
-export default async function alertSummary(emailData) {
+export async function alertSummary(emailData) {
   const ruleAnalysis = await getRuleAnalysis(emailData);
   return _formatAlerts(ruleAnalysis);
 }
-const alertColors = {
+export const alertColors = {
   success: {
     row: '#dff0d8',
     rowBorder: '#83d062',

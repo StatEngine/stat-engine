@@ -4,14 +4,13 @@ import nodemailer from 'nodemailer';
 
 import { FireDepartment, User } from '../../sqldb';
 import { queryUpdate } from '../../api/custom-email/custom-email.controller';
-import alertSummary from './sections/alertSummary';
-import description from './sections/description';
+import { alertSummary } from './sections/alertSummary';
+import { description } from './sections/description';
+import { getEmailHtml } from '../../api/email/getEmailHtmlController';
 
 async function getFireDepartment(fdId) {
   return FireDepartment.findOne({
-    where: {
-      fd_id: fdId,
-    },
+    where: { fd_id: fdId },
     include: [{
       model: User,
       attributes: ['_id', 'first_name', 'last_name', 'email', 'role', 'unsubscribed_emails'],
@@ -19,33 +18,33 @@ async function getFireDepartment(fdId) {
   });
 }
 
-async function getEmailContent(emailData) {
+async function getMergeVars(emailData) {
   const sectionFuncs = {
     alertSummary,
     description,
   };
+  console.dir(emailData.sections);
   const end = moment().format();
   emailData.timeRange = {
     start: emailData.last_sent,
     end,
   };
   const promises = emailData.sections.map(section => {
-    const { type } = section;
-    return sectionFuncs[type](emailData);
+    return sectionFuncs[section.type](emailData);
   });
 
   return Promise.all(promises);
 }
 
 async function sendEmails(emailData) {
-  const transport = nodemailer.createTransport({
-    host: 'smtp.mailtrap.io',
-    port: 2525,
-    auth: {
-      user: '8e9d8b26252da5',
-      pass: 'a65bd89dada789',
-    },
-  });
+  // const transport = nodemailer.createTransport({
+  //   host: 'smtp.mailtrap.io',
+  //   port: 2525,
+  //   auth: {
+  //     user: '8e9d8b26252da5',
+  //     pass: 'a65bd89dada789',
+  //   },
+  // });
   // send the email to each user
   const user = emailData.fireDepartment.Users[0];
   console.log('SEND EMAILS');
@@ -63,7 +62,15 @@ export default async function buildEmailContentAndSend(emailData) {
   emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
 
   // get the email content
-  emailData.emailContent = await getEmailContent(emailData);
+  emailData.mergeVars = await getMergeVars(emailData);
+  console.log('MERGE VARS');
+  console.dir(emailData.mergeVars);
+
+  const html = await getEmailHtml(emailData.mergeVars);
+
+  console.log('GOT HTML');
+  console.log(html);
+
 
   // console.log('SECTIONS');
   // console.dir(emailData.emailContent, { depth: null });

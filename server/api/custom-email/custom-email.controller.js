@@ -2,6 +2,9 @@ import moment from 'moment';
 
 import { CustomEmail } from '../../sqldb';
 import CustomEmailScheduler from '../../lib/customEmails/customEmailScheduler';
+import { getEmailHtml } from '../email/getEmailHtmlController';
+import { alertColors } from '../../lib/customEmails/sections/alertSummary';
+import { _getShift } from '../../lib/customEmails/sections/description';
 
 export async function queryFindAll(where) {
   if (where) {
@@ -11,20 +14,14 @@ export async function queryFindAll(where) {
 }
 
 export async function queryFindOne(emailId) {
-  const where = {
-    _id: emailId,
-  };
+  const where = { _id: emailId };
   return CustomEmail.findOne({ where, raw: true });
 }
 
 export async function queryUpdate(emailId, updateData) {
   return CustomEmail.update(
     updateData,
-    {
-      where: {
-        _id: emailId,
-      },
-    },
+    { where: { _id: emailId } },
   );
 }
 
@@ -32,9 +29,7 @@ export async function queryUpdate(emailId, updateData) {
 // used for the list page of the webapp
 export async function listByDeptId(req, res) {
   const fdId = req.user.dataValues.FireDepartment.dataValues.fd_id;
-  const where = {
-    fd_id: fdId,
-  };
+  const where = { fd_id: fdId };
   const emails = await queryFindAll(where);
   res.json({ emails });
 }
@@ -77,15 +72,62 @@ export async function update(req, res) {
 
 export async function deleteCustomEmail(req, res) {
   const { emailId } = req.params;
-  await CustomEmail.destroy({
-    where: {
-      _id: emailId,
-    },
-  });
+  await CustomEmail.destroy({ where: { _id: emailId } });
   CustomEmailScheduler.unscheduleEmail(emailId);
 
-  res.json({
-    msg: `email ${emailId} deleted`,
-  });
+  res.json({ msg: `email ${emailId} deleted` });
 }
 
+export async function preview(req, res) {
+  const emailData = req.body;
+
+  console.log('getPreview');
+  console.dir(emailData);
+
+  // get dummy data for each section
+  const mergeVars = getPreviewData(emailData);
+  console.log('MERGE VARS');
+  console.dir(mergeVars);
+  // create html with dummy data
+  const html = getEmailHtml(mergeVars);
+  // console.log(html);
+  res.json({ html });
+}
+
+function getPreviewData(emailData) {
+  const { sections } = emailData;
+  console.log('getPreviewData');
+  console.dir(sections);
+
+  const mergeVars = sections.map(section => getSectionMockData(section.type));
+  return mergeVars;
+}
+
+function getSectionMockData(section) {
+  const dataObj = {
+    description: {
+      name: 'description',
+      content: {
+        departmentName: 'Test Dept',
+        timeRange: 'Dec 27, 2020 8:00 AM - Dec 28, 2020 8:00 AM',
+        runTime: 'Dec 28, 2020 8:25 AM',
+        title: 'Custom Report - 2020-12-27',
+        subtitle: '',
+        shift: 'Shift Report - 2020-12-27 Shift A',
+      },
+    },
+    alertSummary: {
+      name: 'alerts',
+      content: [
+        {
+          description: 'Some alert description',
+          details: 'Some alert details',
+          rowColor: alertColors.success.row,
+          rowBorderColor: alertColors.success.rowBorder,
+        },
+      ],
+    },
+  };
+
+  return dataObj[section];
+}

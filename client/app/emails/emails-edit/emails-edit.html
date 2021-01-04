@@ -81,7 +81,10 @@
             <button id='back_edit_btn' ui-sref="site.emails.home" class="btn btn-outline-inverse-alt mr-2">
               Cancel
             </button>
-            <button id='save_edit_btn' type="submit" class="btn btn-primary" ng-disabled="vm.saveDisabled()">
+            <button id='preview_edit_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.getPreview()">
+              Preview
+            </button>
+            <button id='save_edit_btn' type="button" class="btn btn-primary" ng-disabled="vm.saveDisabled()">
               {{ vm.saveButtonText }}
             </button>
             <span ng-show="vm.isSaving" class="mg-b-0 mg-l-20">

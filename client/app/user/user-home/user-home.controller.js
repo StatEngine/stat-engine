@@ -123,8 +123,7 @@ export default class UserHomeController {
       this.principal.fire_department__id = fd._id;
       this.UserService.update({ id: this.principal._id }, this.principal).$promise
         .then(() => {
-          this.PrincipalService.logout();
-          this.$state.go('site.main.main');
+          this.$state.reload();
         })
         .catch(err => {
           console.error('error switching fire departments');

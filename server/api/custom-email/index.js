@@ -53,4 +53,13 @@ router.delete(
   controller.deleteCustomEmail,
 );
 
+router.post(
+  '/:emailId/preview',
+  auth.isApiAuthenticated,
+  auth.hasRole('dashboard_user'),
+  auth.hasFireDepartment,
+  bodyParser.json(),
+  controller.preview,
+);
+
 module.exports = router;

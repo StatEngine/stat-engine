@@ -88,7 +88,7 @@
               <span class="incident-summary-row-label">Event Type:</span>
               <span>{{ vm.incident.description.type }}</span>
             </div>
-            <div class="incident-summary-row">
+            <div ng-if="vm.incident.description.subtype && vm.incident.description.subtype.length > 0" class="incident-summary-row">
               <span class="incident-summary-row-label">Event Sub-Type:</span>
               <span>{{ vm.incident.description.subtype }}</span>
             </div>

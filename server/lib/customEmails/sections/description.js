@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import { FirecaresLookup } from '@statengine/shiftly';
 import getRuleAnalysis from '../getRuleAnalysis';
 
-function _getShift(firecaresId, date) {
+export function _getShift(firecaresId, date) {
   const ShiftConfiguration = FirecaresLookup[firecaresId];
   if (ShiftConfiguration) {
     const shiftly = new ShiftConfiguration();
@@ -33,7 +33,7 @@ function _formatDescription(emailData, comparisonTimeRange) {
   };
 }
 
-export default async function description(emailData) {
+export async function description(emailData) {
   const ruleAnalysis = await getRuleAnalysis(emailData);
   return _formatDescription(emailData, ruleAnalysis.previousTimeFilter);
 }
