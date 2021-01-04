@@ -13,10 +13,8 @@ export default class EmailsEditController {
   message = '';
   seed = true;
 
-  /*@ngInject*/
-  constructor(
-    CustomEmail, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate,
-  ) {
+  /* @ngInject */
+  constructor(CustomEmail, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate, $window, $document) {
     this.CustomEmailService = CustomEmail;
     this.UserService = User;
     this.$state = $state;
@@ -26,6 +24,8 @@ export default class EmailsEditController {
     this.currentPrincipal = currentPrincipal;
     this.Modal = Modal;
     this.FixtureTemplate = FixtureTemplate;
+    this.$window = $window;
+    this.$document = $document;
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
       ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
@@ -116,8 +116,10 @@ export default class EmailsEditController {
 
   getSections() {
     // TODO: load sections from UI
-    const mockData = ['alertSummary'];
-    return mockData.map(data => ({ type: data }));
+    // const mockData = ['alertSummary'];
+    const select = document.getElementById('sections');
+    const selected = Array.from(select.selectedOptions).map(v => v.value);
+    return selected.map(data => ({ type: data }));
   }
 
   async getPreview() {
@@ -142,6 +144,8 @@ export default class EmailsEditController {
       return;
     }
 
+    console.dir(this.emailForm);
+
     let fnc = this.CustomEmailService.update;
 
     const params = {
@@ -162,10 +166,8 @@ export default class EmailsEditController {
     this.isSaving = true;
     this.errors = null;
     const sectionsJson = this.getSections();
-    console.log('updateEmail');
-    console.dir(this.inputEmail);
-    console.dir(sectionsJson);
     this.inputEmail.sections = sectionsJson;
+
     try {
       console.log('calling api');
       await fnc(params, this.inputEmail).$promise;
