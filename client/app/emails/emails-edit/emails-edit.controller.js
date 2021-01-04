@@ -35,6 +35,8 @@ export default class EmailsEditController {
       enabled: true,
       sections: [],
     };
+
+    this.previewHtml = '';
   }
 
   async loadModules() {
@@ -111,25 +113,28 @@ export default class EmailsEditController {
 
   getSections() {
     // TODO: load sections from UI
-    const mockData = ['description', 'alertSummary'];
+    const mockData = ['alertSummary'];
     return mockData.map(data => ({ type: data }));
   }
 
   async getPreview() {
     console.log('getPreview');
+    console.dir(this.inputEmail);
     const getPreviewFunc = this.CustomEmailService.preview;
     const params = { id: this.inputEmail._id };
     const sectionsJson = this.getSections();
     this.inputEmail.sections = sectionsJson;
     const resPreview = await getPreviewFunc(params, this.inputEmail).$promise;
     console.log('PREVIEW HTML');
-    console.log(resPreview.html);
+    this.previewHtml = resPreview.html;
+    console.log(this.previewHtml);
     const tab = window.open('about:blank', '_blank');
-    tab.document.write(resPreview.html);
+    tab.document.write(this.previewHtml);
     tab.document.close();
   }
 
   async updateEmail() {
+    console.log('updateEmail');
     if (!this.emailForm.isValid()) {
       return;
     }

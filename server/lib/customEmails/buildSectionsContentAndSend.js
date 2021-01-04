@@ -8,7 +8,7 @@ import { alertSummary } from './sections/alertSummary';
 import { description } from './sections/description';
 import { getEmailHtml } from '../../api/email/getEmailHtmlController';
 
-async function getFireDepartment(fdId) {
+export async function getFireDepartment(fdId) {
   return FireDepartment.findOne({
     where: { fd_id: fdId },
     include: [{
@@ -55,7 +55,7 @@ async function sendEmails(emailData) {
   return 'sendEmails';
 }
 
-export default async function buildEmailContentAndSend(emailData) {
+export async function buildEmailContentAndSend(emailData) {
   console.log('buildEmailContentAndSend');
   // console.dir(emailData, { depth: null });
 
@@ -68,8 +68,8 @@ export default async function buildEmailContentAndSend(emailData) {
 
   const html = await getEmailHtml(emailData.mergeVars);
 
-  console.log('GOT HTML');
-  console.log(html);
+  // console.log('GOT HTML');
+  // console.log(html);
 
 
   // console.log('SECTIONS');

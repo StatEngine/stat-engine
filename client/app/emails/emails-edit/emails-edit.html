@@ -30,17 +30,12 @@
                           minlength='3' maxlength='20' size="2  0" mongoose-error="mongoose-error" />
                 </div>
 
-                <!-- <div class="email-details-color">
-                  <label class="required">Color</label>
-                  <div>
-                    <spectrum-colorpicker ng-model="vm.inputEmail.color" format="'hex'" palette="vm.palette" options="{showPaletteOnly: true, showPalette:true, hideAfterPaletteSelect:true }"></spectrum-colorpicker>
-                  </div>
-                </div> -->
-
                 <div class="email-details-description">
                   <label class="required">Description</label>
-                  <textarea name="description" rows="4" class="form-control" ng-model="vm.inputEmail.description"
-                            maxlength="255" required />
+                  <!-- <textarea name="description" rows="4" class="form-control" ng-model="vm.inputEmail.description"
+                            maxlength="255" required /> -->
+                  <input type="text" id="description" name="description" class="form-control" ng-model="vm.inputEmail.description" required
+                          minlength='3' maxlength='144' size="2  0" mongoose-error="mongoose-error" />
                 </div>
 
                 <div class="email-details-schedule">
@@ -57,6 +52,10 @@
                 <div class="email-details-sections">
                   <label class="required">Sections</label>
                 </div>
+                <!-- <div class="email-details-preview">
+                  <label>Preview</label>
+                  <iframe srcdoc="{{vm.previewHtml}}"></iframe>
+                </div> -->
               </div>
             </div>
           </div>
@@ -84,7 +83,7 @@
             <button id='preview_edit_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.getPreview()">
               Preview
             </button>
-            <button id='save_edit_btn' type="button" class="btn btn-primary" ng-disabled="vm.saveDisabled()">
+            <button id='save_edit_btn' type="submit" class="btn btn-primary" ng-disabled="vm.saveDisabled()">
               {{ vm.saveButtonText }}
             </button>
             <span ng-show="vm.isSaving" class="mg-b-0 mg-l-20">

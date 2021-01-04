@@ -52,7 +52,14 @@
         .email-details-sections {
           grid-area: sections;
         }
+        .email-details-preview {
+          grid-area: preview;
+        }
       }
     }
+  }
+
+  .email-details-preview {
+    width: 100%;
   }
   

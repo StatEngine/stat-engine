@@ -1,10 +1,11 @@
 import moment from 'moment';
 
-import { CustomEmail } from '../../sqldb';
+import { CustomEmail, Extension, ExtensionConfiguration } from '../../sqldb';
 import CustomEmailScheduler from '../../lib/customEmails/customEmailScheduler';
 import { getEmailHtml } from '../email/getEmailHtmlController';
 import { alertColors } from '../../lib/customEmails/sections/alertSummary';
-import { _getShift } from '../../lib/customEmails/sections/description';
+// import { _getShift } from '../../lib/customEmails/sections/description';
+import { getFireDepartment } from '../../lib/customEmails/buildSectionsContentAndSend';
 
 export async function queryFindAll(where) {
   if (where) {
@@ -37,8 +38,6 @@ export async function listByDeptId(req, res) {
 export async function find(req, res) {
   const { emailId } = req.params;
   const email = await queryFindOne(emailId);
-  console.log('CUSTOM EMAIL FIND');
-  console.dir(email);
   res.json(email);
 }
 
@@ -52,7 +51,7 @@ export async function create(req, res) {
   const dbRes = await CustomEmail.create(emailData);
   const newEmail = dbRes.dataValues;
   newEmail.dept = dept;
-  if (newEmail.enabled) {
+  if (newEmail.enabled === true) {
     await CustomEmailScheduler.scheduleCustomEmail(newEmail);
   }
   res.json(newEmail);
@@ -62,7 +61,7 @@ export async function update(req, res) {
   const { body: updatedEmail } = req;
   const { emailId } = req.params;
   await queryUpdate(emailId, updatedEmail);
-  if (updatedEmail.enabled) {
+  if (updatedEmail.enabled === true) {
     await CustomEmailScheduler.scheduleCustomEmail(updatedEmail);
   } else {
     CustomEmailScheduler.unscheduleEmail(updatedEmail._id);
@@ -81,41 +80,58 @@ export async function deleteCustomEmail(req, res) {
 export async function preview(req, res) {
   const emailData = req.body;
 
-  console.log('getPreview');
-  console.dir(emailData);
+  emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
+
+  const extensionConfig = await ExtensionConfiguration.find({
+    where: { fire_department__id: emailData.fireDepartment._id },
+    include: [{
+      model: Extension,
+      where: { name: 'Email Report' },
+    }],
+  });
+
+  const options = {
+    name: 'options',
+    content: { logo: extensionConfig.config_json.logo },
+  };
 
   // get dummy data for each section
-  const mergeVars = getPreviewData(emailData);
-  console.log('MERGE VARS');
-  console.dir(mergeVars);
-  // create html with dummy data
+  const mergeVars = getPreviewData(emailData, options);
+
+  const desc = {
+    name: 'description',
+    content: {
+      departmentName: 'Test Dept',
+      timeRange: 'Dec 27, 2020 8:00 AM - Dec 28, 2020 8:00 AM',
+      runTime: 'Dec 28, 2020 8:25 AM',
+      title: 'Custom Report - 2020-12-27',
+      subtitle: 'some subtitle',
+      shift: 'Shift Report - 2020-12-27 Shift A',
+    },
+  };
+  mergeVars.push(desc);
   const html = getEmailHtml(mergeVars);
-  // console.log(html);
   res.json({ html });
 }
 
-function getPreviewData(emailData) {
+function getPreviewData(emailData, options) {
   const { sections } = emailData;
-  console.log('getPreviewData');
-  console.dir(sections);
+
+  options.content.sections = {};
 
   const mergeVars = sections.map(section => getSectionMockData(section.type));
+
+  mergeVars.forEach(mv => {
+    options.content.sections[mv.name] = true;
+  });
+
+  mergeVars.push(options);
+
   return mergeVars;
 }
 
 function getSectionMockData(section) {
   const dataObj = {
-    description: {
-      name: 'description',
-      content: {
-        departmentName: 'Test Dept',
-        timeRange: 'Dec 27, 2020 8:00 AM - Dec 28, 2020 8:00 AM',
-        runTime: 'Dec 28, 2020 8:25 AM',
-        title: 'Custom Report - 2020-12-27',
-        subtitle: '',
-        shift: 'Shift Report - 2020-12-27 Shift A',
-      },
-    },
     alertSummary: {
       name: 'alerts',
       content: [

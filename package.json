@@ -18,7 +18,7 @@
     "angular-loading-bar": "^0.9.0",
     "angular-moment": "^1.2.0",
     "angular-resource": "~1.6.6",
-    "angular-sanitize": "~1.6.6",
+    "angular-sanitize": "1.8.2",
     "angular-skycons": "github:projectweekend/angular-skycons",
     "angular-spectrum-colorpicker": "^1.4.5",
     "angular-summernote": "^0.8.1",
