@@ -29,7 +29,7 @@ describe('HtmlReports()', () => {
     expect(html).to.equal('<div>SHELL<div><p>PARTIAL TEST1</p></div><div><p>PARTIAL TEST2</p></div></div>');
   });
   describe('Event Duration Report', () => {
-    let rule;
+    let eventDurationSumRuleWithData;
     beforeEach(() => {
       // 1 minute in seconds
       const ruleParams = { threshold: 60 };
@@ -44,22 +44,28 @@ describe('HtmlReports()', () => {
         doc_count: 4, // 4 units responded
       };
       const twoIncidentOverThreshold = { aggregations: { apparatus: { 'agg_terms_apparatus.unit_id': { buckets: [incidentOne, incidentTwo] } } } };
-      rule = new EventDurationSumRule(ruleParams);
-      rule.setResults(twoIncidentOverThreshold);
+      eventDurationSumRuleWithData = new EventDurationSumRule(ruleParams);
+      eventDurationSumRuleWithData.setResults(twoIncidentOverThreshold);
     });
     it('should generate Event Duration html report', () => {
-      const analysis = rule.analyze();
-      const reportOptions = {};
-      const globalMergeVars = [_formatAlerts([analysis], reportOptions)];
+      const dataIn = data(eventDurationSumRuleWithData);
+
+      console.log(JSON.stringify(dataIn));
 
       const html = new HtmlReports(new HandlebarsEmailTemplate(
         handlebars,
         'server/api/email/templates/test/eventDuration/shell.hbs',
         'server/api/email/templates/partials',
       ).template())
-        .report(globalMergeVars);
+        .report(dataIn);
 
       expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReport.html', 'utf-8'));
     });
   });
 });
+
+function data(rule) {
+  const analysis = rule.analyze();
+  const reportOptions = {};
+  return [_formatAlerts([analysis], reportOptions)];
+}
