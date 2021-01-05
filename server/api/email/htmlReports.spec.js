@@ -35,63 +35,43 @@ describe('HtmlReports', () => {
     });
   });
   describe('Event Duration Report', () => {
-    describe('Test EventDurationSumRule & HtmlReports & HandlebarsEmailTemplate', () => {
-      let eventDurationSumRuleWithData;
-      let htmlReports;
-      beforeEach(() => {
-        // 1 minute in seconds
-        const ruleParams = { threshold: 60 };
-        let threshold = ruleParams.threshold;
-        const incidents = {
-          aggregations: {
-            apparatus: {
-              'agg_terms_apparatus.unit_id':
-                {
-                  buckets: [
-                    incident('UNIT_000', threshold),
-                    incident('UNIT_100', ++threshold),
-                    incident('UNIT_200', ++threshold),
-                    incident('UNIT_300', ++threshold),
-                    incident('UNIT_400', ++threshold),
-                    incident('UNIT_1000', ++threshold),
-                    incident('UNIT_1100', ++threshold),
-                    incident('UNIT_1200', ++threshold),
-                    incident('UNIT_1300', ++threshold),
-                    incident('UNIT_1400', ++threshold),
-                    incident('UNIT_2000', ++threshold),
-                    incident('UNIT_2100', ++threshold),
-                    incident('UNIT_2200', ++threshold),
-                    incident('UNIT_2300', ++threshold),
-                  ],
-                },
-            },
-          },
-        };
-        eventDurationSumRuleWithData = new EventDurationSumRule(ruleParams);
-        eventDurationSumRuleWithData.setResults(incidents);
+    let eventDurationSumRuleWithData;
+    beforeEach(() => {
+      // 1 minute in seconds
+      const ruleParams = { threshold: 60 };
+      const incidentOne = {
+        'agg_sum_apparatus.extended_data.event_duration': { value: ruleParams.threshold * 10 }, // in seconds
+        key: 'UNIT_100', // unit ID
+        doc_count: 1,
+      };
+      const incidentTwo = {
+        'agg_sum_apparatus.extended_data.event_duration': { value: ruleParams.threshold * 100 }, // in seconds
+        key: 'UNIT_200', // unit ID
+        doc_count: 4, // 4 units responded
+      };
+      const twoIncidentOverThreshold = { aggregations: { apparatus: { 'agg_terms_apparatus.unit_id': { buckets: [incidentOne, incidentTwo] } } } };
+      eventDurationSumRuleWithData = new EventDurationSumRule(ruleParams);
+      eventDurationSumRuleWithData.setResults(twoIncidentOverThreshold);
+    });
+    it('should generate Event Duration html report', () => {
+      const dataIn = data(eventDurationSumRuleWithData);
+
+      console.log(JSON.stringify(dataIn));
 
       const html = new HtmlReports(new HandlebarsEmailTemplate(
         handlebars,
         'server/api/email/templates/test/eventDuration/shell.hbs',
         'server/api/email/templates/partials',
       ).template())
-        .report(globalMergeVars);
+        .report(dataIn);
 
       expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReport.html', 'utf-8'));
     });
   });
 });
 
-function toData(rule) {
+function data(rule) {
   const analysis = rule.analyze();
   const reportOptions = {};
   return [_formatAlerts([analysis], reportOptions)];
-}
-
-function incident(unitName, duration) {
-  return {
-    'agg_sum_apparatus.extended_data.event_duration': { value: duration }, // in seconds
-    key: unitName,
-    doc_count: 1,
-  };
 }
