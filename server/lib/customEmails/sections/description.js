@@ -18,18 +18,15 @@ function _formatDescription(emailData, comparisonTimeRange) {
   const subtitle = '';
 
   return {
-    name: 'description',
-    content: {
-      departmentName: fireDepartment.name,
-      timeRange: `${moment.parseZone(timeRange.start).format('lll')} - ${moment.parseZone(timeRange.end).format('lll')}`,
-      //   comparisonTimeRange: `${moment.parseZone(comparisonTimeRange.start).format('lll')} - ${moment.parseZone(comparisonTimeRange.end).format('lll')}`,
-      runTime: moment()
-        .tz(fireDepartment.timezone)
-        .format('lll'),
-      title,
-      subtitle,
-      shift: _getShift(fireDepartment.firecares_id, timeRange.start),
-    },
+    departmentName: fireDepartment.name,
+    timeRange: `${moment.parseZone(timeRange.start).format('lll')} - ${moment.parseZone(timeRange.end).format('lll')}`,
+    //   comparisonTimeRange: `${moment.parseZone(comparisonTimeRange.start).format('lll')} - ${moment.parseZone(comparisonTimeRange.end).format('lll')}`,
+    runTime: moment()
+      .tz(fireDepartment.timezone)
+      .format('lll'),
+    title,
+    subtitle,
+    shift: _getShift(fireDepartment.firecares_id, timeRange.start),
   };
 }
 

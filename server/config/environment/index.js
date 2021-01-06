@@ -79,6 +79,7 @@ const all = {
     mandrillAPIKey: process.env.MANDRILL_API_KEY,
     mandrillTestAPIKey: process.env.MANDRILL_TEST_API_KEY,
     emailShellTemplatePath: `${process.cwd()}/server/api/email/templates/shell.hbs`,
+    emailShellCustomTemplatePath: `${process.cwd()}/server/api/email/templates/shellCustom.hbs`,
     emailPartialsTemplatePath: `${process.cwd()}/server/api/email/templates/partials`,
   },
 

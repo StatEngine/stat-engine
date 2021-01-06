@@ -17,3 +17,12 @@ export function getEmailHtml(mergeVars) {
   ).template());
   return htmlReports.report(mergeVars);
 }
+
+export function getCustomEmailHtml(mergeVars) {
+  const htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
+    handlebars,
+    config.mailSettings.emailShellCustomTemplatePath,
+    config.mailSettings.emailPartialsTemplatePath,
+  ).template());
+  return htmlReports.report(mergeVars, false);
+}

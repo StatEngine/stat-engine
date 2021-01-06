@@ -25,10 +25,10 @@ export const alertColors = {
 function _formatAlerts(ruleAnalysis) {
   const mergeVar = {
     name: 'alerts',
-    content: [],
+    alerts: [],
   };
-  console.log('FORMAT ALERTS');
-  console.dir(ruleAnalysis, { depth: null });
+  // console.log('FORMAT ALERTS');
+  // console.dir(ruleAnalysis, { depth: null });
 
   _.forEach(ruleAnalysis, ruleViolations => {
     ruleViolations.forEach(violation => {
@@ -39,13 +39,13 @@ function _formatAlerts(ruleAnalysis) {
         violation.rowColor = alertColors.warning.row;
         violation.rowBorderColor = alertColors.warning.rowBorder;
       }
-      mergeVar.content.push(violation);
+      mergeVar.alerts.push(violation);
     });
   });
 
   // if no alerts
-  if (mergeVar.content.length === 0) {
-    mergeVar.content.push({
+  if (mergeVar.alerts.length === 0) {
+    mergeVar.alerts.push({
       rowColor: alertColors.success.row,
       rowBorderColor: alertColors.success.rowBorder,
       description: 'No alerts',
@@ -54,7 +54,7 @@ function _formatAlerts(ruleAnalysis) {
   }
 
   // Add a space after any comma without one after it.
-  mergeVar.content.forEach(alert => {
+  mergeVar.alerts.forEach(alert => {
     alert.details = alert.details.replace(/(,(?=\S))/g, ', ');
   });
 
