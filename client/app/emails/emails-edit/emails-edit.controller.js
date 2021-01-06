@@ -123,16 +123,12 @@ export default class EmailsEditController {
   }
 
   async getPreview() {
-    console.log('getPreview');
-    console.dir(this.inputEmail);
     const getPreviewFunc = this.CustomEmailService.preview;
     const params = { id: this.inputEmail._id };
     const sectionsJson = this.getSections();
     this.inputEmail.sections = sectionsJson;
     const resPreview = await getPreviewFunc(params, this.inputEmail).$promise;
-    console.log('PREVIEW HTML');
     this.previewHtml = resPreview.html;
-    console.log(this.previewHtml);
     const tab = window.open('about:blank', '_blank');
     tab.document.write(this.previewHtml);
     tab.document.close();
@@ -144,7 +140,7 @@ export default class EmailsEditController {
       return;
     }
 
-    console.dir(this.emailForm);
+    console.dir(this.inputEmail);
 
     let fnc = this.CustomEmailService.update;
 
