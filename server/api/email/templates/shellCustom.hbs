@@ -891,12 +891,10 @@
                                 </table>
 
                                 {{!-- BEGIN PARTIALS --}}
+                                {{#each sections}}
+                                  {{> (lookup . 'name')}}
+                                {{/each}}
 
-                                {{#if options.sections.alerts}}
-
-                                    {{> alerts }}
-
-                                {{/if}}
 
                               </td>
                             </tr>

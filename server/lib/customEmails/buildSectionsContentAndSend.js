@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Extension, ExtensionConfiguration, FireDepartment, User } from '../../sqldb';
 import { queryUpdate } from '../../api/custom-email/custom-email.controller';
 import { alertSummary } from './sections/alertSummary';
-import { getEmailHtml } from '../../api/email/getEmailHtmlController';
+import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
 import sendNotification from '../../api/email/sendNotification';
 import { description } from './sections/description';
 
@@ -32,14 +32,17 @@ async function getMergeVars(emailData) {
     return sectionFuncs[type](emailData);
   });
 
-  return Promise.all(promises);
+  const mergeVars = await Promise.all(promises);
+  return { sections: mergeVars };
 }
 
 function sendEmails(emailData, subject, html) {
-  const promises = emailData.fireDepartment.Users.map(u => {
-    const to = u.email;
-    return sendNotification(to, subject, html);
-  });
+  // const promises = emailData.fireDepartment.Users.map(u => {
+  //   const to = u.email;
+  //   return sendNotification(to, subject, html);
+  // });
+  const to = 'paul@prominentedge.com';
+  const promises = [sendNotification(to, subject, html)];
   return promises;
 }
 
@@ -55,25 +58,24 @@ export async function buildEmailContentAndSend(emailData) {
   });
 
   const options = {
-    name: 'options',
-    content: {
-      logo: extensionConfig.config_json.logo,
-      sections: {},
-    },
+    logo: extensionConfig.config_json.logo,
+    sections: {},
   };
 
   // get the email content
   emailData.mergeVars = await getMergeVars(emailData);
-  emailData.mergeVars.forEach(mv => {
-    options.content.sections[mv.name] = true;
+  emailData.mergeVars.sections.forEach(mv => {
+    options.sections[mv.name] = true;
   });
+  emailData.mergeVars.options = options;
+  const descriptionObj = await description(emailData);
+  const subject = descriptionObj.title;
+  emailData.mergeVars.description = descriptionObj;
 
-  emailData.mergeVars.push(options);
-  const descriptionVar = await description(emailData);
-  const subject = descriptionVar.content.title;
-  emailData.mergeVars.push(descriptionVar);
+  console.log('MERGE VARS');
+  console.dir(emailData.mergeVars, { depth: null });
 
-  const html = await getEmailHtml(emailData.mergeVars);
+  const html = await getCustomEmailHtml(emailData.mergeVars);
 
   await Promise.all(sendEmails(emailData, subject, html));
 
