@@ -8,6 +8,18 @@ import { _formatAlerts } from './sendNotificationController';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 
+function singleReport(unitName, utilization) {
+  return {
+    rule: 'EventDurationSumRule',
+    level: 'DANGER',
+    description: 'Unit utilization > 1 min',
+    details: `Unit: ${unitName}, Utilization: ${utilization}`,
+    default_visibility: true,
+    rowColor: '#f2dede',
+    rowBorderColor: '#bb7474',
+  };
+}
+
 describe('HtmlReports()', () => {
   it('should throw an exception when report data is missing', () => {
     const htmlReports = new HtmlReports();
@@ -30,6 +42,7 @@ describe('HtmlReports()', () => {
   });
   describe('Event Duration Report', () => {
     let eventDurationSumRuleWithData;
+    let htmlReports;
     beforeEach(() => {
       // 1 minute in seconds
       const ruleParams = { threshold: 60 };
@@ -46,25 +59,44 @@ describe('HtmlReports()', () => {
       const twoIncidentOverThreshold = { aggregations: { apparatus: { 'agg_terms_apparatus.unit_id': { buckets: [incidentOne, incidentTwo] } } } };
       eventDurationSumRuleWithData = new EventDurationSumRule(ruleParams);
       eventDurationSumRuleWithData.setResults(twoIncidentOverThreshold);
-    });
-    it('should generate Event Duration html report', () => {
-      const dataIn = data(eventDurationSumRuleWithData);
 
-      console.log(JSON.stringify(dataIn));
-
-      const html = new HtmlReports(new HandlebarsEmailTemplate(
+      htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
         handlebars,
         'server/api/email/templates/test/eventDuration/shell.hbs',
         'server/api/email/templates/partials',
-      ).template())
-        .report(dataIn);
-
+      ).template());
+    });
+    it('should generate Event Duration html report', () => {
+      const data = toData(eventDurationSumRuleWithData);
+      const html = htmlReports.report(data);
+      expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReport.html', 'utf-8'));
+    });
+    it('should create condensed Email Duration Report', () => {
+      const data = [
+        {
+          name: 'alerts',
+          content: [
+            singleReport('UNIT_000', '100.00'),
+            singleReport('UNIT_100', '200.00'),
+            singleReport('UNIT_200', '300.00'),
+            singleReport('UNIT_300', '400.00'),
+            singleReport('UNIT_400', '500.00'),
+            singleReport('UNIT_500', '600.00'),
+            singleReport('UNIT_600', '700.00'),
+            singleReport('UNIT_700', '800.00'),
+            singleReport('UNIT_800', '900.00'),
+            singleReport('UNIT_900', '1000.00'),
+            singleReport('UNIT_100', '1100.00'),
+          ],
+        },
+      ];
+      const html = htmlReports.report(data);
       expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReport.html', 'utf-8'));
     });
   });
 });
 
-function data(rule) {
+function toData(rule) {
   const analysis = rule.analyze();
   const reportOptions = {};
   return [_formatAlerts([analysis], reportOptions)];
