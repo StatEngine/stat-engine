@@ -46,8 +46,13 @@
 
                 <div class="email-details-enabled">
                   <label >Enabled</label>
-                  <input type="checkbox" id="enabled" name="enabled" class="form-control" ng-model="vm.inputEmail.enabled"
-                         mongoose-error="mongoose-error" />
+                  <div>
+                    <toggle-switch
+                      on="vm.inputEmail.enabled"
+                    ></toggle-switch>
+                  </div>
+                  <!-- <input type="checkbox" id="enabled" name="enabled" class="form-control" ng-model="vm.inputEmail.enabled"
+                         mongoose-error="mongoose-error" /> -->
                 </div>
                 <div class="email-details-sections">
                   <label class="required">Sections</label>
