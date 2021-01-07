@@ -8,18 +8,6 @@ import { _formatAlerts } from './sendNotificationController';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
 
 
-function singleReport(unitName, utilization) {
-  return {
-    rule: 'EventDurationSumRule',
-    level: 'DANGER',
-    description: 'Unit utilization > 1 min',
-    details: `Unit: ${unitName}, Utilization: ${utilization}`,
-    default_visibility: true,
-    rowColor: '#f2dede',
-    rowBorderColor: '#bb7474',
-  };
-}
-
 describe('HtmlReports()', () => {
   it('should throw an exception when report data is missing', () => {
     const htmlReports = new HtmlReports();
@@ -72,24 +60,58 @@ describe('HtmlReports()', () => {
       expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReport.html', 'utf-8'));
     });
     it('should create condensed Email Duration Report', () => {
-      const data = [
-        {
-          name: 'alerts',
-          content: [
-            singleReport('UNIT_000', '100.00'),
-            singleReport('UNIT_100', '200.00'),
-            singleReport('UNIT_200', '300.00'),
-            singleReport('UNIT_300', '400.00'),
-            singleReport('UNIT_400', '500.00'),
-            singleReport('UNIT_500', '600.00'),
-            singleReport('UNIT_600', '700.00'),
-            singleReport('UNIT_700', '800.00'),
-            singleReport('UNIT_800', '900.00'),
-            singleReport('UNIT_900', '1000.00'),
-            singleReport('UNIT_100', '1100.00'),
-          ],
-        },
-      ];
+      const data =
+        [
+          {
+            name: 'alerts',
+            content: [
+              {
+                rule: 'EventDurationSumRule',
+                level: 'DANGER',
+                description: 'Unit utilization > 1 min',
+                detailList: [
+                  { detail: 'UNIT_000/100.00' },
+                  { detail: 'UNIT_100/200.00' },
+                  { detail: 'UNIT_200/300.00' },
+                  { detail: 'UNIT_300/400.00' },
+                  { detail: 'UNIT_400/500.00' },
+                ],
+                default_visibility: true,
+                rowColor: '#f2dede',
+                rowBorderColor: '#bb7474',
+              },
+              {
+                rule: 'EventDurationSumRule',
+                level: 'DANGER',
+                description: 'Unit utilization > 1 min',
+                detailList: [
+                  { detail: 'UNIT_1000/100.00' },
+                  { detail: 'UNIT_1100/200.00' },
+                  { detail: 'UNIT_1200/300.00' },
+                  { detail: 'UNIT_1300/400.00' },
+                  { detail: 'UNIT_1400/500.00' },
+                ],
+                default_visibility: true,
+                rowColor: '#f2dede',
+                rowBorderColor: '#bb7474',
+              },
+              {
+                rule: 'EventDurationSumRule',
+                level: 'DANGER',
+                description: 'Unit utilization > 1 min',
+                detailList: [
+                  { detail: 'UNIT_2000/100.00' },
+                  { detail: 'UNIT_2100/200.00' },
+                  { detail: 'UNIT_2200/300.00' },
+                  { detail: 'UNIT_2300/400.00' },
+                ],
+                default_visibility: true,
+                rowColor: '#f2dede',
+                rowBorderColor: '#bb7474',
+              },
+            ],
+          },
+        ];
       const html = htmlReports.report(data);
       expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReport.html', 'utf-8'));
     });

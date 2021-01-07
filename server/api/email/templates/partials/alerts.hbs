@@ -67,12 +67,10 @@
               </tr>
               {{#each alerts}}
                 <tr style="background-color: {{this.rowColor}}">
-                  <td>
-                    <span style="font-size:14px;">{{this.description}}</span>
-                  </td>
-                  <td>
-                    <span style="font-size:14px;">{{{this.details}}}</span>
-                  </td>
+                  <td><span style="font-size:14px;"><strong>{{this.description}}</strong></span></td>
+                  {{#each this.detailList}}
+                    <td><span style="font-size:14px;">{{{this.detail}}}</span></td>
+                  {{/each}}
                 </tr>
               {{/each}}
               </tbody>
