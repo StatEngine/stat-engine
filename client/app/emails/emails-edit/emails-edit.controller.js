@@ -34,8 +34,43 @@ export default class EmailsEditController {
 
     this.allSections = [
       {
+        type: 'agencyIncidentTypeSummary',
+        label: 'Agency Incident Type Summary',
+        selected: false,
+      },
+      {
+        type: 'agencySummary',
+        label: 'Agency Summary',
+        selected: false,
+      },
+      {
         type: 'alertSummary',
         label: 'Alert Summary',
+        selected: false,
+      },
+      {
+        type: 'battalionSummary',
+        label: 'Battalion Summary',
+        selected: false,
+      },
+      {
+        type: 'incidentSummary',
+        label: 'Incident Summary',
+        selected: false,
+      },
+      {
+        type: 'incidentTypeSummary',
+        label: 'Incident Type Summary',
+        selected: false,
+      },
+      {
+        type: 'jurisdictionSummary',
+        label: 'Jurisdiction Summary',
+        selected: false,
+      },
+      {
+        type: 'unitSummary',
+        label: 'Unit Summary',
         selected: false,
       },
     ];
