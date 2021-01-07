@@ -139,6 +139,8 @@ export default class EmailsEditController {
 
     this.selectedSections = this.inputEmail.sections.map(s => s.type);
 
+    this.byShift = this.inputEmail.schedule === 'by shift';
+
     const departmentUsers = await this.UserService.query().$promise;
 
     this.seed = this.isNewEmail;
