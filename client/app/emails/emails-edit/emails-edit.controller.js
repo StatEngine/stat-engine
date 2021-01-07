@@ -25,15 +25,27 @@ export default class EmailsEditController {
     this.$window = $window;
     this.$document = $document;
 
+    this.byShift = false;
+
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
       ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
+
+    this.allSections = [
+      {
+        value: 'alertSummary',
+        label: 'Alert Summary',
+        selected: false,
+      },
+    ];
+
+    this.selectedSections = [];
 
     this.inputEmail = {
       _id: this.$stateParams.id === 'new' ? undefined : this.$stateParams.id,
       name: '',
       description: '',
       schedule: '',
-      enabled: true,
+      enabled: false,
       sections: [],
     };
 
@@ -90,6 +102,14 @@ export default class EmailsEditController {
       this.inputEmail = _.cloneDeep(this.origEmail);
     }
 
+    this.inputEmail.sections.forEach(s => {
+      const idx = this.allSections.findIndex(sec => sec.type === s.type);
+      console.log(idx);
+      if (idx > -1) {
+        this.allSections[idx].selected = true;
+      }
+    });
+
     const departmentUsers = await this.UserService.query().$promise;
 
     this.seed = this.isNewEmail;
@@ -113,11 +133,7 @@ export default class EmailsEditController {
   }
 
   getSections() {
-    // TODO: load sections from UI
-    // const mockData = ['alertSummary'];
-    const select = document.getElementById('sections');
-    const selected = Array.from(select.selectedOptions).map(v => v.value);
-    return selected.map(data => ({ type: data }));
+    return this.selectedSections.map(value => ({ type: value }));
   }
 
   async getPreview() {
@@ -133,15 +149,11 @@ export default class EmailsEditController {
   }
 
   async updateEmail() {
-    console.log('updateEmail');
     if (!this.emailForm.isValid()) {
       return;
     }
 
-    console.dir(this.inputEmail);
-
     let fnc = this.CustomEmailService.update;
-
     const params = { id: this.inputEmail._id };
 
     if (this.isNewEmail) {
@@ -157,8 +169,7 @@ export default class EmailsEditController {
 
     this.isSaving = true;
     this.errors = null;
-    const sectionsJson = this.getSections();
-    this.inputEmail.sections = sectionsJson;
+    this.inputEmail.sections = this.getSections();
 
     try {
       console.log('calling api');
