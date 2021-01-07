@@ -1,4 +1,4 @@
-import { alertColors } from '../../lib/customEmails/sections/alertSummary';
+import { alertColors } from '../email/sendNotificationControllerConstants';
 
 export default function getPreviewData(emailData, options) {
   const { sections } = emailData;

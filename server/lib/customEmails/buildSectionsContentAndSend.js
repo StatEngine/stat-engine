@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { Extension, ExtensionConfiguration, FireDepartment, User } from '../../sqldb';
 import { queryUpdate } from '../../api/custom-email/custom-email.controller';
-import { alertSummary } from './sections/alertSummary';
+import alertSummary from './sections/alertSummary';
 import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
 import sendNotification from '../../api/email/sendNotification';
 import { description } from './sections/description';
@@ -21,7 +21,6 @@ export async function getFireDepartment(fdId) {
 
 async function getMergeVars(emailData) {
   const sectionFuncs = { alertSummary };
-  console.dir(emailData.sections);
   const end = moment().format();
   emailData.timeRange = {
     start: emailData.last_sent,

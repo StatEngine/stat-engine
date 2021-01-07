@@ -2,27 +2,14 @@
 import _ from 'lodash';
 
 import getRuleAnalysis from '../getRuleAnalysis';
+import { alertColors } from '../../../api/email/sendNotificationControllerConstants';
 
 export default async function alertSummary(emailData) {
   const ruleAnalysis = await getRuleAnalysis(emailData);
-  return _formatAlerts(ruleAnalysis);
+  return formatAlerts(ruleAnalysis);
 }
-const alertColors = {
-  success: {
-    row: '#dff0d8',
-    rowBorder: '#83d062',
-  },
-  warning: {
-    row: '#fcf8e3',
-    rowBorder: '#c7ba75',
-  },
-  danger: {
-    row: '#f2dede',
-    rowBorder: '#bb7474',
-  },
-};
 
-function _formatAlerts(ruleAnalysis) {
+function formatAlerts(ruleAnalysis) {
   const mergeVar = {
     name: 'alerts',
     alerts: [],
