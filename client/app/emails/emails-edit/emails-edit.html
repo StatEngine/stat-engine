@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="email-details-schedule">
-                  <label class="required">Schedule</label>
+                  <label class="required">Manual Schedule</label>
                   <input type="text" id="schedule" name="schedule" class="form-control" ng-disabled="vm.byShift" ng-model="vm.inputEmail.schedule" required
                           minlength='3' maxlength='255' size="2  0" mongoose-error="mongoose-error" />
                   <button id='schedule_help_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.showScheduleHelp()">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="email-details-shift-schedule">
-                  <label >By Shift</label>
+                  <label >Schedule By Shift</label>
                   <div>
                     <toggle-switch
                       on="vm.byShift"
@@ -108,5 +108,20 @@
         </form>
       </div>
     </div>
+  </div>
+
+  <div id="scheduleHelpModal" style="display: none;">
+    <h4 class="heavyheader">Manual</h4>
+    <div>Schedules can be entered by hand. It uses a "plain English" notation. Here are some examples, explanations in parentheses</div>
+    <ul class="statengine text-left">
+      <li>
+        every 3 hours (this will send the email every three hours)
+      </li>
+      <li>
+        at 8:45 am (this will send the email every day at 8:45 am)
+      </li>
+    </ul>
+    <h4 class="mt-5 heavyheader">By Shift</h4>
+    <div>If you want the email to be sent after the conclusion of every shift, then toggle the Schedule By Shift to <strong class="text-success text-left">ON</strong> </div>
   </div>
 </div>
