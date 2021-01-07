@@ -133,6 +133,13 @@ export default class EmailsEditController {
     }
   }
 
+  showScheduleHelp() {
+    this.Modal.alert({
+      title: 'Schedule Help',
+      content: $('#scheduleHelpModal')[0].innerHTML,
+    }).present();
+  }
+
   getSections() {
     return this.selectedSections.map(value => ({ type: value }));
   }
@@ -174,7 +181,7 @@ export default class EmailsEditController {
 
     try {
       console.log('calling api');
-      // await fnc(params, this.inputEmail).$promise;
+      await fnc(params, this.inputEmail).$promise;
     } catch (err) {
       console.log('error calling api');
       console.dir(err);
@@ -184,7 +191,7 @@ export default class EmailsEditController {
       this.isSaving = false;
     }
 
-    // this.$state.go('site.emails.home');
+    this.$state.go('site.emails.home');
   }
 
   templateIdToUniqueId(templateId) {
