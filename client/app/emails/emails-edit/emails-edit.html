@@ -42,6 +42,9 @@
                   <label class="required">Schedule</label>
                   <input type="text" id="schedule" name="schedule" class="form-control" ng-disabled="vm.byShift" ng-model="vm.inputEmail.schedule" required
                           minlength='3' maxlength='255' size="2  0" mongoose-error="mongoose-error" />
+                  <button id='schedule_help_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.showScheduleHelp()">
+                    Help
+                  </button>
                 </div>
 
                 <div class="email-details-shift-schedule">
@@ -64,7 +67,7 @@
 
                 <div class="email-details-sections">
                   <label class="required">Sections</label>
-                  <select name="sections" id="sections" ng-options="e.value as e.label for e in vm.allSections" ng-model="vm.selectedSections" multiple>
+                  <select name="sections" id="sections" ng-options="e.type as e.label for e in vm.allSections" ng-model="vm.selectedSections" multiple>
                   </select>
                 </div>
               </div>

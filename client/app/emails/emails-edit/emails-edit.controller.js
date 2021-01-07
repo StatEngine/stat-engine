@@ -32,7 +32,7 @@ export default class EmailsEditController {
 
     this.allSections = [
       {
-        value: 'alertSummary',
+        type: 'alertSummary',
         label: 'Alert Summary',
         selected: false,
       },
@@ -96,19 +96,11 @@ export default class EmailsEditController {
 
     if (!this.isNewEmail) {
       this.origEmail = await this.CustomEmailService.get({ id: this.inputEmail._id }).$promise;
-      console.log('EMAIL EDIT CONTROLLER');
-      console.dir(this.origEmail);
       // Clone email for editing.
       this.inputEmail = _.cloneDeep(this.origEmail);
     }
 
-    this.inputEmail.sections.forEach(s => {
-      const idx = this.allSections.findIndex(sec => sec.type === s.type);
-      console.log(idx);
-      if (idx > -1) {
-        this.allSections[idx].selected = true;
-      }
-    });
+    this.selectedSections = this.inputEmail.sections.map(s => s.type);
 
     const departmentUsers = await this.UserService.query().$promise;
 
@@ -173,7 +165,7 @@ export default class EmailsEditController {
 
     try {
       console.log('calling api');
-      await fnc(params, this.inputEmail).$promise;
+      // await fnc(params, this.inputEmail).$promise;
     } catch (err) {
       console.log('error calling api');
       console.dir(err);
@@ -183,7 +175,7 @@ export default class EmailsEditController {
       this.isSaving = false;
     }
 
-    this.$state.go('site.emails.home');
+    // this.$state.go('site.emails.home');
   }
 
   templateIdToUniqueId(templateId) {
