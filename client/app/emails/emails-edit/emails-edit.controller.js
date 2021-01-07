@@ -126,6 +126,15 @@ export default class EmailsEditController {
     return this.isSaving;
   }
 
+  handleShift() {
+    console.log('handleShift');
+    if (this.byShift) {
+      this.inputEmail.schedule = 'by shift';
+    } else {
+      this.inputEmail.schedule = '';
+    }
+  }
+
   getSections() {
     return this.selectedSections.map(value => ({ type: value }));
   }
