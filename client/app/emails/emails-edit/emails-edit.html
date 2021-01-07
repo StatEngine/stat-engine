@@ -40,8 +40,17 @@
 
                 <div class="email-details-schedule">
                   <label class="required">Schedule</label>
-                  <input type="text" id="schedule" name="schedule" class="form-control" ng-model="vm.inputEmail.schedule" required
+                  <input type="text" id="schedule" name="schedule" class="form-control" ng-disabled="vm.byShift" ng-model="vm.inputEmail.schedule" required
                           minlength='3' maxlength='255' size="2  0" mongoose-error="mongoose-error" />
+                </div>
+
+                <div class="email-details-shift-schedule">
+                  <label >By Shift</label>
+                  <div>
+                    <toggle-switch
+                      on="vm.byShift"
+                    ></toggle-switch>
+                  </div>
                 </div>
 
                 <div class="email-details-enabled">
@@ -51,20 +60,13 @@
                       on="vm.inputEmail.enabled"
                     ></toggle-switch>
                   </div>
-                  <!-- <input type="checkbox" id="enabled" name="enabled" class="form-control" ng-model="vm.inputEmail.enabled"
-                         mongoose-error="mongoose-error" /> -->
                 </div>
+
                 <div class="email-details-sections">
                   <label class="required">Sections</label>
-                  <select name="sections" id="sections" multiple>
-                    <option value="alertSummary">Alert Summary</option>
-                    <!-- <option value="alertSummary">Incident Report</option> -->
+                  <select name="sections" id="sections" ng-options="e.value as e.label for e in vm.allSections" ng-model="vm.selectedSections" multiple>
                   </select>
                 </div>
-                <!-- <div class="email-details-preview">
-                  <label>Preview</label>
-                  <iframe srcdoc="{{vm.previewHtml}}"></iframe>
-                </div> -->
               </div>
             </div>
           </div>
