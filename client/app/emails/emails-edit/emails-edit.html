@@ -70,6 +70,12 @@
                   <label class="required">Sections</label>
                   <select name="sections" id="sections" ng-options="e.type as e.label for e in vm.allSections" ng-model="vm.selectedSections" multiple>
                   </select>
+                  <div>Selected Sections
+                    <ul>
+                      <li ng-repeat="section in vm.selectedSections">{{section}}</li>
+                    </ul>
+                  </div>
+
                 </div>
               </div>
             </div>
