@@ -79,7 +79,6 @@ describe('HtmlReports', () => {
       it('should generate Event Duration html report', () => {
         const data = toData(eventDurationSumRuleWithData);
         const html = htmlReports.report(data);
-        console.log(html);
         expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReportV2.html', 'utf-8'));
       });
     });
