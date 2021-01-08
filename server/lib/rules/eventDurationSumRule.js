@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import bodybuilder from 'bodybuilder';
 import { Rule } from '../rule';
 
@@ -15,19 +16,32 @@ export class EventDurationSumRule extends Rule {
   }
 
   analyze() {
-    let analysis = [];
+    // eslint-disable-next-line camelcase
+    const default_visibility = true;
+    const rule = this.constructor.name;
+    const level = this.params.level;
+    const reportChunkSize = 5;
+    const description = `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min`;
+    const analysis = [];
+    let details = [];
+
+
     this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
       let utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
-
-      if(utilization > this.params.threshold) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`,
-          default_visibility: true,
-        });
+      if (utilization > this.params.threshold) {
+        utilization = (utilization / 60.0).toFixed(2);
+        details.push({ detail: `${unit.key}/${utilization}` });
       }
+    });
+
+    details = _.chunk(details, reportChunkSize).forEach(detail => {
+      analysis.push({
+        default_visibility,
+        rule,
+        level,
+        description,
+        detailList: detail,
+      });
     });
 
     return analysis;
