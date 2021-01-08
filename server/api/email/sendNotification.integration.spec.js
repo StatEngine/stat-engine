@@ -31,7 +31,7 @@ describe('sendNotification()', () => {
           {
             rowColor: 'red',
             description: 'Unit utilization > 360 min',
-            details: 'Unit: SP841, Utilization: 366.05',
+            detailList: [{ detail: 'SP841/366.05' }],
           },
         ],
       },
