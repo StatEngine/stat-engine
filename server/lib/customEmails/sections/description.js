@@ -1,36 +1,35 @@
 import moment from 'moment-timezone';
-import { FirecaresLookup } from '@statengine/shiftly';
-import getRuleAnalysis from '../getRuleAnalysis';
 
-function _getShift(firecaresId, date) {
-  const ShiftConfiguration = FirecaresLookup[firecaresId];
-  if (ShiftConfiguration) {
-    const shiftly = new ShiftConfiguration();
-    return shiftly.calculateShift(date);
-  }
-  return '';
+import getRuleAnalysis from '../getRuleAnalysis';
+import { getShift, getShiftTimeFrame } from '../../shift';
+
+export default async function description(emailData) {
+  const ruleAnalysis = await getRuleAnalysis(emailData);
+  return formatDescription(emailData, ruleAnalysis.previousTimeFilter);
 }
 
-function _formatDescription(emailData, comparisonTimeRange) {
+function formatDescription(emailData, comparisonTimeRange) {
   const { fireDepartment, timeRange } = emailData;
   const timeStart = moment.parseZone(emailData.timeRange.start);
   const title = `Custom Report - ${timeStart.format('YYYY-MM-DD')}`;
   const subtitle = '';
+  const timeRangeStr = getRangeString(timeRange.start, timeRange.end);
+  const comparisonTimeRangeStr = getRangeString(comparisonTimeRange.start, comparisonTimeRange.end);
+  const firecaresId = fireDepartment.firecares_id;
 
   return {
     departmentName: fireDepartment.name,
-    timeRange: `${moment.parseZone(timeRange.start).format('lll')} - ${moment.parseZone(timeRange.end).format('lll')}`,
-    //   comparisonTimeRange: `${moment.parseZone(comparisonTimeRange.start).format('lll')} - ${moment.parseZone(comparisonTimeRange.end).format('lll')}`,
+    timeRange: timeRangeStr,
+    comparisonTimeRange: comparisonTimeRangeStr,
     runTime: moment()
       .tz(fireDepartment.timezone)
       .format('lll'),
     title,
     subtitle,
-    shift: _getShift(fireDepartment.firecares_id, timeRange.start),
+    shift: getShift(firecaresId, timeRange.start),
   };
 }
 
-export default async function description(emailData) {
-  const ruleAnalysis = await getRuleAnalysis(emailData);
-  return _formatDescription(emailData, ruleAnalysis.previousTimeFilter);
+function getRangeString(start, end) {
+  return `${moment.parseZone(start).format('lll')} - ${moment.parseZone(end).format('lll')}`;
 }

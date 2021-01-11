@@ -13,57 +13,47 @@ export default function(sequelize, DataTypes) {
     fd_id: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      validate: { notEmpty: true },
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      validate: { notEmpty: true },
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      validate: { notEmpty: true },
     },
     schedule: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      validate: { notEmpty: true },
     },
     enabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    by_shift: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
     sections: {
       type: DataTypes.JSON,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      validate: { notEmpty: true },
     },
-    last_sent: {
-      type: DataTypes.DATE,
-    },
+    last_sent: { type: DataTypes.DATE },
   }, {
     /**
      * Pre-save hooks
      */
-    hooks: {
-    },
+    hooks: {},
 
     /**
      * Instance Methods
      */
-    instanceMethods: {
-    },
+    instanceMethods: {},
     underscored: true,
     timestamps: true,
   });

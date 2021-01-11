@@ -40,7 +40,7 @@
 
                 <div class="email-details-schedule">
                   <label class="required">Manual Schedule</label>
-                  <input type="text" id="schedule" name="schedule" class="form-control" ng-disabled="vm.byShift" ng-model="vm.inputEmail.schedule" required
+                  <input type="text" id="schedule" name="schedule" class="form-control" ng-disabled="vm.inputEmail.by_shift" ng-model="vm.inputEmail.schedule" required
                           minlength='3' maxlength='255' size="2  0" mongoose-error="mongoose-error" />
                   <button id='schedule_help_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.showScheduleHelp()">
                     Help
@@ -51,7 +51,7 @@
                   <label >Schedule By Shift</label>
                   <div>
                     <toggle-switch
-                      on="vm.byShift"
+                      on="vm.inputEmail.by_shift"
                       ng-click="vm.handleShift()"
                     ></toggle-switch>
                   </div>

@@ -2,9 +2,7 @@ import _ from 'lodash';
 
 import CustomEmail from './customEmail';
 
-const registrations = {
-  customEmail: CustomEmail,
-};
+const registrations = { customEmail: CustomEmail };
 
 export function createAction(name, options = {}) {
   const Action = registrations[name];

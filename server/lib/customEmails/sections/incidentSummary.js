@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import getRuleAnalysis from '../getRuleAnalysis';
 import { IncidentAnalysisTimeRange } from '../../incidentAnalysisTimeRange';
 
 export default async function incidentSummary(emailData) {
@@ -13,13 +12,13 @@ export default async function incidentSummary(emailData) {
 
   const comparison = await analysis.compare();
 
-  return _formatFireDepartmentMetrics(comparison);
+  return formatFireDepartmentMetrics(comparison);
 }
 
-function _formatFireDepartmentMetrics(comparison) {
+function formatFireDepartmentMetrics(comparison) {
   const mergeVar = {
     name: 'fireDepartmentMetrics',
-    content: [],
+    fireDepartmentMetrics: [],
   };
 
   const metrics = [
