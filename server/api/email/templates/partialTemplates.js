@@ -17,13 +17,23 @@ export default class PartialTemplates {
     this.partialTemplatesPath = partialTemplatesPath;
   }
 
+  /**
+   * Load all partial templates into Handlebars object
+   *
+   * Side effect: modifies handlebar object
+   */
   load() {
     loadPartials(this.handlebars, this.partialTemplatesPath);
   }
 }
 
 /**
- * Load all partial templates into Handlebars framework
+ * Load all partial templates into Handlebars object
+ *
+ * Side effect: modifies handlebar object
+ *
+ * @param handlebars handlebars library object
+ * @param partialTemplatesPath location of partial templates
  */
 function loadPartials(handlebars, partialTemplatesPath) {
   Log.debug('Loading partial templates from', partialTemplatesPath);
@@ -35,6 +45,8 @@ function loadPartials(handlebars, partialTemplatesPath) {
 
 /**
  * Load a single partial template into Handlebars framework
+ *
+ * Side effect: modifies handlebar object
  *
  * @param handlebars Handlebars library object
  * @param templatePath full path to the partial template

@@ -26,8 +26,7 @@ export default class HandlebarsEmailTemplate {
   template() {
     this.partialTemplates.load();
     Log.debug('Loading shell template from', this.shellTemplatePath);
-    const template = fs.readFileSync(this.shellTemplatePath, 'utf-8');
-    return this.handlebars.compile(template);
+    return this.handlebars.compile(fs.readFileSync(this.shellTemplatePath, 'utf-8'));
   }
 }
 

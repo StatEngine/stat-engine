@@ -146,7 +146,7 @@ Edit the policy, allowing Read and Write access with prefix `*`
 6.  Login with username: `richmond`, password: `password`.
 
 #### Note
-  - If you get strange errors when running either `npm instal1` or `gulp serve`, your problem is most likely a wrong node version.
+  - If you get strange errors when running either `npm install` or `gulp serve`, your problem is most likely a wrong node version.
   - You MUST be using v8.x.x
   - Run `nvm ls` (assuming you are using `nvm`), and see what versions you have installed and what version is currently in use
   - It will often be set to the `system` version. You just have to change it to whatever 8.x.x you have installed
