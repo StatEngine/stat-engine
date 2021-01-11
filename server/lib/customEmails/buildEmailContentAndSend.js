@@ -14,9 +14,9 @@ export default async function buildEmailContentAndSend(emailData) {
 
   const mergeVars = await buildMergeVars(emailData);
 
-  // const html = await getCustomEmailHtml(mergeVars);
+  const html = await getCustomEmailHtml(mergeVars);
 
-  // await Promise.all(sendEmails(emailData, mergeVars, html));
+  await Promise.all(sendEmails(emailData, mergeVars, html));
 
   // finally, update last_sent time
   emailData.last_sent = moment().format();
@@ -24,14 +24,15 @@ export default async function buildEmailContentAndSend(emailData) {
 }
 
 function sendEmails(emailData, mergeVars, html) {
-  // const promises = emailData.fireDepartment.Users.map(u => {
-  //   const to = u.email;
-  //   return sendNotification(to, subject, html);
-  // });
-  const to = 'paul@prominentedge.com';
-  const subject = mergeVars.description.title;
+  const promises = emailData.fireDepartment.Users.map(u => {
+    const to = u.email;
 
-  const promises = [sendNotification(to, subject, html)];
+    return sendNotification(to, subject, html);
+  });
+  // const to = 'paul@prominentedge.com';
+  // const subject = mergeVars.description.title;
+
+  // const promises = [sendNotification(to, subject, html)];
   return promises;
 }
 
@@ -65,8 +66,6 @@ async function getMergeVars(emailData) {
   console.log('timeRange');
   console.dir(emailData.timeRange);
   let promises = emailData.sections.map(section => {
-    // console.log(`FOUND SECTION TYPE: ${section.type}`);
-
     if (sectionFuncs[section.type]) {
       return sectionFuncs[section.type](emailData);
     }
@@ -81,7 +80,7 @@ async function getMergeVars(emailData) {
 
 function getTimeRange(emailData) {
   const { by_shift: byShift } = emailData;
-  const firecaresId = '93429';// emailData.fireDepartment.firecares_id;
+  const firecaresId = emailData.fireDepartment.firecares_id;
 
   if (byShift) {
     // return getShiftTimeRange(firecaresId, moment('2018-12-01').format());

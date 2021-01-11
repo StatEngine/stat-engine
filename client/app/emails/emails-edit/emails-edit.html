@@ -75,8 +75,19 @@
                       <li ng-repeat="section in vm.selectedSections">{{section}}</li>
                     </ul>
                   </div>
-
                 </div>
+
+                <div>
+                  <label>Send List</label>
+                  <select style="height: 250px;" name="sections" id="sections" ng-options="e for e in vm.deptEmails" ng-model="vm.sendList" multiple>
+                  </select>
+                  <div>Selected Emails
+                    <ul>
+                      <li ng-repeat="email in vm.sendList">{{email}}</li>
+                    </ul>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

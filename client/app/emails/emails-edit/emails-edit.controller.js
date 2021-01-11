@@ -30,6 +30,9 @@ export default class EmailsEditController {
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
       ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
 
+    this.deptEmails = [];
+    this.sendList = [];
+
     this.allSections = [
       {
         type: 'agencyIncidentTypeSummary',
@@ -140,6 +143,13 @@ export default class EmailsEditController {
 
     this.byShift = this.inputEmail.schedule === 'by shift';
 
+    console.log('GETTING EMAIL LIST');
+    const resEmailList = await this.CustomEmailService.emailList({ id: this.inputEmail._id }).$promise;
+    this.deptEmails = resEmailList.deptEmails;
+    console.log(this.deptEmails);
+
+
+    // other stuff
     const departmentUsers = await this.UserService.query().$promise;
 
     this.seed = this.isNewEmail;
