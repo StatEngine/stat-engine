@@ -7,5 +7,5 @@ export default async function getRuleAnalysis(emailData) {
     timeRange,
   });
 
-  return analysis.ruleAnalysis();
+  return analysis;
 }

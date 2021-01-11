@@ -314,7 +314,7 @@ export class IncidentAnalysisTimeRange {
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);
         comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription"]buckets', incidentTypeMetrics);
 
-        Log.debug('comparison', comparison);
+        // Log.debug('comparison', comparison);
 
         return Promise.resolve(comparison);
       });

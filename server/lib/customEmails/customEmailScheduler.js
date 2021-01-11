@@ -4,6 +4,8 @@ import moment from 'moment';
 import TimerStore from '../scheduling/timer-store';
 import { queryFindAll as listCustomEmails } from '../../api/custom-email/custom-email.controller';
 import Watcher from '../scheduling/actions/watcher';
+import getFireDepartment from './fireDepartment';
+import { getShiftTimeRange } from '../shift';
 
 // schedule everything in UTC
 later.date.UTC();
@@ -12,9 +14,26 @@ export default class CustomEmailScheduler {
   // -- Static props and methods
   static customEmailTimers = new TimerStore();
 
-  static generateEmailSchedule(emailData) {
-    const sched = later.parse.text(emailData.schedule);
+  static async getShiftSched(deptId) {
+    const fireDepartment = await getFireDepartment(deptId);
+    const { firecares_id: firecaresId } = fireDepartment;
+    const shiftTimeRange = getShiftTimeRange(firecaresId, moment().format());
+    const { start } = shiftTimeRange;
+    const time = moment(start).format('h:mm a');
+    const laterStr = `at ${time}`;
+    return laterStr;
+  }
+
+  static async generateEmailSchedule(emailData) {
+    let sched;
     const deptId = emailData.fd_id;
+
+    if (emailData.by_shift) {
+      const schedStr = await this.getShiftSched(deptId);
+      sched = later.parse.text(schedStr);
+    } else {
+      sched = later.parse.text(emailData.schedule);
+    }
 
     // handle Daylight Savings Time
     if (this.shouldAddAnHour(deptId) && sched.schedules[0].t) {
@@ -25,9 +44,11 @@ export default class CustomEmailScheduler {
   }
 
   static async scheduleCustomEmail(emailData) {
+    console.log('SCHEDULE CUSTOM EMAIL');
     this.customEmailTimers.removeInterval(emailData._id);
     const watcher = new Watcher('customEmail', emailData);
-    const laterSchedule = this.generateEmailSchedule(emailData);
+    const laterSchedule = await this.generateEmailSchedule(emailData);
+    console.dir(laterSchedule, { depth: null });
     const interval = later.setInterval(watcher.execute.bind(watcher), laterSchedule);
     this.customEmailTimers.addInterval(emailData._id, interval);
   }
@@ -74,7 +95,6 @@ export default class CustomEmailScheduler {
     // first get all the enabled emails
     const where = { enabled: true };
     const enabledEmails = await listCustomEmails(where);
-    // console.dir(enabledEmails);
     enabledEmails.forEach(emailData => {
       this.scheduleCustomEmail(emailData);
     });

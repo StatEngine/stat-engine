@@ -25,8 +25,6 @@ export default class EmailsEditController {
     this.$window = $window;
     this.$document = $document;
 
-    this.byShift = false;
-
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
       ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
 
@@ -81,6 +79,7 @@ export default class EmailsEditController {
       description: '',
       schedule: '',
       enabled: false,
+      by_shift: false,
       sections: [],
     };
 
@@ -163,7 +162,7 @@ export default class EmailsEditController {
 
   handleShift() {
     console.log('handleShift');
-    if (this.byShift) {
+    if (this.inputEmail.by_shift) {
       this.inputEmail.schedule = 'by shift';
     } else {
       this.inputEmail.schedule = '';

@@ -1,4 +1,4 @@
-import { buildEmailContentAndSend } from '../../customEmails/buildSectionsContentAndSend';
+import buildEmailContentAndSend from '../../customEmails/buildEmailContentAndSend';
 
 import Action from './action';
 
@@ -8,6 +8,7 @@ class CustomEmail extends Action {
   }
 
   run() {
+    console.log('RUN BUILD EMAIL CONTENT AND SEND');
     buildEmailContentAndSend(this.options);
   }
 }

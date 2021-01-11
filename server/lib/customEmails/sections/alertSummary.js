@@ -5,7 +5,8 @@ import getRuleAnalysis from '../getRuleAnalysis';
 import { alertColors } from '../../../api/email/sendNotificationControllerConstants';
 
 export default async function alertSummary(emailData) {
-  const ruleAnalysis = await getRuleAnalysis(emailData);
+  const analysis = await getRuleAnalysis(emailData);
+  const ruleAnalysis = analysis.ruleAnalysis();
   return formatAlerts(ruleAnalysis);
 }
 

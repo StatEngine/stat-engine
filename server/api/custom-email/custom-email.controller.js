@@ -4,7 +4,7 @@ import { CustomEmail, Extension, ExtensionConfiguration } from '../../sqldb';
 import CustomEmailScheduler from '../../lib/customEmails/customEmailScheduler';
 import { getEmailHtml } from '../email/getEmailHtmlController';
 // import { _getShift } from '../../lib/customEmails/sections/description';
-import { getFireDepartment } from '../../lib/customEmails/buildSectionsContentAndSend';
+import getFireDepartment from '../../lib/customEmails/fireDepartment';
 import getPreviewData from './preview';
 
 export async function queryFindAll(where) {
@@ -43,6 +43,8 @@ export async function find(req, res) {
 
 export async function create(req, res) {
   const { body } = req;
+  console.log('CREATE');
+  console.dir(body);
   const dept = req.fireDepartment.get();
 
   // on create, set lastSent to creation time
