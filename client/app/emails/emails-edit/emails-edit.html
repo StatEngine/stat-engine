@@ -88,11 +88,11 @@
 
                 <div ng-if="vm.chooseRecipients">
                   <label>Send List</label>
-                  <select style="height: 250px;" name="sections" id="sections" ng-options="e for e in vm.deptEmails" ng-model="vm.sendList" multiple>
+                  <select style="height: 250px;" name="sections" id="sections" ng-options="e for e in vm.deptEmails" ng-model="vm.selectedEmails" multiple>
                   </select>
                   <div>Selected Emails
                     <ul>
-                      <li ng-repeat="email in vm.sendList">{{email}}</li>
+                      <li ng-repeat="email in vm.selectedEmails">{{email}}</li>
                     </ul>
                   </div>
                 </div>

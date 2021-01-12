@@ -74,8 +74,6 @@ export default class EmailsEditController {
       },
     ];
 
-    this.selectedSections = [];
-
     this.inputEmail = {
       _id: this.$stateParams.id === 'new' ? undefined : this.$stateParams.id,
       name: '',
@@ -84,13 +82,13 @@ export default class EmailsEditController {
       enabled: false,
       by_shift: false,
       sections: [],
+      email_list: [],
     };
 
     this.previewHtml = '';
-
+    this.selectedSections = [];
     this.deptEmails = [];
-    this.sendList = [];
-
+    this.selectedEmails = [];
     this.chooseRecipients = false;
   }
 
@@ -143,15 +141,9 @@ export default class EmailsEditController {
     }
 
     this.selectedSections = this.inputEmail.sections.map(s => s.type);
-
     this.byShift = this.inputEmail.schedule === 'by shift';
-
-    console.log('GETTING EMAIL LIST');
-    console.dir(this.inputEmail);
     const resEmailList = await this.EmailListService.emailList().$promise;
     this.deptEmails = resEmailList.deptEmails;
-    console.log(this.deptEmails);
-
 
     // other stuff
     const departmentUsers = await this.UserService.query().$promise;
@@ -177,7 +169,6 @@ export default class EmailsEditController {
   }
 
   handleShift() {
-    console.log('handleShift');
     if (this.inputEmail.by_shift) {
       this.inputEmail.schedule = 'by shift';
     } else {
@@ -194,6 +185,13 @@ export default class EmailsEditController {
 
   getSections() {
     return this.selectedSections.map(value => ({ type: value }));
+  }
+
+  getEmailList() {
+    if (this.chooseRecipients) {
+      return this.selectedEmails;
+    }
+    return this.deptEmails;
   }
 
   async getPreview() {
@@ -217,7 +215,6 @@ export default class EmailsEditController {
     const params = { id: this.inputEmail._id };
 
     if (this.isNewEmail) {
-      console.log('a new email');
       fnc = this.CustomEmailService.create;
 
       // this.AmplitudeService.track(this.AnalyticEventNames.APP_ACTION, {
@@ -230,9 +227,9 @@ export default class EmailsEditController {
     this.isSaving = true;
     this.errors = null;
     this.inputEmail.sections = this.getSections();
+    this.inputEmail.email_list = this.getEmailList();
 
     try {
-      console.log('calling api');
       await fnc(params, this.inputEmail).$promise;
     } catch (err) {
       console.log('error calling api');
