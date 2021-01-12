@@ -10,5 +10,12 @@ export default function CustomEmailResource($resource) {
     create: { method: 'POST' },
     update: { method: 'PUT' },
     delete: { method: 'DELETE' },
+    preview: {
+      method: 'POST',
+      params: {
+        id: '@id',
+        resource: 'preview',
+      },
+    },
   });
 }

@@ -127,13 +127,3 @@ export async function preview(req, res) {
   const html = getEmailHtml(mergeVars);
   res.json({ html });
 }
-
-export async function emailList(req, res) {
-  console.log('EMAIL LIST');
-
-  const fdId = req.user.dataValues.FireDepartment.dataValues.fd_id;
-  const fireDept = await getFireDepartment(fdId);
-  const deptEmails = fireDept.Users.map(u => u.email);
-  console.dir(deptEmails);
-  res.json({ deptEmails });
-}

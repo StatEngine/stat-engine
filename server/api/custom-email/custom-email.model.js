@@ -43,6 +43,11 @@ export default function(sequelize, DataTypes) {
       allowNull: false,
       validate: { notEmpty: true },
     },
+    email_list: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      validate: { notEmpty: true },
+    },
     last_sent: { type: DataTypes.DATE },
   }, {
     /**

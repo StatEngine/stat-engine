@@ -62,13 +62,4 @@ router.post(
   controller.preview,
 );
 
-router.get(
-  '/:emailId/emailList',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
-  controller.emailList,
-);
-
 module.exports = router;

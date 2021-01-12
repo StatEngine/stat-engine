@@ -14,8 +14,9 @@ export default class EmailsEditController {
   seed = true;
 
   /* @ngInject */
-  constructor(CustomEmail, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate, $window, $document) {
+  constructor(CustomEmail, EmailList, User, $state, $stateParams, AmplitudeService, AnalyticEventNames, currentPrincipal, Modal, FixtureTemplate, $window, $document) {
     this.CustomEmailService = CustomEmail;
+    this.EmailListService = EmailList;
     this.UserService = User;
     this.$state = $state;
     this.$stateParams = $stateParams;
@@ -29,9 +30,6 @@ export default class EmailsEditController {
 
     this.palette = [['#00A9DA', '#0099c2', '#16a2b3', '#1fc8a7', '#334A56', '#697983'],
       ['#30b370', '#d61745', '#efb93d', '#9068bc', '#e09061', '#d6527e']];
-
-    this.deptEmails = [];
-    this.sendList = [];
 
     this.allSections = [
       {
@@ -89,6 +87,11 @@ export default class EmailsEditController {
     };
 
     this.previewHtml = '';
+
+    this.deptEmails = [];
+    this.sendList = [];
+
+    this.chooseRecipients = false;
   }
 
   async loadModules() {
@@ -144,7 +147,8 @@ export default class EmailsEditController {
     this.byShift = this.inputEmail.schedule === 'by shift';
 
     console.log('GETTING EMAIL LIST');
-    const resEmailList = await this.CustomEmailService.emailList({ id: this.inputEmail._id }).$promise;
+    console.dir(this.inputEmail);
+    const resEmailList = await this.EmailListService.emailList().$promise;
     this.deptEmails = resEmailList.deptEmails;
     console.log(this.deptEmails);
 

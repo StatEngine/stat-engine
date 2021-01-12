@@ -23,6 +23,7 @@ export default function(app) {
   app.use('/api/apps', require('./api/apps'));
   app.use('/api/effective-response-force', require('./api/effective-response-force'));
   app.use('/api/custom-email', require('./api/custom-email'));
+  app.use('/api/email-list', require('./api/email-list'));
   app.use('/api/email', require('./api/email'));
   app.use('/api/extensions', require('./api/extension'));
   app.use('/api/extension-configurations', require('./api/extension-configuration'));

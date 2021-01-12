@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="email-details-enabled">
-                  <label >Enabled</label>
+                  <label >Email Enabled</label>
                   <div>
                     <toggle-switch
                       on="vm.inputEmail.enabled"
@@ -77,7 +77,16 @@
                   </div>
                 </div>
 
-                <div>
+                <div class="email-details-enabled">
+                  <label >Choose Recipients</label>
+                  <div>
+                    <toggle-switch
+                      on="vm.chooseRecipients"
+                    ></toggle-switch>
+                  </div>
+                </div>
+
+                <div ng-if="vm.chooseRecipients">
                   <label>Send List</label>
                   <select style="height: 250px;" name="sections" id="sections" ng-options="e for e in vm.deptEmails" ng-model="vm.sendList" multiple>
                   </select>
