@@ -24,9 +24,9 @@ export default async function buildEmailContentAndSend(emailData) {
 }
 
 function sendEmails(emailData, mergeVars, html) {
-  const promises = emailData.fireDepartment.Users.map(u => {
-    const to = u.email;
-
+  const promises = emailData.email_list.map(email => {
+    const to = email;
+    const subject = mergeVars.description.title;
     return sendNotification(to, subject, html);
   });
   // const to = 'paul@prominentedge.com';

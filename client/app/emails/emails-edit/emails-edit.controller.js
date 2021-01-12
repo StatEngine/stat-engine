@@ -143,7 +143,14 @@ export default class EmailsEditController {
     this.selectedSections = this.inputEmail.sections.map(s => s.type);
     this.byShift = this.inputEmail.schedule === 'by shift';
     const resEmailList = await this.EmailListService.emailList().$promise;
-    this.deptEmails = resEmailList.deptEmails;
+
+    this.deptEmails = resEmailList.deptEmails.map(de => ({
+      email: de,
+      selected: this.inputEmail.email_list.findIndex(se => se === de) > -1,
+    }));
+
+    console.log('DEPT EMAILS');
+    console.dir(this.deptEmails);
 
     // other stuff
     const departmentUsers = await this.UserService.query().$promise;
@@ -189,9 +196,9 @@ export default class EmailsEditController {
 
   getEmailList() {
     if (this.chooseRecipients) {
-      return this.selectedEmails;
+      return this.selectedEmails.map(se => se.email);
     }
-    return this.deptEmails;
+    return this.deptEmails.map(de => de.email);
   }
 
   async getPreview() {
@@ -240,7 +247,7 @@ export default class EmailsEditController {
       this.isSaving = false;
     }
 
-    this.$state.go('site.emails.home');
+    // this.$state.go('site.emails.home');
   }
 
   templateIdToUniqueId(templateId) {

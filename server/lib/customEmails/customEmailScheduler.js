@@ -44,11 +44,9 @@ export default class CustomEmailScheduler {
   }
 
   static async scheduleCustomEmail(emailData) {
-    console.log('SCHEDULE CUSTOM EMAIL');
     this.customEmailTimers.removeInterval(emailData._id);
     const watcher = new Watcher('customEmail', emailData);
     const laterSchedule = await this.generateEmailSchedule(emailData);
-    console.dir(laterSchedule, { depth: null });
     const interval = later.setInterval(watcher.execute.bind(watcher), laterSchedule);
     this.customEmailTimers.addInterval(emailData._id, interval);
   }

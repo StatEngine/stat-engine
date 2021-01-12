@@ -68,7 +68,8 @@
 
                 <div class="email-details-sections">
                   <label class="required">Sections</label>
-                  <select style="height: 250px;" name="sections" id="sections" ng-options="e.type as e.label for e in vm.allSections" ng-model="vm.selectedSections" multiple>
+                  <select style="height: 250px;" name="sections" id="sections" 
+                  ng-options="e.type as e.label for e in vm.allSections" ng-model="vm.selectedSections" multiple>
                   </select>
                   <div>Selected Sections
                     <ul>
@@ -88,11 +89,12 @@
 
                 <div ng-if="vm.chooseRecipients">
                   <label>Send List</label>
-                  <select style="height: 250px;" name="sections" id="sections" ng-options="e for e in vm.deptEmails" ng-model="vm.selectedEmails" multiple>
+                  <select style="height: 250px;" name="sections" id="sections" 
+                  ng-options="e.email for e in vm.deptEmails" ng-model="vm.selectedEmails" multiple>
                   </select>
                   <div>Selected Emails
                     <ul>
-                      <li ng-repeat="email in vm.selectedEmails">{{email}}</li>
+                      <li ng-repeat="email in vm.selectedEmails">{{email.email}}</li>
                     </ul>
                   </div>
                 </div>
