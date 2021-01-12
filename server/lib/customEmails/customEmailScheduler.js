@@ -19,7 +19,8 @@ export default class CustomEmailScheduler {
     const { firecares_id: firecaresId } = fireDepartment;
     const shiftTimeRange = getShiftTimeRange(firecaresId, moment().format());
     const { start } = shiftTimeRange;
-    const time = moment(start).format('h:mm a');
+    // add an hour to allow the shift data to be ingested
+    const time = moment(start).add(1, 'hour').format('h:mm a');
     const laterStr = `at ${time}`;
     return laterStr;
   }

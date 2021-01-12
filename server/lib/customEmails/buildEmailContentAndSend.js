@@ -24,15 +24,15 @@ export default async function buildEmailContentAndSend(emailData) {
 }
 
 function sendEmails(emailData, mergeVars, html) {
-  const promises = emailData.email_list.map(email => {
-    const to = email;
-    const subject = mergeVars.description.title;
-    return sendNotification(to, subject, html);
-  });
-  // const to = 'paul@prominentedge.com';
-  // const subject = mergeVars.description.title;
+  // const promises = emailData.email_list.map(email => {
+  //   const to = email;
+  //   const subject = mergeVars.description.title;
+  //   return sendNotification(to, subject, html);
+  // });
+  const to = 'paul@prominentedge.com';
+  const subject = mergeVars.description.title;
 
-  // const promises = [sendNotification(to, subject, html)];
+  const promises = [sendNotification(to, subject, html)];
   return promises;
 }
 

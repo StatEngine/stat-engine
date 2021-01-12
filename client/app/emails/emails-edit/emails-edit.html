@@ -42,9 +42,14 @@
                   <label class="required">Manual Schedule</label>
                   <input type="text" id="schedule" name="schedule" class="form-control" ng-disabled="vm.inputEmail.by_shift" ng-model="vm.inputEmail.schedule" required
                           minlength='3' maxlength='255' size="2  0" mongoose-error="mongoose-error" />
-                  <button id='schedule_help_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.showScheduleHelp()">
-                    Help
-                  </button>
+
+                  <div class="btn-group">
+                    <button ng-click="vm.setScheduleAt()" class="btn btn-outline-inverse-alt mr-2">At 8 am</button>
+                    <button ng-click="vm.setScheduleEvery()" class="btn btn-outline-inverse-alt mr-2">Every 4 hours</button>
+                    <button id='schedule_help_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.showScheduleHelp()">
+                      Help
+                    </button>
+                  </div>
                 </div>
 
                 <div class="email-details-shift-schedule">

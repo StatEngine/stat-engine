@@ -250,6 +250,14 @@ export default class EmailsEditController {
     // this.$state.go('site.emails.home');
   }
 
+  setScheduleAt() {
+    this.inputEmail.schedule = 'at 8 am';
+  }
+
+  setScheduleEvery() {
+    this.inputEmail.schedule = 'every 4 hours';
+  }
+
   templateIdToUniqueId(templateId) {
     // This has to exactly match FixtureTemplate.templateIdToUniqueId() on the server, since the
     // template id needs to be extracted using FixtureTemplate.uniqueIdToTemplateId().
