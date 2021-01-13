@@ -22,7 +22,10 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 });
 export default class UserHomeController {
   errors = null;
-  validation = null;
+  validation = {
+    items: [],
+    count: 0,
+  };
 
   /*@ngInject*/
   constructor(
@@ -163,7 +166,10 @@ export default class UserHomeController {
       }
     } catch (err) {
       console.error(err);
-      this.validation = null;
+      this.validation = {
+        items: [],
+        count: 0,
+     };
     }
   }
 }
