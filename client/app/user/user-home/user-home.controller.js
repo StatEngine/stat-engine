@@ -1,5 +1,3 @@
-'use strict';
-
 import humanizeDuration from 'humanize-duration';
 import { getErrors } from '../../../util/error';
 
@@ -22,12 +20,18 @@ const shortEnglishHumanizer = humanizeDuration.humanizer({
 });
 export default class UserHomeController {
   errors = null;
+  validation = {
+    items: [],
+    count: 0,
+  };
 
   /*@ngInject*/
   constructor(
     $window, $filter, $state, currentPrincipal, requestedFireDepartment, fireDepartments, User, Principal, AmplitudeService,
-    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary
+    AnalyticEventNames, appConfig, weatherForecast, safetyMessage, interestingIncidents, activeIncidents, yesterdayStatSummary,
+    $http,
   ) {
+    this.$http = $http;
     this.$filter = $filter;
     this.$window = $window;
     this.$state = $state;
@@ -46,7 +50,7 @@ export default class UserHomeController {
     this.activeIncidents = activeIncidents;
 
     this.interestingIncidents = interestingIncidents;
-    if(this.principal.isGlobal) {
+    if (this.principal.isGlobal) {
       this.fireDepartments = fireDepartments;
     }
 
@@ -75,13 +79,13 @@ export default class UserHomeController {
     $('.inlinesparkline').sparkline();
 
     this.activeIncidents = _.values(this.activeIncidents);
-    if(this.yesterdayStatSummary) {
+    if (this.yesterdayStatSummary) {
       this.yesterdayStatSummary.summary.unit = Object.keys(this.yesterdayStatSummary.summary.unit).map(unit_id => ({ unit_id, value: this.yesterdayStatSummary.summary.unit[unit_id] }));
       // top ten
       this.yesterdayStatSummary.summary.unit = this.yesterdayStatSummary.summary.unit.slice(0, 9);
     }
 
-    if(this.principal.isGlobal) {
+    if (this.principal.isGlobal) {
       this.assignedFireDepartment = _.find(this.fireDepartments, f => f._id === this.principal.fire_department__id);
     }
 
@@ -113,12 +117,12 @@ export default class UserHomeController {
     this.onboarding = this.fireDepartment && !this.setupComplete;
     this.appAccess = this.fireDepartment && this.fireDepartment.integration_complete;
 
-    if(this.principal.isGlobal) {
+    if (this.principal.isGlobal) {
       this.homeless = false;
       this.pending = false;
     }
 
-    this.setFireDepartment = (fd) => {
+    this.setFireDepartment = fd => {
       this.errors = null;
       this.principal.fire_department__id = fd._id;
       this.UserService.update({ id: this.principal._id }, this.principal).$promise
@@ -135,7 +139,7 @@ export default class UserHomeController {
     this.goto = function(state, appName) {
       this.userDropDownActive = false;
 
-      if(appName) {
+      if (appName) {
         this.AmplitudeService.track(this.AnalyticEventNames.APP_ACCESS, {
           app: appName,
           location: 'user-home'
@@ -147,5 +151,23 @@ export default class UserHomeController {
     this.selectTab = function(tabName) {
       this.selectedTab = tabName;
     };
+
+    this.validation = await this.getValidationHealth();
+  }
+
+  async getValidationHealth() {
+    try {
+      const response = await this.$http.get('/api/admin/getValidationHealth');
+      return {
+        items: response.data.items,
+        count: response.data.totalItems,
+      };
+    } catch (err) {
+      console.error(err);
+      return {
+        items: [],
+        count: 0,
+      };
+    }
   }
 }

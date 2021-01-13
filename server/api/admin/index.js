@@ -14,5 +14,12 @@ router.post(
   controller.addFixtureTemplatesToDatabase,
 );
 
+router.get(
+  '/getValidationHealth',
+  auth.isApiAuthenticated,
+  auth.hasRole('admin'),
+  controller.getValidationHealth,
+);
+
 module.exports = router;
 
