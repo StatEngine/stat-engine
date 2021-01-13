@@ -9,7 +9,7 @@ export default function(sequelize, DataTypes) {
       autoIncrement: true
     },
     type: {
-      type: DataTypes.ENUM('ENRICHMENT', 'INTEGRATION', 'PERIODIC'),
+      type: DataTypes.ENUM('ENRICHMENT', 'INTEGRATION', 'PERIODIC', 'FILTER'),
       validate: {
         notEmpty: true
       },

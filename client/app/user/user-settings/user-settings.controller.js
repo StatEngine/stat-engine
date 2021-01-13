@@ -1,7 +1,6 @@
 'use strict';
 
 // eslint-disable-next-line no-unused-vars
-import parsleyjs from 'parsleyjs';
 import { getErrors } from '../../../util/error';
 
 export default class UserSettingsController {

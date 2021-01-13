@@ -11,7 +11,8 @@ import userSettings from './user-settings';
 import requestAccess from './request-access';
 import gettingStarted from './getting-started';
 import help from './help';
+import unitFiltersComponent from '../../components/unit-filters/unit-filters.component';
 
-export default angular.module('statEngineApp.user', [uiRouter, userHome, userSettings, requestAccess, gettingStarted, help])
+export default angular.module('statEngineApp.user', [uiRouter, userHome, userSettings, requestAccess, gettingStarted, help, unitFiltersComponent])
   .config(routing)
   .name;
