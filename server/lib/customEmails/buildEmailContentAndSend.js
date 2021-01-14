@@ -14,6 +14,9 @@ export default async function buildEmailContentAndSend(emailData) {
 
   const mergeVars = await buildMergeVars(emailData);
 
+  console.log('GOT MERGE VARS');
+  console.dir(mergeVars);
+
   const html = await getCustomEmailHtml(mergeVars);
 
   await Promise.all(sendEmails(emailData, mergeVars, html));
@@ -47,24 +50,46 @@ async function buildMergeVars(emailData) {
 
   const options = {
     logo: extensionConfig.config_json.logo,
+    showPercentChange: true,
+    showDistances: true,
+    showTransports: false,
     sections: {},
   };
 
   // get the email content
   const mergeVars = await getMergeVars(emailData);
+
+  // set the show option for each section
   mergeVars.sections.forEach(mv => {
-    options.sections[mv.name] = true;
+    const showVarName = getShowVariableName(mv.name);
+    options.sections[showVarName] = true;
   });
+
   mergeVars.options = options;
   mergeVars.description = await description(emailData);
   return mergeVars;
 }
 
+function getShowVariableName(mergeVarName) {
+  let showVarName = capitalize(mergeVarName);
+  if (mergeVarName === 'agencyResponsesSummary') {
+    showVarName = capitalize('unitAgencySummary');
+  }
+  return `show${showVarName}`;
+}
+
+function capitalize(str) {
+  if (typeof str !== 'string') {
+    return '';
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 async function getMergeVars(emailData) {
   const sectionFuncs = getSectionFuncs();
   emailData.timeRange = getTimeRange(emailData);
-  console.log('timeRange');
-  console.dir(emailData.timeRange);
+  // console.log('timeRange');
+  // console.dir(emailData.timeRange);
   let promises = emailData.sections.map(section => {
     if (sectionFuncs[section.type]) {
       return sectionFuncs[section.type](emailData);
@@ -73,7 +98,6 @@ async function getMergeVars(emailData) {
   });
   promises = promises.map(p => p);
   const mergeVars = await Promise.all(promises);
-
 
   return { sections: mergeVars };
 }

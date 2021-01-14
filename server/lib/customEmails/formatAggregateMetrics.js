@@ -2,16 +2,16 @@ import _ from 'lodash';
 
 export default function formatAggregateMetrics(key, metricConfigs, comparison, options) {
   console.log('formatAggregateMetrics');
-  // console.log(key);
-  // console.dir(comparison);
+  console.log(key);
+  // console.dir(comparison, { depth: null });
 
   const keyName = `${key}Metrics`;
-  const mergeVar = initMergeVar(keyName);
+  const mergeVar = initMergeVar(`${key}Summary`, keyName);
 
   _.forEach(comparison[key], (metrics, id) => {
     const obj = { id };
-    console.log('obj');
-    console.dir(obj);
+    // console.log('obj');
+    // console.dir(obj);
     metricConfigs.forEach(metricConfig => {
       const [path, condition] = metricConfig;
 
@@ -28,12 +28,12 @@ export default function formatAggregateMetrics(key, metricConfigs, comparison, o
   mergeVar[keyName] = _.sortBy(mergeVar[keyName], [o => _.get(o, 'incidentCount.val')]).reverse();
   mergeVar[keyName] = _.filter(mergeVar[keyName], o => _.get(o, 'incidentCount.val') !== 0);
 
-  console.dir(mergeVar);
+  console.dir(mergeVar, { depth: null });
   return mergeVar;
 }
 
-function initMergeVar(keyName) {
-  const mergeVar = {};
+function initMergeVar(name, keyName) {
+  const mergeVar = { name };
   mergeVar[keyName] = [];
   return mergeVar;
 }
