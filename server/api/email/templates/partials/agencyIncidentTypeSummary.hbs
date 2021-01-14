@@ -1,5 +1,5 @@
 {{!-- AGENCY INCIDENT TYPE SUMMARY --}}                                
-{{#if options.sections.agencyIncidentType}}
+{{#if parentOptions.sections.showAgencyIncidentTypeSummary}}
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
   <tbody class="mcnBoxedTextBlockOuter">
   <tr>
@@ -49,6 +49,7 @@
                 </th>
 
               </tr>
+
               {{#each agencyIncidentTypeMetrics}}
                 <tr>
                   <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
@@ -57,18 +58,27 @@
                     <span style="font-size:14px">{{this.incidentcount.val}}</span>
                     {{#if options.showpercentchange}}
 
-                      {{#if `this.incidentcount.percentchange > 0`}}
-                        <span style="font-size:10px;color:#dc3545">▲ {{this.incidentcount.percentchange}}%</span> {{elseif `this.incidentcount.percentchange
-                      < 0`}} <span style="font-size:10px;color:#28a745">▼ {{this.incidentcount.percentchange}}%</span>
-                        {{elseif `this.incidentcount.percentchange = 0`}}
-                        <span style="font-size:10px;color:#6c757d"></span> {{else}}
-                        <span style="font-size:10px;color:#6c757d">(NA)</span></div>
-                      {{/if}}
+                      {{#compare this.incidentcount.percentchange ">" 0}}
+                        <span style="font-size:10px;color:#dc3545">▲ {{this.incidentcount.percentchange}}%</span>
+                      {{/compare}}
+
+                      {{#compare this.incidentcount.percentchange "<" 0}} 
+                        <span style="font-size:10px;color:#28a745">▼ {{this.incidentcount.percentchange}}%</span>
+                      {{/compare}}
+                      
+                      {{#compare this.incidentcount.percentchange "=" 0}}
+                        <span style="font-size:10px;color:#6c757d"></span>
+                      {{/compare}}
+
+                    {{else}}
+                      <span style="font-size:10px;color:#6c757d">(NA)</span>
+
                     {{/if}}
 
                   </td>
                 </tr>
               {{/each}}
+              
               </tbody>
             </table>
 
