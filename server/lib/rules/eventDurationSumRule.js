@@ -7,6 +7,7 @@ export class EventDurationSumRule extends Rule {
     super(params);
     this.params.threshold = this.params.threshold || 21600;
     this.params.level = 'DANGER';
+    this.reportChunkSize = 5;
 
     this.query = bodybuilder()
       .filter('term', 'description.suppressed', false)
@@ -20,10 +21,9 @@ export class EventDurationSumRule extends Rule {
     const default_visibility = true;
     const rule = this.constructor.name;
     const level = this.params.level;
-    const reportChunkSize = 5;
     const description = `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min`;
     const analysis = [];
-    let details = [];
+    const details = [];
 
 
     this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
@@ -34,7 +34,7 @@ export class EventDurationSumRule extends Rule {
       }
     });
 
-    details = _.chunk(details, reportChunkSize).forEach(detail => {
+    _.chunk(details, this.reportChunkSize).forEach(detail => {
       analysis.push({
         default_visibility,
         rule,
