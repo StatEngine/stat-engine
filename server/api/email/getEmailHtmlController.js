@@ -1,8 +1,12 @@
 import handlebars from 'handlebars';
+import helpers from 'handlebars-helpers';
 
 import config from '../../config/environment';
 import HtmlReports from './htmlReports';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
+
+helpers({ handlebars });
+// const comp = helpers.comparison({ handlebars });
 
 export async function getEmailHtmlController(req, res) {
   const { mergeVars } = req.body;
