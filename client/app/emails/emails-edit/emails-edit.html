@@ -44,15 +44,17 @@
                           minlength='3' maxlength='255' size="2  0" mongoose-error="mongoose-error" />
 
                   <div class="btn-group">
-                    <button ng-click="vm.setScheduleAt()" class="btn btn-outline-inverse-alt mr-2">At 8 am</button>
-                    <button ng-click="vm.setScheduleEvery()" class="btn btn-outline-inverse-alt mr-2">Every 4 hours</button>
+                    <button type="button" ng-click="vm.setScheduleAt()" class="btn btn-outline-inverse-alt mr-2">At 8 am</button>
+                    <button type="button" ng-click="vm.setScheduleEvery()" class="btn btn-outline-inverse-alt mr-2">Every 4 hours</button>
                     <button id='schedule_help_btn' type="button" class="btn btn-outline-inverse-alt mr-2" ng-click="vm.showScheduleHelp()">
                       Help
                     </button>
                   </div>
                 </div>
 
-                <div class="email-details-shift-schedule">
+                <br>
+
+                <div class="email-details-shift-schedule ">
                   <label >Schedule By Shift</label>
                   <div>
                     <toggle-switch
@@ -83,7 +85,7 @@
                   </div>
                 </div>
 
-                <div class="email-details-enabled">
+                <div class="email-details-choose-recipients">
                   <label >Choose Recipients</label>
                   <div>
                     <toggle-switch
@@ -92,9 +94,9 @@
                   </div>
                 </div>
 
-                <div ng-if="vm.chooseRecipients">
+                <div class="email-details-recipients-list" ng-show="vm.chooseRecipients">
                   <label>Send List</label>
-                  <select style="height: 250px;" name="sections" id="sections" 
+                  <select style="height: 250px;" name="recipients" id="recipients" 
                   ng-options="e.email for e in vm.deptEmails" ng-model="vm.selectedEmails" multiple>
                   </select>
                   <div>Selected Emails

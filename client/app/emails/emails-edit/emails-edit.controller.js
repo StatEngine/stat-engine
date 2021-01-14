@@ -38,7 +38,7 @@ export default class EmailsEditController {
         selected: false,
       },
       {
-        type: 'agencySummary',
+        type: 'agencyResponsesSummary',
         label: 'Agency Summary',
         selected: false,
       },
@@ -89,7 +89,7 @@ export default class EmailsEditController {
     this.selectedSections = [];
     this.deptEmails = [];
     this.selectedEmails = [];
-    this.chooseRecipients = false;
+    this.chooseRecipients = true;
   }
 
   async loadModules() {
@@ -147,6 +147,11 @@ export default class EmailsEditController {
     this.deptEmails = resEmailList.deptEmails.map(de => ({
       email: de,
       selected: this.inputEmail.email_list.findIndex(se => se === de) > -1,
+    }));
+
+    this.selectedEmails = this.inputEmail.email_list.map(e => ({
+      email: e,
+      selected: true,
     }));
 
     console.log('DEPT EMAILS');
@@ -251,11 +256,15 @@ export default class EmailsEditController {
   }
 
   setScheduleAt() {
-    this.inputEmail.schedule = 'at 8 am';
+    this.inputEmail.schedule = 'at 8:00 am';
   }
 
   setScheduleEvery() {
     this.inputEmail.schedule = 'every 4 hours';
+  }
+
+  setSelectedEmails() {
+
   }
 
   templateIdToUniqueId(templateId) {
