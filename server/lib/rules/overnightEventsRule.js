@@ -1,6 +1,6 @@
-import _ from 'lodash';
 import bodybuilder from 'bodybuilder';
 import { Rule } from '../rule';
+import finalReportDetails from './finalReportDetails';
 
 export class OvernightEventsRule extends Rule {
   constructor(params) {
@@ -11,7 +11,6 @@ export class OvernightEventsRule extends Rule {
     this.defaultVisibility = true;
     this.unitRespondingCountThreshold = 2;
     this.unitUtilTimeThreshold = this.params.threshold || 7200;
-
 
     this.utilizationMinutesReportParams = {
       reportLevel: this.level,
@@ -44,16 +43,8 @@ export class OvernightEventsRule extends Rule {
   analyze() {
     const { utilMinReportDetails, utilCountReportDetails } =
       this.reportDetails(this.results, this.unitUtilTimeThreshold, this.unitRespondingCountThreshold);
-    const utilMinReport = this.finalReportDetails(
-      utilMinReportDetails,
-      this.reportChunkSize,
-      this.utilizationMinutesReportParams,
-    );
-    const utilCountReport = this.finalReportDetails(
-      utilCountReportDetails,
-      this.reportChunkSize,
-      this.utilizationCountReportParms,
-    );
+    const utilMinReport = finalReportDetails(utilMinReportDetails, this.reportChunkSize, this.utilizationMinutesReportParams);
+    const utilCountReport = finalReportDetails(utilCountReportDetails, this.reportChunkSize, this.utilizationCountReportParms);
     return utilMinReport.concat(utilCountReport);
   }
 
@@ -83,31 +74,6 @@ export class OvernightEventsRule extends Rule {
       utilMinReportDetails,
       utilCountReportDetails,
     };
-  }
-
-  /**
-   * Creates a report by condensing of the original report. It creates chunks or arrays of details.
-   * The final report is enriched with fields from the params parameter
-   *
-   * @param report report to be condensed and enriched
-   * @param reportChunkSize determines how many reports are condensed to a single report
-   * @param enticements static values used to enrich the report
-   * @returns {[]}
-   */
-  finalReportDetails(report, reportChunkSize, enticements) {
-    const analysis = [];
-
-    _.chunk(report, reportChunkSize)
-      .forEach(detail => {
-        analysis.push({
-          rule: enticements.reportRuleName,
-          level: enticements.reportLevel,
-          description: enticements.reportDescription,
-          default_visibility: enticements.reportDefaultVisibility,
-          detailList: detail,
-        });
-      });
-    return analysis;
   }
 }
 
