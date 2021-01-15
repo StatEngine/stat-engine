@@ -5,7 +5,7 @@ import finalReportDetails from './finalReportDetails';
 export class OvernightEventsRule extends Rule {
   constructor(params) {
     super(params);
-    this.level = 'DANGER';
+    this.reportLevel = 'DANGER';
     this.ruleName = this.constructor.name;
     this.reportChunkSize = 5;
     this.defaultVisibility = true;
@@ -13,14 +13,14 @@ export class OvernightEventsRule extends Rule {
     this.unitUtilTimeThreshold = this.params.threshold || 7200;
 
     this.utilizationMinutesReportParams = {
-      reportLevel: this.level,
+      reportLevel: this.reportLevel,
       reportRuleName: this.ruleName,
       reportDefaultVisibility: this.defaultVisibility,
       reportDescription: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
     };
 
     this.utilizationCountReportParms = {
-      reportLevel: this.level,
+      reportLevel: this.reportLevel,
       reportRuleName: this.ruleName,
       reportDefaultVisibility: this.defaultVisibility,
       reportDescription: 'Unit response > 2 overnight',

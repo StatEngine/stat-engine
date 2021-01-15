@@ -6,19 +6,19 @@ import _ from 'lodash';
  *
  * @param report report to be condensed and enriched
  * @param reportChunkSize determines how many reports are condensed to a single report
- * @param enticements static values used to enrich the report
+ * @param enrichment static values used to enrich the report
  * @returns {[]}
  */
-export default function finalReportDetails(report, reportChunkSize, enticements) {
+export default function finalReportDetails(report, reportChunkSize, enrichment) {
   const analysis = [];
 
   _.chunk(report, reportChunkSize)
     .forEach(detail => {
       analysis.push({
-        rule: enticements.reportRuleName,
-        level: enticements.reportLevel,
-        description: enticements.reportDescription,
-        default_visibility: enticements.reportDefaultVisibility,
+        rule: enrichment.reportRuleName,
+        level: enrichment.reportLevel,
+        description: enrichment.reportDescription,
+        default_visibility: enrichment.reportDefaultVisibility,
         detailList: detail,
       });
     });
