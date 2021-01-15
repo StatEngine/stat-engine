@@ -16,7 +16,6 @@ export class OvernightEventsRule extends Rule {
     this.utilizationMinutesReportParams = {
       reportLevel: this.level,
       reportRuleName: this.ruleName,
-      reportChunkSize: this.reportChunkSize,
       reportDefaultVisibility: this.defaultVisibility,
       reportDescription: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
     };
@@ -24,7 +23,6 @@ export class OvernightEventsRule extends Rule {
     this.utilizationCountReportParms = {
       reportLevel: this.level,
       reportRuleName: this.ruleName,
-      reportChunkSize: this.reportChunkSize,
       reportDefaultVisibility: this.defaultVisibility,
       reportDescription: 'Unit response > 2 overnight',
     };
@@ -46,8 +44,16 @@ export class OvernightEventsRule extends Rule {
   analyze() {
     const { utilMinReportDetails, utilCountReportDetails } =
       this.reportDetails(this.results, this.unitUtilTimeThreshold, this.unitRespondingCountThreshold);
-    const utilMinReport = this.finalReportDetails(utilMinReportDetails, this.utilizationMinutesReportParams);
-    const utilCountReport = this.finalReportDetails(utilCountReportDetails, this.utilizationCountReportParms);
+    const utilMinReport = this.finalReportDetails(
+      utilMinReportDetails,
+      this.reportChunkSize,
+      this.utilizationMinutesReportParams,
+    );
+    const utilCountReport = this.finalReportDetails(
+      utilCountReportDetails,
+      this.reportChunkSize,
+      this.utilizationCountReportParms,
+    );
     return utilMinReport.concat(utilCountReport);
   }
 
@@ -91,7 +97,7 @@ export class OvernightEventsRule extends Rule {
   finalReportDetails(report, reportChunkSize, enticements) {
     const analysis = [];
 
-    _.chunk(report, enticements.reportChunkSize)
+    _.chunk(report, reportChunkSize)
       .forEach(detail => {
         analysis.push({
           rule: enticements.reportRuleName,
