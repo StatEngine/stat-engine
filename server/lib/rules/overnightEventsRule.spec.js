@@ -1,6 +1,15 @@
 import { expect } from 'chai';
 import { OvernightEventsRule } from './overnightEventsRule';
 
+// TODO reuse
+function incident(unitName, duration, count) {
+  return {
+    'agg_sum_apparatus.extended_data.event_duration': { value: duration }, // in seconds
+    key: unitName,
+    doc_count: count,
+  };
+}
+
 describe('OvernightEventsRule', () => {
   let rule;
   beforeEach(() => {
@@ -10,18 +19,15 @@ describe('OvernightEventsRule', () => {
       aggregations: {
         apparatus: {
           'agg_terms_apparatus.unit_id': {
-            buckets: [{
-              'agg_sum_apparatus.extended_data.event_duration':
-                { value: ruleParams.threshold * 10 }, // in seconds
-              key: 'UNIT_100', // unit ID
-              doc_count: 1,
-            },
-            {
-              'agg_sum_apparatus.extended_data.event_duration':
-                  { value: ruleParams.threshold * 100 }, // in seconds
-              key: 'UNIT_200', // unit ID
-              doc_count: 4, // 4 units responded
-            },
+            buckets: [
+              incident('UNIT_000', ruleParams.threshold, 10),
+              incident('UNIT_100', ruleParams.threshold * 10, 1),
+              incident('UNIT_200', ruleParams.threshold * 100, 2),
+              incident('UNIT_300', ruleParams.threshold * 100, 4),
+              incident('UNIT_400', ruleParams.threshold * 100, 4),
+              incident('UNIT_500', ruleParams.threshold * 100, 4),
+              incident('UNIT_600', ruleParams.threshold * 100, 4),
+              incident('UNIT_700', ruleParams.threshold, 20),
             ],
           },
         },
@@ -31,11 +37,52 @@ describe('OvernightEventsRule', () => {
     rule.setResults(twoIncidentOverThreshold);
   });
 
-  it('expects two events over the threshold to be consolidated into one detailed event', () => {
+  it('expects both reports to be consolidated', () => {
     expect(rule.analyze()).to.deep.equal([
-      { rule: 'OvernightEventsRule', level: 'DANGER', description: 'Unit utilization > 1 min overnight', details: 'Unit: UNIT_100, Utilization: 10.00' },
-      { rule: 'OvernightEventsRule', level: 'DANGER', description: 'Unit utilization > 1 min overnight', details: 'Unit: UNIT_200, Utilization: 100.00' },
-      { rule: 'OvernightEventsRule', level: 'DANGER', description: 'Unit response > 2 overnight', details: 'Unit: UNIT_200, Responses: 4', default_visibility: true },
+      {
+        default_visibility: true,
+        rule: 'OvernightEventsRule',
+        level: 'DANGER',
+        description: 'Unit utilization > 1 min overnight',
+        detailList: [
+          { detail: 'UNIT_100/10.00' },
+          { detail: 'UNIT_200/100.00' },
+          { detail: 'UNIT_300/100.00' },
+          { detail: 'UNIT_400/100.00' },
+          { detail: 'UNIT_500/100.00' },
+        ],
+      },
+      {
+        default_visibility: true,
+        rule: 'OvernightEventsRule',
+        level: 'DANGER',
+        description: 'Unit utilization > 1 min overnight',
+        detailList: [
+          { detail: 'UNIT_600/100.00' },
+        ],
+      },
+      {
+        default_visibility: true,
+        description: 'Unit response > 2 overnight',
+        detailList: [
+          { detail: 'UNIT_000/10' },
+          { detail: 'UNIT_300/4' },
+          { detail: 'UNIT_400/4' },
+          { detail: 'UNIT_500/4' },
+          { detail: 'UNIT_600/4' },
+        ],
+        level: 'DANGER',
+        rule: 'OvernightEventsRule',
+      },
+      {
+        default_visibility: true,
+        description: 'Unit response > 2 overnight',
+        detailList: [
+          { detail: 'UNIT_700/20' },
+        ],
+        level: 'DANGER',
+        rule: 'OvernightEventsRule',
+      },
     ]);
   });
 });

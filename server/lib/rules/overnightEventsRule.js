@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import bodybuilder from 'bodybuilder';
 import { Rule } from '../rule';
 
@@ -6,6 +7,9 @@ export class OvernightEventsRule extends Rule {
     super(params);
     this.params.threshold = this.params.threshold || 7200;
     this.params.level = 'DANGER';
+    this.reportChunkSize = 5;
+    this.unitRespondingCountThreshold = 2;
+
 
     this.query = bodybuilder()
       .filter('term', 'description.suppressed', false)
@@ -17,31 +21,51 @@ export class OvernightEventsRule extends Rule {
   }
 
   analyze() {
-    let analysis = [];
+    // TODO move the constant to the constructor
+    // eslint-disable-next-line camelcase
+    const default_visibility = true;
+    const rule = this.constructor.name;
+    const level = this.params.level;
+    const analysis = [];
+    const detailsUtilizationMinutes = [];
+    const detailsUtilizationCount = [];
 
     this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
-      let utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
+      const utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
 
-      let count = unit.doc_count;
+      const count = unit.doc_count;
 
-      if(utilization > this.params.threshold) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
-          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`
-        });
+      if (utilization > this.params.threshold) {
+        detailsUtilizationMinutes.push({ detail: `${unit.key}/${(utilization / 60.0).toFixed(2)}` });
       }
 
-      if(count > 2) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: 'Unit response > 2 overnight',
-          details: `Unit: ${unit.key}, Responses: ${count}`,
-          default_visibility: true
-        });
+      if (count > this.unitRespondingCountThreshold) {
+        detailsUtilizationCount.push({ detail: `${unit.key}/${count}` });
       }
+    });
+
+    // TODO reuse
+    let description = `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`;
+    _.chunk(detailsUtilizationMinutes, this.reportChunkSize).forEach(detail => {
+      analysis.push({
+        rule,
+        level,
+        description,
+        default_visibility,
+        detailList: detail,
+      });
+    });
+
+    // TODO reuse
+    description = 'Unit response > 2 overnight';
+    _.chunk(detailsUtilizationCount, this.reportChunkSize).forEach(detail => {
+      analysis.push({
+        rule,
+        level,
+        description,
+        default_visibility,
+        detailList: detail,
+      });
     });
 
     return analysis;

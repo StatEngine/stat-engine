@@ -34,6 +34,7 @@ export class EventDurationSumRule extends Rule {
       }
     });
 
+    // TODO reuse
     _.chunk(details, this.reportChunkSize).forEach(detail => {
       analysis.push({
         default_visibility,
