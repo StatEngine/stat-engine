@@ -19,7 +19,12 @@ export default class HtmlReports {
    */
   report(data, asObject = true) {
     if (asObject) {
-      return this.template(fromArrayToObject(data));
+      // TODO this hack needs to be removed
+      const fromArrayToObject1 = fromArrayToObject(data);
+      // TODO this hack needs to be removed
+      fromArrayToObject1.parentOptions = { sections: { showAlertSummary: true } };
+
+      return this.template(fromArrayToObject1);
     }
     return this.template(data);
   }

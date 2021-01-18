@@ -77,8 +77,8 @@ describe('HtmlReports', () => {
         ).template());
       });
       it('should generate Event Duration html report', () => {
-        const data = toData(eventDurationSumRuleWithData);
-        const html = htmlReports.report(data);
+        const { outAlertsCondensed, outAlerts } = toData(eventDurationSumRuleWithData);
+        const html = htmlReports.report([outAlertsCondensed, outAlerts]);
         expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReportV2.html', 'utf-8'));
       });
     });
@@ -87,7 +87,7 @@ describe('HtmlReports', () => {
         const data =
           [
             {
-              name: 'alerts',
+              name: 'condensedAlerts',
               content: [
                 {
                   rule: 'EventDurationSumRule',
@@ -151,7 +151,7 @@ describe('HtmlReports', () => {
 function toData(rule) {
   const analysis = rule.analyze();
   const reportOptions = {};
-  return [_formatAlerts([analysis], reportOptions)];
+  return _formatAlerts([analysis], reportOptions);
 }
 
 function incident(unitName, duration) {

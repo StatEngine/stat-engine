@@ -77,10 +77,12 @@ export default async function sendNotificationController(req, res) {
   }
 
   const description = _formatDescription(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
+  const { outAlertsCondensed, outAlerts } = _formatAlerts(ruleAnalysis, reportOptions);
   const globalMergeVars = [
     description,
     _formatOptions(reportOptions),
-    _formatAlerts(ruleAnalysis, reportOptions),
+    outAlertsCondensed,
+    outAlerts,
     _formatFireDepartmentMetrics(comparison, reportOptions),
     _formatAggregateMetrics('unit', unitMetricConfigs, comparison, reportOptions),
     _formatAggregateMetrics('agencyResponses', unitMetricConfigs, comparison, reportOptions),
@@ -110,8 +112,7 @@ export default async function sendNotificationController(req, res) {
       timeUnit: reportOptions.timeUnit,
     };
 
-    const mergeVars = globalMergeVars.slice(0);
-    mergeVars.push({
+    globalMergeVars.push({
       name: 'user',
       content: { isExternal: metadata.userIsExternal },
     });
@@ -119,7 +120,7 @@ export default async function sendNotificationController(req, res) {
     promises.push(sendNotification(
       user.email,
       subject,
-      htmlReports.report(mergeVars),
+      htmlReports.report(globalMergeVars),
       test,
       metadata,
     ));
@@ -263,7 +264,7 @@ function _formatFireDepartmentMetrics(comparison, options) {
  *
  * @param alerts alerts to add colors to
  * @param reportOptions report options
- * @returns {({name: string, content: []}|{name: string, content: []})[]} condensed alerts object and regular alerts object
+ * @returns {{outAlerts: {name: string, content: []}, outAlertsCondensed: {name: string, content: []}}} condensed alerts object and regular alerts object
  * @private
  */
 export function _formatAlerts(alerts, reportOptions) {
@@ -290,7 +291,7 @@ export function _formatAlerts(alerts, reportOptions) {
 
       const showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
       if (showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) {
-        if (violation.condenseRenderign) {
+        if (violation.condenseRendering) {
           outAlertsCondensed.content.push(violation);
         } else {
           outAlerts.content.push(violation);
@@ -308,7 +309,7 @@ export function _formatAlerts(alerts, reportOptions) {
     });
   }
 
-  return [outAlertsCondensed, outAlerts];
+  return { outAlertsCondensed, outAlerts };
 }
 
 function _formatAggregateMetrics(key, metricConfigs, comparison, options) {

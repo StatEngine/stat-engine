@@ -20,6 +20,7 @@ export default function finalReportDetails(report, reportChunkSize, enrichment) 
         description: enrichment.reportDescription,
         default_visibility: enrichment.reportDefaultVisibility,
         detailList: detail,
+        condenseRendering: true,
       });
     });
   return analysis;
