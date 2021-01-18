@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { EventDurationSumRule } from './eventDurationSumRule';
 
-// TODO reuse
 function incident(unitName, duration) {
   return {
     'agg_sum_apparatus.extended_data.event_duration': { value: duration }, // in seconds

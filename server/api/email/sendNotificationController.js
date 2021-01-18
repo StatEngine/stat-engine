@@ -256,13 +256,29 @@ function _formatFireDepartmentMetrics(comparison, options) {
   return mergeVar;
 }
 
-export function _formatAlerts(ruleAnalysis, reportOptions) {
-  const mergeVar = {
+/**
+ * Add colors to the alerts based on the level of the alerts: DANGER and WARNING.
+ * Writes alerts to two objects, one object for regular alerts, one object for condensed alerts.
+ * Condensed alerts are rendered using condensed layout.
+ *
+ * @param alerts alerts to add colors to
+ * @param reportOptions report options
+ * @returns {({name: string, content: []}|{name: string, content: []})[]} condensed alerts object and regular alerts object
+ * @private
+ */
+export function _formatAlerts(alerts, reportOptions) {
+  const outAlerts = {
+    // the name matches a name in rules.js
     name: 'alerts',
     content: [],
   };
+  const outAlertsCondensed = {
+    // the name matches a name in rules.js
+    name: 'condensedAlerts',
+    content: [],
+  };
 
-  _.forEach(ruleAnalysis, ruleViolations => {
+  _.forEach(alerts, ruleViolations => {
     ruleViolations.forEach(violation => {
       if (violation.level === 'DANGER') {
         violation.rowColor = alertColors.danger.row;
@@ -273,12 +289,18 @@ export function _formatAlerts(ruleAnalysis, reportOptions) {
       }
 
       const showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
-      if (showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) { mergeVar.content.push(violation); }
+      if (showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) {
+        if (violation.condenseRenderign) {
+          outAlertsCondensed.content.push(violation);
+        } else {
+          outAlerts.content.push(violation);
+        }
+      }
     });
   });
 
-  if (mergeVar.content.length === 0) {
-    mergeVar.content.push({
+  if (outAlerts.content.length === 0 && outAlertsCondensed.content.length === 0) {
+    outAlerts.content.push({
       rowColor: alertColors.warning.row,
       rowBorderColor: alertColors.warning.rowBorder,
       description: 'No alerts found for today',
@@ -286,7 +308,7 @@ export function _formatAlerts(ruleAnalysis, reportOptions) {
     });
   }
 
-  return mergeVar;
+  return [outAlertsCondensed, outAlerts];
 }
 
 function _formatAggregateMetrics(key, metricConfigs, comparison, options) {
