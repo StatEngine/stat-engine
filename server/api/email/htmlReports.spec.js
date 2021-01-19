@@ -4,8 +4,8 @@ import handlebars from 'handlebars';
 import fs from 'fs';
 import HtmlReports from './htmlReports';
 import { EventDurationSumRule } from '../../lib/rules/eventDurationSumRule';
-import { _formatAlerts } from './sendNotificationController';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
+import { formatAlerts } from '../../lib/customEmails/sections/alertSummary';
 
 
 describe('HtmlReports', () => {
@@ -151,7 +151,7 @@ describe('HtmlReports', () => {
 function toData(rule) {
   const analysis = rule.analyze();
   const reportOptions = {};
-  return _formatAlerts([analysis], reportOptions);
+  return formatAlerts([analysis], reportOptions);
 }
 
 function incident(unitName, duration) {

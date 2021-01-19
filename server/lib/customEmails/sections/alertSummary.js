@@ -10,7 +10,7 @@ export default async function alertSummary(emailData) {
   return formatAlerts(ruleAnalysis);
 }
 
-function formatAlerts(ruleAnalysis) {
+export function formatAlerts(ruleAnalysis) {
   const mergeVar = {
     name: 'alerts',
     alerts: [],
