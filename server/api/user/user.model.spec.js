@@ -1,71 +1,73 @@
-'use strict';
-
 import app from '../..';
-import {User} from '../../sqldb';
-var user;
-var genUser = function() {
+import { User } from '../../sqldb';
+
+let user;
+const genUser = function() {
   user = User.build({
     provider: 'local',
     name: 'Fake User',
     email: 'test@example.com',
-    password: 'password'
+    password: 'password',
   });
   return user;
 };
 
-describe('User Model', function() {
-  before(function() {
+/**
+ * These are integration tests requiring setting up SEQUELIZE_URI env variable
+ */
+describe('User Model', () => {
+  before(() => {
     // Sync and clear users before testing
-    return User.sync().then(function() {
+    return User.sync().then(() => {
       return User.destroy({ where: {} });
     });
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     genUser();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     return User.destroy({ where: {} });
   });
 
-  it('should begin with no users', function() {
+  it('should begin with no users', () => {
     return expect(User.findAll()).to
       .eventually.have.length(0);
   });
 
-  it('should fail when saving a duplicate user', function() {
+  it('should fail when saving a duplicate user', () => {
     return expect(user.save()
-      .then(function() {
-        var userDup = genUser();
+      .then(() => {
+        const userDup = genUser();
         return userDup.save();
       })).to.be.rejected;
   });
 
-  describe('#email', function() {
-    it('should fail when saving without an email', function() {
+  describe('#email', () => {
+    it('should fail when saving without an email', () => {
       user.email = '';
       return expect(user.save()).to.be.rejected;
     });
   });
 
-  describe('#password', function() {
-    beforeEach(function() {
+  describe('#password', () => {
+    beforeEach(() => {
       return user.save();
     });
 
-    it('should authenticate user if valid', function() {
+    it('should authenticate user if valid', () => {
       expect(user.authenticate('password')).to.be.true;
     });
 
-    it('should not authenticate user if invalid', function() {
+    it('should not authenticate user if invalid', () => {
       expect(user.authenticate('blah')).to.not.be.true;
     });
 
-    it('should remain the same hash unless the password is updated', function() {
+    it('should remain the same hash unless the password is updated', () => {
       user.name = 'Test User';
       return expect(user.save()
-        .then(function(u) {
+        .then(u => {
           return u.authenticate('password');
         })).to.eventually.be.true;
     });
