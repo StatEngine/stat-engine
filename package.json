@@ -235,6 +235,8 @@
   },
   "scripts": {
     "test": "gulp test",
+    "testserver": "mocha --compilers js:babel-register server/**/*.js",
+    "testserver-watch": "mocha --watch --compilers js:babel-register server/**/*.js",
     "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update",
     "start": "node server",
     "dev": "nodemon server",
