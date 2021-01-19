@@ -18,7 +18,10 @@ describe('previousTimeRange', () => {
     tf.end.should.equal('2018-05-16T08:00:00-04:00');
   });
 
-  it('shoud return previous day', () => {
+  /**
+   * Integration test - skip
+   */
+  xit('shoud return previous day', () => {
     const timeRange = {
       start: '2018-05-16T08:00:00-04:00',
       end: '2018-05-17T08:00:00-04:00',

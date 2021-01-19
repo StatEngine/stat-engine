@@ -42,6 +42,7 @@ describe('EventDurationSumRule', () => {
   it('expects only events over the threshold', () => {
     // eslint-disable-next-line no-unused-vars
     const expectedReport = [{
+      condenseRendering: true,
       default_visibility: true,
       rule: 'EventDurationSumRule',
       level: 'DANGER',
@@ -55,6 +56,7 @@ describe('EventDurationSumRule', () => {
       ],
     },
     {
+      condenseRendering: true,
       default_visibility: true,
       rule: 'EventDurationSumRule',
       level: 'DANGER',
