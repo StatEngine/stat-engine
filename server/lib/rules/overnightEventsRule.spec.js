@@ -39,6 +39,7 @@ describe('OvernightEventsRule', () => {
   it('expects both reports to be consolidated', () => {
     expect(rule.analyze()).to.deep.equal([
       {
+        condenseRendering: true,
         default_visibility: true,
         rule: 'OvernightEventsRule',
         level: 'DANGER',
@@ -52,6 +53,7 @@ describe('OvernightEventsRule', () => {
         ],
       },
       {
+        condenseRendering: true,
         default_visibility: true,
         rule: 'OvernightEventsRule',
         level: 'DANGER',
@@ -61,6 +63,7 @@ describe('OvernightEventsRule', () => {
         ],
       },
       {
+        condenseRendering: true,
         default_visibility: true,
         description: 'Unit response > 2 overnight',
         detailList: [
@@ -74,6 +77,7 @@ describe('OvernightEventsRule', () => {
         rule: 'OvernightEventsRule',
       },
       {
+        condenseRendering: true,
         default_visibility: true,
         description: 'Unit response > 2 overnight',
         detailList: [
