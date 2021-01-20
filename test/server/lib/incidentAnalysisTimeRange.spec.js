@@ -3,8 +3,8 @@ import util from 'util';
 
 import { buildFireIncidentQuery,
   previousTimeRange,
-  IncidentAnalysisTimeRange } from './incidentAnalysisTimeRange';
-import { Log } from '../util/log';
+  IncidentAnalysisTimeRange } from '../../../server/lib/incidentAnalysisTimeRange';
+import { Log } from '../../../server/util/log';
 
 describe('previousTimeRange', () => {
   it('shoud return previous hour', () => {
