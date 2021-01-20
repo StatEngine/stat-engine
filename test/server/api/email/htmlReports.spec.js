@@ -35,7 +35,7 @@ describe('HtmlReports', () => {
     });
   });
   describe('Event Duration Report', () => {
-    describe.skip('Test EventDurationSumRule & HtmlReports & HandlebarsEmailTemplate', () => {
+    describe('Test EventDurationSumRule & HtmlReports & HandlebarsEmailTemplate', () => {
       let eventDurationSumRuleWithData;
       let htmlReports;
       let reportOptions;
@@ -80,13 +80,16 @@ describe('HtmlReports', () => {
         ).template());
       });
       it('should generate Event Duration html report', () => {
-        const { outAlertsCondensed, outAlerts } = toData(eventDurationSumRuleWithData, reportOptions);
-
-        const html = htmlReports.report([outAlertsCondensed, outAlerts]);
+        const alertData = toData(eventDurationSumRuleWithData, reportOptions);
+        const emailData = {
+          options: reportOptions,
+          sections: [alertData],
+        };
+        const html = htmlReports.report(emailData);
         expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReportV2.html', 'utf-8'));
       });
     });
-    describe('Test HtmlReports & HandlebarsEmailTemplate', () => {
+    describe.skip('Test HtmlReports & HandlebarsEmailTemplate', () => {
       it('should create condensed Email Duration Report', () => {
         const data = {
           options: { sections: { showAlertSummary: true } },
