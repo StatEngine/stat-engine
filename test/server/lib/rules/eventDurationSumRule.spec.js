@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { EventDurationSumRule } from './eventDurationSumRule';
+import { EventDurationSumRule } from '../../../../server/lib/rules/eventDurationSumRule';
 
 function incident(unitName, duration) {
   return {

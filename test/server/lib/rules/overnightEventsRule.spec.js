@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { OvernightEventsRule } from './overnightEventsRule';
+import { OvernightEventsRule } from '../../../../server/lib/rules/overnightEventsRule';
 
 function incident(unitName, duration, count) {
   return {
