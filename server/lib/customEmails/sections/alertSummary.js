@@ -70,16 +70,21 @@ export async function alertSummary(emailData) {
  * @private
  */
 export function formatAlerts(alerts, reportOptions) {
-  const outAlerts = {
-    // the name matches a name in rules.js
+  // const outAlerts = {
+  //   // the name matches a name in rules.js
+  //   alerts: [],
+  // };
+  // const outAlertsCondensed = {
+  //   // the name matches a name in rules.js
+  //   condensedAlerts: [],
+  // };
+
+  const alertsData = {
     name: 'alerts',
-    content: [],
+    alerts: [],
+    condensedAlerts: [],
   };
-  const outAlertsCondensed = {
-    // the name matches a name in rules.js
-    name: 'condensedAlerts',
-    content: [],
-  };
+
   _.forEach(alerts, ruleViolations => {
     ruleViolations.forEach(violation => {
       if (violation.level === 'DANGER') {
@@ -92,20 +97,20 @@ export function formatAlerts(alerts, reportOptions) {
       const showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
       if (showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) {
         if (violation.condenseRendering) {
-          outAlertsCondensed.content.push(violation);
+          alertsData.condensedAlerts.push(violation);
         } else {
-          outAlerts.content.push(violation);
+          alertsData.alerts.push(violation);
         }
       }
     });
   });
-  if (outAlerts.content.length === 0 && outAlertsCondensed.content.length === 0) {
-    outAlerts.content.push({
+  if (alertsData.condensedAlerts.length === 0 && alertsData.alerts.length === 0) {
+    alertsData.alerts.push({
       rowColor: alertColors.warning.row,
       rowBorderColor: alertColors.warning.rowBorder,
       description: 'No alerts found for today',
       details: 'If this is unexpected, please contact support.',
     });
   }
-  return { outAlertsCondensed, outAlerts };
+  return alertsData;
 }

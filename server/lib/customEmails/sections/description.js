@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 
 import getRuleAnalysis from '../getRuleAnalysis';
-import { getShift, getShiftTimeFrame } from '../../shift';
+import { getShift } from '../../shift';
 
 export default async function description(emailData) {
   const ruleAnalysis = await getRuleAnalysis(emailData);
