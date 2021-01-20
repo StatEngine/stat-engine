@@ -2,10 +2,10 @@
 import { expect } from 'chai';
 import handlebars from 'handlebars';
 import fs from 'fs';
-import HtmlReports from './htmlReports';
-import { EventDurationSumRule } from '../../lib/rules/eventDurationSumRule';
-import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
-import { formatAlerts } from '../../lib/customEmails/sections/alertSummary';
+import HtmlReports from '../../../../server/api/email/htmlReports';
+import { EventDurationSumRule } from '../../../../server/lib/rules/eventDurationSumRule';
+import HandlebarsEmailTemplate from '../../../../server/api/email/templates/handlebarsEmailTemplate';
+import { formatAlerts } from '../../../../server/lib/customEmails/sections/alertSummary';
 
 
 describe('HtmlReports', () => {

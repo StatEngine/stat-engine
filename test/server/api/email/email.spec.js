@@ -1,7 +1,7 @@
 import 'chai/register-should';
 // import { setMergeVars } from './email.controller';
-import { TimeUnit } from '../../components/constants/time-unit';
-import { calculateTimeRange } from '../../lib/timeRangeUtils';
+import { TimeUnit } from '../../../../server/components/constants/time-unit';
+import { calculateTimeRange } from '../../../../server/lib/timeRangeUtils';
 
 describe('setMergeVars()', () => {
   // TODO: fix me
@@ -64,12 +64,14 @@ describe('setMergeVars()', () => {
     tr.end.should.equal('2018-05-17T08:00:00-04:00');
   });
 
+  // TODO: fix me
   it.skip('should calculate time range with no end date provided (WEEK)', () => {
     const tr = calculateTimeRange({ startDate: '2018-05-16T10:00:00-04:00', timeUnit: TimeUnit.Week, firecaresId: '93345' });
     tr.start.should.equal('2018-05-12T08:00:00-04:00');
     tr.end.should.equal('2018-05-19T08:00:00-04:00');
   });
 
+  // TODO: fix me
   it.skip('should calculate time range with no end date provided (MONTH)', () => {
     const tr = calculateTimeRange({ startDate: '2018-05-16T10:00:00-04:00', timeUnit: TimeUnit.Month, firecaresId: '93345' });
     tr.start.should.equal('2018-04-30T08:00:00-04:00');

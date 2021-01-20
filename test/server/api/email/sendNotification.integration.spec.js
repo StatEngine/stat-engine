@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import 'chai/register-should';
 import handlebars from 'handlebars';
-import sendNotification from './sendNotification';
-import HtmlReports from './htmlReports';
-import config from '../../config/environment';
-import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
+import sendNotification from '../../../../server/api/email/sendNotification';
+import HtmlReports from '../../../../server/api/email/htmlReports';
+import config from '../../../../server/config/environment';
+import HandlebarsEmailTemplate from '../../../../server/api/email/templates/handlebarsEmailTemplate';
 
 /**
   In order to run this test set these env properties:
