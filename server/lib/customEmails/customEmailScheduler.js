@@ -94,6 +94,7 @@ export default class CustomEmailScheduler {
     // first get all the enabled emails
     const where = { enabled: true };
     const enabledEmails = await listCustomEmails(where);
+    console.dir(enabledEmails);
     enabledEmails.forEach(emailData => {
       this.scheduleCustomEmail(emailData);
     });

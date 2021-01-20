@@ -3,7 +3,6 @@ import moment from 'moment';
 import { CustomEmail, Extension, ExtensionConfiguration } from '../../sqldb';
 import CustomEmailScheduler from '../../lib/customEmails/customEmailScheduler';
 import { getEmailHtml } from '../email/getEmailHtmlController';
-// import { _getShift } from '../../lib/customEmails/sections/description';
 import getFireDepartment from '../../lib/customEmails/fireDepartment';
 import getPreviewData from './preview';
 

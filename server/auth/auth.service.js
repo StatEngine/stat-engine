@@ -96,6 +96,12 @@ export function hasPermission(permissions) {
  * Checks if user has fire deparment and sets in request
  */
 export async function hasFireDepartment(req, res, next) {
+  // console.log('hasFireDepartment');
+  // console.log('USER');
+  // console.dir(req.user);
+  // console.log('QUERY');
+  // console.dir(req.query);
+
   if(req.user.isAdmin && req.query.firecaresId) {
     const fireDepartment = await FireDepartment.find({
       where: {

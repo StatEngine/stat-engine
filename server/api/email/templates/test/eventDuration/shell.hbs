@@ -1,3 +1,8 @@
 <div>This is a shell template
-  <div>{{> alerts }}</div>
+  <div>
+    {{!-- {{> alerts }} --}}
+    {{#each sections}}
+        {{> (lookup . 'name') parentOptions=../options }}
+    {{/each}}
+    </div>
 </div>

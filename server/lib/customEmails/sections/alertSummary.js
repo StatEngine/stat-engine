@@ -4,21 +4,83 @@ import _ from 'lodash';
 import getRuleAnalysis from '../getRuleAnalysis';
 import { alertColors } from '../../../api/email/sendNotificationControllerConstants';
 
-export default async function alertSummary(emailData) {
+export async function alertSummary(emailData) {
   const analysis = await getRuleAnalysis(emailData);
   const ruleAnalysis = analysis.ruleAnalysis();
   return formatAlerts(ruleAnalysis);
 }
 
-export function formatAlerts(ruleAnalysis) {
-  const mergeVar = {
-    name: 'alerts',
-    alerts: [],
-  };
-  // console.log('FORMAT ALERTS');
-  // console.dir(ruleAnalysis, { depth: null });
+// export function formatAlerts(ruleAnalysis) {
+//   const mergeVar = {
+//     name: 'alerts',
+//     content: [],
+//   };
 
-  _.forEach(ruleAnalysis, ruleViolations => {
+//   _.forEach(ruleAnalysis, ruleViolations => {
+//     ruleViolations.forEach(violation => {
+//       if (violation.level === 'DANGER') {
+//         violation.rowColor = alertColors.danger.row;
+//         violation.rowBorderColor = alertColors.danger.rowBorder;
+//       } else if (violation.level === 'WARNING') {
+//         violation.rowColor = alertColors.warning.row;
+//         violation.rowBorderColor = alertColors.warning.rowBorder;
+//       }
+//       mergeVar.content.push(violation);
+//     });
+//   });
+
+//   // if no alerts
+//   if (mergeVar.content.length === 0) {
+//     mergeVar.content.push({
+//       rowColor: alertColors.success.row,
+//       rowBorderColor: alertColors.success.rowBorder,
+//       description: 'No alerts',
+//       details: 'Keep up the good work!',
+//     });
+//   }
+
+//   // Add a space after any comma without one after it.
+//   mergeVar.content.forEach(alert => {
+//     // for condensed alerts, details are in an array
+//     if (alert.condenseRendering) {
+//       alert.detailList.forEach(detail => {
+//         detail.detail = addSpaceAfterComma(detail.detail);
+//       });
+//     } else {
+//       // non-condensed alerts' details are just a string
+//       alert.details = addSpaceAfterComma(alert.details);
+//     }
+//   });
+
+//   return mergeVar;
+// }
+
+// function addSpaceAfterComma(theString) {
+//   return theString.replace(/(,(?=\S))/g, ', ');
+// }
+
+/**
+ * Add colors to the alerts based on the level of the alerts: DANGER and WARNING.
+ * Writes alerts to two objects, one object for regular alerts, one object for condensed alerts.
+ * Condensed alerts are rendered using condensed layout.
+ *
+ * @param alerts alerts to add colors to
+ * @param reportOptions report options
+ * @returns {{outAlerts: {name: string, content: []}, outAlertsCondensed: {name: string, content: []}}} condensed alerts object and regular alerts object
+ * @private
+ */
+export function formatAlerts(alerts, reportOptions) {
+  const outAlerts = {
+    // the name matches a name in rules.js
+    name: 'alerts',
+    content: [],
+  };
+  const outAlertsCondensed = {
+    // the name matches a name in rules.js
+    name: 'condensedAlerts',
+    content: [],
+  };
+  _.forEach(alerts, ruleViolations => {
     ruleViolations.forEach(violation => {
       if (violation.level === 'DANGER') {
         violation.rowColor = alertColors.danger.row;
@@ -27,24 +89,23 @@ export function formatAlerts(ruleAnalysis) {
         violation.rowColor = alertColors.warning.row;
         violation.rowBorderColor = alertColors.warning.rowBorder;
       }
-      mergeVar.alerts.push(violation);
+      const showAlert = _.get(reportOptions, `sections.showAlertSummary[${violation.rule}]`);
+      if (showAlert || (_.isUndefined(showAlert) && violation.default_visibility)) {
+        if (violation.condenseRendering) {
+          outAlertsCondensed.content.push(violation);
+        } else {
+          outAlerts.content.push(violation);
+        }
+      }
     });
   });
-
-  // if no alerts
-  if (mergeVar.alerts.length === 0) {
-    mergeVar.alerts.push({
-      rowColor: alertColors.success.row,
-      rowBorderColor: alertColors.success.rowBorder,
-      description: 'No alerts',
-      details: 'Keep up the good work!',
+  if (outAlerts.content.length === 0 && outAlertsCondensed.content.length === 0) {
+    outAlerts.content.push({
+      rowColor: alertColors.warning.row,
+      rowBorderColor: alertColors.warning.rowBorder,
+      description: 'No alerts found for today',
+      details: 'If this is unexpected, please contact support.',
     });
   }
-
-  // Add a space after any comma without one after it.
-  mergeVar.alerts.forEach(alert => {
-    alert.details = alert.details.replace(/(,(?=\S))/g, ', ');
-  });
-
-  return mergeVar;
+  return { outAlertsCondensed, outAlerts };
 }

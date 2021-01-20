@@ -9,7 +9,7 @@ import { formatAlerts } from '../../../../server/lib/customEmails/sections/alert
 
 
 describe('HtmlReports', () => {
-  describe('fundamental tests', () => {
+  describe.skip('fundamental tests', () => {
     describe('error path tests', () => {
       it('should throw an exception when report data is missing', () => {
         const htmlReports = new HtmlReports();
@@ -38,6 +38,7 @@ describe('HtmlReports', () => {
     describe('Test EventDurationSumRule & HtmlReports & HandlebarsEmailTemplate', () => {
       let eventDurationSumRuleWithData;
       let htmlReports;
+      let reportOptions;
       beforeEach(() => {
         // 1 minute in seconds
         const ruleParams = { threshold: 60 };
@@ -70,6 +71,8 @@ describe('HtmlReports', () => {
         eventDurationSumRuleWithData = new EventDurationSumRule(ruleParams);
         eventDurationSumRuleWithData.setResults(incidents);
 
+        reportOptions = { sections: { showAlertSummary: true } };
+
         htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
           handlebars,
           'server/api/email/templates/test/eventDuration/shell.hbs',
@@ -77,7 +80,11 @@ describe('HtmlReports', () => {
         ).template());
       });
       it('should generate Event Duration html report', () => {
-        const { outAlertsCondensed, outAlerts } = toData(eventDurationSumRuleWithData);
+        const ary = ['a', 'b', 'c'];
+        console.log('TEST');
+        console.log(ary);
+        const { outAlertsCondensed, outAlerts } = toData(eventDurationSumRuleWithData, reportOptions);
+
         const html = htmlReports.report([outAlertsCondensed, outAlerts]);
         expect(html).to.equal(fs.readFileSync('server/api/email/test/data/EventDurationHtmlReportV2.html', 'utf-8'));
       });
@@ -148,10 +155,12 @@ describe('HtmlReports', () => {
   });
 });
 
-function toData(rule) {
+function toData(rule, reportOptions) {
   const analysis = rule.analyze();
-  const reportOptions = {};
-  return formatAlerts([analysis], reportOptions);
+  const formatted = formatAlerts([analysis], reportOptions);
+  console.log('FORMATTED DATA');
+  console.dir(formatted);
+  return formatted;
 }
 
 function incident(unitName, duration) {

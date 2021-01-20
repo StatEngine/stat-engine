@@ -17,32 +17,7 @@ export default class HtmlReports {
    * @param asObject boolean. if true, then convert data to an object
    * @returns {string} report in html format
    */
-  report(data, asObject = true) {
-    if (asObject) {
-      // TODO this hack needs to be removed
-      const fromArrayToObject1 = fromArrayToObject(data);
-      // TODO this hack needs to be removed
-      fromArrayToObject1.parentOptions = { sections: { showAlertSummary: true } };
-
-      return this.template(fromArrayToObject1);
-    }
+  report(data) {
     return this.template(data);
   }
 }
-
-/**
- * Convert array reports to object
- *
- * @param data reports in form of an array
- * @returns {*} reports in the form of an object
- */
-function fromArrayToObject(data) {
-  if (!data || data.length === 0) {
-    throw new Error('Data must be provided');
-  }
-  return data.reduce((acc, mergeVar) => {
-    acc[mergeVar.name] = mergeVar.content;
-    return acc;
-  }, {});
-}
-

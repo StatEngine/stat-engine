@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { Extension, ExtensionConfiguration } from '../../sqldb';
-import { queryUpdate } from '../../api/custom-email/custom-email.controller';
+import { queryUpdate, queryFindOne as findCustomEmail } from '../../api/custom-email/custom-email.controller';
 import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
 import sendNotification from '../../api/email/sendNotification';
 import description from './sections/description';
@@ -9,21 +9,27 @@ import getSectionFuncs from './getSectionFuncs';
 import { getShiftTimeRange } from '../shift';
 import getFireDepartment from './fireDepartment';
 
-export default async function buildEmailContentAndSend(emailData) {
-  emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
+export default async function buildEmailContentAndSend(req, res) {
+  console.dir(req.body);
+  console.log('BUILD CONTENT AND SEND');
+  res.send('YAR');
 
-  const mergeVars = await buildMergeVars(emailData);
+  // const enabledEmails = await findCustomEmail(req.body);
+  
+  // emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
 
-  console.log('GOT MERGE VARS');
-  console.dir(mergeVars);
+  // const mergeVars = await buildMergeVars(emailData);
 
-  const html = await getCustomEmailHtml(mergeVars);
+  // console.log('GOT MERGE VARS');
+  // console.dir(mergeVars);
 
-  await Promise.all(sendEmails(emailData, mergeVars, html));
+  // const html = await getCustomEmailHtml(mergeVars);
 
-  // finally, update last_sent time
-  emailData.last_sent = moment().format();
-  return queryUpdate(emailData._id, emailData);
+  // await Promise.all(sendEmails(emailData, mergeVars, html));
+
+  // // finally, update last_sent time
+  // emailData.last_sent = moment().format();
+  // return queryUpdate(emailData._id, emailData);
 }
 
 function sendEmails(emailData, mergeVars, html) {
