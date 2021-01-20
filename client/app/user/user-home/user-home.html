@@ -1,5 +1,8 @@
 <div class="user-home">
   <div class="br-pagetitle">
+    <div>
+      <validation-check ng-if="vm.principal.isGlobal && vm.validation.items.length > 0" incidents="vm.validation"/>
+    </div>
     <section class="welcome">
       <div class="row">
         <div class="col-lg welcome-message">
@@ -35,6 +38,7 @@
               </div>
             </div>
           </div>
+
 
           <div class="mg-b-0 mg-t-10">
             <div ng-if="vm.homeless">
