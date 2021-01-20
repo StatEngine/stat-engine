@@ -18,10 +18,7 @@ describe('previousTimeRange', () => {
     tf.end.should.equal('2018-05-16T08:00:00-04:00');
   });
 
-  /**
-   * Integration test - skip
-   */
-  xit('shoud return previous day', () => {
+  it('shoud return previous day', () => {
     const timeRange = {
       start: '2018-05-16T08:00:00-04:00',
       end: '2018-05-17T08:00:00-04:00',
@@ -45,7 +42,7 @@ describe('previousTimeRange', () => {
 });
 
 
-xdescribe('Incident Analysis Time Range', () => {
+describe('Incident Analysis Time Range', () => {
   it('should construct', () => {
     const analysis = new IncidentAnalysisTimeRange({
       index: 'i1',
@@ -53,10 +50,11 @@ xdescribe('Incident Analysis Time Range', () => {
     });
   });
 
+
   /**
-   * Integration test - skipp
+   * Integration test - skip
    */
-  it('should run query', done => {
+  xit('should run query', done => {
     const analysis = new IncidentAnalysisTimeRange({
       index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
       timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' },
@@ -72,7 +70,7 @@ xdescribe('Incident Analysis Time Range', () => {
   /**
    * Integration test - skip
    */
-  it('should run analysis', done => {
+  xit('should run analysis', done => {
     const analysis = new IncidentAnalysisTimeRange({
       index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
       timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' },
