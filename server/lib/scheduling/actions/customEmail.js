@@ -1,4 +1,4 @@
-import buildEmailContentAndSend from '../../customEmails/buildEmailContentAndSend';
+import buildEmailContentAndSend from '../../emails/buildAndSendEmails';
 
 import Action from './action';
 

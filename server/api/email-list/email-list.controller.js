@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import getFireDepartment from '../../lib/customEmails/fireDepartment';
+import getFireDepartment from '../../lib/emails/fireDepartment';
 
 export async function emailList(req, res) {
   const fdId = req.user.dataValues.FireDepartment.dataValues.fd_id;

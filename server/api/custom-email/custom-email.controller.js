@@ -1,9 +1,9 @@
 import moment from 'moment';
 
 import { CustomEmail, Extension, ExtensionConfiguration } from '../../sqldb';
-import CustomEmailScheduler from '../../lib/customEmails/customEmailScheduler';
+import CustomEmailScheduler from '../../lib/emails/customEmailScheduler';
 import { getEmailHtml } from '../email/getEmailHtmlController';
-import getFireDepartment from '../../lib/customEmails/fireDepartment';
+import getFireDepartment from '../../lib/emails/fireDepartment';
 import getPreviewData from './preview';
 
 export async function queryFindAll(where) {
@@ -126,3 +126,28 @@ export async function preview(req, res) {
   const html = getEmailHtml(mergeVars);
   res.json({ html });
 }
+
+// export async function customEmailController(req, res) {
+//   console.dir(req.body);
+//   console.log('BUILD CONTENT AND SEND');
+//   const { emailConfigId } = req.body;
+//   const emailData = await findCustomEmailConfig(emailConfigId);
+//   res.json(emailData);
+
+//   // const enabledEmails = await findCustomEmail(req.body);
+  
+//   // emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
+
+//   // const mergeVars = await buildMergeVars(emailData);
+
+//   // console.log('GOT MERGE VARS');
+//   // console.dir(mergeVars);
+
+//   // const html = await getCustomEmailHtml(mergeVars);
+
+//   // await Promise.all(sendEmails(emailData, mergeVars, html));
+
+//   // // finally, update last_sent time
+//   // emailData.last_sent = moment().format();
+//   // return queryUpdate(emailData._id, emailData);
+// }

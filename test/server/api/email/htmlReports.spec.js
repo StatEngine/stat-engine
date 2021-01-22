@@ -5,7 +5,7 @@ import fs from 'fs';
 import HtmlReports from '../../../../server/api/email/htmlReports';
 import { EventDurationSumRule } from '../../../../server/lib/rules/eventDurationSumRule';
 import HandlebarsEmailTemplate from '../../../../server/api/email/templates/handlebarsEmailTemplate';
-import { formatAlerts } from '../../../../server/lib/customEmails/sections/alertSummary';
+import { formatAlerts } from '../../../../server/lib/emails/sections/alertSummary';
 
 
 describe('HtmlReports', () => {

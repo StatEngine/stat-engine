@@ -52,9 +52,9 @@ export default function(app) {
   app.use('/subscriptionPortal', require('./subscription'));
 
   // All routes after this point are csrf protected
-  app.use(lusca.csrf({
-    angular: true,
-  }));
+  // app.use(lusca.csrf({
+  //   angular: true,
+  // }));
 
   // Authentication
   app.use('/auth', require('./auth').default);

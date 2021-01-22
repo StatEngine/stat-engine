@@ -3,13 +3,12 @@ import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
 import { getEmailHtmlController } from './getEmailHtmlController';
-import buildEmailContentAndSend from '../../lib/customEmails/buildEmailContentAndSend';
-
+import { emailController, customEmailController } from './emailController';
 
 const router = new Router();
 
 router.post(
-  '/v2/getEmailHtml',
+  '/getEmailHtml',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   bodyParser.json(),
@@ -18,13 +17,23 @@ router.post(
 );
 
 router.post(
-  '/v2/customEmail',
+  '/customEmail',
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
   bodyParser.json(),
   auth.hasFireDepartment,
-  buildEmailContentAndSend,
+  customEmailController,
 );
+
+router.post(
+  '/notificationEmail',
+  auth.isApiAuthenticated,
+  auth.hasRole('department_admin'),
+  bodyParser.json(),
+  auth.hasFireDepartment,
+  emailController,
+);
+
 module.exports = router;
 
 export default router;
