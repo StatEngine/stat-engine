@@ -1,13 +1,18 @@
 import moment from 'moment';
+import _ from 'lodash';
 
-import { Extension, ExtensionConfiguration } from '../../sqldb';
+import { Extension, ExtensionConfiguration, FireDepartment, User } from '../../sqldb';
 import { queryUpdate, queryFindOne as findCustomEmailConfig } from '../../api/custom-email/custom-email.controller';
 import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
 import sendNotification from '../../api/email/sendNotification';
-import description from './sections/description';
+import { description as descriptionSection } from './sections/description';
 import getSectionFuncs from './getSectionFuncs';
 import { getShiftTimeRange } from '../shift';
 import getFireDepartment from './fireDepartment';
+import { TimeUnit } from '../../components/constants/time-unit';
+import { calculateTimeRange } from '../../lib/timeRangeUtils';
+import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
+import { getReportOptions, getEmailList } from './notificationEmailHelpers';
 
 export async function handleCustomEmail(emailConfigId) {
   // console.dir(req.body);
@@ -34,20 +39,73 @@ export async function handleCustomEmail(emailConfigId) {
   // return queryUpdate(emailData._id, emailData);
 }
 
+
 export async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment) {
-  return fireDepartment;
+  const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
+
+  const timeRange = calculateTimeRange({
+    startDate,
+    endDate,
+    timeUnit: reportOptions.timeUnit,
+    firecaresId: fireDepartment.firecares_id,
+    previous,
+  });
+
+  const analysis = new IncidentAnalysisTimeRange({
+    index: fireDepartment.es_indices['fire-incident'],
+    timeRange,
+  });
+
+  const comparison = await analysis.compare();
+  const ruleAnalysis = await analysis.ruleAnalysis();
+
+  const sections = getNotificationEmailSections();
+
+  const sectionData = await getMergeVars({ sections, fireDepartment, timeRange, ruleAnalysis, comparison, reportOptions });
+
+  const description = await descriptionSection(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
+
+  const mergeVars = {
+    description,
+    options: reportOptions,
+    sections: sectionData,
+  };
+  const emailList = ['paul@prominentedge.com'];// await getEmailList(reportOptions, fireDepartment._id);
+
+  console.log('handleNotificationEmail');
+  console.dir(mergeVars.sections);
+
+  const html = await getCustomEmailHtml(mergeVars);
+
+  await Promise.all(sendEmails(emailList, mergeVars, html));
+
+  return mergeVars;
 }
 
-function sendEmails(emailData, mergeVars, html) {
-  // const promises = emailData.email_list.map(email => {
-  //   const to = email;
-  //   const subject = mergeVars.description.title;
-  //   return sendNotification(to, subject, html);
-  // });
-  const to = 'paul@prominentedge.com';
-  const subject = mergeVars.description.title;
+function getNotificationEmailSections() {
+  return [
+    { type: 'agencyIncidentTypeSummary' },
+    // { type: 'agencySummary' },
+    // { type: 'alertSummary' },
+    // { type: 'battalionSummary' },
+    // { type: 'incidentSummary' },
+    // { type: 'incidentTypeSummary' },
+    // { type: 'jurisdictionSummary' },
+    // { type: 'unitSummary' },
 
-  const promises = [sendNotification(to, subject, html)];
+  ];
+}
+
+function sendEmails(emailList, mergeVars, html) {
+  const promises = emailList.map(email => {
+    const to = email;
+    const subject = mergeVars.description.title;
+    return sendNotification(to, subject, html);
+  });
+  // const to = 'paul@prominentedge.com';
+  // const subject = mergeVars.description.title;
+
+  // const promises = [sendNotification(to, subject, html)];
   return promises;
 }
 
@@ -97,21 +155,29 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-async function getMergeVars(emailData) {
+
+async function getMergeVars(params) {
   const sectionFuncs = getSectionFuncs();
-  emailData.timeRange = getTimeRange(emailData);
-  // console.log('timeRange');
-  // console.dir(emailData.timeRange);
-  let promises = emailData.sections.map(section => {
+  const promises = params.sections.map(section => {
     if (sectionFuncs[section.type]) {
-      return sectionFuncs[section.type](emailData);
+      return sectionFuncs[section.type](params);
     }
     return null;
   });
-  promises = promises.map(p => p);
   const mergeVars = await Promise.all(promises);
+  return mergeVars;
+  // const sectionFuncs = getSectionFuncs();
+  // emailData.timeRange = getTimeRange(emailData);
+  // let promises = emailData.sections.map(section => {
+  //   if (sectionFuncs[section.type]) {
+  //     return sectionFuncs[section.type](emailData);
+  //   }
+  //   return null;
+  // });
+  // promises = promises.map(p => p);
+  // const mergeVars = await Promise.all(promises);
 
-  return { sections: mergeVars };
+  // return { sections: mergeVars };
 }
 
 function getTimeRange(emailData) {

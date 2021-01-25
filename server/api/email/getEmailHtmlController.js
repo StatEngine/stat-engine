@@ -28,5 +28,5 @@ export function getCustomEmailHtml(mergeVars) {
     config.mailSettings.emailShellCustomTemplatePath,
     config.mailSettings.emailPartialsTemplatePath,
   ).template());
-  return htmlReports.report(mergeVars, false);
+  return htmlReports.report(mergeVars);
 }

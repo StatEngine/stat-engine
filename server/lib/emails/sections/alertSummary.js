@@ -1,13 +1,15 @@
 /* eslint-disable no-use-before-define */
 import _ from 'lodash';
 
-import getRuleAnalysis from '../getRuleAnalysis';
+// import getRuleAnalysis from '../getRuleAnalysis';
 import { alertColors } from '../../../api/email/sendNotificationControllerConstants';
 
-export async function alertSummary(emailData) {
-  const analysis = await getRuleAnalysis(emailData);
-  const ruleAnalysis = analysis.ruleAnalysis();
-  return formatAlerts(ruleAnalysis);
+export async function alertSummary(params) {
+  // const analysis = await getRuleAnalysis(emailData);
+  // const ruleAnalysis = analysis.ruleAnalysis();
+  // return formatAlerts(ruleAnalysis);
+  const { ruleAnalysis, reportOptions } = params;
+  return formatAlerts(ruleAnalysis, reportOptions);
 }
 
 // export function formatAlerts(ruleAnalysis) {
