@@ -4,7 +4,7 @@ import _ from 'lodash';
 // import getRuleAnalysis from '../getRuleAnalysis';
 import { alertColors } from '../../../api/email/sendNotificationControllerConstants';
 
-export async function alertSummary(params) {
+export default async function alertSummary(params) {
   // const analysis = await getRuleAnalysis(emailData);
   // const ruleAnalysis = analysis.ruleAnalysis();
   // return formatAlerts(ruleAnalysis);
@@ -71,7 +71,7 @@ export async function alertSummary(params) {
  * @returns {{outAlerts: {name: string, content: []}, outAlertsCondensed: {name: string, content: []}}} condensed alerts object and regular alerts object
  * @private
  */
-export function formatAlerts(alerts, reportOptions) {
+function formatAlerts(alerts, reportOptions) {
   // const outAlerts = {
   //   // the name matches a name in rules.js
   //   alerts: [],

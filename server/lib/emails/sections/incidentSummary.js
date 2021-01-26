@@ -29,7 +29,7 @@ function formatFireDepartmentMetrics(comparison, options) {
     const data = _.get(comparison.fireDepartment, path);
 
     if (!condition || (condition && _.get(options, condition))) {
-      mergeVar.content.push(_.merge({}, { label }, data));
+      mergeVar.fireDepartmentMetrics.push(_.merge({}, { label }, data));
     }
   });
 

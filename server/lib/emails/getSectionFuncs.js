@@ -1,6 +1,6 @@
 import agencyIncidentTypeSummary from './sections/agencyIncidentTypeSummary';
 import agencySummary from './sections/agencySummary';
-import { alertSummary } from './sections/alertSummary';
+import alertSummary from './sections/alertSummary';
 import battalionSummary from './sections/battalionSummary';
 import incidentSummary from './sections/incidentSummary';
 import incidentTypeSummary from './sections/incidentTypeSummary';
