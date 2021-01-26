@@ -13,8 +13,8 @@ export async function addFixtureTemplatesToDatabase(req, res) {
 export async function getValidationHealth(req, res) {
   try {
     const body = bodybuilder()
-      .size(10000)
-      .filter('term', 'validation.valid', false)
+      .query('term', 'validation.valid', false)
+      .size(1000)
       .build();
 
     const params = {
