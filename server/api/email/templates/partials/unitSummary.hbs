@@ -50,7 +50,7 @@
                             </span>
                 </th>
 
-                {{#if options.showtransports}}
+                {{#if options.showTransports}}
                     <th style="text-align: left;">
                         <span style="font-size:14px">
                             <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
@@ -61,7 +61,7 @@
                     </th>
                 {{/if}} 
                 
-                {{#if options.showdistances}}
+                {{#if options.showDistances}}
                 <th style="text-align: left;">
                     <span style="font-size:14px">
                         <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
@@ -72,7 +72,7 @@
                 </th>
                 {{/if}}
 
-                {{#if options.showutilization}}
+                {{#if options.showUtilization}}
                     <th style="text-align: left;">
                         <span style="font-size:14px">
                             <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
@@ -107,7 +107,7 @@
                     <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                     <td style="text-align: left;">
-                    <span style="font-size:14px">{{this.incidentcount.val}}</span>
+                    <span style="font-size:14px">{{this.incidentCount.val}}</span>
 
                     {{#if parentOptions.showPercentChange}}
             
@@ -239,24 +239,44 @@
 
                     <td style="text-align: left;">
                         
-                    {{#if options.showpercentchange}}
+                    {{#if parentOptions.showPercentChange}}
                         <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{#if `this.emsTurnoutDurationPercentile90.percentchange > 0`}}
-                        <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentchange}}%</span> {{elseif `this.emsTurnoutDurationPercentile90.percentchange
-                        < 0`}} <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentchange}}%</span>
-                        {{elseif `this.emsTurnoutDurationPercentile90.percentchange = 0`}}
-                        <span style="font-size:10px;color:#6c757d"></span> {{else}}
+                    
+                        {{#if this.emsTurnoutDurationPercentile90.percentchange}}
+
+                            {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
+                                <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                            {{/compare}}
+                            
+                            {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}}
+                                <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                            {{/compare}}
+
+                            {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
+                                <span style="font-size:10px;color:#6c757d"></span> 
+                            {{/compare}}
+                        
+                        {{else}}
                         <span style="font-size:10px;color:#6c757d">(NA)</span></div>
 
                         {{/if}}
-                    {{ else }}
-                        {{#if `this.emsTurnoutDurationPercentile90.val < 60`}}
-                        <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{elseif `this.emsTurnoutDurationPercentile90.val < 100`}}
-                        <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{ else }}
-                        <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{/if}}
+
+                    {{else}}
+
+                        {{#compare this.emsTurnoutDurationPercentile90.val "<" 60}}
+                            <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                        {{/compare}}
+
+                        {{#compare this.emsTurnoutDurationPercentile90.val ">=" 60}}
+                            {{#compare this.emsTurnoutDurationPercentile90.val "<" 100}}
+                                <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                            {{/compare}}
+                        {{/compare}}
+                        
+                        {{#compare this.emsTurnoutDurationPercentile90.val ">=" 100}}
+                            <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                        {{/compare}}
+                        
                     {{/if}}
 
                     {{#if parentOptions.showPercentChange}}
@@ -278,14 +298,7 @@
                         {{/if}}
 
                     {{else}}
-                        {{!-- {{#if `this.emsTurnoutDurationPercentile90.val < 60`}}
-                            <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{elseif `this.emsTurnoutDurationPercentile90.val < 100`}}
-                            <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{ else }}
-                            <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{/if}} --}}
-
+                    
                         {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 60}}
                             <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
                         {{/compare}}

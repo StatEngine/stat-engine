@@ -55,18 +55,18 @@
                   <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
 
                   <td style="text-align: left;">
-                    <span style="font-size:14px">{{this.incidentcount.val}}</span>
-                    {{#if options.showpercentchange}}
+                    <span style="font-size:14px">{{this.incidentCount.val}}</span>
+                    {{#if options.showPercentChange}}
 
-                      {{#compare this.incidentcount.percentchange ">" 0}}
-                        <span style="font-size:10px;color:#dc3545">▲ {{this.incidentcount.percentchange}}%</span>
+                      {{#compare this.incidentCount.percentChange ">" 0}}
+                        <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
                       {{/compare}}
 
-                      {{#compare this.incidentcount.percentchange "<" 0}} 
-                        <span style="font-size:10px;color:#28a745">▼ {{this.incidentcount.percentchange}}%</span>
+                      {{#compare this.incidentCount.percentChange "<" 0}} 
+                        <span style="font-size:10px;color:#28a745">▼ {{this.incidentCount.percentChange}}%</span>
                       {{/compare}}
                       
-                      {{#compare this.incidentcount.percentchange "=" 0}}
+                      {{#compare this.incidentCount.percentChange "=" 0}}
                         <span style="font-size:10px;color:#6c757d"></span>
                       {{/compare}}
 
