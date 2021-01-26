@@ -1,21 +1,11 @@
 import _ from 'lodash';
 
-import { IncidentAnalysisTimeRange } from '../../incidentAnalysisTimeRange';
-
-export default async function incidentSummary(emailData) {
-  const index = emailData.fireDepartment.es_indices['fire-incident'];
-  const incidentAnalysisTimeRangeParams = {
-    index,
-    timeRange: emailData.timeRange,
-  };
-  const analysis = new IncidentAnalysisTimeRange(incidentAnalysisTimeRangeParams);
-
-  const comparison = await analysis.compare();
-
-  return formatFireDepartmentMetrics(comparison);
+export default async function incidentSummary(params) {
+  const { comparison, reportOptions } = params;
+  return formatFireDepartmentMetrics(comparison, reportOptions);
 }
 
-function formatFireDepartmentMetrics(comparison) {
+function formatFireDepartmentMetrics(comparison, options) {
   const mergeVar = {
     name: 'fireDepartmentMetrics',
     fireDepartmentMetrics: [],
@@ -34,9 +24,13 @@ function formatFireDepartmentMetrics(comparison) {
   ];
 
   metrics.forEach(metric => {
-    const [label, path] = metric;
+    const [label, path, condition] = metric;
+
     const data = _.get(comparison.fireDepartment, path);
-    mergeVar.content.push(_.merge({}, { label }, data));
+
+    if (!condition || (condition && _.get(options, condition))) {
+      mergeVar.content.push(_.merge({}, { label }, data));
+    }
   });
 
   return mergeVar;
