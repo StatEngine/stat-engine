@@ -1,8 +1,23 @@
-<div class="alert alert-danger" role="alert">
-  <h3>Validation Errors: {{ vm.incidents.count }}</h3>
-  <ul>
-    <li ng-repeat='error in vm.incidents.items | limitTo: 5'>
-      <p class="text-danger"> - {{ error._source.validation.errorsText }}</p>
-    </li>
-  </ul>
+<div>
+  <div class="alert alert-danger" role="alert" ng-if="!vm.incidents.count === 0">
+    <div class="flex-space-between-center">
+      <div>Validation Errors Detected.</div>
+      <button class="btn btn-danger btn-sm" ng-click="vm.showDetails()">
+        {{ vm.show ? "Hide" : "Show" }} Details
+      </button>
+    </div>
+
+    <div ng-if="vm.show">
+      <hr />
+      <div>Validation Errors: {{ vm.incidents.count }}</div>
+      <ul>
+        <li ng-repeat='error in vm.incidents.items | limitTo: 5'>
+          <p class="text-danger"> - {{ error._source.validation.errorsText }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="alert alert-success" role="alert" ng-if="vm.incidents.count === 0">
+    No Validation Errors detected. Good job!
+  </div>
 </div>

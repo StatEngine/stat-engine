@@ -120,7 +120,7 @@ export default class UserHomeController {
     if (this.principal.isGlobal) {
       this.homeless = false;
       this.pending = false;
-      this.validation = await this.getValidationHealth();
+      this.validation = await this.getValidationHealth(5);
     }
 
     this.setFireDepartment = fd => {
@@ -154,9 +154,9 @@ export default class UserHomeController {
     };
   }
 
-  async getValidationHealth() {
+  async getValidationHealth(limit = 5) {
     try {
-      const response = await this.$http.get('/api/admin/getValidationHealth');
+      const response = await this.$http.get(`/api/admin/getValidationHealth?limit=${limit}`);
       return {
         items: response.data.items,
         count: response.data.totalItems,
