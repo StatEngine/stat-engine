@@ -1,4 +1,6 @@
-import { handleCustomEmail, handleNotificationEmail } from '../../lib/emails/buildAndSendEmails';
+import handleNotificationEmail from '../../lib/emails/notificationEmails';
+import handleCustomEmail from '../../lib/emails/customEmails';
+
 export async function emailController(req, res) {
   const configId = req.query.configurationId;
   const startDate = req.query.startDate;

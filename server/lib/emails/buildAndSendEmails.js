@@ -39,64 +39,7 @@ export async function handleCustomEmail(emailConfigId) {
   // return queryUpdate(emailData._id, emailData);
 }
 
-
-export async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment) {
-  const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
-
-  const timeRange = calculateTimeRange({
-    startDate,
-    endDate,
-    timeUnit: reportOptions.timeUnit,
-    firecaresId: fireDepartment.firecares_id,
-    previous,
-  });
-
-  const analysis = new IncidentAnalysisTimeRange({
-    index: fireDepartment.es_indices['fire-incident'],
-    timeRange,
-  });
-
-  const comparison = await analysis.compare();
-  const ruleAnalysis = await analysis.ruleAnalysis();
-
-  const sections = getNotificationEmailSections();
-
-  const sectionData = await getMergeVars({ sections, fireDepartment, timeRange, ruleAnalysis, comparison, reportOptions });
-
-  const description = await descriptionSection(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
-
-  const mergeVars = {
-    description,
-    options: reportOptions,
-    sections: sectionData,
-  };
-  const emailList = ['paul@prominentedge.com'];// await getEmailList(reportOptions, fireDepartment._id);
-
-  console.log('handleNotificationEmail');
-  console.dir(mergeVars.sections);
-
-  const html = await getCustomEmailHtml(mergeVars);
-
-  await Promise.all(sendEmails(emailList, mergeVars, html));
-
-  return mergeVars;
-}
-
-function getNotificationEmailSections() {
-  return [
-    { type: 'agencyIncidentTypeSummary' },
-    // { type: 'agencySummary' },
-    // { type: 'alertSummary' },
-    // { type: 'battalionSummary' },
-    // { type: 'incidentSummary' },
-    // { type: 'incidentTypeSummary' },
-    // { type: 'jurisdictionSummary' },
-    // { type: 'unitSummary' },
-
-  ];
-}
-
-function sendEmails(emailList, mergeVars, html) {
+export function sendEmails(emailList, mergeVars, html) {
   const promises = emailList.map(email => {
     const to = email;
     const subject = mergeVars.description.title;
@@ -156,7 +99,7 @@ function capitalize(str) {
 }
 
 
-async function getMergeVars(params) {
+export async function getMergeVars(params) {
   const sectionFuncs = getSectionFuncs();
   const promises = params.sections.map(section => {
     if (sectionFuncs[section.type]) {
