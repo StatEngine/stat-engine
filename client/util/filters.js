@@ -1,9 +1,11 @@
+import _ from 'lodash';
+
 function escapeRegExp(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function convertWildcardStringToRegExp(expression) {
-  let terms = expression.split('*');
+  const terms = expression.split('*');
 
   let trailingWildcard = false;
 
@@ -25,7 +27,7 @@ function convertWildcardStringToRegExp(expression) {
     expr += '.*';
   }
 
-  return new RegExp('^' + expr + '$', 'i');
+  return new RegExp(`^${expr}$`, 'i');
 }
 
 const compose = (...fns) => fns.reduce((f, g) => (...xs) => {
@@ -33,24 +35,24 @@ const compose = (...fns) => fns.reduce((f, g) => (...xs) => {
   return f(r);
 });
 
-export const applyUnitFilters = (units, filterConfiguration) => {
-  const wildcardFilters = filterConfiguration.config_json.wildcards && filterConfiguration.config_json.wildcards
+const applyUnitFilters = (units, filterConfiguration) => {
+  const wildcardFilters = filterConfiguration.config_json.wildcards
     .map(wildcard => convertWildcardStringToRegExp(wildcard))
     .map(regex => value => value.filter(item => !regex.test(item.id))) || [];
 
-  const individualFilters = filterConfiguration.config_json.individuals && filterConfiguration.config_json.individuals
+  const individualFilters = filterConfiguration.config_json.individuals
     .map(individual => value => value.filter(item => item.id !== individual)) || [];
 
   if (wildcardFilters.length === 0 && individualFilters.length === 0) {
     return {
       excluded: [],
-      included: units
+      included: units,
     };
   }
 
   const applyFilters = compose(
     ...wildcardFilters,
-    ...individualFilters
+    ...individualFilters,
   );
 
   const included = applyFilters(units);
@@ -58,6 +60,8 @@ export const applyUnitFilters = (units, filterConfiguration) => {
 
   return {
     excluded,
-    included
-  }
-}
+    included,
+  };
+};
+
+export default applyUnitFilters;

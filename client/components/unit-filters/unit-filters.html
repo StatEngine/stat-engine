@@ -6,16 +6,16 @@
 
   <div class="row">
     <div class="col-6">
-      <form class="form" name="wildcard-form" ng-submit="vm.addWildcard($event)" novalidate="novalidate">
+      <form class="form" name="wildcard-form" ng-submit="vm.addFilter(vm.wildcards, 'wildcards')" novalidate="novalidate">
         <label>Wildcard:</label>
         <div class="input-group mb-3">
           <input type="text" name="wildcard" placeholder="ENGS_*" class="form-control" required="required"
-            ng-model="vm.excludeWildcard" aria-label="Exclude wildcard">
+            ng-model="vm.wildcards" aria-label="Exclude wildcard">
         </div>
-        <div class="mb-3" ng-if="vm.filterConfiguration && vm.filterConfiguration.config_json && vm.filterConfiguration.config_json.wildcards && vm.filterConfiguration.config_json.wildcards.length > 0">
+        <div class="mb-3" ng-if="vm.filterConfiguration.config_json.wildcards.length > 0">
            <span ng-repeat="wildcard in vm.filterConfiguration.config_json.wildcards" class="badge badge-pill badge-info">
              {{ wildcard }}
-             <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.removeWildcard(wildcard)">
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.removeFilter(wildcard, 'wildcards')">
               <span aria-hidden="true">&times;</span>
             </button>
           </span>
@@ -24,16 +24,16 @@
       </form>
     </div>
     <div class="col-6">
-      <form class="form" name="individual-form" ng-submit="vm.addIndividual(form)" novalidate="novalidate">
+      <form class="form" name="individual-form" ng-submit="vm.addFilter(vm.individuals, 'individuals')" novalidate="novalidate">
         <label>Individual:</label>
         <div class="input-group mb-3">
           <input type="text" name="individual" placeholder="ENG_1" class="form-control" required="required"
-            ng-model="vm.excludeIndividual" aria-label="Exclude individual">
+            ng-model="vm.individuals" aria-label="Exclude individual">
         </div>
-        <div class="mb-3" ng-if="vm.filterConfiguration && vm.filterConfiguration.config_json && vm.filterConfiguration.config_json.individuals && vm.filterConfiguration.config_json.individuals.length > 0">
+        <div class="mb-3" ng-if="vm.filterConfiguration.config_json.individuals.length > 0">
           <span ng-repeat="individual in vm.filterConfiguration.config_json.individuals" class="badge badge-pill badge-info">
             {{ individual }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.removeIndividual(individual)">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.removeFilter(individual, 'individuals')">
              <span aria-hidden="true">&times;</span>
            </button>
          </span>

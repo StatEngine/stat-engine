@@ -7,5 +7,5 @@ export default {
   categories: 'Filtering',
   featured: false,
   image: 'extension-reports.svg',
-  config_options: []
+  config_options: [],
 };

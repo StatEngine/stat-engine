@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 import UnitFilterFixture from '../../../server/fixtures/extensions/unitFilters';
-import { applyUnitFilters } from '../../util/filters';
+import applyUnitFilters from '../../util/filters';
 
 export class UnitFiltersComponent {
   filterConfiguration;
@@ -10,81 +10,58 @@ export class UnitFiltersComponent {
   error;
   success;
 
-  excludeWildcard = "";
-  excludeIndividual = "";
+  wildcards = '';
+  individuals = '';
 
   included = [];
   excluded = [];
 
   /*@ngInject*/
-  constructor(ExtensionConfiguration, Extension, Unit) {
-    this.Extension = Extension;
+  constructor(ExtensionConfiguration, Unit) {
     this.ExtensionConfiguration = ExtensionConfiguration;
     this.Unit = Unit;
   }
 
   async $onInit() {
-    const [extensions, units] = await Promise.all([
-      this.ExtensionConfiguration.query({ name: UnitFilterFixture.name }).$promise,
-      this.Unit.query().$promise
-    ]);
-    this.units = units;
-    const extension = extensions.find(extension => extension.Extension.name === UnitFilterFixture.name);
-
-    if (extension) {
-      this.filterConfiguration = extension;
-    } else {
-      this.filterConfiguration = await this.ExtensionConfiguration.create({ name: UnitFilterFixture.name }).$promise;
-    }
-
-    console.log(this.filterConfiguration);
-    
-    if (Object.keys(this.filterConfiguration.config_json).length > 0) {
-      this.applyFilters();
-    } else {
-      this.included = [...this.units];
+    try {
+      const extensions = await this.ExtensionConfiguration.query({ name: UnitFilterFixture.name }).$promise;
+      const extension = extensions.find(ext => ext.Extension.name === UnitFilterFixture.name);
+      this.units = await this.Unit.query().$promise;
+      
+      if (extension) {
+        this.filterConfiguration = extension;
+      } else {
+        this.filterConfiguration = await this.ExtensionConfiguration.create({ name: UnitFilterFixture.name }).$promise;
+      }
+  
+      if (Object.keys(this.filterConfiguration.config_json).length > 0) {
+        this.applyFilters();
+      } else {
+        this.included = [...this.units];
+      }
+    } catch (err) {
+      this.error = err.message;
     }
   }
 
-  addWildcard() {
-    if (this.excludeWildcard) {
-      if (!this.filterConfiguration.config_json.wildcards) {
-        this.filterConfiguration.config_json.wildcards = [];
+  addFilter(term, type) {
+    if (term) {
+      if (!this.filterConfiguration.config_json[type]) {
+        this.filterConfiguration.config_json[type] = [];
       }
 
-      if (!this.filterConfiguration.config_json.wildcards.includes(this.excludeWildcard)) {
-        this.filterConfiguration.config_json.wildcards.push(this.excludeWildcard);
+      if (!this.filterConfiguration.config_json[type].includes(term)) {
+        this.filterConfiguration.config_json[type] = [...this.filterConfiguration.config_json[type], term];
       }
 
-      this.excludeWildcard = ""; 
-    }
-
-    this.applyFilters();
-  }
-
-  addIndividual() {
-    if (this.excludeIndividual) {
-      if (!this.filterConfiguration.config_json.individuals) {
-        this.filterConfiguration.config_json.individuals = [];
-      }
-
-      if (!this.filterConfiguration.config_json.individuals.includes(this.excludeIndividual)) {
-        this.filterConfiguration.config_json.individuals.push(this.excludeIndividual);
-      }
-
-      this.excludeIndividual = "";
+      this[type] = '';
     }
 
     this.applyFilters();
   }
 
-  removeIndividual(indivudal) {
-    this.filterConfiguration.config_json.individuals = this.filterConfiguration.config_json.individuals.filter(item => item !== indivudal);
-    this.applyFilters();
-  }
-
-  removeWildcard(wildcard) {
-    this.filterConfiguration.config_json.wildcards = this.filterConfiguration.config_json.wildcards.filter(item => item !== wildcard);
+  removeFilter(term, type) {
+    this.filterConfiguration.config_json[type] = this.filterConfiguration.config_json[type].filter(item => item !== term);
     this.applyFilters();
   }
 
@@ -98,10 +75,10 @@ export class UnitFiltersComponent {
     try {
       const id = this.filterConfiguration._id;
       await this.ExtensionConfiguration.update({ id, replace: true }, this.filterConfiguration.config_json);
-      this.success = "Configuration successfully saved.";
+      this.success = 'Configuration successfully saved.';
     } catch (err) {
       console.log(err);
-      this.error = "Configurations failed to save.";
+      this.error = 'Configurations failed to save.';
     }
   }
 }
