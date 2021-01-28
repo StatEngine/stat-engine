@@ -36,32 +36,40 @@ const compose = (...fns) => fns.reduce((f, g) => (...xs) => {
 });
 
 const applyUnitFilters = (units, filterConfiguration) => {
-  const wildcardFilters = filterConfiguration.config_json.wildcards
-    .map(wildcard => convertWildcardStringToRegExp(wildcard))
-    .map(regex => value => value.filter(item => !regex.test(item.id))) || [];
+  try {
+    const wildcardFilters = filterConfiguration.config_json.wildcards
+      .map(wildcard => convertWildcardStringToRegExp(wildcard))
+      .map(regex => value => value.filter(item => !regex.test(item.id))) || [];
 
-  const individualFilters = filterConfiguration.config_json.individuals
-    .map(individual => value => value.filter(item => item.id !== individual)) || [];
+    const individualFilters = filterConfiguration.config_json.individuals
+      .map(individual => value => value.filter(item => item.id !== individual)) || [];
 
-  if (wildcardFilters.length === 0 && individualFilters.length === 0) {
+    if (wildcardFilters.length === 0 && individualFilters.length === 0) {
+      return {
+        excluded: [],
+        included: units,
+      };
+    }
+
+    const applyFilters = compose(
+      ...wildcardFilters,
+      ...individualFilters,
+    );
+
+    const included = applyFilters(units);
+    const excluded = _.differenceWith(units, included, _.isEqual);
+
+    return {
+      excluded,
+      included,
+    };
+  } catch (err) {
+    console.error(err);
     return {
       excluded: [],
       included: units,
     };
   }
-
-  const applyFilters = compose(
-    ...wildcardFilters,
-    ...individualFilters,
-  );
-
-  const included = applyFilters(units);
-  const excluded = _.differenceWith(units, included, _.isEqual);
-
-  return {
-    excluded,
-    included,
-  };
 };
 
 export default applyUnitFilters;
