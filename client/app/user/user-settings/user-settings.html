@@ -39,6 +39,17 @@
       >
         Password
       </a>
+      <a
+        data-toggle="tab"
+        href="#nav-filtering"
+        role="tab"
+        id="nav-filtering-tab"
+        aria-controls="nav-filtering"
+        aria-selected="false"
+        ng-click="vm.handleTabClick('filtering')"
+      >
+        Filtering
+      </a>
     </div>
   </nav>
 </div>
@@ -153,7 +164,8 @@
       </div>
     </div>
 
-    <div class="tab-pane fade " id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+    <!-- Password -->
+    <div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
       <div class="card mg-b-25 tab-pane" role="tabpanel">
         <div class="card-header mb-3">
           <h6 class="card-title">Password</h6>
@@ -209,5 +221,18 @@
         </div>
       </div>
     </div>
+
+    <!-- Filtering   -->
+    <div class="tab-pane fade" id="nav-filtering" role="tabpanel" aria-labelledby="nav-filtering-tab">
+      <div class="card mg-b-25 tab-pane" role="tabpanel">
+        <div class="card-header mb-3">
+          <h6 class="card-title">Unit Filtering</h6>
+        </div>
+        <div class="card-body">
+          <unit-filters></unit-filters>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

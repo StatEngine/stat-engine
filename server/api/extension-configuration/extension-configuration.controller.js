@@ -37,10 +37,13 @@ export function update(req, res) {
 }
 
 export async function updateOptions(req, res) {
+  const fire_department = req.fire_department || req.fireDepartment;
+  const replace = req.query.replace;
+
   const config = await ExtensionConfiguration.find({
     where: {
       _id: req.params.id,
-      fire_department__id: req.fire_department._id,
+      fire_department__id: fire_department._id,
     },
     include: [{
       model: Extension,
@@ -51,7 +54,12 @@ export async function updateOptions(req, res) {
 
   if(!config) throw new NotFoundError('Extension configuration not found');
 
-  config.config_json = _.merge(config.config_json, req.body);
+  if (!replace) {
+    config.config_json = _.merge(config.config_json, req.body); 
+  } else {
+    config.config_json = req.body;
+  }
+
   config.changed('config_json', true);
 
   await config.save();
@@ -104,12 +112,13 @@ export async function disable(req, res) {
 }
 
 export async function get(req, res) {
-  var id = req.params.id;
+  const id = req.params.id;
+  const fire_department = req.fire_department || req.fireDepartment;
 
   const extensionConfiguration = await ExtensionConfiguration.find({
     where: {
       _id: id,
-      fire_department__id: req.fire_department._id,
+      fire_department__id: fire_department._id,
     }
   });
 
@@ -248,6 +257,7 @@ function createDefaultConfig(fire_department, extensionType) {
 }
 
 export async function create(req, res) {
+  const fire_department = req.fire_department || req.fireDepartment;
   const extension = await Extension.find({
     where: {
       name: req.query.name
@@ -258,8 +268,8 @@ export async function create(req, res) {
 
   const extensionConfiguration = await ExtensionConfiguration.create({
     extension__id: extension._id,
-    fire_department__id: req.fire_department._id,
-    config_json: createDefaultConfig(req.fire_department, req.query.name),
+    fire_department__id: fire_department._id,
+    config_json: createDefaultConfig(fire_department, req.query.name),
     enabled: true,
   });
 

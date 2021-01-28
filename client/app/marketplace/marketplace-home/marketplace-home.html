@@ -76,7 +76,8 @@
                   <div class="extension-card-title">
                     <h5>{{extension.name}}</h5>
                     <div>
-                      <span class="badge badge-success" ng-if="extension.type !== 'app'">ENRICHMENT</span>
+                      <span class="badge badge-warning" ng-if="extension.type !== 'app' && extension.type === 'FILTER'">FILTER</span>
+                      <span class="badge badge-success" ng-if="extension.type !== 'app' && extension.type !== 'FILTER'">ENRICHMENT</span>
                       <span class="badge badge-primary" ng-if="extension.type === 'app'">APPLICATION</span>
                     </div>
                   </div>

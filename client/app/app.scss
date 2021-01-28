@@ -769,6 +769,10 @@ input[type="radio"]:focus {
   color: $color-brand-danger;
 }
 
+.text-white {
+  color: white;
+}
+
 .font-weight-semibold {
   font-weight: $font-weight-semibold !important;
 }
@@ -2051,4 +2055,5 @@ input:checked + .slider:before {
 @import '../components/tree-select/tree-select.scss';
 @import '../components/auto-complete/auto-complete.scss';
 @import '../components/subscription-banner/subscription-banner.scss';
+@import '../components/unit-filters/unit-filters.scss';
 // endinject //

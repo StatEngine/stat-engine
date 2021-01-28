@@ -2,6 +2,9 @@
 
 'use strict';
 
+import UnitFilterFixture from '../../../server/fixtures/extensions/unitFilters';
+import applyUnitFilters  from '../../util/filters';
+
 export default function routes($stateProvider) {
   'ngInject';
 
@@ -15,11 +18,11 @@ export default function routes($stateProvider) {
         'content@': {
           template: require('./reporting-unit/reporting-unit.html'),
           controller: 'ReportingUnitController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
         },
       },
       data: {
-        roles: ['user']
+        roles: ['user'],
       },
       reloadOnSearch: false,
       resolve: {
@@ -34,21 +37,29 @@ export default function routes($stateProvider) {
         currentPrincipal(Principal) {
           return Principal.identity(true);
         },
-        units(Unit) {
-          return Unit.query().$promise;
+        units(Unit, ExtensionConfiguration) {
+          const getUnits = async () => {
+            const extensions = await ExtensionConfiguration.query({ name: UnitFilterFixture.name }).$promise;
+            const extension = extensions.find(ext => ext.Extension.name === UnitFilterFixture.name);
+            const units = await Unit.query().$promise;
+            const { included } = applyUnitFilters(units, extension);
+            return included;
+          };
+
+          return getUnits();
         },
         redirect(units, $window, $state, $stateParams) {
           let selectedUnitId = $stateParams['#'];
-          if(selectedUnitId != null) {
-            return
+          if (selectedUnitId != null) {
+            return;
           }
 
           const isLargeScreen = ($window.innerWidth >= 992);
-          if(isLargeScreen) {
+          if (isLargeScreen) {
             selectedUnitId = units[0].id;
             $state.go('site.reporting.unit', { '#': selectedUnitId, time: $stateParams.time });
           }
-        }
+        },
       },
     });
 }

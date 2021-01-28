@@ -41,5 +41,8 @@ sqldb.sequelize.sync()
     Log.error(err);
   });
 
+// Add Unit Filter Extension on startup if does not exist
+require('./config/extension/addUnitFilter').default(app);
+
 // Expose app
 module.exports = app;
