@@ -1,4 +1,8 @@
-export const unitMetricConfigs = [
+export const agencyIncidentTypeMetricConfigs = [
+  ['incidentCount'],
+];
+
+export const agencyResponsesMetricConfigs = [
   ['incidentCount'],
   ['transportsCount', 'showTransports'],
   ['distanceToIncidentSum', 'showDistances'],
@@ -7,22 +11,6 @@ export const unitMetricConfigs = [
   ['fireTurnoutDurationPercentile90'],
   ['emsTurnoutDurationPercentile90'],
   ['responseDurationPercentile90'],
-];
-
-export const battalionMetricConfigs = [
-  ['incidentCount'],
-];
-
-export const jurisdictionMetricConfigs = [
-  ['incidentCount'],
-];
-
-export const incidentTypeMetricConfigs = [
-  ['incidentCount'],
-];
-
-export const agencyIncidentTypeMetricConfigs = [
-  ['incidentCount'],
 ];
 
 export const alertColors = {
@@ -39,3 +27,26 @@ export const alertColors = {
     rowBorder: '#bb7474',
   },
 };
+
+export const battalionMetricConfigs = [
+  ['incidentCount'],
+];
+
+export const incidentTypeMetricConfigs = [
+  ['incidentCount'],
+];
+
+export const jurisdictionMetricConfigs = [
+  ['incidentCount'],
+];
+
+export const unitMetricConfigs = [
+  ['incidentCount'],
+  ['transportsCount', 'showTransports'],
+  ['distanceToIncidentSum', 'showDistances'],
+  ['eventDurationSum'],
+  ['turnoutDurationPercentile90'],
+  ['fireTurnoutDurationPercentile90'],
+  ['emsTurnoutDurationPercentile90'],
+  ['responseDurationPercentile90'],
+];

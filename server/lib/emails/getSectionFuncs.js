@@ -1,21 +1,16 @@
-import agencyIncidentTypeSummary from './sections/agencyIncidentTypeSummary';
-import agencySummary from './sections/agencySummary';
 import alertSummary from './sections/alertSummary';
-import battalionSummary from './sections/battalionSummary';
 import incidentSummary from './sections/incidentSummary';
-import incidentTypeSummary from './sections/incidentTypeSummary';
-import jurisdictionSummary from './sections/jurisdictionSummary';
-import unitSummary from './sections/unitSummary';
+import comparisonMetricSummary from './sections/comparisonMetricSummary';
 
 export default function getSectionFuncs() {
   return {
-    agencyIncidentTypeSummary,
-    agencySummary,
+    agencyIncidentTypeSummary: params => comparisonMetricSummary('agencyIncidentType', params),
+    agencySummary: params => comparisonMetricSummary('agencyResponses', params),
     alertSummary,
-    battalionSummary,
+    battalionSummary: params => comparisonMetricSummary('battalion', params),
     incidentSummary,
-    incidentTypeSummary,
-    jurisdictionSummary,
-    unitSummary,
+    incidentTypeSummary: params => comparisonMetricSummary('incidentType', params),
+    jurisdictionSummary: params => comparisonMetricSummary('jurisdiction', params),
+    unitSummary: params => comparisonMetricSummary('agencyIncidentType', params),
   };
 }

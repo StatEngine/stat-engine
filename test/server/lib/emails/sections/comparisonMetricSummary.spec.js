@@ -4,38 +4,44 @@ import chaiAsPromised from 'chai-as-promised';
 import fs from 'fs';
 
 import loadJson from '../../../../../server/lib/loadJson';
-import agencyIncidentTypeSummary from '../../../../../server/lib/emails/sections/agencyIncidentTypeSummary';
+import comparisonMetricSummary from '../../../../../server/lib/emails/sections/comparisonMetricSummary';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-describe('agencyIncidentTypeSummary', () => {
+describe('comparisonMetricSummary', () => {
   describe('fundamental tests', () => {
     describe('error path tests', () => {
       it.skip('should throw an exception when comparison is missing', () => {
         const params = { reportOptions: { foo: 'bar' } };
-        expect(() => agencyIncidentTypeSummary(params)).to.eventually.equal('Missing comparison or reportOptions');
+        const type = 'agencyIncidentType';
+        expect(() => comparisonMetricSummary(type, params)).to.throw('Missing comparison or reportOptions');
       });
       it.skip('should throw an exception when comparison is empty', () => {
         const params = { comparison: {}, reportOptions: { foo: 'bar' } };
-        expect(() => agencyIncidentTypeSummary(params)).to.throw();
+        const type = 'agencyIncidentType';
+        expect(() => comparisonMetricSummary(type, params)).to.throw('Missing comparison or reportOptions');
       });
       it.skip('should throw an exception when reportOptions is missing', () => {
         const params = { comparison: { foo: 'bar' } };
-        expect(() => agencyIncidentTypeSummary(params)).to.throw();
+        const type = 'agencyIncidentType';
+        expect(() => comparisonMetricSummary(type, params)).to.throw('Missing comparison or reportOptions');
       });
       it.skip('should throw an exception when reportOptions is empty', () => {
         const params = { comparison: { foo: 'bar' }, reportOptions: {} };
-        expect(async () => { agencyIncidentTypeSummary(params); }).to.throw();
+        const type = 'agencyIncidentType';
+        expect(() => comparisonMetricSummary(type, params)).to.throw('Missing comparison or reportOptions');
       });
     });
-    describe.skip('happy path tests', () => {
+    describe('happy path tests', () => {
       it('should create a valid mergeVar', async () => {
-        const mockDataPath = './mocks';
-        const rawData = fs.readFileSync('test/server/lib/emails/sections/mocks/agencyIncidentTypeSummaryOptions.mock.json', 'utf-8'); // loadJson(mockDataPath, 'agencyIncidentTypeSummaryOptions.mock.json');
-        const reportOptions = JSON.parse(rawData);
-        console.dir(reportOptions);
-
+        const mockDataPath = 'test/server/lib/emails/sections/mocks';
+        const mockOptionsFileName = 'agencyIncidentTypeSummaryOptions.mock.json';
+        const mockComparisonFileName = 'comparison.mock.json';
+        const reportOptions = loadJson(mockDataPath, mockOptionsFileName);
+        const comparison = loadJson(mockDataPath, mockComparisonFileName);
+        console.dir(comparison);
+        
         const params = {
           comparison,
           reportOptions,

@@ -1,8 +1,12 @@
 export default function validateAggregateMetricsParams(params) {
   const { comparison, reportOptions } = params;
 
-  if (!comparison || comparison === {} || !reportOptions || reportOptions === {}) {
+  if (!comparison || isEmptyObj(comparison) || !reportOptions || isEmptyObj(reportOptions)) {
     return false;
   }
   return true;
+}
+
+function isEmptyObj(obj) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
 }
