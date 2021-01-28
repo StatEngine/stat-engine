@@ -16,19 +16,25 @@ export class EventDurationSumRule extends Rule {
 
   analyze() {
     let analysis = [];
+    let unitDetails = [];
+    
     this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
       let utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
 
       if(utilization > this.params.threshold) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`,
-          default_visibility: true,
-        });
+        unitDetails.push(`Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`);
       }
     });
+
+    if (unitDetails.length > 0) {
+      analysis.push({
+        rule: this.constructor.name,
+        level: this.params.level,
+        description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min summary`,
+        details: unitDetails.join('<br>'),
+        default_visibility: true,
+      });
+    }
 
     return analysis;
   }
