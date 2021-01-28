@@ -14,31 +14,6 @@ import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { getReportOptions, getEmailList } from './notificationEmailHelpers';
 
-export async function handleCustomEmail(emailConfigId) {
-  // console.dir(req.body);
-  // console.log('BUILD CONTENT AND SEND');
-  // const { emailConfigId } = req.body;
-  const emailData = await findCustomEmailConfig(emailConfigId);
-  return emailData;
-
-  // const enabledEmails = await findCustomEmail(req.body);
-
-  // emailData.fireDepartment = await getFireDepartment(emailData.fd_id);
-
-  // const mergeVars = await buildMergeVars(emailData);
-
-  // console.log('GOT MERGE VARS');
-  // console.dir(mergeVars);
-
-  // const html = await getCustomEmailHtml(mergeVars);
-
-  // await Promise.all(sendEmails(emailData, mergeVars, html));
-
-  // // finally, update last_sent time`
-  // emailData.last_sent = moment().format();
-  // return queryUpdate(emailData._id, emailData);
-}
-
 export function sendEmails(emailList, mergeVars, html) {
   const promises = emailList.map(email => {
     const to = email;

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 export default function formatAggregateMetrics(key, metricConfigs, comparison, options) {
-  console.log('formatAggregateMetrics');
-  console.log(key);
+  // console.log('formatAggregateMetrics');
+  // console.log(key);
   // console.dir(comparison, { depth: null });
 
   const keyName = `${key}Metrics`;
@@ -28,7 +28,7 @@ export default function formatAggregateMetrics(key, metricConfigs, comparison, o
   mergeVar[keyName] = _.sortBy(mergeVar[keyName], [o => _.get(o, 'incidentCount.val')]).reverse();
   mergeVar[keyName] = _.filter(mergeVar[keyName], o => _.get(o, 'incidentCount.val') !== 0);
 
-  console.dir(mergeVar, { depth: null });
+  // console.dir(mergeVar, { depth: null });
   return mergeVar;
 }
 
