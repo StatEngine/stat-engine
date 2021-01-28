@@ -13,7 +13,7 @@
             ng-model="vm.wildcards" aria-label="Exclude wildcard">
         </div>
         <div class="mb-3" ng-if="vm.filterConfiguration.config_json.wildcards.length > 0">
-           <span ng-repeat="wildcard in vm.filterConfiguration.config_json.wildcards" class="badge badge-pill badge-info">
+           <span ng-repeat="wildcard in vm.filterConfiguration.config_json.wildcards" class="badge badge-pill badge-danger">
              {{ wildcard }}
              <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.removeFilter(wildcard, 'wildcards')">
               <span aria-hidden="true">&times;</span>
@@ -31,7 +31,7 @@
             ng-model="vm.individuals" aria-label="Exclude individual">
         </div>
         <div class="mb-3" ng-if="vm.filterConfiguration.config_json.individuals.length > 0">
-          <span ng-repeat="individual in vm.filterConfiguration.config_json.individuals" class="badge badge-pill badge-info">
+          <span ng-repeat="individual in vm.filterConfiguration.config_json.individuals" class="badge badge-pill badge-danger">
             {{ individual }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.removeFilter(individual, 'individuals')">
              <span aria-hidden="true">&times;</span>
