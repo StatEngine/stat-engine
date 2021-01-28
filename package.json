@@ -235,8 +235,8 @@
   },
   "scripts": {
     "test": "gulp test",
-    "testserver": "mocha --exit --require babel-core/register \"./test/server/**\"",
-    "testserver-watch": "mocha --exit --require babel-core/register \"./test/server/**\" --watch",
+    "testserver": "mocha --exit --require babel-core/register \"./test/server/**/*.spec.js\"",
+    "testserver-watch": "mocha --exit --require babel-core/register \"./test/server/**/*.spec.js\" --watch",
     "update-webdriver": "node node_modules/protractor/bin/webdriver-manager update",
     "start": "node server",
     "dev": "nodemon server",

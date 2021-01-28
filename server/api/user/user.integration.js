@@ -1,20 +1,19 @@
+'use strict';
+
 import app from '../..';
-import { User } from '../../sqldb';
+import {User} from '../../sqldb';
 import request from 'supertest';
 
-/**
- * Error: SequelizeValidationError: notNull Violation: username cannot be null,
- */
-xdescribe('User API:', () => {
-  let user;
+describe('User API:', function() {
+  var user;
 
   // Clear users before testing
-  before(() => {
-    return User.destroy({ where: {} }).then(() => {
+  before(function() {
+    return User.destroy({ where: {} }).then(function() {
       user = User.build({
         name: 'Fake User',
         email: 'test@example.com',
-        password: 'password',
+        password: 'password'
       });
 
       return user.save();
@@ -22,19 +21,19 @@ xdescribe('User API:', () => {
   });
 
   // Clear users after testing
-  after(() => {
+  after(function() {
     return User.destroy({ where: {} });
   });
 
-  describe('GET /api/users/me', () => {
-    let token;
+  describe('GET /api/users/me', function() {
+    var token;
 
-    before(done => {
+    before(function(done) {
       request(app)
         .post('/auth/local')
         .send({
           email: 'test@example.com',
-          password: 'password',
+          password: 'password'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -44,7 +43,7 @@ xdescribe('User API:', () => {
         });
     });
 
-    it('should respond with a user profile when authenticated', done => {
+    it('should respond with a user profile when authenticated', function(done) {
       request(app)
         .get('/api/users/me')
         .set('authorization', `Bearer ${token}`)
@@ -56,7 +55,7 @@ xdescribe('User API:', () => {
         });
     });
 
-    it('should respond with a 401 when not authenticated', done => {
+    it('should respond with a 401 when not authenticated', function(done) {
       request(app)
         .get('/api/users/me')
         .expect(401)
