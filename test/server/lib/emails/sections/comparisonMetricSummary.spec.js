@@ -1,13 +1,7 @@
 /* eslint-disable no-undef */
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import fs from 'fs';
-
+import { expect } from 'chai';
 import loadJson from '../../../../../server/lib/loadJson';
 import comparisonMetricSummary from '../../../../../server/lib/emails/sections/comparisonMetricSummary';
-
-chai.use(chaiAsPromised);
-const expect = chai.expect;
 
 describe('comparisonMetricSummary', () => {
   describe('fundamental tests', () => {
@@ -45,7 +39,7 @@ describe('comparisonMetricSummary', () => {
         const mockComparisonFileName = 'comparison.mock.json';
         const reportOptions = loadJson(mockDataPath, mockOptionsFileName);
         const comparison = loadJson(mockDataPath, mockComparisonFileName);
-        
+
         const params = {
           comparison,
           reportOptions,
