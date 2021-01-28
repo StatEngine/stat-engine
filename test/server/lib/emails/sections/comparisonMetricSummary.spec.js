@@ -32,6 +32,11 @@ describe('comparisonMetricSummary', () => {
         const type = 'agencyIncidentType';
         expect(() => comparisonMetricSummary(type, params)).to.throw('Missing comparison or reportOptions');
       });
+      it.skip('should throw an exception when type is unsupported', () => {
+        const params = { comparison: { foo: 'bar' }, reportOptions: { yar: 'barlog' } };
+        const type = 'baz';
+        expect(() => comparisonMetricSummary(type, params)).to.throw('No metric config for metric type: baz');
+      });
     });
     describe('happy path tests', () => {
       it('should create a valid mergeVar', async () => {
@@ -40,30 +45,10 @@ describe('comparisonMetricSummary', () => {
         const mockComparisonFileName = 'comparison.mock.json';
         const reportOptions = loadJson(mockDataPath, mockOptionsFileName);
         const comparison = loadJson(mockDataPath, mockComparisonFileName);
-        console.dir(comparison);
         
         const params = {
           comparison,
           reportOptions,
-          // reportOptions: {
-          //   name: 'Daily',
-          //   timeUnit: 'shift',
-          //   sections: {
-          //     showAlertSummary: { FireIncidentEventDurationRule30: false },
-          //     showBattalionSummary: true,
-          //     showIncidentTypeSummary: false,
-          //     showAgencyIncidentTypeSummary: false,
-          //   },
-          //   showDistances: true,
-          //   showTransports: false,
-          //   logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
-          //   to: [
-          //     { email: 'mailinglist@test.com' },
-          //   ],
-          //   schedulerOptions: { later: { text: 'every 5 seconds' } },
-          //   showPercentChange: true,
-          //   showUtilization: true,
-          // },
         };
 
         const expected = {
@@ -71,8 +56,9 @@ describe('comparisonMetricSummary', () => {
           agencyIncidentTypeMetrics: [],
         };
 
-        const mergeVar = await agencyIncidentTypeSummary(params);
-        expect(mergeVar).to.equal(expected);
+        const mergeVar = await comparisonMetricSummary('agencyIncidentType', params);
+
+        expect(mergeVar).to.deep.equal(expected);
       });
     });
   });
