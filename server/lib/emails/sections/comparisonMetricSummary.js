@@ -1,4 +1,4 @@
-import validateAggregateMetricsParams from '../validateAggregateMetricsParams';
+import { validateAggregateMetricsParams } from '../validateMetricsParams';
 import * as metricConfigs from '../../../api/email/sendNotificationControllerConstants';
 import formatAggregateMetrics from '../formatAggregateMetrics';
 

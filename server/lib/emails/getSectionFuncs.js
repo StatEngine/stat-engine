@@ -11,6 +11,6 @@ export default function getSectionFuncs() {
     incidentSummary,
     incidentTypeSummary: params => comparisonMetricSummary('incidentType', params),
     jurisdictionSummary: params => comparisonMetricSummary('jurisdiction', params),
-    unitSummary: params => comparisonMetricSummary('agencyIncidentType', params),
+    unitSummary: params => comparisonMetricSummary('unit', params),
   };
 }

@@ -1,0 +1,614 @@
+{
+    "EventDurationSumRule": [],
+    "OvernightEventsRule": [
+        {
+            "rule": "OvernightEventsRule",
+            "level": "DANGER",
+            "description": "Unit response > 2 overnight",
+            "default_visibility": true,
+            "detailList": [
+                {
+                    "detail": "E12/8"
+                },
+                {
+                    "detail": "E5/8"
+                },
+                {
+                    "detail": "E16/6"
+                },
+                {
+                    "detail": "SAFETY1/6"
+                },
+                {
+                    "detail": "T3/6"
+                }
+            ],
+            "condenseRendering": true
+        },
+        {
+            "rule": "OvernightEventsRule",
+            "level": "DANGER",
+            "description": "Unit response > 2 overnight",
+            "default_visibility": true,
+            "detailList": [
+                {
+                    "detail": "BC2/5"
+                },
+                {
+                    "detail": "E13/5"
+                },
+                {
+                    "detail": "E21/5"
+                },
+                {
+                    "detail": "E22/5"
+                },
+                {
+                    "detail": "T2/5"
+                }
+            ],
+            "condenseRendering": true
+        },
+        {
+            "rule": "OvernightEventsRule",
+            "level": "DANGER",
+            "description": "Unit response > 2 overnight",
+            "default_visibility": true,
+            "detailList": [
+                {
+                    "detail": "BC1/4"
+                },
+                {
+                    "detail": "E11/4"
+                },
+                {
+                    "detail": "E15/4"
+                },
+                {
+                    "detail": "E17/4"
+                },
+                {
+                    "detail": "E20/4"
+                }
+            ],
+            "condenseRendering": true
+        },
+        {
+            "rule": "OvernightEventsRule",
+            "level": "DANGER",
+            "description": "Unit response > 2 overnight",
+            "default_visibility": true,
+            "detailList": [
+                {
+                    "detail": "T8/4"
+                },
+                {
+                    "detail": "BC4/3"
+                },
+                {
+                    "detail": "E10/3"
+                },
+                {
+                    "detail": "E6/3"
+                }
+            ],
+            "condenseRendering": true
+        }
+    ],
+    "FireIncidentEventDurationRule30": [
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180002\">F02012180002</a> <br> Units: E19,T3,E18,SAFETY1",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180017\">F02012180017</a> <br> Units: E1,T5",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180026\">F02012180026</a> <br> Units: E18",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180025\">F02012180025</a> <br> Units: T5",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180032\">F02012180032</a> <br> Units: E16",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180054\">F02012180054</a> <br> Units: T5",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180057\">F02012180057</a> <br> Units: E18",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180064\">F02012180064</a> <br> Units: E20",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180056\">F02012180056</a> <br> Units: T2",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190004\">F02012190004</a> <br> Units: E11",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190023\">F02012190023</a> <br> Units: E10,E12,E18,E19,BC2,BC3,E6,SAFETY1,T2,T9,AL1",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190028\">F02012190028</a> <br> Units: T5",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190037\">F02012190037</a> <br> Units: E21",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190041\">F02012190041</a> <br> Units: E17",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190051\">F02012190051</a> <br> Units: E25",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190052\">F02012190052</a> <br> Units: E1",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190076\">F02012190076</a> <br> Units: E16",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190059\">F02012190059</a> <br> Units: BC1,E6,T2",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190070\">F02012190070</a> <br> Units: E1,E11,E6,E8,BC1,BC3,E13,SAFETY1,T2,T5,BC2,E15,E17,E5,LOGS,REHAB1,STAFF,LOG3,LOG1",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200015\">F02012200015</a> <br> Units: E20,BC4",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200030\">F02012200030</a> <br> Units: E15",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200033\">F02012200033</a> <br> Units: E8",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200045\">F02012200045</a> <br> Units: E5,T2",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200065\">F02012200065</a> <br> Units: E11",
+            "default_visibility": false
+        },
+        {
+            "rule": "FireIncidentEventDurationRule30",
+            "level": "WARNING",
+            "description": "Units on fire incident > 30 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200057\">F02012200057</a> <br> Units: E23",
+            "default_visibility": false
+        }
+    ],
+    "FireIncidentEventDurationRule60": [
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180002\">F02012180002</a> <br> Units: E19",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180056\">F02012180056</a> <br> Units: T2",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190023\">F02012190023</a> <br> Units: E18,E19,BC2,E6,T9,AL1",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190037\">F02012190037</a> <br> Units: E21",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190076\">F02012190076</a> <br> Units: E16",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190059\">F02012190059</a> <br> Units: BC1,E6,T2",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190070\">F02012190070</a> <br> Units: E1,E11,E6,E8,BC1,BC3,E13,SAFETY1,T2,T5,BC2,E15,E17,E5,LOGS,REHAB1,STAFF,LOG3,LOG1",
+            "default_visibility": true
+        },
+        {
+            "rule": "FireIncidentEventDurationRule60",
+            "level": "DANGER",
+            "description": "Units on fire incident > 60 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200057\">F02012200057</a> <br> Units: E23",
+            "default_visibility": true
+        }
+    ],
+    "TurnoutDurationOutlierRule": [
+        {
+            "rule": "TurnoutDurationOutlierRule",
+            "level": "DANGER",
+            "description": "Unit turnout > 300 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190070\">F02012190070</a> <br> Units: REHAB1:<strong>1617 s</strong>,LOG3:<strong>371 s</strong>",
+            "default_visibility": false
+        }
+    ],
+    "TurnoutDurationOutlierRule120": [
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012170089\">F02012170089</a> <br> Units: E6:<strong>124 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180006\">F02012180006</a> <br> Units: E6:<strong>181 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180014\">F02012180014</a> <br> Units: E18:<strong>145 s</strong>,BC1:<strong>133 s</strong>,T3:<strong>156 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180036\">F02012180036</a> <br> Units: R2:<strong>132 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180080\">F02012180080</a> <br> Units: T3:<strong>124 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190001\">F02012190001</a> <br> Units: T2:<strong>133 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190005\">F02012190005</a> <br> Units: E5:<strong>125 s</strong>,T8:<strong>124 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190004\">F02012190004</a> <br> Units: E8:<strong>129 s</strong>,SAFETY1:<strong>163 s</strong>,T3:<strong>121 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190011\">F02012190011</a> <br> Units: E10:<strong>125 s</strong>,E5:<strong>143 s</strong>,T3:<strong>123 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190014\">F02012190014</a> <br> Units: E5:<strong>137 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190023\">F02012190023</a> <br> Units: T9:<strong>126 s</strong>,AL1:<strong>123 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190041\">F02012190041</a> <br> Units: R1:<strong>168 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190050\">F02012190050</a> <br> Units: E12:<strong>166 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200001\">F02012200001</a> <br> Units: R2:<strong>131 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190070\">F02012190070</a> <br> Units: REHAB1:<strong>1617 s</strong>,LOG3:<strong>371 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200011\">F02012200011</a> <br> Units: E11:<strong>122 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200003\">F02012200003</a> <br> Units: E6:<strong>135 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200013\">F02012200013</a> <br> Units: E11:<strong>128 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200012\">F02012200012</a> <br> Units: T2:<strong>147 s</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule120",
+            "level": "WARNING",
+            "description": "Unit turnout > 120 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200065\">F02012200065</a> <br> Units: T2:<strong>122 s</strong>",
+            "default_visibility": true
+        }
+    ],
+    "TurnoutDurationOutlierRule150": [
+        {
+            "rule": "TurnoutDurationOutlierRule150",
+            "level": "WARNING",
+            "description": "Unit turnout > 150 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180006\">F02012180006</a> <br> Units: E6:<strong>181 s</strong>",
+            "default_visibility": false
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule150",
+            "level": "WARNING",
+            "description": "Unit turnout > 150 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180014\">F02012180014</a> <br> Units: T3:<strong>156 s</strong>",
+            "default_visibility": false
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule150",
+            "level": "WARNING",
+            "description": "Unit turnout > 150 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190004\">F02012190004</a> <br> Units: SAFETY1:<strong>163 s</strong>",
+            "default_visibility": false
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule150",
+            "level": "WARNING",
+            "description": "Unit turnout > 150 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190041\">F02012190041</a> <br> Units: R1:<strong>168 s</strong>",
+            "default_visibility": false
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule150",
+            "level": "WARNING",
+            "description": "Unit turnout > 150 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190050\">F02012190050</a> <br> Units: E12:<strong>166 s</strong>",
+            "default_visibility": false
+        },
+        {
+            "rule": "TurnoutDurationOutlierRule150",
+            "level": "WARNING",
+            "description": "Unit turnout > 150 sec",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190070\">F02012190070</a> <br> Units: REHAB1:<strong>1617 s</strong>,LOG3:<strong>371 s</strong>",
+            "default_visibility": false
+        }
+    ],
+    "TravelDurationOutlierRule": [
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012170089\">F02012170089</a> <br> Units: E6:<strong>19.43 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180002\">F02012180002</a> <br> Units: T3:<strong>11.90 m</strong>,E18:<strong>10.47 m</strong>,SAFETY1:<strong>10.12 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180054\">F02012180054</a> <br> Units: E15:<strong>12.32 m</strong>,T5:<strong>21.52 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180057\">F02012180057</a> <br> Units: E18:<strong>10.13 m</strong>,T3:<strong>10.25 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012180062\">F02012180062</a> <br> Units: SAFETY1:<strong>17.72 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190023\">F02012190023</a> <br> Units: E12:<strong>38.17 m</strong>,BC2:<strong>38.78 m</strong>,E6:<strong>37.68 m</strong>,T2:<strong>10.62 m</strong>,T9:<strong>90.47 m</strong>,AL1:<strong>13.87 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190028\">F02012190028</a> <br> Units: T5:<strong>16.55 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190077\">F02012190077</a> <br> Units: E10:<strong>14.92 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190078\">F02012190078</a> <br> Units: E22:<strong>11.05 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012190070\">F02012190070</a> <br> Units: E6:<strong>11.10 m</strong>,BC3:<strong>10.35 m</strong>,SAFETY1:<strong>15.60 m</strong>,T3:<strong>19.07 m</strong>,BC2:<strong>16.25 m</strong>,E15:<strong>12.58 m</strong>,E17:<strong>10.35 m</strong>,E5:<strong>10.08 m</strong>,REHAB1:<strong>22.80 m</strong>,LOG1:<strong>50.67 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200041\">F02012200041</a> <br> Units: T3:<strong>10.03 m</strong>",
+            "default_visibility": true
+        },
+        {
+            "rule": "TravelDurationOutlierRule",
+            "level": "WARNING",
+            "description": "Unit travel > 10 min",
+            "details": "Incident: <a target=\"_blank\" href=\"https://statengine.io/incidents/F02012200052\">F02012200052</a> <br> Units: E21:<strong>11.57 m</strong>,T8:<strong>11.52 m</strong>",
+            "default_visibility": true
+        }
+    ]
+}

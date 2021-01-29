@@ -1,55 +1,20 @@
 import moment from 'moment-timezone';
 
-import getRuleAnalysis from '../getRuleAnalysis';
 import { getShift } from '../../shift';
 import { TimeUnit } from '../../../components/constants/time-unit';
 
-export async function descriptionPrev(emailData) {
-  const ruleAnalysis = await getRuleAnalysis(emailData);
-  return formatDescription(emailData, ruleAnalysis.previousTimeFilter);
-}
-
-function formatDescription(emailData, comparisonTimeRange) {
-  const { fireDepartment, timeRange } = emailData;
-  const timeStart = moment.parseZone(timeRange.start);
-  const title = `Custom Report - ${timeStart.format('YYYY-MM-DD')}`;
-  const subtitle = '';
-  const timeRangeStr = getRangeString(timeRange.start, timeRange.end);
-  const comparisonTimeRangeStr = getRangeString(comparisonTimeRange.start, comparisonTimeRange.end);
-  const firecaresId = fireDepartment.firecares_id;
-
-  return {
-    departmentName: fireDepartment.name,
-    timeRange: timeRangeStr,
-    comparisonTimeRange: comparisonTimeRangeStr,
-    runTime: moment()
-      .tz(fireDepartment.timezone)
-      .format('lll'),
-    title,
-    subtitle,
-    shift: getShift(firecaresId, timeRange.start),
-  };
-}
-
-function getRangeString(start, end) {
-  return `${moment.parseZone(start).format('lll')} - ${moment.parseZone(end).format('lll')}`;
-}
-
-export async function description(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
-  let title;
-  let subtitle;
+export default function descriptionSection(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
   const timeUnit = reportOptions.timeUnit.toLowerCase();
-
-  const timeStart = moment.parseZone(timeRange.start);
-  if (timeUnit === TimeUnit.Shift) {
-    title = `Shift Report - ${timeStart.format('YYYY-MM-DD')}`;
-    subtitle = `Shift ${getShift(fireDepartment.firecares_id, timeRange.start)}`;
-  } else if (timeUnit === TimeUnit.Week) { title = `Weekly Report - W${timeStart.week()}`; } else if (timeUnit === TimeUnit.Month) { title = `Monthly Report - ${timeStart.format('MMMM')}`; } else if (timeUnit === TimeUnit.Year) { title = `Yearly Report - ${timeStart.year()}`; }
+  const timeStart = timeRange.start;
+  const timeEnd = timeRange.end;
+  const compStart = comparisonTimeRange.start;
+  const compEnd = comparisonTimeRange.end;
+  const { title, subtitle } = getTitleAndSubtitle(timeStart, timeUnit, fireDepartment);
 
   return {
     departmentName: fireDepartment.name,
-    timeRange: `${moment.parseZone(timeRange.start).format('lll')} - ${moment.parseZone(timeRange.end).format('lll')}`,
-    comparisonTimeRange: `${moment.parseZone(comparisonTimeRange.start).format('lll')} - ${moment.parseZone(comparisonTimeRange.end).format('lll')}`,
+    timeRange: getRangeString(timeStart, timeEnd),
+    comparisonTimeRange: getRangeString(compStart, compEnd),
     runTime: moment()
       .tz(fireDepartment.timezone)
       .format('lll'),
@@ -57,4 +22,27 @@ export async function description(fireDepartment, timeRange, comparisonTimeRange
     subtitle,
     shift: getShift(fireDepartment.firecares_id, timeRange.start),
   };
+}
+
+function getTitleAndSubtitle(timeRange, timeUnit, fireDepartment) {
+  const timeStart = moment.parseZone(timeRange.start);
+  let title;
+  let subtitle;
+
+  if (timeUnit === TimeUnit.Shift) {
+    title = `Shift Report - ${timeStart.format('YYYY-MM-DD')}`;
+    subtitle = `Shift ${getShift(fireDepartment.firecares_id, timeRange.start)}`;
+  } else if (timeUnit === TimeUnit.Week) {
+    title = `Weekly Report - W${timeStart.week()}`;
+  } else if (timeUnit === TimeUnit.Month) {
+    title = `Monthly Report - ${timeStart.format('MMMM')}`;
+  } else if (timeUnit === TimeUnit.Year) {
+    title = `Yearly Report - ${timeStart.year()}`;
+  }
+
+  return { title, subtitle };
+}
+
+function getRangeString(start, end) {
+  return `${moment.parseZone(start).format('lll')} - ${moment.parseZone(end).format('lll')}`;
 }

@@ -3,63 +3,16 @@ import _ from 'lodash';
 
 // import getRuleAnalysis from '../getRuleAnalysis';
 import { alertColors } from '../../../api/email/sendNotificationControllerConstants';
+import { validateAlertSummaryParams } from '../validateMetricsParams';
 
-export default async function alertSummary(params) {
-  // const analysis = await getRuleAnalysis(emailData);
-  // const ruleAnalysis = analysis.ruleAnalysis();
-  // return formatAlerts(ruleAnalysis);
+export default function alertSummary(params) {
+  if (!validateAlertSummaryParams(params)) {
+    throw Error('Missing ruleAnalysis or reportOptions');
+  }
+
   const { ruleAnalysis, reportOptions } = params;
   return formatAlerts(ruleAnalysis, reportOptions);
 }
-
-// export function formatAlerts(ruleAnalysis) {
-//   const mergeVar = {
-//     name: 'alerts',
-//     content: [],
-//   };
-
-//   _.forEach(ruleAnalysis, ruleViolations => {
-//     ruleViolations.forEach(violation => {
-//       if (violation.level === 'DANGER') {
-//         violation.rowColor = alertColors.danger.row;
-//         violation.rowBorderColor = alertColors.danger.rowBorder;
-//       } else if (violation.level === 'WARNING') {
-//         violation.rowColor = alertColors.warning.row;
-//         violation.rowBorderColor = alertColors.warning.rowBorder;
-//       }
-//       mergeVar.content.push(violation);
-//     });
-//   });
-
-//   // if no alerts
-//   if (mergeVar.content.length === 0) {
-//     mergeVar.content.push({
-//       rowColor: alertColors.success.row,
-//       rowBorderColor: alertColors.success.rowBorder,
-//       description: 'No alerts',
-//       details: 'Keep up the good work!',
-//     });
-//   }
-
-//   // Add a space after any comma without one after it.
-//   mergeVar.content.forEach(alert => {
-//     // for condensed alerts, details are in an array
-//     if (alert.condenseRendering) {
-//       alert.detailList.forEach(detail => {
-//         detail.detail = addSpaceAfterComma(detail.detail);
-//       });
-//     } else {
-//       // non-condensed alerts' details are just a string
-//       alert.details = addSpaceAfterComma(alert.details);
-//     }
-//   });
-
-//   return mergeVar;
-// }
-
-// function addSpaceAfterComma(theString) {
-//   return theString.replace(/(,(?=\S))/g, ', ');
-// }
 
 /**
  * Add colors to the alerts based on the level of the alerts: DANGER and WARNING.
@@ -72,15 +25,6 @@ export default async function alertSummary(params) {
  * @private
  */
 function formatAlerts(alerts, reportOptions) {
-  // const outAlerts = {
-  //   // the name matches a name in rules.js
-  //   alerts: [],
-  // };
-  // const outAlertsCondensed = {
-  //   // the name matches a name in rules.js
-  //   condensedAlerts: [],
-  // };
-
   const alertsData = {
     name: 'alerts',
     alerts: [],

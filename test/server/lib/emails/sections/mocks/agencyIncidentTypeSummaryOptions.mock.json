@@ -7,7 +7,7 @@
       },
       "showBattalionSummary": true,
       "showIncidentTypeSummary": false,
-      "showAgencyIncidentTypeSummary": false
+      "showAgencyIncidentTypeSummary": true
   },
   "showDistances": true,
   "showTransports": false,

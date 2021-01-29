@@ -2,7 +2,7 @@ import { getReportOptions } from './notificationEmailHelpers';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { getMergeVars, sendEmails } from './buildAndSendEmails';
-import { description as descriptionSection } from './sections/description';
+import descriptionSection from './sections/description';
 import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
 
 export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment) {
@@ -26,14 +26,23 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
   const sections = getNotificationEmailSections();
 
-  const sectionData = await getMergeVars({ sections, fireDepartment, timeRange, ruleAnalysis, comparison, reportOptions });
+  const params = {
+    comparison,
+    fireDepartment,
+    reportOptions,
+    ruleAnalysis,
+    sections,
+    timeRange,
+  };
+
+  const sectionData = await getMergeVars(params);
 
   const description = await descriptionSection(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
 
   const mergeVars = {
-    comparison,
-    description,
-    options: reportOptions,
+    // comparison,
+    // description,
+    // options: reportOptions,
     sections: sectionData,
   };
   const emailList = ['paul@prominentedge.com'];// await getEmailList(reportOptions, fireDepartment._id);
@@ -50,9 +59,9 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
 function getNotificationEmailSections() {
   return [
-    { type: 'agencyIncidentTypeSummary' },
+    // { type: 'agencyIncidentTypeSummary' },
     // { type: 'agencySummary' },
-    // { type: 'alertSummary' },
+    { type: 'alertSummary' },
     // { type: 'battalionSummary' },
     // { type: 'incidentSummary' },
     // { type: 'incidentTypeSummary' },
