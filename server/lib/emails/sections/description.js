@@ -9,7 +9,7 @@ export default function descriptionSection(fireDepartment, timeRange, comparison
   const timeEnd = timeRange.end;
   const compStart = comparisonTimeRange.start;
   const compEnd = comparisonTimeRange.end;
-  const { title, subtitle } = getTitleAndSubtitle(timeStart, timeUnit, fireDepartment);
+  const { title, subtitle } = getTitleAndSubtitle(timeRange, timeUnit, fireDepartment);
 
   return {
     departmentName: fireDepartment.name,
@@ -31,7 +31,7 @@ function getTitleAndSubtitle(timeRange, timeUnit, fireDepartment) {
 
   if (timeUnit === TimeUnit.Shift) {
     title = `Shift Report - ${timeStart.format('YYYY-MM-DD')}`;
-    subtitle = `Shift ${getShift(fireDepartment.firecares_id, timeRange.start)}`;
+    subtitle = `Shift ${getShift(fireDepartment.firecares_id, timeStart)}`;
   } else if (timeUnit === TimeUnit.Week) {
     title = `Weekly Report - W${timeStart.week()}`;
   } else if (timeUnit === TimeUnit.Month) {
