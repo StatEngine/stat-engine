@@ -11,8 +11,12 @@ import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
 
 export default async function handleCustomEmail(emailConfigId) {
   const emailData = await findCustomEmailConfig(emailConfigId);
-  const timeRange = getTimeRange(emailData);
   const fireDepartment = await getFireDepartment(emailData.fd_id);
+
+  const { by_shift: byShift, last_sent: lastSent } = emailData;
+  const { firecaresId } = fireDepartment;
+  const timeRange = getTimeRange(byShift, firecaresId, lastSent);
+
   const analysis = new IncidentAnalysisTimeRange({
     index: fireDepartment.es_indices['fire-incident'],
     timeRange,
@@ -20,7 +24,7 @@ export default async function handleCustomEmail(emailConfigId) {
   const comparison = await analysis.compare();
   const ruleAnalysis = await analysis.ruleAnalysis();
   const { sections } = emailData;
-  const reportOptions = await getReportOptions(emailData);
+  const reportOptions = await getReportOptions();
 
   const params = {
     comparison,
@@ -44,21 +48,18 @@ export default async function handleCustomEmail(emailConfigId) {
 
   await Promise.all(sendEmails(emailList, mergeVars, html));
 
-  // finally, update last_sent time`
+  // finally, update last_sent time
   emailData.last_sent = moment().format();
   return queryUpdate(emailData._id, emailData);
 }
 
-function getTimeRange(emailData) {
-  const { by_shift: byShift } = emailData;
-  const firecaresId = emailData.fireDepartment.firecares_id;
-
+function getTimeRange(byShift, firecaresId, lastSent) {
   if (byShift) {
     return getShiftTimeRange(firecaresId, moment().format());
   }
 
-  const start = moment('2018-12-01').format();// emailData.last_sent;
-  const end = moment('2018-12-05').format();// moment().format();
+  const start = lastSent;
+  const end = moment().format();
   return {
     start,
     end,
