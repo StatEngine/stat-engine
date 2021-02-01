@@ -1,0 +1,1571 @@
+{
+    "name": "unitSummary",
+    "unitMetrics": [
+        {
+            "id": "E5",
+            "incidentCount": {
+                "val": 33,
+                "previousVal": 27,
+                "percentChange": 22
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 22,
+                "previousVal": 24,
+                "percentChange": -7
+            },
+            "eventDurationSum": {
+                "val": 572,
+                "previousVal": 465,
+                "percentChange": 23
+            },
+            "turnoutDurationPercentile90": {
+                "val": 113,
+                "previousVal": 123,
+                "percentChange": -8
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 119,
+                "previousVal": 131,
+                "percentChange": -9
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 106,
+                "previousVal": 101,
+                "percentChange": 6
+            },
+            "responseDurationPercentile90": {
+                "val": 566,
+                "previousVal": 547,
+                "percentChange": 4
+            }
+        },
+        {
+            "id": "T2",
+            "incidentCount": {
+                "val": 27,
+                "previousVal": 20,
+                "percentChange": 35
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 6,
+                "previousVal": 5,
+                "percentChange": 29
+            },
+            "eventDurationSum": {
+                "val": 678,
+                "previousVal": 304,
+                "percentChange": 123
+            },
+            "turnoutDurationPercentile90": {
+                "val": 119,
+                "previousVal": 102,
+                "percentChange": 17
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 110,
+                "previousVal": 102,
+                "percentChange": 8
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 147
+            },
+            "responseDurationPercentile90": {
+                "val": 567,
+                "previousVal": 910,
+                "percentChange": -38
+            }
+        },
+        {
+            "id": "T3",
+            "incidentCount": {
+                "val": 21,
+                "previousVal": 20,
+                "percentChange": 5
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 7,
+                "previousVal": 3,
+                "percentChange": 116
+            },
+            "eventDurationSum": {
+                "val": 274,
+                "previousVal": 349,
+                "percentChange": -21
+            },
+            "turnoutDurationPercentile90": {
+                "val": 123,
+                "previousVal": 109,
+                "percentChange": 13
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 124,
+                "previousVal": 105,
+                "percentChange": 18
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 26,
+                "previousVal": 114,
+                "percentChange": -77
+            },
+            "responseDurationPercentile90": {
+                "val": 818,
+                "previousVal": 1014,
+                "percentChange": -19
+            }
+        },
+        {
+            "id": "E11",
+            "incidentCount": {
+                "val": 21,
+                "previousVal": 21,
+                "percentChange": 0
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 16,
+                "previousVal": 18,
+                "percentChange": -9
+            },
+            "eventDurationSum": {
+                "val": 628,
+                "previousVal": 375,
+                "percentChange": 67
+            },
+            "turnoutDurationPercentile90": {
+                "val": 104,
+                "previousVal": 89,
+                "percentChange": 17
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 82,
+                "previousVal": 95,
+                "percentChange": -14
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 123,
+                "previousVal": 77,
+                "percentChange": 60
+            },
+            "responseDurationPercentile90": {
+                "val": 539,
+                "previousVal": 390,
+                "percentChange": 38
+            }
+        },
+        {
+            "id": "SAFETY1",
+            "incidentCount": {
+                "val": 19,
+                "previousVal": 16,
+                "percentChange": 19
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 7,
+                "previousVal": 13,
+                "percentChange": -47
+            },
+            "eventDurationSum": {
+                "val": 479,
+                "previousVal": 257,
+                "percentChange": 87
+            },
+            "turnoutDurationPercentile90": {
+                "val": 84,
+                "previousVal": 88,
+                "percentChange": -4
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 85,
+                "previousVal": 88,
+                "percentChange": -4
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 61
+            },
+            "responseDurationPercentile90": {
+                "val": 1098,
+                "previousVal": 1238,
+                "percentChange": -11
+            }
+        },
+        {
+            "id": "E21",
+            "incidentCount": {
+                "val": 19,
+                "previousVal": 16,
+                "percentChange": 19
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 28,
+                "previousVal": 20,
+                "percentChange": 37
+            },
+            "eventDurationSum": {
+                "val": 441,
+                "previousVal": 200,
+                "percentChange": 120
+            },
+            "turnoutDurationPercentile90": {
+                "val": 82,
+                "previousVal": 82,
+                "percentChange": -1
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 67,
+                "previousVal": 80,
+                "percentChange": -16
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 86,
+                "previousVal": 85,
+                "percentChange": 2
+            },
+            "responseDurationPercentile90": {
+                "val": 593,
+                "previousVal": 368,
+                "percentChange": 61
+            }
+        },
+        {
+            "id": "E17",
+            "incidentCount": {
+                "val": 18,
+                "previousVal": 11,
+                "percentChange": 64
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 11,
+                "previousVal": 9,
+                "percentChange": 25
+            },
+            "eventDurationSum": {
+                "val": 354,
+                "previousVal": 122,
+                "percentChange": 191
+            },
+            "turnoutDurationPercentile90": {
+                "val": 97,
+                "previousVal": 108,
+                "percentChange": -10
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 100,
+                "previousVal": 121,
+                "percentChange": -18
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 96,
+                "previousVal": 90,
+                "percentChange": 7
+            },
+            "responseDurationPercentile90": {
+                "val": 487,
+                "previousVal": 656,
+                "percentChange": -26
+            }
+        },
+        {
+            "id": "E1",
+            "incidentCount": {
+                "val": 18,
+                "previousVal": 10,
+                "percentChange": 80
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 14,
+                "previousVal": 8,
+                "percentChange": 82
+            },
+            "eventDurationSum": {
+                "val": 432,
+                "previousVal": 200,
+                "percentChange": 116
+            },
+            "turnoutDurationPercentile90": {
+                "val": 89,
+                "previousVal": 146,
+                "percentChange": -39
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 95,
+                "previousVal": 138,
+                "percentChange": -31
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 78,
+                "previousVal": 151,
+                "percentChange": -49
+            },
+            "responseDurationPercentile90": {
+                "val": 536,
+                "previousVal": 571,
+                "percentChange": -6
+            }
+        },
+        {
+            "id": "BC1",
+            "incidentCount": {
+                "val": 18,
+                "previousVal": 16,
+                "percentChange": 13
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "eventDurationSum": {
+                "val": 544,
+                "previousVal": 226,
+                "percentChange": 140
+            },
+            "turnoutDurationPercentile90": {
+                "val": 105,
+                "previousVal": 112,
+                "percentChange": -6
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 107,
+                "previousVal": 112,
+                "percentChange": -5
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 68,
+                "previousVal": 100,
+                "percentChange": -32
+            },
+            "responseDurationPercentile90": {
+                "val": 593,
+                "previousVal": 554,
+                "percentChange": 7
+            }
+        },
+        {
+            "id": "E16",
+            "incidentCount": {
+                "val": 17,
+                "previousVal": 17,
+                "percentChange": 0
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 14,
+                "previousVal": 17,
+                "percentChange": -18
+            },
+            "eventDurationSum": {
+                "val": 301,
+                "previousVal": 285,
+                "percentChange": 6
+            },
+            "turnoutDurationPercentile90": {
+                "val": 82,
+                "previousVal": 69,
+                "percentChange": 18
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 76,
+                "previousVal": 71,
+                "percentChange": 6
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 85,
+                "previousVal": 67,
+                "percentChange": 27
+            },
+            "responseDurationPercentile90": {
+                "val": 380,
+                "previousVal": 671,
+                "percentChange": -43
+            }
+        },
+        {
+            "id": "E15",
+            "incidentCount": {
+                "val": 17,
+                "previousVal": 15,
+                "percentChange": 13
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 17,
+                "previousVal": 15,
+                "percentChange": 16
+            },
+            "eventDurationSum": {
+                "val": 291,
+                "previousVal": 294,
+                "percentChange": -1
+            },
+            "turnoutDurationPercentile90": {
+                "val": 74,
+                "previousVal": 82,
+                "percentChange": -10
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 71,
+                "previousVal": 74,
+                "percentChange": -4
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 75,
+                "previousVal": 95,
+                "percentChange": -21
+            },
+            "responseDurationPercentile90": {
+                "val": 773,
+                "previousVal": 497,
+                "percentChange": 56
+            }
+        },
+        {
+            "id": "E12",
+            "incidentCount": {
+                "val": 17,
+                "previousVal": 12,
+                "percentChange": 42
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 8,
+                "previousVal": 8,
+                "percentChange": -8
+            },
+            "eventDurationSum": {
+                "val": 209,
+                "previousVal": 330,
+                "percentChange": -37
+            },
+            "turnoutDurationPercentile90": {
+                "val": 115,
+                "previousVal": 76,
+                "percentChange": 52
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 150,
+                "previousVal": 67,
+                "percentChange": 124
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 108,
+                "previousVal": 86,
+                "percentChange": 25
+            },
+            "responseDurationPercentile90": {
+                "val": 1175,
+                "previousVal": 487,
+                "percentChange": 141
+            }
+        },
+        {
+            "id": "E6",
+            "incidentCount": {
+                "val": 16,
+                "previousVal": 20,
+                "percentChange": -20
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 11,
+                "previousVal": 12,
+                "percentChange": -12
+            },
+            "eventDurationSum": {
+                "val": 472,
+                "previousVal": 310,
+                "percentChange": 52
+            },
+            "turnoutDurationPercentile90": {
+                "val": 134,
+                "previousVal": 110,
+                "percentChange": 22
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 110,
+                "previousVal": 111,
+                "percentChange": -1
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 181,
+                "previousVal": 107,
+                "percentChange": 69
+            },
+            "responseDurationPercentile90": {
+                "val": 1616,
+                "previousVal": 588,
+                "percentChange": 175
+            }
+        },
+        {
+            "id": "E23",
+            "incidentCount": {
+                "val": 15,
+                "previousVal": 16,
+                "percentChange": -6
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 20,
+                "previousVal": 25,
+                "percentChange": -21
+            },
+            "eventDurationSum": {
+                "val": 320,
+                "previousVal": 206,
+                "percentChange": 55
+            },
+            "turnoutDurationPercentile90": {
+                "val": 84,
+                "previousVal": 67,
+                "percentChange": 25
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 88,
+                "previousVal": 52,
+                "percentChange": 68
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 67,
+                "previousVal": 70,
+                "percentChange": -4
+            },
+            "responseDurationPercentile90": {
+                "val": 471,
+                "previousVal": 547,
+                "percentChange": -14
+            }
+        },
+        {
+            "id": "BC2",
+            "incidentCount": {
+                "val": 15,
+                "previousVal": 12,
+                "percentChange": 25
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 6,
+                "previousVal": 5,
+                "percentChange": 21
+            },
+            "eventDurationSum": {
+                "val": 320,
+                "previousVal": 227,
+                "percentChange": 41
+            },
+            "turnoutDurationPercentile90": {
+                "val": 89,
+                "previousVal": 90,
+                "percentChange": -1
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 93,
+                "previousVal": 90,
+                "percentChange": 4
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 37
+            },
+            "responseDurationPercentile90": {
+                "val": 2362,
+                "previousVal": 782,
+                "percentChange": 202
+            }
+        },
+        {
+            "id": "T8",
+            "incidentCount": {
+                "val": 14,
+                "previousVal": 2,
+                "percentChange": 600
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 6,
+                "previousVal": 1,
+                "percentChange": 511
+            },
+            "eventDurationSum": {
+                "val": 177,
+                "previousVal": 8,
+                "percentChange": 2100
+            },
+            "turnoutDurationPercentile90": {
+                "val": 86,
+                "previousVal": 116,
+                "percentChange": -26
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 100,
+                "previousVal": "NaN",
+                "percentChange": null
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 68,
+                "previousVal": 116,
+                "percentChange": -41
+            },
+            "responseDurationPercentile90": {
+                "val": 697,
+                "previousVal": "NaN",
+                "percentChange": null
+            }
+        },
+        {
+            "id": "E18",
+            "incidentCount": {
+                "val": 14,
+                "previousVal": 18,
+                "percentChange": -22
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 14,
+                "previousVal": 18,
+                "percentChange": -19
+            },
+            "eventDurationSum": {
+                "val": 341,
+                "previousVal": 352,
+                "percentChange": -3
+            },
+            "turnoutDurationPercentile90": {
+                "val": 100,
+                "previousVal": 98,
+                "percentChange": 2
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 125,
+                "previousVal": 94,
+                "percentChange": 33
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 93,
+                "previousVal": 114,
+                "percentChange": -18
+            },
+            "responseDurationPercentile90": {
+                "val": 696,
+                "previousVal": 533,
+                "percentChange": 31
+            }
+        },
+        {
+            "id": "E13",
+            "incidentCount": {
+                "val": 14,
+                "previousVal": 19,
+                "percentChange": -26
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 13,
+                "previousVal": 14,
+                "percentChange": -9
+            },
+            "eventDurationSum": {
+                "val": 252,
+                "previousVal": 268,
+                "percentChange": -6
+            },
+            "turnoutDurationPercentile90": {
+                "val": 85,
+                "previousVal": 73,
+                "percentChange": 16
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 110,
+                "previousVal": 75,
+                "percentChange": 48
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 75,
+                "previousVal": 73,
+                "percentChange": 2
+            },
+            "responseDurationPercentile90": {
+                "val": 505,
+                "previousVal": 429,
+                "percentChange": 18
+            }
+        },
+        {
+            "id": "E22",
+            "incidentCount": {
+                "val": 13,
+                "previousVal": 21,
+                "percentChange": -38
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 15,
+                "previousVal": 21,
+                "percentChange": -29
+            },
+            "eventDurationSum": {
+                "val": 173,
+                "previousVal": 313,
+                "percentChange": -45
+            },
+            "turnoutDurationPercentile90": {
+                "val": 114,
+                "previousVal": 91,
+                "percentChange": 25
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 110,
+                "previousVal": 74,
+                "percentChange": 48
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 116,
+                "previousVal": 109,
+                "percentChange": 6
+            },
+            "responseDurationPercentile90": {
+                "val": 544,
+                "previousVal": 443,
+                "percentChange": 23
+            }
+        },
+        {
+            "id": "E20",
+            "incidentCount": {
+                "val": 12,
+                "previousVal": 19,
+                "percentChange": -37
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 11,
+                "previousVal": 21,
+                "percentChange": -51
+            },
+            "eventDurationSum": {
+                "val": 223,
+                "previousVal": 324,
+                "percentChange": -31
+            },
+            "turnoutDurationPercentile90": {
+                "val": 81,
+                "previousVal": 91,
+                "percentChange": -10
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 72,
+                "previousVal": 95,
+                "percentChange": -24
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 101,
+                "previousVal": 74,
+                "percentChange": 37
+            },
+            "responseDurationPercentile90": {
+                "val": 384,
+                "previousVal": 710,
+                "percentChange": -46
+            }
+        },
+        {
+            "id": "E10",
+            "incidentCount": {
+                "val": 12,
+                "previousVal": 14,
+                "percentChange": -14
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 9,
+                "previousVal": 6,
+                "percentChange": 67
+            },
+            "eventDurationSum": {
+                "val": 194,
+                "previousVal": 215,
+                "percentChange": -10
+            },
+            "turnoutDurationPercentile90": {
+                "val": 103,
+                "previousVal": 96,
+                "percentChange": 7
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 122,
+                "previousVal": 90,
+                "percentChange": 35
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 65,
+                "previousVal": 108,
+                "percentChange": -40
+            },
+            "responseDurationPercentile90": {
+                "val": 705,
+                "previousVal": 543,
+                "percentChange": 30
+            }
+        },
+        {
+            "id": "T9",
+            "incidentCount": {
+                "val": 11,
+                "previousVal": 15,
+                "percentChange": -27
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 14,
+                "previousVal": 10,
+                "percentChange": 41
+            },
+            "eventDurationSum": {
+                "val": 199,
+                "previousVal": 271,
+                "percentChange": -27
+            },
+            "turnoutDurationPercentile90": {
+                "val": 113,
+                "previousVal": 113,
+                "percentChange": 0
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 116,
+                "previousVal": 110,
+                "percentChange": 5
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 76,
+                "previousVal": 118,
+                "percentChange": -36
+            },
+            "responseDurationPercentile90": {
+                "val": 5554,
+                "previousVal": 634,
+                "percentChange": 776
+            }
+        },
+        {
+            "id": "BC3",
+            "incidentCount": {
+                "val": 10,
+                "previousVal": 12,
+                "percentChange": -17
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "eventDurationSum": {
+                "val": 338,
+                "previousVal": 142,
+                "percentChange": 138
+            },
+            "turnoutDurationPercentile90": {
+                "val": 94,
+                "previousVal": 87,
+                "percentChange": 7
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 97,
+                "previousVal": 90,
+                "percentChange": 8
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 31,
+                "previousVal": 63,
+                "percentChange": -51
+            },
+            "responseDurationPercentile90": {
+                "val": 678,
+                "previousVal": 638,
+                "percentChange": 6
+            }
+        },
+        {
+            "id": "T5",
+            "incidentCount": {
+                "val": 7,
+                "previousVal": 20,
+                "percentChange": -65
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 4,
+                "previousVal": 10,
+                "percentChange": -61
+            },
+            "eventDurationSum": {
+                "val": 503,
+                "previousVal": 349,
+                "percentChange": 44
+            },
+            "turnoutDurationPercentile90": {
+                "val": 106,
+                "previousVal": 59,
+                "percentChange": 80
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 106,
+                "previousVal": 63,
+                "percentChange": 69
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0,
+                "previousVal": 51,
+                "percentChange": -100
+            },
+            "responseDurationPercentile90": {
+                "val": 1295,
+                "previousVal": 584,
+                "percentChange": 122
+            }
+        },
+        {
+            "id": "E14",
+            "incidentCount": {
+                "val": 7,
+                "previousVal": 14,
+                "percentChange": -50
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 7,
+                "previousVal": 19,
+                "percentChange": -65
+            },
+            "eventDurationSum": {
+                "val": 134,
+                "previousVal": 205,
+                "percentChange": -34
+            },
+            "turnoutDurationPercentile90": {
+                "val": 84,
+                "previousVal": 77,
+                "percentChange": 9
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 82,
+                "previousVal": 76,
+                "percentChange": 8
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 84,
+                "previousVal": 74,
+                "percentChange": 14
+            },
+            "responseDurationPercentile90": {
+                "val": 392,
+                "previousVal": 420,
+                "percentChange": -7
+            }
+        },
+        {
+            "id": "E8",
+            "incidentCount": {
+                "val": 5,
+                "previousVal": 3,
+                "percentChange": 67
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 3,
+                "previousVal": 0,
+                "percentChange": 625
+            },
+            "eventDurationSum": {
+                "val": 433,
+                "previousVal": 53,
+                "percentChange": 717
+            },
+            "turnoutDurationPercentile90": {
+                "val": 129,
+                "previousVal": 113,
+                "percentChange": 14
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 129,
+                "previousVal": 48,
+                "percentChange": 169
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0,
+                "previousVal": 113,
+                "percentChange": -100
+            },
+            "responseDurationPercentile90": {
+                "val": 221,
+                "previousVal": 236,
+                "percentChange": -6
+            }
+        },
+        {
+            "id": "BC4",
+            "incidentCount": {
+                "val": 5,
+                "previousVal": 6,
+                "percentChange": -17
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "eventDurationSum": {
+                "val": 64,
+                "previousVal": 70,
+                "percentChange": -8
+            },
+            "turnoutDurationPercentile90": {
+                "val": 83,
+                "previousVal": 73,
+                "percentChange": 14
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 83,
+                "previousVal": 73,
+                "percentChange": 14
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0,
+                "previousVal": 10,
+                "percentChange": -100
+            },
+            "responseDurationPercentile90": {
+                "val": 637,
+                "previousVal": 355,
+                "percentChange": 79
+            }
+        },
+        {
+            "id": "E25",
+            "incidentCount": {
+                "val": 4,
+                "previousVal": 6,
+                "percentChange": -33
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 7,
+                "previousVal": 9,
+                "percentChange": -22
+            },
+            "eventDurationSum": {
+                "val": 98,
+                "previousVal": 135,
+                "percentChange": -27
+            },
+            "turnoutDurationPercentile90": {
+                "val": 110,
+                "previousVal": 187,
+                "percentChange": -41
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 110,
+                "previousVal": 199,
+                "percentChange": -45
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 106,
+                "previousVal": 70,
+                "percentChange": 51
+            },
+            "responseDurationPercentile90": {
+                "val": 400,
+                "previousVal": 353,
+                "percentChange": 13
+            }
+        },
+        {
+            "id": "R2",
+            "incidentCount": {
+                "val": 3,
+                "previousVal": 5,
+                "percentChange": -40
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 4,
+                "previousVal": 5,
+                "percentChange": -12
+            },
+            "eventDurationSum": {
+                "val": 26,
+                "previousVal": 39,
+                "percentChange": -33
+            },
+            "turnoutDurationPercentile90": {
+                "val": 132,
+                "previousVal": 96,
+                "percentChange": 38
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 132,
+                "previousVal": 96,
+                "percentChange": 38
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": 524,
+                "previousVal": 283,
+                "percentChange": 85
+            }
+        },
+        {
+            "id": "E19",
+            "incidentCount": {
+                "val": 2,
+                "previousVal": 9,
+                "percentChange": -78
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 2,
+                "previousVal": 13,
+                "percentChange": -85
+            },
+            "eventDurationSum": {
+                "val": 151,
+                "previousVal": 179,
+                "percentChange": -16
+            },
+            "turnoutDurationPercentile90": {
+                "val": 95,
+                "previousVal": 113,
+                "percentChange": -16
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 95,
+                "previousVal": 114,
+                "percentChange": -17
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0,
+                "previousVal": 63,
+                "percentChange": -100
+            },
+            "responseDurationPercentile90": {
+                "val": 514,
+                "previousVal": 665,
+                "percentChange": -23
+            }
+        },
+        {
+            "id": "AL1",
+            "incidentCount": {
+                "val": 2,
+                "previousVal": 1,
+                "percentChange": 100
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 9,
+                "previousVal": 4,
+                "percentChange": 102
+            },
+            "eventDurationSum": {
+                "val": 88,
+                "previousVal": 49,
+                "percentChange": 82
+            },
+            "turnoutDurationPercentile90": {
+                "val": 123,
+                "previousVal": 88,
+                "percentChange": 40
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 123,
+                "previousVal": 88,
+                "percentChange": 40
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": 955,
+                "previousVal": 1156,
+                "percentChange": -17
+            }
+        },
+        {
+            "id": "STAFF",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 198
+            },
+            "turnoutDurationPercentile90": {
+                "val": "NaN"
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": "NaN"
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": "NaN"
+            }
+        },
+        {
+            "id": "REHAB1",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 172
+            },
+            "turnoutDurationPercentile90": {
+                "val": 1617
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 1617
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": 2985
+            }
+        },
+        {
+            "id": "R1",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 3
+            },
+            "eventDurationSum": {
+                "val": 8
+            },
+            "turnoutDurationPercentile90": {
+                "val": 168
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 168
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": "NaN"
+            }
+        },
+        {
+            "id": "PIO1",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 0
+            },
+            "turnoutDurationPercentile90": {
+                "val": "NaN"
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": "NaN"
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": "NaN"
+            }
+        },
+        {
+            "id": "LOGS",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 198
+            },
+            "turnoutDurationPercentile90": {
+                "val": "NaN"
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": "NaN"
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": "NaN"
+            }
+        },
+        {
+            "id": "LOG3",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 126
+            },
+            "turnoutDurationPercentile90": {
+                "val": 371
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 371
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": 842
+            }
+        },
+        {
+            "id": "LOG1",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 182
+            },
+            "turnoutDurationPercentile90": {
+                "val": 20
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 20
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": 3060
+            }
+        },
+        {
+            "id": "FT2",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 18
+            },
+            "turnoutDurationPercentile90": {
+                "val": 84
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 84
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": "NaN"
+            }
+        },
+        {
+            "id": "CH4",
+            "incidentCount": {
+                "val": 1
+            },
+            "transportsCount": {
+                "val": 0
+            },
+            "distanceToIncidentSum": {
+                "val": 0
+            },
+            "eventDurationSum": {
+                "val": 0
+            },
+            "turnoutDurationPercentile90": {
+                "val": 4
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 4
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 0
+            },
+            "responseDurationPercentile90": {
+                "val": 6
+            }
+        }
+    ]
+}

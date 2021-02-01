@@ -1,0 +1,48 @@
+{
+    "name": "agencyResponsesSummary",
+    "agencyResponsesMetrics": [
+        {
+            "id": "Unknown",
+            "incidentCount": {
+                "val": 435,
+                "previousVal": 435,
+                "percentChange": 0
+            },
+            "transportsCount": {
+                "val": 0,
+                "previousVal": 0,
+                "percentChange": null
+            },
+            "distanceToIncidentSum": {
+                "val": 305,
+                "previousVal": 339,
+                "percentChange": -10
+            },
+            "eventDurationSum": {
+                "val": 10610,
+                "previousVal": 7149,
+                "percentChange": 48
+            },
+            "turnoutDurationPercentile90": {
+                "val": 108,
+                "previousVal": 99,
+                "percentChange": 9
+            },
+            "fireTurnoutDurationPercentile90": {
+                "val": 111,
+                "previousVal": 100,
+                "percentChange": 11
+            },
+            "emsTurnoutDurationPercentile90": {
+                "val": 102,
+                "previousVal": 95,
+                "percentChange": 7
+            },
+            "responseDurationPercentile90": {
+                "val": 668,
+                "previousVal": 598,
+                "percentChange": 12
+            }
+        }
+    ]
+}
