@@ -22,7 +22,7 @@ describe('description', () => {
           )).to.throw('Missing or empty parameters passed to description');
       });
     });
-    describe.skip('happy path tests', () => {
+    describe('happy path tests', () => {
       it('should create a valid json for description', async () => {
         const mockDataPath = 'test/server/lib/emails/sections/mocks';
         const mockFireDepartmentFileName = 'fireDepartment.mock.json';

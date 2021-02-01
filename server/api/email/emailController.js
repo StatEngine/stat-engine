@@ -13,11 +13,7 @@ export async function emailController(req, res) {
 }
 
 export async function customEmailController(req, res) {
-  console.dir(req.body);
-  console.log('BUILD CONTENT AND SEND');
   const { emailConfigId } = req.body;
-
   const emailResponse = await handleCustomEmail(emailConfigId);
-
   res.json(emailResponse);
 }

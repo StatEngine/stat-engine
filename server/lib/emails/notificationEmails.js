@@ -37,35 +37,31 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
   const sectionData = await getMergeVars(params);
 
-  const description = await descriptionSection(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
+  const description = descriptionSection(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
 
   const mergeVars = {
-    // comparison,
-    // description,
-    // options: reportOptions,
+    description,
+    options: reportOptions,
     sections: sectionData,
   };
-  const emailList = ['paul@prominentedge.com'];// await getEmailList(reportOptions, fireDepartment._id);
+  const emailList = await getEmailList(reportOptions, fireDepartment._id);
 
-  // console.log('handleNotificationEmail');
-  // console.dir(mergeVars.sections);
+  const html = await getCustomEmailHtml(mergeVars);
 
-  // const html = await getCustomEmailHtml(mergeVars);
+  await Promise.all(sendEmails(emailList, mergeVars, html));
 
-  // await Promise.all(sendEmails(emailList, mergeVars, html));
-
-  return mergeVars;
+  return html;
 }
 
 function getNotificationEmailSections() {
   return [
-    // { type: 'agencyIncidentTypeSummary' },
-    // { type: 'agencySummary' },
+    { type: 'agencyIncidentTypeSummary' },
+    { type: 'agencySummary' },
     { type: 'alertSummary' },
-    // { type: 'battalionSummary' },
-    // { type: 'incidentSummary' },
-    // { type: 'incidentTypeSummary' },
-    // { type: 'jurisdictionSummary' },
-    // { type: 'unitSummary' },
+    { type: 'battalionSummary' },
+    { type: 'incidentSummary' },
+    { type: 'incidentTypeSummary' },
+    { type: 'jurisdictionSummary' },
+    { type: 'unitSummary' },
   ];
 }
