@@ -1,9 +1,9 @@
-import { getReportOptions } from './notificationEmailHelpers';
+import { getReportOptions, getEmailList } from './notificationEmailHelpers';
 import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { getMergeVars, sendEmails } from './buildAndSendEmails';
 import descriptionSection from './sections/description';
-import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
+import { getEmailHtml } from '../../api/email/getEmailHtmlController';
 
 export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment) {
   const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
@@ -46,7 +46,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
   };
   const emailList = await getEmailList(reportOptions, fireDepartment._id);
 
-  const html = await getCustomEmailHtml(mergeVars);
+  const html = await getEmailHtml(mergeVars);
 
   await Promise.all(sendEmails(emailList, mergeVars, html));
 

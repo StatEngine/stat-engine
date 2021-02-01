@@ -7,7 +7,7 @@ import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { getShiftTimeRange } from '../shift';
 import { Extension, ExtensionConfiguration } from '../../sqldb';
 import descriptionSection from './sections/description';
-import { getCustomEmailHtml } from '../../api/email/getEmailHtmlController';
+import { getEmailHtml } from '../../api/email/getEmailHtmlController';
 
 export default async function handleCustomEmail(emailConfigId) {
   const emailData = await findCustomEmailConfig(emailConfigId);
@@ -44,7 +44,7 @@ export default async function handleCustomEmail(emailConfigId) {
   };
 
   const emailList = emailData.email_list;
-  const html = await getCustomEmailHtml(mergeVars);
+  const html = await getEmailHtml(mergeVars);
 
   await Promise.all(sendEmails(emailList, mergeVars, html));
 
