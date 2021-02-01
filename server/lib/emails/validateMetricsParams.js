@@ -22,7 +22,6 @@ function isEmptyObj(obj) {
 }
 
 export function validateDescriptionParams(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
-  console.log('****************VALIDATE DESCRIPTION');
   if (!fireDepartment || isEmptyObj(fireDepartment) ||
   !timeRange || isEmptyObj(timeRange) ||
   !comparisonTimeRange || isEmptyObj(comparisonTimeRange) ||

@@ -1,6 +1,11 @@
 import _ from 'lodash';
 
-export default async function incidentSummary(params) {
+import { validateAggregateMetricsParams } from '../validateMetricsParams';
+
+export default function incidentSummary(params) {
+  if (!validateAggregateMetricsParams(params)) {
+    throw Error('Missing comparison or reportOptions');
+  }
   const { comparison, reportOptions } = params;
   return formatFireDepartmentMetrics(comparison, reportOptions);
 }
@@ -25,7 +30,6 @@ function formatFireDepartmentMetrics(comparison, options) {
 
   metrics.forEach(metric => {
     const [label, path, condition] = metric;
-
     const data = _.get(comparison.fireDepartment, path);
 
     if (!condition || (condition && _.get(options, condition))) {

@@ -5,12 +5,9 @@ import { getShift } from '../../shift';
 import { TimeUnit } from '../../../components/constants/time-unit';
 
 export default function descriptionSection(fireDepartment, timeRange, comparisonTimeRange, reportOptions) {
-  console.log('DESCRIPTION SECTION');
   if (!validateDescriptionParams(fireDepartment, timeRange, comparisonTimeRange, reportOptions)) {
     throw Error('Missing or empty parameters passed to description');
   }
-
-  console.log('GOT TOO FAR');
 
   const timeUnit = reportOptions.timeUnit.toLowerCase();
   const timeStart = timeRange.start;
