@@ -12,15 +12,6 @@ export async function getEmailHtmlController(req, res) {
   return getEmailHtml(mergeVars);
 }
 
-// export function getEmailHtml(mergeVars) {
-//   const htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
-//     handlebars,
-//     config.mailSettings.emailShellTemplatePath,
-//     config.mailSettings.emailPartialsTemplatePath,
-//   ).template());
-//   return htmlReports.report(mergeVars);
-// }
-
 export function getEmailHtml(mergeVars) {
   const htmlReports = new HtmlReports(new HandlebarsEmailTemplate(
     handlebars,
