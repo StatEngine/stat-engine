@@ -44,13 +44,13 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
     options: reportOptions,
     sections: sectionData,
   };
-  const emailList = await getEmailList(reportOptions, fireDepartment._id);
+  const emailList = ['paul@prominentedge.com']; // await getEmailList(reportOptions, fireDepartment._id);
 
   const html = await getEmailHtml(mergeVars);
 
   await Promise.all(sendEmails(emailList, mergeVars, html));
 
-  return html;
+  return mergeVars;
 }
 
 function getNotificationEmailSections() {

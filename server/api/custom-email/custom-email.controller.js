@@ -14,20 +14,14 @@ export async function queryFindAll(where) {
 }
 
 export async function queryFindOne(emailId) {
-  const where = {
-    _id: emailId,
-  };
+  const where = { _id: emailId };
   return CustomEmail.findOne({ where, raw: true });
 }
 
 export async function queryUpdate(emailId, updateData) {
   return CustomEmail.update(
     updateData,
-    {
-      where: {
-        _id: emailId,
-      },
-    },
+    { where: { _id: emailId } },
   );
 }
 
@@ -35,9 +29,7 @@ export async function queryUpdate(emailId, updateData) {
 // used for the list page of the webapp
 export async function listByDeptId(req, res) {
   const fdId = req.user.dataValues.FireDepartment.dataValues.fd_id;
-  const where = {
-    fd_id: fdId,
-  };
+  const where = { fd_id: fdId };
   const emails = await queryFindAll(where);
   res.json({ emails });
 }
@@ -80,11 +72,7 @@ export async function update(req, res) {
 
 export async function deleteCustomEmail(req, res) {
   const { emailId } = req.params;
-  await CustomEmail.destroy({
-    where: {
-      _id: emailId,
-    },
-  });
+  await CustomEmail.destroy({ where: { _id: emailId } });
   CustomEmailScheduler.unscheduleEmail(emailId);
 
   res.json({ msg: `email ${emailId} deleted` });

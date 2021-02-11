@@ -145,6 +145,14 @@ Edit the policy, allowing Read and Write access with prefix `*`
 
 6.  Login with username: `richmond`, password: `password`.
 
+7. To test against the prod elasticsearch data
+  - run `kubectl get pods`
+  - look for elasticsearch client pods. eg: `elasticsearch-elasticsearch-client-64f89475f9-brt6w`
+  - run `kubectl port-forward <podName> <myPort>:9200` eg: `kubectl port-forward elasticsearch-elasticsearch-client-64f89475f9-brt6w 8080:9200`
+  - in env.json, you will need to add the env var: `ELASTICSEARCH_URI`, `ELASTICSEARCH_USER`, `ELASTICSEARCH_PASSWORD`
+  - user and password are in 1Password
+  - uri will be `localhost:8080` (or whatever port you used in the `kubectl port-forward` command)
+
 #### Note
   - If you get strange errors when running either `npm install` or `gulp serve`, your problem is most likely a wrong node version.
   - You MUST be using v8.x.x

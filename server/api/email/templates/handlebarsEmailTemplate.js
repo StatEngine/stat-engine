@@ -29,4 +29,3 @@ export default class HandlebarsEmailTemplate {
     return this.handlebars.compile(fs.readFileSync(this.shellTemplatePath, 'utf-8'));
   }
 }
-
