@@ -4,7 +4,6 @@ import angular from 'angular';
 
 import AppsResource from './apps.service';
 import EmailResource from './email.service';
-import CustomEmailResource from './custom-email.service';
 import EmailListResource from './email-list';
 import ERFResource from './effective-response-force.service';
 import ExtensionConfigurationResource from './extension-configuration.service';
@@ -26,7 +25,6 @@ import ExposureResource from './exposure.service';
 export default angular.module('statEngineApp.api', [])
   .factory('Apps', AppsResource)
   .factory('Email', EmailResource)
-  .factory('CustomEmail', CustomEmailResource)
   .factory('EmailList', EmailListResource)
   .factory('EffectiveResponseForce', ERFResource)
   .factory('Extension', ExtensionResource)

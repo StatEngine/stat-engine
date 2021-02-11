@@ -69,8 +69,6 @@ import erf from './effective-response-force';
 
 import workspace from './workspace';
 
-import emails from './emails';
-
 import marketplace from './marketplace';
 
 // global components
@@ -161,7 +159,6 @@ angular.module('statEngineApp', [
   user,
   incident,
   workspace,
-  emails,
   incidentComponents,
   chartComponents,
   orderObjectBy,
