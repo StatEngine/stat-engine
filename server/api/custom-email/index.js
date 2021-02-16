@@ -1,5 +1,3 @@
-'use strict';
-
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 
@@ -8,57 +6,46 @@ import * as auth from '../../auth/auth.service';
 
 const router = new Router();
 
-router.get(
-  '/',
+const defaultAuth = [
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
   bodyParser.json(),
+];
+
+router.get(
+  '/',
+  ...defaultAuth,
   controller.listByDeptId,
 );
 
 router.get(
   '/:emailId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
+  ...defaultAuth,
   controller.find,
 );
 
 router.post(
   '/',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
+  ...defaultAuth,
   controller.create,
 );
 
 router.put(
   '/:emailId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
-  controller.update,
+  ...defaultAuth,
+  controller.updateCustomEmail,
 );
 
 router.delete(
   '/:emailId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
+  ...defaultAuth,
   controller.deleteCustomEmail,
 );
 
 router.post(
   '/:emailId/preview',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
-  bodyParser.json(),
+  ...defaultAuth,
   controller.preview,
 );
 
