@@ -1,67 +1,73 @@
+/* eslint-disable camelcase */
 import moment from 'moment';
 
-import { CustomEmail, Extension, ExtensionConfiguration } from '../../sqldb';
+import { Extension, ExtensionConfiguration } from '../../sqldb';
 import CustomEmailScheduler from '../../lib/emails/customEmailScheduler';
 import { getEmailHtml } from '../email/getEmailHtmlController';
 import getFireDepartment from '../../lib/emails/fireDepartment';
 import getPreviewData from './preview';
-
-export async function queryFindAll(where) {
-  if (where) {
-    return CustomEmail.findAll({ where, raw: true });
-  }
-  return CustomEmail.findAll({ raw: true });
-}
-
-export async function queryFindOne(emailId) {
-  const where = { _id: emailId };
-  return CustomEmail.findOne({ where, raw: true });
-}
-
-export async function queryUpdate(emailId, updateData) {
-  return CustomEmail.update(
-    updateData,
-    { where: { _id: emailId } },
-  );
-}
+import { create as createCustomEmail, destroy, findAll, findOne, update } from './custom-email.service';
 
 // gets all custom emails for a given fire dept id
 // used for the list page of the webapp
 export async function listByDeptId(req, res) {
   const fdId = req.user.dataValues.FireDepartment.dataValues.fd_id;
   const where = { fd_id: fdId };
-  const emails = await queryFindAll(where);
+  const emails = await findAll(where);
   res.json({ emails });
 }
 
 export async function find(req, res) {
   const { emailId } = req.params;
-  const email = await queryFindOne(emailId);
+  const email = await findOne(emailId);
   res.json(email);
 }
 
 export async function create(req, res) {
   const { body } = req;
-  console.log('CREATE');
-  console.dir(body);
+  const { name, description, schedule, enabled, by_shift, sections, email_list } = body;
   const dept = req.fireDepartment.get();
+  const { fd_id } = dept;
 
   // on create, set lastSent to creation time
-  const lastSent = moment().format();
-  const emailData = { ...body, fd_id: dept.fd_id, last_sent: lastSent };
-  const dbRes = await CustomEmail.create(emailData);
-  const newEmail = dbRes.dataValues;
-  newEmail.dept = dept;
+  const last_sent = moment().format();
+
+  const emailData = {
+    fd_id,
+    name,
+    description,
+    schedule,
+    enabled,
+    by_shift,
+    sections,
+    email_list,
+    last_sent,
+  };
+
+  const newEmail = await createCustomEmail(emailData);
+
   if (newEmail.enabled === true) {
     await CustomEmailScheduler.scheduleCustomEmail(newEmail);
   }
   res.json(newEmail);
 }
 
-export async function update(req, res) {
-  const { body: updatedEmail } = req;
+export async function updateCustomEmail(req, res) {
+  const { body } = req;
+  const { fd_id, name, description, schedule, enabled, by_shift, sections, email_list } = body;
+  const updatedEmail = {
+    fd_id,
+    name,
+    description,
+    schedule,
+    enabled,
+    by_shift,
+    sections,
+    email_list,
+  };
   const { emailId } = req.params;
-  await queryUpdate(emailId, updatedEmail);
+
+  await update(emailId, updatedEmail);
   if (updatedEmail.enabled === true) {
     await CustomEmailScheduler.scheduleCustomEmail(updatedEmail);
   } else {
@@ -72,9 +78,9 @@ export async function update(req, res) {
 
 export async function deleteCustomEmail(req, res) {
   const { emailId } = req.params;
-  await CustomEmail.destroy({ where: { _id: emailId } });
-  CustomEmailScheduler.unscheduleEmail(emailId);
 
+  await destroy(emailId);
+  CustomEmailScheduler.unscheduleEmail(emailId);
   res.json({ msg: `email ${emailId} deleted` });
 }
 
