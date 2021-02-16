@@ -38,7 +38,7 @@ describe('description', () => {
         const expected = loadJson(mockDataPath, mockDescriptionFileName);
         expected.runTime = moment()
           .tz(fireDepartment.timezone)
-          .format('lll');
+          .format('lll'); // format looks like this: Feb 16, 2021 11:49 AM
 
         const mergeVar = descriptionSection(fireDepartment, timeRange, analysis.previousTimeFilter, reportOptions);
 
