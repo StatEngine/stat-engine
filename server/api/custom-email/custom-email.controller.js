@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { Extension, ExtensionConfiguration } from '../../sqldb';
 import CustomEmailScheduler from '../../lib/emails/customEmailScheduler';
-import { getEmailHtml } from '../email/getEmailHtmlController';
+import getEmailHtml from '../email/getEmailHtmlController';
 import getFireDepartment from '../../lib/emails/fireDepartment';
 import getPreviewData from './preview';
 import { create as createCustomEmail, destroy, findAll, findOne, update } from './custom-email.service';

@@ -3,7 +3,7 @@ import { calculateTimeRange } from '../../lib/timeRangeUtils';
 import { IncidentAnalysisTimeRange } from '../../lib/incidentAnalysisTimeRange';
 import { getMergeVars, sendEmails } from './buildAndSendEmails';
 import descriptionSection from './sections/description';
-import { getEmailHtml } from '../../api/email/getEmailHtmlController';
+import getEmailHtml from '../../api/email/getEmailHtmlController';
 
 export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment) {
   const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
