@@ -7,33 +7,30 @@ import { emailController, customEmailController } from './emailController';
 
 const router = new Router();
 
-router.post(
-  '/getEmailHtml',
+const defaultAuth = [
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  bodyParser.json(),
   auth.hasFireDepartment,
+  bodyParser.json(),
+];
+
+
+router.post(
+  '/getEmailHtml',
+  ...defaultAuth,
   getEmailHtmlController,
 );
 
 router.post(
   '/customEmail',
-  auth.isApiAuthenticated,
-  auth.hasRole('department_admin'),
-  bodyParser.json(),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   customEmailController,
 );
 
 router.post(
   '/notificationEmail',
-  auth.isApiAuthenticated,
-  auth.hasRole('department_admin'),
-  bodyParser.json(),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   emailController,
 );
 
 module.exports = router;
-
-export default router;
