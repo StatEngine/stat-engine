@@ -65,6 +65,7 @@ export default function(sequelize, DataTypes) {
      */
     enabled: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: true,
     },
 
@@ -76,6 +77,7 @@ export default function(sequelize, DataTypes) {
      */
     by_shift: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: true,
     },
 
@@ -103,7 +105,10 @@ export default function(sequelize, DataTypes) {
      * we keep track of the last time the custom email was sent, so that we can generate
      * the time span for looking up the fire department data.
      */
-    last_sent: { type: DataTypes.DATE },
+    last_sent: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   }, {
     underscored: true, // auto set field option for all attributes to snake case
     timestamps: true, // auto add updateAt & createdAt timestamps
