@@ -14,7 +14,6 @@ export default class HtmlReports {
   /**
    * Merges reports with a template
    * @param data reports in form of an array
-   * @param asObject boolean. if true, then convert data to an object
    * @returns {string} report in html format
    */
   report(data) {
