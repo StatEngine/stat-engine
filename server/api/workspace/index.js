@@ -9,28 +9,28 @@ import { KibanaApi } from '../../kibana/kibana-api';
 
 const router = new Router();
 
-router.post(
-  '/',
+const defaultAuth = [
   auth.isApiAuthenticated,
   auth.hasRole('dashboard_user'),
   auth.hasFireDepartment,
+];
+
+router.post(
+  '/',
+  ...defaultAuth,
   bodyParser.json(),
   controller.create,
 );
 
 router.get(
   '/',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   controller.getAll,
 );
 
 router.get(
   '/:id',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   controller.hasWorkspaceAccess,
   KibanaApi.connect,
   controller.get,
@@ -38,9 +38,7 @@ router.get(
 
 router.put(
   '/:id',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   KibanaApi.connect,
@@ -49,18 +47,15 @@ router.put(
 
 router.delete(
   '/:id',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   controller.hasWorkspaceOwnerAccess,
   controller.markAsDeleted,
 );
 
 router.delete(
   '/:id/users/:userId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  bodyParser.json(),
+  ...defaultAuth,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.revokeUser,
@@ -68,9 +63,7 @@ router.delete(
 
 router.post(
   '/:id/users/:userId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.updateUser,
@@ -78,9 +71,7 @@ router.post(
 
 router.post(
   '/:id/owners/:userId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  ...defaultAuth,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.updateOwner,
@@ -88,9 +79,8 @@ router.post(
 
 router.delete(
   '/:id/owners/:userId',
-  auth.isApiAuthenticated,
-  auth.hasRole('dashboard_user'),
-  auth.hasFireDepartment,
+  bodyParser.json(),
+  ...defaultAuth,
   bodyParser.json(),
   controller.hasWorkspaceOwnerAccess,
   controller.revokeOwner,
