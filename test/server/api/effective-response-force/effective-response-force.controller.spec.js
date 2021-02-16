@@ -2,7 +2,7 @@ import { formData,
   queryIncidents,
   iterateIncidents,
   calculatePercentiles,
-  findCurrentConfig } from './effective-response-force.controller';
+  findCurrentConfig } from '../../../../server/api/effective-response-force/effective-response-force.controller';
 import 'chai/register-should';
 
 
