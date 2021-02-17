@@ -1,3 +1,18 @@
+export const agencyIncidentTypeMetricConfigs = [
+  ['incidentCount'],
+];
+
+export const agencyResponsesMetricConfigs = [
+  ['incidentCount'],
+  ['transportsCount', 'showTransports'],
+  ['distanceToIncidentSum', 'showDistances'],
+  ['eventDurationSum'],
+  ['turnoutDurationPercentile90'],
+  ['fireTurnoutDurationPercentile90'],
+  ['emsTurnoutDurationPercentile90'],
+  ['responseDurationPercentile90'],
+];
+
 export const alertColors = {
   success: {
     row: '#dff0d8',
