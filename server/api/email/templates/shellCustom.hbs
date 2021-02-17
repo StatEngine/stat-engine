@@ -888,6 +888,46 @@
                                   </tbody>
                                 </table>
 
+                                {{#unless options.sections.hidedashboard}}
+                                  <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextContentContainer">
+                                    <tbody><tr>
+
+                                      <td class="mcnBoxedTextContentColumn" style="padding-top:9px; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+
+                                        <table border="0" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width: 100% !important; border: 1px none;">
+                                          <tbody><tr>
+                                            <td valign="top" class="mcnTextContent" style="color: #F2F2F2;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;">
+                                              <div style="text-align: center;">
+                                                <div style="text-align: center;"><br>
+                                                  <img data-file-id="625185" height="64" src="https://gallery.mailchimp.com/82023530b460caecab55d8161/images/9cea1add-09e5-487b-94da-993239302b84.png" style="border: 0px  ; width: 64px; height: 64px; margin: 0px;" width="64"></div>
+                                              </div>
+
+                                            </td>
+                                          </tr>
+                                          </tbody></table>
+
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnButtonBlock" style="min-width:100%;">
+                                          <tbody class="mcnButtonBlockOuter">
+                                          <tr>
+                                            <td style="padding-top:0; padding-right:18px; padding-bottom:18px; padding-left:18px;" valign="top" align="center" class="mcnButtonBlockInner">
+                                              <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border-radius: 3px;background-color: #FE801F;">
+                                                <tbody>
+                                                <tr>
+                                                  <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 15px;">
+                                                    <a class="mcnButton-" title="NFORS" href="https://statengine.io" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">NFORS Dashboard</a>
+                                                  </td>
+                                                </tr>
+                                                </tbody>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                          </tbody>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                    </tbody></table>
+                                {{/unless}}
+
                                 {{!-- BEGIN PARTIALS --}}
                                 {{#each sections}}
                                     {{> (lookup . 'name') parentOptions=../options }}
