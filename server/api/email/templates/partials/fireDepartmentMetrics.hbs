@@ -58,23 +58,24 @@
                     <td style="text-align: left;">
                     <span style="font-size:14px">{{this.val}}</span>
 
-                    {{#if parentOptions.showPercentChange}}
+                    {{#if ../parentOptions.showPercentChange}}
             
-                        {{#if this.percentChange}}
-                            {{#compare this.percentChange ">" 0}}
+                        {{#compare this.percentChange ">" 0}}
                             <span style="font-size:10px;color:#dc3545">▲ {{this.percentChange}}%</span>
-                            {{/compare}}
+                        {{/compare}}
 
-                            {{#compare this.percentChange "<" 0}} 
+                        {{#compare this.percentChange "<" 0}} 
                             <span style="font-size:10px;color:#28a745">▼ {{this.percentChange}}%</span>
-                            {{/compare}}
+                        {{/compare}}
 
-                            {{#compare this.percentChange "===" 0}}
+                        {{#compare this.percentChange "===" 0}}
                             <span style="font-size:10px;color:#6c757d"></span>
-                            {{/compare}}
+                        {{/compare}}
+                        {{!-- {{#if this.percentChange}}
+                            
                         {{else}}
                             <span style="font-size:10px;color:#6c757d">(NA)</span>
-                        {{/if}}
+                        {{/if}} --}}
 
                     {{/if}}
 

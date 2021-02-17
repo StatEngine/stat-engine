@@ -1,5 +1,6 @@
 {{!-- BATTALION SUMMARY --}}                                
 {{#if parentOptions.sections.showBattalionSummary}}
+
   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
 
     <tbody class="mcnBoxedTextBlockOuter">
@@ -60,9 +61,20 @@
                     <td style="text-align: left;">
                       <span style="font-size:14px">{{this.incidentCount.val}}</span>
 
-                      {{#if parentOptions.showPercentChange}}
+                      {{#if ../parentOptions.showPercentChange}}
+                        {{#compare this.incidentCount.percentChange ">" 0}}
+                          <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
+                        {{/compare}}
+
+                        {{#compare this.incidentCount.percentChange "<" 0}} 
+                          <span style="font-size:10px;color:#28a745">▼ {{this.incidentCount.percentChange}}%</span>
+                        {{/compare}}
+
+                        {{#compare this.incidentCount.percentChange "==" 0}}
+                          <span style="font-size:10px;color:#6c757d"></span>
+                        {{/compare}}
             
-                        {{#if this.incidentCount.percentChange}}
+                        {{!-- {{#if this.incidentCount.percentChange}}
                           {{#compare this.incidentCount.percentChange ">" 0}}
                             <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
                           {{/compare}}
@@ -71,12 +83,12 @@
                             <span style="font-size:10px;color:#28a745">▼ {{this.incidentCount.percentChange}}%</span>
                           {{/compare}}
 
-                          {{#compare this.incidentCount.percentChange "===" 0}}
+                          {{#compare this.incidentCount.percentChange "=" 0}}
                             <span style="font-size:10px;color:#6c757d"></span>
                           {{/compare}}
                         {{else}}
                             <span style="font-size:10px;color:#6c757d">(NA)</span>
-                        {{/if}}
+                        {{/if}} --}}
 
                       {{/if}}
 
