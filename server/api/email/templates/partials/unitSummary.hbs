@@ -1,342 +1,302 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
-   
+    <!--[if gte mso 9]>
+    <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+    <![endif]-->
     <tbody class="mcnBoxedTextBlockOuter">
-    <tr>
-    <td valign="top" class="mcnBoxedTextBlockInner">
-
-        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnBoxedTextContentContainer">
-        <tbody>
         <tr>
-
-            <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
-
-            <table border="0" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width: 100% !important;background-color: #616161;">
-                <tbody>
-                <tr>
-                <td valign="top" class="mcnTextContent" style="padding: 18px;color: #F2F2F2;font-family: Helvetica;font-size: 24px;font-weight: normal;text-align: center;">
-                    <div style="text-align: center;"><strong>Unit Summary</strong></div>
-
-                </td>
-                </tr>
-                </tbody>
-            </table>
+            <td valign="top" class="mcnBoxedTextBlockInner">
+                <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnBoxedTextContentContainer">
+                    <tbody>
+                        <tr>
+                            <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
+                                <table border="0" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width: 100% !important;background-color: #616161;">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" class="mcnTextContent" style="padding: 18px;color: #F2F2F2;font-family: Helvetica;font-size: 24px;font-weight: normal;text-align: center;">
+                                                <div style="text-align: center;">
+                                                    <strong>Unit Summary</strong>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
-        </tbody>
-        </table>
-    
-    </td>
-    </tr>
     </tbody>
 </table>
+
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
     <tbody class="mcnTextBlockOuter">
-    <tr>
-    <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-       
-        <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
-        <tbody>
         <tr>
+            <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
+                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+                    <tbody>
+                        <tr>
+                            <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+                                <table style="width:100%">
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align: left;">
+                                                <span style="font-size:14px">
+                                                    <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                        <span style="color:#000000">
+                                                            <strong>Unit</strong>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </th>
+                                            <th style="text-align: left;">
+                                                <span style="font-size:14px">
+                                                    <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                        <span style="color:#000000">
+                                                            <strong>Responses</strong>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </th>
+                                            {{#if ../parentOptions.showTransports}}
+                                                <th style="text-align: left;">
+                                                    <span style="font-size:14px">
+                                                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                            <span style="color:#000000">
+                                                                <strong>Transports</strong>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </th>
+                                            {{/if}} 
+                                            {{#if parentOptions.showDistances}}
+                                                <th style="text-align: left;">
+                                                    <span style="font-size:14px">
+                                                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                            <span style="color:#000000">
+                                                                <strong>Distance<br>(mi)</strong>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </th>
+                                            {{/if}}
+                                            {{#if parentOptions.showUtilization}}
+                                                <th style="text-align: left;">
+                                                    <span style="font-size:14px">
+                                                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                            <span style="color:#000000">
+                                                                <strong>Utilization<br>(min)</strong>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </th>
+                                            {{/if}}
+                                            <th style="text-align: left;">
+                                                <span style="font-size:14px">
+                                                    <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                        <span style="color:#000000">
+                                                            <strong>90% Fire Turnout<br>(sec)</strong>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </th>
+                                            <th style="text-align: left;">
+                                                <span style="font-size:14px">
+                                                    <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
+                                                        <span style="color:#000000">
+                                                            <strong>90% EMS Turnout<br>(sec)</strong>
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </th>
+                                        </tr>
 
-            <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
+                                        {{#each unitMetrics}}
+                                            <tr>
+                                                <td style="text-align: left;">
+                                                    <span style="font-size:14px">{{this.id}}</span>
+                                                </td>
+                                                <td style="text-align: left;">
+                                                    <span style="font-size:14px">{{this.incidentCount.val}}</span>
+                                                    {{#if ../parentOptions.showPercentChange}}
+                                                        {{#compare this.incidentCount.percentChange ">" 0}}
+                                                            <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
+                                                        {{/compare}}
 
-            <table style="width:100%">
-                <tbody>
-                <tr>
-                <th style="text-align: left;">
-                    <span style="font-size:14px">
-                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                            <span style="color:#000000">
-                                <strong>Unit</strong>
-                            </span>
-                        </span>
-                    </span>
-                </th>
-                <th style="text-align: left;">
-                    <span style="font-size:14px">
-                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                            <span style="color:#000000">
-                                <strong>Responses</strong>
-                            </span>
-                        </span>
-                    </span>
-                </th>
+                                                        {{#compare this.incidentCount.percentChange "<" 0}} 
+                                                            <span style="font-size:10px;color:#28a745">▼ {{this.incidentCount.percentChange}}%</span>
+                                                        {{/compare}}
 
-                {{#if parentOptions.showTransports}}
-                    <th style="text-align: left;">
-                        <span style="font-size:14px">
-                            <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                                <span style="color:#000000"><strong>Transports</strong>
-                                </span>
-                            </span>
-                        </span>
-                    </th>
-                {{/if}} 
-                
-                {{#if parentOptions.showDistances}}
-                <th style="text-align: left;">
-                    <span style="font-size:14px">
-                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                            <span style="color:#000000"><strong>Distance<br>(mi)</strong>
-                            </span>
-                        </span>
-                    </span>
-                </th>
-                {{/if}}
+                                                        {{#compare this.incidentCount.percentChange "===" 0}}
+                                                            <span style="font-size:10px;color:#6c757d"></span>
+                                                        {{/compare}}
+                                                        {{!-- {{#if this.incidentCount.percentChange}}
+                                                        {{else}}
+                                                            <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                        {{/if}} --}}
+                                                    {{/if}}
+                                                </td>
+                                                {{#if ../parentOptions.showTransports}}
+                                                    <td style="text-align: left;">
+                                                        <span style="font-size:14px">{{this.transportsCount.val}}</span>
+                                                        {{#if ../parentOptions.showPercentChange}}
+                                                            {{#compare this.transportsCount.percentChange ">" 0}}
+                                                                <span style="font-size:10px;color:#dc3545">▲ {{this.transportsCount.percentChange}}%</span>
+                                                            {{/compare}}
 
-                {{#if parentOptions.showUtilization}}
-                    <th style="text-align: left;">
-                        <span style="font-size:14px">
-                            <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                                <span style="color:#000000"><strong>Utilization<br>(min)</strong>
-                                </span>
-                            </span>
-                        </span>
-                    </th>
-                {{/if}}
+                                                            {{#compare this.transportsCount.percentChange "<" 0}} 
+                                                                <span style="font-size:10px;color:#28a745">▼ {{this.transportsCount.percentChange}}%</span>
+                                                            {{/compare}}
 
-                <th style="text-align: left;">
-                    <span style="font-size:14px">
-                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                            <span style="color:#000000"><strong>90% Fire Turnout<br>(sec)</strong>
-                            </span>
-                        </span>
-                    </span>
-                </th>
-            </th>
-                <th style="text-align: left;">
-                    <span style="font-size:14px">
-                        <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
-                            <span style="color:#000000"><strong>90% EMS Turnout<br>(sec)</strong>
-                            </span>
-                        </span>
-                    </span>
-                </th>
-            </tr>
+                                                            {{#compare this.transportsCount.percentChange "===" 0}}
+                                                                <span style="font-size:10px;color:#6c757d"></span>
+                                                            {{/compare}}
+                                                            {{!-- {{#if this.transportsCount.percentChange}}
+                                                            {{else}}
+                                                                <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                            {{/if}} --}}
+                                                        {{/if}}
+                                                    </td>
+                                                {{/if}} 
+                                                {{#if ../parentOptions.showDistances}}
+                                                    <td style="text-align: left;">
+                                                        <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
+                                                        {{#if ../parentOptions.showPercentChange}}
+                                                            {{#compare this.distancetoIncidentSum.percentChange ">" 0}}
+                                                                <span style="font-size:10px;color:#dc3545">▲ {{this.distancetoIncidentSum.percentChange}}%</span>
+                                                            {{/compare}}
 
-                {{#each unitMetrics}}
-                <tr>
-                    <td style="text-align: left;"><span style="font-size:14px">{{this.id}}</span></td>
+                                                            {{#compare this.distancetoIncidentSum.percentChange "<" 0}} 
+                                                                <span style="font-size:10px;color:#28a745">▼ {{this.distancetoIncidentSum.percentChange}}%</span>
+                                                            {{/compare}}
 
-                    <td style="text-align: left;">
-                    <span style="font-size:14px">{{this.incidentCount.val}}</span>
+                                                            {{#compare this.distancetoIncidentSum.percentChange "===" 0}}
+                                                                <span style="font-size:10px;color:#6c757d"></span>
+                                                            {{/compare}}
+                                                            {{!-- {{#if this.distancetoIncidentSum.percentChange}}
+                                                            {{else}}
+                                                                <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                            {{/if}} --}}
+                                                        {{/if}}
+                                                    </td>
+                                                {{/if}}
+                                                {{#if ../parentOptions.showUtilization}}
+                                                    <td style="text-align: left;">
+                                                        <span style="font-size:14px">{{this.eventDurationSum.val}}</span>
+                                                        {{#if ../parentOptions.showPercentChange}}
+                                                            {{#compare this.eventDurationSum.percentChange ">" 0}}
+                                                                <span style="font-size:10px;color:#dc3545">▲ {{this.eventDurationSum.percentChange}}%</span>
+                                                            {{/compare}}
 
-                    {{#if ../parentOptions.showPercentChange}}
-            
-                        {{#compare this.incidentCount.percentChange ">" 0}}
-                            <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
-                        {{/compare}}
+                                                            {{#compare this.eventDurationSum.percentChange "<" 0}} 
+                                                                <span style="font-size:10px;color:#28a745">▼ {{this.eventDurationSum.percentChange}}%</span>
+                                                            {{/compare}}
 
-                        {{#compare this.incidentCount.percentChange "<" 0}} 
-                            <span style="font-size:10px;color:#28a745">▼ {{this.incidentCount.percentChange}}%</span>
-                        {{/compare}}
+                                                            {{#compare this.eventDurationSum.percentChange "===" 0}}
+                                                                <span style="font-size:10px;color:#6c757d"></span>
+                                                            {{/compare}}                
+                                                            {{!-- {{#if this.eventDurationSum.percentChange}}
+                                                            {{else}}
+                                                                <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                            {{/if}} --}}
+                                                        {{/if}}
+                                                    </td>
+                                                {{/if}}
 
-                        {{#compare this.incidentCount.percentChange "===" 0}}
-                            <span style="font-size:10px;color:#6c757d"></span>
-                        {{/compare}}
-                        {{!-- {{#if this.incidentCount.percentChange}}
-                          
-                        {{else}}
-                            <span style="font-size:10px;color:#6c757d">(NA)</span>
-                        {{/if}} --}}
+                                                <td style="text-align: left;">
+                                                    {{#if ../parentOptions.showPercentChange}}
+                                                        {{#compare this.fireTurnoutDurationPercentile90.percentChange ">" 0}}
+                                                            <span style="font-size:10px;color:#dc3545">▲ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
 
-                    {{/if}}
+                                                        {{#compare this.fireTurnoutDurationPercentile90.percentChange "<" 0}} 
+                                                            <span style="font-size:10px;color:#28a745">▼ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
 
+                                                        {{#compare this.fireTurnoutDurationPercentile90.percentChange "===" 0}}
+                                                            <span style="font-size:10px;color:#6c757d"></span>
+                                                        {{/compare}}
+                                                        {{!-- {{#if this.fireTurnoutDurationPercentile90.percentChange}}
+                                                        {{else}}
+                                                            <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                        {{/if}} --}}
+                                                    {{/if}}
+                                                </td>
 
-                    </td>
+                                                <td style="text-align: left;">
+                                                    {{#if ../parentOptions.showPercentChange}}
+                                                        <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
+                                                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
+                                                        
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}}
+                                                            <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
 
-                    {{#if parentOptions.showTransports}}
-                    <td style="text-align: left;">
-                        <span style="font-size:14px">{{this.transportsCount.val}}</span>
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
+                                                            <span style="font-size:10px;color:#6c757d"></span> 
+                                                        {{/compare}}
+                                                        {{!-- {{#if this.emsTurnoutDurationPercentile90.percentchange}}
+                                                        {{else}}
+                                                        <span style="font-size:10px;color:#6c757d">(NA)</span></div>
+                                                        {{/if}} --}}
+                                                    {{else}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.val "<" 60}}
+                                                            <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{/compare}}
 
-                        {{#if ../parentOptions.showPercentChange}}
-                            {{#compare this.transportsCount.percentChange ">" 0}}
-                                <span style="font-size:10px;color:#dc3545">▲ {{this.transportsCount.percentChange}}%</span>
-                            {{/compare}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.val ">=" 60}}
+                                                            {{#compare this.emsTurnoutDurationPercentile90.val "<" 100}}
+                                                                <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                            {{/compare}}
+                                                        {{/compare}}
+                                                        
+                                                        {{#compare this.emsTurnoutDurationPercentile90.val ">=" 100}}
+                                                            <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{/compare}}
+                                                    {{/if}}
 
-                            {{#compare this.transportsCount.percentChange "<" 0}} 
-                                <span style="font-size:10px;color:#28a745">▼ {{this.transportsCount.percentChange}}%</span>
-                            {{/compare}}
+                                                    {{#if ../parentOptions.showPercentChange}}
+                                                        <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
+                                                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
 
-                            {{#compare this.transportsCount.percentChange "===" 0}}
-                                <span style="font-size:10px;color:#6c757d"></span>
-                            {{/compare}}
-                            {{!-- {{#if this.transportsCount.percentChange}}
-                                
-                            {{else}}
-                                <span style="font-size:10px;color:#6c757d">(NA)</span>
-                            {{/if}} --}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}} 
+                                                            <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
 
-                        {{/if}}
-                    </td>
-                    {{/if}} 
-                    
-                    {{#if parentOptions.showDistances}}
-                        <td style="text-align: left;">
-                        <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
-
-                        {{#if ../parentOptions.showPercentChange}}
-            
-                            {{#compare this.distancetoIncidentSum.percentChange ">" 0}}
-                                <span style="font-size:10px;color:#dc3545">▲ {{this.distancetoIncidentSum.percentChange}}%</span>
-                            {{/compare}}
-
-                            {{#compare this.distancetoIncidentSum.percentChange "<" 0}} 
-                                <span style="font-size:10px;color:#28a745">▼ {{this.distancetoIncidentSum.percentChange}}%</span>
-                            {{/compare}}
-
-                            {{#compare this.distancetoIncidentSum.percentChange "===" 0}}
-                                <span style="font-size:10px;color:#6c757d"></span>
-                            {{/compare}}
-                            {{!-- {{#if this.distancetoIncidentSum.percentChange}}
-
-                            {{else}}
-                                <span style="font-size:10px;color:#6c757d">(NA)</span>
-                            {{/if}} --}}
-
-                        {{/if}}
-
-                        </td>
-                    {{/if}}
-
-                    {{#if parentOptions.showUtilization}}
-
-                        <td style="text-align: left;">
-                            <span style="font-size:14px">{{this.eventDurationSum.val}}</span>
-
-                            {{#if ../parentOptions.showPercentChange}}
-                                {{#compare this.eventDurationSum.percentChange ">" 0}}
-                                    <span style="font-size:10px;color:#dc3545">▲ {{this.eventDurationSum.percentChange}}%</span>
-                                {{/compare}}
-
-                                {{#compare this.eventDurationSum.percentChange "<" 0}} 
-                                    <span style="font-size:10px;color:#28a745">▼ {{this.eventDurationSum.percentChange}}%</span>
-                                {{/compare}}
-
-                                {{#compare this.eventDurationSum.percentChange "===" 0}}
-                                    <span style="font-size:10px;color:#6c757d"></span>
-                                {{/compare}}                
-                                {{!-- {{#if this.eventDurationSum.percentChange}}
-                                    
-                                {{else}}
-                                    <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                {{/if}} --}}
-
-                            {{/if}}
-
-                        </td>
-                    {{/if}}
-
-                    <td style="text-align: left;">
-
-                        {{#if ../parentOptions.showPercentChange}}
-                            {{#compare this.fireTurnoutDurationPercentile90.percentChange ">" 0}}
-                                <span style="font-size:10px;color:#dc3545">▲ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
-                            {{/compare}}
-
-                            {{#compare this.fireTurnoutDurationPercentile90.percentChange "<" 0}} 
-                                <span style="font-size:10px;color:#28a745">▼ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
-                            {{/compare}}
-
-                            {{#compare this.fireTurnoutDurationPercentile90.percentChange "===" 0}}
-                                <span style="font-size:10px;color:#6c757d"></span>
-                            {{/compare}}
-                            {{!-- {{#if this.fireTurnoutDurationPercentile90.percentChange}}
-                                
-                            {{else}}
-                                <span style="font-size:10px;color:#6c757d">(NA)</span>
-                            {{/if}} --}}
-
-                        {{/if}}
-
-                    </td>
-
-                    <td style="text-align: left;">
-                        
-                    {{#if ../parentOptions.showPercentChange}}
-                        <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
-                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                        {{/compare}}
-                        
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}}
-                            <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                        {{/compare}}
-
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
-                            <span style="font-size:10px;color:#6c757d"></span> 
-                        {{/compare}}
-                        {{!-- {{#if this.emsTurnoutDurationPercentile90.percentchange}}
-                        
-                        {{else}}
-                        <span style="font-size:10px;color:#6c757d">(NA)</span></div>
-
-                        {{/if}} --}}
-
-                    {{else}}
-
-                        {{#compare this.emsTurnoutDurationPercentile90.val "<" 60}}
-                            <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{/compare}}
-
-                        {{#compare this.emsTurnoutDurationPercentile90.val ">=" 60}}
-                            {{#compare this.emsTurnoutDurationPercentile90.val "<" 100}}
-                                <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                            {{/compare}}
-                        {{/compare}}
-                        
-                        {{#compare this.emsTurnoutDurationPercentile90.val ">=" 100}}
-                            <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{/compare}}
-                        
-                    {{/if}}
-
-                    {{#if ../parentOptions.showPercentChange}}
-                        <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
-                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                        {{/compare}}
-
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}} 
-                            <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                        {{/compare}}
-
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
-                            <span style="font-size:10px;color:#6c757d"></span>
-                        {{/compare}}
-                        {{!-- {{#if this.emsTurnoutDurationPercentile90.percentChange}}
-                            
-                        {{else}}
-                            <span style="font-size:10px;color:#6c757d">(NA)</span>
-                        {{/if}} --}}
-
-                    {{else}}
-                    
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 60}}
-                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                        {{/compare}}
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">=" 60}}
-                            {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 100}}
-                                <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                            {{/compare}}
-                        {{/compare}}
-                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">=" 100}}
-                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                        {{/compare}}
-
-                    {{/if}}
-                    </td>
-                </tr>
-                {{/each}}
-                </tbody>
-            </table>
-
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
+                                                            <span style="font-size:10px;color:#6c757d"></span>
+                                                        {{/compare}}
+                                                        {{!-- {{#if this.emsTurnoutDurationPercentile90.percentChange}}
+                                                        {{else}}
+                                                            <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                        {{/if}} --}}
+                                                    {{else}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 60}}
+                                                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">=" 60}}
+                                                            {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 100}}
+                                                                <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                            {{/compare}}
+                                                        {{/compare}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">=" 100}}
+                                                            <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
+                                                        {{/compare}}
+                                                    {{/if}}
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
-        </tbody>
-        </table>
-       
-    </td>
-    </tr>
     </tbody>
 </table>
