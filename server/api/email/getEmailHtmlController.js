@@ -1,9 +1,22 @@
+/* eslint-disable no-restricted-globals */
 import handlebars from 'handlebars';
 import helpers from 'handlebars-helpers';
 
 import config from '../../config/environment';
 import HtmlReports from './htmlReports';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
+
+handlebars.registerHelper('isUndefined', value => {
+  return (typeof value === 'undefined' || value === null || isNaN(value) || value === Infinity);
+});
+
+handlebars.registerHelper('isGreaterThan0', value => {
+  console.log('IS NOT NULL');
+  console.log(value);
+  const ret = value !== null && value !== Infinity && !isNaN(value) && value > 0;
+  console.log(ret);
+  return ret;
+});
 
 /**
  * This initializes the handlebars-helpers imported on line 2. handlebars-helpers gives us access
