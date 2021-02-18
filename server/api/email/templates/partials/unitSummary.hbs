@@ -119,42 +119,42 @@
                                                 <td style="text-align: left;">
                                                     <span style="font-size:14px">{{this.incidentCount.val}}</span>
                                                     {{#if ../parentOptions.showPercentChange}}
-                                                        {{#compare this.incidentCount.percentChange ">" 0}}
+                                                        {{#if (isGreaterThan0 this.incidentCount.percentChange)}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
-                                                        {{/compare}}
+                                                        {{/if}}
 
                                                         {{#compare this.incidentCount.percentChange "<" 0}} 
                                                             <span style="font-size:10px;color:#28a745">▼ {{this.incidentCount.percentChange}}%</span>
                                                         {{/compare}}
 
-                                                        {{#compare this.incidentCount.percentChange "===" 0}}
+                                                        {{#compare this.incidentCount.percentChange "==" 0}}
                                                             <span style="font-size:10px;color:#6c757d"></span>
                                                         {{/compare}}
-                                                        {{!-- {{#if this.incidentCount.percentChange}}
-                                                        {{else}}
+
+                                                        {{#if (isUndefined this.incidentCount.percentChange)}}
                                                             <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                                        {{/if}} --}}
+                                                        {{/if}}
                                                     {{/if}}
                                                 </td>
                                                 {{#if ../parentOptions.showTransports}}
-                                                    <td style="text-align: left;">
+                                                    <td style="text-align: left;"></td>
                                                         <span style="font-size:14px">{{this.transportsCount.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
-                                                            {{#compare this.transportsCount.percentChange ">" 0}}
+                                                            {{#if (isGreaterThan0 this.transportsCount.percentChange)}}
                                                                 <span style="font-size:10px;color:#dc3545">▲ {{this.transportsCount.percentChange}}%</span>
-                                                            {{/compare}}
+                                                            {{/if}}
 
                                                             {{#compare this.transportsCount.percentChange "<" 0}} 
                                                                 <span style="font-size:10px;color:#28a745">▼ {{this.transportsCount.percentChange}}%</span>
                                                             {{/compare}}
 
-                                                            {{#compare this.transportsCount.percentChange "===" 0}}
+                                                            {{#compare this.transportsCount.percentChange "==" 0}}
                                                                 <span style="font-size:10px;color:#6c757d"></span>
                                                             {{/compare}}
-                                                            {{!-- {{#if this.transportsCount.percentChange}}
-                                                            {{else}}
+
+                                                            {{#if (isUndefined this.transportsCount.percentChange)}}
                                                                 <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                                            {{/if}} --}}
+                                                            {{/if}}
                                                         {{/if}}
                                                     </td>
                                                 {{/if}} 
@@ -162,21 +162,21 @@
                                                     <td style="text-align: left;">
                                                         <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
-                                                            {{#compare this.distancetoIncidentSum.percentChange ">" 0}}
-                                                                <span style="font-size:10px;color:#dc3545">▲ {{this.distancetoIncidentSum.percentChange}}%</span>
+                                                            {{#if (isGreaterThan0 this.distanceToIncidentSum.percentChange)}}
+                                                                <span style="font-size:10px;color:#dc3545">▲ {{this.distanceToIncidentSum.percentChange}}%</span>
+                                                            {{/if}}
+
+                                                            {{#compare this.distanceToIncidentSum.percentChange "<" 0}} 
+                                                                <span style="font-size:10px;color:#28a745">▼ {{this.distanceToIncidentSum.percentChange}}%</span>
                                                             {{/compare}}
 
-                                                            {{#compare this.distancetoIncidentSum.percentChange "<" 0}} 
-                                                                <span style="font-size:10px;color:#28a745">▼ {{this.distancetoIncidentSum.percentChange}}%</span>
-                                                            {{/compare}}
-
-                                                            {{#compare this.distancetoIncidentSum.percentChange "===" 0}}
+                                                            {{#compare this.distanceToIncidentSum.percentChange "==" 0}}
                                                                 <span style="font-size:10px;color:#6c757d"></span>
                                                             {{/compare}}
-                                                            {{!-- {{#if this.distancetoIncidentSum.percentChange}}
-                                                            {{else}}
+
+                                                            {{#if (isUndefined this.distanceToIncidentSum.percentChange)}}
                                                                 <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                                            {{/if}} --}}
+                                                            {{/if}}
                                                         {{/if}}
                                                     </td>
                                                 {{/if}}
@@ -184,63 +184,64 @@
                                                     <td style="text-align: left;">
                                                         <span style="font-size:14px">{{this.eventDurationSum.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
-                                                            {{#compare this.eventDurationSum.percentChange ">" 0}}
+                                                            {{#if (isGreaterThan0 this.eventDurationSum.percentChange)}}
                                                                 <span style="font-size:10px;color:#dc3545">▲ {{this.eventDurationSum.percentChange}}%</span>
-                                                            {{/compare}}
+                                                            {{/if}}
 
                                                             {{#compare this.eventDurationSum.percentChange "<" 0}} 
                                                                 <span style="font-size:10px;color:#28a745">▼ {{this.eventDurationSum.percentChange}}%</span>
                                                             {{/compare}}
 
-                                                            {{#compare this.eventDurationSum.percentChange "===" 0}}
+                                                            {{#compare this.eventDurationSum.percentChange "==" 0}}
                                                                 <span style="font-size:10px;color:#6c757d"></span>
-                                                            {{/compare}}                
-                                                            {{!-- {{#if this.eventDurationSum.percentChange}}
-                                                            {{else}}
+                                                            {{/compare}}
+
+                                                            {{#if (isUndefined this.eventDurationSum.percentChange)}}
                                                                 <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                                            {{/if}} --}}
+                                                            {{/if}}
                                                         {{/if}}
                                                     </td>
                                                 {{/if}}
 
                                                 <td style="text-align: left;">
+                                                        <span style="font-size:14px">{{this.fireTurnoutDurationPercentile90.val}}</span>
                                                     {{#if ../parentOptions.showPercentChange}}
-                                                        {{#compare this.fireTurnoutDurationPercentile90.percentChange ">" 0}}
+                                                        {{#if (isGreaterThan0 this.fireTurnoutDurationPercentile90.percentChange)}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
-                                                        {{/compare}}
+                                                        {{/if}}
 
                                                         {{#compare this.fireTurnoutDurationPercentile90.percentChange "<" 0}} 
                                                             <span style="font-size:10px;color:#28a745">▼ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
                                                         {{/compare}}
 
-                                                        {{#compare this.fireTurnoutDurationPercentile90.percentChange "===" 0}}
+                                                        {{#compare this.fireTurnoutDurationPercentile90.percentChange "==" 0}}
                                                             <span style="font-size:10px;color:#6c757d"></span>
                                                         {{/compare}}
-                                                        {{!-- {{#if this.fireTurnoutDurationPercentile90.percentChange}}
-                                                        {{else}}
+
+                                                        {{#if (isUndefined this.fireTurnoutDurationPercentile90.percentChange)}}
                                                             <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                                        {{/if}} --}}
+                                                        {{/if}}
                                                     {{/if}}
                                                 </td>
 
                                                 <td style="text-align: left;">
                                                     {{#if ../parentOptions.showPercentChange}}
                                                         <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
-                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
+                                                        {{#if (isGreaterThan0 this.emsTurnoutDurationPercentile90.percentChange)}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
-                                                        {{/compare}}
-                                                        
-                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}}
+                                                        {{/if}}
+
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 0}} 
                                                             <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
                                                         {{/compare}}
 
-                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
-                                                            <span style="font-size:10px;color:#6c757d"></span> 
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "==" 0}}
+                                                            <span style="font-size:10px;color:#6c757d"></span>
                                                         {{/compare}}
-                                                        {{!-- {{#if this.emsTurnoutDurationPercentile90.percentchange}}
-                                                        {{else}}
-                                                        <span style="font-size:10px;color:#6c757d">(NA)</span></div>
-                                                        {{/if}} --}}
+
+                                                        {{#if (isUndefined this.emsTurnoutDurationPercentile90.percentChange)}}
+                                                            <span style="font-size:10px;color:#6c757d">(NA)</span>
+                                                        {{/if}}
                                                     {{else}}
                                                         {{#compare this.emsTurnoutDurationPercentile90.val "<" 60}}
                                                             <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
@@ -257,7 +258,7 @@
                                                         {{/compare}}
                                                     {{/if}}
 
-                                                    {{#if ../parentOptions.showPercentChange}}
+                                                    {{!-- {{#if ../parentOptions.showPercentChange}}
                                                         <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
                                                         {{#compare this.emsTurnoutDurationPercentile90.percentChange ">" 0}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
@@ -267,13 +268,13 @@
                                                             <span style="font-size:10px;color:#28a745">▼ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
                                                         {{/compare}}
 
-                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "===" 0}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.percentChange "==" 0}}
                                                             <span style="font-size:10px;color:#6c757d"></span>
                                                         {{/compare}}
-                                                        {{!-- {{#if this.emsTurnoutDurationPercentile90.percentChange}}
-                                                        {{else}}
+
+                                                        {{#compare this.incidentCount.percentChange "==" "NaN"}}
                                                             <span style="font-size:10px;color:#6c757d">(NA)</span>
-                                                        {{/if}} --}}
+                                                        {{/compare}}
                                                     {{else}}
                                                         {{#compare this.emsTurnoutDurationPercentile90.percentChange "<" 60}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
@@ -286,7 +287,7 @@
                                                         {{#compare this.emsTurnoutDurationPercentile90.percentChange ">=" 100}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
                                                         {{/compare}}
-                                                    {{/if}}
+                                                    {{/if}} --}}
                                                 </td>
                                             </tr>
                                         {{/each}}
