@@ -1,11 +1,11 @@
 import sendNotification from '../../api/email/sendNotification';
 import getSectionFuncs from './getSectionFuncs';
 
-export function sendEmails(emailList, mergeVars, html) {
+export function sendEmails(emailList, mergeVars, html, test) {
   const promises = emailList.map(email => {
     const to = email;
     const subject = mergeVars.description.title;
-    return sendNotification(to, subject, html);
+    return sendNotification(to, subject, html, test);
   });
   return promises;
 }

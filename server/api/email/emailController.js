@@ -6,8 +6,9 @@ export async function emailController(req, res) {
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
   const previous = req.query.previous;
+  const test = !!(req.query.test && req.query.test.toLowerCase() === 'true');
   const fireDepartment = req.fireDepartment.get();
-  const emailResponse = await handleNotificationEmail(configId, startDate, endDate, previous, fireDepartment);
+  const emailResponse = await handleNotificationEmail(configId, startDate, endDate, previous, fireDepartment, test);
 
   res.json(emailResponse);
 }

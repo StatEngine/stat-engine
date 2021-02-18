@@ -5,9 +5,8 @@ import { getMergeVars, sendEmails } from './buildAndSendEmails';
 import descriptionSection from './sections/description';
 import getEmailHtml from '../../api/email/getEmailHtmlController';
 
-export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment) {
+export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment, test) {
   const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
-
   const timeRange = calculateTimeRange({
     startDate,
     endDate,
@@ -48,7 +47,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
   const html = await getEmailHtml(mergeVars);
 
-  await Promise.all(sendEmails(emailList, mergeVars, html));
+  await Promise.all(sendEmails(emailList, mergeVars, html, test));
 
   return mergeVars;
 }
