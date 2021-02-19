@@ -11,10 +11,7 @@ handlebars.registerHelper('isUndefined', value => {
 });
 
 handlebars.registerHelper('isGreaterThan0', value => {
-  console.log('IS NOT NULL');
-  console.log(value);
   const ret = value !== null && value !== Infinity && !isNaN(value) && value > 0;
-  console.log(ret);
   return ret;
 });
 
