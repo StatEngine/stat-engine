@@ -60,7 +60,7 @@
 
                     {{#if ../parentOptions.showPercentChange}}
             
-                        {{#if (isGreaterThan0 this.percentChange)}}
+                        {{#if (isGreaterThan this.percentChange 0)}}
                             <span style="font-size:10px;color:#dc3545">▲ {{this.percentChange}}%</span>
                         {{/if}}
 

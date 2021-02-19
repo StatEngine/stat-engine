@@ -58,7 +58,7 @@
                     <span style="font-size:14px">{{this.incidentCount.val}}</span>
                     {{#if parentOptions.showPercentChange}}
 
-                      {{#if (isGreaterThan0 this.incidentCount.percentChange)}}
+                      {{#if (isGreaterThan this.incidentCount.percentChange 0)}}
                         <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
                       {{/if}}
 
