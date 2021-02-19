@@ -58,7 +58,7 @@
                                                     </span>
                                                 </span>
                                             </th>
-                                            {{#if ../parentOptions.showTransports}}
+                                            {{#if parentOptions.showTransports}}
                                                 <th style="text-align: left;">
                                                     <span style="font-size:14px">
                                                         <span style="font-family:arial,helvetica neue,helvetica,sans-serif">
@@ -139,7 +139,7 @@
                                                     {{/if}}
                                                 </td>
                                                 {{#if ../parentOptions.showTransports}}
-                                                    <td style="text-align: left;"></td>
+                                                    <td style="text-align: left;">
                                                         <span style="font-size:14px">{{this.transportsCount.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
                                                             
@@ -233,7 +233,7 @@
 
                                                     {{else}}
 
-                                                        {{#if (isLessThan this.fireTurnoutDurationPercentile90.val, 80)}}
+                                                        {{#if (isLessThan this.fireTurnoutDurationPercentile90.val 80)}}
                                                             <span style="font-size:14px; background-color: #dff0d8">{{this.fireTurnoutDurationPercentile90.val}}</span>
                                                         {{else if (isBetween this.fireTurnoutDurationPercentile90.val 80 120) }}
                                                             <span style="font-size:14px; background-color: #fcf8e3">{{this.fireTurnoutDurationPercentile90.val}}</span>
@@ -266,7 +266,7 @@
 
                                                     {{else}}
 
-                                                        {{#if (isLessThan this.emsTurnoutDurationPercentile90.val, 60)}}
+                                                        {{#if (isLessThan this.emsTurnoutDurationPercentile90.val 60)}}
                                                             <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
                                                         {{else if (isBetween this.emsTurnoutDurationPercentile90.val 60 100) }}
                                                             <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
