@@ -60,22 +60,21 @@
 
                     {{#if ../parentOptions.showPercentChange}}
             
-                        {{#compare this.percentChange ">" 0}}
+                        {{#if (isGreaterThan0 this.percentChange)}}
                             <span style="font-size:10px;color:#dc3545">▲ {{this.percentChange}}%</span>
-                        {{/compare}}
+                        {{/if}}
 
                         {{#compare this.percentChange "<" 0}} 
                             <span style="font-size:10px;color:#28a745">▼ {{this.percentChange}}%</span>
                         {{/compare}}
 
-                        {{#compare this.percentChange "===" 0}}
+                        {{#compare this.percentChange "==" 0}}
                             <span style="font-size:10px;color:#6c757d"></span>
                         {{/compare}}
-                        {{!-- {{#if this.percentChange}}
-                            
-                        {{else}}
+                        
+                        {{#if (isUndefined this.percentChange)}}
                             <span style="font-size:10px;color:#6c757d">(NA)</span>
-                        {{/if}} --}}
+                        {{/if}}
 
                     {{/if}}
 
