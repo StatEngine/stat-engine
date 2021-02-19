@@ -120,7 +120,7 @@
                                                     <span style="font-size:14px">{{this.incidentCount.val}}</span>
                                                     {{#if ../parentOptions.showPercentChange}}
                                                         
-                                                        {{#if (isGreaterThan0 this.incidentCount.percentChange)}}
+                                                        {{#if (isGreaterThan this.incidentCount.percentChange 0)}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.incidentCount.percentChange}}%</span>
                                                         {{/if}}
 
@@ -143,7 +143,7 @@
                                                         <span style="font-size:14px">{{this.transportsCount.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
                                                             
-                                                            {{#if (isGreaterThan0 this.transportsCount.percentChange)}}
+                                                            {{#if (isGreaterThan this.transportsCount.percentChange 0)}}
                                                                 <span style="font-size:10px;color:#dc3545">▲ {{this.transportsCount.percentChange}}%</span>
                                                             {{/if}}
 
@@ -167,7 +167,7 @@
                                                         <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
                                                            
-                                                            {{#if (isGreaterThan0 this.distanceToIncidentSum.percentChange)}}
+                                                            {{#if (isGreaterThan this.distanceToIncidentSum.percentChange 0)}}
                                                                 <span style="font-size:10px;color:#dc3545">▲ {{this.distanceToIncidentSum.percentChange}}%</span>
                                                             {{/if}}
 
@@ -191,7 +191,7 @@
                                                         <span style="font-size:14px">{{this.eventDurationSum.val}}</span>
                                                         {{#if ../parentOptions.showPercentChange}}
                                                            
-                                                            {{#if (isGreaterThan0 this.eventDurationSum.percentChange)}}
+                                                            {{#if (isGreaterThan this.eventDurationSum.percentChange 0)}}
                                                                 <span style="font-size:10px;color:#dc3545">▲ {{this.eventDurationSum.percentChange}}%</span>
                                                             {{/if}}
 
@@ -214,7 +214,8 @@
                                                 <td style="text-align: left;">
                                                         <span style="font-size:14px">{{this.fireTurnoutDurationPercentile90.val}}</span>
                                                     {{#if ../parentOptions.showPercentChange}}
-                                                        {{#if (isGreaterThan0 this.fireTurnoutDurationPercentile90.percentChange)}}
+                                                        
+                                                        {{#if (isGreaterThan this.fireTurnoutDurationPercentile90.percentChange 0)}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.fireTurnoutDurationPercentile90.percentChange}}%</span>
                                                         {{/if}}
 
@@ -230,6 +231,16 @@
                                                             <span style="font-size:10px;color:#6c757d">(NA)</span>
                                                         {{/if}}
 
+                                                    {{else}}
+
+                                                        {{#if (isLessThan this.fireTurnoutDurationPercentile90.val, 80)}}
+                                                            <span style="font-size:14px; background-color: #dff0d8">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                        {{else if (isBetween this.fireTurnoutDurationPercentile90.val 80 120) }}
+                                                            <span style="font-size:14px; background-color: #fcf8e3">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                        {{else}}
+                                                            <span style="font-size:14px; background-color: #f2dede">{{this.fireTurnoutDurationPercentile90.val}}</span>
+                                                        {{/if}}
+
                                                     {{/if}}
                                                 </td>
 
@@ -237,7 +248,7 @@
                                                     {{#if ../parentOptions.showPercentChange}}
                                                         <span style="font-size:14px">{{this.emsTurnoutDurationPercentile90.val}}</span>
                                                        
-                                                        {{#if (isGreaterThan0 this.emsTurnoutDurationPercentile90.percentChange)}}
+                                                        {{#if (isGreaterThan this.emsTurnoutDurationPercentile90.percentChange 0)}}
                                                             <span style="font-size:10px;color:#dc3545">▲ {{this.emsTurnoutDurationPercentile90.percentChange}}%</span>
                                                         {{/if}}
 
@@ -254,8 +265,16 @@
                                                         {{/if}}
 
                                                     {{else}}
+
+                                                        {{#if (isLessThan this.emsTurnoutDurationPercentile90.val, 60)}}
+                                                            <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{else if (isBetween this.emsTurnoutDurationPercentile90.val 60 100) }}
+                                                            <span style="font-size:14px; background-color: #fcf8e3">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{else}}
+                                                            <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
+                                                        {{/if}}
                                                        
-                                                        {{#compare this.emsTurnoutDurationPercentile90.val "<" 60}}
+                                                        {{#compare this.emsTurnoutDurationPercentile90.val "<" 80}}
                                                             <span style="font-size:14px; background-color: #dff0d8">{{this.emsTurnoutDurationPercentile90.val}}</span>
                                                         {{/compare}}
 
@@ -268,7 +287,7 @@
                                                         {{#compare this.emsTurnoutDurationPercentile90.val ">=" 100}}
                                                             <span style="font-size:14px; background-color: #f2dede">{{this.emsTurnoutDurationPercentile90.val}}</span>
                                                         {{/compare}}
-                                                        
+
                                                     {{/if}}
                                                 </td>
                                             </tr>
