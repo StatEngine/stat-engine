@@ -5,15 +5,32 @@ import helpers from 'handlebars-helpers';
 import config from '../../config/environment';
 import HtmlReports from './htmlReports';
 import HandlebarsEmailTemplate from './templates/handlebarsEmailTemplate';
+import { isUndefined, isGreaterThan, isLessThan, isBetween } from './templates/handlebarHelpers';
 
-handlebars.registerHelper('isUndefined', value => {
-  return (typeof value === 'undefined' || value === null || isNaN(value) || value === Infinity);
-});
+/**
+ * this helper checks (in accordance with the way handlebars works) for the
+ * final 'else' condition for showPercentage in fireTurnoutDurationPercentile90 &
+ * emsTurnoutDurationPercentile90
+ */
+handlebars.registerHelper('isUndefined', isUndefined);
 
-handlebars.registerHelper('isGreaterThan0', value => {
-  const ret = value !== null && value !== Infinity && !isNaN(value) && value > 0;
-  return ret;
-});
+/**
+ * this helper checks (in accordance with the way handlebars works) if the first
+ * parameter is greater than the second
+ */
+handlebars.registerHelper('isGreaterThan', isGreaterThan);
+
+/**
+ * this helper checks (in accordance with the way handlebars works) if the first
+ * parameter is less than the second
+ */
+handlebars.registerHelper('isLessThan', isLessThan);
+
+/**
+ * this helper checks (in accordance with the way handlebars works) if the first
+ * parameter is between the second and third
+ */
+handlebars.registerHelper('isBetween', isBetween);
 
 /**
  * This initializes the handlebars-helpers imported on line 2. handlebars-helpers gives us access
