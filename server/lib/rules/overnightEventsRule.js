@@ -5,6 +5,7 @@ import finalReportDetails from './finalReportDetails';
 export class OvernightEventsRule extends Rule {
   constructor(params) {
     super(params);
+    this.params.threshold = this.params.threshold || 7200;
     this.reportLevel = 'DANGER';
     this.ruleName = this.constructor.name;
     this.reportChunkSize = 5;

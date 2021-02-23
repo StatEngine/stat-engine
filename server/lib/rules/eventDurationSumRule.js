@@ -5,6 +5,7 @@ import finalReportDetails from './finalReportDetails';
 export class EventDurationSumRule extends Rule {
   constructor(params) {
     super(params);
+    this.params.threshold = this.params.threshold || 7200;
     this.reportThreshold = this.params.threshold || 21600;
     this.reportChunkSize = 5;
     this.enrichment = {

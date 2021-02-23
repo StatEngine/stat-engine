@@ -12,8 +12,7 @@ function incident(unitName, duration, count) {
 describe('OvernightEventsRule', () => {
   let rule;
   beforeEach(() => {
-    const ruleParams = { threshold: 60, // 1 minute in seconds
-    };
+    const ruleParams = { threshold: 60 /* 1 minute in seconds */ };
     const twoIncidentOverThreshold = {
       aggregations: {
         apparatus: {
