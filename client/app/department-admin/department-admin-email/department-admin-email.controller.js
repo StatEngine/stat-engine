@@ -20,7 +20,7 @@ export default class DepartmentAdminEmailController {
   send() {
     if(this.configurationId) {
       this.EmailService.send({
-        id: 'notificationEmail',
+        id: 'timeRangeAnalysis',
         test: this.test,
         previous: this.previous,
         startDate: this.startDate,

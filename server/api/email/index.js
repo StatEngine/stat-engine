@@ -20,7 +20,7 @@ router.post(
 );
 
 router.post(
-  '/notificationEmail',
+  '/timeRangeAnalysis',
   ...defaultAuth,
   emailController,
 );
