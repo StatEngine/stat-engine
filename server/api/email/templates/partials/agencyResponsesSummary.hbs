@@ -115,7 +115,7 @@
 
                     </td>
 
-                    {{#if parentOptions.showTransports}}
+                    {{#if ../parentOptions.showTransports}}
                       <td style="text-align: left;">
                         <span style="font-size:14px">{{this.transportsCount.val}}</span>
                         {{#if ../parentOptions.showPercentChange}}
@@ -141,7 +141,7 @@
                       </td>
                     {{/if}} 
                     
-                    {{#if parentOptions.showdistances}}
+                    {{#if ../parentOptions.showDistances}}
                       <td style="text-align: left;">
                         <span style="font-size:14px">{{this.distanceToIncidentSum.val}}</span>
                       {{#if ../parentOptions.showPercentChange}}
