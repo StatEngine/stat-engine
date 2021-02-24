@@ -6,6 +6,7 @@ import descriptionSection from './sections/description';
 import getEmailHtml from '../../api/email/getEmailHtmlController';
 
 export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment, test) {
+  // TESTING reportOptions is for testing only
   const reportOptions = {
     name: 'Daily',
     timeUnit: 'SHIFT',
@@ -25,7 +26,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
     ],
     schedulerOptions: { later: { text: 'every 2 minutes' } },
   };
-  // const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
+  // COMMENTED OUT FOR TESTING const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
 
   const timeRange = calculateTimeRange({
     startDate,
@@ -63,6 +64,8 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
     options: reportOptions,
     sections: sectionData,
   };
+
+  // TESTING
   const emailList = ['paul@prominentedge.com']; // await getEmailList(reportOptions, fireDepartment._id);
 
   const html = await getEmailHtml(mergeVars);
@@ -74,7 +77,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
 function getNotificationEmailSections() {
   return [
-    // { type: 'agencyIncidentTypeSummary' },
+    { type: 'agencyIncidentTypeSummary' },
     { type: 'agencySummary' },
     { type: 'alertSummary' },
     { type: 'battalionSummary' },
