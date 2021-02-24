@@ -6,7 +6,27 @@ import descriptionSection from './sections/description';
 import getEmailHtml from '../../api/email/getEmailHtmlController';
 
 export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment, test) {
-  const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
+  const reportOptions = {
+    name: 'Daily',
+    timeUnit: 'SHIFT',
+    sections: {
+      showAlertSummary: { FireIncidentEventDurationRule30: false },
+      showBattalionSummary: true,
+      showIncidentTypeSummary: true,
+      showAgencyIncidentTypeSummary: true,
+    },
+    showDistances: true,
+    showTransports: false,
+    showPercentChange: true,
+    showUtilization: true,
+    logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+    to: [
+      { email: 'mailinglist@test.com' },
+    ],
+    schedulerOptions: { later: { text: 'every 2 minutes' } },
+  };
+  // const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
+
   const timeRange = calculateTimeRange({
     startDate,
     endDate,
@@ -54,7 +74,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
 function getNotificationEmailSections() {
   return [
-    { type: 'agencyIncidentTypeSummary' },
+    // { type: 'agencyIncidentTypeSummary' },
     { type: 'agencySummary' },
     { type: 'alertSummary' },
     { type: 'battalionSummary' },
