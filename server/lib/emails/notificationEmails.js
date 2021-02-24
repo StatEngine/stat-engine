@@ -7,24 +7,41 @@ import getEmailHtml from '../../api/email/getEmailHtmlController';
 
 export default async function handleNotificationEmail(emailConfigId, startDate, endDate, previous, fireDepartment, test) {
   // TESTING reportOptions is for testing only
+  // const reportOptions = {
+  //   name: 'Daily',
+  //   timeUnit: 'SHIFT',
+  //   sections: {
+  //     showAlertSummary: { FireIncidentEventDurationRule30: false },
+  //     showBattalionSummary: true,
+  //     showIncidentTypeSummary: true,
+  //     showAgencyIncidentTypeSummary: true,
+  //     showUnitAgencySummary: true,
+  //   },
+  //   showDistances: false,
+  //   showTransports: true,
+  //   showPercentChange: true,
+  //   showUtilization: true,
+  //   logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
+  //   to: [
+  //     { email: 'mailinglist@test.com' },
+  //   ],
+  //   schedulerOptions: { later: { text: 'every 2 minutes' } },
+  // };
+
   const reportOptions = {
     name: 'Daily',
     timeUnit: 'SHIFT',
     sections: {
-      showAlertSummary: { FireIncidentEventDurationRule30: false },
-      showBattalionSummary: true,
+      showAlertSummary: true,
+      showBattalionSummary: false,
       showIncidentTypeSummary: true,
-      showAgencyIncidentTypeSummary: true,
+      showAgencyIncidentTypeSummary: false,
       showUnitAgencySummary: true,
     },
+    emailAllUsers: true,
     showDistances: false,
     showTransports: true,
-    showPercentChange: true,
-    showUtilization: true,
-    logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93345.png',
-    to: [
-      { email: 'mailinglist@test.com' },
-    ],
+    logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93429.png',
     schedulerOptions: { later: { text: 'every 2 minutes' } },
   };
   // COMMENTED OUT FOR TESTING const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
