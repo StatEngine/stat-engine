@@ -90,7 +90,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
 
   await Promise.all(sendEmails(emailList, mergeVars, html, test));
 
-  return fireDepartment;
+  return mergeVars;
 }
 
 function getNotificationEmailSections() {
