@@ -7,23 +7,17 @@ export function isUndefined(value) {
 }
 
 export function isGreaterThan(value, comparison) {
-  return isValid(value) &&
+  return !isUndefined(value) &&
          value > comparison;
 }
 
 export function isLessThan(value, comparison) {
-  return isValid(value) &&
+  return !isUndefined(value) &&
          value < comparison;
 }
 
 export function isBetween(value, left, right) {
-  return isValid(value) &&
-         left < value < right;
+  return !isUndefined(value) &&
+         value > left &&
+         value < right;
 }
-
-function isValid(value) {
-  return value !== null &&
-         value !== Infinity &&
-         !isNaN(value);
-}
-
