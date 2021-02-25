@@ -30,25 +30,25 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
   // };
 
   // rincon
-  const reportOptions = {
-    name: 'Daily',
-    timeUnit: 'SHIFT',
-    sections: {
-      showAlertSummary: true,
-      showBattalionSummary: false,
-      showIncidentTypeSummary: true,
-      showAgencyIncidentTypeSummary: false,
-      showUnitAgencySummary: true,
-      showJurisdictionSummary: false,
-    },
-    emailAllUsers: true,
-    showDistances: false,
-    showTransports: true,
-    showPercentChange: true,
-    showUtilization: true,
-    logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93429.png',
-    schedulerOptions: { later: { text: 'every 2 minutes' } },
-  };
+  // const reportOptions = {
+  //   name: 'Daily',
+  //   timeUnit: 'SHIFT',
+  //   sections: {
+  //     showAlertSummary: true,
+  //     showBattalionSummary: false,
+  //     showIncidentTypeSummary: true,
+  //     showAgencyIncidentTypeSummary: false,
+  //     showUnitAgencySummary: true,
+  //     showJurisdictionSummary: false,
+  //   },
+  //   emailAllUsers: true,
+  //   showDistances: false,
+  //   showTransports: true,
+  //   showPercentChange: true,
+  //   showUtilization: true,
+  //   logo: 'https://s3.amazonaws.com/statengine-public-assets/logos/93429.png',
+  //   schedulerOptions: { later: { text: 'every 2 minutes' } },
+  // };
 
   // roseville
   // const reportOptions = {
@@ -72,26 +72,26 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
   // };
 
   // rincon valley
-  fireDepartment = {
-    es_indices: {
-      all: '93429-az-rincon_valley_fire_district*',
-      'fire-incident': '93429-az-rincon_valley_fire_district-fire-incident*',
-      'apparatus-fire-incident': '93429-az-rincon_valley_fire_district-apparatus-fire-incident*',
-      'vehicle-telemetry': '93429-az-rincon_valley_fire_district-vehicle-telemetry*',
-    },
-    _id: 72,
-    fd_id: '11152',
-    name: 'Rincon Valley Fire District',
-    state: 'AZ',
-    firecares_id: '93429',
-    timezone: 'US/Arizona',
-    integration_complete: true,
-    integration_verified: true,
-    latitude: 32.0862,
-    longitude: -110.712,
-    logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/93429.png',
-    customer_id: 'AzZcotRumF5B9Ajl',
-  };
+  // fireDepartment = {
+  //   es_indices: {
+  //     all: '93429-az-rincon_valley_fire_district*',
+  //     'fire-incident': '93429-az-rincon_valley_fire_district-fire-incident*',
+  //     'apparatus-fire-incident': '93429-az-rincon_valley_fire_district-apparatus-fire-incident*',
+  //     'vehicle-telemetry': '93429-az-rincon_valley_fire_district-vehicle-telemetry*',
+  //   },
+  //   _id: 72,
+  //   fd_id: '11152',
+  //   name: 'Rincon Valley Fire District',
+  //   state: 'AZ',
+  //   firecares_id: '93429',
+  //   timezone: 'US/Arizona',
+  //   integration_complete: true,
+  //   integration_verified: true,
+  //   latitude: 32.0862,
+  //   longitude: -110.712,
+  //   logo_link: 'https://s3.amazonaws.com/statengine-public-assets/logos/93429.png',
+  //   customer_id: 'AzZcotRumF5B9Ajl',
+  // };
 
   // roseville
   // fireDepartment = {
@@ -115,7 +115,7 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
   // };
 
 
-  // COMMENTED OUT FOR TESTING const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
+  const reportOptions = await getReportOptions(emailConfigId, fireDepartment._id);
 
   const timeRange = calculateTimeRange({
     startDate,
@@ -155,7 +155,8 @@ export default async function handleNotificationEmail(emailConfigId, startDate, 
   };
 
   // TESTING
-  const emailList = ['paul@prominentedge.com']; // await getEmailList(reportOptions, fireDepartment._id);
+  // const emailList = ['paul@prominentedge.com'];
+  const emailList = await getEmailList(reportOptions, fireDepartment._id);
   const html = await getEmailHtml(mergeVars);
 
   await Promise.all(sendEmails(emailList, mergeVars, html, test));
