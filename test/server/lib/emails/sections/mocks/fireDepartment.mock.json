@@ -1,0 +1,20 @@
+{
+    "es_indices": {
+        "all": "93345-va-richmond_fire_and_emergency_services*",
+        "fire-incident": "93345-va-richmond_fire_and_emergency_services-fire-incident*",
+        "apparatus-fire-incident": "93345-va-richmond_fire_and_emergency_services-apparatus-fire-incident*",
+        "vehicle-telemetry": "93345-va-richmond_fire_and_emergency_services-vehicle-telemetry*"
+    },
+    "_id": 1,
+    "fd_id": "76000",
+    "name": "Richmond Fire and Emergency Services",
+    "state": "VA",
+    "firecares_id": "93345",
+    "timezone": "US/Eastern",
+    "integration_complete": true,
+    "integration_verified": true,
+    "latitude": 37.5407,
+    "longitude": -77.436,
+    "logo_link": "https://s3.amazonaws.com/statengine-public-assets/logos/93345.png",
+    "customer_id": "FD-123"
+}

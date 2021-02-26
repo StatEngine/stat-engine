@@ -1,12 +1,10 @@
 import 'chai/register-should';
 
-import {
-  calculateTimeRange,
-} from './timeRangeUtils';
+import { calculateTimeRange } from '../../../server/lib/timeRangeUtils';
 
 describe('calculateTimeRange', () => {
   it('previous shift', () => {
-    let tr = calculateTimeRange({
+    const tr = calculateTimeRange({
       startDate: '2019-05-02T08:01:00-04:00',
       timeUnit: 'shift',
       firecaresId: '93345',
@@ -17,7 +15,7 @@ describe('calculateTimeRange', () => {
   });
 
   it('previous rolling week', () => {
-    let tr = calculateTimeRange({
+    const tr = calculateTimeRange({
       startDate: '2019-05-12T08:01:00-04:00',
       timeUnit: 'week',
       firecaresId: '93345',
@@ -28,7 +26,7 @@ describe('calculateTimeRange', () => {
   });
 
   it('previous rolling week', () => {
-    let tr = calculateTimeRange({
+    const tr = calculateTimeRange({
       startDate: '2019-05-03T08:01:00-04:00',
       timeUnit: 'week',
       firecaresId: '93345',
@@ -39,7 +37,7 @@ describe('calculateTimeRange', () => {
   });
 
   it('previous rolling month', () => {
-    let tr = calculateTimeRange({
+    const tr = calculateTimeRange({
       startDate: '2019-06-01T08:01:00-04:00',
       timeUnit: 'month',
       firecaresId: '93345',

@@ -1,0 +1,59 @@
+{
+    "name": "fireDepartmentMetrics",
+    "fireDepartmentMetrics": [
+        {
+            "label": "Total Incidents",
+            "val": 226,
+            "previousVal": 229,
+            "percentChange": -1
+        },
+        {
+            "label": "EMS Incidents",
+            "val": 138,
+            "previousVal": 145,
+            "percentChange": -5
+        },
+        {
+            "label": "Fire Incidents",
+            "val": 87,
+            "previousVal": 84,
+            "percentChange": 4
+        },
+        {
+            "label": "Total Responses",
+            "val": 435,
+            "previousVal": 435,
+            "percentChange": 0
+        },
+        {
+            "label": "Six Minute Response Percentage",
+            "val": 79,
+            "previousVal": 82,
+            "percentChange": -4
+        },
+        {
+            "label": "90% Distance to Incident (mi)",
+            "val": 2,
+            "previousVal": 2,
+            "percentChange": 3
+        },
+        {
+            "label": "90% EMS Turnout Duration (sec)",
+            "val": 103,
+            "previousVal": 92,
+            "percentChange": 12
+        },
+        {
+            "label": "90% Fire Turnout Duration (sec)",
+            "val": 84,
+            "previousVal": 97,
+            "percentChange": -14
+        },
+        {
+            "label": "90% Event Duration (min)",
+            "val": 39,
+            "previousVal": 34,
+            "percentChange": 17
+        }
+    ]
+}

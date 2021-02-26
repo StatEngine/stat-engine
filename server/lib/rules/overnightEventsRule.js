@@ -1,11 +1,31 @@
 import bodybuilder from 'bodybuilder';
 import { Rule } from '../rule';
+import finalReportDetails from './finalReportDetails';
 
 export class OvernightEventsRule extends Rule {
   constructor(params) {
     super(params);
     this.params.threshold = this.params.threshold || 7200;
-    this.params.level = 'DANGER';
+    this.reportLevel = 'DANGER';
+    this.ruleName = this.constructor.name;
+    this.reportChunkSize = 5;
+    this.defaultVisibility = true;
+    this.unitRespondingCountThreshold = 2;
+    this.unitUtilTimeThreshold = this.params.threshold || 7200;
+
+    this.utilizationMinutesReportParams = {
+      reportLevel: this.reportLevel,
+      reportRuleName: this.ruleName,
+      reportDefaultVisibility: this.defaultVisibility,
+      reportDescription: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
+    };
+
+    this.utilizationCountReportParms = {
+      reportLevel: this.reportLevel,
+      reportRuleName: this.ruleName,
+      reportDefaultVisibility: this.defaultVisibility,
+      reportDescription: 'Unit response > 2 overnight',
+    };
 
     this.query = bodybuilder()
       .filter('term', 'description.suppressed', false)
@@ -16,35 +36,45 @@ export class OvernightEventsRule extends Rule {
           .aggregation('sum', 'apparatus.extended_data.event_duration')));
   }
 
+  /**
+   * Performs two analyses, unit time utilization and number of units utilized
+   *
+   * @returns {*[]} unit utilization time and unit utilization count report
+   */
   analyze() {
-    let analysis = [];
+    const { utilMinReportDetails, utilCountReportDetails } =
+      this.reportDetails(this.results, this.unitUtilTimeThreshold, this.unitRespondingCountThreshold);
+    const utilMinReport = finalReportDetails(utilMinReportDetails, this.reportChunkSize, this.utilizationMinutesReportParams);
+    const utilCountReport = finalReportDetails(utilCountReportDetails, this.reportChunkSize, this.utilizationCountReportParms);
+    return utilMinReport.concat(utilCountReport);
+  }
 
-    this.results.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
-      let utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
+  /**
+   * Performs two analyses using provided threshold, unit time utilization over the threshold
+   *  and number of units utilized over the threshold
+   * @param utilData data to be analyzed
+   * @param utilMinThreshold utilization time threshold
+   * @param utilCountThreshold utilization count threshold
+   * @returns {{utilMinReportDetails: [], utilCountReportDetails: []}} unit utilization time and unit utilization count report
+   */
+  reportDetails(utilData, utilMinThreshold, utilCountThreshold) {
+    const utilMinReportDetails = [];
+    const utilCountReportDetails = [];
 
-      let count = unit.doc_count;
-
-      if(utilization > this.params.threshold) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: `Unit utilization > ${(this.params.threshold / 60.0).toFixed(0)} min overnight`,
-          details: `Unit: ${unit.key}, Utilization: ${(utilization / 60.0).toFixed(2)}`
-        });
+    utilData.aggregations.apparatus['agg_terms_apparatus.unit_id'].buckets.forEach(unit => {
+      const utilization = unit['agg_sum_apparatus.extended_data.event_duration'].value;
+      const count = unit.doc_count;
+      if (utilization > utilMinThreshold) {
+        utilMinReportDetails.push({ detail: `${unit.key}/${(utilization / 60.0).toFixed(2)}` });
       }
-
-      if(count > 2) {
-        analysis.push({
-          rule: this.constructor.name,
-          level: this.params.level,
-          description: 'Unit response > 2 overnight',
-          details: `Unit: ${unit.key}, Responses: ${count}`,
-          default_visibility: true
-        });
+      if (count > utilCountThreshold) {
+        utilCountReportDetails.push({ detail: `${unit.key}/${count}` });
       }
     });
-
-    return analysis;
+    return {
+      utilMinReportDetails,
+      utilCountReportDetails,
+    };
   }
 }
 

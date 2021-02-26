@@ -27,8 +27,11 @@ require('./config/express').default(app);
 require('./routes').default(app);
 require('./grpc');
 
+
+
+
 // Start server
-function startServer() {
+async function startServer() {
   app.angularFullstack = server.listen(config.port, config.ip, function() {
     Log.info(`Express server listening on ${config.port}, in ${app.get('env')} mode`);
   });

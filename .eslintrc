@@ -25,7 +25,6 @@
     "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 0, "maxEOF": 1 }],
     "no-nested-ternary": "off",
     "no-param-reassign": "off",
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-restricted-syntax": [
       "error",
       {
@@ -48,6 +47,13 @@
       "anonymous": "never",
       "named": "never",
       "asyncArrow": "always"
-    }]
+    }],
+    "no-use-before-define": ["error", { "functions": false, "classes": true }],
+    "object-curly-newline": ["error", {
+      "ObjectPattern": { "multiline": true },
+      "ImportDeclaration": "never",
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    }],
+    "no-plusplus": "off",
   }
 }

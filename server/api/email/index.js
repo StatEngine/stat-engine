@@ -1,22 +1,28 @@
-'use strict';
-
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 
 import * as auth from '../../auth/auth.service';
-import * as controller from './email.controller';
+import { emailController, customEmailController } from './emailController';
 
 const router = new Router();
 
-router.post(
-  '/timeRangeAnalysis',
+const defaultAuth = [
   auth.isApiAuthenticated,
   auth.hasRole('department_admin'),
-  bodyParser.json(),
   auth.hasFireDepartment,
-  controller.sendTimeRangeAnalysis,
+  bodyParser.json(),
+];
+
+router.post(
+  '/customEmail',
+  ...defaultAuth,
+  customEmailController,
+);
+
+router.post(
+  '/timeRangeAnalysis',
+  ...defaultAuth,
+  emailController,
 );
 
 module.exports = router;
-
-export default router;

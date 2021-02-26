@@ -1,12 +1,10 @@
 import 'chai/register-should';
 import util from 'util';
 
-import {
-  buildFireIncidentQuery,
+import { buildFireIncidentQuery,
   previousTimeRange,
-  IncidentAnalysisTimeRange
-} from './incidentAnalysisTimeRange';
-import { Log } from '../util/log';
+  IncidentAnalysisTimeRange } from '../../../server/lib/incidentAnalysisTimeRange';
+import { Log } from '../../../server/util/log';
 
 describe('previousTimeRange', () => {
   it('shoud return previous hour', () => {
@@ -46,32 +44,39 @@ describe('previousTimeRange', () => {
 
 describe('Incident Analysis Time Range', () => {
   it('should construct', () => {
-    let analysis = new IncidentAnalysisTimeRange({
+    const analysis = new IncidentAnalysisTimeRange({
       index: 'i1',
-      timeRange: { start: '2018-08-01T08:00:00-04:00', end: '2018-08-02T09:00:00-04:00' }
-    })
+      timeRange: { start: '2018-08-01T08:00:00-04:00', end: '2018-08-02T09:00:00-04:00' },
+    });
   });
 
-  it('should run query', (done) => {
-    let analysis = new IncidentAnalysisTimeRange({
-      index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-      timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' }
-    })
 
-    analysis.run()
+  /**
+   * Integration test - skip
+   */
+  xit('should run query', done => {
+    const analysis = new IncidentAnalysisTimeRange({
+      index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
+      timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' },
+    });
+
+    analysis.ruleAnalysis()
       .then(results => {
         Log.test('results', results);
         done();
       });
   });
 
-  it('should run analysis', (done) => {
-    let analysis = new IncidentAnalysisTimeRange({
+  /**
+   * Integration test - skip
+   */
+  xit('should run analysis', done => {
+    const analysis = new IncidentAnalysisTimeRange({
       index: '93345-va-richmond_fire_and_emergency_services-fire-incident*',
-      timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' }
-    })
+      timeRange: { start: '2018-07-31T08:00:00-04:00', end: '2018-08-01T08:00:00-04:00' },
+    });
 
-    analysis.analyze()
+    analysis.ruleAnalysis()
       .then(results => {
         Log.test('results', results);
         done();
@@ -79,6 +84,6 @@ describe('Incident Analysis Time Range', () => {
   });
 
   it('should build query', () => {
-    let timeRange = { start: '2018-04-15T08:00:00-04:00', end: '2018-04-15T09:00:00-04:00' };
-  })
+    const timeRange = { start: '2018-04-15T08:00:00-04:00', end: '2018-04-15T09:00:00-04:00' };
+  });
 });

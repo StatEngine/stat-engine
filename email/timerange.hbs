@@ -854,14 +854,7 @@
                                   <tbody class="mcnTextBlockOuter">
                                   <tr>
                                     <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-                                      <!--[if mso]>
-                                      <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-                                        <tr>
-                                      <![endif]-->
 
-                                      <!--[if mso]>
-                                      <td valign="top" width="598" style="width:598px;">
-                                      <![endif]-->
                                       <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                                         <tbody>
                                         <tr>
@@ -905,6 +898,7 @@
                                   </tr>
                                   </tbody>
                                 </table>
+
                                 {{#unless options.sections.hidedashboard}}
                                   <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextContentContainer">
                                     <tbody><tr>
@@ -944,7 +938,6 @@
                                     </tr>
                                     </tbody></table>
                                 {{/unless}}
-
 
                                 {{#if options.sections.showalertsummary}}
                                   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
@@ -1051,6 +1044,7 @@
                                   </table>
                                 {{/if}}
 
+                                {{!-- INCIDENT SUMMARY --}}
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                   <!--[if gte mso 9]>
                                   <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -1160,8 +1154,7 @@
                                   </tbody>
                                 </table>
 
-
-
+                                {{!-- UNIT SUMMARY --}}
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                   <!--[if gte mso 9]>
                                   <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -1391,6 +1384,7 @@
                                   </tbody>
                                 </table>
 
+                                {{!-- AGENCY SUMMARY --}}
                                 {{#if options.sections.showunitagencysummary}}
                                   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                     <!--[if gte mso 9]>
@@ -1605,6 +1599,7 @@
                                   </table>
                                 {{/if}}
 
+                                {{!-- BATTALION SUMMARY --}}
                                 {{#if options.sections.showbattalionsummary}}
                                   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                     <!--[if gte mso 9]>
@@ -1718,6 +1713,8 @@
                                     </tbody>
                                   </table>
                                 {{/if}}
+
+                                {{!-- JURISDICTION SUMMARY --}}
                                 {{#if options.sections.showjurisdictionsummary}}
                                   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                     <!--[if gte mso 9]>
@@ -1832,7 +1829,7 @@
                                   </table>
                                 {{/if}}
 
-
+                                {{!-- INCIDENT TYPE SUMMARY --}}
                                 {{#if options.sections.showincidenttypesummary}}
                                   <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                     <!--[if gte mso 9]>
@@ -1945,7 +1942,10 @@
                                     </tr>
                                     </tbody>
                                   </table>
-                                {{/if}} {{#if options.sections.showagencyincidenttypesummary}}
+                                {{/if}}
+
+                                {{!-- AGENCY INCIDENT TYPE SUMMARY --}}                                
+                                {{#if options.sections.showagencyincidenttypesummary}}
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width:100%;">
                                   <!--[if gte mso 9]>
                                   <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -2057,7 +2057,7 @@
                                   </tr>
                                   </tbody>
                                 </table>
-                              {{/if}}
+                                {{/if}}
 
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnDividerBlock" style="min-width:100%;">
                                   <tbody class="mcnDividerBlockOuter">
@@ -2082,7 +2082,7 @@
                                 </table>
 
 
-
+                                {{!-- LEGEND --}}
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
                                   <tbody class="mcnTextBlockOuter">
                                   <tr>
@@ -2165,10 +2165,6 @@
                                   </tr>
                                   </tbody>
                                 </table>
-
-
-
-
 
                               </td>
                             </tr>
