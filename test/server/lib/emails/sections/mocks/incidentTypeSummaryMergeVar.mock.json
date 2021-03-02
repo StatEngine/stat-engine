@@ -1,0 +1,87 @@
+{
+    "name": "incidentTypeSummary",
+    "incidentTypeMetrics": [
+        {
+            "id": "EMS-1STRESP",
+            "incidentCount": {
+                "val": 138,
+                "previousVal": 145,
+                "percentChange": -5
+            }
+        },
+        {
+            "id": "CRASH",
+            "incidentCount": {
+                "val": 30,
+                "previousVal": 30,
+                "percentChange": 0
+            }
+        },
+        {
+            "id": "UTILITY-INCIDENT",
+            "incidentCount": {
+                "val": 20,
+                "previousVal": 8,
+                "percentChange": 150
+            }
+        },
+        {
+            "id": "FIRE-ALARM",
+            "incidentCount": {
+                "val": 19,
+                "previousVal": 24,
+                "percentChange": -21
+            }
+        },
+        {
+            "id": "STRUCTURE-FIRE",
+            "incidentCount": {
+                "val": 7,
+                "previousVal": 12,
+                "percentChange": -42
+            }
+        },
+        {
+            "id": "ASSIST-EMS",
+            "incidentCount": {
+                "val": 5,
+                "previousVal": 6,
+                "percentChange": -17
+            }
+        },
+        {
+            "id": "TRASH-FIRE",
+            "incidentCount": {
+                "val": 2
+            }
+        },
+        {
+            "id": "ASSIST-POLICE",
+            "incidentCount": {
+                "val": 2
+            }
+        },
+        {
+            "id": "VEHICLE-FIRE",
+            "incidentCount": {
+                "val": 1,
+                "previousVal": 3,
+                "percentChange": -67
+            }
+        },
+        {
+            "id": "OTHER",
+            "incidentCount": {
+                "val": 1
+            }
+        },
+        {
+            "id": "ELEVATOR",
+            "incidentCount": {
+                "val": 1,
+                "previousVal": 1,
+                "percentChange": 0
+            }
+        }
+    ]
+}

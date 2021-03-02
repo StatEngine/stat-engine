@@ -14,8 +14,6 @@ import { TurnoutDurationOutlierRule120 } from './rules/turnoutDurationOutlierRul
 import { TurnoutDurationOutlierRule150 } from './rules/turnoutDurationOutlierRule150';
 import { TravelDurationOutlierRule } from './rules/travelDurationOutlierRule';
 
-import { Log } from '../util/log';
-
 export function previousTimeRange(timeRange) {
   const sm = moment.parseZone(timeRange.start);
   const em = moment.parseZone(timeRange.end);
@@ -26,29 +24,29 @@ export function previousTimeRange(timeRange) {
     start: moment(sm)
       .subtract(duration.as('milliseconds'), 'milliseconds')
       .format(),
-    end: sm.format()
+    end: sm.format(),
   };
 }
 
 export function computePercentChange(newVal, oldVal) {
-  if(_.isNil(oldVal)) return;
+  if (_.isNil(oldVal)) { return; }
   return _.round((newVal - oldVal) / oldVal * 100, 2);
 }
 
 export function buildFireIncidentQuery(timeFilter) {
   return bodybuilder()
     .filter('term', 'description.suppressed', false)
-    .aggregation('terms', 'description.category', { size: 3, order: { _term: 'asc' }}, categoryAgg => categoryAgg
+    .aggregation('terms', 'description.category', { size: 3, order: { _term: 'asc' } }, categoryAgg => categoryAgg
       .aggregation('percentiles', 'durations.turnout.seconds', { percents: 90 })
       .aggregation('nested', { path: 'apparatus' }, 'apparatus', agg => agg
         .aggregation('terms', 'apparatus.unit_id', { size: 500 }, unitAgg => unitAgg
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))
         .aggregation('terms', 'apparatus.agency', { size: 500 }, unitAgg => unitAgg
           .aggregation('percentiles', 'apparatus.extended_data.turnout_duration', { percents: 90 }))))
-    .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }, missing: "Unknown" })
-    .aggregation('terms', 'address.jurisdiction', { size: 20, order: { _term: 'asc' }, missing: "Unknown" })
-    .aggregation('terms', 'description.type', { size: 1000, order: { _term: 'asc' }})
-    .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription', { size: 50, order: { _term: 'asc' }})
+    .aggregation('terms', 'address.battalion', { size: 20, order: { _term: 'asc' }, missing: 'Unknown' })
+    .aggregation('terms', 'address.jurisdiction', { size: 20, order: { _term: 'asc' }, missing: 'Unknown' })
+    .aggregation('terms', 'description.type', { size: 1000, order: { _term: 'asc' } })
+    .aggregation('terms', 'description.extended_data.AgencyIncidentCallTypeDescription', { size: 50, order: { _term: 'asc' } })
     .aggregation('percentile_ranks', 'durations.response.seconds', { values: 360 })
     .aggregation('percentiles', 'durations.total_event.minutes', { percents: 90 })
     .aggregation('percentiles', 'durations.turnout.seconds', { percents: 90 })
@@ -75,28 +73,28 @@ function categoryBucket(res, categoryName) {
 }
 
 function unitCategoryBucket(res, unitId) {
-  let cat = {};
+  const cat = {};
 
-  let categories = _.get(res, 'aggregations["agg_terms_description.category"].buckets');
+  const categories = _.get(res, 'aggregations["agg_terms_description.category"].buckets');
   _.forEach(categories, c => {
     cat[c.key] = {};
-    let unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.unit_id"]buckets');
-    let myUnit = _.find(unitBuckets, ub => ub.key === unitId);
-    if(myUnit) cat[c.key] = myUnit;
+    const unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.unit_id"]buckets');
+    const myUnit = _.find(unitBuckets, ub => ub.key === unitId);
+    if (myUnit) { cat[c.key] = myUnit; }
   });
 
   return cat;
 }
 
 function unitAgencyCategoryBucket(res, id) {
-  let cat = {};
+  const cat = {};
 
-  let categories = _.get(res, 'aggregations["agg_terms_description.category"].buckets');
+  const categories = _.get(res, 'aggregations["agg_terms_description.category"].buckets');
   _.forEach(categories, c => {
     cat[c.key] = {};
-    let unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.agency"]buckets');
-    let myUnit = _.find(unitBuckets, ub => ub.key === id);
-    if(myUnit) cat[c.key] = myUnit;
+    const unitBuckets = _.get(c, 'apparatus["agg_terms_apparatus.agency"]buckets');
+    const myUnit = _.find(unitBuckets, ub => ub.key === id);
+    if (myUnit) { cat[c.key] = myUnit; }
   });
 
   return cat;
@@ -140,7 +138,7 @@ const unitMetrics = [{
 }, {
   getter: res => {
     let val = _.get(res, '["agg_sum_apparatus.extended_data.event_duration"]value');
-    if(val) val = val / 60.0;
+    if (val) { val /= 60.0; }
     return val;
   },
   setter: (obj, res) => _.set(obj, 'eventDurationSum', res),
@@ -180,17 +178,17 @@ const incidentTypeMetrics = [{
 }];
 
 function analyzeAggregate(results, path, metrics) {
-  let current = _.keyBy(_.get(results[0], path), 'key');
-  let previous = _.keyBy(_.get(results[1], path), 'key');
-  let all = _.uniq(_.concat(_.keys(current), _.keys(previous)));
+  const current = _.keyBy(_.get(results[0], path), 'key');
+  const previous = _.keyBy(_.get(results[1], path), 'key');
+  const all = _.uniq(_.concat(_.keys(current), _.keys(previous)));
 
-  let retData = {};
+  const retData = {};
   all.forEach(key => {
-    let data = {};
+    const data = {};
 
     metrics.forEach(metric => {
       let val = metric.getter(current[key]);
-      if(_.isNil(val)) val = 0;
+      if (_.isNil(val)) { val = 0; }
       const previousVal = metric.getter(previous[key]);
       const percentChange = computePercentChange(val, previousVal);
       metric.setter(data, { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
@@ -203,22 +201,22 @@ function analyzeAggregate(results, path, metrics) {
 }
 
 export function round(num, precision) {
-  if(_.isNumber(num)) return _.round(num, precision);
+  if (_.isNumber(num)) { return _.round(num, precision); }
   return num;
 }
 
 export class IncidentAnalysisTimeRange {
   constructor(options) {
     this.options = options;
-    if(!options.timeRange) throw new Error('Must provide timeRange');
-    if(!options.index) throw new Error('Must provide index');
+    if (!options.timeRange) { throw new Error('Must provide timeRange'); }
+    if (!options.index) { throw new Error('Must provide index'); }
 
     this.currentTimeFilter = this.options.timeRange;
     this.previousTimeFilter = previousTimeRange(this.currentTimeFilter);
   }
 
   ruleAnalysis() {
-    let ruleConfig = [
+    const ruleConfig = [
       EventDurationSumRule,
       OvernightEventsRule,
       FireIncidentEventDurationRule30,
@@ -229,12 +227,12 @@ export class IncidentAnalysisTimeRange {
       TravelDurationOutlierRule,
     ];
 
-    let rules = [];
-    let queries = [];
+    const rules = [];
+    const queries = [];
     ruleConfig.forEach(rule => {
-      let myRule = new rule();
+      const myRule = new rule();
       rules.push(myRule);
-      let query = myRule.query.filter('range', 'description.event_opened', { gte: this.currentTimeFilter.start, lt: this.currentTimeFilter.end }).build();
+      const query = myRule.query.filter('range', 'description.event_opened', { gte: this.currentTimeFilter.start, lt: this.currentTimeFilter.end }).build();
       queries.push({});
       queries.push(query);
     });
@@ -245,9 +243,9 @@ export class IncidentAnalysisTimeRange {
       maxConcurrentSearches: 5,
     })
       .then(results => {
-        let analysis = {};
+        const analysis = {};
         _.each(results.responses, (result, index) => {
-          let rule = rules[index];
+          const rule = rules[index];
           rule.setResults(results.responses[index]);
           analysis[rule.constructor.name] = rule.analyze();
         });
@@ -260,11 +258,11 @@ export class IncidentAnalysisTimeRange {
   compare() {
     return Promise.map([
       { index: this.options.index, size: 0, body: buildFireIncidentQuery(this.currentTimeFilter) },
-      { index: this.options.index, size: 0, body: buildFireIncidentQuery(this.previousTimeFilter) }
+      { index: this.options.index, size: 0, body: buildFireIncidentQuery(this.previousTimeFilter) },
     ], query => connection.getClient().search(query))
       .then(results => {
         // fireDepartment
-        let comparison = {
+        const comparison = {
           fireDepartment: {},
           unit: {},
           battalion: {},
@@ -275,7 +273,7 @@ export class IncidentAnalysisTimeRange {
 
         fireDepartmentMetrics.forEach(metric => {
           let val = metric.getter(results[0]);
-          if(_.isNil(val)) val = 0;
+          if (_.isNil(val)) { val = 0; }
           const previousVal = metric.getter(results[1]);
           const percentChange = computePercentChange(val, previousVal);
           metric.setter(comparison, { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
@@ -283,12 +281,12 @@ export class IncidentAnalysisTimeRange {
 
         comparison.unit = analyzeAggregate(results, 'aggregations.apparatus["agg_terms_apparatus.unit_id"]buckets', unitMetrics);
         _.forOwn(comparison.unit, (u, key) => {
-          let currentBucket = unitCategoryBucket(results[0], key);
-          let previousBucket = unitCategoryBucket(results[1], key);
+          const currentBucket = unitCategoryBucket(results[0], key);
+          const previousBucket = unitCategoryBucket(results[1], key);
 
           unitCategoryMetrics.forEach(metric => {
             let val = metric.getter(currentBucket);
-            if(_.isNil(val)) val = 0;
+            if (_.isNil(val)) { val = 0; }
             const previousVal = metric.getter(previousBucket);
             const percentChange = computePercentChange(val, previousVal);
             metric.setter(comparison.unit[key], { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
@@ -297,12 +295,12 @@ export class IncidentAnalysisTimeRange {
 
         comparison.agencyResponses = analyzeAggregate(results, 'aggregations.apparatus["agg_terms_apparatus.agency"]buckets', unitMetrics);
         _.forOwn(comparison.agencyResponses, (u, key) => {
-          let currentBucket = unitAgencyCategoryBucket(results[0], key);
-          let previousBucket = unitAgencyCategoryBucket(results[1], key);
+          const currentBucket = unitAgencyCategoryBucket(results[0], key);
+          const previousBucket = unitAgencyCategoryBucket(results[1], key);
 
           unitCategoryMetrics.forEach(metric => {
             let val = metric.getter(currentBucket);
-            if(_.isNil(val)) val = 0;
+            if (_.isNil(val)) { val = 0; }
             const previousVal = metric.getter(previousBucket);
             const percentChange = computePercentChange(val, previousVal);
             metric.setter(comparison.agencyResponses[key], { val: round(val, 0), previousVal: round(previousVal, 0), percentChange: round(percentChange, 0) });
@@ -314,7 +312,7 @@ export class IncidentAnalysisTimeRange {
         comparison.incidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.type"]buckets', incidentTypeMetrics);
         comparison.agencyIncidentType = analyzeAggregate(results, 'aggregations["agg_terms_description.extended_data.AgencyIncidentCallTypeDescription"]buckets', incidentTypeMetrics);
 
-        Log.debug('comparison', comparison);
+        // Log.debug('comparison', comparison);
 
         return Promise.resolve(comparison);
       });

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import bodybuilder from 'bodybuilder';
 import _ from 'lodash';
 
@@ -9,8 +10,8 @@ export class FireIncidentEventDurationRule60 extends Rule {
     this.params.threshold = this.params.threshold || 3600;
     this.params.level = 'DANGER';
 
-    let apparatus = bodybuilder()
-      .filter('range', 'apparatus.extended_data.event_duration', { gte: this.params.threshold})
+    const apparatus = bodybuilder()
+      .filter('range', 'apparatus.extended_data.event_duration', { gte: this.params.threshold })
       .build();
     apparatus.path = 'apparatus';
 
@@ -22,13 +23,13 @@ export class FireIncidentEventDurationRule60 extends Rule {
   }
 
   analyze() {
-    let analysis = [];
+    const analysis = [];
     this.results.hits.hits.forEach(hit => {
-      let units = [];
-      let incidentNumber = _.get(hit, '_source.description.incident_number');
+      const units = [];
+      const incidentNumber = _.get(hit, '_source.description.incident_number');
       hit._source.apparatus.forEach(u => {
-        let event_duration = _.get(u, 'extended_data.event_duration');
-        if(event_duration > this.params.threshold) units.push(u.unit_id);
+        const event_duration = _.get(u, 'extended_data.event_duration');
+        if (event_duration > this.params.threshold) { units.push(u.unit_id); }
       });
 
       if (units.length >= 1) {
@@ -36,8 +37,8 @@ export class FireIncidentEventDurationRule60 extends Rule {
           rule: this.constructor.name,
           level: this.params.level,
           description: `Units on fire incident > ${(this.params.threshold / 60.0).toFixed(0)} min`,
-          details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(',')}`,
-          default_visibility: true
+          details: `Incident: <a target="_blank" href="https://statengine.io/incidents/${incidentNumber}">${incidentNumber}</a> <br> Units: ${units.join(', ')}`,
+          default_visibility: true,
         });
       }
     });

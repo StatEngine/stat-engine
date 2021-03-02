@@ -1,0 +1,17 @@
+{
+    "options": {
+        "index": "93345-va-richmond_fire_and_emergency_services-fire-incident*",
+        "timeRange": {
+            "start": "2020-12-18",
+            "end": "2020-12-21"
+        }
+    },
+    "currentTimeFilter": {
+        "start": "2020-12-18",
+        "end": "2020-12-21"
+    },
+    "previousTimeFilter": {
+        "start": "2020-12-15T00:00:00Z",
+        "end": "2020-12-18T00:00:00Z"
+    }
+}

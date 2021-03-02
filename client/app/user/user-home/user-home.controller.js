@@ -120,6 +120,7 @@ export default class UserHomeController {
     if (this.principal.isGlobal) {
       this.homeless = false;
       this.pending = false;
+      this.validation = await this.getValidationHealth();
     }
 
     this.setFireDepartment = fd => {
@@ -151,8 +152,6 @@ export default class UserHomeController {
     this.selectTab = function(tabName) {
       this.selectedTab = tabName;
     };
-
-    this.validation = await this.getValidationHealth();
   }
 
   async getValidationHealth() {

@@ -1,0 +1,37 @@
+{
+    "name": "battalionSummary",
+    "battalionMetrics": [
+        {
+            "id": "BC3",
+            "incidentCount": {
+                "val": 79,
+                "previousVal": 59,
+                "percentChange": 34
+            }
+        },
+        {
+            "id": "BC1",
+            "incidentCount": {
+                "val": 55,
+                "previousVal": 55,
+                "percentChange": 0
+            }
+        },
+        {
+            "id": "BC2",
+            "incidentCount": {
+                "val": 51,
+                "previousVal": 60,
+                "percentChange": -15
+            }
+        },
+        {
+            "id": "BC4",
+            "incidentCount": {
+                "val": 41,
+                "previousVal": 55,
+                "percentChange": -25
+            }
+        }
+    ]
+}
