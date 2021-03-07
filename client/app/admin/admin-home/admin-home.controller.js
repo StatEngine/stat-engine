@@ -63,7 +63,6 @@ export default class AdminHomeController {
       resource2: type
     };
 
-
     this.FireDepartmentService.fixtures(params, {}).$promise
       .then(() => {
         this.ModalService.alert({

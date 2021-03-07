@@ -15,13 +15,13 @@
 
           <div class="form-group " ng-class="{ 'has-success': fdForm.firecares_id.$valid && vm.submitted,'has-error': fdForm.firecares_id.$invalid && vm.submitted }">
             <label>Firecares ID</label>
-            <input type="text" name="firecares_id" class="form-control input-md" ng-model="vm.fireDepartment.firecares_id" required="required"/>
+            <input type="text" name="firecares_id" class="form-control input-md" ng-model="vm.fireDepartment.firecares_id" required="required" ng-blur="vm.onFirecaresIdUpdate($event)"/>
             <p class="help-block" ng-show="fdForm.firecares_id.$error.required && vm.submitted">
               Firecares ID is required
             </p>
           </div>
 
-          <div class="form-group " ng-class="{ 'has-success': fdForm.fd_id.$valid && vm.submitted,'has-error': fdForm.fd_id.$invalid && vm.submitted }">
+          <div class="form-group" ng-class="{ 'has-success': fdForm.fd_id.$valid && vm.submitted,'has-error': fdForm.fd_id.$invalid && vm.submitted }">
             <label>FD ID</label>
             <input type="text" name="fd_id" class="form-control input-md" ng-model="vm.fireDepartment.fd_id" required="required"/>
             <p class="help-block" ng-show="fdForm.fd_id.$error.required && vm.submitted">

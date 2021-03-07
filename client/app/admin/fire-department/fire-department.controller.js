@@ -13,7 +13,8 @@ export default class FireDepartmentController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(FireDepartment, Modal, currentFireDepartment, $state, Upload) {
+  constructor(FireDepartment, Modal, currentFireDepartment, $state, Upload, $http) {
+    this.$http = $http;
     this.FireDepartmentService = FireDepartment;
     this.ModalService = Modal;
     this.file = null;
@@ -105,5 +106,22 @@ export default class FireDepartmentController {
         return reject('Error uploading logo')
       }); 
     });   
+  }
+
+  async onFirecaresIdUpdate(event) {
+    const value = event && event.target && event.target.value;
+    if (value) {
+      const firecares_id = parseInt(value);
+      const url = `/api/third-party/firecares/department/${firecares_id}`;
+      const response = await this.$http.get(url);
+      if (response && response.data) {
+        const [latitude, longitude] = response.data.geom.coordinates;
+        this.fireDepartment.fd_id = response.data.fdid;
+        this.fireDepartment.name = response.data.name;
+        this.fireDepartment.state = response.data.state;
+        this.fireDepartment.latitude = latitude;
+        this.fireDepartment.longitude = longitude;
+      }
+    }
   }
 }
