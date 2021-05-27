@@ -97,7 +97,7 @@
     "ngeohash": "^0.6.3",
     "njwt": "^0.4.0",
     "nocache": "^2.0.0",
-    "nodemailer": "^4.4.2",
+    "nodemailer": "^6.4.16",
     "nodemailer-mandrill-transport": "^1.2.0",
     "numeral": "^2.0.6",
     "oclazyload": "^1.1.0",
