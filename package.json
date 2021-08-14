@@ -95,7 +95,7 @@
     "multer-s3": "^2.9.0",
     "ng-file-upload": "^12.2.13",
     "ngeohash": "^0.6.3",
-    "njwt": "^0.4.0",
+    "njwt": "^1.0.0",
     "nocache": "^2.0.0",
     "nodemailer": "^4.4.2",
     "nodemailer-mandrill-transport": "^1.2.0",
