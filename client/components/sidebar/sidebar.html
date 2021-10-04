@@ -16,31 +16,36 @@
       <label class="sidebar-label pd-x-25 mg-t-20 op-3">App</label>
       <ul class="br-sideleft-menu">
         <li class="br-menu-item">
-          <a href="#" ui-sref='site.user.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.home' }">
+          <a href="#" ui-sref='site.user.home' class="br-menu-link"
+            ng-class="{ active: vm.$state.current.name == 'site.user.home' }">
             <i class="menu-item-icon fa fa-home tx-20"></i>
             <span class="menu-item-label text-truncate">Control Center</span>
           </a>
         </li>
         <li class="br-menu-item" ng-show="vm.user.fire_department__id">
-          <a href="#" ng-class="{ active: vm.$state.current.name == 'site.workspace.home' }" ng-click='vm.dashboard()' class="br-menu-link">
+          <a href="#" ng-class="{ active: vm.$state.current.name == 'site.workspace.home' }" ng-click='vm.dashboard()'
+            class="br-menu-link">
             <i class="menu-item-icon fa fa-bar-chart tx-20"></i>
             <span class="menu-item-label text-truncate">Workspaces</span>
           </a>
         </li>
         <li class="br-menu-item" ng-show="vm.user.fire_department__id">
-          <a href="#" class="br-menu-link with-sub" ng-class="{ 'active': vm.$state.current.name.startsWith('site.incident') || vm.$state.current.name.startsWith('site.reporting') }">
+          <a href="#" class="br-menu-link with-sub"
+            ng-class="{ 'active': vm.$state.current.name.startsWith('site.incident') || vm.$state.current.name.startsWith('site.reporting') }">
             <i class="menu-item-icon fa fa-newspaper-o tx-20"></i>
             <span class="menu-item-label text-truncate">Reports</span>
           </a>
           <ul class="br-menu-sub" ng-show="vm.user.fire_department__id">
             <!-- TODO change incidents to reporting -->
             <li class="sub-item">
-              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.incident.search') }" href="#" ui-sref='site.incident.search'>
+              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.incident.search') }" href="#"
+                ui-sref='site.incident.search'>
                 Incidents
               </a>
             </li>
             <li class="sub-item">
-              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.reporting.unit') }" href="#" ui-sref="site.reporting.unit">
+              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.reporting.unit') }" href="#"
+                ui-sref="site.reporting.unit">
                 Units&nbsp;
               </a>
             </li>
@@ -50,27 +55,31 @@
           </ul>
         </li>
         <li class="br-menu-item" ng-show="vm.user.fire_department__id">
-          <a href="#" class="br-menu-link with-sub" ng-class="{ 'active': vm.$state.current.name.startsWith('site.twitter') }">
+          <a href="#" class="br-menu-link with-sub"
+            ng-class="{ 'active': vm.$state.current.name.startsWith('site.twitter') }">
             <i class="menu-item-icon fa fa-braille tx-20"></i>
             <span class="menu-item-label text-truncate">Applications</span>
           </a>
           <ul class="br-menu-sub">
-              <li class="sub-item">
-                  <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.erf.analysis') }" href="#" ui-sref='site.erf.analysis'>
-                    ERF&nbsp;<span class="badge badge-info">NEW</span>
-                  </a>
-                </li>
             <li class="sub-item">
-              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.twitter.home') }" href="#" ui-sref='site.twitter.home'>
+              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.erf.analysis') }" href="#"
+                ui-sref='site.erf.analysis'>
+                ERF&nbsp;<span class="badge badge-info">NEW</span>
+              </a>
+            </li>
+            <li class="sub-item">
+              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.twitter.home') }" href="#"
+                ui-sref='site.twitter.home'>
                 Twitter
               </a>
             </li>
             <li class="sub-item">
-              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.exposure.home') }" href="#" ui-sref='site.exposure.home'>
+              <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.exposure.home') }" href="#"
+                ui-sref='site.exposure.home'>
                 Exposure
               </a>
             </li>
-           <!-- Hide until rollout <li>
+            <!-- Hide until rollout <li>
               <a class="sub-link" ng-class="{ 'active': (vm.$state.current.name == 'site.moveup.home') }" href="#" ui-sref='site.moveup.home'>
                 Move Up Model
               </a>
@@ -80,14 +89,9 @@
             <li class="sub-item"><a href="#" ui-sref="" class="sub-link">Another App</a></li>-->
           </ul>
         </li>
-        <li class="br-menu-item" ng-show="vm.user.fire_department__id">
-          <a href="#" ui-sref='site.marketplace.home' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.marketplace.home' }">
-            <i class="menu-item-icon fa fa-cart-plus tx-20"></i>
-            <span class="menu-item-label text-truncate">Marketplace</span>
-          </a>
-        </li>
         <li class="br-menu-item">
-          <a href="" ui-sref='site.user.settings' class="br-menu-link" ng-class="{ active: vm.$state.current.name == 'site.user.settings' }">
+          <a href="" ui-sref='site.user.settings' class="br-menu-link"
+            ng-class="{ active: vm.$state.current.name == 'site.user.settings' }">
             <i class="menu-item-icon fa fa-gear tx-22"></i>
             <span class="menu-item-label text-truncate">Settings</span>
           </a>
@@ -95,7 +99,8 @@
       </ul>
 
       <!-- ADMIN SECTION  -->
-      <label ng-show="vm.user.isDepartmentAdmin || vm.user.isDepartmentAdmin" class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
+      <label ng-show="vm.user.isDepartmentAdmin || vm.user.isDepartmentAdmin"
+        class="sidebar-label pd-x-25 mg-t-20 op-3">Admin</label>
       <ul class="br-sideleft-menu">
         <li class="br-menu-item">
           <a href="#" ui-sref="site.admin.home" class="br-menu-link" ng-show="vm.user.isAdmin">
