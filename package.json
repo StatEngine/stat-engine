@@ -208,7 +208,7 @@
     "lazypipe": "^1.0.1",
     "mini-css-extract-plugin": "^0.4.2",
     "mocha": "^6.2.3",
-    "node-sass": "^4.5.3",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.19.4",
     "null-loader": "^0.1.1",
     "open": "~6.0.0",
