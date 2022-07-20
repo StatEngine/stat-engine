@@ -10,7 +10,7 @@
     "@statengine/shiftly": "~0.0.104",
     "@uirouter/angularjs": "^1.0.13",
     "amplitude-js": "^4.4.0",
-    "angular": "~1.6.6",
+    "angular": "~1.8.3",
     "angular-aria": "~1.6.6",
     "angular-click-outside": "^1.2.0",
     "angular-cookies": "~1.6.6",
